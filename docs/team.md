@@ -12,7 +12,7 @@
 | [Gracie1103](https://github.com/Gracie1103) | 阅读项目内容，撰写文档；不承担代码开发 | 无需开发分支 | 阅读 `docs/`、代码、Issues 和 PR | 直接阅读公开仓库，不授予协作者写入权限 |
 | [MagicVVu](https://github.com/MagicVVu) | AI、Agent、LLM、RAG 与工具调用；项目整合 | `feature-agent` | `agent/` | 仓库负责人 |
 
-`feature-database`、`feature-vision` 是之前初始化的预留分支，当前没有指定负责人。后续需要使用时再确认分工。
+日常保留 `main`、`dev` 以及上表中的五个职责分支。`feature-team-setup` 仅用于提交团队分工配置 PR，合并后可删除。
 
 ## 加入与权限
 

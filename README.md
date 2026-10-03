@@ -16,7 +16,7 @@ CS353 团队项目仓库，采用 `feature-* → dev → main` 协作流程。
 | `feature-ui` | UI 设计与设计资料 | PR 到 `dev` |
 | `feature-tests` | 测试与验证 | PR 到 `dev` |
 
-`feature-database`、`feature-vision` 保留为备用分支，暂未指定负责人。
+`feature-team-setup` 是团队分工配置 PR 的临时分支，合并后可删除，不是成员的日常开发分支。
 
 `main` 和 `dev` 要求通过 PR 合并，至少获得一位其他成员批准，并通过分支流向检查、解决审查讨论。禁止强制推送和删除这两个分支；规则同样约束管理员。
 
@@ -50,6 +50,7 @@ git push -u origin feature-your-task
 git switch dev
 git pull --ff-only origin dev
 git switch feature-agent
+git pull --ff-only origin feature-agent
 git merge dev
 # 开发完成后，确认待提交文件；只添加与本次任务有关的文件
 git status
@@ -63,6 +64,14 @@ git push
 ```bash
 gh pr create --base dev --head feature-agent
 ```
+
+`commit` 将修改保存为本地版本，`push` 才会上传到自己的远程分支；上传后仍需 PR 和审查，代码才会进入 `dev`。
+
+PR 合并后，下次工作重复上面的同步步骤。阶段版本发布时，负责人创建 `dev → main` PR，由另一位已加入成员批准、完成检查后合并。
+
+分支清理后，可运行 `git fetch --prune origin`，更新远程分支列表并清除已删除分支的远程跟踪记录。这个命令不会自动删除其他成员已经创建的本地分支。
+
+只阅读项目内容的成员可以直接在 GitHub 查看 `dev` 获取最新已整合内容，查看 `main` 获取已发布的稳定版本。
 
 ## 项目目录
 
