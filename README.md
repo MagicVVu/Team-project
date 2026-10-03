@@ -13,12 +13,13 @@ CS353 团队项目仓库，采用 `feature-* → dev → main` 协作流程。
 | `feature-frontend` | 前端页面 | PR 到 `dev` |
 | `feature-backend` | API、后端业务与鉴权 | PR 到 `dev` |
 | `feature-agent` | Agent、LLM、RAG 与工具调用 | PR 到 `dev` |
-| `feature-database` | 数据库设计与数据层 | PR 到 `dev` |
-| `feature-vision` | 图像识别与多模态 | PR 到 `dev` |
+| `feature-ui` | UI 设计与设计资料 | PR 到 `dev` |
+| `feature-tests` | 测试与验证 | PR 到 `dev` |
+| `feature-docs` | 文档撰写与整理 | PR 到 `dev` |
 
-`main` 和 `dev` 要求通过 PR 合并，至少获得一位其他成员批准，并通过分支流向检查、解决审查讨论。禁止强制推送和删除这两个分支；规则同样约束管理员。
+`main` 和 `dev` 要求通过 PR 合并，但不强制同伴批准。分支流向检查通过、分支已同步目标分支且审查讨论已解决后，有写入权限的作者可以自行合并。禁止强制推送和删除这两个分支；规则同样约束管理员。
 
-仓库负责人：[@MagicVVu](https://github.com/MagicVVu)。成员职责与账号确认后记录在 [团队分工表](docs/team.md)。
+仓库负责人：[@MagicVVu](https://github.com/MagicVVu)，负责 AI；CaviarHidon 负责前后端，summerdong2006-dot 负责 UI 设计，Garin-cyber 负责测试，Gracie1103 阅读项目资料并撰写文档。四位队友均受邀获得相同的仓库写入权限，接受邀请后生效。账号、分支、访问方式与审查安排见 [团队分工表](docs/team.md)。
 
 ## 第一次加入
 
@@ -48,6 +49,7 @@ git push -u origin feature-your-task
 git switch dev
 git pull --ff-only origin dev
 git switch feature-agent
+git pull --ff-only origin feature-agent
 git merge dev
 # 开发完成后，确认待提交文件；只添加与本次任务有关的文件
 git status
@@ -62,6 +64,14 @@ git push
 gh pr create --base dev --head feature-agent
 ```
 
+`commit` 将修改保存为本地版本，`push` 才会上传到自己的远程分支；上传后发起 PR，检查通过并合并后，内容才会进入 `dev`。普通修改可以自行合并；涉及接口、数据库或多人协作的修改，建议主动请相关成员审查。
+
+PR 合并后，下次工作重复上面的同步步骤。阶段版本发布时，负责人创建 `dev → main` PR，确认联调与测试结果、完成检查后合并，无需等待其他成员批准。
+
+分支清理后，可运行 `git fetch --prune origin`，更新远程分支列表并清除已删除分支的远程跟踪记录。这个命令不会自动删除其他成员已经创建的本地分支。
+
+只阅读项目内容的成员可以直接在 GitHub 查看 `dev` 获取最新已整合内容，查看 `main` 获取已发布的稳定版本。
+
 ## 项目目录
 
 ```text
@@ -69,7 +79,7 @@ frontend/       前端
 backend/        后端
 agent/          Agent、LLM、RAG
 database/       数据库与迁移
-docs/           设计、会议与协作文档
+docs/           设计、会议与协作文档（UI 资料放在 docs/ui/）
 tests/          测试
 requirements.txt  Python 依赖清单（技术栈确认后填写）
 ```
