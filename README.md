@@ -13,12 +13,14 @@ CS353 团队项目仓库，采用 `feature-* → dev → main` 协作流程。
 | `feature-frontend` | 前端页面 | PR 到 `dev` |
 | `feature-backend` | API、后端业务与鉴权 | PR 到 `dev` |
 | `feature-agent` | Agent、LLM、RAG 与工具调用 | PR 到 `dev` |
-| `feature-database` | 数据库设计与数据层 | PR 到 `dev` |
-| `feature-vision` | 图像识别与多模态 | PR 到 `dev` |
+| `feature-ui` | UI 设计与设计资料 | PR 到 `dev` |
+| `feature-tests` | 测试与验证 | PR 到 `dev` |
+
+`feature-database`、`feature-vision` 保留为备用分支，暂未指定负责人。
 
 `main` 和 `dev` 要求通过 PR 合并，至少获得一位其他成员批准，并通过分支流向检查、解决审查讨论。禁止强制推送和删除这两个分支；规则同样约束管理员。
 
-仓库负责人：[@MagicVVu](https://github.com/MagicVVu)。成员职责与账号确认后记录在 [团队分工表](docs/team.md)。
+仓库负责人：[@MagicVVu](https://github.com/MagicVVu)，负责 AI；CaviarHidon 负责前后端，summerdong2006-dot 负责 UI 设计，Garin-cyber 负责测试，Gracie1103 阅读项目资料并撰写文档。账号、分支、访问方式与审查安排见 [团队分工表](docs/team.md)。
 
 ## 第一次加入
 
@@ -69,7 +71,7 @@ frontend/       前端
 backend/        后端
 agent/          Agent、LLM、RAG
 database/       数据库与迁移
-docs/           设计、会议与协作文档
+docs/           设计、会议与协作文档（UI 资料放在 docs/ui/）
 tests/          测试
 requirements.txt  Python 依赖清单（技术栈确认后填写）
 ```

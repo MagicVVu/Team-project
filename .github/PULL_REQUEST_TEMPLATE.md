@@ -6,6 +6,10 @@
 
 记录运行命令、测试结果或手动验证步骤；未验证的内容请说明。
 
+## 审查安排
+
+参考 [团队分工表](https://github.com/MagicVVu/Team-project/blob/dev/docs/team.md)，指定另一位已加入仓库的成员审查。UI 改动请记录设计确认情况，测试改动请记录测试结果；Gracie1103 不承担代码审查。
+
 ## 合并前检查
 
 - [ ] 功能 PR：base 为 `dev`，head 为 `feature-*`；阶段发布：仓库内 `dev → main`
