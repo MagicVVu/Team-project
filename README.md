@@ -1,76 +1,66 @@
 # Team-project
 
-CS353 团队项目仓库，采用 `feature-* → dev → main` 协作流程。
+CS353 团队项目仓库，所有成员在 `dev` 共享开发，通过 `dev → main` 发布稳定版本。默认分支为 `dev`。
 
 仓库地址：https://github.com/MagicVVu/Team-project
 
 ## 分支与合并
 
-| 分支 | 用途 | 合并方式 |
+| 分支 | 用途 | 更新方式 |
 | --- | --- | --- |
 | `main` | 稳定、可演示、可提交的阶段版本 | 联调通过后，由 `dev` 发起 PR |
-| `dev` | 团队日常整合 | 各功能分支通过 PR 汇入 |
-| `feature-frontend` | 前端页面 | PR 到 `dev` |
-| `feature-backend` | API、后端业务与鉴权 | PR 到 `dev` |
-| `feature-agent` | Agent、LLM、RAG 与工具调用 | PR 到 `dev` |
-| `feature-ui` | UI 设计与设计资料 | PR 到 `dev` |
-| `feature-tests` | 测试与验证 | PR 到 `dev` |
-| `feature-docs` | 文档撰写与整理 | PR 到 `dev` |
+| `dev` | 全员共享开发、联调 | Update / Pull 后直接 Commit、Push，无需开发 PR |
 
-`main` 和 `dev` 要求通过 PR 合并，但不强制同伴批准。分支流向检查通过、分支已同步目标分支且审查讨论已解决后，有写入权限的作者可以自行合并。禁止强制推送和删除这两个分支；规则同样约束管理员。
+仓库只保留 `dev`、`main`，不使用个人开发分支。拥有写入权限的成员可以直接推送 `dev`，不要求 PR 或状态检查。`main` 仍通过本仓库 `dev → main` PR 更新，分支检查通过、分支已同步目标分支且讨论已解决后即可合并，不强制同伴批准。两个分支均禁止强推和删除，管理员同样受约束。
 
-仓库负责人：[@MagicVVu](https://github.com/MagicVVu)，负责 AI；CaviarHidon 负责前后端，summerdong2006-dot 负责 UI 设计，Garin-cyber 负责测试，Gracie1103 阅读项目资料并撰写文档。四位队友均受邀获得相同的仓库写入权限，接受邀请后生效。账号、分支、访问方式与审查安排见 [团队分工表](docs/team.md)。
+仓库负责人：[@MagicVVu](https://github.com/MagicVVu)，负责 AI；CaviarHidon 负责前后端，summerdong2006-dot 负责 UI 设计，Garin-cyber 负责测试，Gracie1103 阅读项目资料并撰写文档。成员工作分支统一为 `dev`，受邀成员接受邀请后写入权限生效。详见 [团队分工表](docs/team.md)。
 
 ## 第一次加入
 
 ```bash
 git clone https://github.com/MagicVVu/Team-project.git
 cd Team-project
-git switch dev
-git pull --ff-only origin dev
-# 将 feature-agent 替换成自己负责的功能分支
-git switch feature-agent
+git branch --show-current
 ```
 
-上述功能分支已预先创建。新任务也可以从最新 `dev` 创建独立分支：
+新克隆默认进入 `dev`。已有本地副本先保存未提交修改，再执行一次切换与远程跟踪记录清理：
 
 ```bash
+git fetch --prune origin
 git switch dev
-git pull --ff-only origin dev
-git switch -c feature-your-task
-git push -u origin feature-your-task
 ```
 
 ## 每天开发
 
-先提交或暂存尚未完成的本地修改，再同步：
+所有成员都在 `dev` 工作，按自己负责的目录提交。开始 Update / Pull 前，先提交或暂存尚未完成的本地修改；更新方式使用 Merge，保留共享分支历史。
 
 ```bash
 git switch dev
-git pull --ff-only origin dev
-git switch feature-agent
-git pull --ff-only origin feature-agent
-git merge dev
+git pull --no-rebase origin dev
 # 开发完成后，确认待提交文件；只添加与本次任务有关的文件
 git status
 git add <本次修改的文件>
 git commit -m "feat: describe the change"
-git push
+git push origin dev
 ```
 
-在 GitHub 发起 PR 时，明确选择 **base: dev** 和自己的功能分支。阶段发布时选择 **base: main / compare: dev**。如果使用 GitHub CLI，可以执行：
+Android Studio 中选择 `dev`，日常直接使用 **Update → 开发 → Commit → Push**，Update 方式选择 Merge。Push 因队友先提交而被拒绝时，再 Update，解决冲突后重新 Push；不要强推。
+
+`commit` 保存本地版本，`push` 上传到共享 `dev`。其他成员在 `dev` 点击 Update 即可拉取。重要或跨模块修改建议提前沟通，但日常提交不需要创建 PR。
+
+## 阶段发布
+
+负责人确认联调与测试通过后，在 GitHub 创建 **base: main / compare: dev** 的 PR。使用 GitHub CLI 时可以执行：
 
 ```bash
-gh pr create --base dev --head feature-agent
+gh pr create --base main --head dev
 ```
 
-`commit` 将修改保存为本地版本，`push` 才会上传到自己的远程分支；上传后发起 PR，检查通过并合并后，内容才会进入 `dev`。普通修改可以自行合并；涉及接口、数据库或多人协作的修改，建议主动请相关成员审查。
+分支检查通过、已同步目标分支且讨论已解决后即可合并，无需同伴批准。若 PR 提示需更新，将最新 `main` 合并到 `dev` 并推送，再等待检查完成。发布后将 `main` 的合并提交同步回 `dev`，保持后续发布顺畅。
 
-PR 合并后，下次工作重复上面的同步步骤。阶段版本发布时，负责人创建 `dev → main` PR，确认联调与测试结果、完成检查后合并，无需等待其他成员批准。
+已有副本可运行 `git fetch --prune origin` 清理失效的远程跟踪记录；该命令不会自动删除本地旧分支。清理旧分支前先确认工作已经保存。
 
-分支清理后，可运行 `git fetch --prune origin`，更新远程分支列表并清除已删除分支的远程跟踪记录。这个命令不会自动删除其他成员已经创建的本地分支。
-
-只阅读项目内容的成员可以直接在 GitHub 查看 `dev` 获取最新已整合内容，查看 `main` 获取已发布的稳定版本。
+查看 `dev` 获取最新开发内容，查看 `main` 获取稳定版本。
 
 ## 项目目录
 

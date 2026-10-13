@@ -2,7 +2,7 @@ name: Collaboration policy
 
 on:
   pull_request:
-    branches: [main, dev]
+    branches: [main]
     types: [opened, synchronize, reopened, edited, ready_for_review]
 
 permissions:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Check source and target branches
+      - name: Check release source and target
         env:
           BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
@@ -22,18 +22,8 @@ jobs:
           BASE_REPOSITORY: ${{ github.repository }}
         shell: bash
         run: |
-          if [[ "$BASE_BRANCH" == "main" ]]; then
-            if [[ "$HEAD_BRANCH" != "dev" || "$HEAD_REPOSITORY" != "$BASE_REPOSITORY" ]]; then
-              echo "::error::Only this repository's dev branch may merge into main."
-              exit 1
-            fi
-          elif [[ "$BASE_BRANCH" == "dev" ]]; then
-            if [[ "$HEAD_BRANCH" != feature-* || "$HEAD_BRANCH" == "feature-" ]]; then
-              echo "::error::Use a feature-* branch and target dev for feature work."
-              exit 1
-            fi
-          else
-            echo "::error::Unexpected target branch."
+          if [[ "$BASE_BRANCH" != "main" || "$HEAD_BRANCH" != "dev" || "$HEAD_REPOSITORY" != "$BASE_REPOSITORY" ]]; then
+            echo "::error::Only this repository's dev branch may merge into main."
             exit 1
           fi
           echo "PR branch flow is valid."
