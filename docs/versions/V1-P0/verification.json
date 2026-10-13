@@ -1,0 +1,40 @@
+{
+  "verified_at": "2026-10-08T04:14:21.733443+00:00",
+  "python_executable": "D:\\python\\python3.13.5\\python.exe",
+  "python_version": "3.13.5",
+  "pytest": {
+    "exit_code": 0,
+    "passed": 31,
+    "output": "...............................                                          [100%]\n31 passed in 0.95s"
+  },
+  "compileall_exit_code": 0,
+  "openapi_export_exit_code": 0,
+  "known_api_key_present_in_artifacts": false,
+  "ai_holdout_report": "agent/eval/results/deepseek-test-20261008T035617.json",
+  "ai_holdout_acceptance_passed": true,
+  "browser_checks": {
+    "edited_draft_confirm": true,
+    "undo_appends_correction": true,
+    "model_failure_manual_fallback": true,
+    "shopping_confirmation_leaves_stock_unchanged": true,
+    "lost_confirmation_response_retry_single_event": true,
+    "version_conflict_requires_explicit_reconfirmation": true,
+    "mobile_390px_no_horizontal_overflow": true,
+    "desktop_1280px_no_horizontal_overflow": true,
+    "console_errors_after_final_reload": 0
+  },
+  "production_database_chain_verified": false,
+  "human_sample_review_complete": false,
+  "real_interview_evidence_available": false,
+  "jev_verified": false,
+  "release_version": "V1-P0",
+  "organization_recheck": {
+    "checked_at": "2026-10-08T09:28:41.173878+00:00",
+    "pytest_passed": 31,
+    "openapi_export_passed": true,
+    "health_release_version": "V1-P0",
+    "desktop_preview_updated": true,
+    "mobile_preview_updated": true,
+    "new_interpreter_downloaded": false
+  }
+}

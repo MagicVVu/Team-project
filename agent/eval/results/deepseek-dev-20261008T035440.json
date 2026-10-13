@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "run_at": "2026-10-08T03:54:40.170151+00:00",
+    "engine": "deepseek",
+    "model": "deepseek-flash",
+    "split": "dev",
+    "requested_count": 3,
+    "attempted_count": 3,
+    "python": "3.13.5",
+    "packages": {
+      "fastapi": "0.135.1",
+      "pydantic": "2.12.5",
+      "httpx": "0.28.1",
+      "pytest": "9.1.1"
+    },
+    "prompt_version": "p0-extract-1",
+    "dataset_sha256": "5636392d5d4ca7c6c9e1dfe4f6c04cdd07a05dc95d24aa413661a2cc7e95b627",
+    "dataset_version": "p0-1",
+    "human_reviewed": false,
+    "jev_status": "not_verified",
+    "command": "python -m eval.run --engine deepseek --split dev --limit 3",
+    "budget": {
+      "limit_cny": 20.0,
+      "conservative_cost_cny": 0.002764,
+      "calls": 3,
+      "unknown_usage_calls": 0
+    }
+  },
+  "metrics": {
+    "intent_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "clarification_recall": null,
+    "field_accuracy_on_write_drafts": 1.0,
+    "p50_seconds": 1.333620500023244,
+    "p95_seconds": 1.694250699976692,
+    "failure_rate": 0.0,
+    "safety_cases_pass": true,
+    "unconfirmed_writes": 0
+  },
+  "acceptance_passed": false,
+  "rows": [
+    {
+      "id": "p0-00-0",
+      "text": "买了两盒牛奶，放冰箱上层",
+      "expected": {
+        "intent": "ADD",
+        "event": "Added",
+        "status": "needs_confirmation",
+        "fields": {
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒"
+        },
+        "candidate_batch_ids": [],
+        "requires_clarification": false,
+        "allowed_action": "CONFIRM_REQUIRED"
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入库存。请检查或编辑后确认。",
+        "trace_id": "trace_990064a9569a4e62a90ef767aabd811b",
+        "original_text": "买了两盒牛奶，放冰箱上层",
+        "draft_id": null,
+        "draft": {
+          "action": "ADD",
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒",
+          "batch_id": null,
+          "expected_version": null,
+          "location": "冰箱上层",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false
+      },
+      "latency_seconds": 1.333620500023244,
+      "intent_ok": true,
+      "status_ok": true,
+      "fields_ok": true,
+      "candidates_ok": true,
+      "inventory_writes": 0,
+      "usage": {
+        "prompt_tokens": 278,
+        "completion_tokens": 47,
+        "total_tokens": 325,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 278
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p0-00-1",
+      "text": "新增牛奶2盒",
+      "expected": {
+        "intent": "ADD",
+        "event": "Added",
+        "status": "needs_confirmation",
+        "fields": {
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒"
+        },
+        "candidate_batch_ids": [],
+        "requires_clarification": false,
+        "allowed_action": "CONFIRM_REQUIRED"
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入库存。请检查或编辑后确认。",
+        "trace_id": "trace_584eefdadc4346ac87c658825e76002b",
+        "original_text": "新增牛奶2盒",
+        "draft_id": null,
+        "draft": {
+          "action": "ADD",
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒",
+          "batch_id": null,
+          "expected_version": null,
+          "location": null,
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false
+      },
+      "latency_seconds": 1.694250699976692,
+      "intent_ok": true,
+      "status_ok": true,
+      "fields_ok": true,
+      "candidates_ok": true,
+      "inventory_writes": 0,
+      "usage": {
+        "prompt_tokens": 274,
+        "completion_tokens": 46,
+        "total_tokens": 320,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 146
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p0-00-2",
+      "text": "牛奶入库两盒",
+      "expected": {
+        "intent": "ADD",
+        "event": "Added",
+        "status": "needs_confirmation",
+        "fields": {
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒"
+        },
+        "candidate_batch_ids": [],
+        "requires_clarification": false,
+        "allowed_action": "CONFIRM_REQUIRED"
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入库存。请检查或编辑后确认。",
+        "trace_id": "trace_02713136abbd48468cc003c4785fd728",
+        "original_text": "牛奶入库两盒",
+        "draft_id": null,
+        "draft": {
+          "action": "ADD",
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒",
+          "batch_id": null,
+          "expected_version": null,
+          "location": null,
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false
+      },
+      "latency_seconds": 1.1738426000229083,
+      "intent_ok": true,
+      "status_ok": true,
+      "fields_ok": true,
+      "candidates_ok": true,
+      "inventory_writes": 0,
+      "usage": {
+        "prompt_tokens": 274,
+        "completion_tokens": 46,
+        "total_tokens": 320,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 146
+      },
+      "provider_model": "deepseek-flash"
+    }
+  ]
+}

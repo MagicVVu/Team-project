@@ -1,0 +1,9 @@
+{
+  "model": "deepseek-flash",
+  "verified_on": "2026-10-08",
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "currency": "CNY",
+  "input_cny_per_million": 2,
+  "output_cny_per_million": 8,
+  "policy": "Use peak cache-miss rates as conservative upper bounds; refresh manually after 7 days."
+}

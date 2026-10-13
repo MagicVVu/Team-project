@@ -71,9 +71,22 @@ agent/          Agent、LLM、RAG
 database/       数据库与迁移
 docs/           设计、会议与协作文档（UI 资料放在 docs/ui/）
 tests/          测试
-requirements.txt  Python 依赖清单（技术栈确认后填写）
+requirements.txt  依赖说明；AI 锁定依赖在 agent/requirements.lock.txt
 ```
 
-这是协作初始化骨架，暂未包含应用代码或运行命令。技术栈确定后，各模块应补充安装、配置、运行与测试说明。
+目前已包含 V1-P0 AI 服务、Mock 工程演示、契约与评测，运行说明见 [agent/README.md](agent/README.md)，交付与接入索引见 [docs/versions/V1-P0/README.md](docs/versions/V1-P0/README.md)。正式前后端与数据库链路仍待对应模块接入验收。
+
+## 版本与任务
+
+当前可运行版本为 **V1-P0**；**V1-P1** 的 [AI 开发任务](docs/versions/V1-P1/AI开发任务.md) 与 [队友协作任务](docs/versions/V1-P1/队友协作任务.md) 已分别整理，功能待开发。版本范围、后续任务与进入条件见 [版本索引](docs/versions/README.md)，当前已实现版本的团队任务见 [V1-P0 开发任务](docs/versions/V1-P0/tasks.md)。
+
+```text
+docs/versions/
+  README.md       各版本路线与任务入口
+  V1-P0/          当前 PRD、验收、任务、契约和验证记录
+  V1-P1/          下一阶段的开发方案、协作与验收设计
+```
+
+代码在 `agent/`、`frontend/`、`backend/`、`database/` 中持续开发；阶段规格与验收按版本存放在 `docs/versions/`。历史代码通过 Git 提交和发布标签追溯，未来版本尚未实现。
 
 详细规则见 [CONTRIBUTING.md](CONTRIBUTING.md)。密钥放入本地 `.env`，示例配置可以提交到 `.env.example`。提交前检查是否含密钥、缓存或构建产物。

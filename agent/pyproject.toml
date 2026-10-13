@@ -1,0 +1,18 @@
+[project]
+name = "household-p0-agent"
+version = "0.1.0"
+description = "P0 read-only AI planner with a separately labelled mock integration demo"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "fastapi==0.135.1",
+  "uvicorn==0.42.0",
+  "pydantic==2.12.5",
+  "httpx==0.28.1",
+]
+
+[dependency-groups]
+dev = ["pytest==9.1.1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
