@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
+import com.example.teamapp.ui.theme.LocalLightDesign
 import kotlinx.coroutines.launch
 
 internal val Green = Color(0xFF247D67)
@@ -45,6 +46,7 @@ internal fun emoji(item: StockItem) = when { item.name.contains("奶") -> "🥛"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MagicApp(store: InventoryStore) {
+    val lightDesign = LocalLightDesign.current
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
@@ -60,11 +62,14 @@ fun MagicApp(store: InventoryStore) {
     val item = store.items.firstOrNull { it.id == selected }
     BackHandler(panel != null) { panel = null }
     Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
+        if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
         NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
             tabs.forEachIndexed { index, title -> NavigationBarItem(selected = index == tab, onClick = { tab = index; panel = null }, icon = { Icon(navigationIcons[index], contentDescription = null) }, label = { Text(title) }) }
         }
+        }
     }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
+            if (lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else {
             Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp, vertical = 18.dp), verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     Text(listOf("你好，欢迎回家", "我的库存", "采购清单", "我的")[tab], style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
@@ -73,6 +78,7 @@ fun MagicApp(store: InventoryStore) {
                 val count = store.items.count { val s = it.status(store.reminderDays); (s.low && store.notifications[0]) || (s.soon && store.notifications[1]) || (s.expired && store.notifications[2]) }
                 IconButton(onClick = { panel = "提醒" }) { BadgedBox(badge = { if (count > 0) Badge { Text(count.toString()) } }) { Icon(Icons.Default.Notifications, contentDescription = "库存提醒") } }
                 if (tab == 0) IconButton(onClick = { tab = 3 }) { Icon(Icons.Default.Person, contentDescription = "个人中心") }
+            }
             }
             if (store.storageError != null) {
                 Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
@@ -108,11 +114,12 @@ fun MagicApp(store: InventoryStore) {
 
 @Composable
 private fun Home(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
+    if (LocalLightDesign.current) { DesignHome(store, open, all, panel, ask); return }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer), shape = RoundedCornerShape(26.dp)) {
             Column(Modifier.padding(22.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) { Text("MAGICVVU · HOME ASSISTANT", fontSize = 10.sp, letterSpacing = 1.sp); Text("AI 智能管家", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
+                    Column(Modifier.weight(1f)) { Text("拾物 · HOME ASSISTANT", fontSize = 10.sp, letterSpacing = 1.sp); Text("AI 智能管家", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
                     Text("✦", fontSize = 44.sp)
                 }
                 val low = store.items.count { it.status(store.reminderDays).low }
@@ -149,6 +156,7 @@ private fun QuickCard(icon: String, title: String, subtitle: String, modifier: M
 
 @Composable
 private fun Inventory(store: InventoryStore, open: (StockItem) -> Unit, add: () -> Unit, voice: () -> Unit) {
+    if (LocalLightDesign.current) { DesignInventory(store, open, add, voice); return }
     var search by rememberSaveable { mutableStateOf("") }
     var filter by rememberSaveable { mutableStateOf("全部") }
     Column(Modifier.padding(horizontal = 22.dp)) {
@@ -166,6 +174,7 @@ private fun Stat(number: Int, label: String) { Column(horizontalAlignment = Alig
 
 @Composable
 internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
+    if (LocalLightDesign.current) { DesignStockRow(item, days, action); return }
     Card(onClick = action, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), shape = RoundedCornerShape(18.dp), modifier = Modifier.fillMaxWidth()) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(emoji(item), fontSize = 30.sp, modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(14.dp)).padding(10.dp))
@@ -178,6 +187,7 @@ internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
 
 @Composable
 private fun Shopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
+    if (LocalLightDesign.current) { DesignShopping(store, action, notify); return }
     LazyColumn(Modifier.padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
         item { Text("待采购 · ${store.purchases.size}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) }
         if (store.purchases.isEmpty()) item { Empty("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来") }
@@ -207,14 +217,15 @@ private fun Shopping(store: InventoryStore, action: (String, String) -> Unit, no
 
 @Composable
 private fun Profile(store: InventoryStore, open: (String) -> Unit) {
+    if (LocalLightDesign.current) { DesignProfile(store, open); return }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         Card(onClick = { open("账号设置") }, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer), modifier = Modifier.fillMaxWidth()) {
             Row(Modifier.padding(24.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(18.dp)) { Text("☺", fontSize = 46.sp); Column(Modifier.weight(1f)) { Text(store.nickname, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold); Text("本机个人资料 · 编辑资料 ›", style = MaterialTheme.typography.bodySmall) } }
         }
         MenuGroup("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
         MenuGroup("账号与个人设置", listOf("账号设置" to "昵称与本机个人资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
-        MenuGroup("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 MagicVVu" to "让家庭物品管理更轻松"), open)
-        Text("MAGICVVU  /  A LITTLE MORE HOME", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 20.dp))
+        MenuGroup("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
+        Text("拾物  /  A LITTLE MORE HOME", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 20.dp))
     }
 }
 
@@ -231,6 +242,7 @@ private fun MenuGroup(title: String, rows: List<Pair<String, String>>, open: (St
 
 @Composable
 internal fun Empty(title: String, subtitle: String) {
+    if (LocalLightDesign.current) { DesignEmpty(title, subtitle); return }
     Column(Modifier.fillMaxWidth().padding(vertical = 28.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) { Text("✧", fontSize = 34.sp, color = MaterialTheme.colorScheme.primary); Text(title, fontWeight = FontWeight.Medium); Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
 }
 
@@ -298,6 +310,7 @@ private fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.s
     fun send(text: String) { if (text.isNotBlank()) { conversation.add(text to true); conversation.add(answerInventory(text, store.items, store.reminderDays) to false); input = "" } }
     LaunchedEffect(Unit) { if (initial.isNotBlank()) send(initial); consumed() }
     Column(Modifier.padding(horizontal = 22.dp)) {
+        if (LocalLightDesign.current) DesignChatIntro()
         Text("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。", style = MaterialTheme.typography.bodySmall)
         val scroll = androidx.compose.foundation.lazy.rememberLazyListState()
         LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex) }

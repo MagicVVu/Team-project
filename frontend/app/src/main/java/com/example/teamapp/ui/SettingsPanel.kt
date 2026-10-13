@@ -73,7 +73,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text("库存、采购、个人资料和规则保存在应用私有空间。初版不将这些数据上传服务器，也不集成分析追踪。系统语音服务可能联网，其权限和数据处理由设备服务决定。")
                 Text("相机：主动拍照时由系统相机拍摄。\n图库：仅访问你选择的照片。\n语音：主动启动系统识别服务时使用麦克风。\n通知：目前只有 App 内提醒，无系统推送权限。")
                 Text("导出为 JSON，包含全部库存、采购清单、规则与资料（照片保留引用，不嵌入图片）。初版未提供导入或跨设备同步。")
-                Button(onClick = { export.launch("MagicVVu-backup.json") }) { Text("导出本机数据") }
+                Button(onClick = { export.launch("拾物-backup.json") }) { Text("导出本机数据") }
                 TextButton(onClick = { clear = true }) { Text("清空库存与采购记录", color = Red) }
                 Text("清空后保留昵称、家庭空间与设置；选取的原始照片不会从系统图库删除。", style = MaterialTheme.typography.bodySmall)
             }
@@ -84,11 +84,11 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text("照片为什么没有自动识别？初版暂未连接图像识别服务，请根据照片填写信息。\n语音不可用？设备需要可处理中文语音的系统服务，也可手动输入原文。\n数据会丢失吗？重启仍保留；卸载或清除应用数据会删除本机记录，请先导出。\nAI 能做什么？本地助手根据已确认库存回答名称、过期和补货问题，不会自动修改记录。")
                 var feedback by rememberSaveable { mutableStateOf("") }
                 OutlinedTextField(feedback, { feedback = it }, label = { Text("问题或建议") }, minLines = 3, modifier = Modifier.fillMaxWidth())
-                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "MagicVVu v1.0 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
+                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "拾物 v1.0 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
                 Text("分享仅打开系统分享面板，初版无在线反馈提交服务。", style = MaterialTheme.typography.bodySmall)
             }
-            "关于 MagicVVu" -> {
-                Text("✦ MagicVVu", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
+            "关于拾物" -> {
+                Text("✦ 拾物", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
                 Text("你的智能家庭物品管家", style = MaterialTheme.typography.titleMedium)
                 Text("版本 1.0 · Android 初版\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
                 Text("此版完成本地库存与采购管理；云端账号、家庭协作、图像识别和大模型 Agent 接口留待后续接入。数据说明见「隐私与安全」。")
