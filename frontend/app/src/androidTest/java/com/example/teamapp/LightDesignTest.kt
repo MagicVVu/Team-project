@@ -114,15 +114,16 @@ class LightDesignTest {
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
     }
 
-    @Test fun darkModeKeepsOriginalScreens() {
+    @Test fun darkModeKeepsExistingNavigationAndDetailActions() {
         launch(dark = true)
         compose.onNodeWithText("拾物").assertDoesNotExist()
-        compose.onNodeWithText("拾物 · HOME ASSISTANT").assertExists()
+        compose.onNodeWithText("拾物 · 猫又").assertExists()
         screenshot("dark-home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithText("物品种类").assertExists()
         compose.onNodeWithText("圆环").assertDoesNotExist()
         compose.onNodeWithText("测试纯牛奶").performClick()
-        compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
+        compose.onNodeWithText("最低库存").assertExists()
+        compose.onNodeWithText("3 盒").assertExists()
     }
 }

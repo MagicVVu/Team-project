@@ -65,7 +65,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
             if (LocalLightDesign.current) DesignAddIntro(mode)
             if (mode == "拍照添加") {
                 Text("用照片记录家里的物品", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text("拍照将打开系统相机，照片仅用于本机库存记录。初版未接入图像识别，请自行填写并核对名称、数量。")
+                ModeNotice("拍照将打开系统相机，照片仅用于本机库存记录。初版未接入图像识别，请自行填写并核对名称、数量。")
                 Button(onClick = {
                     runCatching {
                         val directory = File(context.filesDir, "photos").apply { mkdirs() }
@@ -77,7 +77,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
                 OutlinedButton(onClick = { runCatching { photoPicker.launch(arrayOf("image/*")) }.onFailure { error = "设备无法打开图库，请手动填写。" } }, modifier = Modifier.fillMaxWidth()) { Text("选择已有照片") }
             } else {
                 Text("说出需要录入的物品", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text("例如：添加两盒纯牛奶，三袋面包。系统语音服务将使用麦克风，可能需要联网；识别后逐项核对，不自动入库。")
+                ModeNotice("例如：添加两盒纯牛奶，三袋面包。系统语音服务将使用麦克风，可能需要联网；识别后逐项核对，不自动入库。")
                 Button(onClick = {
                     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM).putExtra(RecognizerIntent.EXTRA_LANGUAGE, "zh-CN").putExtra(RecognizerIntent.EXTRA_PROMPT, "说出物品、数量和单位")
                     runCatching { speech.launch(intent) }.onFailure { error = "设备未安装可用的语音识别服务，请手动输入。" }
@@ -116,7 +116,8 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         Text(if (initial == null) "核对物品信息" else "编辑物品信息", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         if (sourceText.isNotBlank()) Text("原始识别文字：$sourceText", style = MaterialTheme.typography.bodySmall)
         Photo(initial?.image ?: image)
-        Text("* 为必填项。未确认前不会更改库存。", style = MaterialTheme.typography.bodySmall)
+        if (LocalLightDesign.current) Text("* 为必填项。未确认前不会更改库存。", style = MaterialTheme.typography.bodySmall)
+        else DarkNotice("* 为必填项。未确认前不会更改库存。")
         Field("物品名称 *", name, { name = it }, errors["name"])
         Field("数量 *", quantity, { quantity = it }, errors["quantity"], numeric = true)
         Field("单位 *（如盒、袋、瓶、个）", unit, { unit = it }, errors["unit"])

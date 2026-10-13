@@ -28,11 +28,22 @@ private val LightColorScheme = lightColorScheme(
     outline = Color(0xFFAFC098), outlineVariant = Color(0xFFD5DCBE)
 )
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF9FD6BB), onPrimary = Color(0xFF123D2D),
-    primaryContainer = Color(0xFF204B3C), onPrimaryContainer = Color(0xFFD4F2E0),
-    secondaryContainer = Color(0xFF3C4835),
-    background = Color(0xFF121B17), surface = Color(0xFF1B2721),
-    surfaceVariant = Color(0xFF2B3931), onSurface = Color(0xFFE0EAE2)
+    // Sampled from ui/dark_ui: neutral gray surfaces and muted green controls.
+    primary = Color(0xFF9BA78B), onPrimary = Color(0xFF20251C),
+    primaryContainer = Color(0xFF373E32), onPrimaryContainer = Color(0xFFC6CEBA),
+    secondary = Color(0xFFBEC6B2), onSecondary = Color(0xFF20251C),
+    secondaryContainer = Color(0xFF292A2D), onSecondaryContainer = Color(0xFFE6E7E1),
+    tertiary = Color(0xFFD8BD87), onTertiary = Color(0xFF302A20),
+    tertiaryContainer = Color(0xFF3C3932), onTertiaryContainer = Color(0xFFE2C38B),
+    background = Color(0xFF18191B), onBackground = Color(0xFFE6E7E1),
+    surface = Color(0xFF242528), onSurface = Color(0xFFE6E7E1),
+    surfaceVariant = Color(0xFF303135), onSurfaceVariant = Color(0xFFB8B9B3),
+    surfaceContainerLowest = Color(0xFF18191B), surfaceContainerLow = Color(0xFF202124),
+    surfaceContainer = Color(0xFF242528), surfaceContainerHigh = Color(0xFF292A2D),
+    surfaceContainerHighest = Color(0xFF303135),
+    outline = Color(0xFF565E4E), outlineVariant = Color(0xFF3D3F42),
+    error = Color(0xFFDAAEA6), onError = Color(0xFF331B18),
+    errorContainer = Color(0xFF473636), onErrorContainer = Color(0xFFDAAEA6)
 )
 
 @Composable
@@ -40,7 +51,11 @@ fun TeamAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), dynamicColor: Boole
     CompositionLocalProvider(LocalLightDesign provides !darkTheme) {
         MaterialTheme(
             colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
-            shapes = if (darkTheme) Shapes() else Shapes(
+            shapes = if (darkTheme) Shapes(
+                extraSmall = RoundedCornerShape(8.dp), small = RoundedCornerShape(12.dp),
+                medium = RoundedCornerShape(18.dp), large = RoundedCornerShape(24.dp),
+                extraLarge = RoundedCornerShape(32.dp)
+            ) else Shapes(
                 extraSmall = RoundedCornerShape(6.dp), small = RoundedCornerShape(9.dp),
                 medium = RoundedCornerShape(14.dp), large = RoundedCornerShape(18.dp),
                 extraLarge = RoundedCornerShape(24.dp)
