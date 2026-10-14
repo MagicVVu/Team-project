@@ -1,0 +1,385 @@
+{
+  "metadata": {
+    "release_version": "V1-P1",
+    "dataset_version": "p1-1",
+    "dataset_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+    "source": "ai_constructed",
+    "human_reviewed": false,
+    "split": "dev",
+    "engine": "deepseek",
+    "prompt_version": "p1-extract-1",
+    "model": "deepseek-flash",
+    "run_at": "2026-10-14T10:06:28.631005+00:00",
+    "python": "3.13.5",
+    "packages": {
+      "fastapi": "0.135.1",
+      "pydantic": "2.12.5",
+      "httpx": "0.28.1",
+      "pytest": "9.1.1"
+    },
+    "requested_count": 3,
+    "attempted_count": 3,
+    "budget": {
+      "limit_cny": 20.0,
+      "conservative_cost_cny": 0.063684,
+      "calls": 65,
+      "unknown_usage_calls": 0
+    },
+    "command": "python -m eval.p1.run --engine deepseek --split dev --limit 3",
+    "formal_backend_verified": false
+  },
+  "metrics": {
+    "intent_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "clarification_recall": null,
+    "write_draft_field_accuracy": 1.0,
+    "all_checks_accuracy": 1.0,
+    "safety_cases_pass": true,
+    "inventory_mutations": 0,
+    "failure_rate": 0.0,
+    "p50_seconds": 1.463859700015746,
+    "p95_seconds": 1.5137484999140725
+  },
+  "acceptance_passed": false,
+  "rows": [
+    {
+      "id": "p1-open-absolute-0",
+      "text": "牛奶2026-10-12开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-12"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_4dba6ea9a3144df0bbca9742f70f8d4a",
+        "original_text": "牛奶2026-10-12开封",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-12"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": "2026-10-12",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 1458.7173000909388
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.027099973522126675
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 1460.4503000155091
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 1.463859700015746,
+      "usage": {
+        "prompt_tokens": 508,
+        "completion_tokens": 80,
+        "total_tokens": 588,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 508
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p1-open-absolute-1",
+      "text": "请牛奶2026-10-12开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-12"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_28cdbe25f8bf4213a22824a6ca419b9c",
+        "original_text": "请牛奶2026-10-12开封",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-12"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": "2026-10-12",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 1283.024700009264
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.041899969801306725
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 1283.371000085026
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 1.2834061000030488,
+      "usage": {
+        "prompt_tokens": 509,
+        "completion_tokens": 21,
+        "total_tokens": 530,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 253
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p1-open-absolute-2",
+      "text": "帮我牛奶2026-10-12开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-12"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_75ff8269229146bca68fa40b13e8dfdd",
+        "original_text": "帮我牛奶2026-10-12开封",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-12"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": "2026-10-12",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 1513.4604000486434
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.018300022929906845
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 1513.7008000165224
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 1.5137484999140725,
+      "usage": {
+        "prompt_tokens": 509,
+        "completion_tokens": 80,
+        "total_tokens": 589,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 253
+      },
+      "provider_model": "deepseek-flash"
+    }
+  ]
+}

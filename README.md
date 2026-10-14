@@ -78,13 +78,13 @@ requirements.txt  依赖说明；AI 锁定依赖在 agent/requirements.lock.txt
 
 ## 版本与任务
 
-当前可运行版本为 **V1-P0**；**V1-P1** 的 [AI 开发任务](docs/versions/V1-P1/AI开发任务.md) 与 [队友协作任务](docs/versions/V1-P1/队友协作任务.md) 已分别整理，功能待开发。版本范围、后续任务与进入条件见 [版本索引](docs/versions/README.md)，当前已实现版本的团队任务见 [V1-P0 开发任务](docs/versions/V1-P0/tasks.md)。
+已包含 **V1-P0** 服务与工程演示，以及 **V1-P1 独立只读 AI 服务**。P1 的开封、整批移动、丢弃和澄清续接已完成自动化与真实模型评测，运行见 [P1 说明](agent/p1/README.md)；人工样本复核、正式前后端与数据库接入尚待验收。任务见 [AI 开发任务](docs/versions/V1-P1/AI开发任务.md) 和 [队友协作任务](docs/versions/V1-P1/队友协作任务.md)，版本范围及进入条件见 [版本索引](docs/versions/README.md)。
 
 ```text
 docs/versions/
   README.md       各版本路线与任务入口
   V1-P0/          当前 PRD、验收、任务、契约和验证记录
-  V1-P1/          下一阶段的开发方案、协作与验收设计
+  V1-P1/          只读 AI 契约、实测记录、开发任务与协作验收
 ```
 
 代码在 `agent/`、`frontend/`、`backend/`、`database/` 中持续开发；阶段规格与验收按版本存放在 `docs/versions/`。历史代码通过 Git 提交和发布标签追溯，未来版本尚未实现。

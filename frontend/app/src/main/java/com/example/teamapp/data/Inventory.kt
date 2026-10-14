@@ -14,7 +14,8 @@ data class StockItem(
     val minimum: Double = 0.0,
     val expiry: String = "",
     val image: String = "",
-    val history: List<String> = emptyList()
+    val history: List<String> = emptyList(),
+    val purchasedAt: String = ""
 )
 
 data class Purchase(val itemId: String, val quantity: Double)

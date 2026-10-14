@@ -1,0 +1,583 @@
+{
+  "source": "synthetic_test_fixtures_not_a_running_mock_service",
+  "scope": {
+    "user_id": "u1",
+    "household_id": "h1"
+  },
+  "examples": [
+    {
+      "request": {
+        "text": "牛奶昨天开封",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai"
+      },
+      "response": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_449864819e684390b47d936f382e9347",
+        "original_text": "牛奶昨天开封",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "milk-1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-13"
+        },
+        "preview": {
+          "batch_id": "milk-1",
+          "before": {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": "2026-10-13",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 2.3899000370875
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.020799925550818443
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 3.0261999927461147
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "text": "把牛奶移到厨房",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai"
+      },
+      "response": {
+        "status": "needs_confirmation",
+        "intent": "MOVE",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_38c5b80be4344adc9a49683a5fa04edd",
+        "original_text": "把牛奶移到厨房",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "milk-1",
+          "expected_version": 7,
+          "action": "MOVE",
+          "to_location": "厨房"
+        },
+        "preview": {
+          "batch_id": "milk-1",
+          "before": {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Moved",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.052600051276385784
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014499993994832039
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.3845000173896551
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "text": "扔掉剩下的牛奶",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai"
+      },
+      "response": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_327c1225d70d40edb538ef5b57db609c",
+        "original_text": "扔掉剩下的牛奶",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "milk-1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "all",
+          "quantity": "3",
+          "unit": "盒"
+        },
+        "preview": {
+          "batch_id": "milk-1",
+          "before": {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "DISCARDED"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.04009995609521866
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.013599987141788006
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.202000024728477
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "text": "扔掉4盒牛奶",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai"
+      },
+      "response": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "操作数量超过当前库存，请核对数量。",
+        "trace_id": "trace_aaab4f46f1fb4f20a0b1b9e0fb8df1ac",
+        "original_text": "扔掉4盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity"
+        ],
+        "clarification": {
+          "id": "clarify_0797e5a002be41c994b1592ed3e85814",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "扔掉4盒牛奶",
+          "request_id": "example",
+          "trace_id": "trace_aaab4f46f1fb4f20a0b1b9e0fb8df1ac",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": "4",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "milk-1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "milk-1",
+          "allowed_fields": [
+            "quantity"
+          ]
+        },
+        "error_code": "INSUFFICIENT_STOCK",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.03300001844763756
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.011499971151351929
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.188700039871037
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "text": "开封牛奶",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai"
+      },
+      "response": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_436f55dc91c645459c9a07895c614b81",
+        "original_text": "开封牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_9b82b89a4a1b4275996e2abf85cbbd34",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "开封牛奶",
+          "request_id": "example",
+          "trace_id": "trace_436f55dc91c645459c9a07895c614b81",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "milk-1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "milk-1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.03390002530068159
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.011499971151351929
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.16199995297938585
+          }
+        ]
+      },
+      "continuation_request": {
+        "context": {
+          "id": "clarify_9b82b89a4a1b4275996e2abf85cbbd34",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "开封牛奶",
+          "request_id": "example",
+          "trace_id": "trace_436f55dc91c645459c9a07895c614b81",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "milk-1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "milk-1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "revision": 1,
+        "answers": {
+          "name": null,
+          "quantity": null,
+          "unit": null,
+          "location": null,
+          "purchased_at": null,
+          "label_expiry": null,
+          "opened_at": "昨天",
+          "to_location": null,
+          "batch_id": null
+        }
+      },
+      "continuation_response": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_436f55dc91c645459c9a07895c614b81",
+        "original_text": "开封牛奶",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "milk-1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-13"
+        },
+        "preview": {
+          "batch_id": "milk-1",
+          "before": {
+            "id": "milk-1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": "2026-10-13",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "clarification",
+            "outcome": "structured_no_model_call",
+            "elapsed_ms": 0.0350000336766243
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.013299984857439995
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.09089999366551638
+          }
+        ]
+      }
+    }
+  ]
+}

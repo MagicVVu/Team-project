@@ -1,0 +1,12 @@
+{
+  "dataset_version": "p1-1",
+  "sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+  "count": 150,
+  "dev": 90,
+  "test": 60,
+  "scenario_groups": 50,
+  "source": "ai_constructed",
+  "human_reviewed": false,
+  "frozen_on": "2026-10-14",
+  "policy": "Do not overwrite holdout or tune prompts against test failures. New behavior changes require a new independent holdout."
+}

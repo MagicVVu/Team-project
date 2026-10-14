@@ -2,6 +2,7 @@ import asyncio
 import json
 import os
 from pathlib import Path
+from typing import Callable
 
 import httpx
 
@@ -13,8 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DeepSeekEngine:
-    def __init__(self, budget: Budget | None = None):
+    def __init__(self, budget: Budget | None = None, *, system_prompt: str = SYSTEM_PROMPT,
+                 output_parser: Callable = parse_json_output):
         self.budget = budget or Budget(ROOT / ".cache/p0/budget.sqlite", ROOT / "eval/pricing.json")
+        self.system_prompt, self.output_parser = system_prompt, output_parser
         self.model = os.getenv("LLM_MODEL", "deepseek-flash")
         self.last_usage: dict = {}
         self.last_model: str | None = None
@@ -24,7 +27,7 @@ class DeepSeekEngine:
         key = os.getenv("DEEPSEEK_API_KEY")
         if not key:
             raise EngineError("MODEL_NOT_CONFIGURED")
-        payload = {"model": self.model, "messages": [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": text}],
+        payload = {"model": self.model, "messages": [{"role": "system", "content": self.system_prompt}, {"role": "user", "content": text}],
                    "response_format": {"type": "json_object"}, "max_tokens": 768,
                    "thinking": {"type": "disabled"}, "stream": False}
         body_size = len(json.dumps(payload, ensure_ascii=False).encode("utf-8"))
@@ -46,7 +49,7 @@ class DeepSeekEngine:
             content = data["choices"][0]["message"]["content"]
             if not isinstance(content, str) or not content.strip():
                 raise EngineError("EMPTY_MODEL_OUTPUT")
-            return parse_json_output(content)
+            return self.output_parser(content)
         except (TimeoutError, httpx.TimeoutException):
             raise EngineError("MODEL_TIMEOUT") from None
         except httpx.HTTPError:
