@@ -28,7 +28,7 @@ class MagicAppTest {
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithText("我的库存").assertIsDisplayed()
-        compose.onNodeWithText("测试纯牛奶").performClick()
+        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
@@ -46,7 +46,7 @@ class MagicAppTest {
         compose.onNodeWithText("确认入库").performClick()
         compose.runOnIdle { Assert.assertEquals(2.0, store.items.single().quantity, 0.0); Assert.assertTrue(store.purchases.isEmpty()) }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("2 盒 · 冰箱").assertExists()
+        compose.onAllNodesWithText("2 盒")[0].assertExists()
     }
     @Test fun cancelledAddDoesNotChangeInventory() {
         compose.onNodeWithText("拍照添加").performClick()

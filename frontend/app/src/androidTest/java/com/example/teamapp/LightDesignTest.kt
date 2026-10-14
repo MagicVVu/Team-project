@@ -55,34 +55,32 @@ class LightDesignTest {
         compose.onNodeWithText("拾物").assertIsDisplayed()
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it, useUnmergedTree = true).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        screenshot("stock-list-fixture")
-        compose.onNodeWithText("测试纯牛奶").performScrollTo().performClick()
+        screenshot("stock-ring-fixture")
+        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
+        compose.onNodeWithText("圆环库存测试").assertDoesNotExist()
         compose.onNodeWithText("我的家庭").assertExists()
         compose.onNodeWithText("库存检测规则").assertExists()
         compose.onNodeWithText("通用设置").performScrollTo().performClick()
         compose.onNodeWithText("外观模式", substring = true).assertExists()
     }
 
-    @Test fun ringUsesRealInventoryAndSearchMatchesLocation() {
+    @Test fun ringUsesRealInventoryAndSearchFiltersWithoutChangingData() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("圆环").performClick()
-        compose.onNodeWithText("1 种物品 · 按关注程度排列").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText("1 种物品 · 1 项需关注").assertIsDisplayed()
+        compose.onNodeWithText("圆环测试设置").assertDoesNotExist()
         screenshot("stock-ring-fixture")
-        compose.onAllNodesWithText("测试纯牛奶")[0].performClick()
-        compose.onNodeWithText("查看详情 ›").performClick()
+        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
-        compose.onNodeWithTag("inventory-list").performScrollToNode(hasText("列表"))
-        compose.onNodeWithText("列表").performClick()
-        compose.onNodeWithText("名称或位置").performTextInput("冰箱")
-        compose.onNodeWithText("测试纯牛奶").assertExists()
+        compose.onNodeWithTag("ring-search").performScrollTo().performTextInput("纯牛奶")
+        compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithText("清空").performClick()
-        compose.onNodeWithText("日用品").performClick()
-        compose.onNodeWithText("没有匹配的物品").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithTag("ring-category-日用品").performScrollTo().performClick()
+        compose.onNodeWithText("没有找到匹配的物品").performScrollTo().assertIsDisplayed()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
     }
 
@@ -102,13 +100,14 @@ class LightDesignTest {
             Assert.assertTrue(store.purchases.isEmpty())
         }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("2 盒 · 冰箱").assertExists()
+        compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试纯牛奶")
+        compose.onAllNodesWithText("2 盒")[0].assertExists()
     }
 
     @Test fun cancelAddKeepsInventoryUntouched() {
         launch()
-        compose.onNodeWithText("拍照添加").performScrollTo().performClick()
-        compose.onNodeWithText("改为手动填写").performScrollTo().performClick()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        compose.onNodeWithTag("ring-add").performClick()
         compose.onNodeWithText("物品名称 *").performTextInput("取消测试物品")
         compose.onNodeWithText("关闭").performClick()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
@@ -120,9 +119,9 @@ class LightDesignTest {
         compose.onNodeWithText("拾物 · 猫又").assertExists()
         screenshot("dark-home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("物品种类").assertExists()
+        compose.onNodeWithTag("ring-inventory-page").assertExists()
         compose.onNodeWithText("圆环").assertDoesNotExist()
-        compose.onNodeWithText("测试纯牛奶").performClick()
+        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
         compose.onNodeWithText("最低库存").assertExists()
         compose.onNodeWithText("3 盒").assertExists()
     }

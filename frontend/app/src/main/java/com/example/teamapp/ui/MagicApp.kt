@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
-import com.example.teamapp.ui.ring.RingInventoryTestPage
+import com.example.teamapp.ui.ring.RingInventoryPage
 import kotlinx.coroutines.launch
 
 internal val Red: Color
@@ -41,7 +41,6 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     val lightDesign = LocalLightDesign.current
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
-    var ringTest by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
     var initialQuestion by rememberSaveable { mutableStateOf("") }
     val conversation = rememberSaveable(saver = listSaver<androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, String>(
@@ -53,10 +52,6 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     val notify: (String) -> Unit = { message -> scope.launch { snackbar.showSnackbar(store.storageError ?: message) } }
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
-    if (ringTest) {
-        RingInventoryTestPage(lightDesign, { ringTest = false }, { tab = it; ringTest = false })
-        return
-    }
     BackHandler(panel != null) { panel = null }
     Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
         if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
@@ -64,7 +59,7 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
         }
     }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
-            if (lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else {
+            if (tab != 1 && lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else if (tab != 1) {
                 DarkHeader(tab, store, { panel = "提醒" }, { tab = 3 })
             }
             if (store.storageError != null) {
@@ -72,13 +67,9 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
                 Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text("导出数据 / 数据管理") }
             } else when (tab) {
                 0 -> Home(store, openItem, { tab = 1 }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
-                1 -> Inventory(store, openItem, { panel = "手动添加" }, { panel = "语音添加" })
+                1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
                 2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                3 -> Column {
-                    // Temporary test entry. The official inventory page is not changed.
-                    TextButton(onClick = { panel = null; ringTest = true }, modifier = Modifier.fillMaxWidth()) { Text("圆环库存测试") }
-                    Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
-                }
+                3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
             }
         }
     }
@@ -110,12 +101,6 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
 private fun Home(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
     if (LocalLightDesign.current) DesignHome(store, open, all, panel, ask)
     else DarkHome(store, open, all, panel, ask)
-}
-
-@Composable
-private fun Inventory(store: InventoryStore, open: (StockItem) -> Unit, add: () -> Unit, voice: () -> Unit) {
-    if (LocalLightDesign.current) DesignInventory(store, open, add, voice)
-    else DarkInventory(store, open, add, voice)
 }
 
 @Composable

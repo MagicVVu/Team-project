@@ -50,6 +50,7 @@ APK：`app/build/outputs/apk/debug/app-debug.apk`。这是本地调试签名版�
 - `data/Inventory.kt`：领域模型、库存状态、输入验证、语音文本解析与本地问答。
 - `data/InventoryStore.kt`：集中状态、采购/库存操作、JSON 持久化。
 - `ui/MagicApp.kt`：四个主页面、提醒、详情、采购确认、对话面板。
+- `ui/ring/RingInventoryPage.kt`：正式圆环库存页面，连接真实库存、提醒规则及添加/详情操作；浅色和深色共用 `StockRingBrowser.kt`。
 - `ui/AddFlow.kt`：相机/选图/语音输入、逐项确认和物品表单。
 - `ui/SettingsPanel.kt`：个人中心二级功能。
 - `ui/theme/`：浅绿视觉主题与深色外观。

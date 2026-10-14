@@ -1,7 +1,7 @@
 package com.example.teamapp.ui.ring
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,7 +65,7 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
     var detailId by rememberSaveable { mutableStateOf<String?>(null) }
     var purchaseIds by remember { mutableStateOf<Set<String>>(emptySet()) }
     val detail = items.firstOrNull { it.id == detailId }
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     val originalBars = remember(activity) { activity?.window?.let { it.statusBarColor to it.navigationBarColor } }
     SideEffect {
         activity?.window?.let { window ->
