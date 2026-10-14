@@ -28,7 +28,7 @@ class MagicAppTest {
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithText("我的库存").assertIsDisplayed()
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()

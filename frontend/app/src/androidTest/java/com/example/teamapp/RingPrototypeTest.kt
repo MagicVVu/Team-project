@@ -71,7 +71,7 @@ class RingPrototypeTest {
                     seek(n - 1)
                     position("$n / $n")
                     compose.onNodeWithTag("ring-next").assertIsNotEnabled()
-                    compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+                    compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
                     compose.onNodeWithTag("ring-detail-name").assertTextEquals(ringResults(mockRingInventory(n), 3, "", "全部", false, RingOrder.STATUS).last().name)
                     compose.onNodeWithText("关闭详情").performClick()
                 }
@@ -101,7 +101,7 @@ class RingPrototypeTest {
         compose.onNodeWithTag("ring-search").performScrollTo().performTextInput("100")
         position("1 / 1")
         compose.onNodeWithTag("ring-seek").assertDoesNotExist()
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithTag("ring-detail-name").assertTextEquals(mockRingInventory(100).last().name)
     }
 
@@ -135,7 +135,7 @@ class RingPrototypeTest {
         assertTrue("Expected a distant item after a seek drag, got $text", selectedIndex in 80..99)
         val ordered = ringResults(mockRingInventory(100), 3, "", "全部", false, RingOrder.STATUS)
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：${ordered[selectedIndex].name}")
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithTag("ring-detail-name").assertTextEquals(ordered[selectedIndex].name)
     }
 

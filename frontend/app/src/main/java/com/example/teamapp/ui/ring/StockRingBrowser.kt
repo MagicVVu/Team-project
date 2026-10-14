@@ -369,7 +369,7 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
                 maxLines = 2, overflow = TextOverflow.Ellipsis)
             Text("${item.quantity.display()} ${item.unit}", fontSize = 17.sp, lineHeight = 23.sp, color = palette.accent, fontWeight = FontWeight.Medium)
             Text(statusText, fontSize = 13.sp, lineHeight = 19.sp, color = statusInk, maxLines = 3, overflow = TextOverflow.Ellipsis)
-            Spacer(Modifier.weight(1f))
+            Spacer(Modifier.height(4.dp))
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
                     Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)

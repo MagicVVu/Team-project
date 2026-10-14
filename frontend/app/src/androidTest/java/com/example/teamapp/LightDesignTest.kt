@@ -56,7 +56,9 @@ class LightDesignTest {
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it, useUnmergedTree = true).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         screenshot("stock-ring-fixture")
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithText("查看详情 →").assertDoesNotExist()
+        compose.onNodeWithTag("ring-info-icon", useUnmergedTree = true).assertExists()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
@@ -73,7 +75,7 @@ class LightDesignTest {
         compose.onNodeWithText("1 种物品 · 1 项需关注").assertIsDisplayed()
         compose.onNodeWithText("圆环测试设置").assertDoesNotExist()
         screenshot("stock-ring-fixture")
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithTag("ring-search").performScrollTo().performTextInput("纯牛奶")
@@ -121,7 +123,7 @@ class LightDesignTest {
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithTag("ring-inventory-page").assertExists()
         compose.onNodeWithText("圆环").assertDoesNotExist()
-        compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
         compose.onNodeWithText("最低库存").assertExists()
         compose.onNodeWithText("3 盒").assertExists()
     }
