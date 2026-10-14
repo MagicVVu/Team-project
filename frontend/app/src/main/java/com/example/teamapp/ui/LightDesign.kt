@@ -131,7 +131,7 @@ internal fun DesignHeader(tab: Int, store: InventoryStore, reminders: () -> Unit
         }
         if (tab == 0) IconButton(onClick = profile, modifier = Modifier.size(48.dp).semantics { contentDescription = "个人中心" }) {
             DesignGlyph("person", Modifier.size(22.dp))
-        } else MaoYou(modifier = Modifier.size(39.dp), description = null)
+        } else Spacer(Modifier.width(52.dp))
     }
 }
 

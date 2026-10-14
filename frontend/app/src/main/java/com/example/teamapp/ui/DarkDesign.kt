@@ -113,6 +113,7 @@ internal fun DarkHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, 
         if (tab == 0) IconButton(onClick = profile, modifier = Modifier.size(44.dp).semantics { contentDescription = "个人中心" }) {
             Box(Modifier.size(35.dp).background(DarkSoft, CircleShape), contentAlignment = Alignment.Center) { DarkGlyph("person", Modifier.size(22.dp)) }
         }
+        if (tab != 0) Spacer(Modifier.width(52.dp))
     }
 }
 

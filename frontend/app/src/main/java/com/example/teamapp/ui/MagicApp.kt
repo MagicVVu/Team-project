@@ -53,23 +53,25 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
     BackHandler(panel != null) { panel = null }
-    Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
-        if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
-            DarkNavigation(tab) { tab = it; panel = null }
-        }
-    }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding)) {
-            if (tab != 1 && lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else if (tab != 1) {
-                DarkHeader(tab, store, { panel = "提醒" }, { tab = 3 })
+    AssistantPullLayer(tab, panel == null, store, conversation, snackbar, notify) {
+        Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
+            if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
+                DarkNavigation(tab) { tab = it; panel = null }
             }
-            if (store.storageError != null) {
-                Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
-                Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text("导出数据 / 数据管理") }
-            } else when (tab) {
-                0 -> Home(store, openItem, { tab = 1 }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
-                1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
-                2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+        }) { padding ->
+            Column(Modifier.fillMaxSize().padding(padding)) {
+                if (tab != 1 && lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else if (tab != 1) {
+                    DarkHeader(tab, store, { panel = "提醒" }, { tab = 3 })
+                }
+                if (store.storageError != null) {
+                    Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
+                    Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text("导出数据 / 数据管理") }
+                } else when (tab) {
+                    0 -> Home(store, openItem, { tab = 1 }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
+                    1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
+                    2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
+                    3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                }
             }
         }
     }
@@ -187,21 +189,30 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
 }
 
 @Composable
-private fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit) {
+internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit, showIntro: Boolean = true) {
     val lightDesign = LocalLightDesign.current
     var input by rememberSaveable { mutableStateOf("") }
     var confirming by remember { mutableStateOf(false) }
     fun send(text: String) { if (text.isNotBlank()) { conversation.add(text to true); conversation.add(answerInventory(text, store.items, store.reminderDays) to false); input = "" } }
-    LaunchedEffect(Unit) { if (initial.isNotBlank()) send(initial); consumed() }
+    LaunchedEffect(initial) { if (initial.isNotBlank()) { send(initial); consumed() } }
     Column(Modifier.padding(horizontal = 22.dp)) {
-        if (LocalLightDesign.current) DesignChatIntro()
-        if (LocalLightDesign.current) Text("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。", style = MaterialTheme.typography.bodySmall)
+        if (showIntro && LocalLightDesign.current) DesignChatIntro()
+        if (!showIntro) Text("依据本机已登记库存回答 · 补货需确认", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        else if (LocalLightDesign.current) Text("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。", style = MaterialTheme.typography.bodySmall)
         else DarkNotice("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。")
         val scroll = androidx.compose.foundation.lazy.rememberLazyListState()
         LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex) }
         LazyColumn(Modifier.weight(1f).padding(vertical = 12.dp), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            if (conversation.isEmpty()) item { Empty("今天需要我帮你查看什么？", "试试「哪些快过期了」或「需要补什么」") }
-            if (conversation.isEmpty() && !lightDesign) item {
+            if (conversation.isEmpty()) item {
+                if (showIntro) Empty("今天需要我帮你查看什么？", "试试「哪些快过期了」或「需要补什么」")
+                else Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                    Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("今天想先整理什么？", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                        Text("选择上方的快捷查询，或直接输入问题。", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+            if (showIntro && conversation.isEmpty() && !lightDesign) item {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     SuggestionChip(onClick = { send("哪些快过期了？") }, label = { Text("哪些快过期了？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
                     SuggestionChip(onClick = { send("需要补什么？") }, label = { Text("需要补什么？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)

@@ -47,6 +47,7 @@ internal fun RingInventoryPage(store: InventoryStore, onOpenItem: (StockItem) ->
                     }
                 }
             }
+            Spacer(Modifier.width(52.dp))
         }
         Spacer(Modifier.height(10.dp))
         StockRingBrowser(store.items, store.reminderDays, onOpenItem, onAdd)
