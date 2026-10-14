@@ -379,7 +379,7 @@ internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
             }
         }
         DesignMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
-        DesignMenu("账号与个人设置", listOf("账号设置" to "昵称与本机个人资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+        DesignMenu("账号与个人设置", listOf("登录 / 注册" to "账号服务准备中 · 可先体验本机空间", "账号设置" to "昵称与本机个人资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
         DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
         Text("家的小物，慢慢记好。", color = DesignMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
     }
