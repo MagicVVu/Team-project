@@ -1,0 +1,17 @@
+{
+  "build": "passed",
+  "unitTests": 13,
+  "interfaceTests": 15,
+  "prototypeScreenTests": {
+    "320x640": 6,
+    "360x640": 6,
+    "412x915": 6
+  },
+  "realDataAndSettingsUnchanged": true,
+  "officialInventoryUnchanged": true,
+  "emptyRingVisibleAddVerified": true,
+  "reviewScreenshots": 6,
+  "restoredEmulatorSize": "1080x1920",
+  "pageLeftOpen": "ring-test",
+  "count": 100
+}

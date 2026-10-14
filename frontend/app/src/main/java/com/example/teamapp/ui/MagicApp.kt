@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
+import com.example.teamapp.ui.ring.RingInventoryTestPage
 import kotlinx.coroutines.launch
 
 internal val Red: Color
@@ -40,6 +41,7 @@ fun MagicApp(store: InventoryStore) {
     val lightDesign = LocalLightDesign.current
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
+    var ringTest by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
     var initialQuestion by rememberSaveable { mutableStateOf("") }
     val conversation = rememberSaveable(saver = listSaver<androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, String>(
@@ -51,6 +53,10 @@ fun MagicApp(store: InventoryStore) {
     val notify: (String) -> Unit = { message -> scope.launch { snackbar.showSnackbar(store.storageError ?: message) } }
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
+    if (ringTest) {
+        RingInventoryTestPage(lightDesign, { ringTest = false }, { tab = it; ringTest = false })
+        return
+    }
     BackHandler(panel != null) { panel = null }
     Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
         if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
@@ -68,7 +74,11 @@ fun MagicApp(store: InventoryStore) {
                 0 -> Home(store, openItem, { tab = 1 }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
                 1 -> Inventory(store, openItem, { panel = "手动添加" }, { panel = "语音添加" })
                 2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                3 -> Profile(store) { panel = it }
+                3 -> Column {
+                    // Temporary test entry. The official inventory page is not changed.
+                    TextButton(onClick = { panel = null; ringTest = true }, modifier = Modifier.fillMaxWidth()) { Text("圆环库存测试") }
+                    Profile(store) { panel = it }
+                }
             }
         }
     }
