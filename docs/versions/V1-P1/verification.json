@@ -1,0 +1,64 @@
+{
+  "verified_on": "2026-10-14",
+  "release_version": "V1-P1",
+  "base_commit": "2df7e26",
+  "ai_implementation_complete": true,
+  "checks": {
+    "pytest_command": "python -m pytest tests ../backend/tests -q -p no:cacheprovider (PYTHONPATH includes agent and repository root)",
+    "pytest_passed": 86,
+    "pytest_failed": 0,
+    "git_diff_check": "passed",
+    "p0_regression": "passed",
+    "existing_gateway_regression": "passed",
+    "p1_rule_holdout": "passed",
+    "p1_deepseek_holdout": "passed",
+    "openapi_export": "passed"
+  },
+  "scope": {
+    "frontend_changed_by_this_task": false,
+    "backend_changed_by_this_task": false,
+    "new_mock_service": false,
+    "new_demo_page": false,
+    "inventory_writes": false,
+    "git_commit_or_push": false
+  },
+  "pending": {
+    "human_sample_review": true,
+    "formal_backend_integration": true,
+    "database_transactions_events_undo": true,
+    "real_user_validation": true
+  },
+  "dataset_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+  "deepseek_holdout_metrics": {
+    "intent_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "clarification_recall": 1.0,
+    "write_draft_field_accuracy": 1.0,
+    "all_checks_accuracy": 1.0,
+    "safety_cases_pass": true,
+    "inventory_mutations": 0,
+    "failure_rate": 0.0,
+    "p50_seconds": 1.3630618000170216,
+    "p95_seconds": 1.7009487999603152
+  },
+  "budget": {
+    "shared_limit_cny": 20,
+    "starting_estimate_cny": 0.059184,
+    "ending_estimate_cny": 0.298258,
+    "this_task_estimate_cny": 0.239074,
+    "new_provider_calls": 150
+  },
+  "source_sha256": {
+    "eval/p1/fixtures.py": "270bff90108980edbcaf599c3ccd3fad9db9d03f96ae45220b6720a61edaf310",
+    "eval/p1/run.py": "a274e20f6392f620b160f5bbc21e43d30d19eaea207047a46bedf6b6384d3b4f",
+    "p0/deepseek.py": "e1ff05fd0d337da41fb1c9566915a0749d081ba6536758a73fa05bd07d65d103",
+    "p1/__init__.py": "1682b7cfeb85c5c2d096b77b5189d3300846a515aea1fab44f9c63438f8ee283",
+    "p1/app.py": "a7fa81cef9ffb9495ad890d1fd7a66cd08f5f3711f2cc4aec289af3213814fac",
+    "p1/domain.py": "87331b97cedc6d48a4ad6853b364c6623836909c83a1cb14ad8c625821b4fc34",
+    "p1/engines.py": "b3cd83c7638c4eb1c4a9c4fec11352b7ff8ab70a881424cef4f17baad19b85f1",
+    "p1/export_contract.py": "bd994d6a23e4c91ed5f2ff3d5d058155b0edfc8811b35a84583fc0212f68643f",
+    "p1/manager.py": "e939c42dd1c1e94110aede511181d41f8969414228b9ab30db9c82656b1313d3",
+    "p1/schemas.py": "ebc5c0ae728825266a86db7f3af7a1afbaf4a1939de4ae9cd7416e71bfdf5936",
+    "p1/tools.py": "26d2ddfe6a9d1cfe64967b4b1933bbda2f40eb5a8232514cd2ef02a01f162f24"
+  }
+}

@@ -37,7 +37,7 @@ internal fun emoji(item: StockItem) = when { item.name.contains("奶") -> "🥛"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MagicApp(store: InventoryStore) {
+fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     val lightDesign = LocalLightDesign.current
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
@@ -77,7 +77,7 @@ fun MagicApp(store: InventoryStore) {
                 3 -> Column {
                     // Temporary test entry. The official inventory page is not changed.
                     TextButton(onClick = { panel = null; ringTest = true }, modifier = Modifier.fillMaxWidth()) { Text("圆环库存测试") }
-                    Profile(store) { panel = it }
+                    Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
                 }
             }
         }

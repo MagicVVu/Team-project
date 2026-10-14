@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
 import com.example.teamapp.data.InventoryStore
-import com.example.teamapp.ui.MagicApp
+import com.example.teamapp.ui.AppEntry
 import com.example.teamapp.ui.theme.TeamAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = !dark
                 }
             }
-            TeamAppTheme(darkTheme = dark, dynamicColor = false) { MagicApp(store) }
+            TeamAppTheme(darkTheme = dark, dynamicColor = false) { AppEntry(store) }
         }
     }
 }
