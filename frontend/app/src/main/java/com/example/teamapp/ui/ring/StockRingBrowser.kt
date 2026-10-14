@@ -1,6 +1,8 @@
 package com.example.teamapp.ui.ring
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -22,11 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.TextStyle
@@ -105,9 +114,13 @@ internal fun StockRingBrowser(
         }
     }
 
-    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Row(Modifier.padding(horizontal = 12.dp).fillMaxWidth().height(30.dp)
-            .background(scheme.surface, RoundedCornerShape(9.dp)).border(1.dp, scheme.outlineVariant, RoundedCornerShape(9.dp)).padding(horizontal = 9.dp),
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val palette = remember(light) { RingPalette(light) }
+    var infoHeightPx by remember { mutableIntStateOf(0) }
+    var seekHeightPx by remember { mutableIntStateOf(0) }
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.padding(horizontal = 18.dp).fillMaxWidth().height(28.dp)
+            .background(palette.panel, RoundedCornerShape(18.dp)).border(1.dp, palette.line, RoundedCornerShape(18.dp)).padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
             DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
             BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
@@ -119,27 +132,35 @@ internal fun StockRingBrowser(
 
         BoxWithConstraints(Modifier.fillMaxWidth().testTag("ring-viewport")) {
             val viewportWidth = maxWidth
-            val viewportHeight = maxWidth * 1.32f
+            val viewportHeight = (screenHeight - 205.dp).coerceIn(maxWidth * 1.08f, maxWidth * 1.5f)
             val widthPx = constraints.maxWidth.toFloat()
-            val heightPx = widthPx * 1.32f
-            val center = Offset(widthPx * .98f, heightPx / 2f)
-            val radius = widthPx * .68f
-            val thickness = widthPx * .235f
+            val heightPx = with(androidx.compose.ui.platform.LocalDensity.current) { viewportHeight.toPx() }
+            val center = Offset(widthPx * 1.07f, heightPx * .46f)
+            val radius = widthPx * .75f
+            val thickness = widthPx * .28f
             val inner = radius - thickness / 2f
             val outer = radius + thickness / 2f
             val visibleIndices = RingMath.visible(displayPosition, displayed.size)
-            val fills = remember(light) { if (light) listOf(Color(0xFFDF9790), Color(0xFFE9BD8E), Color(0xFFBFCBA0), Color(0xFFD1DABD))
-                else listOf(Color(0xFF59464A), Color(0xFF5A5345), Color(0xFF495243), Color(0xFF3C4440)) }
-            val track = if (light) Color(0xFFE9EDD9) else Color(0xFF292E2C)
-            val activeInk = if (light) Color(0xFF30412E) else Color(0xFFE6E7E1)
+            // Each card owns its animation. Its path, badge, icon and text share this transform.
+            val elevations = visibleIndices.associateWith { index ->
+                key(index) { animateFloatAsState(if (index == currentIndex) 1f else 0f, tween(180), label = "ring-pop-$index").value }
+            }
+            val density = androidx.compose.ui.platform.LocalDensity.current
+            val popPx = with(density) { 12.dp.toPx() }
+            val orderedIndices = visibleIndices.sortedBy { elevations.getValue(it) }
 
-            Box(Modifier.fillMaxWidth().height(viewportHeight).clip(RoundedCornerShape(12.dp))
+            Box(Modifier.fillMaxWidth().height(viewportHeight).clip(RoundedCornerShape(0.dp))
                 .pointerInput(displayed.map { it.id }, widthPx, heightPx) {
                     awaitEachGesture {
                         val down = awaitFirstDown(requireUnconsumed = false)
                         if (displayed.isEmpty()) return@awaitEachGesture
+                        // Overlay controls own their gestures where the ring passes behind them.
+                        val inset = with(density) { 16.dp.toPx() }
+                        val overInfo = down.position.x <= inset + widthPx * .46f && down.position.y >= heightPx - infoHeightPx - inset
+                        val overSeek = down.position.x >= widthPx - inset - widthPx * .43f && down.position.y >= heightPx - seekHeightPx - inset
+                        if (overInfo || overSeek) return@awaitEachGesture
                         val distance = (down.position - center).getDistance()
-                        if (distance !in (inner - 12f)..(outer + 12f)) return@awaitEachGesture
+                        if (distance !in (inner - popPx * 2)..(outer + popPx * 2)) return@awaitEachGesture
                         var lastAngle = atan2(down.position.y - center.y, down.position.x - center.x) * 180f / PI.toFloat()
                         var started = false
                         var released = false
@@ -168,117 +189,228 @@ internal fun StockRingBrowser(
                         // Card labels handle taps. The background also accepts taps on the arc.
                         if (!started && released) {
                             val angle = atan2(down.position.y - center.y, down.position.x - center.x) * 180f / PI.toFloat()
-                            val relative = RingMath.deltaDegrees(180f, angle)
+                            val relative = RingMath.deltaDegrees(RingMath.SELECTION_ANGLE, angle)
                             val target = (position.value + relative / RingMath.STEP).roundToInt()
                             if (abs(relative) <= 80f && target in displayed.indices) settle(target.toFloat())
                         }
                     }
                 }) {
                 Canvas(Modifier.fillMaxSize()) {
-                    drawPath(sector(center, inner, outer, 96f, 168f), track)
-                    visibleIndices.forEach { index ->
+                    drawPath(sector(center, inner, outer, RingMath.SELECTION_ANGLE - 86f, 172f), palette.track)
+                    val guideRadius = inner - 13.dp.toPx()
+                    val guideBounds = Offset(center.x - guideRadius, center.y - guideRadius)
+                    val guideSize = Size(guideRadius * 2, guideRadius * 2)
+                    for (segment in 0..5) {
+                        drawArc(palette.line, RingMath.SELECTION_ANGLE - 83f + segment * 30f, 25f, false, guideBounds, guideSize, style = Stroke(1.8.dp.toPx()))
+                    }
+                    if (displayed.isNotEmpty()) drawArc(palette.accent, RingMath.SELECTION_ANGLE - 9f, 18f, false, guideBounds, guideSize, style = Stroke(2.2.dp.toPx()))
+                    orderedIndices.forEach { index ->
                         val delta = (index - displayPosition) * RingMath.STEP
                         if (abs(delta) <= 84f) {
                             val status = displayed[index].status(reminderDays)
-                            val color = fills[status.priority]
-                            val chosen = index == currentIndex
-                            val path = sector(center, inner - if (chosen) 2.dp.toPx() else 0f,
-                                outer + if (chosen) 3.dp.toPx() else 0f, RingMath.angle(index, displayPosition) - RingMath.SWEEP / 2f, RingMath.SWEEP)
-                            drawPath(path, color)
-                            if (chosen) drawPath(path, scheme.primary, style = Stroke(2.dp.toPx()))
+                            val amount = elevations.getValue(index)
+                            val radians = RingMath.angle(index, displayPosition) * PI.toFloat() / 180f
+                            val pivot = center + Offset(radius * cos(radians), radius * sin(radians))
+                            val path = sector(center, inner, outer, RingMath.angle(index, displayPosition) - RingMath.SWEEP / 2f,
+                                RingMath.SWEEP, .45.dp.toPx(), 2.4.dp.toPx())
+                            withTransform({
+                                translate(cos(radians) * popPx * amount, sin(radians) * popPx * amount)
+                                scale(1f + .12f * amount, 1f + .12f * amount, pivot)
+                            }) {
+                                if (amount > .01f) drawIntoCanvas { canvas ->
+                                    val paint = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply {
+                                        color = android.graphics.Color.TRANSPARENT
+                                        setShadowLayer(7.dp.toPx() * amount, 0f, 4.dp.toPx() * amount,
+                                            android.graphics.Color.argb(((if (light) 45 else 95) * amount).toInt(), 0, 0, 0))
+                                    }
+                                    canvas.nativeCanvas.drawPath(path.asAndroidPath(), paint)
+                                }
+                                drawPath(path, palette.fills[status.priority])
+                                drawPath(path, androidx.compose.ui.graphics.lerp(palette.seam, palette.edge, amount), style = Stroke((.5f + 3.1f * amount).dp.toPx()))
+                            }
                         }
                     }
                 }
-                visibleIndices.forEach { index ->
+                orderedIndices.forEach { index ->
                     val delta = (index - displayPosition) * RingMath.STEP
                     if (abs(delta) <= 79f) {
                         val item = displayed[index]
                         val angle = RingMath.angle(index, displayPosition) * PI.toFloat() / 180f
-                        val boxWidth = viewportWidth * .205f
-                        val boxHeight = viewportWidth * .29f
-                        Column(Modifier.offset { IntOffset((center.x + radius * cos(angle) - widthPx * .205f / 2f).roundToInt(), (center.y + radius * sin(angle) - widthPx * .29f / 2f).roundToInt()) }
+                        val amount = elevations.getValue(index)
+                        val boxWidth = viewportWidth * .21f
+                        val boxHeight = viewportWidth * .255f
+                        val contentRadius = radius - widthPx * .025f
+                        val pivot = center + Offset(radius * cos(angle), radius * sin(angle))
+                        val contentCenter = center + Offset(contentRadius * cos(angle), contentRadius * sin(angle))
+                        val labelCenter = pivot + (contentCenter - pivot) * (1f + .12f * amount) + Offset(cos(angle), sin(angle)) * popPx * amount
+                        Column(Modifier.offset { IntOffset((labelCenter.x - widthPx * .21f / 2f).roundToInt(), (labelCenter.y - widthPx * .255f / 2f).roundToInt()) }
                             .size(boxWidth, boxHeight).testTag("ring-card-${item.id}")
                             .semantics { contentDescription = "圆环物品：${item.name}"; this.selected = index == currentIndex }
+                            .graphicsLayer { rotationZ = RingMath.SELECTION_ANGLE - 180f + delta; scaleX = 1f + .12f * amount; scaleY = 1f + .12f * amount }
                             .clickable { focus.clearFocus(); settle(index.toFloat()) },
                             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            DesignGlyph(if (item.name.contains("奶")) "milk" else if (item.name.contains("面包")) "bread" else if (item.name.contains("苹果")) "apple" else "box", Modifier.size(21.dp), activeInk)
-                            Text(item.name, fontSize = 10.sp, lineHeight = 12.sp, color = activeInk, maxLines = 2, overflow = TextOverflow.Ellipsis,
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 2.dp))
-                            Text("${item.quantity.display()} ${item.unit}", fontSize = 9.sp, lineHeight = 12.sp, color = activeInk, maxLines = 1)
-                            Text(item.status(reminderDays).label, fontSize = 8.sp, lineHeight = 11.sp, color = activeInk, maxLines = 1)
+                            RingItemIllustration(item, Modifier.size(27.dp))
+                            Text(item.name, fontSize = 11.sp, lineHeight = 14.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 5.dp))
+                            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 14.sp, color = palette.ink, maxLines = 1)
+                        }
+                        val badgeRadius = radius + thickness * .34f
+                        val badgeCenter = pivot + Offset((badgeRadius - radius) * cos(angle), (badgeRadius - radius) * sin(angle)) * (1f + .12f * amount) + Offset(cos(angle), sin(angle)) * popPx * amount
+                        Box(Modifier.offset { IntOffset((badgeCenter.x - with(density) { 16.dp.toPx() } / 2f).roundToInt(), (badgeCenter.y - with(density) { 48.dp.toPx() } / 2f).roundToInt()) }
+                            .size(16.dp, 48.dp).graphicsLayer { rotationZ = RingMath.SELECTION_ANGLE - 180f + delta; scaleX = 1f + .12f * amount; scaleY = 1f + .12f * amount }
+                            .background(palette.badge, RoundedCornerShape(2.dp)).padding(vertical = 3.dp), contentAlignment = Alignment.Center) {
+                            val status = item.status(reminderDays)
+                            val badgeText = when {
+                                status.expired -> "已\n过\n期"
+                                status.days == 0L -> "今\n天"
+                                status.days != null && status.days < 100 -> "${status.days}\n天"
+                                status.low -> "需\n补"
+                                else -> "正\n常"
+                            }
+                            Text(badgeText, fontSize = 8.sp, lineHeight = 11.sp, color = palette.badgeInk, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
                         }
                     }
                 }
                 CategoryPanel(items, reminderDays, query, category, { category = it; focus.clearFocus() }, attention, { attention = it }, order, { order = it },
-                    Modifier.align(Alignment.CenterEnd).padding(end = 8.dp).width(106.dp), onAdd)
-            }
-        }
+                    Modifier.align(Alignment.CenterEnd).padding(end = 12.dp, bottom = viewportHeight * .08f).width(maxOf(92.dp, viewportWidth * .25f)), onAdd, palette)
 
-        Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-            TextButton(onClick = { settle((currentIndex - 1).toFloat()) }, enabled = currentIndex > 0, modifier = Modifier.testTag("ring-previous"), contentPadding = PaddingValues(5.dp)) { Text("‹") }
-            Text("${if (currentIndex < 0) 0 else currentIndex + 1} / ${displayed.size}", fontSize = 13.sp, lineHeight = 18.sp,
-                modifier = Modifier.testTag("ring-position").semantics { contentDescription = "当前位置 ${if (currentIndex < 0) 0 else currentIndex + 1}，结果总数 ${displayed.size}" })
-            TextButton(onClick = { settle((currentIndex + 1).toFloat()) }, enabled = currentIndex >= 0 && currentIndex < displayed.lastIndex, modifier = Modifier.testTag("ring-next"), contentPadding = PaddingValues(5.dp)) { Text("›") }
-        }
-        if (displayed.size > 1) {
-            Text(if (seeking) "定位至：${displayed[currentIndex].name}" else "拖动进度条快速定位 · 沿圆弧滑动浏览", fontSize = 10.sp, lineHeight = 14.sp,
-                color = scheme.onSurfaceVariant, modifier = Modifier.align(Alignment.CenterHorizontally).testTag("ring-seek-label"))
-            Slider(value = displayPosition.coerceIn(0f, displayed.lastIndex.toFloat()), onValueChange = {
-                motion?.cancel(); interacting = true; seeking = true; dragPosition = it; focus.clearFocus()
-            }, onValueChangeFinished = { settle(dragPosition ?: position.value, immediate = true) }, valueRange = 0f..displayed.lastIndex.toFloat(),
-                thumb = { Box(Modifier.size(14.dp).background(scheme.primary, androidx.compose.foundation.shape.CircleShape)) },
-                track = { state -> SliderDefaults.Track(state, modifier = Modifier.height(3.dp)) },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).height(27.dp).testTag("ring-seek"))
-        }
-        if (infoItem != null) {
-            Card(Modifier.fillMaxWidth().padding(horizontal = 12.dp).testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${infoItem.name}" }, border = BorderStroke(1.dp, scheme.outlineVariant), colors = CardDefaults.cardColors(containerColor = scheme.surface)) {
-                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Row {
-                        Text(infoItem.name, fontSize = 16.sp, lineHeight = 21.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), maxLines = 2)
-                        Text("${infoItem.quantity.display()} ${infoItem.unit}", fontSize = 12.sp, color = scheme.primary)
+                // The card and navigation sit in the lower empty area, as in the design reference.
+                if (infoItem != null) {
+                    RingInfoCard(infoItem, reminderDays, !interacting, { onOpenItem(infoItem) }, palette,
+                        Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp).width(viewportWidth * .46f).onSizeChanged { infoHeightPx = it.height })
+                } else {
+                    Column(Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp).width(viewportWidth * .46f)
+                        .onSizeChanged { infoHeightPx = it.height }
+                        .background(palette.panel, RoundedCornerShape(14.dp)).border(1.dp, palette.line, RoundedCornerShape(14.dp)).padding(12.dp)) {
+                        Text(if (items.isEmpty()) "家里的小物，慢慢记好" else "没有找到匹配的物品", fontSize = 13.sp, lineHeight = 19.sp, color = palette.ink)
+                        Text(if (items.isEmpty()) "添加第一件物品，开始整理库存。" else "试试清空搜索或分类筛选。", fontSize = 10.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, modifier = Modifier.padding(top = 5.dp))
+                        TextButton(onClick = { if (items.isEmpty()) onAdd() else { query = ""; category = "全部"; attention = false; focus.clearFocus() } },
+                            contentPadding = PaddingValues(0.dp), modifier = Modifier.testTag("ring-empty-action")) { Text(if (items.isEmpty()) "＋ 添加物品" else "清空搜索和筛选", fontSize = 11.sp) }
                     }
-                    Text("${infoItem.category} · ${infoItem.location} · ${infoItem.status(reminderDays).label}", fontSize = 11.sp, lineHeight = 16.sp)
-                    Text("有效期 ${infoItem.expiry.ifBlank { "未设置" }} · 最低库存 ${infoItem.minimum.display()} ${infoItem.unit}", fontSize = 10.sp, lineHeight = 15.sp, color = scheme.onSurfaceVariant)
-                    TextButton(onClick = { onOpenItem(infoItem) }, enabled = !interacting, contentPadding = PaddingValues(0.dp), modifier = Modifier.height(28.dp).testTag("ring-detail")) { Text("查看详情 →", fontSize = 12.sp) }
+                }
+                Column(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 10.dp).width(viewportWidth * .43f).onSizeChanged { seekHeightPx = it.height }, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        RingStepButton("‹", currentIndex > 0, "ring-previous", palette) { settle((currentIndex - 1).toFloat()) }
+                        Text("${if (currentIndex < 0) 0 else currentIndex + 1} / ${displayed.size}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant,
+                            modifier = Modifier.testTag("ring-position").semantics { contentDescription = "当前位置 ${if (currentIndex < 0) 0 else currentIndex + 1}，结果总数 ${displayed.size}" })
+                        RingStepButton("›", currentIndex >= 0 && currentIndex < displayed.lastIndex, "ring-next", palette) { settle((currentIndex + 1).toFloat()) }
+                    }
+                    if (displayed.size > 1) {
+                        Slider(value = displayPosition.coerceIn(0f, displayed.lastIndex.toFloat()), onValueChange = {
+                            motion?.cancel(); interacting = true; seeking = true; dragPosition = it; focus.clearFocus()
+                        }, onValueChangeFinished = { settle(dragPosition ?: position.value, immediate = true) }, valueRange = 0f..displayed.lastIndex.toFloat(),
+                            colors = SliderDefaults.colors(thumbColor = palette.accent, activeTrackColor = palette.accent, inactiveTrackColor = palette.track),
+                            thumb = { Box(Modifier.size(12.dp).background(palette.accent, androidx.compose.foundation.shape.CircleShape).border(1.5.dp, palette.panel, androidx.compose.foundation.shape.CircleShape)) },
+                            track = { state -> SliderDefaults.Track(state, modifier = Modifier.height(3.dp)) },
+                            modifier = Modifier.fillMaxWidth().height(28.dp).testTag("ring-seek"))
+                        Text(if (seeking) "定位至：${displayed[currentIndex].name}" else "滑动圆环 · 拖动定位", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
+                            overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant, modifier = Modifier.testTag("ring-seek-label"))
+                    }
                 }
             }
-        } else {
-            Column(Modifier.fillMaxWidth().padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(if (items.isEmpty()) "库存为空，添加第一件物品" else "搜索或筛选没有结果", fontSize = 14.sp)
-                TextButton(onClick = { if (items.isEmpty()) onAdd() else { query = ""; category = "全部"; attention = false; focus.clearFocus() } }, modifier = Modifier.testTag("ring-empty-action")) {
-                    Text(if (items.isEmpty()) "添加物品" else "清空搜索和筛选")
-                }
+        }
+        Row(Modifier.fillMaxWidth().padding(bottom = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            listOf("已过期", "临期", "库存不足", "正常").forEachIndexed { index, label ->
+                Box(Modifier.padding(start = if (index == 0) 0.dp else 10.dp, end = 4.dp).size(5.dp).background(palette.fills[index], androidx.compose.foundation.shape.CircleShape))
+                Text(label, fontSize = 9.sp, lineHeight = 13.sp, color = scheme.onSurfaceVariant)
             }
         }
     }
 }
 
-private fun sector(center: Offset, inner: Float, outer: Float, start: Float, sweep: Float): Path {
+private class RingPalette(light: Boolean) {
+    val fills = if (light) listOf(Color(0xFFD98F85), Color(0xFFE7B580), Color(0xFFC4CEAC), Color(0xFFD7DCC8))
+        else listOf(Color(0xFF58494D), Color(0xFF575346), Color(0xFF444A3F), Color(0xFF353D37))
+    val panel = if (light) Color(0xFFF4F2DE) else Color(0xFF242528)
+    val line = if (light) Color(0xFFD8DFC1) else Color(0xFF3D3F42)
+    val track = if (light) Color(0xFFE8ECD9) else Color(0xFF2B2D2B)
+    val edge = if (light) Color(0xFFFFFFF3) else Color(0xFFD2D8C6)
+    val seam = if (light) Color(0xFFFFFFF3) else Color(0xFF686C60)
+    val ink = if (light) Color(0xFF38452E) else Color(0xFFEBEBDF)
+    val accent = if (light) Color(0xFF657F46) else Color(0xFFA1AD91)
+    val badge = if (light) Color(0xFF838466) else Color(0xFFA4AD95)
+    val badgeInk = if (light) Color(0xFFFFFFF1) else Color(0xFF30392B)
+}
+
+@Composable
+private fun RingStepButton(label: String, enabled: Boolean, tag: String, palette: RingPalette, action: () -> Unit) {
+    TextButton(onClick = action, enabled = enabled, contentPadding = PaddingValues(0.dp),
+        modifier = Modifier.size(30.dp).testTag(tag),
+        colors = ButtonDefaults.textButtonColors(containerColor = palette.panel, contentColor = palette.accent, disabledContainerColor = palette.panel.copy(alpha = .65f)),
+        shape = androidx.compose.foundation.shape.CircleShape) { Text(label, fontSize = 21.sp, lineHeight = 24.sp) }
+}
+
+@Composable
+private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () -> Unit, palette: RingPalette, modifier: Modifier) {
+    val scheme = MaterialTheme.colorScheme
+    val status = item.status(days)
+    val statusText = buildString {
+        append(status.label)
+        when { status.expired -> append(" ${-(status.days ?: 0)} 天"); status.soon -> append(" · 剩 ${status.days} 天") }
+        if (status.low) append(" · 缺 ${(item.minimum - item.quantity).display()} ${item.unit}")
+    }
+    val statusInk = when {
+        status.expired -> scheme.error
+        status.soon -> if (LocalLightDesign.current) Color(0xFFAB743F) else Color(0xFFD5BC85)
+        else -> palette.accent
+    }
+    Card(modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(14.dp),
+        border = BorderStroke(1.dp, palette.line), colors = CardDefaults.cardColors(containerColor = palette.panel)) {
+        Column(Modifier.padding(11.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text("${item.category} · ${item.location}", fontSize = 10.sp, lineHeight = 14.sp, color = scheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(item.name, fontSize = 16.sp, lineHeight = 21.sp, color = palette.ink, fontWeight = FontWeight.Medium,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+                Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, color = palette.accent, modifier = Modifier.padding(start = 4.dp))
+            }
+            Text(statusText, fontSize = 10.sp, lineHeight = 15.sp, color = statusInk, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant)
+            if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 9.sp, lineHeight = 13.sp, color = scheme.onSurfaceVariant)
+            TextButton(onClick = open, enabled = enabled, contentPadding = PaddingValues(0.dp), modifier = Modifier.height(24.dp).testTag("ring-detail")) {
+                Text("查看详情 →", fontSize = 11.sp, color = palette.accent)
+            }
+        }
+    }
+}
+
+private fun sector(center: Offset, inner: Float, outer: Float, start: Float, sweep: Float, tooth: Float = 0f, pitch: Float = 1f): Path {
     val radians = start * PI.toFloat() / 180f
     return Path().apply {
+        fun edge(from: Float, to: Float, angle: Float) {
+            val direction = Offset(cos(angle), sin(angle))
+            val normal = Offset(-sin(angle), cos(angle))
+            val steps = (abs(to - from) / pitch).roundToInt().coerceAtLeast(2)
+            for (step in 1..steps) {
+                val distance = from + (to - from) * step / steps
+                val notch = if (step == steps) 0f else if (step % 2 == 0) tooth else -tooth
+                val point = center + direction * distance + normal * notch
+                lineTo(point.x, point.y)
+            }
+        }
         moveTo(center.x + outer * cos(radians), center.y + outer * sin(radians))
         arcTo(androidx.compose.ui.geometry.Rect(center - Offset(outer, outer), Size(outer * 2, outer * 2)), start, sweep, false)
         val end = (start + sweep) * PI.toFloat() / 180f
-        lineTo(center.x + inner * cos(end), center.y + inner * sin(end))
+        if (tooth > 0f) edge(outer, inner, end) else lineTo(center.x + inner * cos(end), center.y + inner * sin(end))
         arcTo(androidx.compose.ui.geometry.Rect(center - Offset(inner, inner), Size(inner * 2, inner * 2)), start + sweep, -sweep, false)
+        if (tooth > 0f) edge(inner, outer, radians)
         close()
     }
 }
 
 @Composable
 private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, category: String, select: (String) -> Unit,
-    attention: Boolean, toggle: (Boolean) -> Unit, order: RingOrder, sort: (RingOrder) -> Unit, modifier: Modifier, add: () -> Unit) {
+    attention: Boolean, toggle: (Boolean) -> Unit, order: RingOrder, sort: (RingOrder) -> Unit, modifier: Modifier, add: () -> Unit, palette: RingPalette) {
     val colors = MaterialTheme.colorScheme
     var expanded by remember { mutableStateOf(false) }
     val searched = remember(items, query) { items.filter { it.name.contains(query.trim(), true) } }
-    Column(modifier.background(colors.surface, RoundedCornerShape(14.dp)).border(1.dp, colors.outlineVariant, RoundedCornerShape(14.dp)).padding(8.dp),
+    Column(modifier.background(palette.panel, RoundedCornerShape(15.dp)).border(1.dp, palette.line, RoundedCornerShape(15.dp)).padding(9.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text("分类", fontSize = 12.sp, lineHeight = 17.sp)
+        Text("分类", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp, modifier = Modifier.padding(bottom = 3.dp))
         listOf("全部", "食品", "日用品", "其他").forEach { label ->
             val count = searched.count { (label == "全部" || it.category == label) && (!attention || it.status(days).attention) }
             Row(Modifier.fillMaxWidth().height(24.dp).clip(RoundedCornerShape(7.dp))
-                .background(if (category == label) colors.primary else colors.surface)
-                .border(1.dp, if (category == label) colors.primary else colors.outlineVariant, RoundedCornerShape(7.dp))
+                .background(if (category == label) palette.accent else palette.panel)
+                .border(1.dp, if (category == label) palette.accent else palette.line, RoundedCornerShape(7.dp))
                 .testTag("ring-category-$label").semantics { selected = category == label; contentDescription = "$label，$count 件" }
                 .clickable { select(label) }.padding(horizontal = 7.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(label, fontSize = 10.sp, lineHeight = 14.sp, color = if (category == label) colors.onPrimary else colors.onSurface, modifier = Modifier.weight(1f))

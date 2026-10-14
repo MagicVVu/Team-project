@@ -3,7 +3,8 @@ package com.example.teamapp.ui.ring
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -20,6 +23,7 @@ import androidx.core.view.WindowCompat
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.DarkNavigation
 import com.example.teamapp.ui.DesignNavigation
+import com.example.teamapp.ui.DesignGlyph
 import com.example.teamapp.ui.theme.TeamAppTheme
 import java.time.LocalDate
 
@@ -31,15 +35,27 @@ internal fun mockRingInventory(count: Int): List<StockItem> = (0 until count).ma
         else -> listOf("电池", "胶带", "笔记本", "文件袋", "灯泡", "收纳盒")
     }
     val quantity = (i % 5 + 1).toDouble()
-    StockItem(id = "ring-mock-$i", name = "${names[(i / 3) % names.size]} ${String.format("%03d", i + 1)}", quantity = quantity,
-        unit = if (category == "食品") "盒" else if (category == "日用品") "瓶" else "个", category = category,
+    val name = names[(i / 3) % names.size]
+    val unit = when {
+        name.contains("纸") -> "包"
+        name.contains("面包") || name.contains("燕麦") -> "袋"
+        name.contains("香蕉") -> "根"
+        name.contains("蛋") || name.contains("苹果") || name.contains("番茄") -> "个"
+        name.contains("电池") -> "节"
+        category == "食品" -> "盒"
+        category == "日用品" -> "瓶"
+        else -> "个"
+    }
+    StockItem(id = "ring-mock-$i", name = "$name ${String.format("%03d", i + 1)}", quantity = quantity,
+        unit = unit, category = category,
         location = listOf("冰箱", "阳台", "储物柜")[i % 3], minimum = if (i % 4 == 2) quantity + 2 else 0.0,
         expiry = when (i % 4) { 0 -> LocalDate.now().minusDays(4).toString(); 1 -> LocalDate.now().plusDays(2).toString(); else -> "" },
-        history = listOf("模拟录入 ${quantity.display()} ${if (category == "食品") "盒" else if (category == "日用品") "瓶" else "个"}"))
+        history = listOf("模拟录入 ${quantity.display()} $unit"))
 }
 
 /** This test host owns only in-memory fixtures and never receives a real InventoryStore. */
 @OptIn(ExperimentalMaterial3Api::class)
+@Suppress("DEPRECATION")
 @Composable
 internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, onNavigate: (Int) -> Unit) {
     var light by rememberSaveable { mutableStateOf(initialLight) }
@@ -51,15 +67,23 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
     var purchaseIds by remember { mutableStateOf<Set<String>>(emptySet()) }
     val detail = items.firstOrNull { it.id == detailId }
     val activity = LocalContext.current as? Activity
+    val originalBars = remember(activity) { activity?.window?.let { it.statusBarColor to it.navigationBarColor } }
     SideEffect {
-        activity?.window?.let { window -> WindowCompat.getInsetsController(window, window.decorView).apply {
-            isAppearanceLightStatusBars = light; isAppearanceLightNavigationBars = light
-        } }
+        activity?.window?.let { window ->
+            window.statusBarColor = if (light) android.graphics.Color.rgb(250, 247, 232) else android.graphics.Color.rgb(24, 25, 27)
+            window.navigationBarColor = window.statusBarColor
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = light; isAppearanceLightNavigationBars = light
+            }
+        }
     }
     DisposableEffect(activity) { onDispose {
-        activity?.window?.let { window -> WindowCompat.getInsetsController(window, window.decorView).apply {
-            isAppearanceLightStatusBars = initialLight; isAppearanceLightNavigationBars = initialLight
-        } }
+        activity?.window?.let { window ->
+            originalBars?.let { (status, navigation) -> window.statusBarColor = status; window.navigationBarColor = navigation }
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = initialLight; isAppearanceLightNavigationBars = initialLight
+            }
+        }
     } }
     BackHandler { if (detailId != null) detailId = null else onClose() }
 
@@ -81,15 +105,30 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
             if (light) DesignNavigation(1, onNavigate) else DarkNavigation(1, onNavigate)
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).testTag("ring-test-page")) {
-                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.fillMaxWidth().background(if (light) Color(0xFFB2C57D) else Color(0xFF202124))
+                    .padding(horizontal = 18.dp, vertical = 13.dp).testTag("ring-showcase-header"), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text("圆环库存测试", fontSize = 18.sp, lineHeight = 24.sp)
-                        Text("${items.size} 条模拟记录 · 不写入真实库存", fontSize = 10.sp, lineHeight = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.testTag("ring-mock-total"))
+                        Text("我的库存", fontSize = 25.sp, lineHeight = 31.sp, fontWeight = FontWeight.Bold)
+                        Text("${items.size} 种物品 · ${items.count { it.status(3).attention }} 项需关注", fontSize = 10.sp, lineHeight = 15.sp, modifier = Modifier.padding(top = 3.dp))
                     }
-                    TextButton(onClick = { light = !light }, modifier = Modifier.testTag("ring-test-theme"), contentPadding = PaddingValues(5.dp)) { Text(if (light) "切换深色" else "切换浅色", fontSize = 11.sp) }
-                    TextButton(onClick = onClose, contentPadding = PaddingValues(5.dp)) { Text("退出", fontSize = 11.sp) }
+                    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
+                        IconButton(onClick = { add() }, modifier = Modifier.size(30.dp).background(MaterialTheme.colorScheme.primary, CircleShape)) {
+                            DesignGlyph("plus", Modifier.size(20.dp), MaterialTheme.colorScheme.onPrimary)
+                        }
+                    }
+                    TextButton(onClick = { light = !light }, modifier = Modifier.padding(start = 7.dp).size(34.dp).testTag("ring-test-theme"), contentPadding = PaddingValues(0.dp)) {
+                        Text(if (light) "深" else "浅", fontSize = 12.sp)
+                    }
+                    TextButton(onClick = onClose, contentPadding = PaddingValues(0.dp), modifier = Modifier.width(30.dp)) { Text("退出", fontSize = 10.sp) }
                 }
-                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                Spacer(Modifier.height(10.dp))
+                StockRingBrowser(items, 3, onOpenItem = { detailId = it.id }, onAdd = { add() }, onSelectedItem = { selected = it })
+                HorizontalDivider(Modifier.padding(top = 10.dp), color = MaterialTheme.colorScheme.outlineVariant)
+                Column(Modifier.padding(horizontal = 18.dp, vertical = 10.dp)) {
+                    Text("圆环测试设置", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Text("${items.size} 条模拟记录 · 不写入真实库存", fontSize = 10.sp, lineHeight = 15.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.testTag("ring-mock-total").padding(top = 3.dp))
+                }
+                Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     listOf(0, 1, 3, 12, 30, 100).forEach { count ->
                         OutlinedButton(onClick = { scenario = count; items = mockRingInventory(count); purchaseIds = emptySet(); detailId = null },
                             modifier = Modifier.weight(1f).height(28.dp).testTag("ring-scenario-$count"), contentPadding = PaddingValues(0.dp),
@@ -97,9 +136,7 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)) { Text(count.toString(), fontSize = 11.sp) }
                     }
                 }
-                Spacer(Modifier.height(6.dp))
-                StockRingBrowser(items, 3, onOpenItem = { detailId = it.id }, onAdd = { add() }, onSelectedItem = { selected = it })
-                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 5.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 5.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     OutlinedButton(onClick = { add() }, modifier = Modifier.testTag("ring-mock-add"), contentPadding = PaddingValues(horizontal = 10.dp)) { Text("模拟新增", fontSize = 11.sp) }
                     OutlinedButton(onClick = { selected?.let { delete(it.id) } }, enabled = selected != null, modifier = Modifier.testTag("ring-mock-delete"), contentPadding = PaddingValues(horizontal = 10.dp)) { Text("删除选中", fontSize = 11.sp) }
                     OutlinedButton(onClick = { selected?.let { quantity(it.id, 1.0) } }, enabled = selected != null, modifier = Modifier.testTag("ring-mock-update"), contentPadding = PaddingValues(horizontal = 10.dp)) { Text("更新数量", fontSize = 11.sp) }

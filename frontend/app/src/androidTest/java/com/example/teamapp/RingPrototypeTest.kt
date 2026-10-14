@@ -27,7 +27,7 @@ class RingPrototypeTest {
     private fun position(text: String) { compose.onNodeWithTag("ring-position").assertTextEquals(text) }
     private fun dragArc(degrees: Float) {
         compose.onNodeWithTag("ring-viewport").performScrollTo().performTouchInput {
-            val cx = width * .98f; val cy = height / 2f; val radius = width * .68f
+            val cx = width * 1.07f; val cy = height * .46f; val radius = width * .75f
             down(Offset(cx - radius, cy))
             (1..15).forEach { step ->
                 val angle = (180f + degrees * step / 15f) * Math.PI.toFloat() / 180f
@@ -132,7 +132,7 @@ class RingPrototypeTest {
         compose.waitForIdle()
         val text = compose.onNodeWithTag("ring-position").fetchSemanticsNode().config[androidx.compose.ui.semantics.SemanticsProperties.Text].single().text
         val selectedIndex = text.substringBefore(" / ").toInt() - 1
-        assertTrue(selectedIndex in 80..99)
+        assertTrue("Expected a distant item after a seek drag, got $text", selectedIndex in 80..99)
         val ordered = ringResults(mockRingInventory(100), 3, "", "全部", false, RingOrder.STATUS)
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：${ordered[selectedIndex].name}")
         compose.onNodeWithTag("ring-detail").performScrollTo().performClick()
@@ -146,7 +146,7 @@ class RingPrototypeTest {
             for (n in listOf(3, 30, 100)) {
                 count(0); count(n)
                 seek(when(n) { 3 -> 1; 30 -> 14; else -> 89 })
-                compose.onNodeWithTag("ring-scenario-$n").performScrollTo()
+                compose.onNodeWithTag("ring-showcase-header").performScrollTo()
                 shot("$mode-$n")
             }
         }

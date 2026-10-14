@@ -1,7 +1,9 @@
 {
+  "updatedAt": "2026-10-14T20:29:19",
+  "design": "00J / R07 - serrated separators and whole-sector selection",
   "build": "passed",
-  "unitTests": 13,
-  "interfaceTests": 15,
+  "unitTests": 15,
+  "interfaceTests": 6,
   "prototypeScreenTests": {
     "320x640": 6,
     "360x640": 6,
@@ -9,9 +11,18 @@
   },
   "realDataAndSettingsUnchanged": true,
   "officialInventoryUnchanged": true,
-  "emptyRingVisibleAddVerified": true,
   "reviewScreenshots": 6,
+  "reviewScreenshotPixels": "1080x3000",
   "restoredEmulatorSize": "1080x1920",
   "pageLeftOpen": "ring-test",
-  "count": 100
+  "pageLeftOpenMockCount": 3,
+  "selection": {
+    "scale": 1.12,
+    "outwardDp": 12,
+    "outlineDp": 3.6,
+    "spacingDegrees": 30,
+    "sectorDegrees": 29.8,
+    "anchorDegrees": 190
+  },
+  "pageLeftOpenPosition": "2 / 3"
 }

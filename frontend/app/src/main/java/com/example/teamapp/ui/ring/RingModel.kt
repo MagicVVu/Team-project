@@ -9,15 +9,16 @@ import kotlin.math.roundToInt
 /** The item count only changes the finite scroll range, never this geometry. */
 internal object RingMath {
     const val STEP = 30f
-    const val SWEEP = 27f
+    const val SWEEP = 29.8f
     const val WINDOW = 2.7f
+    const val SELECTION_ANGLE = 190f
 
     fun index(position: Float, count: Int) = if (count == 0) -1 else position.roundToInt().coerceIn(0, count - 1)
     fun visible(position: Float, count: Int): IntRange {
         if (count == 0) return IntRange.EMPTY
         return maxOf(0, floor(position - WINDOW).toInt())..minOf(count - 1, ceil(position + WINDOW).toInt())
     }
-    fun angle(index: Int, position: Float) = 180f + (index - position) * STEP
+    fun angle(index: Int, position: Float) = SELECTION_ANGLE + (index - position) * STEP
     fun deltaDegrees(from: Float, to: Float): Float = ((to - from + 540f) % 360f) - 180f
     fun drag(position: Float, delta: Float, count: Int): Float {
         if (count <= 1) return 0f
