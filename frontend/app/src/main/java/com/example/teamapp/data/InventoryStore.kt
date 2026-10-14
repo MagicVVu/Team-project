@@ -45,6 +45,16 @@ class InventoryStore(context: Context) {
     }
 
     private fun stamp(text: String) = "${LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))} · $text"
+    internal fun addPreviewInventoryOnce() {
+        if (storageError != null || preferences.getBoolean("ring_preview_inventory_v1", false)) return
+        val samples = sampleInventory().filter { sample ->
+            items.none { it.id == sample.id || it.name.trim().equals(sample.name, true) }
+        }
+        items = items + samples
+        persist()
+        if (storageError == null) preferences.edit().putBoolean("ring_preview_inventory_v1", true).commit()
+    }
+
     fun saveItem(item: StockItem, duplicateMode: String = "新建"): String {
         require(item.name.isNotBlank() && item.unit.isNotBlank() && item.location.isNotBlank())
         require(item.quantity.isFinite() && item.quantity >= 0 && item.minimum.isFinite() && item.minimum >= 0)

@@ -17,7 +17,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val store = remember { InventoryStore(applicationContext) }
+            val store = remember {
+                InventoryStore(applicationContext).apply {
+                    if (BuildConfig.DEBUG) addPreviewInventoryOnce()
+                }
+            }
             val dark = when (store.appearance) { "深色" -> true; "浅色" -> false; else -> isSystemInDarkTheme() }
             SideEffect {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
