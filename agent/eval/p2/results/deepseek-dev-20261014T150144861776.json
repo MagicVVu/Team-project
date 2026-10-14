@@ -1,0 +1,531 @@
+{
+  "metadata": {
+    "release_version": "V1-P2",
+    "dataset_version": "p2-1",
+    "dataset_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+    "engine": "deepseek",
+    "split": "dev",
+    "prompt_version": "p2-extract-1",
+    "run_at": "2026-10-14T15:01:44.859313+00:00",
+    "requested_count": 3,
+    "attempted_count": 3,
+    "source": "ai_constructed",
+    "human_reviewed": false,
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "source_expert_reviewed": false,
+    "formal_backend_verified": false,
+    "budget": {
+      "limit_cny": 20.0,
+      "conservative_cost_cny": 0.304082,
+      "calls": 215,
+      "unknown_usage_calls": 0
+    },
+    "command": "python -m eval.p2.run --engine deepseek --split dev --limit 3"
+  },
+  "metrics": {
+    "intent_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "risk_output_accuracy": 1.0,
+    "all_checks_accuracy": 1.0,
+    "clarification_recall": null,
+    "inventory_mutations": 0,
+    "failure_rate": 0.0,
+    "p50_seconds": 1.9883021999849007,
+    "p95_seconds": 2.3851557000307366
+  },
+  "acceptance_passed": false,
+  "rows": [
+    {
+      "id": "p2-normal-unopened-0",
+      "text": "牛奶还能喝吗",
+      "attempted": true,
+      "expected": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "risks": [
+          {
+            "batch_id": "b1",
+            "level": "green",
+            "missing": [],
+            "required_reasons": [
+              "NO_RULE_TRIGGER"
+            ]
+          }
+        ],
+        "draft_action": null
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "牛奶（批次 b1）：已知规则未触发。本次已知条件未触发关注规则，不表示物品已经检测安全。 已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_37afa2cf713a4d11acd0a361c05ece8f",
+        "original_text": "牛奶还能喝吗",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 1944.3368999054655
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 1946.695699938573
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 1946.7367999022827
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-10-20",
+                  "days_remaining": "6"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 1
+      },
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "risk_ok": true,
+        "draft_action_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 1.9467859000433236,
+      "usage": {
+        "prompt_tokens": 654,
+        "completion_tokens": 79,
+        "total_tokens": 733,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 654
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p2-normal-unopened-1",
+      "text": "请牛奶还能喝吗",
+      "attempted": true,
+      "expected": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "risks": [
+          {
+            "batch_id": "b1",
+            "level": "green",
+            "missing": [],
+            "required_reasons": [
+              "NO_RULE_TRIGGER"
+            ]
+          }
+        ],
+        "draft_action": null
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "牛奶（批次 b1）：已知规则未触发。本次已知条件未触发关注规则，不表示物品已经检测安全。 已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_80475c1ce6f740519dac1dfea132611b",
+        "original_text": "请牛奶还能喝吗",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 2384.853200055659
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 2385.105699999258
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 2385.1295000640675
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-10-20",
+                  "days_remaining": "6"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 1
+      },
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "risk_ok": true,
+        "draft_action_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 2.3851557000307366,
+      "usage": {
+        "prompt_tokens": 655,
+        "completion_tokens": 79,
+        "total_tokens": 734,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 143
+      },
+      "provider_model": "deepseek-flash"
+    },
+    {
+      "id": "p2-normal-unopened-2",
+      "text": "帮我牛奶还能喝吗",
+      "attempted": true,
+      "expected": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "risks": [
+          {
+            "batch_id": "b1",
+            "level": "green",
+            "missing": [],
+            "required_reasons": [
+              "NO_RULE_TRIGGER"
+            ]
+          }
+        ],
+        "draft_action": null
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "牛奶（批次 b1）：已知规则未触发。本次已知条件未触发关注规则，不表示物品已经检测安全。 已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_0b91cdce61ff482ab7d561fd022893fd",
+        "original_text": "帮我牛奶还能喝吗",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 1988.0444000009447
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 1988.2576999953017
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 1988.2788000395522
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-10-20",
+                  "days_remaining": "6"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 1
+      },
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "risk_ok": true,
+        "draft_action_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 1.9883021999849007,
+      "usage": {
+        "prompt_tokens": 655,
+        "completion_tokens": 79,
+        "total_tokens": 734,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 143
+      },
+      "provider_model": "deepseek-flash"
+    }
+  ]
+}

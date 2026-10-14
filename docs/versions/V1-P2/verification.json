@@ -1,0 +1,75 @@
+{
+  "release_version": "V1-P2",
+  "verified_on": "2026-10-14",
+  "base_commit": "5a056831799b12d9215be2fab4b0fa00bb9fd4a6",
+  "implementation_complete": true,
+  "checks": {
+    "pytest_passed": 138,
+    "pytest_failed": 0,
+    "p0_p1_gateway_regression": "passed",
+    "rule_holdout": "60/60 passed",
+    "model_holdout": "59/60; strict acceptance not passed",
+    "openapi_matches_factory": true
+  },
+  "model_acceptance_passed": false,
+  "failure_sample_ids": [
+    "p2-bread-label-context-unknown-2"
+  ],
+  "metrics": {
+    "intent_accuracy": 0.9833333333333333,
+    "status_accuracy": 0.9833333333333333,
+    "risk_output_accuracy": 0.9803921568627451,
+    "all_checks_accuracy": 0.9833333333333333,
+    "clarification_recall": 1.0,
+    "inventory_mutations": 0,
+    "failure_rate": 0.016666666666666666,
+    "p50_seconds": 1.5402702999999747,
+    "p95_seconds": 1.9077830000314862
+  },
+  "budget": {
+    "starting_cny": 0.298258,
+    "ending_cny": 0.589254,
+    "task_estimated_cny": 0.290996,
+    "new_provider_calls": 150,
+    "shared_limit_cny": 20
+  },
+  "rules": {
+    "catalog_version": "p2-rules-1",
+    "catalog_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "built_in_count": 5,
+    "review_kind": "automated_source_check",
+    "human_expert_reviewed": false,
+    "production_after_open_rules": 0
+  },
+  "scope": {
+    "frontend_changed": false,
+    "backend_changed": false,
+    "p0_p1_service_code_changed": false,
+    "inventory_writes": false,
+    "new_mock_service": false,
+    "new_demo_page": false,
+    "commit_or_push": false
+  },
+  "pending": [
+    "human_sample_review",
+    "expert_rule_review",
+    "model_output_reliability_with_new_holdout",
+    "formal_backend_integration",
+    "real_user_validation"
+  ],
+  "dataset_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+  "source_sha256": {
+    "eval/p2/run.py": "d355daeb1a39d568a8433dd2a20af914fafa5102c2ba8055c29b21e41ffb9bf6",
+    "p2/__init__.py": "dc7a395098434c9c0160f5146435a250ddeeeb022feb4593b2f4bdb34993acc4",
+    "p2/app.py": "a0f572162336d5d2fc84b0783b4850cb377987ca370ffdf366df7f9ca980dddb",
+    "p2/engines.py": "9e9065b9b170d34789e6a735bc7fbaa6efb288ef2096b2b84115eaeb616dc133",
+    "p2/export_contract.py": "59da9606272406b927e5ae305b3aa71b76cc17a77cba12102ed384541c48491c",
+    "p2/knowledge.py": "84281ff185fd9c117c51550ebfb26f4f57b5b52446ce7fc1c2aa6a02aacb07af",
+    "p2/manager.py": "ccdbc72a22f19570779ad777920c8461603e0d8060e404ad765e7d1b0ea576c7",
+    "p2/risk.py": "96c33d6af5472dcb57828e3e0ac87f1dab51cc147ede5762aeacbd6171842a2c",
+    "p2/rules.json": "ac57ca457373c301784958b8e6db4974f805fecabe68dea79c2442c9d9768651",
+    "p2/schemas.py": "46823d71d5ab88f851fc0a738de0b968a7e8823bd9a451c417701e36cd9fd372",
+    "p2/tools.py": "6db1d57771f34b0fa48e674b882ffa2700c578fc432c6d3b974510e189cdc963",
+    "tests/test_p2.py": "5bc3fb8d26ebd54f5d59c0be5223990aa673113349eeba58067d54f4c0a663ad"
+  }
+}

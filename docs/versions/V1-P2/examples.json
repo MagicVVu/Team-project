@@ -1,0 +1,562 @@
+{
+  "source": "synthetic_test_inputs_not_runtime_inventory",
+  "requests": [
+    {
+      "request": {
+        "text": "哪些需要关注",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai",
+        "reminder_days": 3
+      },
+      "response": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "酸奶（批次 b2）：需优先处理。已超过当前适用的标签期限，请遵循包装说明。 先停止使用并核对包装标签，按适用说明处理；药品问题咨询药师。\n\n面包（批次 b3）：待核对。当前登记事实未触发关注条件。 缺少：实际保存条件。 信息或适用规则不足，请补充所列事实后重新评估。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_b8f73559ae284cf8993b851ee4b9cdcb",
+        "original_text": "哪些需要关注",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "酸奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-13",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          },
+          {
+            "id": "b3",
+            "household_id": "h1",
+            "name": "面包",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": null,
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 1.473299926146865
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 5.268799955956638
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 5.297399940900505
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b2",
+            "name": "酸奶",
+            "batch_version": 4,
+            "level": "red",
+            "attention": true,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_PASSED",
+              "STORAGE_RECORDED_MATCH"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_PASSED",
+                "explanation": "已超过当前适用的标签期限，请遵循包装说明。",
+                "facts": {
+                  "label_expiry": "2026-10-13",
+                  "label_date_type": "use_by"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "先停止使用并核对包装标签，按适用说明处理；药品问题咨询药师。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          },
+          {
+            "batch_id": "b3",
+            "name": "面包",
+            "batch_version": 4,
+            "level": "unknown",
+            "attention": true,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "INFORMATION_INCOMPLETE"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-10-20",
+                  "days_remaining": "6"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "INFORMATION_INCOMPLETE",
+                "explanation": "还缺少判断所需事实或规则。",
+                "facts": {
+                  "missing": "storage_condition"
+                },
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [
+              "storage_condition"
+            ],
+            "recommended_action": "信息或适用规则不足，请补充所列事实后重新评估。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 3
+      }
+    },
+    {
+      "request": {
+        "text": "酸奶还能喝吗",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai",
+        "reminder_days": 3
+      },
+      "response": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "酸奶（批次 b2）：需优先处理。已超过当前适用的标签期限，请遵循包装说明。 先停止使用并核对包装标签，按适用说明处理；药品问题咨询药师。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_e7511255b2414cd69bf1832ec40710f4",
+        "original_text": "酸奶还能喝吗",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "酸奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-13",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 0.04600000102072954
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 0.18869992345571518
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 0.20489993039518595
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b2",
+            "name": "酸奶",
+            "batch_version": 4,
+            "level": "red",
+            "attention": true,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_PASSED",
+              "STORAGE_RECORDED_MATCH"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_PASSED",
+                "explanation": "已超过当前适用的标签期限，请遵循包装说明。",
+                "facts": {
+                  "label_expiry": "2026-10-13",
+                  "label_date_type": "use_by"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "先停止使用并核对包装标签，按适用说明处理；药品问题咨询药师。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 1
+      }
+    },
+    {
+      "request": {
+        "text": "面包为什么被提醒",
+        "request_id": "example",
+        "household_timezone": "Asia/Shanghai",
+        "reminder_days": 3
+      },
+      "response": {
+        "status": "answered",
+        "intent": "QUERY_RISK",
+        "reply": "面包（批次 b3）：待核对。当前登记事实未触发关注条件。 缺少：实际保存条件。 信息或适用规则不足，请补充所列事实后重新评估。\n\n以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",
+        "trace_id": "trace_0e26c5886fff41fe80b09948b7716e30",
+        "original_text": "面包为什么被提醒",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b3",
+            "household_id": "h1",
+            "name": "面包",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-10-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "milk-sku",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": null,
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_RISK",
+            "elapsed_ms": 0.028499984182417393
+          },
+          {
+            "step": "risk_evaluation",
+            "outcome": "read_only",
+            "elapsed_ms": 0.14270003885030746
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 0.15590002294629812
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b3",
+            "name": "面包",
+            "batch_version": 4,
+            "level": "unknown",
+            "attention": true,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "INFORMATION_INCOMPLETE"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-10-20",
+                  "days_remaining": "6"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "INFORMATION_INCOMPLETE",
+                "explanation": "还缺少判断所需事实或规则。",
+                "facts": {
+                  "missing": "storage_condition"
+                },
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [
+              "storage_condition"
+            ],
+            "recommended_action": "信息或适用规则不足，请补充所列事实后重新评估。",
+            "evaluated_at": "2026-10-14T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 1
+      }
+    }
+  ],
+  "direct_risk_request": {
+    "name": null,
+    "batch_ids": [
+      "b2"
+    ],
+    "household_timezone": "Asia/Shanghai",
+    "reminder_days": 3,
+    "attention_only": false
+  },
+  "direct_risk_response": {
+    "trace_id": "trace_6a0fff05bae94aa0b334ecb6a5c4ee11",
+    "evaluated_count": 1,
+    "returned_count": 1,
+    "risks": [
+      {
+        "batch_id": "b2",
+        "name": "酸奶",
+        "batch_version": 4,
+        "level": "red",
+        "attention": true,
+        "excluded": false,
+        "reason_codes": [
+          "LABEL_DATE_PASSED",
+          "STORAGE_RECORDED_MATCH"
+        ],
+        "evidence": [
+          {
+            "reason_code": "LABEL_DATE_PASSED",
+            "explanation": "已超过当前适用的标签期限，请遵循包装说明。",
+            "facts": {
+              "label_expiry": "2026-10-13",
+              "label_date_type": "use_by"
+            },
+            "rule_id": "food-label-date",
+            "rule_version": "1",
+            "source": {
+              "title": "GOV UK Best before and use-by dates",
+              "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+              "kind": "official_guidance",
+              "checked_on": "2026-10-14",
+              "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+            }
+          },
+          {
+            "reason_code": "STORAGE_RECORDED_MATCH",
+            "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+            "facts": {
+              "storage_condition": "refrigerated",
+              "label_storage_condition": "refrigerated"
+            },
+            "rule_id": "food-label-storage",
+            "rule_version": "1",
+            "source": {
+              "title": "GOV UK Best before and use-by dates",
+              "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+              "kind": "official_guidance",
+              "checked_on": "2026-10-14",
+              "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+            }
+          }
+        ],
+        "missing_information": [],
+        "recommended_action": "先停止使用并核对包装标签，按适用说明处理；药品问题咨询药师。",
+        "evaluated_at": "2026-10-14T02:00:00Z",
+        "household_timezone": "Asia/Shanghai",
+        "ruleset_version": "p2-rules-1",
+        "rule_versions": {
+          "food-label-date": "1",
+          "food-label-storage": "1"
+        },
+        "source_human_reviewed": false,
+        "safety_guaranteed": false
+      }
+    ],
+    "facts": [
+      {
+        "id": "b2",
+        "household_id": "h1",
+        "name": "酸奶",
+        "quantity": "3",
+        "unit": "盒",
+        "location": "冰箱",
+        "purchased_at": null,
+        "label_expiry": "2026-10-13",
+        "opened_at": null,
+        "status": "ACTIVE",
+        "version": 4,
+        "category": "food",
+        "product_id": "milk-sku",
+        "label_date_type": "use_by",
+        "label_context_valid": true,
+        "storage_condition": "refrigerated",
+        "label_storage_condition": "refrigerated",
+        "is_opened": false
+      }
+    ],
+    "inventory_writes": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "dataset_version": "p2-1",
+  "count": 150,
+  "dev": 90,
+  "test": 60,
+  "groups": 50,
+  "source": "ai_constructed",
+  "human_reviewed": false,
+  "frozen_on": "2026-10-14",
+  "sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae"
+}

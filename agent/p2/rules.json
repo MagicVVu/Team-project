@@ -1,0 +1,30 @@
+{
+  "version": "p2-rules-1",
+  "rules": [
+    {
+      "id": "food-label-date", "version": "1", "kind": "label_date", "categories": ["food"],
+      "source": {"title": "GOV UK Best before and use-by dates", "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates", "kind": "official_guidance", "checked_on": "2026-10-14", "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"},
+      "reviewed": true, "review_kind": "source_check", "reviewed_by": "Codex automated source verification", "reviewed_on": "2026-10-14"
+    },
+    {
+      "id": "medicine-label-date", "version": "1", "kind": "label_date", "categories": ["medicine"],
+      "source": {"title": "FDA Dont Be Tempted to Use Expired Medicines", "ref": "https://www.fda.gov/drugs/special-features/dont-be-tempted-use-expired-medicines", "kind": "official_guidance", "checked_on": "2026-10-14", "verification_note": "遵循药品包装有效期与保存要求；不推断或延长药品有效期，不提供剂量建议。"},
+      "reviewed": true, "review_kind": "source_check", "reviewed_by": "Codex automated source verification", "reviewed_on": "2026-10-14"
+    },
+    {
+      "id": "food-label-storage", "version": "1", "kind": "storage", "categories": ["food"],
+      "source": {"title": "GOV UK Best before and use-by dates", "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates", "kind": "official_guidance", "checked_on": "2026-10-14", "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"},
+      "reviewed": true, "review_kind": "source_check", "reviewed_by": "Codex automated source verification", "reviewed_on": "2026-10-14"
+    },
+    {
+      "id": "medicine-label-storage", "version": "1", "kind": "storage", "categories": ["medicine"],
+      "source": {"title": "FDA Dont Be Tempted to Use Expired Medicines", "ref": "https://www.fda.gov/drugs/special-features/dont-be-tempted-use-expired-medicines", "kind": "official_guidance", "checked_on": "2026-10-14", "verification_note": "只核对包装保存要求与登记条件，未到有效期也不意味着保存一定合规。"},
+      "reviewed": true, "review_kind": "source_check", "reviewed_by": "Codex automated source verification", "reviewed_on": "2026-10-14"
+    },
+    {
+      "id": "app-label-reminder", "version": "1", "kind": "near_expiry", "categories": ["food", "medicine"],
+      "source": {"title": "V1 P2 reminder preference policy", "ref": "docs/versions/V1-P2/ai-contract.md", "kind": "project_policy", "checked_on": "2026-10-14", "verification_note": "提前提醒天数是用户偏好，默认 3 天；不是食品或药品安全阈值。"},
+      "reviewed": true, "review_kind": "source_check", "reviewed_by": "Codex implementation review", "reviewed_on": "2026-10-14"
+    }
+  ]
+}
