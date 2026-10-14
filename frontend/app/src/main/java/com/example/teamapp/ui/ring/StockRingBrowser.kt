@@ -212,7 +212,7 @@ internal fun StockRingBrowser(
                     }
                     orderedIndices.forEach { index ->
                         val delta = (index - displayPosition) * RingMath.STEP
-                        if (abs(delta) <= 84f) {
+                        if (delta in RingMath.MIN_VISIBLE_DELTA..RingMath.MAX_VISIBLE_DELTA) {
                             val status = displayed[index].status(reminderDays)
                             val amount = elevations.getValue(index)
                             val radians = RingMath.angle(index, displayPosition) * PI.toFloat() / 180f
@@ -239,26 +239,26 @@ internal fun StockRingBrowser(
                 }
                 orderedIndices.forEach { index ->
                     val delta = (index - displayPosition) * RingMath.STEP
-                    if (abs(delta) <= 79f) {
+                    if (delta in RingMath.MIN_VISIBLE_DELTA..RingMath.MAX_VISIBLE_DELTA) {
                         val item = displayed[index]
                         val angle = RingMath.angle(index, displayPosition) * PI.toFloat() / 180f
                         val amount = elevations.getValue(index)
-                        val boxWidth = viewportWidth * .21f
-                        val boxHeight = viewportWidth * .255f
+                        val boxWidth = viewportWidth * .235f
+                        val boxHeight = viewportWidth * .30f
                         val contentRadius = radius - widthPx * .025f
                         val pivot = center + Offset(radius * cos(angle), radius * sin(angle))
                         val contentCenter = center + Offset(contentRadius * cos(angle), contentRadius * sin(angle))
                         val labelCenter = pivot + (contentCenter - pivot) * (1f + .12f * amount) + Offset(cos(angle), sin(angle)) * popPx * amount
-                        Column(Modifier.offset { IntOffset((labelCenter.x - widthPx * .21f / 2f).roundToInt(), (labelCenter.y - widthPx * .255f / 2f).roundToInt()) }
+                        Column(Modifier.offset { IntOffset((labelCenter.x - widthPx * .235f / 2f).roundToInt(), (labelCenter.y - widthPx * .30f / 2f).roundToInt()) }
                             .size(boxWidth, boxHeight).testTag("ring-card-${item.id}")
                             .semantics { contentDescription = "圆环物品：${item.name}"; this.selected = index == currentIndex }
                             .graphicsLayer { rotationZ = RingMath.SELECTION_ANGLE - 180f + delta; scaleX = 1f + .12f * amount; scaleY = 1f + .12f * amount }
                             .clickable { focus.clearFocus(); settle(index.toFloat()) },
                             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            RingItemIllustration(item, Modifier.size(27.dp))
-                            Text(item.name, fontSize = 11.sp, lineHeight = 14.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            RingItemIllustration(item, Modifier.size(32.dp))
+                            Text(item.name, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
                                 textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 5.dp))
-                            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 14.sp, color = palette.ink, maxLines = 1)
+                            Text("${item.quantity.display()} ${item.unit}", fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 1)
                         }
                         val badgeRadius = radius + thickness * .34f
                         val badgeCenter = pivot + Offset((badgeRadius - radius) * cos(angle), (badgeRadius - radius) * sin(angle)) * (1f + .12f * amount) + Offset(cos(angle), sin(angle)) * popPx * amount
@@ -355,27 +355,29 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
         when { status.expired -> append(" ${-(status.days ?: 0)} 天"); status.soon -> append(" · 剩 ${status.days} 天") }
         if (status.low) append(" · 缺 ${(item.minimum - item.quantity).display()} ${item.unit}")
     }
-    val statusInk = when {
-        status.expired -> scheme.error
-        status.soon -> if (LocalLightDesign.current) Color(0xFFAB743F) else Color(0xFFD5BC85)
-        else -> palette.accent
-    }
     Card(onClick = open, enabled = enabled,
         modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(18.dp),
-        border = BorderStroke(1.dp, palette.line), colors = CardDefaults.cardColors(containerColor = palette.panel)) {
-        Column(Modifier.heightIn(min = 210.dp).padding(14.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
-            Text("${item.category} · ${item.location}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(item.name, fontSize = 20.sp, lineHeight = 26.sp, color = palette.ink, fontWeight = FontWeight.SemiBold,
-                maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text("${item.quantity.display()} ${item.unit}", fontSize = 17.sp, lineHeight = 23.sp, color = palette.accent, fontWeight = FontWeight.Medium)
-            Text(statusText, fontSize = 13.sp, lineHeight = 19.sp, color = statusInk, maxLines = 3, overflow = TextOverflow.Ellipsis)
-            Spacer(Modifier.height(4.dp))
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
-                    if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
+        border = BorderStroke(1.dp, palette.line), colors = CardDefaults.cardColors(
+            containerColor = palette.panel, contentColor = palette.ink,
+            disabledContainerColor = palette.panel, disabledContentColor = palette.ink)) {
+        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Column(Modifier.weight(.4f)) {
+                    Text(item.category, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                    Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
-                RingItemIllustration(item, Modifier.size(52.dp).testTag("ring-info-icon"))
+                Text(item.name, modifier = Modifier.weight(.6f), fontSize = 18.sp, lineHeight = 23.sp,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.End, color = palette.ink, fontWeight = FontWeight.SemiBold,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+            Text("${item.quantity.display()} ${item.unit}", fontSize = 15.sp, lineHeight = 20.sp, color = palette.accent, fontWeight = FontWeight.Medium)
+            Text(statusText, fontSize = 12.sp, lineHeight = 17.sp, color = palette.accent, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                    Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                    if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                }
+                RingItemIllustration(item, Modifier.size(44.dp).testTag("ring-info-icon"))
             }
         }
     }

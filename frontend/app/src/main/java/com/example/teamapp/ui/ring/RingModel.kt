@@ -10,13 +10,16 @@ import kotlin.math.roundToInt
 internal object RingMath {
     const val STEP = 30f
     const val SWEEP = 29.8f
-    const val WINDOW = 2.7f
+    // Keep the lower sectors until their trailing edge is beyond the right screen edge.
+    const val MIN_VISIBLE_DELTA = -120f
+    const val MAX_VISIBLE_DELTA = 100f
     const val SELECTION_ANGLE = 190f
 
     fun index(position: Float, count: Int) = if (count == 0) -1 else position.roundToInt().coerceIn(0, count - 1)
     fun visible(position: Float, count: Int): IntRange {
         if (count == 0) return IntRange.EMPTY
-        return maxOf(0, floor(position - WINDOW).toInt())..minOf(count - 1, ceil(position + WINDOW).toInt())
+        return maxOf(0, ceil(position + MIN_VISIBLE_DELTA / STEP).toInt())..
+            minOf(count - 1, floor(position + MAX_VISIBLE_DELTA / STEP).toInt())
     }
     fun angle(index: Int, position: Float) = SELECTION_ANGLE + (index - position) * STEP
     fun deltaDegrees(from: Float, to: Float): Float = ((to - from + 540f) % 360f) - 180f

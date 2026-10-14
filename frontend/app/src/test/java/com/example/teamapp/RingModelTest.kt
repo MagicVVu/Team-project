@@ -28,6 +28,17 @@ class RingModelTest {
         assertEquals(0f, RingMath.drag(0f, 120f, 1), 0f)
         assertEquals(2f, RingMath.deltaDegrees(179f, -179f), .001f)
     }
+    @Test fun lowerSectorsRemainUntilTheyHaveLeftTheViewport() {
+        // The former 79/84 degree cutoffs removed these sectors while still on screen.
+        assertTrue(7 in RingMath.visible(10f, 100))
+        assertTrue(6 in RingMath.visible(10f, 100))
+        for (step in 0..100) {
+            val position = 10f + step / 100f
+            val visible = RingMath.visible(position, 100)
+            assertTrue(visible.count() <= 8)
+            assertTrue(visible.all { (it - position) * RingMath.STEP in RingMath.MIN_VISIBLE_DELTA..RingMath.MAX_VISIBLE_DELTA })
+        }
+    }
     @Test fun selectionSurvivesAddsUpdatesSortAndFiltersById() {
         val ids = listOf("a", "b", "c")
         assertEquals("b", RingMath.selection(ids, ids + "d", "b", false))
