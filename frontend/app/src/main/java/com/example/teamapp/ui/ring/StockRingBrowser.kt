@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalConfiguration
@@ -200,10 +201,15 @@ internal fun StockRingBrowser(
                     val guideRadius = inner - 13.dp.toPx()
                     val guideBounds = Offset(center.x - guideRadius, center.y - guideRadius)
                     val guideSize = Size(guideRadius * 2, guideRadius * 2)
-                    for (segment in 0..5) {
-                        drawArc(palette.line, RingMath.SELECTION_ANGLE - 83f + segment * 30f, 25f, false, guideBounds, guideSize, style = Stroke(1.8.dp.toPx()))
+                    // A quiet continuous rail with rounded ends follows the inner contour.
+                    drawArc(palette.line, RingMath.SELECTION_ANGLE - 83f, 166f, false,
+                        guideBounds, guideSize, style = Stroke(1.2.dp.toPx(), cap = StrokeCap.Round))
+                    if (displayed.isNotEmpty()) {
+                        drawArc(palette.accent.copy(alpha = .10f), RingMath.SELECTION_ANGLE - 7f, 14f, false,
+                            guideBounds, guideSize, style = Stroke(6.dp.toPx(), cap = StrokeCap.Round))
+                        drawArc(palette.accent, RingMath.SELECTION_ANGLE - 7f, 14f, false,
+                            guideBounds, guideSize, style = Stroke(2.4.dp.toPx(), cap = StrokeCap.Round))
                     }
-                    if (displayed.isNotEmpty()) drawArc(palette.accent, RingMath.SELECTION_ANGLE - 9f, 18f, false, guideBounds, guideSize, style = Stroke(2.2.dp.toPx()))
                     orderedIndices.forEach { index ->
                         val delta = (index - displayPosition) * RingMath.STEP
                         if (abs(delta) <= 84f) {
