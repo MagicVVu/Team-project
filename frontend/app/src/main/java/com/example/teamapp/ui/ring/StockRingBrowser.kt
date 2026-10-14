@@ -157,8 +157,8 @@ internal fun StockRingBrowser(
                         if (displayed.isEmpty()) return@awaitEachGesture
                         // Overlay controls own their gestures where the ring passes behind them.
                         val inset = with(density) { 16.dp.toPx() }
-                        val overInfo = down.position.x <= inset + widthPx * .46f && down.position.y >= heightPx - infoHeightPx - inset
-                        val overSeek = down.position.x >= widthPx - inset - widthPx * .43f && down.position.y >= heightPx - seekHeightPx - inset
+                        val overInfo = down.position.x <= inset + widthPx * .55f && down.position.y >= heightPx - infoHeightPx - inset
+                        val overSeek = down.position.x >= widthPx - inset - widthPx * .34f && down.position.y >= heightPx - seekHeightPx - inset
                         if (overInfo || overSeek) return@awaitEachGesture
                         val distance = (down.position - center).getDistance()
                         if (distance !in (inner - popPx * 2)..(outer + popPx * 2)) return@awaitEachGesture
@@ -283,7 +283,7 @@ internal fun StockRingBrowser(
                 // The card and navigation sit in the lower empty area, as in the design reference.
                 if (infoItem != null) {
                     RingInfoCard(infoItem, reminderDays, !interacting, { onOpenItem(infoItem) }, palette,
-                        Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp).width(viewportWidth * .46f).onSizeChanged { infoHeightPx = it.height })
+                        Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp).width(viewportWidth * .55f).onSizeChanged { infoHeightPx = it.height })
                 } else {
                     Column(Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp).width(viewportWidth * .46f)
                         .onSizeChanged { infoHeightPx = it.height }
@@ -294,7 +294,7 @@ internal fun StockRingBrowser(
                             contentPadding = PaddingValues(0.dp), modifier = Modifier.testTag("ring-empty-action")) { Text(if (items.isEmpty()) "＋ 添加物品" else "清空搜索和筛选", fontSize = 11.sp) }
                     }
                 }
-                Column(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 10.dp).width(viewportWidth * .43f).onSizeChanged { seekHeightPx = it.height }, horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 10.dp).width(viewportWidth * .34f).onSizeChanged { seekHeightPx = it.height }, horizontalAlignment = Alignment.CenterHorizontally) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         RingStepButton("‹", currentIndex > 0, "ring-previous", palette) { settle((currentIndex - 1).toFloat()) }
                         Text("${if (currentIndex < 0) 0 else currentIndex + 1} / ${displayed.size}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant,
@@ -360,20 +360,22 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
         status.soon -> if (LocalLightDesign.current) Color(0xFFAB743F) else Color(0xFFD5BC85)
         else -> palette.accent
     }
-    Card(modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(14.dp),
+    Card(onClick = open, enabled = enabled,
+        modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(18.dp),
         border = BorderStroke(1.dp, palette.line), colors = CardDefaults.cardColors(containerColor = palette.panel)) {
-        Column(Modifier.padding(11.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("${item.category} · ${item.location}", fontSize = 10.sp, lineHeight = 14.sp, color = scheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(item.name, fontSize = 16.sp, lineHeight = 21.sp, color = palette.ink, fontWeight = FontWeight.Medium,
-                    maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-                Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, color = palette.accent, modifier = Modifier.padding(start = 4.dp))
-            }
-            Text(statusText, fontSize = 10.sp, lineHeight = 15.sp, color = statusInk, maxLines = 3, overflow = TextOverflow.Ellipsis)
-            Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant)
-            if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 9.sp, lineHeight = 13.sp, color = scheme.onSurfaceVariant)
-            TextButton(onClick = open, enabled = enabled, contentPadding = PaddingValues(0.dp), modifier = Modifier.height(24.dp).testTag("ring-detail")) {
-                Text("查看详情 →", fontSize = 11.sp, color = palette.accent)
+        Column(Modifier.heightIn(min = 210.dp).padding(14.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+            Text("${item.category} · ${item.location}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(item.name, fontSize = 20.sp, lineHeight = 26.sp, color = palette.ink, fontWeight = FontWeight.SemiBold,
+                maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text("${item.quantity.display()} ${item.unit}", fontSize = 17.sp, lineHeight = 23.sp, color = palette.accent, fontWeight = FontWeight.Medium)
+            Text(statusText, fontSize = 13.sp, lineHeight = 19.sp, color = statusInk, maxLines = 3, overflow = TextOverflow.Ellipsis)
+            Spacer(Modifier.weight(1f))
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                    Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
+                    if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 12.sp, lineHeight = 18.sp, color = scheme.onSurfaceVariant)
+                }
+                RingItemIllustration(item, Modifier.size(52.dp).testTag("ring-info-icon"))
             }
         }
     }
