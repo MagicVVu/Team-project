@@ -16,12 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -59,7 +61,7 @@ internal fun AssistantPullLayer(
     var expanded by rememberSaveable { mutableStateOf(false) }
     var heightPx by remember { mutableIntStateOf(0) }
     var layerTop by remember { mutableFloatStateOf(0f) }
-    var headerBottom by remember(tab) { mutableStateOf<Float?>(null) }
+    var headerBottom by remember { mutableStateOf<Float?>(null) }
     val headerModifier = Modifier.zIndex(1f).shadow(14.dp, clip = false,
         ambientColor = Color.Black.copy(alpha = .65f), spotColor = Color.Black.copy(alpha = .85f))
         .testTag("app-top-bar")
@@ -84,19 +86,42 @@ internal fun AssistantPullLayer(
         label = "reveal"
     ) { if (it) 1f else 0f }
     val visible = transition.currentState || transition.targetState || transition.isRunning
+    val cordRequested = tab in 1..3 && available && !visible && headerBottom != null
+    val cordState = remember { MutableTransitionState(false) }
+    cordState.targetState = cordRequested
+    val cordTransition = rememberTransition(cordState, label = "assistant-cord-presence")
+    val cordProgress = cordTransition.animateFloat(
+        transitionSpec = {
+            tween(if (targetState) 360 else 240,
+                easing = if (targetState) LinearOutSlowInEasing else FastOutLinearInEasing)
+        }, label = "cord-slide"
+    ) { if (it) 1f else 0f }
+    // Keep the physical recoil alive behind the incoming curtain, even after the cat slides away.
+    val retainRecoil = expanded && !transition.currentState && tab in 1..3 && available
+    val cordMounted = cordState.currentState || cordState.targetState || !cordState.isIdle || retainRecoil
     LaunchedEffect(tab, available) { if (tab == 0 || !available) expanded = false }
     BackHandler(expanded) { dismiss() }
     Box(Modifier.fillMaxSize().clipToBounds().onSizeChanged { heightPx = it.height }
         .onGloballyPositioned { layerTop = it.boundsInWindow().top }) {
         Box(Modifier.fillMaxSize().motionInput(!visible)) { content(headerModifier) }
-        if (tab in 1..3 && available && !transition.currentState && headerBottom != null) {
+        if (cordMounted && headerBottom != null) {
             // Anchor to the measured app bar, including its actual height and system insets.
             // Retain its spring behind the falling sheet until opening has finished.
             Box(Modifier.align(Alignment.TopEnd)
                 .offset { IntOffset(0, ((headerBottom ?: layerTop) - layerTop).coerceAtLeast(0f).roundToInt()) }
-                .padding(end = 16.dp).testTag("assistant-cord-recoil")) {
-                Box(Modifier.motionInput(!visible)) {
-                    AssistantPullCord({ expanded = true }, Modifier, opening = expanded)
+                .padding(end = 16.dp).testTag("assistant-cord-recoil")
+                .drawWithContent {
+                    // Hide the area above the app bar without clipping the spring's lower overshoot.
+                    clipRect(top = 0f, bottom = size.height + AssistantMascotRestHeight.toPx()) {
+                        this@drawWithContent.drawContent()
+                    }
+                }) {
+                Box(Modifier.graphicsLayer {
+                    translationY = (cordProgress.value - 1f) * size.height
+                }.testTag("assistant-cord-appearance")) {
+                    Box(Modifier.motionInput(cordRequested && cordState.isIdle)) {
+                        AssistantPullCord({ expanded = true }, Modifier, opening = expanded)
+                    }
                 }
             }
         }

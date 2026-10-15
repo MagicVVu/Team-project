@@ -194,6 +194,44 @@ class AssistantPullTest {
         mascot.assertIsDisplayed()
     }
 
+    @Test fun mascotSlidesDownOnEntryAndUpOnExitAndCanReverse() {
+        launch()
+        val pixelsPerDp = context.resources.displayMetrics.density
+        compose.mainClock.autoAdvance = false
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        compose.mainClock.advanceTimeBy(32)
+        val appearance = compose.onNodeWithTag("assistant-cord-appearance")
+        val firstTop = appearance.fetchSemanticsNode().boundsInRoot.top
+        val anchor = compose.onNodeWithTag("app-top-bar").fetchSemanticsNode().boundsInRoot.bottom
+        compose.mainClock.advanceTimeBy(112)
+        val enteringTop = appearance.fetchSemanticsNode().boundsInRoot.top
+        Assert.assertTrue("Cat emerges down from above its anchor", enteringTop > firstTop)
+        Assert.assertTrue("Entrance takes more than one frame", enteringTop < anchor - pixelsPerDp)
+        compose.mainClock.advanceTimeBy(400)
+        Assert.assertEquals("Cat settles at the app bar", anchor,
+            appearance.fetchSemanticsNode().boundsInRoot.top, 1f)
+
+        compose.onNodeWithText("首页", useUnmergedTree = true).performClick()
+        compose.mainClock.advanceTimeBy(112)
+        val exitingTop = appearance.fetchSemanticsNode().boundsInRoot.top
+        Assert.assertTrue("Cat moves up before removal", exitingTop < anchor - pixelsPerDp)
+        compose.onNodeWithTag("assistant-pull-cord").assertDoesNotExist()
+
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        compose.mainClock.advanceTimeBy(16)
+        val reversedTop = appearance.fetchSemanticsNode().boundsInRoot.top
+        Assert.assertTrue("Reversing does not restart the cat off-screen",
+            kotlin.math.abs(reversedTop - exitingTop) < 12f * pixelsPerDp)
+        compose.mainClock.advanceTimeBy(500)
+        Assert.assertEquals(anchor, appearance.fetchSemanticsNode().boundsInRoot.top, 1f)
+        compose.onNodeWithTag("assistant-pull-cord").assertIsDisplayed()
+
+        compose.onNodeWithText("首页", useUnmergedTree = true).performClick()
+        compose.mainClock.advanceTimeBy(400)
+        appearance.assertDoesNotExist()
+        compose.mainClock.autoAdvance = true
+    }
+
     @Test fun inventoryAnswerAndReplenishmentRequireConfirmation() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
