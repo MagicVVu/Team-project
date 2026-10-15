@@ -1,0 +1,124 @@
+# 回归测试报告
+版本：5a056831799b-p1-regression-rules；引擎：rules；适配器：adapters.local_p1
+结果：{'PASS': 159, 'FAIL': 69, 'REVIEW': 18, 'BLOCKED': 32}；本轮必测项全部通过：False
+
+## 失败、阻塞与待定项
+- p0-09-0 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-09-1 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-09-2 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-10-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；candidate_ids: []
+- p0-11-2 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；draft: expected={'action': 'CONSUME', 'name': '洗衣液', 'quantity': '100', 'unit': 'ml', 'batch_id': 'detergent-1', 'expected_version': 1, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-12-2 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；draft: expected={'action': 'CONSUME', 'name': '创可贴', 'quantity': '2', 'unit': '片', 'batch_id': 'bandage-1', 'expected_version': 1, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-13-0 [FAIL]：candidate_ids: ['milk-1', 'milk-2']
+- p0-13-1 [FAIL]：candidate_ids: ['milk-1', 'milk-2']
+- p0-13-2 [FAIL]：candidate_ids: ['milk-1', 'milk-2']
+- p0-14-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；candidate_ids: []
+- p0-15-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；candidate_ids: []
+- p0-16-2 [FAIL]：facts: expected=[{'id': 'bandage-1', 'household_id': 'h1', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'location': '客厅/医药箱', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-17-1 [FAIL]：status: expected='answered'; actual='needs_clarification'；facts: expected=[{'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-17-2 [FAIL]：facts: expected=[{'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-18-1 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-19-1 [FAIL]：facts: expected=[{'id': 'tissue-0', 'household_id': 'h1', 'name': '纸巾', 'quantity': '0', 'unit': '包', 'location': '储物柜', 'purchased_at': None, 'label_expiry': None, 'status': 'FINISHED', 'version': 1}]; actual=[]
+- p0-20-0 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'bandage-1', 'household_id': 'h1', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'location': '客厅/医药箱', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'tissue-0', 'household_id': 'h1', 'name': '纸巾', 'quantity': '0', 'unit': '包', 'location': '储物柜', 'purchased_at': None, 'label_expiry': None, 'status': 'FINISHED', 'version': 1}]; actual=[]
+- p0-20-1 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'bandage-1', 'household_id': 'h1', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'location': '客厅/医药箱', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'tissue-0', 'household_id': 'h1', 'name': '纸巾', 'quantity': '0', 'unit': '包', 'location': '储物柜', 'purchased_at': None, 'label_expiry': None, 'status': 'FINISHED', 'version': 1}]; actual=[]
+- p0-20-2 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'bandage-1', 'household_id': 'h1', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'location': '客厅/医药箱', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'tissue-0', 'household_id': 'h1', 'name': '纸巾', 'quantity': '0', 'unit': '包', 'location': '储物柜', 'purchased_at': None, 'label_expiry': None, 'status': 'FINISHED', 'version': 1}]; actual=[]
+- p0-21-0 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- p0-21-1 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- p0-21-2 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- p0-22-0 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-23-1 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '纸巾', 'quantity': '4', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-24-0 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'
+- p0-25-1 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'
+- p0-26-1 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-27-0 [FAIL]：status: expected='unsupported'; actual='needs_clarification'；intent: expected='UNSUPPORTED'; actual='OPEN'
+- p0-27-1 [FAIL]：status: expected='unsupported'; actual='needs_clarification'；intent: expected='UNSUPPORTED'; actual='MOVE'
+- p0-27-2 [FAIL]：status: expected='unsupported'; actual='needs_clarification'；intent: expected='UNSUPPORTED'; actual='DISCARD'
+- p0-37-0 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-37-1 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-37-2 [FAIL]：intent: expected='ADD'; actual='UNSUPPORTED'
+- p0-38-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；candidate_ids: []
+- p0-39-2 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；draft: expected={'action': 'CONSUME', 'name': '洗衣液', 'quantity': '250', 'unit': 'ml', 'batch_id': 'detergent-1', 'expected_version': 1, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-40-2 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；draft: expected={'action': 'CONSUME', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'batch_id': 'bandage-1', 'expected_version': 1, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-41-0 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- p0-41-1 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- p0-41-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'
+- p0-42-2 [FAIL]：status: expected='needs_clarification'; actual='unsupported'；intent: expected='CONSUME'; actual='UNSUPPORTED'；candidate_ids: []
+- p0-43-0 [FAIL]：candidate_ids: ['bandage-1']
+- p0-43-1 [FAIL]：candidate_ids: ['bandage-1']
+- p0-43-2 [REVIEW]：gold label awaiting approval
+- p0-44-0 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-44-1 [FAIL]：facts: expected=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-45-2 [FAIL]：facts: expected=[{'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}]; actual=[]
+- p0-46-0 [FAIL]：facts: expected=[]; actual=[{'id': 'milk-1', 'household_id': 'h1', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': '冰箱上层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'milk-2', 'household_id': 'h1', 'name': '牛奶', 'quantity': '3', 'unit': '盒', 'location': '冰箱下层', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'bandage-1', 'household_id': 'h1', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'location': '客厅/医药箱', 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'detergent-1', 'household_id': 'h1', 'name': '洗衣液', 'quantity': '500', 'unit': 'ml', 'location': None, 'purchased_at': None, 'label_expiry': None, 'status': 'ACTIVE', 'version': 1}, {'id': 'tissue-0', 'household_id': 'h1', 'name': '纸巾', 'quantity': '0', 'unit': '包', 'location': '储物柜', 'purchased_at': None, 'label_expiry': None, 'status': 'FINISHED', 'version': 1}]
+- p0-47-1 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-48-1 [FAIL]：status: expected='unsupported'; actual='needs_confirmation'；intent: expected='UNSUPPORTED'; actual='MOVE'；draft: expected=None; actual={'name': '创可贴', 'batch_id': 'bandage-1', 'expected_version': 1, 'action': 'MOVE', 'to_location': '厨房'}
+- ext-012 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-013 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-014 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '12', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-015 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '垃圾袋', 'quantity': '2', 'unit': '卷', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-016 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '创可贴', 'quantity': '10', 'unit': '片', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-017 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '洗衣液', 'quantity': '1', 'unit': '瓶', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-018 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1', 'unit': '袋', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-019 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '洗衣液', 'quantity': '250', 'unit': 'ml', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-020 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '0.5', 'unit': 'L', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-021 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '500', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-022 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='PLAN_ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1.25', 'unit': 'kg', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-026 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-027 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'ADD', 'name': '和润牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-028 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；intent: expected='ADD'; actual='UNSUPPORTED'；draft: expected={'action': 'ADD', 'name': '和味饼干', 'quantity': '2', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-033 [FAIL]：draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual={'action': 'ADD', 'name': '牛奶！', 'quantity': '2', 'unit': '盒', 'location': None, 'purchased_at': None, 'label_expiry': None, 'batch_id': None, 'expected_version': None}
+- ext-039 [FAIL]：draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-10-08', 'label_expiry': None}; actual={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': None, 'purchased_at': None, 'label_expiry': None, 'batch_id': None, 'expected_version': None}
+- ext-040 [FAIL]：draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2024-02-29', 'label_expiry': None}; actual={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': None, 'purchased_at': None, 'label_expiry': None, 'batch_id': None, 'expected_version': None}
+- ext-041 [FAIL]：draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-01-01', 'label_expiry': None}; actual={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': None, 'purchased_at': None, 'label_expiry': None, 'batch_id': None, 'expected_version': None}
+- ext-042 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-10-08', 'label_expiry': '2026-10-15'}; actual=None
+- ext-048 [FAIL]：status: expected='needs_clarification'; actual='needs_confirmation'；draft: expected=None; actual={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'location': None, 'purchased_at': None, 'label_expiry': None, 'batch_id': None, 'expected_version': None}
+- ext-068 [FAIL]：status: expected='needs_clarification'; actual='answered'
+- ext-075 [REVIEW]：gold label awaiting approval
+- ext-076 [REVIEW]：gold label awaiting approval
+- ext-077 [REVIEW]：gold label awaiting approval
+- ext-083 [REVIEW]：gold label awaiting approval
+- ext-084 [REVIEW]：gold label awaiting approval
+- ext-085 [REVIEW]：gold label awaiting approval
+- ext-086 [REVIEW]：gold label awaiting approval
+- ext-087 [REVIEW]：gold label awaiting approval
+- ext-088 [REVIEW]：gold label awaiting approval
+- ext-089 [REVIEW]：gold label awaiting approval
+- ext-090 [REVIEW]：gold label awaiting approval
+- ext-091 [REVIEW]：gold label awaiting approval
+- ext-092 [REVIEW]：gold label awaiting approval
+- ext-093 [REVIEW]：gold label awaiting approval
+- ext-094 [REVIEW]：gold label awaiting approval
+- ext-095 [REVIEW]：gold label awaiting approval
+- ext-096 [REVIEW]：gold label awaiting approval
+- flow-001 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-002 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-003 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-004 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-005 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-006 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-007 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-008 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-009 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-010 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-011 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-012 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-013 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-014 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-015 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-016 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-017 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-018 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-019 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-020 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-021 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-022 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-023 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-024 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-025 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-026 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-027 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-028 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-029 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-030 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-031 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers
+- flow-032 [BLOCKED]：P1 is read-only; legacy P0 writes/scenarios require separate drivers

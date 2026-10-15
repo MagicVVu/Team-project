@@ -1,0 +1,1060 @@
+{
+  "source": "D:\\下载\\Garin_P0_样本复核工作表.xlsx",
+  "sha256": "8688497635b9e5af41bf39168e0ed49e9c15460e778327c99c0529f294f8b194",
+  "sheet": "原样本复核",
+  "headers_row": 5,
+  "data_range": "A6:O155",
+  "rows": [
+    {
+      "id": "p0-00-0",
+      "assistant_conclusion": "补充位置标注",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-00-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-00-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-01-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-01-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-01-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-02-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-02-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-02-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-03-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-03-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-03-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-04-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-04-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-04-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-05-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-05-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-05-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-06-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-06-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-06-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-07-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-07-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-07-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-08-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-08-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-08-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-09-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-09-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-09-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-10-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-10-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-10-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-11-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-11-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-11-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-12-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-12-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-12-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-13-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-13-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-13-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-14-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-14-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-14-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-15-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-15-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-15-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-16-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-16-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-16-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-17-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-17-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-17-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-18-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-18-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-18-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-19-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-19-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-19-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-20-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-20-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-20-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-21-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-21-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-21-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-22-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-22-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-22-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-23-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-23-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-23-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-24-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-24-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-24-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-25-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-25-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-25-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-26-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-26-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-26-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-27-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-27-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-27-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-28-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-28-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-28-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-29-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-29-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-29-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-30-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-30-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-30-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-31-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-31-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-31-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-32-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-32-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-32-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-33-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-33-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-33-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-34-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-34-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-34-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-35-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-35-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-35-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-36-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-36-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-36-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-37-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-37-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-37-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-38-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-38-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-38-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-39-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-39-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-39-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-40-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-40-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-40-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-41-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-41-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-41-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-42-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-42-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-42-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-43-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-43-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-43-2",
+      "assistant_conclusion": "意图待团队定标",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-44-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-44-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-44-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-45-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-45-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-45-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-46-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-46-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-46-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-47-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-47-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-47-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-48-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-48-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-48-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-49-0",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-49-1",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    },
+    {
+      "id": "p0-49-2",
+      "assistant_conclusion": "核心标签可保留",
+      "reviewer": null,
+      "date": null,
+      "human_conclusion": "待复核"
+    }
+  ],
+  "manual_signoff_added": false
+}

@@ -1,0 +1,22 @@
+{
+  "original_case_files_unchanged": {
+    "cases/baseline_150.jsonl": true,
+    "cases/extended.jsonl": true,
+    "cases/flows.jsonl": true,
+    "cases/future_scenarios.jsonl": true
+  },
+  "original_tested_source_files_checked": 130,
+  "changed_original_files": [],
+  "tested_snapshot_unchanged": [],
+  "paid_model_calls": 0,
+  "production_db_connected": false,
+  "actual_tests": [
+    "86 source tests",
+    "18 scorer/adapter tests",
+    "278 legacy cases per target",
+    "150 independent P1 native samples",
+    "18 review observations per target",
+    "24 future coverage records"
+  ],
+  "original_status": "M \"frontend/app\\345\\210\\235\\344\\273\\243\\346\\241\\206\\346\\236\\266\\345\\274\\200\\345\\217\\221\\346\\226\\207\\346\\241\\243.md\""
+}

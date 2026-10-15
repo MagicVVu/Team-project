@@ -1,0 +1,57 @@
+{
+  "suite_version": "1.0.0",
+  "created": "2026-10-10",
+  "counts": {
+    "original": 150,
+    "extended": 96,
+    "flow": 32,
+    "future_not_automated": 24,
+    "default_total": 278
+  },
+  "source": "User-provided agent.zip and reviewed original samples; no live LLM call in delivered baseline",
+  "human_reviewed": false,
+  "duplicate_text_groups": [
+    {
+      "text": "买了牛奶",
+      "ids": [
+        "p0-05-0",
+        "ext-043"
+      ]
+    },
+    {
+      "text": "用了1瓶洗衣液",
+      "ids": [
+        "p0-14-0",
+        "ext-070"
+      ]
+    },
+    {
+      "text": "用了10片创可贴",
+      "ids": [
+        "p0-40-0",
+        "ext-061"
+      ]
+    },
+    {
+      "text": "用了1包纸巾",
+      "ids": [
+        "p0-41-0",
+        "ext-068"
+      ]
+    },
+    {
+      "text": "创可贴快用完了",
+      "ids": [
+        "p0-43-2",
+        "ext-083"
+      ]
+    }
+  ],
+  "fixture": "p0.mock.MockBackend reset seed-v1; each case starts fresh",
+  "hashes": {
+    "cases/baseline_150.jsonl": "4033369ab92c49a31df532ed1e1dd2cce223f25725ff6fce827c1c5cbaa6cfbc",
+    "cases/extended.jsonl": "424ecc202078ee34d8d500eb3c82ad104043fb91180ef89bb32f9aefdc9a138a",
+    "cases/flows.jsonl": "53754b86cc5195f1b0544804c77813853c78a4c04e3a9872fed68f5082af267f",
+    "cases/future_scenarios.jsonl": "725109132fc0e28824744d76a090d591a6d3ba03e0dae6bd1fcd9c16880bcb9f"
+  }
+}

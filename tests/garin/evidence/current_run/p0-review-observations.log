@@ -1,0 +1,51 @@
+{
+  "suite_version": "1.0.0",
+  "software_version": "5a056831799b-p0-review-observations",
+  "adapter": "adapters.local_p0",
+  "engine": "rules",
+  "utc": "20261014T150918891041Z",
+  "repeat": 1,
+  "case_hashes": {
+    "review_cases.jsonl": "e9af7671ca5024a96236ea6f7717a32090e8251e1ce1b39fff388df9655cdcc3"
+  },
+  "counts": {
+    "FAIL": 7,
+    "PASS": 11
+  },
+  "required_pass": false,
+  "required_pass_rate": 0.0,
+  "meaning": "Only declared required cases in this run; not production acceptance. REVIEW is excluded; BLOCKED/ERROR required cases prevent pass.",
+  "environment": {
+    "python": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.22631-SP0",
+    "model": null
+  },
+  "project_source_hashes": {
+    "agent\\p0\\__init__.py": "fbaf018cc587f44c262ce9f04dd3a537469a998df720ac875571ca6ccb27b0a1",
+    "agent\\p0\\app.py": "edd78e9760aff68c390b09587c0b15993c7a0022b04fe4c7c5cfed759d9a33dd",
+    "agent\\p0\\budget.py": "314c0bb3b7ddd9d73547250aaaf4316a6ad5d8347c53e3451aa295b584435cc7",
+    "agent\\p0\\deepseek.py": "e1ff05fd0d337da41fb1c9566915a0749d081ba6536758a73fa05bd07d65d103",
+    "agent\\p0\\domain.py": "98073a1973f37bce3e968edd7823803125ea47fbf9bfed7c7a7725e9152d88a9",
+    "agent\\p0\\engines.py": "3f1d29d4c496f9c9abf1013c13cf0dce9b942d6cccf04ba0545172f751a073c9",
+    "agent\\p0\\manager.py": "ff6846daf65f9f112b7afc8e67dc489415db27d0541207f7692acaad721c1b73",
+    "agent\\p0\\mock.py": "73a14ebe087302454f6b615492712469406970d68ddb0c46b8b5b553966869eb",
+    "agent\\p0\\schemas.py": "e63ecf34feafbe5344e0092ab0f5879c63fd2bd8c2cfa158862eada281be7c11",
+    "agent\\p0\\tools.py": "f48117220aa8c6072e155f2422b50df3d65f2bab250152896e09b74ea2c15744",
+    "agent\\p1\\__init__.py": "1885d4fa24080e2a91ae414dfe5f06a5c7c090dd09152dd6b9efc3f2461f0e68",
+    "agent\\p1\\app.py": "403153f0c0ffc2166e605a0bfab5e3706b107df37919ec6debcb11ccdd0a3fdb",
+    "agent\\p1\\domain.py": "b870530a0799b004295d6d12c129094ec3b49ee4cfe3b85debed23d61f605e74",
+    "agent\\p1\\engines.py": "dd0dcad9216866a93ae7fb82c636ee4e039a2a0630f22a38b9afb1a549af719d",
+    "agent\\p1\\export_contract.py": "daaa40aab4241288f24ba0f5411f0fef17a89370b062787d8eee8ea19b60eb09",
+    "agent\\p1\\manager.py": "716f792472ab6d6374566999fe4795039741b86ff77efac0928c2ed5dd3592c9",
+    "agent\\p1\\schemas.py": "0ce8d5ef3bd53edd9edceeb8786d658e0f5c4e180d7dc62bd6ac06b1a138c63c",
+    "agent\\p1\\tools.py": "ac69ee7894e54283dbd67b5c069806b3fc92d792e8d5aecf164596d165af4813",
+    "backend\\__init__.py": "09f115020e80611ff7dcb03660da9f6fdaae865d30c0f5a5d95eb13bacd99735",
+    "backend\\app.py": "b4225c9daab6ba7261939183572a8bebf466c8ac4ab959f0b72ee8084f2c0380",
+    "backend\\tests\\test_gateway.py": "c925a6afdad892f5f3ff3b574045200b38e2709ba409e3fd348143b22c8f403f"
+  },
+  "suite_code_hashes": {
+    "adapters\\local_p0.py": "74fb85e72f405730cc40dcc820516c7cf15c80292e8485819818c411ca24ae33",
+    "run.py": "944c7e744d2ffeabcd5acdd4f376247174b2ad29899e4b1d524cd5f076300402"
+  }
+}
+Report: C:\Users\ASUS\Documents\ChatGPT\team work\garin_regression_20261014\runs\20261014T150911276391Z\p0-review-observations

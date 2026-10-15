@@ -1,0 +1,11 @@
+.venv/
+source_snapshot/
+source_snapshots_archive/
+runs/
+__pycache__/
+*.pyc
+.cache/
+evidence/*-temp*/
+
+# Keep frozen test logs even though the repository ignores general logs.
+!evidence/**/*.log

@@ -1,0 +1,42 @@
+{
+  "commit": "5a056831799b12d9215be2fab4b0fa00bb9fd4a6",
+  "branch": "dev",
+  "counts": {
+    "p0-regression": {
+      "PASS": 242,
+      "FAIL": 18,
+      "REVIEW": 18
+    },
+    "p1-regression": {
+      "PASS": 159,
+      "FAIL": 69,
+      "REVIEW": 18,
+      "BLOCKED": 32
+    },
+    "android-regression": {
+      "PASS": 197,
+      "FAIL": 31,
+      "REVIEW": 18,
+      "BLOCKED": 32
+    },
+    "future-coverage": {
+      "BLOCKED": 24
+    }
+  },
+  "source_tests_pass": 86,
+  "scorer_and_adapter_tests_pass": 18,
+  "native_p1_dev_pass": 90,
+  "native_p1_test_pass": 60,
+  "failure_occurrences": 118,
+  "classification_occurrences": {
+    "程序问题": 84,
+    "样本标注待定": 54,
+    "样本/版本口径差异": 18,
+    "未支持功能/缺测试驱动": 88,
+    "未支持功能/接口限制": 16
+  },
+  "human_signoff": "未代签；原工作表150条均待复核",
+  "formal_acceptance": false,
+  "rules_only": true,
+  "case_expectations_modified": false
+}

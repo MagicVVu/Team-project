@@ -1,0 +1,250 @@
+{
+  "original_run": "20261014T161445939945Z",
+  "source_commit": "5a056831799b12d9215be2fab4b0fa00bb9fd4a6",
+  "commands": [
+    {
+      "label": "source-tests",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "pytest",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent\\tests",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\backend\\tests",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\pytest-temp",
+        "--junitxml=D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\source-tests.xml"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin",
+      "exit_code": 0
+    },
+    {
+      "label": "p0-regression",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.local_p0",
+        "--version",
+        "5a056831799b-p0-regression-rules",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\p0-regression"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "p1-regression",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.local_p1",
+        "--version",
+        "5a056831799b-p1-regression-rules",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\p1-regression"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "android-regression",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.android_gateway",
+        "--version",
+        "5a056831799b-android-regression-rules",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\android-regression"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "p1-native-dev",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "module",
+        "eval.p1.run",
+        "--engine",
+        "rules",
+        "--split",
+        "dev"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin",
+      "exit_code": 0
+    },
+    {
+      "label": "p1-native-test",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "module",
+        "eval.p1.run",
+        "--engine",
+        "rules",
+        "--split",
+        "test"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin",
+      "exit_code": 0
+    },
+    {
+      "label": "scorer-tests",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "pytest",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\tests",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\scorer-temp",
+        "--junitxml=D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\scorer-tests.xml"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin",
+      "exit_code": 0
+    },
+    {
+      "label": "future-coverage",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--version",
+        "5a056831799b-future-driver-coverage",
+        "--cases",
+        "cases/future_scenarios.jsonl",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\future-coverage"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "p0-review-observations",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.local_p0",
+        "--version",
+        "5a056831799b-p0-review-observations",
+        "--cases",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\review_cases.jsonl",
+        "--include-review",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\p0-review-observations"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "p1-review-observations",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.local_p1",
+        "--version",
+        "5a056831799b-p1-review-observations",
+        "--cases",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\review_cases.jsonl",
+        "--include-review",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\p1-review-observations"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    },
+    {
+      "label": "android-review-observations",
+      "command": [
+        "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\offline_exec.py",
+        "script",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1\\run.py",
+        "--project",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\source_snapshot\\agent",
+        "--adapter",
+        "adapters.android_gateway",
+        "--version",
+        "5a056831799b-android-review-observations",
+        "--cases",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\review_cases.jsonl",
+        "--include-review",
+        "--out",
+        "D:\\Team_Project\\Team-project\\tests\\garin\\runs\\20261014T161445939945Z\\android-review-observations"
+      ],
+      "cwd": "D:\\Team_Project\\Team-project\\tests\\garin\\test_package\\Agent_Regression_v1",
+      "exit_code": 1
+    }
+  ],
+  "counts": {
+    "p0-regression": {
+      "PASS": 242,
+      "FAIL": 18,
+      "REVIEW": 18
+    },
+    "p1-regression": {
+      "PASS": 159,
+      "FAIL": 69,
+      "REVIEW": 18,
+      "BLOCKED": 32
+    },
+    "android-regression": {
+      "PASS": 197,
+      "FAIL": 31,
+      "REVIEW": 18,
+      "BLOCKED": 32
+    },
+    "future-coverage": {
+      "BLOCKED": 24
+    },
+    "p0-review-observations": {
+      "FAIL": 7,
+      "PASS": 11
+    },
+    "p1-review-observations": {
+      "PASS": 13,
+      "FAIL": 5
+    },
+    "android-review-observations": {
+      "FAIL": 8,
+      "PASS": 10
+    }
+  },
+  "main_evidence_retained": "evidence/current_run",
+  "raw_verification_backup": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\cleanup_backups\\20261015T064059018860Z\\garin_before_cleanup.zip",
+  "meaning": "Deployment rerun has the same statuses, failure assertions and aggregate results. Its raw timestamps, trace IDs and timing details remain in the external backup.",
+  "source_tests_log": "........................................................................ [ 83%]\n..............                                                           [100%]\n86 passed in 1.38s",
+  "adapter_tests_log": "..................                                                       [100%]\n18 passed in 0.42s"
+}

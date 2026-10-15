@@ -1,0 +1,6374 @@
+{
+  "metadata": {
+    "release_version": "V1-P1",
+    "dataset_version": "p1-1",
+    "dataset_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+    "source": "ai_constructed",
+    "human_reviewed": false,
+    "split": "test",
+    "engine": "rules",
+    "prompt_version": "p1-extract-1",
+    "model": null,
+    "run_at": "2026-10-14T15:09:17.685449+00:00",
+    "python": "3.13.7",
+    "packages": {
+      "fastapi": "0.135.1",
+      "pydantic": "2.12.5",
+      "httpx": "0.28.1",
+      "pytest": "9.1.1"
+    },
+    "requested_count": 60,
+    "attempted_count": 60,
+    "budget": null,
+    "command": "python -m eval.p1.run --engine rules --split test",
+    "formal_backend_verified": false
+  },
+  "metrics": {
+    "intent_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "clarification_recall": 1.0,
+    "write_draft_field_accuracy": 1.0,
+    "all_checks_accuracy": 1.0,
+    "safety_cases_pass": true,
+    "inventory_mutations": 0,
+    "failure_rate": 0.0,
+    "p50_seconds": 0.00011610000001383014,
+    "p95_seconds": 0.00019599999995989492
+  },
+  "acceptance_passed": true,
+  "rows": [
+    {
+      "id": "p1-open-today-tissue-0",
+      "text": "纸巾今天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-14"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_50246b2990b740a38db5db6233b8d713",
+        "original_text": "纸巾今天开封",
+        "draft": {
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-14"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "opened_at": "2026-10-14",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 1.7642000002524583
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.01669999983278103
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 2.230000000054133
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.004858700000113458,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-today-tissue-1",
+      "text": "请纸巾今天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-14"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_f31c82cf96734131ae739c1850f600ed",
+        "original_text": "请纸巾今天开封",
+        "draft": {
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-14"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "opened_at": "2026-10-14",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.04160000025876798
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.012999999853491317
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.13870000020688167
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00015619999976479448,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-today-tissue-2",
+      "text": "帮我纸巾今天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "OPEN",
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "opened_at": "2026-10-14"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Opened",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_ec35a34419384437adefd2b2457636d8",
+        "original_text": "帮我纸巾今天开封",
+        "draft": {
+          "name": "纸巾",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "OPEN",
+          "opened_at": "2026-10-14"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "opened_at": "2026-10-14",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.028700000257231295
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.01049999991664663
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.10259999999107094
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00011610000001383014,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-invalid-calendar-0",
+      "text": "牛奶2026-02-30开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_250806600b6c48baabdac534c0a916a4",
+        "original_text": "牛奶2026-02-30开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_c2fe8e9a0bc14a9e8b0b568915aadd66",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "牛奶2026-02-30开封",
+          "request_id": "p1-open-invalid-calendar-0",
+          "trace_id": "trace_250806600b6c48baabdac534c0a916a4",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-02-30",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.03060000017285347
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.012100000276404899
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.20880000010947697
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00022150000040710438,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-invalid-calendar-1",
+      "text": "请牛奶2026-02-30开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_322501d2db82466d8df0e3ef17650a54",
+        "original_text": "请牛奶2026-02-30开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_5aa1dfe5e04d4e75a405b66df50db3e7",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请牛奶2026-02-30开封",
+          "request_id": "p1-open-invalid-calendar-1",
+          "trace_id": "trace_322501d2db82466d8df0e3ef17650a54",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-02-30",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.03060000017285347
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009899999895424116
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.13630000012199162
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00014999999984866008,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-invalid-calendar-2",
+      "text": "帮我牛奶2026-02-30开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_63b073d0905d404da5ee3cecae32ede7",
+        "original_text": "帮我牛奶2026-02-30开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_ccd13b26cb634edb847615733c62b14a",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我牛奶2026-02-30开封",
+          "request_id": "p1-open-invalid-calendar-2",
+          "trace_id": "trace_63b073d0905d404da5ee3cecae32ede7",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-02-30",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.028299999939918052
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009899999895424116
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.13490000037563732
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00014770000052521937,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-multiple-tissue-0",
+      "text": "纸巾昨天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_095d5aefd23642a4aa0007d09242e9bb",
+        "original_text": "纸巾昨天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_f8afcafbe83a4a1bac8120f7776edf89",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "纸巾昨天开封",
+          "request_id": "p1-open-multiple-tissue-0",
+          "trace_id": "trace_095d5aefd23642a4aa0007d09242e9bb",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "纸巾",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "昨天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.024699999812582973
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.017700000171316788
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.13109999963489827
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00014400000054592965,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-multiple-tissue-1",
+      "text": "请纸巾昨天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_915468ab76934b33af5151f8e38fd498",
+        "original_text": "请纸巾昨天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_1e710b8cf22d474db119212496596f25",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请纸巾昨天开封",
+          "request_id": "p1-open-multiple-tissue-1",
+          "trace_id": "trace_915468ab76934b33af5151f8e38fd498",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "纸巾",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "昨天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.023499999770137947
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.015300000086426735
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12349999997240957
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00013479999961418798,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-multiple-tissue-2",
+      "text": "帮我纸巾昨天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_75377d16ceaf4cada645594484961148",
+        "original_text": "帮我纸巾昨天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "纸巾",
+            "quantity": "3",
+            "unit": "包",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_797a429c93024f4bb3ccfc4fded46291",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我纸巾昨天开封",
+          "request_id": "p1-open-multiple-tissue-2",
+          "trace_id": "trace_75377d16ceaf4cada645594484961148",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "纸巾",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "昨天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "纸巾",
+              "quantity": "3",
+              "unit": "包",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.024399999347224366
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.015300000086426735
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12259999948582845
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00013469999976223335,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-vague-date-0",
+      "text": "牛奶前天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_93779571227b4ace95d2d93827782f1d",
+        "original_text": "牛奶前天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_26ae27d6316a4981a3937f2389fe1ade",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "牛奶前天开封",
+          "request_id": "p1-open-vague-date-0",
+          "trace_id": "trace_93779571227b4ace95d2d93827782f1d",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "前天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.034499999856052455
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.01160000010713702
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.15279999934136868
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001712000002953573,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-vague-date-1",
+      "text": "请牛奶前天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_fb9a3eba88ec4c4fb7f3d82056db0c0b",
+        "original_text": "请牛奶前天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_59b87ae1baca4c6cb2ffcb1591fe901c",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请牛奶前天开封",
+          "request_id": "p1-open-vague-date-1",
+          "trace_id": "trace_fb9a3eba88ec4c4fb7f3d82056db0c0b",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "前天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.026900000193563756
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009599999430065509
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12409999999363208
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001370999998471234,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-open-vague-date-2",
+      "text": "帮我牛奶前天开封",
+      "expected": {
+        "intent": "OPEN",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "opened_at"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "OPEN",
+        "reply": "请补充或核对：opened_at。尚未写入。",
+        "trace_id": "trace_59544ffd1e0842e9a8fc9bf3a20619fe",
+        "original_text": "帮我牛奶前天开封",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "opened_at"
+        ],
+        "clarification": {
+          "id": "clarify_fdc4ea194f544fa38ea716653dd27305",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我牛奶前天开封",
+          "request_id": "p1-open-vague-date-2",
+          "trace_id": "trace_59544ffd1e0842e9a8fc9bf3a20619fe",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "OPEN",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "前天",
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "opened_at"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.028399999791872688
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008600000001024455
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11559999984456226
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012710000009974465,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-new-shelf-0",
+      "text": "把牛奶移到冰箱上层",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "MOVE",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "to_location": "冰箱上层"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Moved",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "MOVE",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_ccedf6c392d34280b55b612024be57ef",
+        "original_text": "把牛奶移到冰箱上层",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "MOVE",
+          "to_location": "冰箱上层"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱上层",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Moved",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.02530000074330019
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.00889999955688836
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.12900000001536682
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001415999995515449,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-new-shelf-1",
+      "text": "请把牛奶移到冰箱上层",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "MOVE",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "to_location": "冰箱上层"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Moved",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "MOVE",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_9dda8d53e24843b98fc2ea497a14e31e",
+        "original_text": "请把牛奶移到冰箱上层",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "MOVE",
+          "to_location": "冰箱上层"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱上层",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Moved",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.024699999812582973
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009200000022246968
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.08819999948173063
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 9.979999958886765e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-new-shelf-2",
+      "text": "帮我把牛奶移到冰箱上层",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "MOVE",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "to_location": "冰箱上层"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Moved",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "MOVE",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_359757415e9e415a9ce862820a831792",
+        "original_text": "帮我把牛奶移到冰箱上层",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "MOVE",
+          "to_location": "冰箱上层"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱上层",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Moved",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.022500000341096893
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008799999704933725
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.07989999994606478
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 9.030000001075678e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-noop-0",
+      "text": "把牛奶移到冰箱",
+      "expected": {
+        "intent": "MOVE",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "MOVE",
+        "reply": "该批次已在目标位置，无需移动。",
+        "trace_id": "trace_89a23635b1d54ec4bd3a9009095fe31b",
+        "original_text": "把牛奶移到冰箱",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.020599999515980016
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008299999535665847
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06570000005012844
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.499999992433004e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-noop-1",
+      "text": "请把牛奶移到冰箱",
+      "expected": {
+        "intent": "MOVE",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "MOVE",
+        "reply": "该批次已在目标位置，无需移动。",
+        "trace_id": "trace_cbacf6c73c3a44a8ac8064505f801d3d",
+        "original_text": "请把牛奶移到冰箱",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.019799999790848233
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008099999831756577
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06309999935183441
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.18000001143082e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-noop-2",
+      "text": "帮我把牛奶移到冰箱",
+      "expected": {
+        "intent": "MOVE",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "MOVE",
+        "reply": "该批次已在目标位置，无需移动。",
+        "trace_id": "trace_a74ab4ac93f942159d3eef2a3ad54a50",
+        "original_text": "帮我把牛奶移到冰箱",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.019500000234984327
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.007999999979801942
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06180000036692945
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.03999994584592e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-multiple-0",
+      "text": "把牛奶移到储物柜",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "MOVE",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_42a52419ca8e4aa3a34dccb1b52bc7a8",
+        "original_text": "把牛奶移到储物柜",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_3b82d118c10949e3834815d1324c09e6",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "把牛奶移到储物柜",
+          "request_id": "p1-move-multiple-0",
+          "trace_id": "trace_42a52419ca8e4aa3a34dccb1b52bc7a8",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "MOVE",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": "储物柜",
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.019099999917671084
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.013699999726668466
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11650000033114338
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001252999991265824,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-multiple-1",
+      "text": "请把牛奶移到储物柜",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "MOVE",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_53853b0d4ee946d1b744688e7999004a",
+        "original_text": "请把牛奶移到储物柜",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_cbc8a0ce42924f5ea6e1e07398b0404f",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请把牛奶移到储物柜",
+          "request_id": "p1-move-multiple-1",
+          "trace_id": "trace_53853b0d4ee946d1b744688e7999004a",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "MOVE",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": "储物柜",
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.02210000002378365
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014600000213249587
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11749999976018444
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012770000012096716,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-multiple-2",
+      "text": "帮我把牛奶移到储物柜",
+      "expected": {
+        "intent": "MOVE",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "MOVE",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_3c0928520cbb483497e751008d2c42fc",
+        "original_text": "帮我把牛奶移到储物柜",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_df31814724a0460885557735ef9b5da5",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我把牛奶移到储物柜",
+          "request_id": "p1-move-multiple-2",
+          "trace_id": "trace_3c0928520cbb483497e751008d2c42fc",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "MOVE",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": "储物柜",
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.023099999452824704
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.01430000065738568
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11539999923115829
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012560000050143572,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-counted-0",
+      "text": "移动一盒牛奶到厨房",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "本阶段只支持整批开封或整批移动；部分操作需要先拆批。",
+        "trace_id": "trace_1e6e20a3866e4640bf54183edc04185a",
+        "original_text": "移动一盒牛奶到厨房",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.024100000700855162
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.045700000555370934
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 5.5500000598840415e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-counted-1",
+      "text": "请移动一盒牛奶到厨房",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "本阶段只支持整批开封或整批移动；部分操作需要先拆批。",
+        "trace_id": "trace_ac09e8f5b49b4e48bb2932a751a3bdf2",
+        "original_text": "请移动一盒牛奶到厨房",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.021299999389157165
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.037599999814119656
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 4.540000009001233e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-move-counted-2",
+      "text": "帮我移动一盒牛奶到厨房",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "本阶段只支持整批开封或整批移动；部分操作需要先拆批。",
+        "trace_id": "trace_4ff2f24aca1b43b3b51c3bd9c85aef5f",
+        "original_text": "帮我移动一盒牛奶到厨房",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.02010000025620684
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.03569999989849748
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 4.27999993917183e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-mass-0",
+      "text": "丢弃500g大米",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "0.5",
+          "unit": "kg",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_d36beadd7a7b4119be03dc921d98f85c",
+        "original_text": "丢弃500g大米",
+        "draft": {
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "0.5",
+          "unit": "kg"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "大米",
+            "quantity": "3",
+            "unit": "kg",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "2.5",
+            "unit": "kg",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-0.5",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02170000061596511
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009599999430065509
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.14800000008108327
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001571000002513756,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-mass-1",
+      "text": "请丢弃500g大米",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "0.5",
+          "unit": "kg",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_2a15c9420c774714960e0b189c659fa1",
+        "original_text": "请丢弃500g大米",
+        "draft": {
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "0.5",
+          "unit": "kg"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "大米",
+            "quantity": "3",
+            "unit": "kg",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "2.5",
+            "unit": "kg",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-0.5",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02609999955893727
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.009299999874201603
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.10209999982180307
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00011329999961162684,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-mass-2",
+      "text": "帮我丢弃500g大米",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "0.5",
+          "unit": "kg",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_d2e57c0c9ef348b9a723c3a28fc1e743",
+        "original_text": "帮我丢弃500g大米",
+        "draft": {
+          "name": "大米",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "0.5",
+          "unit": "kg"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "大米",
+            "quantity": "3",
+            "unit": "kg",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "2.5",
+            "unit": "kg",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-0.5",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.024400000256719068
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.00889999955688836
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.09620000037102727
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00010590000056254212,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-all-multiple-0",
+      "text": "丢弃全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_1eaa0ffb997c4629a3950f7a971a51f0",
+        "original_text": "丢弃全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_92c54c9bef3945a9b8653109c0939e6d",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "丢弃全部牛奶",
+          "request_id": "p1-discard-all-multiple-0",
+          "trace_id": "trace_1eaa0ffb997c4629a3950f7a971a51f0",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "all",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02229999972769292
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.015499999790336005
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12239999978191918
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001322999996773433,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-all-multiple-1",
+      "text": "请丢弃全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_6dff6eeb93064583b49c9109d54c91a2",
+        "original_text": "请丢弃全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_4f0ebde132714a1693408a7a9001f859",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请丢弃全部牛奶",
+          "request_id": "p1-discard-all-multiple-1",
+          "trace_id": "trace_6dff6eeb93064583b49c9109d54c91a2",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "all",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.022700000045006163
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014199999895936344
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.1173999999082298
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012829999923269497,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-all-multiple-2",
+      "text": "帮我丢弃全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_e5e223b58b164a17afbb99005f6109e4",
+        "original_text": "帮我丢弃全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_40d99033639c4d398f0e9465b01efb62",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我丢弃全部牛奶",
+          "request_id": "p1-discard-all-multiple-2",
+          "trace_id": "trace_e5e223b58b164a17afbb99005f6109e4",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "all",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.022500000341096893
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.01449999945180025
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11700000050041126
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001266999997824314,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-over-large-0",
+      "text": "丢弃10盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "操作数量超过当前库存，请核对数量。",
+        "trace_id": "trace_ad20e03028174726b8c8168d65b39653",
+        "original_text": "丢弃10盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity"
+        ],
+        "clarification": {
+          "id": "clarify_0a8ecd0e601c4713a39ce0c2544776cf",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "丢弃10盒牛奶",
+          "request_id": "p1-discard-over-large-0",
+          "trace_id": "trace_ad20e03028174726b8c8168d65b39653",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": "10",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity"
+          ]
+        },
+        "error_code": "INSUFFICIENT_STOCK",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.0228000008064555
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008400000297115184
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11750000066967914
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012759999935951782,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-over-large-1",
+      "text": "请丢弃10盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "操作数量超过当前库存，请核对数量。",
+        "trace_id": "trace_18a43f93c08246ef8fb7fa988b672074",
+        "original_text": "请丢弃10盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity"
+        ],
+        "clarification": {
+          "id": "clarify_05ccb5c26d8b4195806b5ebc71db72c5",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请丢弃10盒牛奶",
+          "request_id": "p1-discard-over-large-1",
+          "trace_id": "trace_18a43f93c08246ef8fb7fa988b672074",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": "10",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity"
+          ]
+        },
+        "error_code": "INSUFFICIENT_STOCK",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02320000021427404
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008600000001024455
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11949999952776125
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012929999957123073,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-over-large-2",
+      "text": "帮我丢弃10盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "操作数量超过当前库存，请核对数量。",
+        "trace_id": "trace_de92c9c813164eb7a096fa332381e83b",
+        "original_text": "帮我丢弃10盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity"
+        ],
+        "clarification": {
+          "id": "clarify_a9708c6efcfe4b3cb987b1f161474e28",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我丢弃10盒牛奶",
+          "request_id": "p1-discard-over-large-2",
+          "trace_id": "trace_de92c9c813164eb7a096fa332381e83b",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": "10",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity"
+          ]
+        },
+        "error_code": "INSUFFICIENT_STOCK",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02320000021427404
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008799999704933725
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11940000058530131
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001295000001846347,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-vague-quantity-0",
+      "text": "丢弃一些牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请补充或核对：quantity、unit。尚未写入。",
+        "trace_id": "trace_3d1c4f48722b4290a9e4b0b833409924",
+        "original_text": "丢弃一些牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "clarification": {
+          "id": "clarify_75675cf4e1a6424ea7799e9d894f2334",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "丢弃一些牛奶",
+          "request_id": "p1-discard-vague-quantity-0",
+          "trace_id": "trace_3d1c4f48722b4290a9e4b0b833409924",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": [
+              "quantity"
+            ]
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity",
+            "unit"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.023099999452824704
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.00850000014906982
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11180000001331791
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00012149999929533806,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-vague-quantity-1",
+      "text": "请丢弃一些牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请补充或核对：quantity、unit。尚未写入。",
+        "trace_id": "trace_78a4f7d722224c6b8dd43aa60eb934f1",
+        "original_text": "请丢弃一些牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "clarification": {
+          "id": "clarify_c856cd2d62aa4f26b0096b5b47f549f4",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请丢弃一些牛奶",
+          "request_id": "p1-discard-vague-quantity-1",
+          "trace_id": "trace_78a4f7d722224c6b8dd43aa60eb934f1",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": [
+              "quantity"
+            ]
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity",
+            "unit"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.023999999939405825
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008499999239575118
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.11070000073232222
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001205000007757917,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-vague-quantity-2",
+      "text": "帮我丢弃一些牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "DISCARD",
+        "reply": "请补充或核对：quantity、unit。尚未写入。",
+        "trace_id": "trace_6881b8ac2ee04b86914ecaeab5b0dfd4",
+        "original_text": "帮我丢弃一些牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "quantity",
+          "unit"
+        ],
+        "clarification": {
+          "id": "clarify_521538fd2f05489cbfd8ce4a57625737",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我丢弃一些牛奶",
+          "request_id": "p1-discard-vague-quantity-2",
+          "trace_id": "trace_6881b8ac2ee04b86914ecaeab5b0dfd4",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "DISCARD",
+            "name": "牛奶",
+            "quantity": null,
+            "unit": null,
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": [
+              "quantity"
+            ]
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": "b1",
+          "allowed_fields": [
+            "quantity",
+            "unit"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.023800000235496555
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008399999387620483
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.10629999997036066
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00011559999984456226,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-terminal-0",
+      "text": "报废全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "DISCARD",
+        "reply": "该批次已结束或无库存，不产生新变更。",
+        "trace_id": "trace_bd0641df1aae482d9567e0b97cf9a4f7",
+        "original_text": "报废全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "BATCH_TERMINAL",
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.022000000171829015
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008400000297115184
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06690000009257346
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.660000028408831e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-terminal-1",
+      "text": "请报废全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "DISCARD",
+        "reply": "该批次已结束或无库存，不产生新变更。",
+        "trace_id": "trace_bffde3b982194afaac7b9904b6b09c73",
+        "original_text": "请报废全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "BATCH_TERMINAL",
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.020899999981338624
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008099999831756577
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06450000000768341
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.330000062211184e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-terminal-2",
+      "text": "帮我报废全部牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "DISCARD",
+        "reply": "该批次已结束或无库存，不产生新变更。",
+        "trace_id": "trace_1afa43ac1c4b43cfba1d9da100832fc8",
+        "original_text": "帮我报废全部牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "BATCH_TERMINAL",
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.02049999966402538
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.007999999979801942
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06299999949987978
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.129999994504033e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-full-explicit-0",
+      "text": "丢弃3盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "3",
+          "unit": "盒",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_4b9519f9636e43bcb8151e7cbb6ad03e",
+        "original_text": "丢弃3盒牛奶",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "3",
+          "unit": "盒"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "DISCARDED"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.021100000594742596
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.007999999979801942
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.09180000051856041
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00010040000051958486,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-full-explicit-1",
+      "text": "请丢弃3盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "3",
+          "unit": "盒",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_806568bd1d694b03989c0c6be7f7fbca",
+        "original_text": "请丢弃3盒牛奶",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "3",
+          "unit": "盒"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "DISCARDED"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.0227999998969608
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.008800000614428427
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0929000007090508
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00010320000001229346,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-full-explicit-2",
+      "text": "帮我丢弃3盒牛奶",
+      "expected": {
+        "intent": "DISCARD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "DISCARD",
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "quantity": "3",
+          "unit": "盒",
+          "discard_mode": "partial"
+        },
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": "Discarded",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_e159a5a17578454fa1298456727ed996",
+        "original_text": "帮我丢弃3盒牛奶",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 7,
+          "action": "DISCARD",
+          "discard_mode": "partial",
+          "quantity": "3",
+          "unit": "盒"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          "after": {
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "opened_at": null,
+            "status": "DISCARDED"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.022700000045006163
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.00869999985297909
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.08609999986219918
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 9.580000005371403e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-conflicting-all-0",
+      "text": "丢弃剩下的一盒牛奶",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "全部丢弃与明确数量同时出现，请选择一种方式重新说明。",
+        "trace_id": "trace_f60c1d5e611d463aa3d213efb4eb1cec",
+        "original_text": "丢弃剩下的一盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.022700000045006163
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.040500000068277586
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 4.949999947712058e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-conflicting-all-1",
+      "text": "请丢弃剩下的一盒牛奶",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "全部丢弃与明确数量同时出现，请选择一种方式重新说明。",
+        "trace_id": "trace_906f05d696384568a8eb62731c959e97",
+        "original_text": "请丢弃剩下的一盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.020899999981338624
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.03689999994094251
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 4.4800000068789814e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-discard-conflicting-all-2",
+      "text": "帮我丢弃剩下的一盒牛奶",
+      "expected": {
+        "intent": "UNSUPPORTED",
+        "status": "unsupported",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "unsupported",
+        "intent": "UNSUPPORTED",
+        "reply": "全部丢弃与明确数量同时出现，请选择一种方式重新说明。",
+        "trace_id": "trace_3de8c4540840416c982b1e2ba02a22ce",
+        "original_text": "帮我丢弃剩下的一盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.025599999389669392
+          },
+          {
+            "step": "total",
+            "outcome": "unsupported",
+            "elapsed_ms": 0.056799999583745375
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 6.510000002890592e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-opened-terminal-0",
+      "text": "牛奶放哪",
+      "expected": {
+        "intent": "QUERY_LOCATION",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_LOCATION",
+        "reply": "牛奶：0 盒，位置 冰箱，开封 2026-10-10，状态 DISCARDED（批次 b1）",
+        "trace_id": "trace_4cc15d8934294413a235d8ea86472477",
+        "original_text": "牛奶放哪",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-10-10",
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_LOCATION",
+            "elapsed_ms": 0.12280000009923242
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014299999747890979
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.18819999968400225
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00019599999995989492,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-opened-terminal-1",
+      "text": "请牛奶放哪",
+      "expected": {
+        "intent": "QUERY_LOCATION",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_LOCATION",
+        "reply": "牛奶：0 盒，位置 冰箱，开封 2026-10-10，状态 DISCARDED（批次 b1）",
+        "trace_id": "trace_ff4d6f3870ee406a822e906f5af938ee",
+        "original_text": "请牛奶放哪",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-10-10",
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_LOCATION",
+            "elapsed_ms": 0.02229999972769292
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.011999999514955562
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.07399999958579428
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 8.330000036949059e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-opened-terminal-2",
+      "text": "帮我牛奶放哪",
+      "expected": {
+        "intent": "QUERY_LOCATION",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [
+          "b1"
+        ],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_LOCATION",
+        "reply": "牛奶：0 盒，位置 冰箱，开封 2026-10-10，状态 DISCARDED（批次 b1）",
+        "trace_id": "trace_3e933ed37cd449d99b60a0d78b25f6a7",
+        "original_text": "帮我牛奶放哪",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "0",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": "2026-10-10",
+            "status": "DISCARDED",
+            "version": 7
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_LOCATION",
+            "elapsed_ms": 0.019999999494757503
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.011000000085914508
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.06619999930990161
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.49000000723754e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-empty-0",
+      "text": "库存有什么",
+      "expected": {
+        "intent": "QUERY_INVENTORY",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_INVENTORY",
+        "reply": "当前没有库存记录。",
+        "trace_id": "trace_bbba6f4af0814f9e860b3bcb181f4266",
+        "original_text": "库存有什么",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_INVENTORY",
+            "elapsed_ms": 0.12149999929533806
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.0018999999156221747
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.16289999985019676
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00017279999974562088,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-empty-1",
+      "text": "请库存有什么",
+      "expected": {
+        "intent": "QUERY_INVENTORY",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_INVENTORY",
+        "reply": "当前没有库存记录。",
+        "trace_id": "trace_d99a307a48eb47a5b350e3287ea18c6a",
+        "original_text": "请库存有什么",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_INVENTORY",
+            "elapsed_ms": 0.021799999558425043
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.0018000000636675395
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.05760000021837186
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 6.639999992330559e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-query-empty-2",
+      "text": "帮我库存有什么",
+      "expected": {
+        "intent": "QUERY_INVENTORY",
+        "status": "answered",
+        "draft": null,
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_INVENTORY",
+        "reply": "当前没有库存记录。",
+        "trace_id": "trace_71e6e89be9454d0cb64a82c6565f39c2",
+        "original_text": "帮我库存有什么",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "QUERY_INVENTORY",
+            "elapsed_ms": 0.024899999516492244
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.0012000000424450263
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.057899999774235766
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 6.600000051548705e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-consume-multiple-0",
+      "text": "喝了2盒牛奶",
+      "expected": {
+        "intent": "CONSUME",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "CONSUME",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_6563a44880bf4bc6b5eea8eec052de68",
+        "original_text": "喝了2盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_fc5f9a9009af4a898196c09588bf7e5c",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "喝了2盒牛奶",
+          "request_id": "p1-consume-multiple-0",
+          "trace_id": "trace_6563a44880bf4bc6b5eea8eec052de68",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "CONSUME",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "CONSUME",
+            "elapsed_ms": 0.022000000171829015
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.015700000403739978
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12700000024779
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00013649999982590089,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-consume-multiple-1",
+      "text": "请喝了2盒牛奶",
+      "expected": {
+        "intent": "CONSUME",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "CONSUME",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_f366948f83cc4b4ab55efba13f44b632",
+        "original_text": "请喝了2盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_a012a49378954e13b6f95cb2270e7f38",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "请喝了2盒牛奶",
+          "request_id": "p1-consume-multiple-1",
+          "trace_id": "trace_f366948f83cc4b4ab55efba13f44b632",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "CONSUME",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "CONSUME",
+            "elapsed_ms": 0.023800000235496555
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014700000065204222
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.1253000000360771
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.000135999999656633,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-consume-multiple-2",
+      "text": "帮我喝了2盒牛奶",
+      "expected": {
+        "intent": "CONSUME",
+        "status": "needs_clarification",
+        "draft": null,
+        "missing_fields": [
+          "batch_id"
+        ],
+        "batch_ids": [
+          "b1",
+          "b2"
+        ],
+        "event_type": null,
+        "requires_clarification": true
+      },
+      "result": {
+        "status": "needs_clarification",
+        "intent": "CONSUME",
+        "reply": "请选择目标批次并补充缺失字段；尚未写入。",
+        "trace_id": "trace_59cf5c07fb054b41a965e287fedfa5bc",
+        "original_text": "帮我喝了2盒牛奶",
+        "draft": null,
+        "preview": null,
+        "candidates": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          },
+          {
+            "id": "b2",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "3",
+            "unit": "盒",
+            "location": "厨房",
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 7
+          }
+        ],
+        "facts": [],
+        "missing_fields": [
+          "batch_id"
+        ],
+        "clarification": {
+          "id": "clarify_02a6a43d0552461e990c2ade317ebb00",
+          "revision": 1,
+          "scope": {
+            "user_id": "u1",
+            "household_id": "h1"
+          },
+          "original_text": "帮我喝了2盒牛奶",
+          "request_id": "p1-consume-multiple-2",
+          "trace_id": "trace_59cf5c07fb054b41a965e287fedfa5bc",
+          "household_timezone": "Asia/Shanghai",
+          "created_at": "2026-10-14T02:00:00Z",
+          "expires_at": "2026-10-14T02:15:00Z",
+          "parsed": {
+            "intent": "CONSUME",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": null,
+            "purchased_at": null,
+            "label_expiry": null,
+            "opened_at": null,
+            "to_location": null,
+            "discard_mode": "partial",
+            "partial_batch": false,
+            "multiple_items": false,
+            "multiple_actions": false,
+            "uncertainties": []
+          },
+          "candidates": [
+            {
+              "id": "b1",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            },
+            {
+              "id": "b2",
+              "household_id": "h1",
+              "name": "牛奶",
+              "quantity": "3",
+              "unit": "盒",
+              "location": "厨房",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 7
+            }
+          ],
+          "selected_batch_id": null,
+          "allowed_fields": [
+            "batch_id"
+          ]
+        },
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "CONSUME",
+            "elapsed_ms": 0.0227999998969608
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.014100000043981709
+          },
+          {
+            "step": "total",
+            "outcome": "needs_clarification",
+            "elapsed_ms": 0.12270000024727779
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0001328999996985658,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-add-new-product-0",
+      "text": "添加三袋面包放厨房",
+      "expected": {
+        "intent": "ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": "Added",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_789485b0e29545ce8351dbb367a7e511",
+        "original_text": "添加三袋面包放厨房",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": {
+            "quantity": "3",
+            "unit": "袋",
+            "location": "厨房",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Added",
+          "quantity_delta": "3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "ADD",
+            "elapsed_ms": 0.14569999984814785
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.24219999977503903
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.0002533000006224029,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-add-new-product-1",
+      "text": "请添加三袋面包放厨房",
+      "expected": {
+        "intent": "ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": "Added",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_f40b2aa4645f42cc9fd29c036f1aa7ee",
+        "original_text": "请添加三袋面包放厨房",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": {
+            "quantity": "3",
+            "unit": "袋",
+            "location": "厨房",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Added",
+          "quantity_delta": "3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "ADD",
+            "elapsed_ms": 0.026599999728205148
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.10149999980058055
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00011240000003454043,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-add-new-product-2",
+      "text": "帮我添加三袋面包放厨房",
+      "expected": {
+        "intent": "ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": "Added",
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_b5a3733489a44ddabcbd3fbaa0c0fa44",
+        "original_text": "帮我添加三袋面包放厨房",
+        "draft": {
+          "action": "ADD",
+          "name": "面包",
+          "quantity": "3",
+          "unit": "袋",
+          "location": "厨房",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": {
+            "quantity": "3",
+            "unit": "袋",
+            "location": "厨房",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Added",
+          "quantity_delta": "3",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "ADD",
+            "elapsed_ms": 0.023999999939405825
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.07759999971312936
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 8.819999948173063e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-plan-new-product-0",
+      "text": "计划买两包纸巾",
+      "expected": {
+        "intent": "PLAN_ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "PLAN_ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_bca3f15f0a8d46e987ab49dfa95b87cb",
+        "original_text": "计划买两包纸巾",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": null,
+          "event_type": null,
+          "quantity_delta": "0",
+          "inventory_changes": false,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "PLAN_ADD",
+            "elapsed_ms": 0.021800000467919745
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.09179999960906571
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 0.00010229999952571234,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-plan-new-product-1",
+      "text": "请计划买两包纸巾",
+      "expected": {
+        "intent": "PLAN_ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "PLAN_ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_3e6916704e044348a3ff71c5b8d177c9",
+        "original_text": "请计划买两包纸巾",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": null,
+          "event_type": null,
+          "quantity_delta": "0",
+          "inventory_changes": false,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "PLAN_ADD",
+            "elapsed_ms": 0.022600000193051528
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.07110000024113106
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 8.140000045386842e-05,
+      "usage": {},
+      "provider_model": null
+    },
+    {
+      "id": "p1-plan-new-product-2",
+      "text": "帮我计划买两包纸巾",
+      "expected": {
+        "intent": "PLAN_ADD",
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "missing_fields": [],
+        "batch_ids": [],
+        "event_type": null,
+        "requires_clarification": false
+      },
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "PLAN_ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_28b48a6c0e77467092b802f89d86ab3a",
+        "original_text": "帮我计划买两包纸巾",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": null,
+          "event_type": null,
+          "quantity_delta": "0",
+          "inventory_changes": false,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "extraction",
+            "outcome": "PLAN_ADD",
+            "elapsed_ms": 0.02190000031987438
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.06740000026184134
+          }
+        ]
+      },
+      "attempted": true,
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "fields_ok": true,
+        "candidates_ok": true,
+        "missing_ok": true,
+        "event_ok": true,
+        "no_writes": true
+      },
+      "latency_seconds": 7.619999996677507e-05,
+      "usage": {},
+      "provider_model": null
+    }
+  ]
+}

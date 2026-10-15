@@ -1,0 +1,207 @@
+[
+  {
+    "label": "source-tests",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "pytest",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent\\tests",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\backend\\tests",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "--basetemp=C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\pytest-temp",
+      "--junitxml=C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\source-tests.xml"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014",
+    "exit_code": 0
+  },
+  {
+    "label": "p0-regression",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.local_p0",
+      "--version",
+      "5a056831799b-p0-regression-rules",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\p0-regression"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "p1-regression",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.local_p1",
+      "--version",
+      "5a056831799b-p1-regression-rules",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\p1-regression"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "android-regression",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.android_gateway",
+      "--version",
+      "5a056831799b-android-regression-rules",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\android-regression"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "p1-native-dev",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "module",
+      "eval.p1.run",
+      "--engine",
+      "rules",
+      "--split",
+      "dev"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014",
+    "exit_code": 0
+  },
+  {
+    "label": "p1-native-test",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "module",
+      "eval.p1.run",
+      "--engine",
+      "rules",
+      "--split",
+      "test"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014",
+    "exit_code": 0
+  },
+  {
+    "label": "scorer-tests",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "pytest",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\tests",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "--basetemp=C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\scorer-temp",
+      "--junitxml=C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\scorer-tests.xml"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014",
+    "exit_code": 0
+  },
+  {
+    "label": "future-coverage",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--version",
+      "5a056831799b-future-driver-coverage",
+      "--cases",
+      "cases/future_scenarios.jsonl",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\future-coverage"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "p0-review-observations",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.local_p0",
+      "--version",
+      "5a056831799b-p0-review-observations",
+      "--cases",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\review_cases.jsonl",
+      "--include-review",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\p0-review-observations"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "p1-review-observations",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.local_p1",
+      "--version",
+      "5a056831799b-p1-review-observations",
+      "--cases",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\review_cases.jsonl",
+      "--include-review",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\p1-review-observations"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  },
+  {
+    "label": "android-review-observations",
+    "command": [
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\offline_exec.py",
+      "script",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1\\run.py",
+      "--project",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\source_snapshot\\agent",
+      "--adapter",
+      "adapters.android_gateway",
+      "--version",
+      "5a056831799b-android-review-observations",
+      "--cases",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\review_cases.jsonl",
+      "--include-review",
+      "--out",
+      "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\runs\\20261014T150911276391Z\\android-review-observations"
+    ],
+    "cwd": "C:\\Users\\ASUS\\Documents\\ChatGPT\\team work\\garin_regression_20261014\\test_package\\Agent_Regression_v1",
+    "exit_code": 1
+  }
+]

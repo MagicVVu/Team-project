@@ -1,0 +1,86 @@
+# 回归测试报告
+版本：5a056831799b-android-regression-rules；引擎：rules；适配器：adapters.android_gateway
+结果：{'PASS': 197, 'FAIL': 31, 'REVIEW': 18, 'BLOCKED': 32}；本轮必测项全部通过：False
+
+## 失败、阻塞与待定项
+- p0-22-0 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-22-1 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-22-2 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-26-0 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-26-1 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-26-2 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-33-1 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '饼干', 'quantity': '2', 'unit': '袋', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-33-2 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '饼干', 'quantity': '2', 'unit': '袋', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-43-2 [REVIEW]：gold label awaiting approval
+- p0-47-0 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-47-1 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- p0-47-2 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-012 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-013 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'PLAN_ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-014 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '12', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-015 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'PLAN_ADD', 'name': '垃圾袋', 'quantity': '2', 'unit': '卷', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-017 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '洗衣液', 'quantity': '1', 'unit': '瓶', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-018 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1', 'unit': '袋', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-020 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '0.5', 'unit': 'L', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-021 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '500', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-022 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；intent: expected='PLAN_ADD'; actual=None；draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1.25', 'unit': 'kg', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-023 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '鸡蛋', 'quantity': '12', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-024 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '鸡蛋', 'quantity': '21', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-026 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-027 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；draft: expected={'action': 'ADD', 'name': '和润牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-028 [FAIL]：status: expected='needs_confirmation'; actual='unsupported'；draft: expected={'action': 'ADD', 'name': '和味饼干', 'quantity': '2', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None
+- ext-039 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-10-08', 'label_expiry': None}; actual=None
+- ext-040 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2024-02-29', 'label_expiry': None}; actual=None
+- ext-041 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-01-01', 'label_expiry': None}; actual=None
+- ext-042 [FAIL]：status: expected='needs_confirmation'; actual='needs_clarification'；draft: expected={'action': 'ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': '2026-10-08', 'label_expiry': '2026-10-15'}; actual=None
+- ext-049 [FAIL]：status: expected='needs_clarification'; actual='needs_confirmation'；draft: expected=None; actual={'action': 'ADD', 'name': '牛奶', 'quantity': '2.0', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}
+- ext-075 [REVIEW]：gold label awaiting approval
+- ext-076 [REVIEW]：gold label awaiting approval
+- ext-077 [REVIEW]：gold label awaiting approval
+- ext-081 [FAIL]：status: expected='unsupported'; actual='needs_clarification'
+- ext-083 [REVIEW]：gold label awaiting approval
+- ext-084 [REVIEW]：gold label awaiting approval
+- ext-085 [REVIEW]：gold label awaiting approval
+- ext-086 [REVIEW]：gold label awaiting approval
+- ext-087 [REVIEW]：gold label awaiting approval
+- ext-088 [REVIEW]：gold label awaiting approval
+- ext-089 [REVIEW]：gold label awaiting approval
+- ext-090 [REVIEW]：gold label awaiting approval
+- ext-091 [REVIEW]：gold label awaiting approval
+- ext-092 [REVIEW]：gold label awaiting approval
+- ext-093 [REVIEW]：gold label awaiting approval
+- ext-094 [REVIEW]：gold label awaiting approval
+- ext-095 [REVIEW]：gold label awaiting approval
+- ext-096 [REVIEW]：gold label awaiting approval
+- flow-001 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-002 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-003 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-004 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-005 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-006 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-007 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-008 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-009 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-010 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-011 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-012 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-013 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-014 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-015 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-016 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-017 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-018 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-019 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-020 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-021 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-022 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-023 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-024 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-025 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-026 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-027 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-028 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-029 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-030 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-031 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
+- flow-032 [BLOCKED]：Android gateway has no legacy P0 confirm/undo routes; device driver required
