@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "character": "猫又",
+  "basedOn": "IP拉绳-饱满体型调整-两态-V04.png",
+  "canvas": {
+    "width": 600,
+    "height": 768
+  },
+  "anchor": {
+    "x": 317.5,
+    "y": 0
+  },
+  "recommendedPendantWidthDp": 96,
+  "stackBottomToTop": [
+    "02-小猫双尾绳结-底层.png",
+    "03-眼睛-睁眼.png 或 04-眼睛-闭眼.png",
+    "05-嘴巴-待机.png 或 06-嘴巴-开心.png"
+  ],
+  "rope": {
+    "file": "01-麻绳-循环纹理.png",
+    "width": 104,
+    "height": 65,
+    "repeatAxis": "Y",
+    "sourceCropY": 96,
+    "joinPhase": 31,
+    "anchorXWithinTile": 54.5
+  },
+  "states": {
+    "idle": {
+      "eyes": "03-眼睛-睁眼.png",
+      "mouth": "05-嘴巴-待机.png"
+    },
+    "blink": {
+      "eyes": "04-眼睛-闭眼.png",
+      "mouth": "05-嘴巴-待机.png"
+    },
+    "ready": {
+      "eyes": "04-眼睛-闭眼.png",
+      "mouth": "06-嘴巴-开心.png"
+    }
+  },
+  "motion": {
+    "triggerDp": 72,
+    "maxPullDp": 120,
+    "expressionTransitionMs": 80,
+    "pendantRotationMaxDegrees": 3,
+    "recoil": {
+      "dampingRatio": 0.82,
+      "stiffness": 500
+    },
+    "keepAspectRatio": true
+  },
+  "notes": [
+    "02至06使用相同600x768画布，按相同坐标叠放，不要分别紧裁。",
+    "眼睛和嘴巴层保留柔边奶白底色补片，以遮盖表情切换的边缘；这不是纯线稿。",
+    "绳结、缠绕的双尾和身体属于同一刚性挂件；此版本不包含尾巴逐段弯曲的骨骼动画。",
+    "延长上方绳子的显示区域，纵向重复纹理，不能纵向拉伸整只小猫。",
+    "深色模式保持小猫原色，不染色，不使用混合模式。",
+    "07和08是合成校对图，09是分层总览，10是演示GIF。",
+    "预览仅模拟触发，不实际打开项目里的AI页面。"
+  ],
+  "preview": {
+    "gif": "10-动作演示-浅色与深色.gif",
+    "durationMs": 6000,
+    "optimizedFrames": 119
+  },
+  "generation": {
+    "method": "内置图像生成＋原图裁切与同坐标图层整理",
+    "promptSummary": "保留原版IP与绳尾结构，生成同姿态闭眼笑表情和奶白空白脸底色。"
+  }
+}
