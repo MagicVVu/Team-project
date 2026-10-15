@@ -2,17 +2,38 @@ package com.example.teamapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.example.teamapp.ui.AppMotion
 
 internal val LocalLightDesign = staticCompositionLocalOf { false }
+private val LocalAppearanceOpacity = staticCompositionLocalOf { { 1f } }
+
+/** Dialog windows need the same fade as the app because they render in a separate surface. */
+@Composable
+internal fun Modifier.appearanceFade(): Modifier {
+    val opacity = LocalAppearanceOpacity.current
+    return graphicsLayer { alpha = opacity() }
+}
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF476339), onPrimary = Color(0xFFFFFEF7),
@@ -48,10 +69,22 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun TeamAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), dynamicColor: Boolean = false, content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalLightDesign provides !darkTheme) {
+    // Change foreground/background together at the fade's midpoint; interpolating opposing
+    // palettes would briefly produce matching gray text and surfaces. Keep one content tree.
+    var renderedDark by remember { mutableStateOf(darkTheme) }
+    val appearanceAlpha = remember { Animatable(1f) }
+    LaunchedEffect(darkTheme) {
+        if (renderedDark != darkTheme) {
+            appearanceAlpha.animateTo(0f, tween(90, easing = AppMotion.easing))
+            renderedDark = darkTheme
+        }
+        if (appearanceAlpha.value < 1f) appearanceAlpha.animateTo(1f, tween(AppMotion.Quick, easing = AppMotion.easing))
+    }
+    CompositionLocalProvider(LocalLightDesign provides !renderedDark,
+        LocalAppearanceOpacity provides { appearanceAlpha.value }) {
         MaterialTheme(
-            colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
-            shapes = if (darkTheme) Shapes(
+            colorScheme = if (renderedDark) DarkColorScheme else LightColorScheme,
+            shapes = if (renderedDark) Shapes(
                 extraSmall = RoundedCornerShape(8.dp), small = RoundedCornerShape(12.dp),
                 medium = RoundedCornerShape(18.dp), large = RoundedCornerShape(24.dp),
                 extraLarge = RoundedCornerShape(32.dp)
@@ -60,7 +93,11 @@ fun TeamAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), dynamicColor: Boole
                 medium = RoundedCornerShape(14.dp), large = RoundedCornerShape(18.dp),
                 extraLarge = RoundedCornerShape(24.dp)
             ),
-            typography = Typography, content = content
-        )
+            typography = Typography
+        ) {
+            Box(Modifier.fillMaxSize().background(if (darkTheme) DarkColorScheme.background else LightColorScheme.background)) {
+                Box(Modifier.fillMaxSize().appearanceFade()) { content() }
+            }
+        }
     }
 }

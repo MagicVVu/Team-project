@@ -1,5 +1,7 @@
 package com.example.teamapp
 
+import android.content.ContextWrapper
+import android.content.SharedPreferences
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.teamapp.data.*
@@ -11,7 +13,10 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class InventoryStoreTest {
-    private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+    private val context = object : ContextWrapper(InstrumentationRegistry.getInstrumentation().targetContext) {
+        override fun getSharedPreferences(name: String, mode: Int): SharedPreferences =
+            super.getSharedPreferences("inventory_store_test_$name", mode)
+    }
     @Before fun setup() { context.getSharedPreferences("magicvvu_v1", 0).edit().clear().commit() }
     @After fun cleanup() { context.getSharedPreferences("magicvvu_v1", 0).edit().clear().commit() }
     @Test fun purchasingUsesActualAmountAndPersistsAcrossInstances() {

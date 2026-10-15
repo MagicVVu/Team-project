@@ -1,5 +1,8 @@
 package com.example.teamapp
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.SharedPreferences
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
@@ -15,15 +18,19 @@ class MagicAppTest {
     @get:Rule val compose = createComposeRule()
     private lateinit var store: InventoryStore
     private lateinit var milk: StockItem
+    private lateinit var context: Context
     @Before fun setup() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        context = object : ContextWrapper(InstrumentationRegistry.getInstrumentation().targetContext) {
+            override fun getSharedPreferences(name: String, mode: Int): SharedPreferences =
+                super.getSharedPreferences("navigation_test_$name", mode)
+        }
         context.getSharedPreferences("magicvvu_v1", 0).edit().clear().commit()
         store = InventoryStore(context)
         milk = StockItem(name = "测试纯牛奶", quantity = 1.0, unit = "盒", location = "冰箱", minimum = 3.0)
         store.saveItem(milk)
-        compose.setContent { TeamAppTheme { MagicApp(store) } }
+        compose.setContent { TeamAppTheme(darkTheme = false) { MagicApp(store) } }
     }
-    @After fun cleanup() { InstrumentationRegistry.getInstrumentation().targetContext.getSharedPreferences("magicvvu_v1", 0).edit().clear().commit() }
+    @After fun cleanup() { context.getSharedPreferences("magicvvu_v1", 0).edit().clear().commit() }
     @Test fun fourTabsAndDetailNavigationWork() {
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()

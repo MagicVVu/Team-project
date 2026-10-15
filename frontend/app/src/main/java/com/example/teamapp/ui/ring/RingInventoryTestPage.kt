@@ -2,6 +2,9 @@ package com.example.teamapp.ui.ring
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
@@ -23,7 +26,11 @@ import com.example.teamapp.data.*
 import com.example.teamapp.ui.DarkNavigation
 import com.example.teamapp.ui.DesignNavigation
 import com.example.teamapp.ui.DesignGlyph
+import com.example.teamapp.ui.AppMotion
+import com.example.teamapp.ui.AppMotionContent
 import com.example.teamapp.ui.theme.TeamAppTheme
+import com.example.teamapp.ui.theme.appearanceFade
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 internal fun mockRingInventory(count: Int): List<StockItem> = (0 until count).map { i ->
@@ -64,6 +71,9 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
     var selected by remember { mutableStateOf<StockItem?>(null) }
     var detailId by rememberSaveable { mutableStateOf<String?>(null) }
     var purchaseIds by remember { mutableStateOf<Set<String>>(emptySet()) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    var closingDetail by remember { mutableStateOf(false) }
     val detail = items.firstOrNull { it.id == detailId }
     val activity = LocalActivity.current
     val originalBars = remember(activity) { activity?.window?.let { it.statusBarColor to it.navigationBarColor } }
@@ -84,7 +94,20 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
             }
         }
     } }
-    BackHandler { if (detailId != null) detailId = null else onClose() }
+    fun closeDetail(afterClose: () -> Unit = {}) {
+        if (closingDetail) return
+        closingDetail = true
+        scope.launch {
+            try {
+                sheetState.hide()
+                detailId = null
+                afterClose()
+            } finally {
+                closingDetail = false
+            }
+        }
+    }
+    BackHandler { if (detailId != null) closeDetail() else onClose() }
 
     fun add() {
         val mock = mockRingInventory(nextId % 12 + 1).last().copy(id = "ring-added-${nextId}", name = "新增小物 $nextId", expiry = "", minimum = 0.0)
@@ -92,19 +115,21 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
         items = items + mock
     }
     fun delete(id: String) {
-        items = items.filterNot { it.id == id }; purchaseIds = purchaseIds - id
-        if (detailId == id) detailId = null
+        val remove = { items = items.filterNot { it.id == id }; purchaseIds = purchaseIds - id }
+        if (detailId == id) closeDetail(remove) else remove()
     }
     fun quantity(id: String, delta: Double) {
         items = items.map { if (it.id == id) it.copy(quantity = (it.quantity + delta).coerceAtLeast(0.0), history = listOf("模拟数量调整 ${delta.display()}") + it.history) else it }
     }
 
     TeamAppTheme(darkTheme = !light) {
+        val headerColor by animateColorAsState(if (light) Color(0xFFB2C57D) else Color(0xFF202124),
+            tween(AppMotion.Duration, easing = AppMotion.easing), label = "ring-header-theme")
         Scaffold(bottomBar = {
             if (light) DesignNavigation(1, onNavigate) else DarkNavigation(1, onNavigate)
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).testTag("ring-test-page")) {
-                Row(Modifier.fillMaxWidth().background(if (light) Color(0xFFB2C57D) else Color(0xFF202124))
+                Row(Modifier.fillMaxWidth().background(headerColor)
                     .padding(horizontal = 18.dp, vertical = 13.dp).testTag("ring-showcase-header"), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text("我的库存", fontSize = 25.sp, lineHeight = 31.sp, fontWeight = FontWeight.Bold)
@@ -129,9 +154,11 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
                 }
                 Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                     listOf(0, 1, 3, 12, 30, 100).forEach { count ->
+                        val scenarioColor by animateColorAsState(if (scenario == count) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.background,
+                            tween(AppMotion.Quick, easing = AppMotion.easing), label = "ring-scenario-selection")
                         OutlinedButton(onClick = { scenario = count; items = mockRingInventory(count); purchaseIds = emptySet(); detailId = null },
                             modifier = Modifier.weight(1f).height(28.dp).testTag("ring-scenario-$count"), contentPadding = PaddingValues(0.dp),
-                            colors = ButtonDefaults.outlinedButtonColors(containerColor = if (scenario == count) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.background),
+                            colors = ButtonDefaults.outlinedButtonColors(containerColor = scenarioColor),
                             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)) { Text(count.toString(), fontSize = 11.sp) }
                     }
                 }
@@ -142,21 +169,24 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
                 }
             }
         }
-        if (detail != null) ModalBottomSheet(onDismissRequest = { detailId = null }, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
-            Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        if (detail != null) ModalBottomSheet(onDismissRequest = { detailId = null }, sheetState = sheetState, modifier = Modifier.appearanceFade()) {
+            Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
+                .animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing)).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("模拟物品详情", fontSize = 20.sp, modifier = Modifier.weight(1f))
-                    TextButton(onClick = { detailId = null }) { Text("关闭详情") }
+                    TextButton(onClick = { closeDetail() }, enabled = !closingDetail) { Text("关闭详情") }
                 }
                 Text(detail.name, fontSize = 22.sp, modifier = Modifier.testTag("ring-detail-name"))
-                Text("${detail.quantity.display()} ${detail.unit} · ${detail.category} · ${detail.location}")
+                AppMotionContent("${detail.quantity.display()} ${detail.unit} · ${detail.category} · ${detail.location}", label = "ring-detail-quantity") { Text(it) }
                 Text("${detail.status(3).label}\n最低库存 ${detail.minimum.display()} ${detail.unit}\n有效期 ${detail.expiry.ifBlank { "未设置" }}")
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { quantity(detail.id, 1.0) }) { Text("模拟入库 +1") }
-                    OutlinedButton(onClick = { quantity(detail.id, -1.0) }, enabled = detail.quantity > 0) { Text("模拟消耗 −1") }
+                    OutlinedButton(onClick = { quantity(detail.id, 1.0) }, enabled = !closingDetail) { Text("模拟入库 +1") }
+                    OutlinedButton(onClick = { quantity(detail.id, -1.0) }, enabled = detail.quantity > 0 && !closingDetail) { Text("模拟消耗 −1") }
                 }
-                Button(onClick = { purchaseIds = purchaseIds + detail.id }) { Text(if (detail.id in purchaseIds) "已加入模拟清单" else "加入模拟采购清单") }
-                TextButton(onClick = { delete(detail.id) }) { Text("删除该模拟物品", color = MaterialTheme.colorScheme.error) }
+                Button(onClick = { purchaseIds = purchaseIds + detail.id }, enabled = !closingDetail) {
+                    AppMotionContent(detail.id in purchaseIds, label = "ring-detail-purchase") { added -> Text(if (added) "已加入模拟清单" else "加入模拟采购清单") }
+                }
+                TextButton(onClick = { delete(detail.id) }, enabled = !closingDetail) { Text("删除该模拟物品", color = MaterialTheme.colorScheme.error) }
                 detail.history.take(5).forEach { Text(it, fontSize = 12.sp) }
                 Text("这里的所有操作只影响本次测试数据。", fontSize = 11.sp)
                 Spacer(Modifier.height(12.dp))

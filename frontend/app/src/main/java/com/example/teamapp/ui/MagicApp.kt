@@ -3,12 +3,21 @@ package com.example.teamapp.ui
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,20 +25,26 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
+import com.example.teamapp.ui.theme.appearanceFade
 import com.example.teamapp.ui.ring.RingInventoryPage
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal val Red: Color
     @Composable get() = if (LocalLightDesign.current) Color(0xFFB44848) else MaterialTheme.colorScheme.error
@@ -49,14 +64,35 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     )) { mutableStateListOf<Pair<String, Boolean>>() }
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val focus = LocalFocusManager.current
+    val pageStates = rememberSaveableStateHolder()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var closingPanel by remember { mutableStateOf(false) }
+    fun closePanel() {
+        if (closingPanel || panel == null) return
+        focus.clearFocus()
+        closingPanel = true
+        scope.launch {
+            try {
+                sheetState.hide()
+                if (!sheetState.isVisible) panel = null
+            } finally { closingPanel = false }
+        }
+    }
+    fun selectTab(value: Int) { focus.clearFocus(); tab = value }
     val notify: (String) -> Unit = { message -> scope.launch { snackbar.showSnackbar(store.storageError ?: message) } }
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
-    BackHandler(panel != null) { panel = null }
+    // A deleted item's sheet keeps its last frame while sliding off screen.
+    var retainedItem by remember(selected) { mutableStateOf(item) }
+    SideEffect { if (item != null) retainedItem = item }
+    val sheetItem = item ?: retainedItem
+    val pageTravel = with(LocalDensity.current) { 28.dp.roundToPx() }
+    BackHandler(panel != null) { closePanel() }
     AssistantPullLayer(tab, panel == null, store, conversation, snackbar, notify) { headerModifier ->
         Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
-            if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
-                DarkNavigation(tab) { tab = it; panel = null }
+            if (lightDesign) DesignNavigation(tab) { selectTab(it) } else {
+                DarkNavigation(tab) { selectTab(it) }
             }
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding)) {
@@ -64,33 +100,48 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
                 if (store.storageError != null) {
                     Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
                     Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text("导出数据 / 数据管理") }
-                } else when (tab) {
-                    0 -> Home(store, openItem, { tab = 1 }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
-                    1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
-                    2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                    3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                } else AnimatedContent(tab, Modifier.weight(1f).fillMaxWidth(), transitionSpec = {
+                    val direction = if (targetState > initialState) 1 else -1
+                    (fadeIn(tween(AppMotion.Duration)) + slideInHorizontally(tween(AppMotion.Page, easing = AppMotion.easing)) { direction * pageTravel })
+                        .togetherWith(fadeOut(tween(AppMotion.Quick)) + slideOutHorizontally(tween(AppMotion.Duration, easing = AppMotion.easing)) { -direction * pageTravel / 2 })
+                        .using(null)
+                }, label = "main-page") { page ->
+                    pageStates.SaveableStateProvider(page) {
+                        Box(Modifier.fillMaxSize().motionInput(page == tab)) {
+                            when (page) {
+                                0 -> Home(store, openItem, { selectTab(1) }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
+                                1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
+                                2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
+                                3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
     if (panel != null) {
-        ModalBottomSheet(onDismissRequest = { panel = null }, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        ModalBottomSheet(onDismissRequest = { panel = null }, sheetState = sheetState, modifier = Modifier.appearanceFade(),
             containerColor = if (lightDesign) BottomSheetDefaults.ContainerColor else MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface) {
-            Column(Modifier.fillMaxWidth().fillMaxHeight(0.92f).imePadding()) {
+            Column(Modifier.fillMaxWidth().fillMaxHeight(0.92f).imePadding().motionInput(!closingPanel)) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(panel!!, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                    TextButton(onClick = { panel = null }) { Text("关闭") }
+                    AppMotionContent(panel.orEmpty(), Modifier.weight(1f), label = "panel-title") { title ->
+                        Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    }
+                    TextButton(onClick = { closePanel() }) { Text("关闭") }
                 }
                 if (!lightDesign) HorizontalDivider(color = DarkLine, modifier = Modifier.padding(top = 10.dp))
-                when (panel) {
-                    "AI 智能管家" -> Chat(store, conversation, initialQuestion, { initialQuestion = "" }, notify)
-                    "拍照添加", "语音添加", "手动添加" -> AddFlow(store, panel!!, notify) { panel = null }
-                    "编辑物品" -> item?.let { Editor(store, it, notify = notify, onSaved = { panel = "详情" }) }
-                    "详情" -> item?.let { Detail(store, it, { panel = it }, notify) { panel = null } }
-                    "加入采购清单", "调整采购数量", "购买入库", "增加库存", "消耗库存" -> item?.let { QuantityAction(store, it, panel!!, notify) { panel = null } }
-                    "提醒" -> Attention(store, openItem)
-                    else -> SettingsPanel(store, panel!!, notify) { panel = null }
+                AppMotionContent(panel.orEmpty(), Modifier.weight(1f).fillMaxWidth(), label = "panel-content") { route ->
+                    when (route) {
+                        "AI 智能管家" -> Chat(store, conversation, initialQuestion, { initialQuestion = "" }, notify)
+                        "拍照添加", "语音添加", "手动添加" -> AddFlow(store, route, notify) { closePanel() }
+                        "编辑物品" -> sheetItem?.let { Editor(store, it, notify = notify, onSaved = { focus.clearFocus(); panel = "详情" }) }
+                        "详情" -> sheetItem?.let { Detail(store, it, { panel = it }, notify) { closePanel() } }
+                        "加入采购清单", "调整采购数量", "购买入库", "增加库存", "消耗库存" -> sheetItem?.let { QuantityAction(store, it, route, notify) { closePanel() } }
+                        "提醒" -> Attention(store, openItem)
+                        else -> SettingsPanel(store, route, notify) { closePanel() }
+                    }
                 }
             }
         }
@@ -133,7 +184,7 @@ private fun Attention(store: InventoryStore, open: (StockItem) -> Unit) {
     LazyColumn(Modifier.padding(22.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item { Text("App 内提醒 · 开关只影响提醒，库存状态保持真实", style = MaterialTheme.typography.bodySmall) }
         if (rows.isEmpty()) item { Empty("当前没有需要处理的提醒", "可在「我的 → 消息通知」管理提醒类别") }
-        items(rows, key = { it.id }) { item -> Column { StockRow(item, store.reminderDays) { open(item) }; Text(reasons(item, store.reminderDays), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(8.dp)) } }
+        items(rows, key = { it.id }) { item -> Column(Modifier.animateItem()) { StockRow(item, store.reminderDays) { open(item) }; Text(reasons(item, store.reminderDays), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(8.dp)) } }
     }
 }
 
@@ -176,7 +227,7 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
         Text(item.name, style = MaterialTheme.typography.titleLarge)
         Text("当前库存 ${item.quantity.display()} ${item.unit}")
         ModeNotice(if (mode == "购买入库") "已购买？请核对实际购入数量。计划数量不会自动入库。" else if (mode.contains("采购")) "核对计划购买数量，确认后保存至清单。" else "核对本次数量后确认，库存将同步更新。")
-        OutlinedTextField(quantity, { quantity = it; error = "" }, label = { Text("${if (mode == "购买入库") "实际购入" else "本次"}数量（${item.unit}）") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), isError = error.isNotBlank(), supportingText = { Text(error) }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(quantity, { quantity = it; error = "" }, label = { Text("${if (mode == "购买入库") "实际购入" else "本次"}数量（${item.unit}）") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), isError = error.isNotBlank(), supportingText = { MotionErrorText(error) }, modifier = Modifier.fillMaxWidth())
         Button(onClick = {
             val amount = positiveNumber(quantity)
             if (amount == null) error = "请输入有效正数" else runCatching {
@@ -216,7 +267,7 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
                     SuggestionChip(onClick = { send("需要补什么？") }, label = { Text("需要补什么？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
                 }
             }
-            items(conversation.toList()) { (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) "你" else "✦ 库存助手", style = MaterialTheme.typography.labelSmall); Text(message) } } }
+            itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) "你" else "✦ 库存助手", style = MaterialTheme.typography.labelSmall); Text(message) } } }
         }
         TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text("核对并加入补货清单") }
         Row(verticalAlignment = Alignment.CenterVertically) { OutlinedTextField(input, { input = it }, placeholder = { Text("继续问问…") }, modifier = Modifier.weight(1f)); TextButton(onClick = { send(input) }) { Text("发送") } }
@@ -230,12 +281,24 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
 
 @Composable
 internal fun Confirm(title: String, body: String, cancel: () -> Unit, confirm: () -> Unit) {
-    AlertDialog(onDismissRequest = cancel, title = { Text(title) }, text = { Text(body) }, dismissButton = { TextButton(onClick = cancel) { Text("取消") } }, confirmButton = { TextButton(onClick = confirm) { Text("确认") } })
+    AlertDialog(onDismissRequest = cancel, modifier = Modifier.appearanceFade(), title = { Text(title) }, text = { Text(body) }, dismissButton = { TextButton(onClick = cancel) { Text("取消") } }, confirmButton = { TextButton(onClick = confirm) { Text("确认") } })
 }
 
 @Composable
 internal fun Photo(uri: String) {
     val context = LocalContext.current
-    val bitmap = remember(uri) { if (uri.isBlank()) null else runCatching { context.contentResolver.openInputStream(Uri.parse(uri))?.use { stream -> BitmapFactory.decodeStream(stream, null, BitmapFactory.Options().apply { inSampleSize = 4 }) } }.getOrNull() }
-    bitmap?.let { Image(it.asImageBitmap(), "物品照片", modifier = Modifier.fillMaxWidth().height(160.dp)) }
+    // File access and bitmap decoding must not block the sheet's entrance or a form transition.
+    val bitmap by produceState<android.graphics.Bitmap?>(null, uri, context) {
+        value = null
+        if (uri.isNotBlank()) value = withContext(Dispatchers.IO) {
+            runCatching { context.contentResolver.openInputStream(Uri.parse(uri))?.use { stream ->
+                BitmapFactory.decodeStream(stream, null, BitmapFactory.Options().apply { inSampleSize = 4 })
+            } }.getOrNull()
+        }
+    }
+    if (uri.isNotBlank()) Box(Modifier.fillMaxWidth().height(160.dp), contentAlignment = Alignment.Center) {
+        AnimatedVisibility(bitmap != null, enter = fadeIn(tween(AppMotion.Duration)), exit = fadeOut(tween(AppMotion.Quick))) {
+            bitmap?.let { Image(it.asImageBitmap(), "物品照片", modifier = Modifier.fillMaxWidth().height(160.dp)) }
+        }
+    }
 }

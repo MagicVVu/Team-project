@@ -17,6 +17,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
@@ -27,6 +28,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
@@ -41,6 +43,8 @@ import kotlin.math.roundToInt
 import com.example.teamapp.R
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.ui.theme.LocalLightDesign
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /** A full-screen curtain sits above the entire scaffold, including its navigation bar. */
 @Composable
@@ -59,26 +63,31 @@ internal fun AssistantPullLayer(
         .onGloballyPositioned { headerBottom = it.boundsInWindow().bottom }
     val focus = LocalFocusManager.current
     fun dismiss() { focus.clearFocus(); expanded = false }
-    val reveal by animateFloatAsState(if (expanded) 1f else 0f,
-        tween(420, easing = FastOutSlowInEasing), label = "assistant-curtain")
+    val transition = updateTransition(expanded, label = "assistant-curtain")
+    val reveal = transition.animateFloat(
+        transitionSpec = { tween(if (targetState) AppMotion.Page else AppMotion.Duration, easing = AppMotion.easing) },
+        label = "reveal"
+    ) { if (it) 1f else 0f }
+    val visible = transition.currentState || transition.targetState || transition.isRunning
     LaunchedEffect(tab, available) { if (tab == 0 || !available) expanded = false }
     BackHandler(expanded) { dismiss() }
     Box(Modifier.fillMaxSize().clipToBounds().onSizeChanged { heightPx = it.height }
         .onGloballyPositioned { layerTop = it.boundsInWindow().top }) {
-        Box(if (expanded) Modifier.fillMaxSize().clearAndSetSemantics {} else Modifier.fillMaxSize()) { content(headerModifier) }
-        if (tab in 1..3 && available && !expanded && reveal == 0f && headerBottom != null) {
+        Box(Modifier.fillMaxSize().motionInput(!visible)) { content(headerModifier) }
+        if (tab in 1..3 && available && !visible && headerBottom != null) {
             // Anchor to the measured app bar, including its actual height and system insets.
             AssistantPullCord({ expanded = true }, Modifier.align(Alignment.TopEnd)
                 .offset { IntOffset(0, ((headerBottom ?: layerTop) - layerTop).coerceAtLeast(0f).roundToInt()) }
                 .padding(end = 16.dp))
         }
-        if (expanded || reveal > 0f) {
+        if (visible) {
             // This surface also blocks touches to the lower page while the curtain is moving.
-            Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.scrim.copy(alpha = .14f * reveal))
+            val scrim = MaterialTheme.colorScheme.scrim
+            Box(Modifier.fillMaxSize().drawBehind { drawRect(scrim.copy(alpha = .14f * reveal.value)) }
                 .clickable(remember { MutableInteractionSource() }, indication = null) {}.clearAndSetSemantics {})
-            Surface(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal - 1f) * heightPx }
+            Surface(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal.value - 1f) * heightPx }
                 .testTag("assistant-curtain").semantics { paneTitle = "AI 助手" }, color = MaterialTheme.colorScheme.background) {
-                Box(Modifier.fillMaxSize()) {
+                Box(Modifier.fillMaxSize().motionInput(expanded)) {
                     AssistantCurtainPage(store, conversation, notify) { dismiss() }
                     SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())
                 }
@@ -94,14 +103,30 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
     val maximum = with(density) { 120.dp.toPx() }
     var drag by remember { mutableFloatStateOf(0f) }
     var dragging by remember { mutableStateOf(false) }
-    val extension by animateFloatAsState(if (dragging) drag else 0f,
-        if (dragging) snap() else spring(dampingRatio = .65f, stiffness = 450f), label = "cord-return")
-    val ready = drag >= threshold
+    val recoil = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
+    var recoilJob by remember { mutableStateOf<Job?>(null) }
+    val ready by remember(threshold) { derivedStateOf { dragging && drag >= threshold } }
+    fun extension() = if (dragging) drag else recoil.value
+    fun release(openAssistant: Boolean, open: () -> Unit) {
+        recoilJob?.cancel()
+        recoilJob = scope.launch {
+            recoil.snapTo(drag)
+            dragging = false
+            drag = 0f
+            if (openAssistant) open()
+            else recoil.animateTo(0f, spring(dampingRatio = .82f, stiffness = 500f))
+        }
+    }
     val color = MaterialTheme.colorScheme.primary
     val fill = MaterialTheme.colorScheme.primaryContainer
     val ink = MaterialTheme.colorScheme.onPrimaryContainer
     val latestOpen by rememberUpdatedState(open)
-    Box(modifier.width(52.dp).height(76.dp + with(density) { extension.toDp() }).testTag("assistant-pull-cord")
+    Box(modifier.width(52.dp).layout { measurable, constraints ->
+        val height = (76.dp.roundToPx() + extension().roundToInt()).coerceIn(constraints.minHeight, constraints.maxHeight)
+        val placeable = measurable.measure(constraints.copy(minHeight = height, maxHeight = height))
+        layout(placeable.width, placeable.height) { placeable.place(0, 0) }
+    }.testTag("assistant-pull-cord")
         .semantics {
             contentDescription = "下拉打开 AI 助手"
             stateDescription = if (ready) "松手展开助手" else "向下拉动"
@@ -110,10 +135,10 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
         }
         .pointerInput(threshold, maximum) {
             detectVerticalDragGestures(
-                onDragStart = { dragging = true; drag = 0f },
+                onDragStart = { val current = extension(); recoilJob?.cancel(); drag = current; dragging = true },
                 onVerticalDrag = { change, amount -> change.consume(); drag = (drag + amount).coerceIn(0f, maximum) },
-                onDragEnd = { val release = drag >= threshold; dragging = false; drag = 0f; if (release) latestOpen() },
-                onDragCancel = { dragging = false; drag = 0f }
+                onDragEnd = { release(drag >= threshold) { latestOpen() } },
+                onDragCancel = { release(false) {} }
             )
         }, contentAlignment = Alignment.BottomCenter) {
         Canvas(Modifier.fillMaxSize()) {

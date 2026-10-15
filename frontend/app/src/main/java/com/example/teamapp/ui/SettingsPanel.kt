@@ -3,6 +3,11 @@ package com.example.teamapp.ui
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,12 +41,25 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
             "我的家庭" -> {
                 var family by rememberSaveable { mutableStateOf(store.family) }
                 var location by rememberSaveable { mutableStateOf("") }
+                val initialLocations = remember { store.locations.toSet() }
                 Field("家庭名称", family, { family = it })
                 Button(onClick = { if (family.isBlank()) notify("请填写家庭名称") else { store.profile(store.nickname, family); notify("家庭名称已保存") } }) { Text("保存家庭名称") }
                 Text("家庭成员", fontWeight = FontWeight.Bold)
                 ModeNotice("${store.nickname} · 本机管理员\n成员邀请与实时协作暂未开放。")
                 Text("存放位置", fontWeight = FontWeight.Bold)
-                store.locations.forEach { Text("◇  $it") }
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    store.locations.forEach { place ->
+                        key(place) {
+                            val visible = remember {
+                                MutableTransitionState(place in initialLocations).apply { targetState = true }
+                            }
+                            AnimatedVisibility(
+                                visibleState = visible,
+                                enter = fadeIn(tween(AppMotion.Quick)) + expandVertically(tween(AppMotion.Duration, easing = AppMotion.easing))
+                            ) { Text("◇  $place") }
+                        }
+                    }
+                }
                 Field("新增存放位置", location, { location = it })
                 OutlinedButton(onClick = { if (location.isBlank()) notify("请填写位置名称") else { store.addLocation(location); location = ""; notify("位置已保存") } }) { Text("添加位置") }
             }
@@ -51,9 +69,9 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 var error by remember { mutableStateOf("") }
                 ModeNotice("当数量少于物品最低库存时提示不足。有效期当天仍为临期，次日起标记过期；未设置有效期不判断临期。")
                 Field("提前提醒天数（0–365）", days, { days = it }, numeric = true)
-                store.items.forEach { item -> Field("${item.name}最低库存（${item.unit}）", minimums[item.id].orEmpty(), { minimums[item.id] = it }, numeric = true) }
+                store.items.forEach { item -> key(item.id) { Field("${item.name}最低库存（${item.unit}）", minimums[item.id].orEmpty(), { minimums[item.id] = it }, numeric = true) } }
                 if (store.items.isEmpty()) Text("添加物品后，可在这里分别设置最低库存。")
-                if (error.isNotBlank()) Text(error, color = Red)
+                MotionErrorText(error)
                 Button(onClick = {
                     val d = days.toIntOrNull()
                     val values = minimums.mapValues { nonNegativeNumber(it.value) }

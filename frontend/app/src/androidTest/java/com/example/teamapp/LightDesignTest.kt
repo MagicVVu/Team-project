@@ -72,7 +72,7 @@ class LightDesignTest {
     @Test fun ringUsesRealInventoryAndSearchFiltersWithoutChangingData() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("1 种物品 · 1 项需关注").assertIsDisplayed()
+        compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithText("圆环测试设置").assertDoesNotExist()
         screenshot("stock-ring-fixture")
         compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()

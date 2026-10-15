@@ -1,12 +1,22 @@
 package com.example.teamapp.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,6 +40,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -37,6 +48,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -86,23 +98,42 @@ internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: 
 
 @Composable
 internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
-    Row(
+    val indicatorPosition = animateFloatAsState(
+        selected.toFloat(), tween(AppMotion.Duration, easing = AppMotion.easing), label = "light-nav-position"
+    )
+    Box(
         Modifier.fillMaxWidth().background(Color(0xFFF4F3E3)).border(BorderStroke(1.dp, DesignLine))
-            .navigationBarsPadding().padding(horizontal = 12.dp, vertical = 9.dp),
-        horizontalArrangement = Arrangement.SpaceAround
+            .navigationBarsPadding().padding(horizontal = 12.dp, vertical = 9.dp)
     ) {
-        listOf("首页", "库存", "清单", "我的").forEachIndexed { index, label ->
-            Column(
-                Modifier.weight(1f).clip(RoundedCornerShape(12.dp))
-                    .selectable(selected == index, role = Role.Tab, onClick = { select(index) })
-                    .background(if (selected == index) DesignSoft else Color.Transparent)
-                    .padding(vertical = 5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(3.dp)
-            ) {
-                if (index == 0) MaoYou(modifier = Modifier.size(30.dp), description = null)
-                else DesignGlyph(listOf("leaf", "box", "cart", "person")[index], Modifier.size(27.dp))
-                Text(label, color = DesignOlive, fontSize = 11.sp, fontWeight = if (selected == index) FontWeight.SemiBold else FontWeight.Normal)
+        Canvas(Modifier.matchParentSize()) {
+            val tabWidth = size.width / 4
+            drawRoundRect(DesignSoft, Offset(tabWidth * indicatorPosition.value, 0f), Size(tabWidth, size.height), CornerRadius(12.dp.toPx()))
+        }
+        Row(Modifier.fillMaxWidth()) {
+            listOf("首页", "库存", "清单", "我的").forEachIndexed { index, label ->
+                val interaction = remember { MutableInteractionSource() }
+                val pressed by interaction.collectIsPressedAsState()
+                val scale = animateFloatAsState(
+                    if (pressed) 0.92f else if (selected == index) 1.06f else 1f,
+                    tween(AppMotion.Quick, easing = AppMotion.easing), label = "light-nav-scale"
+                )
+                val foreground by animateColorAsState(
+                    if (selected == index) DesignOlive else DesignMuted,
+                    tween(AppMotion.Quick), label = "light-nav-color"
+                )
+                Column(
+                    Modifier.weight(1f).clip(RoundedCornerShape(12.dp))
+                        .selectable(selected == index, interactionSource = interaction, indication = ripple(), role = Role.Tab, onClick = { select(index) })
+                        .padding(vertical = 5.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(3.dp)
+                ) {
+                    Box(Modifier.size(30.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
+                        if (index == 0) MaoYou(modifier = Modifier.size(30.dp), description = null)
+                        else DesignGlyph(listOf("leaf", "box", "cart", "person")[index], Modifier.size(27.dp), foreground)
+                    }
+                    Text(label, color = foreground, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                }
             }
         }
     }
@@ -162,14 +193,14 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
         }
         if (store.items.isEmpty()) DesignEmpty("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
         store.items.sortedBy { it.status(store.reminderDays).priority }.take(4).forEach { item ->
-            DesignStockRow(item, store.reminderDays) { open(item) }
+            key(item.id) { DesignStockRow(item, store.reminderDays) { open(item) } }
         }
     }
 }
 
 @Composable
 private fun DesignQuick(glyph: String, title: String, subtitle: String, modifier: Modifier, action: () -> Unit) {
-    Card(onClick = action, modifier = modifier, border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft), shape = RoundedCornerShape(14.dp)) {
+    Card(modifier = modifier.clip(RoundedCornerShape(14.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft), shape = RoundedCornerShape(14.dp)) {
         Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
             DesignGlyph(glyph, Modifier.size(29.dp))
             Text(title, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
@@ -183,12 +214,13 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
     var search by rememberSaveable { mutableStateOf("") }
     var filter by rememberSaveable { mutableStateOf("全部") }
     var ring by rememberSaveable { mutableStateOf(false) }
+    val ringVisibility = remember { MutableTransitionState(ring) }.apply { targetState = ring }
     val result = store.items.filter { item ->
         (item.name.contains(search.trim(), true) || item.location.contains(search.trim(), true)) &&
             when (filter) { "需关注" -> item.status(store.reminderDays).attention; "食品", "日用品" -> item.category == filter; else -> true }
     }.sortedBy { it.status(store.reminderDays).priority }
     LazyColumn(Modifier.fillMaxSize().testTag("inventory-list"), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item {
+        item(key = "inventory-summary") {
             DesignCard(DesignSoft) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DesignGlyph("box", Modifier.size(39.dp))
@@ -199,7 +231,7 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
                 }
             }
         }
-        item {
+        item(key = "inventory-actions") {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(ring, { ring = true }, { Text("圆环", fontSize = 12.sp) })
                 FilterChip(!ring, { ring = false }, { Text("列表", fontSize = 12.sp) })
@@ -208,19 +240,30 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
                 IconButton(onClick = add, modifier = Modifier.background(DesignOlive, CircleShape).size(36.dp).semantics { contentDescription = "手动添加" }) { DesignGlyph("plus", Modifier.size(21.dp), Color.White) }
             }
         }
-        item {
+        item(key = "inventory-search") {
             OutlinedTextField(search, { search = it }, placeholder = { Text("名称或位置", fontSize = 13.sp) }, singleLine = true,
                 trailingIcon = { if (search.isNotEmpty()) TextButton(onClick = { search = "" }) { Text("清空") } else DesignGlyph("search", Modifier.size(20.dp)) },
                 modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
         }
-        item {
+        item(key = "inventory-filters") {
             Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(DesignSoft).horizontalScroll(rememberScrollState()).padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("全部", "需关注", "食品", "日用品").forEach { label -> FilterChip(filter == label, { filter = label }, { Text(label, fontSize = 12.sp) }) }
             }
         }
-        if (ring) item { InventoryRing(result, store.reminderDays, open) }
-        if (result.isEmpty()) item { DesignEmpty("没有匹配的物品", if (store.items.isEmpty()) "先记下一件小物，圆环会随真实库存展开" else "试试其他关键词或筛选条件") }
-        items(result, key = { it.id }) { item -> DesignStockRow(item, store.reminderDays) { open(item) } }
+        if (ringVisibility.currentState || ringVisibility.targetState || !ringVisibility.isIdle) item(key = "inventory-ring") {
+            AnimatedVisibility(
+                visibleState = ringVisibility,
+                modifier = Modifier.motionInput(ring),
+                enter = expandVertically(tween(AppMotion.Duration, easing = AppMotion.easing)) + fadeIn(tween(AppMotion.Quick)),
+                exit = shrinkVertically(tween(AppMotion.Duration, easing = AppMotion.easing)) + fadeOut(tween(AppMotion.Quick))
+            ) { InventoryRing(result, store.reminderDays, open) }
+        }
+        if (result.isEmpty()) item(key = "inventory-empty") {
+            Box(Modifier.animateItem()) { DesignEmpty("没有匹配的物品", if (store.items.isEmpty()) "先记下一件小物，圆环会随真实库存展开" else "试试其他关键词或筛选条件") }
+        }
+        items(result, key = { it.id }) { item ->
+            Box(Modifier.animateItem()) { DesignStockRow(item, store.reminderDays) { open(item) } }
+        }
     }
 }
 
@@ -244,24 +287,32 @@ private fun InventoryRing(items: List<StockItem>, days: Int, open: (StockItem) -
                 drawArc(color, -90f + index * 360f / visible.size + 1.5f, 360f / visible.size - 3f, false, Offset(inset, inset), arcSize, style = Stroke(thickness))
             }
         }
-        visible.forEachIndexed { index, item ->
+        visible.forEachIndexed { index, item -> key(item.id) {
             val angle = (-90.0 + (index + 0.5) * 360.0 / visible.size) * Math.PI / 180.0
+            val selectionColor by animateColorAsState(
+                if (selected == item.id) DesignSoft else Color.Transparent,
+                tween(AppMotion.Quick), label = "ring-selection"
+            )
             Column(
                 Modifier.align(Alignment.Center).offset(x = radius * cos(angle).toFloat(), y = radius * sin(angle).toFloat())
                     .size(width = 67.dp, height = 61.dp).clip(RoundedCornerShape(10.dp))
-                    .clickable { selected = item.id }, horizontalAlignment = Alignment.CenterHorizontally,
+                    .background(selectionColor).motionClickable { selected = item.id }, horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 StockIllustration(item, Modifier.size(24.dp))
                 Text(item.name, fontSize = 10.sp, lineHeight = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text("${item.quantity.display()} ${item.unit}", fontSize = 9.sp, lineHeight = 12.sp, color = DesignOlive)
             }
-        }
+        } }
         Column(Modifier.align(Alignment.Center).width(116.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             MaoYou(modifier = Modifier.size(76.dp), description = null)
-            Text(selectedItem?.name ?: "家里的小物", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (selectedItem == null) Text("慢慢记好", fontSize = 11.sp, color = DesignMuted)
-            else TextButton(onClick = { open(selectedItem) }) { Text("查看详情 ›", fontSize = 11.sp) }
+            AppMotionContent(selectedItem, label = "ring-details") { current ->
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(current?.name ?: "家里的小物", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    if (current == null) Text("慢慢记好", fontSize = 11.sp, color = DesignMuted)
+                    else TextButton(onClick = { open(current) }) { Text("查看详情 ›", fontSize = 11.sp) }
+                }
+            }
         }
         Text("${items.size} 种物品" + if (items.size > 12) " · 圆环展示前 12 种" else " · 按关注程度排列", fontSize = 10.sp, color = DesignMuted, modifier = Modifier.align(Alignment.BottomCenter))
     }
@@ -270,7 +321,7 @@ private fun InventoryRing(items: List<StockItem>, days: Int, open: (StockItem) -
 @Composable
 internal fun DesignStockRow(item: StockItem, days: Int, action: () -> Unit) {
     val status = item.status(days)
-    Card(onClick = action, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8))) {
+    Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8))) {
         Row(Modifier.fillMaxWidth().background(DesignSoft).padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Box(Modifier.size(46.dp).background(Color(0xFFFBFAEE), RoundedCornerShape(11.dp)).border(1.dp, DesignLine, RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) { StockIllustration(item, Modifier.size(34.dp)) }
             Column(Modifier.weight(1f)) {
@@ -290,7 +341,7 @@ internal fun DesignStockRow(item: StockItem, days: Int, action: () -> Unit) {
 @Composable
 internal fun DesignShopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(13.dp)) {
-        item {
+        item(key = "shopping-summary") {
             DesignCard(DesignSoft) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     MaoYou(7, Modifier.size(67.dp), null)
@@ -301,11 +352,13 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
                 }
             }
         }
-        item { DesignSection("待采购", "${store.purchases.size} 项") }
-        if (store.purchases.isEmpty()) item { DesignEmpty("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来", 7) }
+        item(key = "shopping-title") { DesignSection("待采购", "${store.purchases.size} 项") }
+        if (store.purchases.isEmpty()) item(key = "shopping-empty") {
+            Box(Modifier.animateItem()) { DesignEmpty("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来", 7) }
+        }
         items(store.purchases, key = { "purchase-${it.itemId}" }) { task ->
             store.items.firstOrNull { it.id == task.itemId }?.let { item ->
-                DesignCard {
+                DesignCard(modifier = Modifier.animateItem()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         StockIllustration(item, Modifier.size(40.dp))
                         Column(Modifier.weight(1f).padding(start = 12.dp)) {
@@ -323,11 +376,13 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
                 }
             }
         }
-        item { DesignSection("根据库存推荐", "记得核对实际数量") }
+        item(key = "recommendations-title") {
+            Box(Modifier.animateItem()) { DesignSection("根据库存推荐", "记得核对实际数量") }
+        }
         val low = store.items.filter { it.status(store.reminderDays).low }
-        if (low.isEmpty()) item { Text("目前没有低于最低库存的物品。", fontSize = 12.sp, color = DesignMuted) }
+        if (low.isEmpty()) item(key = "recommendations-empty") { Text("目前没有低于最低库存的物品。", fontSize = 12.sp, color = DesignMuted, modifier = Modifier.animateItem()) }
         items(low, key = { "recommendation-${it.id}" }) { item ->
-            DesignCard(Color(0xFFF1E8CB)) {
+            DesignCard(Color(0xFFF1E8CB), modifier = Modifier.animateItem()) {
                 Text(item.name, fontWeight = FontWeight.Bold)
                 Text("当前 ${item.quantity.display()} ${item.unit} · 最低 ${item.minimum.display()} ${item.unit}", fontSize = 12.sp, color = DesignMuted, modifier = Modifier.padding(vertical = 8.dp))
                 OutlinedButton(onClick = { action(item.id, if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }) {
@@ -341,7 +396,7 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
 @Composable
 internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(17.dp)) {
-        Card(onClick = { open("账号设置") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
+        Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
             Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
                 MaoYou(8, Modifier.size(73.dp), null)
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
@@ -363,7 +418,7 @@ private fun DesignMenu(title: String, rows: List<Pair<String, String>>, open: (S
     Text(title, color = DesignMuted, fontSize = 12.sp)
     Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8)), shape = RoundedCornerShape(14.dp)) {
         rows.forEachIndexed { index, (name, description) ->
-            Row(Modifier.fillMaxWidth().clickable { open(name) }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().motionClickable { open(name) }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                 DesignGlyph(if (name == "我的家庭") "leaf" else if (name == "消息通知") "bell" else if (name == "账号设置") "person" else "box", Modifier.size(23.dp))
                 Column(Modifier.weight(1f).padding(horizontal = 13.dp)) {
                     Text(name, fontSize = 14.sp, fontWeight = FontWeight.Medium)
@@ -408,8 +463,8 @@ internal fun DesignAddIntro(mode: String) {
 }
 
 @Composable
-private fun DesignCard(color: Color = Color(0xFFF7F5E8), content: @Composable ColumnScope.() -> Unit) {
-    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = color)) {
+private fun DesignCard(color: Color = Color(0xFFF7F5E8), modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = color)) {
         Column(Modifier.padding(15.dp), content = content)
     }
 }
@@ -424,9 +479,10 @@ private fun DesignSection(title: String, subtitle: String) {
 
 @Composable
 private fun DesignFact(label: String, value: String, color: Color = DesignInk) {
+    val foreground by animateColorAsState(color, tween(AppMotion.Duration), label = "stock-fact-color")
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(label, fontSize = 12.sp, color = DesignMuted, modifier = Modifier.weight(1f))
-        Text(value, fontSize = 12.sp, color = color)
+        Text(value, fontSize = 12.sp, color = foreground)
     }
 }
 

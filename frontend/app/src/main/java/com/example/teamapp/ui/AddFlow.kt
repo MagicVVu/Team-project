@@ -6,6 +6,14 @@ import android.speech.RecognizerIntent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,18 +22,31 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
+import com.example.teamapp.ui.theme.appearanceFade
 import java.io.File
 import java.time.LocalDate
+
+private data class AddReviewStep(
+    val version: Int,
+    val index: Int,
+    val image: String,
+    val draft: VoiceDraft?,
+    val total: Int,
+    val sourceText: String
+)
 
 @Composable
 internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Unit, close: () -> Unit) {
     val context = LocalContext.current
+    val focus = LocalFocusManager.current
     var image by rememberSaveable { mutableStateOf("") }
     var cameraUri by rememberSaveable { mutableStateOf("") }
     var transcript by rememberSaveable { mutableStateOf("") }
@@ -33,6 +54,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
     val drafts = remember(draftSource) { if (draftSource.isBlank()) emptyList() else parseVoice(draftSource) }
     var index by rememberSaveable { mutableIntStateOf(0) }
     var review by rememberSaveable { mutableStateOf(mode == "手动添加") }
+    var reviewVersion by rememberSaveable { mutableIntStateOf(0) }
     var error by rememberSaveable { mutableStateOf("") }
     val photoPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
@@ -50,14 +72,17 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
             if (transcript.isBlank()) error = "未识别到语音，请重试或手动输入。" else error = ""
         } else error = "语音输入已取消或未识别成功，可重试或手动输入。"
     }
-    if (review) {
-        val draft = drafts.getOrNull(index)
+    // Keep each outgoing review bound to its own draft while the next item enters.
+    val reviewStep = if (review) AddReviewStep(reviewVersion, index, image, drafts.getOrNull(index), drafts.size, transcript) else null
+    AppMotionContent(reviewStep, Modifier.fillMaxSize(), label = "add-step") { step ->
+    if (step != null) {
         Column(Modifier.fillMaxSize()) {
-            if (drafts.isNotEmpty()) Text("逐项确认 ${index + 1} / ${drafts.size} · 每项确认后才保存", modifier = Modifier.padding(horizontal = 22.dp))
-            key(index, image, mode) {
-                Editor(store, initial = null, image = image, draft = draft, notify = notify, onSaved = {
-                    if (index + 1 < drafts.size) index++ else close()
-                }, cancel = { review = false; draftSource = ""; index = 0 }, sourceText = transcript)
+            if (step.total > 0) Text("逐项确认 ${step.index + 1} / ${step.total} · 每项确认后才保存", modifier = Modifier.padding(horizontal = 22.dp))
+            key(step.index, step.image, mode) {
+                Editor(store, initial = null, image = step.image, draft = step.draft, notify = notify, onSaved = {
+                    focus.clearFocus()
+                    if (step.index + 1 < step.total) index = step.index + 1 else close()
+                }, cancel = { focus.clearFocus(); reviewVersion++; review = false; draftSource = ""; index = 0 }, sourceText = step.sourceText)
             }
         }
     } else {
@@ -84,14 +109,16 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
                 }, modifier = Modifier.fillMaxWidth()) { Text("开始语音输入 / 重新输入") }
                 OutlinedTextField(transcript, { transcript = it; error = "" }, label = { Text("识别文字 / 手动输入") }, minLines = 3, modifier = Modifier.fillMaxWidth())
                 Button(onClick = {
+                    focus.clearFocus()
                     draftSource = transcript; index = 0
                     if (parseVoice(transcript).isEmpty()) error = "请先说出或输入物品信息" else review = true
                 }, modifier = Modifier.fillMaxWidth()) { Text("解析并逐项核对") }
                 Text("仅提取简单的名称、数量与单位。缺少或不确定的信息必须由你补全。", style = MaterialTheme.typography.bodySmall)
             }
-            if (error.isNotBlank()) Text(error, color = Red)
-            TextButton(onClick = { draftSource = ""; image = ""; transcript = ""; review = true }) { Text("改为手动填写") }
+            MotionErrorText(error)
+            TextButton(onClick = { focus.clearFocus(); draftSource = ""; image = ""; transcript = ""; review = true }) { Text("改为手动填写") }
         }
+    }
     }
 }
 
@@ -124,10 +151,10 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         Text("类别", style = MaterialTheme.typography.labelLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(c) }) } }
         Choice("存放位置 *", store.locations, location) { location = it }
-        if (errors["location"] != null) Text(errors["location"]!!, color = Red)
+        MotionErrorText(errors["location"])
         Field("最低库存（选填，默认 0）", minimum, { minimum = it }, errors["minimum"], numeric = true)
         Field("有效期（选填，YYYY-MM-DD）", expiry, { expiry = it }, errors["expiry"])
-        if (generalError.isNotBlank()) Text(generalError, color = Red)
+        MotionErrorText(generalError)
         Button(onClick = {
             val q = if (initial == null) positiveNumber(quantity) else nonNegativeNumber(quantity)
             val m = nonNegativeNumber(minimum.ifBlank { "0" })
@@ -151,7 +178,7 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         Spacer(Modifier.height(16.dp))
     }
     duplicate?.let { old ->
-        AlertDialog(onDismissRequest = { duplicate = null }, title = { Text("该物品已在库存中") }, text = { Text("${old.name}现有 ${old.quantity.display()} ${old.unit}。\n新增入库会累加数量；盘点会以填写数量替换现有数量。原有分类、位置、阈值和有效期保留，可在详情中编辑。") }, dismissButton = { TextButton(onClick = { duplicate = null }) { Text("取消") } }, confirmButton = {
+        AlertDialog(onDismissRequest = { duplicate = null }, modifier = Modifier.appearanceFade(), title = { Text("该物品已在库存中") }, text = { Text("${old.name}现有 ${old.quantity.display()} ${old.unit}。\n新增入库会累加数量；盘点会以填写数量替换现有数量。原有分类、位置、阈值和有效期保留，可在详情中编辑。") }, dismissButton = { TextButton(onClick = { duplicate = null }) { Text("取消") } }, confirmButton = {
             Column { TextButton(onClick = { pending?.let { save(it, "入库") }; duplicate = null }) { Text("新增入库") }; TextButton(onClick = { pending?.let { save(it, "盘点") }; duplicate = null }) { Text("更新盘点结果") } }
         })
     }
@@ -159,11 +186,38 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
 
 @Composable
 internal fun Field(label: String, value: String, change: (String) -> Unit, error: String? = null, numeric: Boolean = false) {
-    OutlinedTextField(value, change, label = { Text(label) }, singleLine = true, modifier = Modifier.fillMaxWidth(), isError = error != null, supportingText = { if (error != null) Text(error) }, keyboardOptions = KeyboardOptions(keyboardType = if (numeric) KeyboardType.Decimal else KeyboardType.Text))
+    OutlinedTextField(value, change, label = { Text(label) }, singleLine = true,
+        modifier = Modifier.fillMaxWidth().animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing)),
+        isError = error != null, supportingText = { MotionErrorText(error) },
+        keyboardOptions = KeyboardOptions(keyboardType = if (numeric) KeyboardType.Decimal else KeyboardType.Text))
 }
 
 @Composable
 internal fun Choice(label: String, options: List<String>, selected: String, change: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    Box { OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) { Text("$label：${selected.ifBlank { "请选择" }}  ▾") }; DropdownMenu(expanded, { expanded = false }) { options.forEach { option -> DropdownMenuItem(text = { Text(option) }, onClick = { change(option); expanded = false }) } } }
+    val arrowRotation by animateFloatAsState(if (expanded) 180f else 0f,
+        tween(AppMotion.Quick, easing = AppMotion.easing), label = "choice-arrow")
+    Box {
+        OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
+            AppMotionContent(selected, label = "choice-value") { value -> Text("$label：${value.ifBlank { "请选择" }}") }
+            Text("▾", Modifier.padding(start = 8.dp).rotate(arrowRotation))
+        }
+        DropdownMenu(expanded, { expanded = false }) {
+            options.forEach { option -> DropdownMenuItem(text = { Text(option) }, onClick = { change(option); expanded = false }) }
+        }
+    }
+}
+
+@Composable
+internal fun MotionErrorText(message: String?, modifier: Modifier = Modifier) {
+    val visible = !message.isNullOrBlank()
+    var retainedMessage by remember { mutableStateOf(message.orEmpty()) }
+    SideEffect { if (visible) retainedMessage = message.orEmpty() }
+    AnimatedVisibility(
+        visible = visible, modifier = modifier,
+        enter = fadeIn(tween(AppMotion.Quick)) + expandVertically(tween(AppMotion.Duration, easing = AppMotion.easing)),
+        exit = fadeOut(tween(AppMotion.Quick)) + shrinkVertically(tween(AppMotion.Duration, easing = AppMotion.easing))
+    ) {
+        Text(if (visible) message.orEmpty() else retainedMessage, color = Red)
+    }
 }
