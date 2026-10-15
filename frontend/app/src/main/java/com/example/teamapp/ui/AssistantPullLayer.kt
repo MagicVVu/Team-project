@@ -18,13 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.changedToDownIgnoreConsumed
+import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.boundsInWindow
@@ -40,6 +46,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import com.example.teamapp.R
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.ui.theme.LocalLightDesign
@@ -63,9 +70,21 @@ internal fun AssistantPullLayer(
         .onGloballyPositioned { headerBottom = it.boundsInWindow().bottom }
     val focus = LocalFocusManager.current
     fun dismiss() { focus.clearFocus(); expanded = false }
+    // Keep the landing lift the same small physical distance on phones and tablets.
+    val landingLiftPx = with(LocalDensity.current) { 7.dp.toPx() }
+    val landingReveal = 1f - landingLiftPx / heightPx.coerceAtLeast(landingLiftPx.roundToInt())
     val transition = updateTransition(expanded, label = "assistant-curtain")
     val reveal = transition.animateFloat(
-        transitionSpec = { tween(if (targetState) AppMotion.Page else AppMotion.Duration, easing = AppMotion.easing) },
+        transitionSpec = {
+            if (targetState) keyframes {
+                durationMillis = 1020
+                // Let the cord recoil visibly before the paper starts covering it.
+                0f at 160 using CubicBezierEasing(.4f, 0f, .2f, 1f)
+                1f at 740 using CubicBezierEasing(.2f, 0f, .4f, 1f)
+                landingReveal at 860 using CubicBezierEasing(.2f, 0f, .3f, 1f)
+                1f at 1020
+            } else tween(380, easing = AppMotion.easing)
+        },
         label = "reveal"
     ) { if (it) 1f else 0f }
     val visible = transition.currentState || transition.targetState || transition.isRunning
@@ -74,22 +93,47 @@ internal fun AssistantPullLayer(
     Box(Modifier.fillMaxSize().clipToBounds().onSizeChanged { heightPx = it.height }
         .onGloballyPositioned { layerTop = it.boundsInWindow().top }) {
         Box(Modifier.fillMaxSize().motionInput(!visible)) { content(headerModifier) }
-        if (tab in 1..3 && available && !visible && headerBottom != null) {
+        if (tab in 1..3 && available && !transition.currentState && headerBottom != null) {
             // Anchor to the measured app bar, including its actual height and system insets.
-            AssistantPullCord({ expanded = true }, Modifier.align(Alignment.TopEnd)
+            // Retain its spring behind the falling sheet until opening has finished.
+            Box(Modifier.align(Alignment.TopEnd)
                 .offset { IntOffset(0, ((headerBottom ?: layerTop) - layerTop).coerceAtLeast(0f).roundToInt()) }
-                .padding(end = 16.dp))
+                .padding(end = 16.dp).testTag("assistant-cord-recoil")) {
+                Box(Modifier.motionInput(!visible)) {
+                    AssistantPullCord({ expanded = true }, Modifier)
+                }
+            }
         }
         if (visible) {
             // This surface also blocks touches to the lower page while the curtain is moving.
             val scrim = MaterialTheme.colorScheme.scrim
-            Box(Modifier.fillMaxSize().drawBehind { drawRect(scrim.copy(alpha = .14f * reveal.value)) }
+            val light = LocalLightDesign.current
+            Box(Modifier.fillMaxSize().drawBehind { drawRect(scrim.copy(alpha = .14f * reveal.value.coerceIn(0f, 1f))) }
                 .clickable(remember { MutableInteractionSource() }, indication = null) {}.clearAndSetSemantics {})
-            Surface(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal.value - 1f) * heightPx }
-                .testTag("assistant-curtain").semantics { paneTitle = "AI 助手" }, color = MaterialTheme.colorScheme.background) {
-                Box(Modifier.fillMaxSize().motionInput(expanded)) {
-                    AssistantCurtainPage(store, conversation, notify) { dismiss() }
-                    SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())
+            Box(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal.value - 1f) * heightPx }
+                .drawWithCache {
+                    // Draw outside the paper's Surface so its clip cannot cut off the shadow.
+                    // Cache both gradients; animation only translates this complete layer.
+                    val spread = 28.dp.toPx()
+                    val contact = 4.dp.toPx()
+                    val softShadow = Brush.verticalGradient(
+                        0f to Color.Black.copy(alpha = if (light) .18f else .42f),
+                        .3f to Color.Black.copy(alpha = if (light) .08f else .18f),
+                        1f to Color.Transparent,
+                        startY = size.height, endY = size.height + spread)
+                    val edgeShadow = Brush.verticalGradient(
+                        listOf(Color.Black.copy(alpha = if (light) .12f else .24f), Color.Transparent),
+                        startY = size.height, endY = size.height + contact)
+                    onDrawBehind {
+                        drawRect(softShadow, Offset(0f, size.height), Size(size.width, spread))
+                        drawRect(edgeShadow, Offset(0f, size.height), Size(size.width, contact))
+                    }
+                }.testTag("assistant-curtain").semantics { paneTitle = "AI 助手" }) {
+                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    Box(Modifier.fillMaxSize().motionInput(expanded)) {
+                        AssistantCurtainPage(store, conversation, notify) { dismiss() }
+                        SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())
+                    }
                 }
             }
         }
@@ -101,21 +145,32 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
     val density = LocalDensity.current
     val threshold = with(density) { 72.dp.toPx() }
     val maximum = with(density) { 120.dp.toPx() }
+    val velocityLimit = with(density) { 700.dp.toPx() }
     var drag by remember { mutableFloatStateOf(0f) }
     var dragging by remember { mutableStateOf(false) }
     val recoil = remember { Animatable(0f) }
+    val velocityTracker = remember { VelocityTracker() }
     val scope = rememberCoroutineScope()
     var recoilJob by remember { mutableStateOf<Job?>(null) }
     val ready by remember(threshold) { derivedStateOf { dragging && drag >= threshold } }
     fun extension() = if (dragging) drag else recoil.value
-    fun release(openAssistant: Boolean, open: () -> Unit) {
+    fun release(openAssistant: Boolean, velocity: Float, open: () -> Unit) {
+        val displacement = drag
+        val releaseVelocity = velocity.coerceIn(-velocityLimit, velocityLimit)
+        // Displacement stores spring energy; release velocity adds kinetic energy.
+        // Stronger pulls lose less energy per oscillation, so their recoil is more visible.
+        val energy = sqrt((displacement / threshold) * (displacement / threshold) +
+            (releaseVelocity / velocityLimit) * (releaseVelocity / velocityLimit)).coerceIn(0f, 1f)
         recoilJob?.cancel()
         recoilJob = scope.launch {
-            recoil.snapTo(drag)
+            recoil.snapTo(displacement)
             dragging = false
             drag = 0f
             if (openAssistant) open()
-            else recoil.animateTo(0f, spring(dampingRatio = .82f, stiffness = 500f))
+            recoil.animateTo(0f,
+                animationSpec = spring(dampingRatio = .64f - .24f * energy,
+                    stiffness = 320f + 100f * energy, visibilityThreshold = with(density) { .1.dp.toPx() }),
+                initialVelocity = releaseVelocity)
         }
     }
     val color = MaterialTheme.colorScheme.primary
@@ -133,12 +188,30 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
             role = Role.Button
             onClick("展开 AI 助手") { latestOpen(); true }
         }
-        .pointerInput(threshold, maximum) {
+        .pointerInput(velocityTracker) {
+            // Include the up event: holding still before release must dissipate flick velocity.
+            awaitPointerEventScope {
+                while (true) {
+                    val change = awaitPointerEvent(PointerEventPass.Initial).changes.first()
+                    if (change.changedToDownIgnoreConsumed()) velocityTracker.resetTracking()
+                    velocityTracker.addPosition(change.uptimeMillis, change.position)
+                }
+            }
+        }
+        .pointerInput(threshold, maximum, velocityLimit) {
             detectVerticalDragGestures(
-                onDragStart = { val current = extension(); recoilJob?.cancel(); drag = current; dragging = true },
-                onVerticalDrag = { change, amount -> change.consume(); drag = (drag + amount).coerceIn(0f, maximum) },
-                onDragEnd = { release(drag >= threshold) { latestOpen() } },
-                onDragCancel = { release(false) {} }
+                onDragStart = {
+                    val current = extension()
+                    recoilJob?.cancel()
+                    drag = current
+                    dragging = true
+                },
+                onVerticalDrag = { change, amount ->
+                    change.consume()
+                    drag = (drag + amount).coerceIn(-26.dp.toPx(), maximum)
+                },
+                onDragEnd = { release(drag >= threshold, velocityTracker.calculateVelocity().y) { latestOpen() } },
+                onDragCancel = { release(false, 0f) {} }
             )
         }, contentAlignment = Alignment.BottomCenter) {
         Canvas(Modifier.fillMaxSize()) {

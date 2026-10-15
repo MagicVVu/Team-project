@@ -12,6 +12,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.SemanticsActions
@@ -188,13 +189,35 @@ class MotionBehaviorTest {
         compose.runOnIdle { assertEquals(1, incomingClicks) }
     }
 
+    @Test fun cancellingAssistantDuringCordRecoilRestoresPage() {
+        launch()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        compose.waitForIdle()
+        val restHeight = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot.height
+        compose.mainClock.autoAdvance = false
+        compose.onNodeWithTag("assistant-pull-cord").performTouchInput {
+            val start = Offset(width / 2f, height * .7f)
+            swipe(start, start + Offset(0f, height * 2f), 500)
+        }
+        compose.mainClock.advanceTimeBy(96)
+        Espresso.pressBack()
+        compose.mainClock.autoAdvance = true
+        compose.waitForIdle()
+        compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
+        compose.onNodeWithTag("assistant-pull-cord").assertIsDisplayed()
+        assertEquals(restHeight, compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot.height, 1f)
+        compose.onNodeWithTag("app-top-bar-title").assertTextEquals("我的库存")
+        compose.runOnIdle { assertEquals(2, store.items.size) }
+    }
+
     @Test fun reversingAssistantEntranceKeepsItsExitUntilItFinishes() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.waitForIdle()
         compose.mainClock.autoAdvance = false
         compose.onNodeWithTag("assistant-pull-cord").performSemanticsAction(SemanticsActions.OnClick) { it() }
-        compose.mainClock.advanceTimeBy(96)
+        // Advance beyond the cord's recoil lead-in and interrupt the moving paper.
+        compose.mainClock.advanceTimeBy(360)
         Espresso.pressBack()
         compose.mainClock.advanceTimeBy(32)
         compose.onNodeWithTag("assistant-curtain").assertExists()

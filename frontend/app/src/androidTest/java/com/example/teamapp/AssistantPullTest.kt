@@ -103,6 +103,69 @@ class AssistantPullTest {
 
     @Test fun lightPullThresholdAndCoverageWorkAcrossAllThreeTabs() { checkTabs(false) }
     @Test fun darkPullThresholdAndCoverageWorkAcrossAllThreeTabs() { checkTabs(true) }
+    @Test fun activationRetainsCordRecoilAndPaperLandsWithSmallBounce() {
+        launch()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        val restHeight = compose.onNodeWithTag("assistant-cord-recoil").fetchSemanticsNode().boundsInRoot.height
+        val pixelsPerDp = restHeight / 76f
+        val fullHeight = compose.onRoot().fetchSemanticsNode().boundsInRoot.height
+        compose.mainClock.autoAdvance = false
+        compose.onNodeWithTag("assistant-pull-cord").performTouchInput {
+            val start = Offset(width / 2f, height * .7f)
+            swipe(start, start + Offset(0f, 110f * pixelsPerDp), 500)
+        }
+        var minimumCordHeight = restHeight
+        val edges = mutableListOf<Float>()
+        repeat(75) { frame ->
+            compose.mainClock.advanceTimeBy(16)
+            edges += compose.onNodeWithTag("assistant-curtain").fetchSemanticsNode().boundsInRoot.bottom
+            if (frame < 24) {
+                minimumCordHeight = minOf(minimumCordHeight,
+                    compose.onNodeWithTag("assistant-cord-recoil").fetchSemanticsNode().boundsInRoot.height)
+            }
+        }
+        Assert.assertTrue("Activated cord stays mounted through its overshoot", minimumCordHeight < restHeight - 1f)
+        Assert.assertTrue("Paper waits briefly for the recoil", edges[5] < fullHeight * .01f)
+        Assert.assertTrue("Full-screen travel is slower than the old 320ms entrance", edges[24] < fullHeight * .85f)
+        Assert.assertTrue("Descent accelerates after release", edges[24] - edges[14] > edges[14] - edges[4])
+        Assert.assertTrue("Descent slows before landing", edges[44] - edges[34] < edges[34] - edges[24])
+        val bounce = fullHeight - edges.subList(51, 58).min()
+        Assert.assertTrue("Paper lifts slightly after landing", bounce > 2f * pixelsPerDp)
+        Assert.assertTrue("Landing bounce remains subtle", bounce <= 8f * pixelsPerDp)
+        Assert.assertEquals("Paper settles with full coverage", fullHeight, edges.last(), 1f)
+        compose.onNodeWithTag("assistant-cord-recoil").assertDoesNotExist()
+        compose.mainClock.autoAdvance = true
+    }
+    @Test fun recoilOvershootsAndScalesWithDistanceAndReleaseSpeed() {
+        launch()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        val cord = compose.onNodeWithTag("assistant-pull-cord")
+        val restHeight = cord.fetchSemanticsNode().boundsInRoot.height
+        val pixelsPerDp = restHeight / 76f
+        compose.mainClock.autoAdvance = false
+        fun recoil(distanceDp: Float, duration: Long): Float {
+            cord.performTouchInput {
+                val start = Offset(width / 2f, height * .7f)
+                swipe(start, start + Offset(0f, distanceDp * pixelsPerDp), duration)
+            }
+            var minimum = restHeight
+            repeat(100) {
+                compose.mainClock.advanceTimeBy(16)
+                minimum = minOf(minimum, cord.fetchSemanticsNode().boundsInRoot.height)
+            }
+            compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
+            Assert.assertEquals("Spring settles back at its anchor", restHeight,
+                cord.fetchSemanticsNode().boundsInRoot.height, 1f)
+            return restHeight - minimum
+        }
+        val gentle = recoil(32f, 500)
+        val deeper = recoil(64f, 500)
+        val faster = recoil(64f, 120)
+        Assert.assertTrue("Release must overshoot the resting position", gentle > 0f)
+        Assert.assertTrue("A deeper pull has stronger recoil", deeper > gentle)
+        Assert.assertTrue("A faster release has stronger recoil", faster > deeper)
+        compose.mainClock.autoAdvance = true
+    }
     @Test fun inventoryAnswerAndReplenishmentRequireConfirmation() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
