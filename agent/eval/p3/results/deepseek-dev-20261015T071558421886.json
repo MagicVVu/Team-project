@@ -1,0 +1,1570 @@
+{
+  "metadata": {
+    "release_version": "V1-P3",
+    "prompt_version": "p3-extract-1",
+    "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+    "engine": "deepseek",
+    "split": "dev",
+    "count": 12,
+    "run_at": "2026-10-15T07:15:58.420187+00:00",
+    "human_reviewed": false,
+    "data_source": "synthetic_fixtures",
+    "formal_backend_verified": false,
+    "real_forecast_efficacy_verified": false,
+    "budget": {
+      "limit_cny": 20.0,
+      "conservative_cost_cny": 0.61914,
+      "calls": 374,
+      "unknown_usage_calls": 0
+    }
+  },
+  "metrics": {
+    "intent_accuracy": 0.5833333333333334,
+    "status_accuracy": 0.5833333333333334,
+    "clarification_recall": null,
+    "draft_field_accuracy": 1.0,
+    "all_checks_accuracy": 0.5833333333333334,
+    "inventory_or_shopping_mutations": 0,
+    "p95_seconds": 1.8870605999836698
+  },
+  "routing_workflow_acceptance_passed": false,
+  "rows": [
+    {
+      "id": "p3-01-1",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.4253741999855265,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_d14c8c0d36b64cd68d23d88438248ccb",
+        "original_text": "牛奶还能用多久",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1425.3467000089586
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 876,
+        "completion_tokens": 92,
+        "total_tokens": 968,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 492
+      }
+    },
+    {
+      "id": "p3-01-2",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.2889005999313667,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_db8c2dc7bbb04d65b26465c00d041de2",
+        "original_text": "请查看牛奶还能用多久？",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1288.8727999525145
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 879,
+        "completion_tokens": 92,
+        "total_tokens": 971,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 239
+      }
+    },
+    {
+      "id": "p3-01-3",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.2663758000126109,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_f45de20ef86747c69d1fbbdcb512bda3",
+        "original_text": "帮我看看牛奶还能用多久。",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1266.3467000238597
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 879,
+        "completion_tokens": 92,
+        "total_tokens": 971,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 239
+      }
+    },
+    {
+      "id": "p3-02-1",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.7966445999918506,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_3cabb6b9300c4a3eac6b59ff3f0d659c",
+        "original_text": "牛奶能用几天",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1796.5935999527574
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 875,
+        "completion_tokens": 92,
+        "total_tokens": 967,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 235
+      }
+    },
+    {
+      "id": "p3-02-2",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.5964577998965979,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_9b41653dfcdb466e83ce65c427a9cd00",
+        "original_text": "请查看牛奶能用几天？",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1596.412899903953
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    },
+    {
+      "id": "p3-02-3",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.591937999939546,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_29181c08e4b649bebaee173660d2015d",
+        "original_text": "帮我看看牛奶能用几天。",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1591.9168000109494
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    },
+    {
+      "id": "p3-03-1",
+      "checks": {
+        "intent_ok": false,
+        "status_ok": false,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.5300596000161022,
+      "result": {
+        "status": "error",
+        "intent": null,
+        "reply": "处理暂不可用，已保留原文与已填字段，请手动核对。",
+        "trace_id": "trace_45e0b44da83a495898b8e94517d96756",
+        "original_text": "牛奶什么时候用完",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "INVALID_MODEL_OUTPUT",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "error",
+            "elapsed_ms": 1530.036099953577
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 875,
+        "completion_tokens": 92,
+        "total_tokens": 967,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 235
+      }
+    },
+    {
+      "id": "p3-03-2",
+      "checks": {
+        "intent_ok": false,
+        "status_ok": false,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.6808444999624044,
+      "result": {
+        "status": "error",
+        "intent": null,
+        "reply": "处理暂不可用，已保留原文与已填字段，请手动核对。",
+        "trace_id": "trace_0976c3e1e6b04dd3bc2db29655cc5f44",
+        "original_text": "请查看牛奶什么时候用完？",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "INVALID_MODEL_OUTPUT",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "error",
+            "elapsed_ms": 1680.8265999425203
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    },
+    {
+      "id": "p3-03-3",
+      "checks": {
+        "intent_ok": false,
+        "status_ok": false,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.8870605999836698,
+      "result": {
+        "status": "error",
+        "intent": null,
+        "reply": "处理暂不可用，已保留原文与已填字段，请手动核对。",
+        "trace_id": "trace_275493e664a443e19dcd2350f1c3724f",
+        "original_text": "帮我看看牛奶什么时候用完。",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "INVALID_MODEL_OUTPUT",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "error",
+            "elapsed_ms": 1887.0447999797761
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    },
+    {
+      "id": "p3-04-1",
+      "checks": {
+        "intent_ok": false,
+        "status_ok": false,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.7598515999270603,
+      "result": {
+        "status": "error",
+        "intent": null,
+        "reply": "处理暂不可用，已保留原文与已填字段，请手动核对。",
+        "trace_id": "trace_10874171ef2a47ce8fc9ec6d73bfc175",
+        "original_text": "牛奶何时用完",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "INVALID_MODEL_OUTPUT",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "error",
+            "elapsed_ms": 1759.829799993895
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 875,
+        "completion_tokens": 92,
+        "total_tokens": 967,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 235
+      }
+    },
+    {
+      "id": "p3-04-2",
+      "checks": {
+        "intent_ok": true,
+        "status_ok": true,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.455300600035116,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_FORECAST",
+        "reply": "牛奶：参考剩余 8 天，参考日期 2026-10-23。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。\n依据已登记库存和消费记录，尚未写入。",
+        "trace_id": "trace_c0edfb3a194f42399779b7d8eaba0dd2",
+        "original_text": "请查看牛奶何时用完？",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "h1",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "answered",
+            "elapsed_ms": 1455.26320009958
+          }
+        ],
+        "risks": [
+          {
+            "batch_id": "b1",
+            "name": "牛奶",
+            "batch_version": 4,
+            "level": "green",
+            "attention": false,
+            "excluded": false,
+            "reason_codes": [
+              "LABEL_DATE_CURRENT",
+              "STORAGE_RECORDED_MATCH",
+              "NO_RULE_TRIGGER"
+            ],
+            "evidence": [
+              {
+                "reason_code": "LABEL_DATE_CURRENT",
+                "explanation": "登记标签日期尚未超过；这不构成安全保证。",
+                "facts": {
+                  "label_expiry": "2026-11-20",
+                  "days_remaining": "36"
+                },
+                "rule_id": "food-label-date",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+                }
+              },
+              {
+                "reason_code": "STORAGE_RECORDED_MATCH",
+                "explanation": "登记条件与包装要求一致，未验证实际温度或完整保存历史。",
+                "facts": {
+                  "storage_condition": "refrigerated",
+                  "label_storage_condition": "refrigerated"
+                },
+                "rule_id": "food-label-storage",
+                "rule_version": "1",
+                "source": {
+                  "title": "GOV UK Best before and use-by dates",
+                  "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+                  "kind": "official_guidance",
+                  "checked_on": "2026-10-14",
+                  "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+                }
+              },
+              {
+                "reason_code": "NO_RULE_TRIGGER",
+                "explanation": "本次已知条件未触发关注规则，不表示物品已经检测安全。",
+                "facts": {},
+                "rule_id": null,
+                "rule_version": null,
+                "source": null
+              }
+            ],
+            "missing_information": [],
+            "recommended_action": "已知规则未触发关注条件；仍应遵循包装说明并核对实物状态。",
+            "evaluated_at": "2026-10-15T02:00:00Z",
+            "household_timezone": "Asia/Shanghai",
+            "ruleset_version": "p2-rules-1",
+            "rule_versions": {
+              "food-label-date": "1",
+              "food-label-storage": "1"
+            },
+            "source_human_reviewed": false,
+            "safety_guaranteed": false
+          }
+        ],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [
+          {
+            "item_key": "milk",
+            "name": "牛奶",
+            "unit": "盒",
+            "status": "estimated",
+            "current_stock": "2",
+            "daily_recorded_consumption": "0.25",
+            "remaining_days": "8",
+            "reference_date": "2026-10-23",
+            "summary": {
+              "item_key": "milk",
+              "name": "牛奶",
+              "unit": "盒",
+              "window_start": "2026-09-17",
+              "window_end_exclusive": "2026-10-15",
+              "observed_days": 28,
+              "effective_quantity": "7",
+              "effective_events": 7,
+              "consumption_dates": 7,
+              "status": "complete",
+              "reason_codes": [],
+              "excluded_events": 0,
+              "event_ids": [
+                "e6",
+                "e5",
+                "e4",
+                "e3",
+                "e2",
+                "e1",
+                "e0"
+              ]
+            },
+            "reason_codes": [],
+            "policy_version": "p3-policy-1",
+            "conditions": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。"
+          }
+        ],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": "snapshot-1",
+        "evaluated_at": "2026-10-15T02:00:00Z",
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    },
+    {
+      "id": "p3-04-3",
+      "checks": {
+        "intent_ok": false,
+        "status_ok": false,
+        "no_writes": true,
+        "draft_ok": true
+      },
+      "latency_seconds": 1.8519537999527529,
+      "result": {
+        "status": "error",
+        "intent": null,
+        "reply": "处理暂不可用，已保留原文与已填字段，请手动核对。",
+        "trace_id": "trace_7cf72fad659d4744a5ee4b5114b4080f",
+        "original_text": "帮我看看牛奶何时用完。",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": "INVALID_MODEL_OUTPUT",
+        "retryable": false,
+        "manual_entry": true,
+        "trace": [
+          {
+            "step": "p3_total",
+            "outcome": "error",
+            "elapsed_ms": 1851.9185000332072
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "usage": {
+        "prompt_tokens": 878,
+        "completion_tokens": 92,
+        "total_tokens": 970,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 238
+      }
+    }
+  ]
+}

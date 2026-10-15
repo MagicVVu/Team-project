@@ -15,6 +15,9 @@ SOURCE_PATHS = (
     "integration/__init__.py", "integration/agent_health.py",
     "integration/backend_v06.py", "integration/source_manifest.py",
     "Dockerfile.p2", "Dockerfile.p2.dockerignore", "requirements.p2.runtime.txt",
+    "p3/__init__.py", "p3/app.py", "p3/engines.py", "p3/forecast.py",
+    "p3/health.py", "p3/history.py", "p3/manager.py", "p3/procurement.py",
+    "p3/schemas.py", "p3/tools.py", "Dockerfile.p3", "Dockerfile.p3.dockerignore",
 )
 
 

@@ -1,0 +1,143 @@
+{
+  "checked_at": "2026-10-15T07:48:18.745391+00:00",
+  "release_version": "V1-P3",
+  "automated_tests": {
+    "passed": 264,
+    "p3_new_tests": 94,
+    "command": "pytest agent/tests backend/tests -q (agent on PYTHONPATH)"
+  },
+  "evaluations": {
+    "rules_dev": {
+      "path": "agent/eval/p3/results/rules-dev-20261015T073024210930.json",
+      "metadata": {
+        "release_version": "V1-P3",
+        "prompt_version": "p3-extract-2",
+        "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+        "engine": "rules",
+        "split": "dev",
+        "count": 90,
+        "run_at": "2026-10-15T07:30:24.210696+00:00",
+        "human_reviewed": false,
+        "data_source": "synthetic_fixtures",
+        "formal_backend_verified": false,
+        "real_forecast_efficacy_verified": false,
+        "budget": null
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.000699399970471859
+      },
+      "routing_workflow_acceptance_passed": false
+    },
+    "rules_test": {
+      "path": "agent/eval/p3/results/rules-test-20261015T073024766150.json",
+      "metadata": {
+        "release_version": "V1-P3",
+        "prompt_version": "p3-extract-2",
+        "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+        "engine": "rules",
+        "split": "test",
+        "count": 60,
+        "run_at": "2026-10-15T07:30:24.765766+00:00",
+        "human_reviewed": false,
+        "data_source": "synthetic_fixtures",
+        "formal_backend_verified": false,
+        "real_forecast_efficacy_verified": false,
+        "budget": null
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.001068799989297986
+      },
+      "routing_workflow_acceptance_passed": true
+    },
+    "deepseek_dev": {
+      "path": "agent/eval/p3/results/deepseek-dev-20261015T072841329901.json",
+      "metadata": {
+        "release_version": "V1-P3",
+        "prompt_version": "p3-extract-2",
+        "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+        "engine": "deepseek",
+        "split": "dev",
+        "count": 90,
+        "run_at": "2026-10-15T07:28:41.328444+00:00",
+        "human_reviewed": false,
+        "data_source": "synthetic_fixtures",
+        "formal_backend_verified": false,
+        "real_forecast_efficacy_verified": false,
+        "budget": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 0.873694,
+          "calls": 462,
+          "unknown_usage_calls": 0
+        }
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 1.8687195000238717
+      },
+      "routing_workflow_acceptance_passed": false
+    },
+    "deepseek_test": {
+      "path": "agent/eval/p3/results/deepseek-test-20261015T073155880520.json",
+      "metadata": {
+        "release_version": "V1-P3",
+        "prompt_version": "p3-extract-2",
+        "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+        "engine": "deepseek",
+        "split": "test",
+        "count": 60,
+        "run_at": "2026-10-15T07:31:55.877600+00:00",
+        "human_reviewed": false,
+        "data_source": "synthetic_fixtures",
+        "formal_backend_verified": false,
+        "real_forecast_efficacy_verified": false,
+        "budget": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 1.048002,
+          "calls": 522,
+          "unknown_usage_calls": 0
+        }
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 2.1375538000138476
+      },
+      "routing_workflow_acceptance_passed": true
+    }
+  },
+  "remote": {
+    "verified_runtime_files": 28,
+    "original_files_unchanged": 27,
+    "python": "3.12.3",
+    "p3_factory_imported": true,
+    "p3_health_valid": true,
+    "backend_version": "0.6.0",
+    "backend_planning_paths": [],
+    "production_service_replaced": false
+  },
+  "formal_backend_positive_chain_verified": false,
+  "real_forecast_efficacy_verified": false,
+  "human_sample_reviewed": false,
+  "committed_or_pushed": false
+}
