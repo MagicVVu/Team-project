@@ -4,6 +4,7 @@ from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from p0.domain import DomainError, UNITS, convert, normalize_unit
+from p0.text import date_fields, fields
 from .engines import ALL_PATTERN, AMOUNT_PATTERN, NUMBER_PATTERN, actions, number
 from .schemas import (AddCommand, Batch, ChangePreview, ConsumeCommand, DiscardCommand,
     Intent, MoveCommand, OpenCommand, Parsed, PlanCommand, ProposedState, valid_quantity)
@@ -19,7 +20,8 @@ def guard(text: str, parsed: Parsed | None = None) -> str | None:
     if parsed is None:
         return None
     detected = actions(text)
-    if parsed.multiple_items or parsed.multiple_actions or len(detected) > 1 or re.search(r"以及|、|和", text):
+    if (parsed.multiple_items or parsed.multiple_actions or len(detected) > 1 or
+            fields(text, parsed.intent.value)["multiple_items"]):
         return "请一次提交一个物品的一种操作。"
     if parsed.intent == Intent.UNSUPPORTED:
         return "当前支持新增、消耗、查询、采购草稿、整批开封、整批移动和丢弃。"
@@ -36,6 +38,15 @@ def ground(parsed: Parsed, text: str) -> Parsed:
     """Discard ungrounded proposals, never let model JSON manufacture a fact."""
     result = parsed.model_copy(deep=True)
     missing = list(result.uncertainties)
+    if (parsed.intent in {Intent.QUERY_INVENTORY, Intent.QUERY_LOCATION} and
+            not parsed.name and fields(text, parsed.intent.value)["name"]):
+        missing.append("name")
+    if parsed.intent == Intent.ADD:
+        for field in date_fields(text):
+            if getattr(result, field) is None:
+                missing.append(field)
+    if parsed.intent in WRITE_ACTIONS:
+        missing += fields(text, parsed.intent.value)["uncertainties"]
     for field in ("name", "location", "to_location", "opened_at", "purchased_at", "label_expiry"):
         value = getattr(result, field)
         if value:

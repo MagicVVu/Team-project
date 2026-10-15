@@ -1,0 +1,31 @@
+{
+  "release_version": "V1-P4",
+  "date": "2026-10-15",
+  "documents": [
+    {
+      "file": "V1-P4_AI开发工作记录_2026-10-15.docx",
+      "sha256": "c570de678c768a3445e64269fc4fa8e37428361a6b8b550aa3168cb030a25570",
+      "pages": 3,
+      "all_pages_visually_reviewed": true,
+      "content_and_ooxml_checks_passed": true
+    },
+    {
+      "file": "V1-P4_测试交接文档_2026-10-15.docx",
+      "sha256": "ec3572fd895f9514b666b226844b3a6f54fb68553eb12dc7663078c6af3c923e",
+      "pages": 4,
+      "all_pages_visually_reviewed": true,
+      "content_and_ooxml_checks_passed": true
+    },
+    {
+      "file": "V1-P4_AI后端接入契约_2026-10-15.docx",
+      "sha256": "31aa1d656b0f58ab2fac24452888ac579d7286064ddc7c74364ad8c0ffcfbb4c",
+      "pages": 6,
+      "all_pages_visually_reviewed": true,
+      "content_and_ooxml_checks_passed": true
+    }
+  ],
+  "page_count": 13,
+  "renderer": "Native Microsoft Word PDF export plus canonical render_docx.py rasterize at 120 DPI",
+  "renderer_fallback_reason": "Bundled Windows runtime has no LibreOffice executable; native Word used for layout and PDF export",
+  "business_source_unchanged_since_final_validation": true
+}

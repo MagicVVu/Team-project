@@ -1,11 +1,11 @@
 import asyncio
 import re
 
-from decimal import Decimal
 from .domain import DomainError, UNITS, convert, new_id, normalize_command, normalize_unit
 from .engines import DecisionEngine, EngineError
 from .schemas import AgentResult, Command, Intent, Message, Scope
 from .tools import InventoryReader
+from .text import actions, date_fields, fields, quantity_evidence
 
 
 class Manager:
@@ -22,24 +22,34 @@ class Manager:
                 return AgentResult(**common, status="unsupported", intent=Intent.UNSUPPORTED, reply="库存变更需要先生成草稿并由你确认。")
             async with asyncio.timeout(10):
                 parsed = await self.engine.extract(message.text)
-            if parsed.intent == Intent.UNSUPPORTED or parsed.multiple_items:
+            evidence = fields(message.text, parsed.intent.value)
+            if (parsed.intent == Intent.UNSUPPORTED or parsed.multiple_items or
+                    evidence["multiple_items"] or len(actions(message.text)) > 1):
                 return AgentResult(**common, status="unsupported", intent=parsed.intent,
                                    reply="请一次提交一个物品的一种操作。当前支持新增、消耗、查询和加入采购清单。")
+            # Explicit optional dates may not silently disappear from a model
+            # proposal. Relative ADD dates require an absolute date from users.
+            if parsed.intent == Intent.ADD:
+                for key in date_fields(message.text):
+                    if getattr(parsed, key) is None:
+                        parsed.uncertainties.append(key)
+            if parsed.intent in {Intent.ADD, Intent.CONSUME, Intent.PLAN_ADD}:
+                parsed.uncertainties += evidence["uncertainties"]
             if parsed.uncertainties:
                 return AgentResult(**common, status="needs_clarification", intent=parsed.intent, reply="请明确模糊的数量或日期，也可在手动表单中补充。",
-                                   missing_fields=parsed.uncertainties, manual_entry=True)
+                                   missing_fields=list(dict.fromkeys(parsed.uncertainties)), manual_entry=True)
             missing = []
             writes = {Intent.ADD, Intent.CONSUME, Intent.PLAN_ADD}
+            if parsed.intent in {Intent.QUERY_INVENTORY, Intent.QUERY_LOCATION}:
+                if ((not parsed.name and evidence["name"]) or
+                        (parsed.name and parsed.name.casefold() not in message.text.casefold())):
+                    missing.append("name")
             if parsed.intent in writes:
                 # Ground the model's proposed fields in the input. Missing numbers/units
                 # must not become invented defaults even when JSON is well formed.
-                if re.search(r"和|以及|、", message.text):
-                    return AgentResult(**common, status="unsupported", intent=parsed.intent, reply="请一次提交一个物品的一种操作。")
                 if parsed.name and parsed.name.strip().casefold() not in message.text.casefold():
                     missing.append("name")
-                number_words = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
-                quantities = [Decimal(number_words[x]) if x in number_words else Decimal(x)
-                              for x in re.findall(r"-?\d+(?:\.\d+)?|[零一二两三四五六七八九十]", message.text)]
+                quantities = quantity_evidence(message.text)
                 if parsed.quantity is not None and parsed.quantity not in quantities:
                     missing.append("quantity")
                 if parsed.unit and not any(alias in message.text for alias, value in UNITS.items() if value == normalize_unit(parsed.unit)):

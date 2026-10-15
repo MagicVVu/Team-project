@@ -1,8 +1,9 @@
 import json
-import re
+from datetime import date
 from typing import Protocol
 
 from .schemas import Parsed, Intent
+from .text import actions, fields
 
 PROMPT_VERSION = "p0-extract-1"
 SYSTEM_PROMPT = """你是家庭库存字段提取器，只输出 json，不执行操作，不回答库存事实。
@@ -40,44 +41,34 @@ class JevEngine:
 
 
 class RuleEngine:
-    """Intentionally small regex baseline; not a substitute for the measured LLM."""
+    """Literal single-item baseline shared with later service versions."""
 
     async def extract(self, text: str) -> Parsed:
         text = text.strip()
         if any(x in text for x in ["忽略", "跳过确认", "直接执行", "system", "删库", "开封", "移动", "扔掉", "丢弃", "过期吗", "耗尽", "下单"]):
             return Parsed(intent=Intent.UNSUPPORTED)
-        if any(x in text for x in ["加入采购", "采购清单", "购物清单", "计划买", "要买"]):
-            intent = Intent.PLAN_ADD
-        elif any(x in text for x in ["喝", "用了", "用掉", "消耗", "减", "吃"]):
-            intent = Intent.CONSUME
-        elif any(x in text for x in ["买了", "入库", "新增", "添加", "补货"]):
-            intent = Intent.ADD
+        found = actions(text)
+        if len(found) > 1 or found - {"ADD", "CONSUME", "PLAN_ADD"}:
+            return Parsed(intent=Intent.UNSUPPORTED)
+        if found:
+            intent = Intent(next(iter(found)))
         elif any(x in text for x in ["在哪", "哪里", "放哪", "位置"]):
             intent = Intent.QUERY_LOCATION
         elif any(x in text for x in ["库存", "剩", "还有", "有什么", "多少"]):
             intent = Intent.QUERY_INVENTORY
         else:
             return Parsed(intent=Intent.UNSUPPORTED)
-        # Baseline has a deliberately limited seed vocabulary.
-        names = [x for x in ["牛奶", "创可贴", "洗衣液", "纸巾", "大米", "面粉", "果汁", "鸡蛋", "咖啡", "牙膏"] if x in text]
-        name = names[0] if names else None
-        match = re.search(r"(-?\d+(?:\.\d+)?|[零一二两三四五六七八九十]+)\s*(毫升|千克|公斤|ml|mL|kg|升|克|L|g|盒|瓶|包|袋|个|卷|片)?", text)
-        quantity, unit = None, None
-        if match:
-            number, unit = match.groups()
-            chinese = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
-            try:
-                quantity = chinese[number] if number in chinese else float(number)
-            except ValueError:
-                quantity = None
-        location_match = re.search(r"(?:放在|放到|放)\s*(.+?)(?:[，。]|$)", text)
-        uncertain = ["quantity"] if any(x in text for x in ["一些", "一点", "大概", "几盒", "半盒", "快用完"]) else []
-        if re.search(r"\d{4}-\d{2}-\d{2}|明天|昨天|保质期|到期", text):
-            uncertain.append("date")
-        return Parsed(intent=intent, name=name, quantity=quantity, unit=unit,
-                      location=location_match.group(1) if location_match else None,
-                      multiple_items=len(names) > 1 or "和" in text or "以及" in text,
-                      uncertainties=uncertain)
+        data = fields(text, intent.value)
+        for key in ("opened_at", "to_location"):
+            data.pop(key)
+        for key in ("purchased_at", "label_expiry"):
+            if data[key]:
+                try:
+                    data[key] = date.fromisoformat(data[key])
+                except ValueError:
+                    data[key] = None
+                    data["uncertainties"].append(key)
+        return Parsed(intent=intent, **data)
 
 
 def parse_json_output(content: str) -> Parsed:

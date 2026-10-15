@@ -5,7 +5,6 @@ snapshot, and confirmed writes remain in the Android store.
 """
 import asyncio
 import os
-import re
 import secrets
 from datetime import date
 from decimal import Decimal
@@ -18,7 +17,7 @@ from agent.p0.deepseek import DeepSeekEngine
 from agent.p0.domain import DomainError, convert, new_id, normalize_command
 from agent.p0.engines import DecisionEngine, RuleEngine
 from agent.p0.manager import Manager
-from agent.p0.schemas import AgentResult, Batch, Command, Intent, Message, Model, Parsed, Scope
+from agent.p0.schemas import AgentResult, Batch, Command, Message, Model, Scope
 
 SCOPE = Scope(user_id="local-app", household_id="device-snapshot")
 
@@ -63,31 +62,6 @@ class SnapshotReader:
     async def search(self, scope: Scope, name: str | None) -> list[Batch]:
         return [batch.model_copy(deep=True) for batch in self.batches
                 if name is None or name.casefold() in batch.name.casefold()]
-
-
-class AppRuleEngine(RuleEngine):
-    """Conservative baseline also recognizes exact names in the current app."""
-    def __init__(self, items: list[Item]):
-        self.names = sorted({item.name for item in items}, key=len, reverse=True)
-
-    async def extract(self, text: str) -> Parsed:
-        parsed = await super().extract(text)
-        if parsed.intent == Intent.UNSUPPORTED:
-            return parsed
-        matches = [name for name in self.names if name in text]
-        if matches:
-            parsed.name = matches[0]
-            if any(name not in matches[0] for name in matches[1:]):
-                parsed.multiple_items = True
-        # For a new name, only accept an explicit quantity + unit + name phrase.
-        if parsed.intent in {Intent.ADD, Intent.PLAN_ADD} and not matches:
-            match = re.search(r"(?:买了|新增|添加|入库|加入采购清单|计划买|要买)\s*"
-                r"(?:\d+(?:\.\d+)?|[一二两三四五六七八九十])\s*"
-                r"(?:毫升|千克|公斤|ml|mL|kg|升|克|L|g|盒|瓶|包|袋|个|卷|片)\s*"
-                r"([^，。,；;]+?)(?=放在|放到|放|$)", text)
-            if match:
-                parsed.name = match.group(1).strip()
-        return parsed
 
 
 def validate_command(command: Command, snapshot: Snapshot) -> Command:
@@ -142,7 +116,7 @@ def create_app(engine: DecisionEngine | None = None) -> FastAPI:
         reader = SnapshotReader(body)
         try:
             async with asyncio.timeout(10):
-                result = await Manager(remote or AppRuleEngine(body.items), reader).handle(
+                result = await Manager(remote or RuleEngine(), reader).handle(
                     Message(text=body.text, request_id=body.request_id), SCOPE)
             if result.draft:
                 result.draft = validate_command(result.draft, body)
@@ -150,8 +124,17 @@ def create_app(engine: DecisionEngine | None = None) -> FastAPI:
             result = AgentResult(status="error", original_text=body.text, trace_id=new_id("trace"),
                 reply="AI 响应超时，原文已保留。请重试或手动填写。", error_code="MODEL_TIMEOUT", retryable=True, manual_entry=True)
         except DomainError as error:
-            result = AgentResult(status="needs_clarification", original_text=body.text, trace_id=new_id("trace"),
-                reply=error.message, error_code=error.code, manual_entry=True)
+            # Keep the original intent, trace and safe context so the phone can
+            # explain which proposal failed validation. Never return its draft.
+            result.status = "needs_clarification"
+            result.draft = None
+            result.reply = error.message
+            result.error_code = error.code
+            result.manual_entry = True
+            result.missing_fields = {
+                "INVALID_UNIT": ["unit"], "PLAN_ITEM_REQUIRED": ["name"],
+                "INSUFFICIENT_STOCK": ["quantity"], "VERSION_CONFLICT": ["batch_id"],
+            }.get(error.code, [])
         return {"success": True, "engine": engine_name, "expected_revision": body.inventory_revision,
                 "data": result.model_dump(mode="json")}
 

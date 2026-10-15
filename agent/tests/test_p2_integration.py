@@ -291,12 +291,15 @@ def test_exported_contract_matches_current_factory(monkeypatch):
     assert json.loads(path.read_text(encoding="utf-8")) == create_app(engine=RuleEngine(), reader=object()).openapi()
 
 
-def test_server_source_manifest_excludes_documents_secrets_and_existing_modules():
+def test_server_source_manifest_includes_p4_fixes_and_excludes_documents_and_secrets():
     from integration.source_manifest import manifest
     result = manifest()
     assert not result["documents_included"] and not result["credentials_included"]
     assert "p2/rules.json" in result["files"] and "integration/backend_v06.py" in result["files"]
-    assert all(not name.startswith(("p0/", "p1/", "tests/", "docs/"))
+    assert {"p0/text.py", "p0/engines.py", "p0/manager.py", "p1/engines.py",
+            "p1/domain.py", "p1/manager.py"} <= result["files"].keys()
+    assert "p0/mock.py" not in result["files"] and "p0/budget.py" not in result["files"]
+    assert all(not name.startswith(("tests/", "docs/", "eval/"))
                and not name.endswith((".md", ".docx", ".tar.gz", ".key", ".pem"))
                and name != "requirements.runtime.txt" for name in result["files"])
 

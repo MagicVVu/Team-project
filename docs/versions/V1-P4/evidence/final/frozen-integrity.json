@@ -1,0 +1,25 @@
+{
+  "release_version": "V1-P4",
+  "case_expectations_modified": false,
+  "reason_for_raw_hash_difference": "Existing Windows checkout uses CRLF; LF-normalized hashes exactly match the historical delivery. No case files were rewritten.",
+  "files": {
+    "baseline_150.jsonl": {
+      "checkout_sha256": "cd58aedd9ad65ad35752ae00c4386216f502eb9e8af8a42171066ed654414a77",
+      "lf_normalized_sha256": "4033369ab92c49a31df532ed1e1dd2cce223f25725ff6fce827c1c5cbaa6cfbc",
+      "historical_sha256": "4033369ab92c49a31df532ed1e1dd2cce223f25725ff6fce827c1c5cbaa6cfbc",
+      "text_matches_historical": true
+    },
+    "extended.jsonl": {
+      "checkout_sha256": "f095bd5cebb3059123dee020de74127ffb8663dfb7a662271cfb0ff1b5e7bdee",
+      "lf_normalized_sha256": "424ecc202078ee34d8d500eb3c82ad104043fb91180ef89bb32f9aefdc9a138a",
+      "historical_sha256": "424ecc202078ee34d8d500eb3c82ad104043fb91180ef89bb32f9aefdc9a138a",
+      "text_matches_historical": true
+    },
+    "flows.jsonl": {
+      "checkout_sha256": "9b5b9b58e02cef145926ce9fbceb704a10cf5002f7dc850fc4042cebb15a15de",
+      "lf_normalized_sha256": "53754b86cc5195f1b0544804c77813853c78a4c04e3a9872fed68f5082af267f",
+      "historical_sha256": "53754b86cc5195f1b0544804c77813853c78a4c04e3a9872fed68f5082af267f",
+      "text_matches_historical": true
+    }
+  }
+}

@@ -42,6 +42,8 @@ class Manager:
         today = self.now().astimezone(ZoneInfo(context.household_timezone)).date()
         missing, dates = missing_fields(parsed, context.created_at, context.household_timezone, today)
         batch = None
+        if parsed.intent in {Intent.QUERY_INVENTORY, Intent.QUERY_LOCATION} and "name" in missing:
+            return self._clarify(context, ["name"], "请明确要查询的物品名称；尚未写入。")
         if parsed.name and (parsed.intent in TARGET_ACTIONS or parsed.intent in {Intent.QUERY_INVENTORY, Intent.QUERY_LOCATION}):
             start = time.perf_counter()
             if context.selected_batch_id:

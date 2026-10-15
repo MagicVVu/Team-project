@@ -82,6 +82,8 @@ requirements.txt  依赖说明；AI 锁定依赖在 agent/requirements.lock.txt
 
 等待后端期间已新增 **V1-P2 基础风险与本地规则服务**，支持有来源与证据的风险问答并复用 P1 操作流程；运行见 [P2 说明](agent/p2/README.md)，交付见 [V1-P2](docs/versions/V1-P2/README.md)。规则人工专业审核、正式数据接入和真实用户验证仍待完成。
 
+本轮测试发现的基础解析、查询、日期及Android网关缺陷已统一修复并记录为 **[V1-P4](docs/versions/V1-P4/README.md)**。原冻结测试及历史证据保持不变；P4记录包含逐项修复结论、完整复跑证据和仍需设备环境验收的范围。
+
 ```text
 docs/versions/
   README.md       各版本路线与任务入口

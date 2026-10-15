@@ -1,0 +1,39 @@
+{
+  "counts": {
+    "p0-regression": {
+      "counts": {
+        "PASS": 260,
+        "REVIEW": 18
+      },
+      "legacy_required_pass": true
+    },
+    "p1-regression": {
+      "counts": {
+        "PASS": 209,
+        "FAIL": 19,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    },
+    "android-regression": {
+      "counts": {
+        "PASS": 210,
+        "FAIL": 18,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    }
+  },
+  "reported_program_failure_occurrences": 84,
+  "resolved_occurrences": 84,
+  "resolution_counts": {
+    "legacy_assertions_pass": 81,
+    "parser_fixed_p1_terminal_contract": 1,
+    "parser_fixed_device_registration_limit": 2
+  },
+  "unresolved": [],
+  "new_failures": [],
+  "program_defects_resolved": true
+}

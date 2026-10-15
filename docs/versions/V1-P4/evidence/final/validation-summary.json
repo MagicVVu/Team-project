@@ -1,0 +1,171 @@
+{
+  "release_version": "V1-P4",
+  "run_at_utc": "2026-10-15T09:09:01.764381+00:00",
+  "unit_tests": {
+    "tests": 381,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "program_defects_resolved": true,
+  "native_evaluations": {
+    "p1-rules-dev": {
+      "count": 90,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "write_draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "safety_cases_pass": true,
+        "inventory_mutations": 0,
+        "failure_rate": 0.0,
+        "p50_seconds": 0.00017829996068030596,
+        "p95_seconds": 0.00035360001493245363
+      },
+      "dataset_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+      "report": "native/p1-rules-dev.json"
+    },
+    "p1-rules-test": {
+      "count": 60,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "write_draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "safety_cases_pass": true,
+        "inventory_mutations": 0,
+        "failure_rate": 0.0,
+        "p50_seconds": 0.0002639000304043293,
+        "p95_seconds": 0.0004354999400675297
+      },
+      "dataset_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+      "report": "native/p1-rules-test.json"
+    },
+    "p2-rules-dev": {
+      "count": 90,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "risk_output_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "clarification_recall": null,
+        "inventory_mutations": 0,
+        "failure_rate": 0.0,
+        "p50_seconds": 0.0002098999684676528,
+        "p95_seconds": 0.0004168000305071473
+      },
+      "dataset_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+      "report": "native/p2-rules-dev.json"
+    },
+    "p2-rules-test": {
+      "count": 60,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "risk_output_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "inventory_mutations": 0,
+        "failure_rate": 0.0,
+        "p50_seconds": 0.0001970999874174595,
+        "p95_seconds": 0.000674300012178719
+      },
+      "dataset_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+      "report": "native/p2-rules-test.json"
+    },
+    "p3-rules-dev": {
+      "count": 90,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.001574199995957315
+      },
+      "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+      "report": "native/p3-rules-dev.json"
+    },
+    "p3-rules-test": {
+      "count": 60,
+      "passed": true,
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "all_checks_accuracy": 1.0,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.000840499997138977
+      },
+      "dataset_sha256": "ec0fd832f83b60546111a44a3640e0bfb67dfc487404ed6030d548bae04024df",
+      "report": "native/p3-rules-test.json"
+    }
+  },
+  "all_local_checks_passed": true,
+  "source_sha256": {
+    "agent/p0/__init__.py": "fbaf018cc587f44c262ce9f04dd3a537469a998df720ac875571ca6ccb27b0a1",
+    "agent/p0/app.py": "edd78e9760aff68c390b09587c0b15993c7a0022b04fe4c7c5cfed759d9a33dd",
+    "agent/p0/budget.py": "314c0bb3b7ddd9d73547250aaaf4316a6ad5d8347c53e3451aa295b584435cc7",
+    "agent/p0/deepseek.py": "e1ff05fd0d337da41fb1c9566915a0749d081ba6536758a73fa05bd07d65d103",
+    "agent/p0/domain.py": "98073a1973f37bce3e968edd7823803125ea47fbf9bfed7c7a7725e9152d88a9",
+    "agent/p0/engines.py": "0ec4718887ef1b2f55aa88e986df143fd3a501b747c276a31e7d538c5f2df54b",
+    "agent/p0/manager.py": "0c65e5c73f09e74d081d8e94a3b64b326fe3b5087bfde2ad0f130d0b63d41b5f",
+    "agent/p0/mock.py": "73a14ebe087302454f6b615492712469406970d68ddb0c46b8b5b553966869eb",
+    "agent/p0/schemas.py": "e63ecf34feafbe5344e0092ab0f5879c63fd2bd8c2cfa158862eada281be7c11",
+    "agent/p0/text.py": "b9d926ce84b9862e45d875bf54f476e7e6745d4078676f53e1faf993876ea48c",
+    "agent/p0/tools.py": "f48117220aa8c6072e155f2422b50df3d65f2bab250152896e09b74ea2c15744",
+    "agent/p1/__init__.py": "1885d4fa24080e2a91ae414dfe5f06a5c7c090dd09152dd6b9efc3f2461f0e68",
+    "agent/p1/app.py": "403153f0c0ffc2166e605a0bfab5e3706b107df37919ec6debcb11ccdd0a3fdb",
+    "agent/p1/domain.py": "6bc9faf7bf7c8e080c201adbb829a8e0822693f6857ebf9458b261cc460c0451",
+    "agent/p1/engines.py": "eaecaa9c495c5edaa3e05f53528dc9d3c146eeb5a5036720857f34d80d588f35",
+    "agent/p1/export_contract.py": "daaa40aab4241288f24ba0f5411f0fef17a89370b062787d8eee8ea19b60eb09",
+    "agent/p1/manager.py": "d75cd19e852d4ad4f8cff870ea9b903808bd584134120efd9d78e873842f6de2",
+    "agent/p1/schemas.py": "0ce8d5ef3bd53edd9edceeb8786d658e0f5c4e180d7dc62bd6ac06b1a138c63c",
+    "agent/p1/tools.py": "ac69ee7894e54283dbd67b5c069806b3fc92d792e8d5aecf164596d165af4813",
+    "agent/p2/__init__.py": "dc7a395098434c9c0160f5146435a250ddeeeb022feb4593b2f4bdb34993acc4",
+    "agent/p2/app.py": "bf9c38f9e53c51d1a6b865584409392850c508a4f1c75dd25855b0025361da42",
+    "agent/p2/engines.py": "9e9065b9b170d34789e6a735bc7fbaa6efb288ef2096b2b84115eaeb616dc133",
+    "agent/p2/export_contract.py": "59da9606272406b927e5ae305b3aa71b76cc17a77cba12102ed384541c48491c",
+    "agent/p2/knowledge.py": "84281ff185fd9c117c51550ebfb26f4f57b5b52446ce7fc1c2aa6a02aacb07af",
+    "agent/p2/manager.py": "edb3b40d9b296088e97519a0bd738f738f8a9ef9cb4d6e8bd232f58d13aaf301",
+    "agent/p2/risk.py": "96c33d6af5472dcb57828e3e0ac87f1dab51cc147ede5762aeacbd6171842a2c",
+    "agent/p2/schemas.py": "0ee36711396287ec2dd8fbe49eec6bcdf3804c74fe2994524afba5ec85466190",
+    "agent/p2/tools.py": "df54933dc4d94338345f66fcb5195efa8fe2f32e2dc8364eaf86ed7c203476f2",
+    "agent/p3/__init__.py": "3938aae0095dc9e65909d98928f6a6c96c71f944dff0d2df30d64ae7d756fed6",
+    "agent/p3/app.py": "855169bf1e0509d366ff8c3c11c036190bb9a991886af7680bb1cc7f2b79141d",
+    "agent/p3/engines.py": "ca03903cbf795dcf953c84afaf0879727f58b102b98d4a338ea0139673463e45",
+    "agent/p3/export_contract.py": "96ca43e2456b06d014441f8573723dcd6b87e2d8e1e3f70e7b5523e799a685bd",
+    "agent/p3/forecast.py": "008331602720b9d9b4123367674f176b27e2617788e7ea6ceacbc54d875991e2",
+    "agent/p3/health.py": "a0a40581f046d8b2a9cc294988c87f3826a072f174df8145b3997b3dcad6329e",
+    "agent/p3/history.py": "625a99f9513753fa8c3c68d777cca3c552eb751a349028e744620e307cbad4a2",
+    "agent/p3/manager.py": "dffa9b2aef6dbb500507c66fbdc474a6726e07c2b65fb14ce2b1afe4a0be93a5",
+    "agent/p3/procurement.py": "21ade88bc7bbd27be960480d6fb823a45b308b78cee1a7b718c3ee04fe54b333",
+    "agent/p3/schemas.py": "844ab8c53f08cd4e8da59cb48a3040d0a94a341390ad50d629353037e2035033",
+    "agent/p3/tools.py": "c8cbc2d652740dec8ab38d90b86f26886c9e13c02d43828325f16fc948239dca",
+    "agent/integration/__init__.py": "a0a2d1c263a3845d74a031ee7728106e37e9a9509bac35a20a987567c6af7615",
+    "agent/integration/agent_health.py": "a31cca81037eab3408d69a2eb91292b10fb1aaca56025a18cd5b2c9445a5aeda",
+    "agent/integration/backend_v06.py": "111e5da05f837589bec2cd8f96640ae502af1bc74b5f843a98fa2520626a83b6",
+    "agent/integration/package.py": "32a934cca29baa0bd1b85748fa041fcc27f6aec535d5ad2be3b87cf620a74cb6",
+    "agent/integration/source_manifest.py": "fd3a7bcb0c4077da8e4fcaac52c4e80838965ecc7768baeccb0eb81bb8073eb3",
+    "agent/integration/sync_runtime.py": "91fb3950caa5174f1a3f2adf543a587cb54eca9ddee458ffd09f4319e8518571",
+    "backend/app.py": "c8c30a3b4c2cc6fa49ac6fb70618f040a6823278eaecdeef020636d369213e05",
+    "agent/eval/p4/__init__.py": "20fbf72b3a7fea79815979f04e68536d78d81c9091a6e8f6d637e8cc051530d2",
+    "agent/eval/p4/validate.py": "11d04df07f22c18c3b94bb87f7f28e0def734522f2e66d1c443a4f01634a906b",
+    "agent/eval/p4/verify.py": "77e7447ef83f98be1c878509e7f47fb1e8b2f45f3e181724f0654f844ad7a04c"
+  },
+  "real_model_retested": false,
+  "formal_backend_verified": false,
+  "device_storage_verified": false,
+  "remote_updated": false,
+  "human_signoff": false
+}

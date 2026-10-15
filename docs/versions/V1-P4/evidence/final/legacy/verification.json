@@ -1,0 +1,931 @@
+{
+  "release_version": "V1-P4",
+  "run_at_utc": "2026-10-15T09:09:01.080012+00:00",
+  "base_commit": "16ae5194f81b46c18fd762cbc999fa85d7498753",
+  "tested_checkout_includes_uncommitted_p4_changes": true,
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "engine": "rules",
+  "external_network_blocked": true,
+  "counts": {
+    "p0-regression": {
+      "counts": {
+        "PASS": 260,
+        "REVIEW": 18
+      },
+      "legacy_required_pass": true
+    },
+    "p1-regression": {
+      "counts": {
+        "PASS": 209,
+        "FAIL": 19,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    },
+    "android-regression": {
+      "counts": {
+        "PASS": 210,
+        "FAIL": 18,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    }
+  },
+  "reported_program_failure_occurrences": 84,
+  "resolved_occurrences": 84,
+  "resolution_counts": {
+    "legacy_assertions_pass": 81,
+    "parser_fixed_p1_terminal_contract": 1,
+    "parser_fixed_device_registration_limit": 2
+  },
+  "resolved": [
+    {
+      "target": "p0-regression",
+      "id": "p0-33-0",
+      "text": "买了两袋饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 100
+    },
+    {
+      "target": "p0-regression",
+      "id": "p0-33-1",
+      "text": "新增饼干2袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 101
+    },
+    {
+      "target": "p0-regression",
+      "id": "p0-33-2",
+      "text": "饼干入库两袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 102
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-002",
+      "text": "买了3包饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 152
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-004",
+      "text": "买了2卷垃圾袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 154
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-013",
+      "text": "采购清单加3包饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 163
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-015",
+      "text": "采购清单加2卷垃圾袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 165
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-023",
+      "text": "买了十二个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 173
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-024",
+      "text": "买了二十一个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 174
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-026",
+      "text": "帮我记一下，买了3包饼干，谢谢",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 176
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-027",
+      "text": "买了2盒和润牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 177
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-028",
+      "text": "买了2包和味饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 178
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-039",
+      "text": "2026-10-08买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 189
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-040",
+      "text": "2024-02-29买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 190
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-041",
+      "text": "2026-01-01买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 191
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-042",
+      "text": "买了2盒牛奶，购入日期2026-10-08，标签到期日期2026-10-15",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 192
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-049",
+      "text": "上周买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 199
+    },
+    {
+      "target": "p0-regression",
+      "id": "ext-081",
+      "text": "买了2盒牛奶，又喝了1盒",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p0-regression/results.jsonl",
+      "evidence_line": 231
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-10-2",
+      "text": "牛奶减一盒",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 33
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-11-2",
+      "text": "洗衣液减100毫升",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 36
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-12-2",
+      "text": "创可贴减两片",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 39
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-14-2",
+      "text": "洗衣液减1瓶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 45
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-15-2",
+      "text": "洗衣液减600毫升",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 48
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-16-2",
+      "text": "查一下创可贴位置",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 51
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-17-1",
+      "text": "洗衣液放哪里了",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 53
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-17-2",
+      "text": "查洗衣液位置",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 54
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-18-1",
+      "text": "查牛奶库存",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 56
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-19-1",
+      "text": "查看纸巾库存",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 59
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-20-0",
+      "text": "查看所有库存",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 61
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-20-1",
+      "text": "家里有什么",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 62
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-20-2",
+      "text": "库存列表",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 63
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-21-0",
+      "text": "放在哪里",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 64
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-21-1",
+      "text": "查询位置",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 65
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-21-2",
+      "text": "东西在哪",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 66
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-22-0",
+      "text": "采购清单加入2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 67
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-23-1",
+      "text": "采购清单加入4包纸巾",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 71
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-24-0",
+      "text": "采购清单加入牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 73
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-25-1",
+      "text": "采购清单加入洗衣液2",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 77
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-26-1",
+      "text": "采购清单加入咖啡250g",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 80
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-38-2",
+      "text": "牛奶减2盒",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 117
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-39-2",
+      "text": "洗衣液减0.25升",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 120
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-40-2",
+      "text": "创可贴减10片",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 123
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-41-2",
+      "text": "纸巾减1包",
+      "resolution": "parser_fixed_p1_terminal_contract",
+      "legacy_status": "FAIL",
+      "legacy_failures": [
+        "status: expected='needs_clarification'; actual='answered'"
+      ],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 126
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-42-2",
+      "text": "创可贴减1盒",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 129
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-44-0",
+      "text": "牛奶放在哪里",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 133
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-44-1",
+      "text": "找一下牛奶位置",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 134
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-45-2",
+      "text": "查洗衣液库存",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 138
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-46-0",
+      "text": "果汁库存有多少",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 139
+    },
+    {
+      "target": "p1-regression",
+      "id": "p0-47-1",
+      "text": "采购清单加入六个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 143
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-012",
+      "text": "采购清单加2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 162
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-013",
+      "text": "采购清单加3包饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 163
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-014",
+      "text": "采购清单加12个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 164
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-015",
+      "text": "采购清单加2卷垃圾袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 165
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-016",
+      "text": "采购清单加10片创可贴",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 166
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-017",
+      "text": "采购清单加1瓶洗衣液",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 167
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-018",
+      "text": "采购清单加1袋大米",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 168
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-019",
+      "text": "采购清单加250ml洗衣液",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 169
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-020",
+      "text": "采购清单加0.5L牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 170
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-021",
+      "text": "采购清单加500g大米",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 171
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-022",
+      "text": "采购清单加1.25kg大米",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 172
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-026",
+      "text": "帮我记一下，买了3包饼干，谢谢",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 176
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-027",
+      "text": "买了2盒和润牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 177
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-028",
+      "text": "买了2包和味饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 178
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-033",
+      "text": "买了2盒牛奶！",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 183
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-039",
+      "text": "2026-10-08买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 189
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-040",
+      "text": "2024-02-29买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 190
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-041",
+      "text": "2026-01-01买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 191
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-042",
+      "text": "买了2盒牛奶，购入日期2026-10-08，标签到期日期2026-10-15",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 192
+    },
+    {
+      "target": "p1-regression",
+      "id": "ext-048",
+      "text": "昨天买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "p1-regression/results.jsonl",
+      "evidence_line": 198
+    },
+    {
+      "target": "android-regression",
+      "id": "p0-33-1",
+      "text": "新增饼干2袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 101
+    },
+    {
+      "target": "android-regression",
+      "id": "p0-33-2",
+      "text": "饼干入库两袋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 102
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-013",
+      "text": "采购清单加3包饼干",
+      "resolution": "parser_fixed_device_registration_limit",
+      "legacy_status": "FAIL",
+      "legacy_failures": [
+        "status: expected='needs_confirmation'; actual='needs_clarification'",
+        "draft: expected={'action': 'PLAN_ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+      ],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 163
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-015",
+      "text": "采购清单加2卷垃圾袋",
+      "resolution": "parser_fixed_device_registration_limit",
+      "legacy_status": "FAIL",
+      "legacy_failures": [
+        "status: expected='needs_confirmation'; actual='needs_clarification'",
+        "draft: expected={'action': 'PLAN_ADD', 'name': '垃圾袋', 'quantity': '2', 'unit': '卷', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+      ],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 165
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-023",
+      "text": "买了十二个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 173
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-024",
+      "text": "买了二十一个鸡蛋",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 174
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-026",
+      "text": "帮我记一下，买了3包饼干，谢谢",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 176
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-027",
+      "text": "买了2盒和润牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 177
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-028",
+      "text": "买了2包和味饼干",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 178
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-039",
+      "text": "2026-10-08买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 189
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-040",
+      "text": "2024-02-29买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 190
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-041",
+      "text": "2026-01-01买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 191
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-042",
+      "text": "买了2盒牛奶，购入日期2026-10-08，标签到期日期2026-10-15",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 192
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-049",
+      "text": "上周买了2盒牛奶",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 199
+    },
+    {
+      "target": "android-regression",
+      "id": "ext-081",
+      "text": "买了2盒牛奶，又喝了1盒",
+      "resolution": "legacy_assertions_pass",
+      "legacy_status": "PASS",
+      "legacy_failures": [],
+      "evidence_path": "android-regression/results.jsonl",
+      "evidence_line": 231
+    }
+  ],
+  "unresolved": [],
+  "new_failures": [],
+  "future_scenarios": {
+    "BLOCKED": 24,
+    "reason": "No device/production scenario driver; not executed"
+  },
+  "source_sha256": {
+    "agent/p0/__init__.py": "fbaf018cc587f44c262ce9f04dd3a537469a998df720ac875571ca6ccb27b0a1",
+    "agent/p0/app.py": "edd78e9760aff68c390b09587c0b15993c7a0022b04fe4c7c5cfed759d9a33dd",
+    "agent/p0/budget.py": "314c0bb3b7ddd9d73547250aaaf4316a6ad5d8347c53e3451aa295b584435cc7",
+    "agent/p0/deepseek.py": "e1ff05fd0d337da41fb1c9566915a0749d081ba6536758a73fa05bd07d65d103",
+    "agent/p0/domain.py": "98073a1973f37bce3e968edd7823803125ea47fbf9bfed7c7a7725e9152d88a9",
+    "agent/p0/engines.py": "0ec4718887ef1b2f55aa88e986df143fd3a501b747c276a31e7d538c5f2df54b",
+    "agent/p0/manager.py": "0c65e5c73f09e74d081d8e94a3b64b326fe3b5087bfde2ad0f130d0b63d41b5f",
+    "agent/p0/mock.py": "73a14ebe087302454f6b615492712469406970d68ddb0c46b8b5b553966869eb",
+    "agent/p0/schemas.py": "e63ecf34feafbe5344e0092ab0f5879c63fd2bd8c2cfa158862eada281be7c11",
+    "agent/p0/text.py": "b9d926ce84b9862e45d875bf54f476e7e6745d4078676f53e1faf993876ea48c",
+    "agent/p0/tools.py": "f48117220aa8c6072e155f2422b50df3d65f2bab250152896e09b74ea2c15744",
+    "agent/p1/__init__.py": "1885d4fa24080e2a91ae414dfe5f06a5c7c090dd09152dd6b9efc3f2461f0e68",
+    "agent/p1/app.py": "403153f0c0ffc2166e605a0bfab5e3706b107df37919ec6debcb11ccdd0a3fdb",
+    "agent/p1/domain.py": "6bc9faf7bf7c8e080c201adbb829a8e0822693f6857ebf9458b261cc460c0451",
+    "agent/p1/engines.py": "eaecaa9c495c5edaa3e05f53528dc9d3c146eeb5a5036720857f34d80d588f35",
+    "agent/p1/export_contract.py": "daaa40aab4241288f24ba0f5411f0fef17a89370b062787d8eee8ea19b60eb09",
+    "agent/p1/manager.py": "d75cd19e852d4ad4f8cff870ea9b903808bd584134120efd9d78e873842f6de2",
+    "agent/p1/schemas.py": "0ce8d5ef3bd53edd9edceeb8786d658e0f5c4e180d7dc62bd6ac06b1a138c63c",
+    "agent/p1/tools.py": "ac69ee7894e54283dbd67b5c069806b3fc92d792e8d5aecf164596d165af4813",
+    "backend/app.py": "c8c30a3b4c2cc6fa49ac6fb70618f040a6823278eaecdeef020636d369213e05"
+  },
+  "frozen_case_sha256": {
+    "baseline_150.jsonl": "cd58aedd9ad65ad35752ae00c4386216f502eb9e8af8a42171066ed654414a77",
+    "extended.jsonl": "f095bd5cebb3059123dee020de74127ffb8663dfb7a662271cfb0ff1b5e7bdee",
+    "flows.jsonl": "9b5b9b58e02cef145926ce9fbceb704a10cf5002f7dc850fc4042cebb15a15de"
+  },
+  "case_expectations_modified": false,
+  "human_signoff": false,
+  "real_model_retested": false,
+  "formal_acceptance": false,
+  "program_defects_resolved": true
+}
