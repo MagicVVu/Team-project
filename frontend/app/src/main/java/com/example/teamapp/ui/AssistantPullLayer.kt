@@ -2,9 +2,7 @@ package com.example.teamapp.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,9 +21,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -100,7 +96,7 @@ internal fun AssistantPullLayer(
                 .offset { IntOffset(0, ((headerBottom ?: layerTop) - layerTop).coerceAtLeast(0f).roundToInt()) }
                 .padding(end = 16.dp).testTag("assistant-cord-recoil")) {
                 Box(Modifier.motionInput(!visible)) {
-                    AssistantPullCord({ expanded = true }, Modifier)
+                    AssistantPullCord({ expanded = true }, Modifier, opening = expanded)
                 }
             }
         }
@@ -141,7 +137,7 @@ internal fun AssistantPullLayer(
 }
 
 @Composable
-private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
+private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boolean) {
     val density = LocalDensity.current
     val threshold = with(density) { 72.dp.toPx() }
     val maximum = with(density) { 120.dp.toPx() }
@@ -173,12 +169,10 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
                 initialVelocity = releaseVelocity)
         }
     }
-    val color = MaterialTheme.colorScheme.primary
-    val fill = MaterialTheme.colorScheme.primaryContainer
-    val ink = MaterialTheme.colorScheme.onPrimaryContainer
     val latestOpen by rememberUpdatedState(open)
-    Box(modifier.width(52.dp).layout { measurable, constraints ->
-        val height = (76.dp.roundToPx() + extension().roundToInt()).coerceIn(constraints.minHeight, constraints.maxHeight)
+    Box(modifier.width(AssistantMascotWidth).layout { measurable, constraints ->
+        val height = (AssistantMascotRestHeight.roundToPx() + extension().roundToInt())
+            .coerceIn(constraints.minHeight, constraints.maxHeight)
         val placeable = measurable.measure(constraints.copy(minHeight = height, maxHeight = height))
         layout(placeable.width, placeable.height) { placeable.place(0, 0) }
     }.testTag("assistant-pull-cord")
@@ -214,15 +208,8 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier) {
                 onDragCancel = { release(false, 0f) {} }
             )
         }, contentAlignment = Alignment.BottomCenter) {
-        Canvas(Modifier.fillMaxSize()) {
-            val x = size.width / 2f
-            val handleY = size.height - 22.dp.toPx()
-            drawLine(color.copy(alpha = .7f), Offset(x, 0f), Offset(x, handleY), 2.dp.toPx(), StrokeCap.Round)
-            drawCircle(fill, 17.dp.toPx(), Offset(x, handleY))
-            drawCircle(color, 17.dp.toPx(), Offset(x, handleY), style = Stroke(if (ready) 2.5.dp.toPx() else 1.3.dp.toPx()))
-        }
-        Text(if (ready) "↓" else "AI", fontSize = if (ready) 20.sp else 12.sp, fontWeight = FontWeight.SemiBold,
-            color = ink, modifier = Modifier.padding(bottom = 14.dp))
+        // Opening stays true throughout the curtain entrance, including its recoil lead-in.
+        AssistantPullMascot(dragging = dragging, smiling = ready || opening)
     }
 }
 

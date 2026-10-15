@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -107,7 +108,7 @@ class AssistantPullTest {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         val restHeight = compose.onNodeWithTag("assistant-cord-recoil").fetchSemanticsNode().boundsInRoot.height
-        val pixelsPerDp = restHeight / 76f
+        val pixelsPerDp = context.resources.displayMetrics.density
         val fullHeight = compose.onRoot().fetchSemanticsNode().boundsInRoot.height
         compose.mainClock.autoAdvance = false
         compose.onNodeWithTag("assistant-pull-cord").performTouchInput {
@@ -141,7 +142,7 @@ class AssistantPullTest {
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         val cord = compose.onNodeWithTag("assistant-pull-cord")
         val restHeight = cord.fetchSemanticsNode().boundsInRoot.height
-        val pixelsPerDp = restHeight / 76f
+        val pixelsPerDp = context.resources.displayMetrics.density
         compose.mainClock.autoAdvance = false
         fun recoil(distanceDp: Float, duration: Long): Float {
             cord.performTouchInput {
@@ -166,6 +167,33 @@ class AssistantPullTest {
         Assert.assertTrue("A faster release has stronger recoil", faster > deeper)
         compose.mainClock.autoAdvance = true
     }
+    @Test fun mascotExpressionTracksPullThresholdAndCanBeCancelled() {
+        launch()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        val cord = compose.onNodeWithTag("assistant-pull-cord")
+        val mascot = compose.onNodeWithTag("assistant-pull-mascot", useUnmergedTree = true)
+        cord.assertWidthIsEqualTo(57.6.dp)
+        mascot.assertIsDisplayed().assert(
+            SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "睁眼待机"))
+        val pixelsPerDp = context.resources.displayMetrics.density
+        compose.mainClock.autoAdvance = false
+        cord.performTouchInput {
+            down(Offset(width / 2f, height * .8f))
+            moveBy(Offset(0f, 96f * pixelsPerDp), 500)
+        }
+        compose.mainClock.advanceTimeBy(160)
+        mascot.assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "闭眼微笑"))
+        shot("light-mascot-ready")
+        cord.performTouchInput { moveBy(Offset(0f, -60f * pixelsPerDp), 300) }
+        compose.mainClock.advanceTimeBy(160)
+        mascot.assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "睁眼待机"))
+        cord.performTouchInput { up() }
+        compose.mainClock.autoAdvance = true
+        compose.waitForIdle()
+        compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
+        mascot.assertIsDisplayed()
+    }
+
     @Test fun inventoryAnswerAndReplenishmentRequireConfirmation() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
