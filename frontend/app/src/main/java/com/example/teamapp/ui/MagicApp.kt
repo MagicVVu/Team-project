@@ -53,16 +53,14 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
     BackHandler(panel != null) { panel = null }
-    AssistantPullLayer(tab, panel == null, store, conversation, snackbar, notify) {
+    AssistantPullLayer(tab, panel == null, store, conversation, snackbar, notify) { headerModifier ->
         Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
             if (lightDesign) DesignNavigation(tab) { tab = it; panel = null } else {
                 DarkNavigation(tab) { tab = it; panel = null }
             }
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding)) {
-                if (tab != 1 && lightDesign) DesignHeader(tab, store, { panel = "提醒" }, { tab = 3 }) else if (tab != 1) {
-                    DarkHeader(tab, store, { panel = "提醒" }, { tab = 3 })
-                }
+                AppHeader(tab, store, { panel = "提醒" }, headerModifier)
                 if (store.storageError != null) {
                     Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
                     Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text("导出数据 / 数据管理") }

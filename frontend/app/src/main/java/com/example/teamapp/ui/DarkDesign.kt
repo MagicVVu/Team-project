@@ -95,29 +95,6 @@ internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
 }
 
 @Composable
-internal fun DarkHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, profile: () -> Unit) {
-    Row(Modifier.fillMaxWidth().background(DarkHeaderColor).padding(horizontal = 18.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-            Text(listOf("你好，欢迎回家", "我的库存", "采购清单", "我的")[tab], fontSize = 22.sp, lineHeight = 29.sp, fontWeight = FontWeight.Medium)
-            Text(listOf("${store.family} · 家里的小物，慢慢记好", "家里的每件物品，都心中有数", "补齐生活所需", "照顾你的家，也照顾你的偏好")[tab], fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted, modifier = Modifier.padding(top = 5.dp))
-        }
-        val count = store.items.count {
-            val status = it.status(store.reminderDays)
-            (status.low && store.notifications[0]) || (status.soon && store.notifications[1]) || (status.expired && store.notifications[2])
-        }
-        IconButton(onClick = reminders, modifier = Modifier.size(44.dp).semantics { contentDescription = "库存提醒" }) {
-            BadgedBox(badge = { if (count > 0) Badge(containerColor = Color(0xFF6C4740), contentColor = DarkInk) { Text(count.toString()) } }) {
-                Box(Modifier.size(35.dp).background(DarkSoft, CircleShape), contentAlignment = Alignment.Center) { DarkGlyph("bell", Modifier.size(22.dp)) }
-            }
-        }
-        if (tab == 0) IconButton(onClick = profile, modifier = Modifier.size(44.dp).semantics { contentDescription = "个人中心" }) {
-            Box(Modifier.size(35.dp).background(DarkSoft, CircleShape), contentAlignment = Alignment.Center) { DarkGlyph("person", Modifier.size(22.dp)) }
-        }
-        if (tab != 0) Spacer(Modifier.width(52.dp))
-    }
-}
-
-@Composable
 internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         DarkCard(DarkHero) {

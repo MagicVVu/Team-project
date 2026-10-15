@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -45,6 +46,9 @@ class AssistantPullTest {
     }
     private fun shot(name: String) {
         compose.waitForIdle()
+        // The emulator may present the previous transition frame after Compose is idle.
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        android.os.SystemClock.sleep(500)
         val bitmap = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
         val file = context.cacheDir.resolve("assistant-pull/$name.png")
         file.parentFile!!.mkdirs()
@@ -54,10 +58,27 @@ class AssistantPullTest {
 
     private fun checkTabs(dark: Boolean) {
         launch(dark)
+        compose.onNodeWithTag("app-top-bar").assertHeightIsEqualTo(56.dp)
+        compose.onNodeWithContentDescription("个人中心").assertDoesNotExist()
+        val homeNotification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
+        val homeTitle = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
+        shot("${if (dark) "dark" else "light"}-home-header")
         compose.onNodeWithTag("assistant-pull-cord").assertDoesNotExist()
         for (tab in listOf("库存", "清单", "我的")) {
             compose.onNodeWithText(tab, useUnmergedTree = true).performClick()
             compose.onNodeWithTag("assistant-pull-cord").assertIsDisplayed()
+            val bar = compose.onNodeWithTag("app-top-bar").fetchSemanticsNode().boundsInRoot
+            compose.onNodeWithTag("app-top-bar").assertHeightIsEqualTo(56.dp)
+            compose.onNodeWithTag("app-top-bar-icon").assertIsDisplayed()
+            val notification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
+            val title = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
+            Assert.assertEquals(homeNotification, notification)
+            Assert.assertEquals(homeTitle.left, title.left, 1f)
+            compose.onNodeWithContentDescription("库存提醒").performClick()
+            compose.onNodeWithText("关闭").performClick()
+            val cord = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot
+            Assert.assertEquals("Cord starts at the app bar's lower edge", bar.bottom, cord.top, 1f)
+            shot("${if (dark) "dark" else "light"}-$tab-cord")
             pull(.3f)
             compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
             pull(2f)

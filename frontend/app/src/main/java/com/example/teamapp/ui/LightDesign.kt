@@ -55,7 +55,7 @@ import kotlin.math.sin
 // Colors are taken from the supplied mobile design, not from the dark-mode palette.
 internal val DesignInk = Color(0xFF30412E)
 private val DesignOlive = Color(0xFF476339)
-private val DesignHeaderColor = Color(0xFFAFC47D)
+internal val DesignHeaderColor = Color(0xFFAFC47D)
 private val DesignPaper = Color(0xFFFAF7E8)
 private val DesignSoft = Color(0xFFE4EACF)
 private val DesignLine = Color(0xFFC5CFAD)
@@ -105,33 +105,6 @@ internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
                 Text(label, color = DesignOlive, fontSize = 11.sp, fontWeight = if (selected == index) FontWeight.SemiBold else FontWeight.Normal)
             }
         }
-    }
-}
-
-@Composable
-internal fun DesignHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, profile: () -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().background(DesignHeaderColor).padding(horizontal = 18.dp, vertical = 13.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        DesignGlyph(if (tab == 0) "leaf" else listOf("leaf", "box", "cart", "person")[tab], Modifier.size(28.dp))
-        Column(Modifier.weight(1f)) {
-            Text(listOf("拾物", "我的库存", "采购清单", "我的")[tab], fontSize = 23.sp, fontWeight = FontWeight.Bold, color = DesignInk)
-            Text(if (tab == 0) "${store.family} · 物品小账本" else listOf("", "家里的每件物品，都心中有数", "补齐生活所需", "照顾你的家，也照顾你的偏好")[tab], fontSize = 10.sp, color = DesignOlive)
-        }
-        val count = store.items.count { item ->
-            val status = item.status(store.reminderDays)
-            (status.low && store.notifications[0]) || (status.soon && store.notifications[1]) || (status.expired && store.notifications[2])
-        }
-        IconButton(onClick = reminders, modifier = Modifier.size(48.dp).semantics { contentDescription = "库存提醒" }) {
-            BadgedBox(badge = { if (count > 0) Badge { Text(count.toString()) } }) {
-                DesignGlyph("bell", Modifier.size(22.dp))
-            }
-        }
-        if (tab == 0) IconButton(onClick = profile, modifier = Modifier.size(48.dp).semantics { contentDescription = "个人中心" }) {
-            DesignGlyph("person", Modifier.size(22.dp))
-        } else Spacer(Modifier.width(52.dp))
     }
 }
 

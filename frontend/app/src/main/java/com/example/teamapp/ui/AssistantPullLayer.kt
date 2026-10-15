@@ -17,12 +17,16 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
@@ -30,7 +34,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import kotlin.math.roundToInt
 import com.example.teamapp.R
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.ui.theme.LocalLightDesign
@@ -40,20 +47,30 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 internal fun AssistantPullLayer(
     tab: Int, available: Boolean, store: InventoryStore,
     conversation: SnapshotStateList<Pair<String, Boolean>>,
-    snackbar: SnackbarHostState, notify: (String) -> Unit, content: @Composable () -> Unit
+    snackbar: SnackbarHostState, notify: (String) -> Unit, content: @Composable (Modifier) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var heightPx by remember { mutableIntStateOf(0) }
+    var layerTop by remember { mutableFloatStateOf(0f) }
+    var headerBottom by remember(tab) { mutableStateOf<Float?>(null) }
+    val headerModifier = Modifier.zIndex(1f).shadow(14.dp, clip = false,
+        ambientColor = Color.Black.copy(alpha = .65f), spotColor = Color.Black.copy(alpha = .85f))
+        .testTag("app-top-bar")
+        .onGloballyPositioned { headerBottom = it.boundsInWindow().bottom }
     val focus = LocalFocusManager.current
     fun dismiss() { focus.clearFocus(); expanded = false }
     val reveal by animateFloatAsState(if (expanded) 1f else 0f,
         tween(420, easing = FastOutSlowInEasing), label = "assistant-curtain")
     LaunchedEffect(tab, available) { if (tab == 0 || !available) expanded = false }
     BackHandler(expanded) { dismiss() }
-    Box(Modifier.fillMaxSize().clipToBounds().onSizeChanged { heightPx = it.height }) {
-        Box(if (expanded) Modifier.fillMaxSize().clearAndSetSemantics {} else Modifier.fillMaxSize()) { content() }
-        if (tab in 1..3 && available && !expanded && reveal == 0f) {
-            AssistantPullCord({ expanded = true }, Modifier.align(Alignment.TopEnd).statusBarsPadding().padding(end = 16.dp))
+    Box(Modifier.fillMaxSize().clipToBounds().onSizeChanged { heightPx = it.height }
+        .onGloballyPositioned { layerTop = it.boundsInWindow().top }) {
+        Box(if (expanded) Modifier.fillMaxSize().clearAndSetSemantics {} else Modifier.fillMaxSize()) { content(headerModifier) }
+        if (tab in 1..3 && available && !expanded && reveal == 0f && headerBottom != null) {
+            // Anchor to the measured app bar, including its actual height and system insets.
+            AssistantPullCord({ expanded = true }, Modifier.align(Alignment.TopEnd)
+                .offset { IntOffset(0, ((headerBottom ?: layerTop) - layerTop).coerceAtLeast(0f).roundToInt()) }
+                .padding(end = 16.dp))
         }
         if (expanded || reveal > 0f) {
             // This surface also blocks touches to the lower page while the curtain is moving.
