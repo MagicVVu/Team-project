@@ -1,0 +1,20 @@
+# Merge with the existing SERVER deploy/compose.yaml; this is not standalone.
+# Validate the gateway's P2 response/context support before replacing P1.
+services:
+  agent:
+    image: magicvvu/agent:p2-integration-v1
+    build:
+      context: ${MAGICVVU_AGENT_SOURCE_DIR:-/home/magicvvu_ai/workspace/agent}
+      dockerfile: Dockerfile.p2
+    command: ["python", "-m", "uvicorn", "p2.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8767"]
+    environment:
+      P2_ENGINE: ${MAGICVVU_P2_ENGINE:-rules}
+    healthcheck:
+      test: ["CMD", "python", "-m", "integration.agent_health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+# Existing service tokens, BACKEND_BASE_URL, ai_net, limits, read_only,
+# tmpfs, agent_cache and host port isolation must remain in the base file.
+# Preserve the existing P1 UID 10002 and verify cache volume write access.

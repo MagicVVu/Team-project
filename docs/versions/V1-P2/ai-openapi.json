@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Household V1-P2 read-only risk AI",
-    "version": "0.3.0"
+    "version": "0.3.1"
   },
   "paths": {
     "/health": {
@@ -498,12 +498,16 @@
           "clarification": {
             "anyOf": [
               {
+                "$ref": "#/components/schemas/RiskSelectionContext-Output"
+              },
+              {
                 "$ref": "#/components/schemas/ClarificationContext-Output"
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Clarification"
           },
           "error_code": {
             "anyOf": [
@@ -1072,7 +1076,15 @@
       "ClarificationRequest": {
         "properties": {
           "context": {
-            "$ref": "#/components/schemas/ClarificationContext-Input"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RiskSelectionContext-Input"
+              },
+              {
+                "$ref": "#/components/schemas/ClarificationContext-Input"
+              }
+            ],
+            "title": "Context"
           },
           "revision": {
             "type": "integer",
@@ -1997,6 +2009,227 @@
           "source_human_reviewed"
         ],
         "title": "RiskResult"
+      },
+      "RiskSelectionContext-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Revision"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "original_text": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Original Text"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "household_timezone": {
+            "type": "string",
+            "title": "Household Timezone"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "parsed": {
+            "$ref": "#/components/schemas/RiskSelectionParsed"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/Batch-Input"
+            },
+            "type": "array",
+            "maxItems": 0,
+            "title": "Candidates"
+          },
+          "selected_batch_id": {
+            "type": "null",
+            "title": "Selected Batch Id"
+          },
+          "allowed_fields": {
+            "items": {
+              "type": "string",
+              "const": "name"
+            },
+            "type": "array",
+            "maxItems": 1,
+            "title": "Allowed Fields"
+          },
+          "protocol_version": {
+            "type": "string",
+            "const": "p2-risk-selection-1",
+            "title": "Protocol Version"
+          },
+          "reminder_days": {
+            "type": "integer",
+            "maximum": 365.0,
+            "minimum": 0.0,
+            "title": "Reminder Days",
+            "default": 3
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "revision",
+          "scope",
+          "original_text",
+          "request_id",
+          "trace_id",
+          "household_timezone",
+          "created_at",
+          "expires_at",
+          "parsed",
+          "protocol_version"
+        ],
+        "title": "RiskSelectionContext",
+        "description": "Server-stored selection only; answers cannot update inventory facts."
+      },
+      "RiskSelectionContext-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Revision"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "original_text": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Original Text"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "household_timezone": {
+            "type": "string",
+            "title": "Household Timezone"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "parsed": {
+            "$ref": "#/components/schemas/RiskSelectionParsed"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/p1__schemas__Batch-Output"
+            },
+            "type": "array",
+            "maxItems": 0,
+            "title": "Candidates"
+          },
+          "selected_batch_id": {
+            "type": "null",
+            "title": "Selected Batch Id"
+          },
+          "allowed_fields": {
+            "items": {
+              "type": "string",
+              "const": "name"
+            },
+            "type": "array",
+            "maxItems": 1,
+            "title": "Allowed Fields"
+          },
+          "protocol_version": {
+            "type": "string",
+            "const": "p2-risk-selection-1",
+            "title": "Protocol Version"
+          },
+          "reminder_days": {
+            "type": "integer",
+            "maximum": 365.0,
+            "minimum": 0.0,
+            "title": "Reminder Days",
+            "default": 3
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "revision",
+          "scope",
+          "original_text",
+          "request_id",
+          "trace_id",
+          "household_timezone",
+          "created_at",
+          "expires_at",
+          "parsed",
+          "protocol_version"
+        ],
+        "title": "RiskSelectionContext",
+        "description": "Server-stored selection only; answers cannot update inventory facts."
+      },
+      "RiskSelectionParsed": {
+        "properties": {
+          "intent": {
+            "type": "string",
+            "const": "QUERY_RISK",
+            "title": "Intent",
+            "default": "QUERY_RISK"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "RiskSelectionParsed"
       },
       "Scope": {
         "properties": {

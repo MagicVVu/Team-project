@@ -7,11 +7,10 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from p0.domain import DomainError, new_id
 from p0.schemas import Scope
-from p1.schemas import ClarificationRequest
 from .engines import DeepSeekEngine, RuleEngine
 from .knowledge import RuleCatalog
 from .manager import Manager
-from .schemas import AgentResult, Category, RiskMessage, RiskQuery, RiskResponse
+from .schemas import AgentResult, Category, ClarificationRequest, RiskMessage, RiskQuery, RiskResponse
 from .tools import RemoteInventoryReader
 
 
@@ -24,12 +23,12 @@ def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seco
             raise RuntimeError("P2 requires BACKEND_BASE_URL and BACKEND_TOOL_TOKEN")
         reader = RemoteInventoryReader(os.environ["BACKEND_BASE_URL"], os.environ["BACKEND_TOOL_TOKEN"])
     catalog = catalog or RuleCatalog.load(os.getenv("P2_RULES_PATH"))
-    engine_name = os.getenv("P2_ENGINE", "deepseek")
+    engine_name = os.getenv("P2_ENGINE", "rules")
     if engine_name not in {"rules", "deepseek"}:
         raise RuntimeError("P2_ENGINE must be rules or deepseek")
     engine = engine or (RuleEngine() if engine_name == "rules" else DeepSeekEngine())
     manager = Manager(engine, reader, catalog, now=now, timeout_seconds=timeout_seconds)
-    app = FastAPI(title="Household V1-P2 read-only risk AI", version="0.3.0")
+    app = FastAPI(title="Household V1-P2 read-only risk AI", version="0.3.1")
 
     def scope(authorization: str = Header(default=""), x_user_id: str = Header(default=""), x_household_id: str = Header(default="")):
         if not secrets.compare_digest(authorization.encode(), f"Bearer {token}".encode()) or not x_user_id.strip() or not x_household_id.strip():
@@ -56,6 +55,8 @@ def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seco
     def health():
         return {"status": "ok", "release_version": "V1-P2", "engine": engine_name,
                 "ruleset_version": catalog.data.version, "ruleset_sha256": catalog.sha256,
+                "clarification_protocols": ["p1", "p2-risk-selection-1"],
+                "inventory_contracts": ["p1-batch", "p2-batch"],
                 "inventory_writes": False, "production_chain_verified": False}
 
     @app.post("/agent/message", response_model=AgentResult)

@@ -1,6 +1,6 @@
 # V1-P2 AI 风险接口与协作说明
 
-本阶段仅增加 AI 服务内部能力。现有 Android 对话、详情和提醒页面是输出设计依据，前后端接入暂缓。实际契约见 [ai-openapi.json](ai-openapi.json)；P0/P1 历史契约不变。
+本阶段增加 AI 服务内部能力，并于 2026-10-15 开始按后端 v0.6 文档对接。现有 Android 对话、详情和提醒页面是输出设计依据。实际契约见 [ai-openapi.json](ai-openapi.json)，真实 HTTP 验收与部署材料见 [对接工具说明](../../../agent/integration/README.md)；P0/P1 历史服务契约不变。
 
 ## 认证与读取
 
@@ -66,6 +66,12 @@ reminder_days 是用户提醒偏好，0～365，默认 3；不是食品或药品
 
 P1 的草稿及澄清流程继续可用。风险缺字段返回 answered＋unknown＋missing_information，不把用户问句中的日期或保存断言当成已确认事实。资料补充应由业务后端的编辑／确认路径保存，再重新评估；本阶段不提供风险事实写入或风险专用澄清数据库。
 
+风险指代缺名称返回 needs_clarification 和 `RiskSelectionContext`，`protocol_version=p2-risk-selection-1`，固定 QUERY_RISK，保存原文、scope、revision、15 分钟有效期、时区和 reminder_days；仅允许补 name。同名多批次分别评估。`POST /agent/clarification` 接受原 P1 context 或新风险 context；后端必须保存完整 context，App 仍只发 revision＋answers。风险续接不调用模型、不延长有效期，重新读取库存；超时保留已补名称与新修订。错误版本、过期、跨身份及非允许字段被拒绝。
+
+业务网关对外 clarification 仅包含 revision、allowed_fields、expires_at；不得使用 AI 原始响应模型直接向 App 暴露 context。P2 新 intent/结果/上下文需要后端验证与存储路径支持，不能假定现有 P1 严格校验已经兼容。
+
+2026-10-15 远端源码核对：当前 v0.6 网关验证五种 status 及必要元数据，并以 JSON 完整保存 result/context，没有按 P1 Intent/Context 模型过滤新字段；name 已在澄清白名单内，公开 context 摘要也符合上述协议。因此现有网关代码可承接 P2 基础结果及风险名称续接，真实 HTTP 流程仍待验收。NewMessage 暂无 reminder_days，默认 3 天可以直接使用，非默认提醒参数仍需后端增加校验、转发与幂等指纹字段。
+
 | 现有页面 | 后续接入内容 |
 |---|---|
 | AI 对话 | 基于工具的中文解释；保留原文与历史快照；不把用户问题当写入 |
@@ -78,5 +84,7 @@ P1 的草稿及澄清流程继续可用。风险缺字段返回 answered＋unkno
 `GET /knowledge/rules?category=food` 返回本地规则与 ruleset SHA256；只读，不进行联网检索。reviewed=false 或 enabled=false 不参与计算。review_kind 区分自动来源核对和人工审核，不能把 source_check 报告为专家审核。配置中的包装引用仅作证据，不在运行时抓取或执行引用内容。
 
 鉴权失败 HTTP 401，字段失败 HTTP 422；直接工具故障和总超时 HTTP 503 返回 error envelope。消息接口处理中的故障返回 status=error、error_code、manual_entry 和 retryable，与 P1 的消息状态方式一致。跨家庭失败不返回库存 facts 或 risks；库存变化后的风险查询每次重新读取，不缓存旧判断当成当前事实。
+
+P2 对后端工具的 401、409 分别返回 TOOL_UNAUTHENTICATED、TOOL_DATA_CONFLICT，映射为依赖错误而非要求用户重新登录，消息结果 retryable=false；403 返回 HOUSEHOLD_FORBIDDEN、404 返回 BATCH_NOT_FOUND。临时故障仍为 TOOL_UNAVAILABLE。不会转发上游原始错误文本或自动重发模型请求。
 
 后端联调仍需：新增可为空的事实字段、可靠时间和家庭时区、标签及保存数据核验、人工规则审核、正式环境测量。P2 不实现预测、自动采购、主动通知、图片识别、RAG 或多 Agent 拆分。

@@ -1,0 +1,16 @@
+# P2 runtime pins; separate from the existing server P1 requirements.
+fastapi==0.135.1
+starlette==0.52.1
+pydantic==2.12.5
+pydantic-core==2.41.5
+annotated-types==0.7.0
+typing-extensions==4.15.0
+typing-inspection==0.4.2
+anyio==4.12.1
+idna==3.11
+uvicorn==0.42.0
+click==8.3.1
+h11==0.16.0
+httpx==0.28.1
+httpcore==1.0.9
+certifi==2026.2.25

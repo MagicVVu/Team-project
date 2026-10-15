@@ -4,7 +4,9 @@ from typing import Literal
 
 from pydantic import AwareDatetime, Field, field_validator, model_validator
 from p0.schemas import Model
-from p1.schemas import (AgentResult as P1Result, Batch as P1Batch, Message, Parsed as P1Parsed)
+from p1.schemas import (AgentResult as P1Result, Batch as P1Batch,
+                        ClarificationContext as P1Context, ClarificationRequest as P1ClarificationRequest,
+                        Message, Name, Parsed as P1Parsed)
 
 
 Category = Literal["food", "medicine", "household", "unknown"]
@@ -134,6 +136,26 @@ class RiskMessage(Message):
     reminder_days: int = Field(default=3, ge=0, le=365)
 
 
+class RiskSelectionParsed(Model):
+    intent: Literal["QUERY_RISK"] = "QUERY_RISK"
+    name: Name | None = None
+
+
+class RiskSelectionContext(P1Context):
+    """Server-stored selection only; answers cannot update inventory facts."""
+    protocol_version: Literal["p2-risk-selection-1"]
+    parsed: RiskSelectionParsed
+    allowed_fields: list[Literal["name"]] = Field(default_factory=lambda: ["name"], max_length=1)
+    reminder_days: int = Field(default=3, ge=0, le=365)
+    # Selection by name returns every matching batch. No implicit batch choice.
+    candidates: list[P1Batch] = Field(default_factory=list, max_length=0)
+    selected_batch_id: None = None
+
+
+class ClarificationRequest(P1ClarificationRequest):
+    context: RiskSelectionContext | P1Context
+
+
 class RiskResponse(Model):
     trace_id: str
     evaluated_count: int
@@ -145,6 +167,7 @@ class RiskResponse(Model):
 
 class AgentResult(P1Result):
     intent: Intent | None = None
+    clarification: RiskSelectionContext | P1Context | None = None
     facts: list[Batch] = Field(default_factory=list)
     risks: list[RiskResult] = Field(default_factory=list)
     evaluated_count: int = 0

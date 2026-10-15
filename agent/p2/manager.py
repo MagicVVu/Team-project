@@ -1,7 +1,7 @@
 import asyncio
 import re
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from p0.domain import DomainError, new_id
 from p0.engines import EngineError
@@ -10,7 +10,8 @@ from p1.manager import Manager as P1Manager
 from p1.schemas import Parsed as P1Parsed, TraceStep
 from p1.tools import check_scope
 from .risk import PRIORITY, RiskTool
-from .schemas import AgentResult, RiskQuery, RiskResponse
+from .schemas import (AgentResult, RiskQuery, RiskResponse,
+                      RiskSelectionContext, RiskSelectionParsed)
 from .tools import P1ReaderAdapter
 
 
@@ -51,6 +52,16 @@ class Manager:
     async def evaluate(self, query, scope):
         async with asyncio.timeout(self.timeout_seconds):
             return await self._evaluate(query, scope, new_id("trace"))
+
+    async def _risk_answer(self, query, scope, trace_id, text, trace, start):
+        evaluated = await self._evaluate(query, scope, trace_id)
+        trace.append(TraceStep(step="risk_evaluation", outcome="read_only", elapsed_ms=(time.perf_counter()-start)*1000))
+        result = AgentResult(status="answered", intent="QUERY_RISK", reply=self.explain(evaluated.risks),
+            original_text=text, trace_id=trace_id, facts=evaluated.facts, risks=evaluated.risks,
+            evaluated_count=evaluated.evaluated_count)
+        if query.name and not evaluated.facts:
+            result.reply = "没有找到匹配的库存记录，请核对名称；不能据此推断物品风险。"
+        return result
 
     @staticmethod
     def explain(results):
@@ -103,16 +114,18 @@ class Manager:
                         name = parsed.name.strip() if parsed.name else None
                         # Deictic requests cannot silently expand to all inventory.
                         if not name and re.search(r"这批|这盒|这个", message.text):
-                            result = AgentResult(status="needs_clarification", intent="QUERY_RISK", reply="请说明物品名称，或在详情中选择批次后评估。", original_text=message.text, trace_id=trace_id, missing_fields=["name"], manual_entry=True)
+                            now = self.now()
+                            context = RiskSelectionContext(protocol_version="p2-risk-selection-1",
+                                id=new_id("clarify"), revision=1, scope=scope, original_text=message.text,
+                                request_id=message.request_id, trace_id=trace_id,
+                                household_timezone=message.household_timezone, created_at=now,
+                                expires_at=now+timedelta(minutes=15), parsed=RiskSelectionParsed(),
+                                reminder_days=message.reminder_days)
+                            result = AgentResult(status="needs_clarification", intent="QUERY_RISK", reply="请补充物品名称；同名批次会分别评估，本次没有修改库存。", original_text=message.text, trace_id=trace_id, missing_fields=["name"], clarification=context, manual_entry=True)
                         else:
                             query = RiskQuery(name=name, household_timezone=message.household_timezone,
                                               reminder_days=message.reminder_days, attention_only=name is None)
-                            evaluated = await self._evaluate(query, scope, trace_id)
-                            trace.append(TraceStep(step="risk_evaluation", outcome="read_only", elapsed_ms=(time.perf_counter()-start)*1000))
-                            result = AgentResult(status="answered", intent="QUERY_RISK", reply=self.explain(evaluated.risks), original_text=message.text,
-                                trace_id=trace_id, facts=evaluated.facts, risks=evaluated.risks, evaluated_count=evaluated.evaluated_count)
-                            if name and not evaluated.facts:
-                                result.reply = "没有找到匹配的库存记录，请核对名称；不能据此推断物品风险。"
+                            result = await self._risk_answer(query, scope, trace_id, message.text, trace, start)
         except (DomainError, EngineError, TimeoutError) as error:
             code = error.code if isinstance(error, (DomainError, EngineError)) else "AGENT_TIMEOUT"
             result = AgentResult(status="error", intent=parsed.intent if parsed else None, original_text=message.text,
@@ -124,10 +137,48 @@ class Manager:
         return result
 
     async def clarify(self, request, scope):
-        # P1 clarification schema and state ownership remain unchanged.
+        if isinstance(request.context, RiskSelectionContext):
+            return await self._clarify_risk(request, scope)
+        # Original P1 contexts and state ownership remain unchanged.
         adapter = P1ReaderAdapter(self.reader)
         response = await P1Manager(self.engine, adapter, now=self.now,
                                    timeout_seconds=self.timeout_seconds).clarify(request, scope)
         result = AgentResult.model_validate(response.model_dump())
         result.facts = [adapter.observed[b.id] for b in response.facts if b.id in adapter.observed]
+        return result
+
+    async def _clarify_risk(self, request, scope):
+        context = request.context.model_copy(deep=True)
+        if context.scope != scope:
+            return AgentResult(status="error", reply="澄清任务不属于当前用户或家庭。",
+                trace_id=new_id("trace"), original_text="", error_code="HOUSEHOLD_FORBIDDEN")
+        start, trace = time.perf_counter(), []
+        try:
+            async with asyncio.timeout(self.timeout_seconds):
+                if request.revision != context.revision:
+                    raise DomainError("CLARIFICATION_CONFLICT", "澄清修订号已变化，请读取最新任务。", 409)
+                now = self.now()
+                if context.expires_at <= now or context.created_at > now or context.expires_at <= context.created_at:
+                    raise DomainError("CLARIFICATION_EXPIRED", "澄清任务已过期，请重新提交原文。", 409)
+                values = request.answers.model_dump(exclude_unset=True, exclude_none=True)
+                if set(values) != {"name"} or "name" not in context.allowed_fields:
+                    raise DomainError("INVALID_CLARIFICATION", "风险续接仅允许补充物品名称，不能修改库存资料。")
+                context.parsed.name = values["name"].strip()
+                context.revision += 1
+                trace.append(TraceStep(step="clarification", outcome="structured_no_model_call",
+                    elapsed_ms=(time.perf_counter()-start)*1000))
+                query = RiskQuery(name=context.parsed.name, household_timezone=context.household_timezone,
+                                  reminder_days=context.reminder_days)
+                result = await self._risk_answer(query, scope, context.trace_id,
+                                                context.original_text, trace, start)
+        except (DomainError, TimeoutError) as error:
+            code = error.code if isinstance(error, DomainError) else "AGENT_TIMEOUT"
+            forbidden = code == "HOUSEHOLD_FORBIDDEN"
+            result = AgentResult(status="error", intent="QUERY_RISK", original_text=context.original_text,
+                trace_id=context.trace_id, reply=error.message if isinstance(error, DomainError) else "风险读取超时，原文和已补名称已保留，请手动核对或恢复任务。",
+                error_code=code, manual_entry=True, clarification=None if forbidden else context,
+                retryable=code in {"AGENT_TIMEOUT", "TOOL_UNAVAILABLE"})
+        trace.append(TraceStep(step="p2_clarification_total", outcome=result.status,
+                               elapsed_ms=(time.perf_counter()-start)*1000))
+        result.trace = trace
         return result

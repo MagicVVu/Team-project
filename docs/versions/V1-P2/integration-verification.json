@@ -1,0 +1,161 @@
+{
+  "release_version": "V1-P2",
+  "application_version": "0.3.1",
+  "verified_on": "2026-10-15",
+  "status": "server_code_synced_runtime_verified_positive_http_pending",
+  "checks": {
+    "pytest_passed": 170,
+    "pytest_failed": 0,
+    "new_integration_tests": 32,
+    "original_p0_p1_p2_and_local_gateway_regression": "passed",
+    "openapi_matches_factory": true,
+    "syntax_check": "passed",
+    "package_allowlist_and_sha256": "passed",
+    "code_sync_sha256": "passed",
+    "server_original_files_unchanged": 27,
+    "server_runtime_import": "passed",
+    "server_public_http_checks": "3/3 passed"
+  },
+  "scope": {
+    "frontend_changed": false,
+    "backend_source_changed": false,
+    "p0_p1_service_changed": false,
+    "new_mock_service": false,
+    "inventory_write_requests": 0,
+    "commit_or_push": false,
+    "server_ai_code_synchronized": true,
+    "server_documents_uploaded": false,
+    "server_development_root": "/home/magicvvu_ai/workspace/agent"
+  },
+  "remote": {
+    "ssh_transport_reached": true,
+    "authentication_verified": true,
+    "tested_accounts": {
+      "admin": "publickey denied",
+      "ai": "publickey denied",
+      "magicvvu_ai": "authenticated"
+    },
+    "source_inspected": true,
+    "http_positive_verified": false,
+    "deployed": false,
+    "docker_build_verified": false,
+    "public_http_health": "read timeout",
+    "public_https_health": "connect timeout",
+    "authenticated_user": "magicvvu_ai",
+    "agent_workspace": "/home/magicvvu_ai/workspace/agent",
+    "agent_workspace_inspected": true,
+    "backend_source_access": true,
+    "deploy_directory_access": false,
+    "backend_health_http_status": 200,
+    "database_ready_http_status": 200,
+    "backend_openapi_http_status": 200,
+    "backend_version": "0.6.0",
+    "backend_openapi_version": "0.6.0",
+    "original_agent_container_uid": 10002,
+    "p2_container_uid": 10002,
+    "gateway_p2_base_contract_compatible_by_source_review": true,
+    "docker_socket_access": false,
+    "production_agent_read_access": false,
+    "handoff_uploaded": false,
+    "source_sha256": {
+      "backend/app/routers/agent_gateway.py": "f42e4d27f22fab7508aff40e52cd45155c03811644b00a67f33dfa5e1c4c7fea",
+      "backend/app/routers/ai_inventory.py": "dacb09f45186e3de6704b87dedcac1c1c213edafd79da4008811415f6e6bbae5",
+      "backend/app/services/ai_inventory.py": "60769736acdf940af021caf928d6872a93e2387c477b3573086d66c90eece661",
+      "backend/app/schemas.py": "010da7748f7e69164d84a152aeeaa4e6001721e338bff0db4103f00652b33d6a"
+    },
+    "access": {
+      "workspace_agent_read": true,
+      "workspace_agent_write": true,
+      "backend_gateway_read": true,
+      "backend_gateway_write": false,
+      "production_agent_read": false,
+      "docker_socket_read": false
+    },
+    "code_synchronized": true,
+    "code_sync_verified": true,
+    "runtime_import_verified": true,
+    "development_environment": "/home/magicvvu_ai/workspace/agent/.venv-p2",
+    "code_file_count": 16,
+    "synchronized_files_sha256": {
+      "p2/__init__.py": "dc7a395098434c9c0160f5146435a250ddeeeb022feb4593b2f4bdb34993acc4",
+      "p2/app.py": "bf9c38f9e53c51d1a6b865584409392850c508a4f1c75dd25855b0025361da42",
+      "p2/engines.py": "9e9065b9b170d34789e6a735bc7fbaa6efb288ef2096b2b84115eaeb616dc133",
+      "p2/knowledge.py": "84281ff185fd9c117c51550ebfb26f4f57b5b52446ce7fc1c2aa6a02aacb07af",
+      "p2/manager.py": "edb3b40d9b296088e97519a0bd738f738f8a9ef9cb4d6e8bd232f58d13aaf301",
+      "p2/risk.py": "96c33d6af5472dcb57828e3e0ac87f1dab51cc147ede5762aeacbd6171842a2c",
+      "p2/schemas.py": "0ee36711396287ec2dd8fbe49eec6bcdf3804c74fe2994524afba5ec85466190",
+      "p2/tools.py": "df54933dc4d94338345f66fcb5195efa8fe2f32e2dc8364eaf86ed7c203476f2",
+      "p2/rules.json": "ac57ca457373c301784958b8e6db4974f805fecabe68dea79c2442c9d9768651",
+      "integration/__init__.py": "a0a2d1c263a3845d74a031ee7728106e37e9a9509bac35a20a987567c6af7615",
+      "integration/agent_health.py": "a31cca81037eab3408d69a2eb91292b10fb1aaca56025a18cd5b2c9445a5aeda",
+      "integration/backend_v06.py": "111e5da05f837589bec2cd8f96640ae502af1bc74b5f843a98fa2520626a83b6",
+      "integration/source_manifest.py": "bf7681ae0762a622a4300155c66263c7dd24f418f91b4f984dbb5ecb4fdfa4e3",
+      "Dockerfile.p2": "3f922ee2623f1a69a36180380ed9f30d428d85a9e817df7d498cbce2baf5ee9a",
+      "Dockerfile.p2.dockerignore": "7023007b23ecdfd12c325292ebf4baab474ace37e7a9841a097ee0bd7893acac",
+      "requirements.p2.runtime.txt": "4dabb5eeb84525116fec2d30e40bdf1a02499a08dcbbe154b540b2db258b5aab"
+    },
+    "existing_files_unchanged": true,
+    "archive_uploaded": false,
+    "documents_uploaded": false,
+    "public_http_inspection": {
+      "kind": "real_backend_http_acceptance",
+      "checked_at": "2026-10-15T04:48:52.208035+00:00",
+      "checks": [
+        {
+          "name": "backend_health",
+          "passed": true,
+          "backend_version": "0.6.0"
+        },
+        {
+          "name": "database_ready",
+          "passed": true
+        },
+        {
+          "name": "gateway_openapi",
+          "passed": true,
+          "openapi_version": "0.6.0"
+        }
+      ],
+      "inventory_write_requests": 0,
+      "task_ids": [],
+      "draft_ids": [],
+      "passed": true,
+      "provider_call_count_verified": false,
+      "database_write_audit_verified": false
+    }
+  },
+  "model_evaluation_rerun": false,
+  "prior_model_holdout": "59/60 on 2026-10-14; retained, not revalidated by this run",
+  "provider_call_count_verified": false,
+  "database_write_audit_verified": false,
+  "package": {
+    "member_count": 42,
+    "sha256": "9bcce14ff3cef1b90336637a7af47fae84cc7f202c34d8ac29b54eee782e9735",
+    "remote_deployed": false,
+    "status": "historical local artifact; not used for server sync"
+  },
+  "source_sha256": {
+    "integration/__init__.py": "a0a2d1c263a3845d74a031ee7728106e37e9a9509bac35a20a987567c6af7615",
+    "integration/agent_health.py": "a31cca81037eab3408d69a2eb91292b10fb1aaca56025a18cd5b2c9445a5aeda",
+    "integration/backend_v06.py": "111e5da05f837589bec2cd8f96640ae502af1bc74b5f843a98fa2520626a83b6",
+    "integration/package.py": "32a934cca29baa0bd1b85748fa041fcc27f6aec535d5ad2be3b87cf620a74cb6",
+    "integration/source_manifest.py": "bf7681ae0762a622a4300155c66263c7dd24f418f91b4f984dbb5ecb4fdfa4e3",
+    "p2/__init__.py": "dc7a395098434c9c0160f5146435a250ddeeeb022feb4593b2f4bdb34993acc4",
+    "p2/app.py": "bf9c38f9e53c51d1a6b865584409392850c508a4f1c75dd25855b0025361da42",
+    "p2/engines.py": "9e9065b9b170d34789e6a735bc7fbaa6efb288ef2096b2b84115eaeb616dc133",
+    "p2/export_contract.py": "59da9606272406b927e5ae305b3aa71b76cc17a77cba12102ed384541c48491c",
+    "p2/knowledge.py": "84281ff185fd9c117c51550ebfb26f4f57b5b52446ce7fc1c2aa6a02aacb07af",
+    "p2/manager.py": "edb3b40d9b296088e97519a0bd738f738f8a9ef9cb4d6e8bd232f58d13aaf301",
+    "p2/risk.py": "96c33d6af5472dcb57828e3e0ac87f1dab51cc147ede5762aeacbd6171842a2c",
+    "p2/schemas.py": "0ee36711396287ec2dd8fbe49eec6bcdf3804c74fe2994524afba5ec85466190",
+    "p2/tools.py": "df54933dc4d94338345f66fcb5195efa8fe2f32e2dc8364eaf86ed7c203476f2"
+  },
+  "pending": [
+    "dedicated real test user, household and inventory",
+    "backend-assisted production P2 container build and switch",
+    "real P1 and P2 positive HTTP acceptance",
+    "non-default reminder forwarding and fingerprint",
+    "error-context recovery policy",
+    "risk fact provenance and expert review"
+  ]
+}
