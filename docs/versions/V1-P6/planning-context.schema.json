@@ -1,0 +1,739 @@
+{
+  "$defs": {
+    "Batch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "category": {
+          "default": "unknown",
+          "enum": [
+            "food",
+            "medicine",
+            "household",
+            "unknown"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "product_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Id"
+        },
+        "label_date_type": {
+          "default": "unknown",
+          "enum": [
+            "use_by",
+            "best_before",
+            "expiry",
+            "unknown"
+          ],
+          "title": "Label Date Type",
+          "type": "string"
+        },
+        "label_context_valid": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Context Valid"
+        },
+        "storage_condition": {
+          "anyOf": [
+            {
+              "enum": [
+                "ambient",
+                "refrigerated",
+                "frozen"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Condition"
+        },
+        "label_storage_condition": {
+          "anyOf": [
+            {
+              "enum": [
+                "ambient",
+                "refrigerated",
+                "frozen"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Storage Condition"
+        },
+        "is_opened": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Opened"
+        }
+      },
+      "required": [
+        "id",
+        "household_id",
+        "name",
+        "quantity",
+        "unit",
+        "version"
+      ],
+      "title": "Batch",
+      "type": "object"
+    },
+    "CoverageDay": {
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "format": "date",
+          "title": "Day",
+          "type": "string"
+        },
+        "records_complete": {
+          "title": "Records Complete",
+          "type": "boolean"
+        },
+        "stockout": {
+          "title": "Stockout",
+          "type": "boolean"
+        },
+        "unexplained_adjustment": {
+          "default": false,
+          "title": "Unexplained Adjustment",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "day",
+        "records_complete",
+        "stockout"
+      ],
+      "title": "CoverageDay",
+      "type": "object"
+    },
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "item_key": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Item Key",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "Consumed",
+            "Discarded",
+            "Added",
+            "Opened",
+            "Moved",
+            "Finished",
+            "Purchased",
+            "Draft",
+            "Reversed",
+            "Corrected",
+            "Adjusted"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "default": "0",
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "recorded_at": {
+          "format": "date-time",
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "committed": {
+          "title": "Committed",
+          "type": "boolean"
+        },
+        "related_event_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Related Event Id"
+        }
+      },
+      "required": [
+        "id",
+        "item_key",
+        "kind",
+        "unit",
+        "occurred_at",
+        "recorded_at",
+        "committed"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "category": {
+          "enum": [
+            "food",
+            "medicine",
+            "household",
+            "unknown"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "batches": {
+          "items": {
+            "$ref": "#/$defs/Batch"
+          },
+          "maxItems": 1000,
+          "title": "Batches",
+          "type": "array"
+        },
+        "events": {
+          "items": {
+            "$ref": "#/$defs/Event"
+          },
+          "maxItems": 20000,
+          "title": "Events",
+          "type": "array"
+        },
+        "coverage": {
+          "items": {
+            "$ref": "#/$defs/CoverageDay"
+          },
+          "maxItems": 3660,
+          "title": "Coverage",
+          "type": "array"
+        },
+        "recording_completeness_source": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recording Completeness Source"
+        },
+        "preferences": {
+          "$ref": "#/$defs/Preferences"
+        },
+        "usable_quantity_verified": {
+          "default": false,
+          "title": "Usable Quantity Verified",
+          "type": "boolean"
+        },
+        "stock_verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StockVerification"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "unit",
+        "version",
+        "category",
+        "batches",
+        "events",
+        "coverage",
+        "preferences"
+      ],
+      "title": "Item",
+      "type": "object"
+    },
+    "Pending": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "item_key": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Item Key",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "purchased",
+            "draft"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "confirmed": {
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "visibility": {
+          "const": "shared",
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "item_key",
+        "quantity",
+        "unit",
+        "status",
+        "confirmed",
+        "visibility"
+      ],
+      "title": "Pending",
+      "type": "object"
+    },
+    "Preferences": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "minimum_stock": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Stock"
+        },
+        "coverage_days": {
+          "anyOf": [
+            {
+              "maximum": 365,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coverage Days"
+        },
+        "lead_days": {
+          "anyOf": [
+            {
+              "maximum": 365,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Days"
+        },
+        "order_unit": {
+          "anyOf": [
+            {
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Order Unit"
+        },
+        "pack_size": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pack Size"
+        }
+      },
+      "required": [
+        "version"
+      ],
+      "title": "Preferences",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    },
+    "StockVerification": {
+      "additionalProperties": false,
+      "properties": {
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "checked_at",
+        "source"
+      ],
+      "title": "StockVerification",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "enum": [
+        "p3-planning-context-1",
+        "v1-planning-context-1"
+      ],
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "snapshot_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "as_of": {
+      "format": "date-time",
+      "title": "As Of",
+      "type": "string"
+    },
+    "event_watermark": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Event Watermark",
+      "type": "string"
+    },
+    "shopping_version": {
+      "minimum": 1,
+      "title": "Shopping Version",
+      "type": "integer"
+    },
+    "items_complete": {
+      "title": "Items Complete",
+      "type": "boolean"
+    },
+    "history_complete": {
+      "title": "History Complete",
+      "type": "boolean"
+    },
+    "pending_complete": {
+      "title": "Pending Complete",
+      "type": "boolean"
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Cursor"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "maxItems": 1000,
+      "title": "Items",
+      "type": "array"
+    },
+    "pending": {
+      "items": {
+        "$ref": "#/$defs/Pending"
+      },
+      "maxItems": 10000,
+      "title": "Pending",
+      "type": "array"
+    }
+  },
+  "required": [
+    "protocol_version",
+    "scope",
+    "snapshot_id",
+    "as_of",
+    "event_watermark",
+    "shopping_version",
+    "items_complete",
+    "history_complete",
+    "pending_complete",
+    "items",
+    "pending"
+  ],
+  "title": "PlanningSnapshot",
+  "type": "object"
+}

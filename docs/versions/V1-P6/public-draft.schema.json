@@ -1,0 +1,685 @@
+{
+  "$defs": {
+    "AddCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "ADD",
+          "default": "ADD",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        }
+      },
+      "required": [
+        "name",
+        "quantity",
+        "unit"
+      ],
+      "title": "AddCommand",
+      "type": "object"
+    },
+    "Batch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "household_id",
+        "name",
+        "quantity",
+        "unit",
+        "version"
+      ],
+      "title": "Batch",
+      "type": "object"
+    },
+    "ChangePreview": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Batch Id"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Batch"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProposedState"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "event_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "Added",
+                "Consumed",
+                "Opened",
+                "Moved",
+                "Discarded"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Type"
+        },
+        "quantity_delta": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "default": "0",
+          "title": "Quantity Delta"
+        },
+        "inventory_changes": {
+          "default": true,
+          "title": "Inventory Changes",
+          "type": "boolean"
+        },
+        "prospective": {
+          "const": true,
+          "default": true,
+          "title": "Prospective",
+          "type": "boolean"
+        }
+      },
+      "title": "ChangePreview",
+      "type": "object"
+    },
+    "ConsumeCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "CONSUME",
+          "default": "CONSUME",
+          "title": "Action",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "quantity",
+        "unit"
+      ],
+      "title": "ConsumeCommand",
+      "type": "object"
+    },
+    "DiscardCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "DISCARD",
+          "default": "DISCARD",
+          "title": "Action",
+          "type": "string"
+        },
+        "discard_mode": {
+          "enum": [
+            "partial",
+            "all"
+          ],
+          "title": "Discard Mode",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "discard_mode",
+        "quantity",
+        "unit"
+      ],
+      "title": "DiscardCommand",
+      "type": "object"
+    },
+    "MoveCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "MOVE",
+          "default": "MOVE",
+          "title": "Action",
+          "type": "string"
+        },
+        "to_location": {
+          "maxLength": 120,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "To Location",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "to_location"
+      ],
+      "title": "MoveCommand",
+      "type": "object"
+    },
+    "OpenCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "OPEN",
+          "default": "OPEN",
+          "title": "Action",
+          "type": "string"
+        },
+        "opened_at": {
+          "format": "date",
+          "title": "Opened At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "opened_at"
+      ],
+      "title": "OpenCommand",
+      "type": "object"
+    },
+    "PlanCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "PLAN_ADD",
+          "default": "PLAN_ADD",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quantity",
+        "unit"
+      ],
+      "title": "PlanCommand",
+      "type": "object"
+    },
+    "ProposedState": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quantity",
+        "unit",
+        "status"
+      ],
+      "title": "ProposedState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "task_id": {
+      "format": "uuid",
+      "title": "Task Id",
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "status": {
+      "title": "Status",
+      "type": "string"
+    },
+    "draft": {
+      "discriminator": {
+        "mapping": {
+          "ADD": "#/$defs/AddCommand",
+          "CONSUME": "#/$defs/ConsumeCommand",
+          "DISCARD": "#/$defs/DiscardCommand",
+          "MOVE": "#/$defs/MoveCommand",
+          "OPEN": "#/$defs/OpenCommand",
+          "PLAN_ADD": "#/$defs/PlanCommand"
+        },
+        "propertyName": "action"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AddCommand"
+        },
+        {
+          "$ref": "#/$defs/PlanCommand"
+        },
+        {
+          "$ref": "#/$defs/ConsumeCommand"
+        },
+        {
+          "$ref": "#/$defs/OpenCommand"
+        },
+        {
+          "$ref": "#/$defs/MoveCommand"
+        },
+        {
+          "$ref": "#/$defs/DiscardCommand"
+        }
+      ],
+      "title": "Draft"
+    },
+    "preview": {
+      "$ref": "#/$defs/ChangePreview"
+    },
+    "prospective": {
+      "const": true,
+      "title": "Prospective",
+      "type": "boolean"
+    },
+    "inventory_written": {
+      "const": false,
+      "title": "Inventory Written",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "task_id",
+    "revision",
+    "status",
+    "draft",
+    "preview",
+    "prospective",
+    "inventory_written"
+  ],
+  "title": "Draft",
+  "type": "object"
+}

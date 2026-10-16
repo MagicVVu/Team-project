@@ -308,8 +308,12 @@ def test_asr_edit_state_never_uploads_original_transcript():
     text=session.recognition_result(active,active.recognition_id,"添加99盒牛奶")
     state,body=session.submission(session.confirm_text(session.edit(text,"添加2盒牛奶")))
     assert state.raw_transcript=="添加99盒牛奶" and state.user_edited
-    assert "99" not in json.dumps(session.public_message(state),ensure_ascii=False)
-    assert "99" not in body.model_dump_json()
+    public=session.public_message(state)
+    assert public["text"]=="添加2盒牛奶" and body.text==state.final_text
+    assert "raw_transcript" not in public
+    # UUID request/session IDs may legitimately contain the digits 99.
+    assert state.raw_transcript not in json.dumps(public,ensure_ascii=False)
+    assert state.raw_transcript not in body.model_dump_json()
 
 
 def test_structured_answer_cannot_be_new_or_negated_instruction():

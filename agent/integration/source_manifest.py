@@ -24,6 +24,9 @@ SOURCE_PATHS = (
     "interaction/manager.py", "interaction/policy.py", "interaction/schemas.py",
     "interaction/session.py", "interaction/tasks.py",
     "Dockerfile.interaction", "Dockerfile.interaction.dockerignore",
+    "v1/__init__.py", "v1/app.py", "v1/engines.py", "v1/health.py", "v1/knowledge.py",
+    "v1/manager.py", "v1/policy.py", "v1/render.py", "v1/schemas.py", "v1/tasks.py", "v1/tools.py",
+    "Dockerfile.v1", "Dockerfile.v1.dockerignore",
 )
 
 

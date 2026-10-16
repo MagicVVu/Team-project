@@ -98,4 +98,7 @@ def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seco
         return {"ruleset_version": catalog.data.version, "ruleset_sha256": catalog.sha256,
                 "rules": [r.model_dump(mode="json") for r in catalog.list_rules(category)]}
 
+    if profile and hasattr(profile, "install_routes"):
+        profile.install_routes(app, manager, scope)
+
     return app

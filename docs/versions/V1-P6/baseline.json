@@ -1,0 +1,111 @@
+{
+  "checked_on": "2026-10-16",
+  "timezone": "Asia/Shanghai",
+  "status": "planning_only",
+  "local_commit": "82ab606",
+  "local_regression": {
+    "passed": 464,
+    "scope": [
+      "agent/tests",
+      "backend/tests"
+    ],
+    "remote_gateway_tested": false,
+    "setup_note": "Initial collection lacked agent on PYTHONPATH; corrected invocation passed without code changes."
+  },
+  "remote": {
+    "backend_version": "0.8.0",
+    "health": "ok",
+    "readiness": "ready",
+    "database": "ok",
+    "inspection": "read_only",
+    "openapi_sha256_canonical": "46d9af743d142ffdd2fff1a1286989bf9d07513bfa3382c52b5b30b1877af8da",
+    "canonicalization": "json.dumps(ensure_ascii=False, sort_keys=True, separators=(',', ':')) UTF-8",
+    "known_routes": [
+      "/internal/v1/inventory/search",
+      "/internal/v1/inventory/batches/{batch_id}",
+      "/api/v1/agent/messages",
+      "/api/v1/agent/clarifications/{task_id}",
+      "/api/v1/agent/tasks/{task_id}",
+      "/api/v1/drafts/{draft_id}",
+      "/api/v1/households/{household_id}/shopping-list/items",
+      "/api/v1/households/{household_id}/shopping-list/items/{item_id}/purchase"
+    ],
+    "missing_from_openapi": [
+      "same-snapshot planning context",
+      "semantic consumption event reader",
+      "AI draft confirmation",
+      "event reversal"
+    ],
+    "clarification_fields": [
+      "name",
+      "quantity",
+      "unit",
+      "location",
+      "purchased_at",
+      "label_expiry",
+      "opened_at",
+      "to_location",
+      "batch_id"
+    ],
+    "clarification_empty_answers_allowed": false,
+    "inventory_search_max_complete_rows": 1000,
+    "risk_extended_facts_returned": false,
+    "write_routes_exercised": false,
+    "code_changed": false,
+    "service_restarted": false
+  },
+  "historical_p5": {
+    "regression_passed": 464,
+    "runtime_files_synced": 45,
+    "rules_holdout_passed": 60,
+    "rules_holdout_total": 60,
+    "model_holdout_passed": 59,
+    "model_holdout_total": 60,
+    "strict_model_acceptance": false,
+    "human_sample_review_complete": false,
+    "device_chain_verified": false,
+    "production_chain_verified": false
+  },
+  "constraints": {
+    "database_gateway_unchanged": true,
+    "ai_runtime_root": "/home/magicvvu_ai/workspace/agent",
+    "docs_tests_evals_local": true,
+    "ai_inventory_writes": false,
+    "new_mock_service": false,
+    "multi_agent_in_p6": false,
+    "git_commit": false,
+    "git_push": false
+  },
+  "task_ids": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12"
+  ],
+  "requirement_ids": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16"
+  ]
+}
