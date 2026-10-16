@@ -74,11 +74,11 @@ class Draft(Model):
     inventory_written: Literal[False]
 
 
-def parse_task(value, household_id):
+def parse_task(value, household_id, *, task_type=Task):
     if not isinstance(value,dict) or "task_id" not in value:
         raise DomainError("WRONG_GATEWAY_PROTOCOL","返回不是正式任务协议，不能使用旧手机快照网关。",503)
     try:
-        task = Task.model_validate(value)
+        task = task_type.model_validate(value)
     except (ValueError,TypeError):
         raise DomainError("TASK_CONTRACT_INVALID","任务返回格式或权限事实不符合契约。",503) from None
     if str(task.household_id) != str(UUID(household_id)):
@@ -87,6 +87,8 @@ def parse_task(value, household_id):
 
 
 class TaskClient:
+    task_type = Task
+
     def __init__(self, base_url, user_access_token, household_id, *, timeout_seconds=15, transport=None):
         url = httpx.URL(base_url)
         if (url.scheme not in {"http","https"} or not url.host or url.username or url.password or url.query or url.fragment or url.path not in {"","/"}
@@ -129,11 +131,11 @@ class TaskClient:
     async def submit(self, state):
         if state.scope.household_id != self.household_id:
             raise DomainError("HOUSEHOLD_FORBIDDEN","输入会话不属于当前家庭。",403)
-        return parse_task(await self._request("POST","/api/v1/agent/messages",public_message(state)),self.household_id)
+        return parse_task(await self._request("POST","/api/v1/agent/messages",public_message(state)),self.household_id,task_type=self.task_type)
 
     async def get_task(self, task_id):
         task_id = str(UUID(str(task_id)))
-        task = parse_task(await self._request("GET","/api/v1/agent/tasks/"+task_id),self.household_id)
+        task = parse_task(await self._request("GET","/api/v1/agent/tasks/"+task_id),self.household_id,task_type=self.task_type)
         if str(task.task_id) != task_id:
             raise DomainError("TASK_CONTRACT_INVALID","返回了其他任务。",503)
         return task
@@ -147,7 +149,7 @@ class TaskClient:
         if not values or not set(values)<=V06_ANSWERS:
             raise DomainError("TASK_CAPABILITY_UNAVAILABLE","当前数据库网关不接收空答案或item_key，请使用已有补字段协议或明确重新提交。",422)
         task = parse_task(await self._request("POST","/api/v1/agent/clarifications/"+task_id,
-            {"revision":revision,"answers":values}),self.household_id)
+            {"revision":revision,"answers":values}),self.household_id,task_type=self.task_type)
         if str(task.task_id) != task_id:
             raise DomainError("TASK_CONTRACT_INVALID","返回了其他任务。",503)
         return task

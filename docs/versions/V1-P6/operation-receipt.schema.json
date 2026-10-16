@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "v1-operation-receipt-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "operation_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Operation Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "committed",
+        "processing",
+        "rejected"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "committed_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Committed At"
+    },
+    "batch_versions": {
+      "additionalProperties": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "maxProperties": 100,
+      "title": "Batch Versions",
+      "type": "object"
+    },
+    "event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Event Ids",
+      "type": "array"
+    },
+    "trace_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Trace Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "protocol_version",
+    "scope",
+    "operation_id",
+    "status",
+    "trace_id"
+  ],
+  "title": "CommitReceipt",
+  "type": "object"
+}
