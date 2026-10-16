@@ -1,0 +1,43 @@
+"""MagicVVu v0.7: shared shopping with atomic purchase-to-stock."""
+
+import logging
+
+from fastapi import FastAPI, HTTPException
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
+
+from app.database import engine
+from app.routers.auth import router as auth_router
+from app.routers.households import router as household_router
+from app.routers.ai_inventory import router as ai_inventory_router
+from app.routers.agent_gateway import router as agent_gateway_router
+from app.routers.shopping import router as shopping_router
+
+logger = logging.getLogger(__name__)
+
+app = FastAPI(
+    title="MagicVVu API",
+    description="Shared shopping and atomic purchase-to-stock; household-scoped read-only P1 gateway",
+    version="0.7.0",
+)
+app.include_router(auth_router)
+app.include_router(household_router)
+app.include_router(ai_inventory_router)
+app.include_router(agent_gateway_router)
+app.include_router(shopping_router)
+
+
+@app.get("/api/v1/health", tags=["System"])
+def health_check() -> dict[str, str]:
+    return {"status": "ok", "service": "magicvvu-backend", "version": app.version}
+
+
+@app.get("/api/v1/ready", tags=["System"])
+def readiness_check() -> dict[str, str]:
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+    except SQLAlchemyError:
+        logger.exception("Database readiness query failed")
+        raise HTTPException(status_code=503, detail="Database unavailable") from None
+    return {"status": "ready", "database": "ok"}

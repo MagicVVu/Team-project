@@ -1,0 +1,1 @@
+"""MagicVVu backend application."""

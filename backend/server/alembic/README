@@ -1,0 +1,3 @@
+MagicVVu v0.3 initial migration: 20261014_0001_core_tables.py.
+Run `alembic upgrade head` after backing up the PostgreSQL database.
+WARNING: `alembic downgrade base` drops all six business tables.
