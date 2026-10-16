@@ -1,0 +1,234 @@
+{
+  "$defs": {
+    "InputProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "text",
+            "voice",
+            "manual_fallback"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "input_session_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:-]+$",
+          "title": "Input Session Id",
+          "type": "string"
+        },
+        "transcript_revision": {
+          "minimum": 1,
+          "title": "Transcript Revision",
+          "type": "integer"
+        },
+        "user_confirmed": {
+          "title": "User Confirmed",
+          "type": "boolean"
+        },
+        "user_edited": {
+          "default": false,
+          "title": "User Edited",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source",
+        "input_session_id",
+        "transcript_revision",
+        "user_confirmed"
+      ],
+      "title": "InputProvenance",
+      "type": "object"
+    },
+    "Message": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Text",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Request Id",
+          "type": "string"
+        },
+        "household_timezone": {
+          "default": "Asia/Shanghai",
+          "title": "Household Timezone",
+          "type": "string"
+        },
+        "reminder_days": {
+          "default": 3,
+          "maximum": 365,
+          "minimum": 0,
+          "title": "Reminder Days",
+          "type": "integer"
+        },
+        "input": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputProvenance"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "text",
+        "request_id"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "source": {
+      "enum": [
+        "text",
+        "voice",
+        "manual_fallback"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "phase": {
+      "default": "idle",
+      "enum": [
+        "idle",
+        "recognizing",
+        "editing",
+        "reviewed",
+        "submitted",
+        "cancelled"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "recognition_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recognition Id"
+    },
+    "raw_transcript": {
+      "default": "",
+      "title": "Raw Transcript",
+      "type": "string"
+    },
+    "final_text": {
+      "default": "",
+      "title": "Final Text",
+      "type": "string"
+    },
+    "transcript_revision": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Transcript Revision",
+      "type": "integer"
+    },
+    "user_edited": {
+      "default": false,
+      "title": "User Edited",
+      "type": "boolean"
+    },
+    "request_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Request Id"
+    },
+    "submitted_fingerprint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Submitted Fingerprint"
+    },
+    "submitted_message": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Message"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "task_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task Id"
+    }
+  },
+  "required": [
+    "scope",
+    "source",
+    "id"
+  ],
+  "title": "Session",
+  "type": "object"
+}

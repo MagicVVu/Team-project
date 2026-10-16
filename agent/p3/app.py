@@ -16,7 +16,7 @@ from .schemas import AgentResult, ClarificationRequest, PlanningMessage, Query, 
 from .tools import RemotePlanningReader
 
 
-def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seconds=10):
+def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seconds=10, profile=None):
     token = os.getenv("AI_SERVICE_TOKEN", "")
     if not token.strip():
         raise RuntimeError("P3 requires AI_SERVICE_TOKEN")
@@ -27,10 +27,15 @@ def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seco
     engine_name = os.getenv("P3_ENGINE", "rules")
     if engine_name not in {"rules", "deepseek"}:
         raise RuntimeError("P3_ENGINE must be rules or deepseek")
-    engine = engine or (RuleEngine() if engine_name == "rules" else DeepSeekEngine())
+    engine = engine or (profile.make_engine(engine_name) if profile else (RuleEngine() if engine_name == "rules" else DeepSeekEngine()))
     catalog = catalog or RuleCatalog.load(os.getenv("P2_RULES_PATH"))
-    manager = Manager(engine, reader, catalog, now=now, timeout_seconds=timeout_seconds)
-    app = FastAPI(title="Household V1-P3 read-only planning AI", version="0.4.0")
+    manager_type = profile.manager_type if profile else Manager
+    message_type = profile.message_type if profile else PlanningMessage
+    clarification_type = profile.clarification_type if profile else ClarificationRequest
+    result_type = profile.result_type if profile else AgentResult
+    manager = manager_type(engine, reader, catalog, now=now, timeout_seconds=timeout_seconds)
+    app = FastAPI(title=profile.title if profile else "Household V1-P3 read-only planning AI",
+                  version=profile.version if profile else "0.4.0")
 
     def scope(authorization: str = Header(default=""), x_user_id: str = Header(default=""), x_household_id: str = Header(default="")):
         if not secrets.compare_digest(authorization.encode(), f"Bearer {token}".encode()) or not x_user_id.strip() or not x_household_id.strip():
@@ -55,29 +60,32 @@ def create_app(*, engine=None, reader=None, catalog=None, now=None, timeout_seco
 
     @app.get("/health")
     def health():
-        return {"status": "ok", "release_version": "V1-P3", "engine": engine_name,
+        body = {"status": "ok", "release_version": "V1-P3", "engine": engine_name,
             "policy_version": POLICY_VERSION, "ruleset_version": catalog.data.version, "ruleset_sha256": catalog.sha256,
             "clarification_protocols": ["p1", "p2-risk-selection-1", "p3-item-selection-1"],
             "planning_contract": "p3-planning-context-1", "inventory_writes": False,
             "shopping_writes": False, "production_chain_verified": False}
+        if profile:
+            body.update(profile.health)
+        return body
 
-    @app.post("/agent/message", response_model=AgentResult)
-    async def message(body: PlanningMessage, identity: Scope = Depends(scope)):
+    @app.post("/agent/message", response_model=result_type)
+    async def message(body: message_type, identity: Scope = Depends(scope)):
         return await manager.handle(body, identity)
 
-    @app.post("/agent/clarification", response_model=AgentResult)
-    async def clarification(body: ClarificationRequest, identity: Scope = Depends(scope)):
+    @app.post("/agent/clarification", response_model=result_type)
+    async def clarification(body: clarification_type, identity: Scope = Depends(scope)):
         return await manager.clarify(body, identity)
 
-    @app.post("/consumption/query", response_model=AgentResult)
+    @app.post("/consumption/query", response_model=result_type)
     async def consumption(body: Query, identity: Scope = Depends(scope)):
         return await manager.query(body, identity, "QUERY_CONSUMPTION")
 
-    @app.post("/forecast/evaluate", response_model=AgentResult)
+    @app.post("/forecast/evaluate", response_model=result_type)
     async def forecast(body: Query, identity: Scope = Depends(scope)):
         return await manager.query(body, identity, "QUERY_FORECAST")
 
-    @app.post("/procurement/suggest", response_model=AgentResult)
+    @app.post("/procurement/suggest", response_model=result_type)
     async def procurement(body: Query, identity: Scope = Depends(scope)):
         return await manager.query(body, identity, "SUGGEST_PURCHASE")
 

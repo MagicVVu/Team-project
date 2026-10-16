@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-10-15T17:32:25.498757+00:00",
+  "source_head": "1bc911f96d00550312a1cc05ea5ce61c94bc5be7",
+  "local_regression": {
+    "passed": 381,
+    "paid_model_called": false
+  },
+  "sync": {
+    "runtime_files": 34,
+    "changed_files": [
+      "p0/text.py",
+      "p0/engines.py",
+      "p0/manager.py",
+      "p1/engines.py",
+      "p1/domain.py",
+      "p1/manager.py",
+      "integration/source_manifest.py"
+    ],
+    "hashes_verified": true,
+    "rule_checks_passed": true,
+    "remote_root": "/home/magicvvu_ai/workspace/agent",
+    "backend_version": "0.6.0",
+    "service_restarted": false,
+    "backend_code_uploaded": false,
+    "user_selected_ai_only": true
+  },
+  "p5": {
+    "status": "planning_only",
+    "primary_scope": "unified_task_protocol_and_reviewed_voice_text",
+    "multi_agent_included": false
+  },
+  "document_links_verified": true
+}

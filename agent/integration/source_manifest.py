@@ -20,6 +20,10 @@ SOURCE_PATHS = (
     "p3/__init__.py", "p3/app.py", "p3/engines.py", "p3/forecast.py",
     "p3/health.py", "p3/history.py", "p3/manager.py", "p3/procurement.py",
     "p3/schemas.py", "p3/tools.py", "Dockerfile.p3", "Dockerfile.p3.dockerignore",
+    "interaction/__init__.py", "interaction/app.py", "interaction/engines.py", "interaction/health.py",
+    "interaction/manager.py", "interaction/policy.py", "interaction/schemas.py",
+    "interaction/session.py", "interaction/tasks.py",
+    "Dockerfile.interaction", "Dockerfile.interaction.dockerignore",
 )
 
 
