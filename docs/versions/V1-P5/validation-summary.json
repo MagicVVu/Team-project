@@ -1,0 +1,185 @@
+{
+  "verified_at_utc": "2026-10-15T18:31:15.240033+00:00",
+  "release_version": "V1-P5",
+  "ai_implementation_complete": true,
+  "automated_tests": {
+    "passed": 464,
+    "new_p5_tests": 83
+  },
+  "evaluations": {
+    "rules_dev": {
+      "path": "agent/eval/p5/results/rules-dev-20261015T182719003921.json",
+      "metadata": {
+        "release_version": "V1-P5",
+        "input_policy_version": "p5-reviewed-text-1",
+        "prompt_version": "p5-extract-1",
+        "dataset_sha256": "8883a6e27500c15155ee6e9b1f8cff5c39a41bbe884f57ec0f43fe081fcda09c",
+        "engine": "rules",
+        "split": "dev",
+        "count": 90,
+        "run_at": "2026-10-15T18:27:19.003670+00:00",
+        "human_reviewed": false,
+        "real_audio": false,
+        "formal_backend_verified": false,
+        "provider_budget_before": null,
+        "provider_budget_after": null
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "intent_evaluable_count": 66,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 30,
+        "all_checks_accuracy": 1.0,
+        "model_calls": 63,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.0008400999940931797
+      },
+      "workflow_acceptance_passed": false
+    },
+    "rules_test": {
+      "path": "agent/eval/p5/results/rules-test-20261015T182719505705.json",
+      "metadata": {
+        "release_version": "V1-P5",
+        "input_policy_version": "p5-reviewed-text-1",
+        "prompt_version": "p5-extract-1",
+        "dataset_sha256": "8883a6e27500c15155ee6e9b1f8cff5c39a41bbe884f57ec0f43fe081fcda09c",
+        "engine": "rules",
+        "split": "test",
+        "count": 60,
+        "run_at": "2026-10-15T18:27:19.505408+00:00",
+        "human_reviewed": false,
+        "real_audio": false,
+        "formal_backend_verified": false,
+        "provider_budget_before": null,
+        "provider_budget_after": null
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "intent_evaluable_count": 42,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 24,
+        "all_checks_accuracy": 1.0,
+        "model_calls": 42,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 0.0008208999643102288
+      },
+      "workflow_acceptance_passed": true
+    },
+    "deepseek_dev": {
+      "path": "agent/eval/p5/results/deepseek-dev-20261015T181728262896.json",
+      "metadata": {
+        "release_version": "V1-P5",
+        "input_policy_version": "p5-reviewed-text-1",
+        "prompt_version": "p5-extract-1",
+        "dataset_sha256": "8883a6e27500c15155ee6e9b1f8cff5c39a41bbe884f57ec0f43fe081fcda09c",
+        "engine": "deepseek",
+        "split": "dev",
+        "count": 90,
+        "run_at": "2026-10-15T18:17:28.261186+00:00",
+        "human_reviewed": false,
+        "real_audio": false,
+        "formal_backend_verified": false,
+        "provider_budget_before": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 1.22925,
+          "calls": 585,
+          "unknown_usage_calls": 0
+        },
+        "provider_budget_after": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 1.43957,
+          "calls": 648,
+          "unknown_usage_calls": 0
+        }
+      },
+      "metrics": {
+        "intent_accuracy": 1.0,
+        "intent_evaluable_count": 66,
+        "status_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 30,
+        "all_checks_accuracy": 1.0,
+        "model_calls": 63,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 1.8414768999209628
+      },
+      "workflow_acceptance_passed": false
+    },
+    "deepseek_test": {
+      "path": "agent/eval/p5/results/deepseek-test-20261015T181954478508.json",
+      "metadata": {
+        "release_version": "V1-P5",
+        "input_policy_version": "p5-reviewed-text-1",
+        "prompt_version": "p5-extract-1",
+        "dataset_sha256": "8883a6e27500c15155ee6e9b1f8cff5c39a41bbe884f57ec0f43fe081fcda09c",
+        "engine": "deepseek",
+        "split": "test",
+        "count": 60,
+        "run_at": "2026-10-15T18:19:54.477075+00:00",
+        "human_reviewed": false,
+        "real_audio": false,
+        "formal_backend_verified": false,
+        "provider_budget_before": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 1.43957,
+          "calls": 648,
+          "unknown_usage_calls": 0
+        },
+        "provider_budget_after": {
+          "limit_cny": 20.0,
+          "conservative_cost_cny": 1.580232,
+          "calls": 690,
+          "unknown_usage_calls": 0
+        }
+      },
+      "metrics": {
+        "intent_accuracy": 0.9761904761904762,
+        "intent_evaluable_count": 42,
+        "status_accuracy": 0.9833333333333333,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 24,
+        "all_checks_accuracy": 0.9833333333333333,
+        "model_calls": 42,
+        "inventory_or_shopping_mutations": 0,
+        "p95_seconds": 1.6163371000438929
+      },
+      "workflow_acceptance_passed": false
+    }
+  },
+  "remote": {
+    "verified_runtime_files": 45,
+    "changed_files": 13,
+    "runtime_root": "/home/magicvvu_ai/workspace/agent",
+    "python": "3.12.3",
+    "health_valid": true,
+    "smoke_checks": {
+      "final_text_preserved": true,
+      "draft_quantity_correct": true,
+      "negative_no_draft": true,
+      "resumed_draft": true,
+      "no_model_on_resume": true,
+      "inventory_tools_used": false,
+      "business_writes": false,
+      "paid_model_calls": 0
+    },
+    "openapi_matches_local": true
+  },
+  "database_gateway_unchanged": true,
+  "formal_backend_version": "0.6.0",
+  "formal_backend_positive_chain_verified": false,
+  "device_asr_verified": false,
+  "frontend_changed": false,
+  "production_services_restarted": false,
+  "model_strict_acceptance_passed": false,
+  "model_holdout_failed_case_ids": [
+    "p5-42-1"
+  ],
+  "committed_or_pushed": false,
+  "document_links_verified": true
+}

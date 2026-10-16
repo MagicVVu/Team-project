@@ -1,5 +1,7 @@
 # V1-P0 AI 开发包
 
+V1-P5 的确认文字输入与现有数据库任务适配见[interaction/README.md](interaction/README.md)。AI侧已实现与同步，464项回归通过；规则60/60、真实模型59/60完整检查。数据库网关保持不变，App语音接入及正式发布待验收。
+
 独立的 V1-P1 只读 AI 服务见 [p1/README.md](p1/README.md)：新增开封、整批移动、丢弃与结构化澄清续接，无新增 Mock 演示页。以下 P0 的运行方式与接口保持不变。
 
 V1-P2 的基础风险、本地规则与统一 Manager 入口见 [p2/README.md](p2/README.md)。P2 复用 P1 操作链路，原 P0/P1 服务接口保持不变；正式前后端接入仍待验收。
