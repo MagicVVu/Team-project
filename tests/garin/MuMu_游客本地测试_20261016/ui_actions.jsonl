@@ -1,0 +1,35 @@
+{"seq":1,"time":"2026-10-16T14:05:30.934Z","action":"start_home","note":"当前首页显示15种物品；尚未操作。","screenshot":"screenshots/001_start_home.png"}
+{"seq":2,"time":"2026-10-16T14:05:31.136Z","action":"open_profile","note":"查看游客或云端账号状态，不登录。","screenshot":"screenshots/002_open_profile.png"}
+{"seq":3,"time":"2026-10-16T14:05:39.266Z","action":"profile_settled","note":"等待导航动画完成后观察。","screenshot":"screenshots/003_profile_settled.png"}
+{"seq":4,"time":"2026-10-16T14:06:05.974Z","action":"inventory_tab","note":"从我的切换库存。","screenshot":"screenshots/004_inventory_tab.png"}
+{"seq":5,"time":"2026-10-16T14:06:22.588Z","action":"inventory_stable","note":"库存页加载完成，观察拉绳位置。","screenshot":"screenshots/005_inventory_stable.png"}
+{"seq":6,"time":"2026-10-16T14:06:36.769Z","action":"cord_short_pull","note":"短拉约18窗口像素，预期未达到阈值时回弹，不打开助手。","screenshot":"screenshots/006_cord_short_pull.png"}
+{"seq":7,"time":"2026-10-16T14:06:44.600Z","action":"cord_short_settled","note":"短拉后仍为库存页，未出现助手帘幕。","screenshot":"screenshots/007_cord_short_settled.png"}
+{"seq":8,"time":"2026-10-16T14:06:49.528Z","action":"cord_open_long_pull","note":"长拉超过阈值后松手，预期展开AI助手。","screenshot":"screenshots/008_cord_open_long_pull.png"}
+{"seq":9,"time":"2026-10-16T14:07:01.488Z","action":"assistant_open_settled","note":"长拉后观察稳定助手页面。","screenshot":"screenshots/009_assistant_open_settled.png"}
+{"seq":10,"time":"2026-10-16T14:07:22.484Z","action":"assistant_background_nav_click","note":"在助手覆盖时点击原我的导航位置，预期不穿透到下层页面。","screenshot":"screenshots/010_assistant_background_nav_click.png"}
+{"seq":11,"time":"2026-10-16T14:07:29.528Z","action":"assistant_android_back","note":"模拟Android返回，预期收起助手而非退出App。","screenshot":"screenshots/011_assistant_android_back.png"}
+{"seq":12,"time":"2026-10-16T14:07:39.443Z","action":"back_to_inventory","note":"返回后检查原库存页与15条数量是否保留。","screenshot":"screenshots/012_back_to_inventory.png"}
+{"seq":13,"time":"2026-10-16T14:07:46.303Z","action":"add_item_entry","note":"库存页点击添加物品，不修改现有物品。","screenshot":"screenshots/013_add_item_entry.png"}
+{"seq":14,"time":"2026-10-16T14:08:07.646Z","action":"add_sheet_open","note":"添加表单稳定状态。","screenshot":"screenshots/014_add_sheet_open.png"}
+{"seq":15,"time":"2026-10-16T14:08:14.822Z","action":"manual_name_focus","note":"聚焦名称字段，下一步输入新增测试名称。","screenshot":"screenshots/015_manual_name_focus.png"}
+{"seq":16,"time":"2026-10-16T14:08:21.519Z","action":"manual_name_type","note":"只输入本轮新增测试物品名称，不提交。","screenshot":"screenshots/016_manual_name_type.png"}
+{"seq":17,"time":"2026-10-16T14:08:53.907Z","action":"manual_name_refocus","note":"Windows文字注入后输入框仍空，重新聚焦核实后只重试一次。","screenshot":"screenshots/017_manual_name_refocus.png"}
+{"seq":18,"time":"2026-10-16T14:08:58.830Z","action":"manual_ascii_retry","note":"用ASCII合成标记重试，区分文字注入能力与App保存逻辑。","screenshot":"screenshots/018_manual_ascii_retry.png"}
+{"seq":19,"time":"2026-10-16T14:09:19.532Z","action":"manual_name_adb","note":"Windows注入不生效，使用Android ADB原生input text输入ASCII测试标记GarinTestMilk1016。未修改代码。","screenshot":"screenshots/019_manual_name_adb.png"}
+{"seq":20,"time":"2026-10-16T14:09:36.897Z","action":"manual_qty_focus","note":"聚焦数量输入框，输入99后编辑为2，确认前不保存。","screenshot":"screenshots/020_manual_qty_focus.png"}
+{"seq":21,"time":"2026-10-16T14:09:42.404Z","action":"manual_qty_99","note":"输入99作为随后手动修正的旧值，不提交。","screenshot":"screenshots/021_manual_qty_99.png"}
+{"seq":22,"time":"2026-10-16T14:09:51.284Z","action":"manual_qty_select","note":"选中数量99准备改成2。","screenshot":"screenshots/022_manual_qty_select.png"}
+{"seq":23,"time":"2026-10-16T14:10:02.679Z","action":"manual_qty_clear","note":"Android原生退格两次删除99，未操作任何库存。","screenshot":"screenshots/023_manual_qty_clear.png"}
+{"seq":24,"time":"2026-10-16T14:10:07.392Z","action":"manual_qty_clear_settled","note":"核对退格后的稳定文字。","screenshot":"screenshots/024_manual_qty_clear_settled.png"}
+{"seq":25,"time":"2026-10-16T14:10:15.968Z","action":"manual_qty_edited_two","note":"将99改成2；最终确认时只能按2保存。","screenshot":"screenshots/025_manual_qty_edited_two.png"}
+{"seq":26,"time":"2026-10-16T14:11:16.094Z","action":"manual_qty_delete_once","note":"当前实际值92，逐次退格并观察，避免组合按键输入丢失影响用例。","screenshot":"screenshots/026_manual_qty_delete_once.png"}
+{"seq":27,"time":"2026-10-16T14:11:22.727Z","action":"manual_qty_android_select_all","note":"Android原生Ctrl+A选中当前数量9。","screenshot":"screenshots/027_manual_qty_android_select_all.png"}
+{"seq":28,"time":"2026-10-16T14:11:57.797Z","action":"manual_qty_final_two","note":"数量输入已修正为2；截图和后续存储结果共同核对，未保存前库存不变。","screenshot":"screenshots/028_manual_qty_final_two.png"}
+{"seq":29,"time":"2026-10-16T14:12:05.359Z","action":"manual_name_clean_focus","note":"核对并清除Windows输入适配带来的前缀字符，保证测试名称唯一明确。","screenshot":"screenshots/029_manual_name_clean_focus.png"}
+{"seq":30,"time":"2026-10-16T14:12:17.828Z","action":"manual_name_clean","note":"仅重写未提交输入框为GarinTestMilk1016；已有库存不受影响。","screenshot":"screenshots/030_manual_name_clean.png"}
+{"seq":31,"time":"2026-10-16T14:12:23.537Z","action":"manual_unit_focus","note":"聚焦单位，输入box作为合成测试单位。","screenshot":"screenshots/031_manual_unit_focus.png"}
+{"seq":32,"time":"2026-10-16T14:12:31.525Z","action":"manual_unit_box","note":"测试单位box。下一步先做未提交状态的后台恢复。","screenshot":"screenshots/032_manual_unit_box.png"}
+{"seq":33,"time":"2026-10-16T14:13:12.566Z","action":"draft_go_background","note":"Android Home进入后台；未确认的2 box草稿不应入库。","screenshot":"screenshots/033_draft_go_background.png"}
+{"seq":34,"time":"2026-10-16T14:13:20.804Z","action":"draft_resume_app","note":"从Android桌面点击已有拾物App回到前台，核对未确认表单。","screenshot":"screenshots/034_draft_resume_app.png"}
+{"seq":35,"time":"2026-10-16T14:13:53.557Z","action":"guest_continue_after_reopen","note":"桌面重开出现登录页，点击先逛逛，不输入账号；核对草稿是否恢复并做第二次复现。","screenshot":"screenshots/035_guest_continue_after_reopen.png"}

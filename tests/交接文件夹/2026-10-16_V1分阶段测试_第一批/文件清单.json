@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-10-16T21:53:17.367257+08:00",
+  "baseline": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "original_round": "tests/garin/V1_分阶段验收_20261016_a251aa0",
+  "copy_policy": "Word和结果数据原样复制；新增说明在交接文件夹；原始证据不移动、不修改",
+  "copied_files": [
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/Garin V1分阶段测试工作记录.docx",
+      "to": "Garin V1分阶段测试工作记录.docx",
+      "sha256": "aacab40bba2b92985f09cacead188928a8ac4a9e39214dc88238b29d33be2ea1"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/分阶段统计.json",
+      "to": "结果数据/分阶段统计.json",
+      "sha256": "0ddcc470399e16a08c6213aa7653ec55b091402db7d418cab41c956ae07631cc"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/Android结果.json",
+      "to": "结果数据/Android结果.json",
+      "sha256": "e30061ecca1f16605161d4091975ac3e2dd786fdb6d9ded73d2a76efd483bee5"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/问题分类.json",
+      "to": "结果数据/问题分类.json",
+      "sha256": "398fe923fb7d7be07f2c58a59bfdaa7bd8b9a8dca9e95c7fb8aafa9c88a4a319"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/联调待办.jsonl",
+      "to": "结果数据/联调待办.jsonl",
+      "sha256": "bcf94a8dc8d7a7b6fb4da249edccdaa3a567a00ca5ee9b0e3331c1288491316e"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/历史84次程序问题对照.json",
+      "to": "结果数据/历史84次程序问题对照.json",
+      "sha256": "e2e3c9d2ab97352f9ab731c7fbdb59d98ac8f960771167ff6222ea54b0a84a16"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/results/旧用例失败清单.jsonl",
+      "to": "结果数据/旧用例失败清单.jsonl",
+      "sha256": "c5a7de55abe2c1cdf32635bd8c8c3f967c75a69cf1e5ed2fcb2c839b88aff691"
+    },
+    {
+      "from": "tests/garin/V1_分阶段验收_20261016_a251aa0/联调待办.md",
+      "to": "后续联调步骤.md",
+      "sha256": "82b5febd9fb6730915cc0d35dd93b027655175176a6e5f912fc382b538b2d18c"
+    }
+  ],
+  "original_selected_files_unchanged": true,
+  "tracked_files_checked": 762,
+  "tracked_files_unchanged": true,
+  "git_commit_or_push_performed": false,
+  "files": {
+    "Garin V1分阶段测试工作记录.docx": "aacab40bba2b92985f09cacead188928a8ac4a9e39214dc88238b29d33be2ea1",
+    "README.md": "b2951f008f0c706e992bd1f0e49371512698714469a2bbfbe46a00986df41496",
+    "后续联调步骤.md": "82b5febd9fb6730915cc0d35dd93b027655175176a6e5f912fc382b538b2d18c",
+    "注意事项与分工.md": "e39a8ea79060bc7d8350c5fb6e46acf46ff1e94d4adf657a3dfa4bcee53f1098",
+    "证据位置.md": "c813de07084d24aa68911ee07dc0503e98d07970635114cf327c10aa34fe6a5b",
+    "问题清单.md": "c0e370e8ff61b0b268fe66b0f9141bd9d83d6a641048b3293801adf90b342e4c",
+    "结果数据/Android结果.json": "e30061ecca1f16605161d4091975ac3e2dd786fdb6d9ded73d2a76efd483bee5",
+    "结果数据/分阶段统计.json": "0ddcc470399e16a08c6213aa7653ec55b091402db7d418cab41c956ae07631cc",
+    "结果数据/历史84次程序问题对照.json": "e2e3c9d2ab97352f9ab731c7fbdb59d98ac8f960771167ff6222ea54b0a84a16",
+    "结果数据/旧用例失败清单.jsonl": "c5a7de55abe2c1cdf32635bd8c8c3f967c75a69cf1e5ed2fcb2c839b88aff691",
+    "结果数据/联调待办.jsonl": "bcf94a8dc8d7a7b6fb4da249edccdaa3a567a00ca5ee9b0e3331c1288491316e",
+    "结果数据/问题分类.json": "398fe923fb7d7be07f2c58a59bfdaa7bd8b9a8dca9e95c7fb8aafa9c88a4a319"
+  }
+}

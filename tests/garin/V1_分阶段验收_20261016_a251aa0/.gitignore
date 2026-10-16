@@ -1,0 +1,7 @@
+.snapshot/
+.runtime/
+.scratch/
+__pycache__/
+*.pyc
+!evidence/**/*.log
+evidence/**/temp/

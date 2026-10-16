@@ -1,0 +1,173 @@
+{
+  "baseline": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "first_batch_only": true,
+  "source_integrity": true,
+  "pytest": [
+    {
+      "suite": "ai-source",
+      "total": 464,
+      "counts": {
+        "PASS": 462,
+        "FAIL": 2
+      },
+      "evidence": "evidence\\ai-source\\junit.xml"
+    },
+    {
+      "suite": "ai-source-corrected",
+      "total": 464,
+      "counts": {
+        "PASS": 464
+      },
+      "evidence": "evidence\\ai-source-corrected\\junit.xml"
+    },
+    {
+      "suite": "backend-local",
+      "total": 40,
+      "counts": {
+        "PASS": 40
+      },
+      "evidence": "evidence\\backend-local\\junit.xml"
+    },
+    {
+      "suite": "backend-reference-flow",
+      "total": 1,
+      "counts": {
+        "PASS": 1
+      },
+      "evidence": "evidence\\backend-reference-flow\\junit.xml"
+    },
+    {
+      "suite": "garin-special",
+      "total": 22,
+      "counts": {
+        "PASS": 22
+      },
+      "evidence": "evidence\\garin-special\\junit.xml"
+    }
+  ],
+  "native_datasets": [
+    {
+      "phase": "p1",
+      "split": "dev",
+      "count": 90,
+      "pass": 90,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p1",
+      "split": "test",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p2",
+      "split": "dev",
+      "count": 90,
+      "pass": 90,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p2",
+      "split": "test",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p3",
+      "split": "dev",
+      "count": 90,
+      "pass": 90,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p3",
+      "split": "test",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p5",
+      "split": "dev",
+      "count": 90,
+      "pass": 90,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    },
+    {
+      "phase": "p5",
+      "split": "test",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "all_checks_pass": true,
+      "engine": "rules",
+      "formal_acceptance": false
+    }
+  ],
+  "legacy": [
+    {
+      "suite": "p0-regression",
+      "total": 278,
+      "counts": {
+        "PASS": 260,
+        "REVIEW": 18
+      },
+      "evidence": "evidence\\p4-history\\legacy\\p0-regression\\results.jsonl"
+    },
+    {
+      "suite": "p1-regression",
+      "total": 278,
+      "counts": {
+        "PASS": 209,
+        "FAIL": 19,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "evidence": "evidence\\p4-history\\legacy\\p1-regression\\results.jsonl"
+    },
+    {
+      "suite": "android-regression",
+      "total": 278,
+      "counts": {
+        "PASS": 210,
+        "FAIL": 18,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "evidence": "evidence\\p4-history\\legacy\\android-regression\\results.jsonl"
+    }
+  ],
+  "legacy_program_assertions_pass": 81,
+  "legacy_program_contract_fail": 3,
+  "special_pytest_cases": 22,
+  "special_evidence_records": 24,
+  "pending": {
+    "BLOCKED": 18,
+    "REVIEW": 1
+  },
+  "paid_provider_calls": 0,
+  "note": "各表重叠，不跨表求总通过率；rules评测字段model_calls表示规则提取次数，不是付费模型调用。"
+}

@@ -1,0 +1,30 @@
+{
+  "assembleDebug": {
+    "status": "PASS",
+    "evidence": "evidence/android-assemble.log",
+    "apk_sha256": "c2a83ee08280d26df58a19d387cb6eb1cec9e45b705dd6f5056f3f3856938dee",
+    "apk_bytes": 16519958,
+    "installed": false
+  },
+  "testDebugUnitTest": {
+    "status": "PASS",
+    "total": 17,
+    "pass": 17,
+    "fail": 0,
+    "blocked": 0,
+    "evidence": "evidence/android-unit-results"
+  },
+  "lintDebug": {
+    "status": "BLOCKED",
+    "classification": "环境问题",
+    "reason": "离线缓存缺少Compose desktop 1.7.0/1.3.0依赖，lintAnalyzeDebug未完成；不能登记Lint通过或无告警",
+    "evidence": "evidence/android-build.log"
+  },
+  "environment_repairs": [
+    "补齐Gradle私有缓存时使用Windows长路径支持",
+    "中文路径经临时V盘别名运行；任务结束已解除",
+    "仅本轮命令参数android.overridePathCheck=true；无构建文件修改"
+  ],
+  "service_connected": false,
+  "device_tests": "BLOCKED"
+}

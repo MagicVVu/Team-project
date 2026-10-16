@@ -1,0 +1,40 @@
+{
+  "finished_at": "2026-10-16T21:31:31.365231+08:00",
+  "source_commit": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "apk": "MagicVVu-a251aa0-debug.apk",
+  "apk_bytes": 16519958,
+  "apk_sha256": "5d12b4821d01382b3da22bd5c049cc8e6ef824849f8f8ff3c04849fe5fdf5bd7",
+  "application_id": "com.example.teamapp",
+  "apk_version": "1.0",
+  "apk_version_code": 1,
+  "build_success": true,
+  "offline_attempt": "Missing cached kotlin-build-tools-impl:2.2.10; preserved in build-offline.log",
+  "online_attempt": "BUILD SUCCESSFUL; dependency fetched without source changes",
+  "mumu_name": "MuMu安卓设备-1",
+  "mumu_index": "1",
+  "adb_serial": "127.0.0.1:16416",
+  "android_release": "12",
+  "install_result": "Success; package was absent before install",
+  "login_screen_verified": true,
+  "guest_screen_verified": true,
+  "observed_app_pid": "2914",
+  "app_crash_observed": false,
+  "startup_check_only": true,
+  "cloud_login_performed": false,
+  "cloud_inventory_operations_performed": false,
+  "device_data_cleared": false,
+  "original_frontend_files_checked": 110,
+  "changed_original_frontend_files": [],
+  "changed_copied_source_files": [],
+  "package_details": [
+    "codePath=/data/app/~~BQMCELQC_7C--5AnYaR4ZA==/com.example.teamapp-iBeEzP0K7ZX9Iacz-gIh4A==",
+    "versionCode=1 minSdk=24 targetSdk=36",
+    "versionName=1.0",
+    "firstInstallTime=2026-10-16 21:29:30",
+    "lastUpdateTime=2026-10-16 21:29:30"
+  ],
+  "screenshots": [
+    "screenshots/login.png",
+    "screenshots/guest.png"
+  ]
+}
