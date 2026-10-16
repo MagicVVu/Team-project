@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 from app.dependencies import Identity, get_db, get_identity
 from app.models import AuthSession, User
 from app.schemas import LoginRequest, RegisterRequest, TokenResponse, UserResponse
+from app.schemas import ProfileUpdateRequest
 from app.security import hash_password, make_token, now_utc, token_expiry, verify_password
 
 router = APIRouter(prefix="/api/v1", tags=["Authentication"])
@@ -77,3 +78,11 @@ def logout(identity: Identity = Depends(get_identity), db: Session = Depends(get
     )
     db.commit()
     return {"status": "logged_out"}
+
+
+@router.patch("/users/me", response_model=UserResponse)
+def update_profile(payload: ProfileUpdateRequest, identity: Identity = Depends(get_identity),
+                   db: Session = Depends(get_db)):
+    identity.user.display_name = payload.display_name
+    db.commit()
+    return user_data(identity.user)

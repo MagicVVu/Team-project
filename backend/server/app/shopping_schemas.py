@@ -17,6 +17,8 @@ class ShoppingInput(BaseModel):
 
 
 class ShoppingItemCreate(ShoppingInput):
+    id: UUID | None = None
+    source_inventory_item_id: UUID | None = None
     name: Name
     quantity: Quantity
     unit: Unit = "件"
@@ -37,6 +39,7 @@ class ShoppingItemUpdate(ShoppingInput):
 
 
 class PurchaseRequest(ShoppingInput):
+    actual_quantity: Quantity | None = None
     storage_location: Annotated[str, Field(min_length=1, max_length=100)] | None = None
     expires_on: date | None = None
 
@@ -53,6 +56,7 @@ class ShoppingItemResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: UUID
     shopping_list_id: UUID
+    source_inventory_item_id: UUID | None
     name: str
     quantity: Decimal
     unit: str
@@ -76,6 +80,9 @@ class StockResponse(BaseModel):
     household_id: UUID
     name: str
     quantity: Decimal
+    category: str | None
+    minimum_quantity: Decimal
+    history_json: list
     unit: str
     storage_location: str | None
     expires_on: date | None

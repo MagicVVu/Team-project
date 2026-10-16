@@ -133,7 +133,7 @@ internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () 
                 }
                 DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = "绿白猫又库存管家")
             }
-            Text("本地库存助手 · 回答依据已确认记录", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 12.dp))
+            Text(if (store.cloud.signedIn) "家庭云端助手 · 回答依据服务器库存" else "本地库存助手 · 回答依据已确认记录", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 SuggestionChip(onClick = { ask("哪些快过期了？") }, label = { Text("哪些快过期了？", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
                 SuggestionChip(onClick = { ask("需要补什么？") }, label = { Text("需要补什么？", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
@@ -305,13 +305,13 @@ internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
                 DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = "绿白猫又个人资料")
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(store.nickname, fontSize = 18.sp, lineHeight = 24.sp)
-                    Text("本机个人资料", fontSize = 11.sp, lineHeight = 17.sp, color = DarkMuted)
+                    Text(if (store.cloud.signedIn) "云端账号 · ${store.family}" else "本机个人资料", fontSize = 11.sp, lineHeight = 17.sp, color = DarkMuted)
                     Text("编辑资料 ›", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted)
                 }
             }
         }
         DarkMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
-        DarkMenu("账号与个人设置", listOf("登录 / 注册" to "账号服务准备中 · 可先体验本机空间", "账号设置" to "昵称与本机个人资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+        DarkMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
         DarkMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
         Text("拾物 / A LITTLE MORE HOME", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted, modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp))
     }

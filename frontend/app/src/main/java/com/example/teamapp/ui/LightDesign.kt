@@ -180,7 +180,7 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
                 }) { Text("发送", fontSize = 12.sp) } },
                 modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(10.dp)
             )
-            Text("回答依据本机已确认的库存记录", fontSize = 10.sp, color = DesignMuted, modifier = Modifier.padding(top = 8.dp))
+            Text(if (store.cloud.signedIn) "回答依据当前家庭的云端库存记录" else "回答依据本机已确认的库存记录", fontSize = 10.sp, color = DesignMuted, modifier = Modifier.padding(top = 8.dp))
         }
         DesignSection("记一件家里的小物", "快捷添加")
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -402,12 +402,12 @@ internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
                     Text(store.nickname, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Text(store.family, fontSize = 12.sp, color = DesignMuted, modifier = Modifier.padding(top = 5.dp))
-                    Text("本机个人资料 · 编辑资料 ›", fontSize = 10.sp, color = DesignOlive, modifier = Modifier.padding(top = 8.dp))
+                    Text(if (store.cloud.signedIn) "云端账号 · 编辑资料 ›" else "本机个人资料 · 编辑资料 ›", fontSize = 10.sp, color = DesignOlive, modifier = Modifier.padding(top = 8.dp))
                 }
             }
         }
         DesignMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
-        DesignMenu("账号与个人设置", listOf("登录 / 注册" to "账号服务准备中 · 可先体验本机空间", "账号设置" to "昵称与本机个人资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+        DesignMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
         DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
         Text("家的小物，慢慢记好。", color = DesignMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
     }

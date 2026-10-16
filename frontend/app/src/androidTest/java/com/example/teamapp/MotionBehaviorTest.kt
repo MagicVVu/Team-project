@@ -3,6 +3,11 @@ package com.example.teamapp
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
+import android.content.Intent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -41,7 +46,7 @@ import org.junit.runner.RunWith
 /** Exercise interrupted transitions against isolated records, without touching user preferences. */
 @RunWith(AndroidJUnit4::class)
 class MotionBehaviorTest {
-    @get:Rule val compose = createComposeRule()
+    @get:Rule val compose = createAndroidComposeRule<androidx.activity.ComponentActivity>()
     private lateinit var context: Context
     private lateinit var store: InventoryStore
 
@@ -58,6 +63,14 @@ class MotionBehaviorTest {
 
     @After fun cleanup() {
         compose.mainClock.autoAdvance = true
+        val stopped = CountDownLatch(1)
+        val observer = LifecycleEventObserver { _, event -> if (event == Lifecycle.Event.ON_STOP) stopped.countDown() }
+        compose.runOnUiThread {
+            compose.activity.lifecycle.addObserver(observer)
+            compose.activity.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+        stopped.await(5, TimeUnit.SECONDS)
+        compose.runOnUiThread { compose.activity.lifecycle.removeObserver(observer) }
         context.getSharedPreferences("magicvvu_v1", Context.MODE_PRIVATE).edit().clear().commit()
     }
 
@@ -95,13 +108,13 @@ class MotionBehaviorTest {
 
     @Test fun reversingAuthModeClearsPasswordsAndValidationWithoutLosingTypedEdits() {
         compose.setContent { TeamAppTheme(darkTheme = false) { AuthScreen {} } }
-        compose.onNodeWithTag("auth-password").performScrollTo().performTextInput("green123")
+        compose.onNodeWithTag("auth-password").performScrollTo().performTextInput("green123456")
         compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
-        compose.onNodeWithText("请输入有效的邮箱地址").assertExists()
-        compose.onNodeWithTag("auth-email").performScrollTo().performTextInput("cat@example.com")
-        compose.onNodeWithText("请输入有效的邮箱地址").assertDoesNotExist()
+        compose.onNodeWithText("请输入大陆 11 位手机号或带国家码的号码").assertExists()
+        compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput("13800138000")
+        compose.onNodeWithText("请输入大陆 11 位手机号或带国家码的号码").assertDoesNotExist()
         compose.onNodeWithText("显示").performClick()
-        compose.onNodeWithTag("auth-password").assertInput("green123")
+        compose.onNodeWithTag("auth-password").assertInput("green123456")
         compose.onNodeWithText("隐藏").performClick()
         compose.onNodeWithText("去注册").performScrollTo()
 
@@ -116,8 +129,8 @@ class MotionBehaviorTest {
 
         compose.onNodeWithTag("auth-password").assertInput("")
         compose.onNodeWithTag("auth-nickname").assertDoesNotExist()
-        compose.onNodeWithText("请输入有效的邮箱地址").assertDoesNotExist()
-        compose.onNodeWithTag("auth-email").performScrollTo().performTextInput("fresh@example.com")
+        compose.onNodeWithText("请输入大陆 11 位手机号或带国家码的号码").assertDoesNotExist()
+        compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput("13900139000")
         compose.onNodeWithTag("auth-password").performScrollTo().performTextInput("fresh123")
         compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
         compose.onNodeWithTag("auth-service-notice").assertExists()

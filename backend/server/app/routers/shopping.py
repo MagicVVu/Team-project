@@ -6,6 +6,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from app.dependencies import Identity, get_db, get_identity
 from app.models import InventoryItem, ShoppingList, ShoppingListItem
@@ -80,10 +81,29 @@ def create_item(
     identity: Identity = Depends(get_identity), db: Session = Depends(get_db),
 ) -> ShoppingItemResponse:
     shopping_list = shared_list(db, household_id, identity.user.id)
+    values = payload.model_dump(exclude_none=True)
+    if payload.source_inventory_item_id is not None:
+        source = db.get(InventoryItem, payload.source_inventory_item_id)
+        if source is None or source.household_id != household_id or source.status not in ("ACTIVE", "FINISHED"):
+            raise HTTPException(404, "Source inventory item not found")
+        if source.name != payload.name or source.unit != payload.unit:
+            raise HTTPException(409, "Source inventory changed; refresh before planning")
+    if payload.id is not None:
+        existing = db.get(ShoppingListItem, payload.id)
+        if existing is not None:
+            if (existing.shopping_list_id == shopping_list.id and existing.added_by_user_id == identity.user.id
+                    and existing.name == payload.name and existing.quantity == payload.quantity
+                    and existing.unit == payload.unit and existing.source_inventory_item_id == payload.source_inventory_item_id):
+                return ShoppingItemResponse.model_validate(existing)
+            raise HTTPException(409, "Shopping item ID is already used")
     item = ShoppingListItem(shopping_list_id=shopping_list.id, added_by_user_id=identity.user.id,
-                            **payload.model_dump())
+                            **values)
     db.add(item)
-    db.flush()
+    try:
+        db.flush()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(409, "Concurrent shopping item creation; refresh list") from None
     result = ShoppingItemResponse.model_validate(item)
     db.commit()
     return result

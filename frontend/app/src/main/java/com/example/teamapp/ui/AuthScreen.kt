@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -32,6 +33,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.InventoryStore
+import com.example.teamapp.BuildConfig
+import com.example.teamapp.data.CloudApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.teamapp.data.validateAuthForm
 import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
@@ -39,21 +47,36 @@ import com.example.teamapp.ui.theme.appearanceFade
 /** Guest navigation is separate from authentication; no credentials are stored on this device. */
 @Composable
 fun AppEntry(store: InventoryStore) {
-    var showAuth by rememberSaveable { mutableStateOf(true) }
+    var showAuth by rememberSaveable { mutableStateOf(!store.cloud.signedIn) }
     var entryVersion by rememberSaveable { mutableIntStateOf(0) }
-    AppMotionContent(showAuth to entryVersion, Modifier.fillMaxSize(), label = "authentication") { entry ->
-        if (entry.first) AuthScreen { entryVersion++; showAuth = false }
-        else MagicApp(store, onOpenAuth = { entryVersion++; showAuth = true })
+    val owner = LocalContext.current as? LifecycleOwner
+    LaunchedEffect(store.cloud.scopeKey, store.cloud.expired) {
+        if (store.cloud.expired) showAuth = true
+        if (store.cloud.signedIn && !store.cloud.expired && owner != null) {
+            owner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (true) {
+                    runCatching { store.cloud.refresh() }
+                    delay(30_000)
+                }
+            }
+        }
+    }
+    AppMotionContent(Triple(showAuth, entryVersion, store.cloud.scopeKey), Modifier.fillMaxSize(), label = "authentication") { entry ->
+        if (entry.first) AuthScreen(store) { entryVersion++; showAuth = false }
+        else if (store.cloud.signedIn && store.cloud.account?.householdId.isNullOrBlank()) {
+            CloudFamilySetup(store) { entryVersion++; showAuth = true }
+        } else MagicApp(store, onOpenAuth = { entryVersion++; showAuth = true })
     }
 }
 
 @Composable
-internal fun AuthScreen(onContinue: () -> Unit) {
+internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
     var registering by rememberSaveable { mutableStateOf(false) }
     var formVersion by rememberSaveable { mutableIntStateOf(0) }
     var information by remember { mutableStateOf<String?>(null) }
     val focus = LocalFocusManager.current
-    val continueAsGuest = { focus.clearFocus(); onContinue() }
+    val scope = rememberCoroutineScope()
+    val continueAsGuest = { focus.clearFocus(); scope.launch { store?.cloud?.logout(); onContinue() }; Unit }
     val light = LocalLightDesign.current
     val colors = MaterialTheme.colorScheme
     BackHandler(registering) { focus.clearFocus(); formVersion++; registering = false }
@@ -105,7 +128,7 @@ internal fun AuthScreen(onContinue: () -> Unit) {
                             fontSize = 12.sp, color = colors.onSurfaceVariant)
                         // Changing modes discards passwords; process recreation never restores them.
                         key(creatingAccount) {
-                            AuthForm(creatingAccount, onInformation = { information = it })
+                            AuthForm(creatingAccount, store, onContinue, onInformation = { information = it })
                         }
                         HorizontalDivider(color = colors.outlineVariant)
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
@@ -118,9 +141,9 @@ internal fun AuthScreen(onContinue: () -> Unit) {
                 }
             }
             TextButton(onClick = continueAsGuest, modifier = Modifier.padding(top = 12.dp)) { Text("以游客身份体验", fontSize = 13.sp) }
-            Text("账号服务准备中 · 当前可使用本机库存空间", fontSize = 11.sp, color = colors.onSurfaceVariant,
+            Text("登录后连接家庭云端数据 · 游客使用独立本机空间", fontSize = 11.sp, color = colors.onSurfaceVariant,
                 textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
-            TextButton(onClick = { information = "库存、采购和个人资料保存在本机应用私有空间。当前登录与注册表单不会上传或保存邮箱、密码；卸载或清除应用数据会删除本机记录。账号服务接入后，将提供对应的服务条款与隐私政策。" }) {
+            TextButton(onClick = { information = "登录时手机号与密码发送至你配置的服务器，密码不会保存在设备上；登录令牌由 Android Keystore 加密保存。登录后库存、采购和家庭资料由服务器保存，并在家庭成员间共享；游客记录独立保留，不会自动上传。照片仍保留在当前设备。" }) {
                 Text("数据与隐私说明", fontSize = 11.sp)
             }
         }
@@ -132,42 +155,58 @@ internal fun AuthScreen(onContinue: () -> Unit) {
 }
 
 @Composable
-private fun AuthForm(registering: Boolean, onInformation: (String) -> Unit) {
+private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticated: () -> Unit, onInformation: (String) -> Unit) {
     var nickname by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
+    var phone by rememberSaveable { mutableStateOf("") }
+    var address by rememberSaveable { mutableStateOf(store?.cloud?.account?.address ?: BuildConfig.CLOUD_API_URL) }
     var password by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
     var errors by remember { mutableStateOf(emptyMap<String, String>()) }
-    var serviceNotice by remember { mutableStateOf(false) }
+    var serviceNotice by remember { mutableStateOf<String?>(null) }
+    var submitting by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
     val focus = LocalFocusManager.current
-    fun changed(field: String) { errors = errors - field; serviceNotice = false }
+    fun changed(field: String) { errors = errors - field; serviceNotice = null }
     val submit = {
         focus.clearFocus()
-        errors = validateAuthForm(registering, nickname, email, password, confirmation)
-        serviceNotice = errors.isEmpty()
+        errors = validateAuthForm(registering, nickname, phone, password, confirmation)
+        if (errors.isEmpty() && !submitting) {
+            scope.launch {
+                submitting = true
+                try {
+                    CloudApi.validateAddress(address)
+                    checkNotNull(store) { "当前预览未连接账号服务，请从应用入口登录" }
+                    store.cloud.login(address, phone, password, if (registering) nickname else null)
+                    password = ""; confirmation = ""
+                    onAuthenticated()
+                } catch (failure: Exception) { serviceNotice = failure.message ?: "连接失败，请重试" }
+                finally { submitting = false }
+            }
+        }
     }
     if (registering) AuthField("nickname", "昵称", nickname, { nickname = it; changed("nickname") }, errors["nickname"])
-    AuthField("email", "邮箱", email, { email = it; changed("email") }, errors["email"], keyboardType = KeyboardType.Email)
+    AuthField("phone", "手机号", phone, { phone = it; changed("phone") }, errors["phone"], keyboardType = KeyboardType.Phone)
+    AuthField("server", "服务器地址", address, { address = it; serviceNotice = null }, null, keyboardType = KeyboardType.Uri)
     AuthField("password", "密码", password, { password = it; changed("password"); errors = errors - "confirmation" }, errors["password"],
-        password = true, hint = if (registering) "8–64 位，包含字母和数字" else null,
+        password = true, hint = if (registering) "10–128 位；服务器可能暂未开放注册" else null,
         done = !registering, onDone = submit)
     if (registering) AuthField("confirmation", "确认密码", confirmation, { confirmation = it; changed("confirmation") }, errors["confirmation"],
         password = true, done = true, onDone = submit)
     else Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        TextButton(onClick = { onInformation("密码找回将在账号服务接入后开放。当前可以使用游客入口管理本机库存，无需填写账号或密码。") }) { Text("忘记密码？", fontSize = 12.sp) }
+        TextButton(onClick = { onInformation("密码找回暂未开放。请联系服务器管理员处理；手机号当前仅作为登录标识，尚未验证号码所有权。") }) { Text("忘记密码？", fontSize = 12.sp) }
     }
     AnimatedVisibility(
-        serviceNotice,
+        serviceNotice != null,
         enter = fadeIn(tween(AppMotion.Quick)) + expandVertically(tween(AppMotion.Duration, easing = AppMotion.easing)),
         exit = fadeOut(tween(AppMotion.Quick)) + shrinkVertically(tween(AppMotion.Duration, easing = AppMotion.easing))
     ) {
         Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(12.dp)) {
-            Text("账号服务尚未接入，暂时无法${if (registering) "创建账号" else "登录"}。请使用下方游客入口体验，表单信息不会被保存。",
+            Text(serviceNotice.orEmpty(),
                 fontSize = 12.sp, modifier = Modifier.padding(14.dp).testTag("auth-service-notice"))
         }
     }
-    Button(onClick = submit, modifier = Modifier.fillMaxWidth().height(50.dp).testTag("auth-submit"), shape = RoundedCornerShape(14.dp)) {
-        Text(if (registering) "注册" else "登录", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+    Button(onClick = submit, enabled = !submitting, modifier = Modifier.fillMaxWidth().height(50.dp).testTag("auth-submit"), shape = RoundedCornerShape(14.dp)) {
+        Text(if (submitting) "正在连接…" else if (registering) "注册并登录" else "登录", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
     }
 }
 

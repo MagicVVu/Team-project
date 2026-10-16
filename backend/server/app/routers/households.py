@@ -18,6 +18,18 @@ from app.security import digest_token, is_expired, make_token, now_utc
 router = APIRouter(prefix="/api/v1/households", tags=["Households"])
 
 
+@router.patch("/{household_id}", response_model=HouseholdResponse)
+def update_household(household_id: UUID, payload: HouseholdCreateRequest,
+                     identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    member = membership_or_404(db, household_id, identity.user.id)
+    if member.role not in ("owner", "admin"):
+        raise HTTPException(403, "Only owners and admins may rename the household")
+    household = db.get(Household, household_id)
+    household.name = payload.name
+    db.commit()
+    return HouseholdResponse(id=household.id, name=household.name, my_role=member.role, created_at=household.created_at)
+
+
 def membership_or_404(db: Session, household_id: UUID, user_id: UUID) -> HouseholdMember:
     member = db.get(HouseholdMember, (household_id, user_id))
     if member is None:

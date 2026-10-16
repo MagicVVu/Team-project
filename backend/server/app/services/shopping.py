@@ -9,6 +9,7 @@ row are committed together. On failure, the caller's transaction rolls back.
 
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
+from decimal import Decimal
 from uuid import UUID
 
 from sqlalchemy import select
@@ -43,6 +44,7 @@ def purchase_and_stock(
     actor_user_id: UUID,
     storage_location: str | None = None,
     expires_on: date | None = None,
+    actual_quantity: Decimal | None = None,
 ) -> PurchaseResult:
     """Mark purchased + insert a new inventory batch in the SAME transaction.
 
@@ -99,14 +101,22 @@ def purchase_and_stock(
         )
 
     now = datetime.now(timezone.utc)
+    if actual_quantity is not None:
+        item.quantity = actual_quantity
+    source = session.get(InventoryItem, item.source_inventory_item_id) if item.source_inventory_item_id else None
+    if source is not None and source.household_id != household_id:
+        raise ShoppingItemNotFound("Source inventory is not in this household")
     stock = InventoryItem(
         household_id=household_id,
         name=item.name,
         quantity=item.quantity,
         unit=item.unit,
+        category=source.category if source else None,
+        minimum_quantity=source.minimum_quantity if source else Decimal(0),
         purchased_on=now.date(),
         expires_on=expires_on,
-        storage_location=storage_location,
+        storage_location=storage_location or (source.storage_location if source else None),
+        history_json=[{"message": f"采购入库 {item.quantity} {item.unit}", "created_at": now.isoformat()}],
         created_by_user_id=actor_user_id,
         source_shopping_list_item_id=item.id,
     )

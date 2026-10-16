@@ -22,7 +22,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "CLOUD_API_URL", "\"${providers.gradleProperty("magicvvuApiUrl").orElse("http://10.0.2.2:18080").get()}\"")
+        }
         release {
+            buildConfigField("String", "CLOUD_API_URL", "\"\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

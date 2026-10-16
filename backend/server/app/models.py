@@ -110,6 +110,8 @@ class InventoryItem(Base):
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     category: Mapped[str | None] = mapped_column(String(64), nullable=True)
     quantity: Mapped[Decimal] = mapped_column(Numeric(16, 6), nullable=False)
+    minimum_quantity: Mapped[Decimal] = mapped_column(Numeric(16, 6), nullable=False, server_default=text("0"))
+    history_json: Mapped[list] = mapped_column(JSON, nullable=False, default=list, server_default=text("'[]'"))
     opened_at: Mapped[date | None] = mapped_column(Date, nullable=True)
     status: Mapped[str] = mapped_column(String(20), nullable=False, server_default=text("'ACTIVE'"))
     version: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("1"))
@@ -167,6 +169,9 @@ class ShoppingListItem(Base):
         Uuid(as_uuid=True), ForeignKey("shopping_lists.id", ondelete="CASCADE"), nullable=False, index=True
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
+    source_inventory_item_id: Mapped[UUID | None] = mapped_column(
+        Uuid(as_uuid=True), ForeignKey("inventory_items.id", ondelete="SET NULL"), nullable=True
+    )
     quantity: Mapped[Decimal] = mapped_column(Numeric(12, 3), nullable=False)
     unit: Mapped[str] = mapped_column(String(30), nullable=False, server_default=text("'件'"))
     added_by_user_id: Mapped[UUID | None] = mapped_column(

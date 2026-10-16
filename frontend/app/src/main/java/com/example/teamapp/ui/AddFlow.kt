@@ -33,6 +33,7 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import java.io.File
 import java.time.LocalDate
+import kotlinx.coroutines.launch
 
 private data class AddReviewStep(
     val version: Int,
@@ -124,6 +125,8 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
 
 @Composable
 internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = "", draft: VoiceDraft? = null, notify: (String) -> Unit, onSaved: () -> Unit, cancel: (() -> Unit)? = null, sourceText: String = "") {
+    val scope = rememberCoroutineScope()
+    var submitting by remember { mutableStateOf(false) }
     val itemId = rememberSaveable { initial?.id ?: java.util.UUID.randomUUID().toString() }
     var name by rememberSaveable { mutableStateOf(initial?.name ?: draft?.name.orEmpty()) }
     var quantity by rememberSaveable { mutableStateOf(initial?.quantity?.display() ?: draft?.quantity.orEmpty()) }
@@ -137,13 +140,19 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     var pending by remember { mutableStateOf<StockItem?>(null) }
     var generalError by remember { mutableStateOf("") }
     fun save(item: StockItem, mode: String = "新建") {
-        runCatching { store.saveItem(item, mode) }.onSuccess { notify(it); onSaved() }.onFailure { generalError = it.message ?: "保存失败" }
+        if (!submitting) scope.launch {
+            submitting = true
+            try { notify(store.saveItemSynced(item, initial, mode)); onSaved() }
+            catch (failure: Exception) { generalError = failure.message ?: "保存失败" }
+            finally { submitting = false }
+        }
     }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(if (initial == null) "核对物品信息" else "编辑物品信息", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         if (sourceText.isNotBlank()) Text("原始识别文字：$sourceText", style = MaterialTheme.typography.bodySmall)
         Photo(initial?.image ?: image)
-        if (LocalLightDesign.current) Text("* 为必填项。未确认前不会更改库存。", style = MaterialTheme.typography.bodySmall)
+        if (store.cloud.signedIn) Text("保存至当前家庭云端。同名物品可保留为不同批次；照片仅保留在当前设备。", style = MaterialTheme.typography.bodySmall)
+        else if (LocalLightDesign.current) Text("* 为必填项。未确认前不会更改库存。", style = MaterialTheme.typography.bodySmall)
         else DarkNotice("* 为必填项。未确认前不会更改库存。")
         Field("物品名称 *", name, { name = it }, errors["name"])
         Field("数量 *", quantity, { quantity = it }, errors["quantity"], numeric = true)
@@ -167,13 +176,14 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
                 if (expiry.isNotBlank() && runCatching { LocalDate.parse(expiry) }.isFailure) put("expiry", "请填写有效日期，如 2026-10-20")
             }
             if (errors.isEmpty()) {
-                val item = StockItem(itemId, name.trim(), q!!, unit.trim(), category, location, m!!, expiry, initial?.image ?: image)
+                val item = StockItem(itemId, name.trim(), q!!, unit.trim(), category, location, m!!, expiry, initial?.image ?: image,
+                    purchasedAt = initial?.purchasedAt.orEmpty(), version = initial?.version ?: 1)
                 val existing = store.items.firstOrNull { it.id != itemId && it.name.equals(item.name, true) }
-                if (existing != null) {
+                if (existing != null && !store.cloud.signedIn) {
                     if (initial != null) generalError = "已有同名物品，请使用不同名称；合并入库请从添加入口操作。" else { duplicate = existing; pending = item }
                 } else save(item)
             }
-        }, modifier = Modifier.fillMaxWidth()) { Text(if (initial == null) "确认添加" else "保存修改") }
+        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth()) { Text(if (submitting) "正在保存…" else if (initial == null) "确认添加" else "保存修改") }
         cancel?.let { TextButton(onClick = it) { Text("返回输入 / 放弃未确认项") } }
         Spacer(Modifier.height(16.dp))
     }

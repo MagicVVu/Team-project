@@ -21,10 +21,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String) -> Unit, close: () -> Unit) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var clear by remember { mutableStateOf(false) }
     val export = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
         if (uri != null) runCatching { val output = context.contentResolver.openOutputStream(uri) ?: error("无法打开文件"); output.bufferedWriter().use { it.write(store.export()) } }.onSuccess { notify("数据已导出") }.onFailure { notify("导出失败，请重试") }
@@ -33,19 +35,24 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
         when (page) {
             "账号设置" -> {
                 var name by rememberSaveable { mutableStateOf(store.nickname) }
-                Text("本机个人资料", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                ModeNotice("初版使用本机空间，无云端账号、登录或手机号绑定。")
+                Text(if (store.cloud.signedIn) "云端个人资料" else "本机个人资料", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                ModeNotice(if (store.cloud.signedIn) "已连接 ${store.cloud.account?.address}。当前家庭：${store.family}。退出后返回独立的本机游客空间。" else "游客记录独立保存在本机；登录后可以使用家庭云端库存。")
                 Field("昵称", name, { name = it })
-                Button(onClick = { if (name.isBlank()) notify("请填写昵称") else { store.profile(name, store.family); notify("个人资料已保存"); close() } }) { Text("保存资料") }
+                Button(enabled = !store.cloud.busy, onClick = { if (name.isBlank()) notify("请填写昵称") else scope.launch {
+                    runCatching { store.profileSynced(name, store.family) }.onSuccess { notify("个人资料已保存"); close() }.onFailure { notify(it.message ?: "保存失败") }
+                } }) { Text("保存资料") }
+                if (store.cloud.signedIn) OutlinedButton(onClick = { scope.launch { store.cloud.logout(); notify("已退出账号，返回本机空间"); close() } }, enabled = !store.cloud.busy) { Text("退出登录") }
             }
             "我的家庭" -> {
+                if (store.cloud.signedIn) CloudFamilyPanel(store, notify) else {
                 var family by rememberSaveable { mutableStateOf(store.family) }
-                var location by rememberSaveable { mutableStateOf("") }
-                val initialLocations = remember { store.locations.toSet() }
                 Field("家庭名称", family, { family = it })
                 Button(onClick = { if (family.isBlank()) notify("请填写家庭名称") else { store.profile(store.nickname, family); notify("家庭名称已保存") } }) { Text("保存家庭名称") }
                 Text("家庭成员", fontWeight = FontWeight.Bold)
                 ModeNotice("${store.nickname} · 本机管理员\n成员邀请与实时协作暂未开放。")
+                }
+                var location by rememberSaveable { mutableStateOf("") }
+                val initialLocations = remember { store.locations.toSet() }
                 Text("存放位置", fontWeight = FontWeight.Bold)
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     store.locations.forEach { place ->
@@ -75,8 +82,10 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Button(onClick = {
                     val d = days.toIntOrNull()
                     val values = minimums.mapValues { nonNegativeNumber(it.value) }
-                    if (d == null || d !in 0..365 || values.values.any { it == null }) error = "请核对天数与最低库存，不能填写负数或无效数字。" else { store.rules(d, values.mapValues { it.value!! }); notify("规则已保存，库存状态已更新"); close() }
-                }) { Text("保存规则") }
+                    if (d == null || d !in 0..365 || values.values.any { it == null }) error = "请核对天数与最低库存，不能填写负数或无效数字。" else scope.launch {
+                        runCatching { store.rulesSynced(d, values.mapValues { it.value!! }) }.onSuccess { notify("规则已保存，库存状态已更新"); close() }.onFailure { error = it.message ?: "保存失败，请刷新核对" }
+                    }
+                }, enabled = !store.cloud.busy) { Text("保存规则") }
             }
             "通用设置" -> {
                 if (!LocalLightDesign.current) DarkGeneralSettings(store, notify) else {
@@ -91,12 +100,14 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
             }
             "隐私与安全" -> {
                 Text("数据与权限说明", fontWeight = FontWeight.Bold)
-                ModeNotice("库存、采购、个人资料和规则保存在应用私有空间。初版不将这些数据上传服务器，也不集成分析追踪。系统语音服务可能联网，其权限和数据处理由设备服务决定。")
+                ModeNotice("游客记录保存在本机，不会自动上传。登录后库存、采购、昵称和家庭名称保存到所连接的服务器，并与家庭成员共享；设备保留按账号和家庭隔离的缓存。登录令牌加密保存，密码不落盘。系统语音服务可能联网，其数据处理由设备服务决定。")
                 ModeNotice("相机：主动拍照时由系统相机拍摄。\n图库：仅访问你选择的照片。\n语音：主动启动系统识别服务时使用麦克风。\n通知：目前只有 App 内提醒，无系统推送权限。")
-                ModeNotice("导出为 JSON，包含全部库存、采购清单、规则与资料（照片保留引用，不嵌入图片）。初版未提供导入或跨设备同步。")
-                Button(onClick = { export.launch("拾物-backup.json") }) { Text("导出本机数据") }
-                TextButton(onClick = { clear = true }) { Text("清空库存与采购记录", color = Red) }
-                Text("清空后保留昵称、家庭空间与设置；选取的原始照片不会从系统图库删除。", style = MaterialTheme.typography.bodySmall)
+                ModeNotice("导出当前空间的库存和采购 JSON，不包含密码或登录令牌。照片不上传至服务器，也不嵌入导出文件。外观、提醒天数和位置快捷项属于当前设备设置。")
+                Button(onClick = { export.launch("拾物-backup.json") }) { Text("导出当前数据") }
+                if (!store.cloud.signedIn) {
+                    TextButton(onClick = { clear = true }) { Text("清空库存与采购记录", color = Red) }
+                    Text("清空后保留昵称、家庭空间与设置；选取的原始照片不会从系统图库删除。", style = MaterialTheme.typography.bodySmall)
+                } else Text("云端家庭不提供批量清空，请逐项核对后删除。", style = MaterialTheme.typography.bodySmall)
             }
             "帮助与反馈" -> {
                 Text("第一次使用", fontWeight = FontWeight.Bold)
@@ -113,7 +124,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text("✦ 拾物", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
                 Text("你的智能家庭物品管家", style = MaterialTheme.typography.titleMedium)
                 Text("版本 1.0 · Android 初版\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
-                Text("此版完成本地库存与采购管理；云端账号、家庭协作、图像识别和大模型 Agent 接口留待后续接入。数据说明见「隐私与安全」。")
+                Text("支持游客本机空间与登录后的家庭云端库存、共享采购和服务器 AI 只读问答。图像识别、照片云端备份及 AI 草稿执行尚未开放。数据说明见「隐私与安全」。")
             }
         }
         Spacer(Modifier.height(20.dp))
