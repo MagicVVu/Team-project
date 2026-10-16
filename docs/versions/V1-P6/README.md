@@ -9,6 +9,7 @@
 - [AI OpenAPI](ai-openapi.json)
 - [预留后端只读OpenAPI](backend-read-openapi.json)：提议接口，尚未部署
 - [前端语音与任务验收清单](voice-task-checklist.md)
+- [V1-P6.1 服务器DeepSeek配置与密钥输入](../V1-P6.1/README.md)：后续配置改动独立归档；密钥已保存，正式启动待注入后端已有认证令牌。
 - [原始V1缺口分析](gap-analysis.md)、[开发计划](development-plan.md)、[协作边界](coordination.md)、[验收标准](acceptance.md)
 - [机器可读完成状态](implementation-status.json)、[最终回归报告](test-results-final.xml)
 

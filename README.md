@@ -84,6 +84,8 @@ requirements.txt  依赖说明；AI 锁定依赖在 agent/requirements.lock.txt
 
 本轮测试发现的基础解析、查询、日期及Android网关缺陷已统一修复并记录为 **[V1-P4](docs/versions/V1-P4/README.md)**。原冻结测试及历史证据保持不变；P4记录包含逐项修复结论、完整复跑证据和仍需设备环境验收的范围。
 
+P6 之后的 DeepSeek 私有配置及启动环境工作独立记录为 **[V1-P6.1](docs/versions/V1-P6.1/README.md)**，包含改动记录和后端配置契约两份 Word。密钥由用户隐藏输入保存；模型在线验证与正式启动待部署方协同，现有数据库网关不改动。
+
 ```text
 docs/versions/
   README.md       各版本路线与任务入口
