@@ -34,11 +34,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
+import com.example.teamapp.R
 import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import com.example.teamapp.ui.ring.RingInventoryPage
@@ -128,7 +130,8 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
             Column(Modifier.fillMaxWidth().fillMaxHeight(0.92f).imePadding().motionInput(!closingPanel)) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp), verticalAlignment = Alignment.CenterVertically) {
                     AppMotionContent(panel.orEmpty(), Modifier.weight(1f), label = "panel-title") { title ->
-                        Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                        Text(if (title == "AI 智能管家") stringResource(R.string.brand_assistant_title) else title,
+                            style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     }
                     TextButton(onClick = { closePanel() }) { Text("关闭") }
                 }
@@ -300,7 +303,7 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
                     SuggestionChip(onClick = { send("需要补什么？") }, label = { Text("需要补什么？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
                 }
             }
-            itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) "你" else "✦ 库存助手", style = MaterialTheme.typography.labelSmall); Text(message) } } }
+            itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) "你" else "✦ Mew", style = MaterialTheme.typography.labelSmall); Text(message) } } }
         }
         TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text("核对并加入补货清单") }
         Row(verticalAlignment = Alignment.CenterVertically) { OutlinedTextField(input, { input = it }, placeholder = { Text("继续问问…") }, modifier = Modifier.weight(1f)); TextButton(onClick = { send(input) }, enabled = !asking) { Text(if (asking) "查询中…" else "发送") } }

@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -249,9 +250,9 @@ private fun AssistantCurtainPage(
         Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp)) {
             Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
                 if (light) Image(painterResource(R.drawable.maoyou_welcome),
-                    "猫又 AI 助手", Modifier.size(88.dp).testTag("assistant-ip"))
-                else DarkMaoYou("thinking", Modifier.size(88.dp).testTag("assistant-ip"), "猫又 AI 助手")
-                Text("猫又 · AI 助手", fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
+                    "Mew AI 助手", Modifier.size(88.dp).testTag("assistant-ip"))
+                else DarkMaoYou("thinking", Modifier.size(88.dp).testTag("assistant-ip"), "Mew AI 助手")
+                Text(stringResource(R.string.brand_assistant_title), fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
                 Text("看看库存，也一起安排补货", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp))
             }

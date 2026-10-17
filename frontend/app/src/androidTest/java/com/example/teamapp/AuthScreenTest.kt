@@ -71,7 +71,7 @@ class AuthScreenTest {
             compose.onNodeWithText("先逛逛 ›").performScrollTo().performClick()
             compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
             compose.onNodeWithText("登录 / 注册").performScrollTo().performClick()
-            compose.onNodeWithText("登录拾物").assertExists()
+            compose.onNodeWithText("登录 Mewstow").assertExists()
             compose.onNodeWithText("以游客身份体验").performScrollTo().performClick()
             compose.onNodeWithText("首页", useUnmergedTree = true).assertExists()
         } finally {

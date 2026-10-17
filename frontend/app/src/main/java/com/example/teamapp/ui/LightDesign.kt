@@ -85,7 +85,7 @@ private val maoyouFrames = listOf(
 )
 
 @Composable
-internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = "猫又") {
+internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = "Mew") {
     val resources = LocalContext.current.resources
     val bitmap = remember(resources) { ImageBitmap.imageResource(resources, R.drawable.maoyou_states) }
     val index = state.coerceIn(0, 11)
@@ -151,13 +151,13 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
                 Text("你好，欢迎回家", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = DesignInk, modifier = Modifier.padding(top = 6.dp))
                 Text(LocalDate.now().format(DateTimeFormatter.ofPattern("M月d日")) + "  ·  慢慢记好每一件小物", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 6.dp))
             }
-            Image(painterResource(R.drawable.maoyou_welcome), "欢迎回家的猫又", Modifier.size(94.dp))
+            Image(painterResource(R.drawable.maoyou_welcome), "欢迎回家的 Mew", Modifier.size(94.dp))
         }
         DesignCard {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 MaoYou(3, Modifier.size(60.dp), null)
                 Column(Modifier.weight(1f).padding(start = 10.dp)) {
-                    Text("猫又 · AI 智能管家", fontWeight = FontWeight.Bold, fontSize = 19.sp)
+                    Text("Mew · AI 智能管家", fontWeight = FontWeight.Bold, fontSize = 19.sp)
                     Text("家里的物品，一起记清楚", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
                 }
             }
@@ -174,7 +174,7 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
             var question by rememberSaveable { mutableStateOf("") }
             OutlinedTextField(
                 question, { question = it }, singleLine = true,
-                placeholder = { Text("问问猫又，或记一件小物…", fontSize = 12.sp) },
+                placeholder = { Text("问问 Mew，或记一件小物…", fontSize = 12.sp) },
                 trailingIcon = { TextButton(onClick = {
                     if (question.isNotBlank()) { ask(question); question = "" } else panel("AI 智能管家")
                 }) { Text("发送", fontSize = 12.sp) } },
@@ -408,7 +408,7 @@ internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
         }
         DesignMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
         DesignMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
-        DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
+        DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
         Text("家的小物，慢慢记好。", color = DesignMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
     }
 }
@@ -445,7 +445,7 @@ internal fun DesignChatIntro() {
     Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
         MaoYou(10, Modifier.size(61.dp), null)
         Column(Modifier.padding(start = 12.dp)) {
-            Text("猫又", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text("Mew", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Text("家里的物品，一起记清楚", fontSize = 12.sp, color = DesignMuted)
         }
     }

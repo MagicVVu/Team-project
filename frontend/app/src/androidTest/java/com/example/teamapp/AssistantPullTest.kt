@@ -63,6 +63,8 @@ class AssistantPullTest {
         compose.onNodeWithContentDescription("个人中心").assertDoesNotExist()
         val homeNotification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
         val homeTitle = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
+        compose.onNodeWithTag("app-top-bar-icon").assertDoesNotExist()
+        var pageTitleLeft: Float? = null
         shot("${if (dark) "dark" else "light"}-home-header")
         compose.onNodeWithTag("assistant-pull-cord").assertDoesNotExist()
         for (tab in listOf("库存", "清单", "我的")) {
@@ -74,7 +76,9 @@ class AssistantPullTest {
             val notification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
             val title = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
             Assert.assertEquals(homeNotification, notification)
-            Assert.assertEquals(homeTitle.left, title.left, 1f)
+            Assert.assertTrue("Home wordmark starts before the other pages' icon/title pairs", title.left > homeTitle.left)
+            pageTitleLeft?.let { Assert.assertEquals(it, title.left, 1f) }
+            pageTitleLeft = title.left
             compose.onNodeWithContentDescription("库存提醒").performClick()
             compose.onNodeWithText("关闭").performClick()
             val cord = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot

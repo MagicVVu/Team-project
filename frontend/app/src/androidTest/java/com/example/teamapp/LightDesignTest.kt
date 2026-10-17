@@ -52,7 +52,7 @@ class LightDesignTest {
 
     @Test fun lightTabsDetailAndProfileKeepTheirActions() {
         launch()
-        compose.onNodeWithText("拾物").assertIsDisplayed()
+        compose.onNodeWithContentDescription("Mewstow").assertIsDisplayed()
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it, useUnmergedTree = true).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         screenshot("stock-ring-fixture")
@@ -117,8 +117,8 @@ class LightDesignTest {
 
     @Test fun darkModeKeepsExistingNavigationAndDetailActions() {
         launch(dark = true)
-        compose.onNodeWithText("拾物").assertDoesNotExist()
-        compose.onNodeWithText("拾物 · 猫又").assertExists()
+        compose.onNodeWithContentDescription("Mewstow").assertIsDisplayed()
+        compose.onNodeWithText("Mewstow · Mew").assertExists()
         screenshot("dark-home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithTag("ring-inventory-page").assertExists()

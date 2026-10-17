@@ -17,9 +17,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
+import com.example.teamapp.R
 import com.example.teamapp.ui.theme.LocalLightDesign
 import kotlinx.coroutines.launch
 
@@ -103,7 +105,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 ModeNotice("游客记录保存在本机，不会自动上传。登录后库存、采购、昵称和家庭名称保存到所连接的服务器，并与家庭成员共享；设备保留按账号和家庭隔离的缓存。登录令牌加密保存，密码不落盘。系统语音服务可能联网，其数据处理由设备服务决定。")
                 ModeNotice("相机：主动拍照时由系统相机拍摄。\n图库：仅访问你选择的照片。\n语音：主动启动系统识别服务时使用麦克风。\n通知：目前只有 App 内提醒，无系统推送权限。")
                 ModeNotice("导出当前空间的库存和采购 JSON，不包含密码或登录令牌。照片不上传至服务器，也不嵌入导出文件。外观、提醒天数和位置快捷项属于当前设备设置。")
-                Button(onClick = { export.launch("拾物-backup.json") }) { Text("导出当前数据") }
+                Button(onClick = { export.launch("Mewstow-backup.json") }) { Text("导出当前数据") }
                 if (!store.cloud.signedIn) {
                     TextButton(onClick = { clear = true }) { Text("清空库存与采购记录", color = Red) }
                     Text("清空后保留昵称、家庭空间与设置；选取的原始照片不会从系统图库删除。", style = MaterialTheme.typography.bodySmall)
@@ -116,13 +118,16 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 ModeNotice("照片为什么没有自动识别？初版暂未连接图像识别服务，请根据照片填写信息。\n语音不可用？设备需要可处理中文语音的系统服务，也可手动输入原文。\n数据会丢失吗？重启仍保留；卸载或清除应用数据会删除本机记录，请先导出。\nAI 能做什么？本地助手根据已确认库存回答名称、过期和补货问题，不会自动修改记录。")
                 var feedback by rememberSaveable { mutableStateOf("") }
                 OutlinedTextField(feedback, { feedback = it }, label = { Text("问题或建议") }, minLines = 3, modifier = Modifier.fillMaxWidth())
-                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "拾物 v1.0 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
+                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "Mewstow v1.0 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
                 Text("分享仅打开系统分享面板，初版无在线反馈提交服务。", style = MaterialTheme.typography.bodySmall)
             }
-            "关于拾物" -> {
-                if (!LocalLightDesign.current) DarkMaoYou(modifier = Modifier.fillMaxWidth().height(145.dp), description = "绿白猫又")
-                Text("✦ 拾物", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
+            "关于 Mewstow" -> {
+                if (!LocalLightDesign.current) DarkMaoYou(modifier = Modifier.fillMaxWidth().height(145.dp), description = "Mew · Nekomata 猫又")
+                MewstowWordmark(Modifier.widthIn(max = 280.dp).fillMaxWidth().height(64.dp))
                 Text("你的智能家庭物品管家", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.brand_slogan), style = MaterialTheme.typography.bodyMedium)
+                Text("猫又 ${stringResource(R.string.mascot_formal_name)} · 昵称 ${stringResource(R.string.mascot_nickname)}",
+                    style = MaterialTheme.typography.titleSmall)
                 Text("版本 1.0 · Android 初版\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
                 Text("支持游客本机空间与登录后的家庭云端库存、共享采购和服务器 AI 只读问答。图像识别、照片云端备份及 AI 草稿执行尚未开放。数据说明见「隐私与安全」。")
             }
