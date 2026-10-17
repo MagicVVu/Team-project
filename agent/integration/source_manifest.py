@@ -27,6 +27,10 @@ SOURCE_PATHS = (
     "v1/__init__.py", "v1/app.py", "v1/engines.py", "v1/health.py", "v1/knowledge.py",
     "v1/manager.py", "v1/policy.py", "v1/render.py", "v1/schemas.py", "v1/tasks.py", "v1/tools.py",
     "Dockerfile.v1", "Dockerfile.v1.dockerignore",
+    "conversation/__init__.py", "conversation/app.py", "conversation/schemas.py",
+    "conversation/engines.py", "conversation/manager.py", "conversation/replies.py",
+    "conversation/tasks.py", "conversation/health.py",
+    "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 
 

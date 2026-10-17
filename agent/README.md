@@ -1,4 +1,4 @@
-当前V1 AI收尾配置为 [v1模块](v1/README.md)（V1-P6，AI0.6.0），支持原有草稿/风险/预测及按位置反查、明确用完、关注摘要和提交后只读反馈。[交付与接入说明](../docs/versions/V1-P6/README.md)区分AI完成与正式发布；现有数据库网关不改，Jev暂缓。以下保留P0及各阶段原有使用说明。
+最新接入准备配置为 [conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0），新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；本轮不切换正式服务、不改 Android 或数据库网关。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
 
 # V1-P0 AI 开发包
 

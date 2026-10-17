@@ -1,0 +1,15 @@
+{
+  "revision": 2,
+  "count": 150,
+  "dev": 90,
+  "test": 60,
+  "group_count": 50,
+  "group_isolation": true,
+  "dataset_sha256": "5fae2ce95ad957e4c0443e6d3675575bc7acf00b095f6fb52bda09a6a2072c07",
+  "human_reviewed": false,
+  "source": "AI constructed; synthetic fixture facts",
+  "real_audio": false,
+  "previous_dataset": "archive/v1/samples.jsonl",
+  "holdout_groups": "51-70, previously unused",
+  "revision_reason": "Independent unit checks found supplement injection and deadline field-loss; new holdout after runtime fix"
+}

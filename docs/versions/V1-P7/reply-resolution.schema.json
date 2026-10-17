@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "enum": [
+        "clarify",
+        "new_task",
+        "needs_input",
+        "clear_reference"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "answers": {
+      "additionalProperties": true,
+      "title": "Answers",
+      "type": "object"
+    },
+    "revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Revision"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "clear_reference": {
+      "default": false,
+      "title": "Clear Reference",
+      "type": "boolean"
+    },
+    "model_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "title": "ReplyResolution",
+  "type": "object"
+}

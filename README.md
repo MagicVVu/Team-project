@@ -86,6 +86,8 @@ requirements.txt  依赖说明；AI 锁定依赖在 agent/requirements.lock.txt
 
 P6 之后的 DeepSeek 私有配置及启动环境工作独立记录为 **[V1-P6.1](docs/versions/V1-P6.1/README.md)**，包含改动记录和后端配置契约两份 Word。密钥由用户隐藏输入保存；模型在线验证与正式启动待部署方协同，现有数据库网关不改动。
 
+**[V1-P7](docs/versions/V1-P7/README.md)** 提供家庭库存助手的有限上下文、受信对象引用和零模型澄清解析，附前后端接入交接。AI 实现与页面承接、业务执行、联合验收分开记录；本阶段不修改 Android 或正式后端，不自动发布服务。
+
 ```text
 docs/versions/
   README.md       各版本路线与任务入口
