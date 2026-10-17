@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">拾物</string>
+    <string name="app_name">Mewstow</string>
+    <string name="mascot_nickname">Mew</string>
+    <string name="mascot_formal_name">Nekomata</string>
+    <string name="brand_assistant_title">Mew · AI 助手</string>
+    <string name="brand_slogan">Every little thing, remembered.</string>
 </resources>

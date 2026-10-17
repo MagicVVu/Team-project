@@ -127,11 +127,11 @@ internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () 
         DarkCard(DarkHero) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("拾物 · 猫又", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted)
-                    Text("AI 智能管家", fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
+                    Text("Mewstow · Mew", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted)
+                    Text("Mew · AI 智能管家", fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
                     Text(if (store.items.isEmpty()) "从记录第一件物品开始\n让家更有条理" else "${store.items.size} 种物品已记录 · ${store.items.count { it.status(store.reminderDays).low }} 种库存不足\n${store.items.count { it.status(store.reminderDays).soon }} 种即将过期 · ${store.items.count { it.status(store.reminderDays).expired }} 种已过期", fontSize = 12.sp, lineHeight = 20.sp)
                 }
-                DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = "绿白猫又库存管家")
+                DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = "Mew 库存管家")
             }
             Text(if (store.cloud.signedIn) "家庭云端助手 · 回答依据服务器库存" else "本地库存助手 · 回答依据已确认记录", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -302,7 +302,7 @@ internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkHero)) {
             Row(Modifier.padding(15.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(13.dp)) {
-                DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = "绿白猫又个人资料")
+                DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = "Mew 个人资料")
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(store.nickname, fontSize = 18.sp, lineHeight = 24.sp)
                     Text(if (store.cloud.signedIn) "云端账号 · ${store.family}" else "本机个人资料", fontSize = 11.sp, lineHeight = 17.sp, color = DarkMuted)
@@ -312,8 +312,8 @@ internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
         }
         DarkMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
         DarkMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
-        DarkMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于拾物" to "让家庭物品管理更轻松"), open)
-        Text("拾物 / A LITTLE MORE HOME", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted, modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp))
+        DarkMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
+        Text("Mewstow / Every little thing, remembered.", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted, modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp))
     }
 }
 
@@ -323,7 +323,7 @@ private fun DarkMenu(title: String, rows: List<Pair<String, String>>, open: (Str
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkCardColor)) {
         rows.forEachIndexed { index, (name, description) ->
             Row(Modifier.fillMaxWidth().motionClickable { open(name) }.padding(12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                val glyph = when (name) { "我的家庭" -> "home"; "库存检测规则" -> "box"; "账号设置" -> "person"; "消息通知" -> "bell"; "隐私与安全" -> "shield"; "关于拾物" -> "leaf"; else -> "sun" }
+                val glyph = when (name) { "我的家庭" -> "home"; "库存检测规则" -> "box"; "账号设置" -> "person"; "消息通知" -> "bell"; "隐私与安全" -> "shield"; "关于 Mewstow" -> "leaf"; else -> "sun" }
                 Box(Modifier.size(32.dp).background(DarkSoft, RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center) { DarkGlyph(glyph, Modifier.size(22.dp)) }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                     Text(name, fontSize = 14.sp, lineHeight = 20.sp)

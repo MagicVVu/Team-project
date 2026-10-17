@@ -1,6 +1,8 @@
-# MagicVVu Android：本机与家庭云端
+# Mewstow Android：本机与家庭云端
 
 本目录是 Kotlin / Jetpack Compose 原生 Android App，支持 Android 7.0（API 24）及以上。已接入 v0.8 云端后端，完整连接与体验说明见 [云端联调指南](云端联调指南.md)。
+
+品牌显示名为 **Mewstow**，使用 V1 不连写字标；猫又正式英文名 **Nekomata**，日常昵称 **Mew**。应用包名、原有数据与接口标识保持兼容。资源位置和本次替换说明见 [Mewstow 品牌接入说明](Mewstow品牌接入说明.md)。
 
 ## 运行
 

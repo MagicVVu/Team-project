@@ -57,7 +57,7 @@ class DarkDesignTest {
 
     @Test fun tabsSearchFilterDetailAndRemindersUseRealRecords() {
         launch()
-        compose.onNodeWithContentDescription("绿白猫又库存管家").assertExists()
+        compose.onNodeWithContentDescription("Mew 库存管家").assertExists()
         screenshot("home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         screenshot("inventory-fixture")
@@ -76,8 +76,10 @@ class DarkDesignTest {
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         screenshot("profile-fixture")
-        compose.onNodeWithText("关于拾物").performScrollTo().performClick()
-        compose.onNodeWithText("✦ 拾物").assertExists()
+        compose.onNodeWithText("关于 Mewstow").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Mewstow").assertIsDisplayed()
+        compose.onNodeWithText("猫又 Nekomata · 昵称 Mew").assertExists()
+        screenshot("about-mewstow")
         compose.runOnIdle { Assert.assertEquals(3, store.items.size) }
     }
 

@@ -88,8 +88,7 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                DesignGlyph("leaf", Modifier.size(25.dp), colors.primary)
-                Text("拾物", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp))
+                MewstowWordmark(Modifier.width(176.dp).height(40.dp))
                 Spacer(Modifier.weight(1f))
                 TextButton(onClick = continueAsGuest) { Text("先逛逛 ›") }
             }
@@ -99,9 +98,9 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 if (light) AppMotionContent(registering, label = "auth-mascot") { creatingAccount ->
-                    MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), "猫又陪你记录生活")
+                    MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), "Mew 陪你记录生活")
                 }
-                else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = "猫又陪你记录生活")
+                else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = "Mew 陪你记录生活")
             }
             AppMotionContent(registering, label = "auth-heading") { creatingAccount ->
                 Text(if (creatingAccount) "一起，把家照顾好" else "你好，欢迎回家", fontSize = 27.sp,
@@ -120,11 +119,11 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
                     val creatingAccount = mode.first
                     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            Text(if (creatingAccount) "创建账号" else "登录拾物", style = MaterialTheme.typography.titleLarge,
+                            Text(if (creatingAccount) "创建账号" else "登录 Mewstow", style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                             Text("${if (creatingAccount) "新的开始" else "好久不见"} 🌿", fontSize = 11.sp, color = colors.onSurfaceVariant)
                         }
-                        Text(if (creatingAccount) "给生活中的每一件小物，留一个位置。" else "让猫又陪你，记好家里的每一件小物。",
+                        Text(if (creatingAccount) "给生活中的每一件小物，留一个位置。" else "让 Mew 陪你，记好家里的每一件小物。",
                             fontSize = 12.sp, color = colors.onSurfaceVariant)
                         // Changing modes discards passwords; process recreation never restores them.
                         key(creatingAccount) {
