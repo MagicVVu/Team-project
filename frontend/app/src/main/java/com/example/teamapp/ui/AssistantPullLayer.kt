@@ -76,12 +76,14 @@ internal fun AssistantPullLayer(
     val reveal = transition.animateFloat(
         transitionSpec = {
             if (targetState) keyframes {
-                durationMillis = 1020
-                // Let the cord recoil visibly before the paper starts covering it.
-                0f at 160 using CubicBezierEasing(.4f, 0f, .2f, 1f)
-                1f at 740 using CubicBezierEasing(.2f, 0f, .4f, 1f)
-                landingReveal at 860 using CubicBezierEasing(.2f, 0f, .3f, 1f)
-                1f at 1020
+                durationMillis = 720
+                // Accelerate from release through landing, then settle with a quick, small bounce.
+                0f at 0 using CubicBezierEasing(.42f, 0f, 1f, 1f)
+                1f at 580 using CubicBezierEasing(.2f, 0f, .4f, 1f)
+                // Present at least one complete landing frame before lifting for the bounce.
+                1f at 596 using CubicBezierEasing(.2f, 0f, .4f, 1f)
+                landingReveal at 640 using CubicBezierEasing(.2f, 0f, .3f, 1f)
+                1f at 720
             } else tween(380, easing = AppMotion.easing)
         },
         label = "reveal"
@@ -234,7 +236,7 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boo
                 onDragCancel = { release(false, 0f) {} }
             )
         }, contentAlignment = Alignment.BottomCenter) {
-        // Opening stays true throughout the curtain entrance, including its recoil lead-in.
+        // Keep the smile throughout the curtain entrance and simultaneous cord recoil.
         AssistantPullMascot(dragging = dragging, smiling = ready || opening)
     }
 }

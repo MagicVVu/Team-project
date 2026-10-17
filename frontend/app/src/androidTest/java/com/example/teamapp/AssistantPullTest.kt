@@ -130,13 +130,15 @@ class AssistantPullTest {
             }
         }
         Assert.assertTrue("Activated cord stays mounted through its overshoot", minimumCordHeight < restHeight - 1f)
-        Assert.assertTrue("Paper waits briefly for the recoil", edges[5] < fullHeight * .01f)
-        Assert.assertTrue("Full-screen travel is slower than the old 320ms entrance", edges[24] < fullHeight * .85f)
-        Assert.assertTrue("Descent accelerates after release", edges[24] - edges[14] > edges[14] - edges[4])
-        Assert.assertTrue("Descent slows before landing", edges[44] - edges[34] < edges[34] - edges[24])
-        val bounce = fullHeight - edges.subList(51, 58).min()
+        Assert.assertTrue("Paper descends while the cord starts recoiling", edges[5] > fullHeight * .01f)
+        Assert.assertTrue("Paper covers the screen before the quick landing bounce",
+            edges.subList(35, 39).max() > fullHeight - pixelsPerDp)
+        Assert.assertTrue("Descent accelerates after release", edges[14] - edges[7] > edges[7] - edges[0])
+        Assert.assertTrue("Descent keeps accelerating toward landing", edges[34] - edges[27] > edges[27] - edges[20])
+        val bounce = fullHeight - edges.subList(39, 43).min()
         Assert.assertTrue("Paper lifts slightly after landing", bounce > 2f * pixelsPerDp)
         Assert.assertTrue("Landing bounce remains subtle", bounce <= 8f * pixelsPerDp)
+        Assert.assertEquals("Quick bounce settles within 800ms", fullHeight, edges[49], 1f)
         Assert.assertEquals("Paper settles with full coverage", fullHeight, edges.last(), 1f)
         compose.onNodeWithTag("assistant-cord-recoil").assertDoesNotExist()
         compose.mainClock.autoAdvance = true

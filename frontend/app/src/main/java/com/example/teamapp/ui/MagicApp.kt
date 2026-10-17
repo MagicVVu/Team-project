@@ -261,6 +261,10 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
 
 @Composable
 internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit, showIntro: Boolean = true) {
+    if (store.cloud.signedIn) {
+        key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed) }
+        return
+    }
     val lightDesign = LocalLightDesign.current
     var input by rememberSaveable { mutableStateOf("") }
     var confirming by remember { mutableStateOf(false) }
@@ -269,13 +273,7 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
     fun send(text: String) {
         if (text.isNotBlank() && !asking) {
             conversation.add(text to true); input = ""
-            if (!store.cloud.signedIn) conversation.add(answerInventory(text, store.items, store.reminderDays) to false)
-            else scope.launch {
-                asking = true
-                try { conversation.add(store.cloud.ask(text) to false) }
-                catch (failure: Exception) { conversation.add((failure.message ?: "服务暂时不可用") to false) }
-                finally { asking = false }
-            }
+            conversation.add(answerInventory(text, store.items, store.reminderDays) to false)
         }
     }
     LaunchedEffect(initial) { if (initial.isNotBlank()) { send(initial); consumed() } }

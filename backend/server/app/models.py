@@ -279,3 +279,7 @@ class AIDraft(Base):
     preview_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+
+# Register additive business tables for Alembic and existing Base.metadata users.
+from app.execution_models import BusinessEvent, DraftDecision, DraftOperation  # noqa: E402,F401

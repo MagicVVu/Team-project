@@ -15,7 +15,7 @@ data class CloudAccount(val address: String, val token: String, val userId: Stri
 data class CloudHousehold(val id: String, val name: String, val role: String)
 data class CloudShoppingItem(val id: String, val sourceId: String, val name: String, val quantity: Double, val unit: String,
     val purchased: Boolean, val addedBy: String, val purchasedBy: String)
-class CloudFailure(val status: Int, message: String) : IOException(message)
+class CloudFailure(val status: Int, message: String, val errorCode: String = "") : IOException(message)
 
 /** No automatic mutation retries: callers keep IDs stable when retrying a confirmed operation. */
 class CloudApi(val address: String, private val token: String = "") {
@@ -57,7 +57,8 @@ class CloudApi(val address: String, private val token: String = "") {
                     503 -> "服务器暂时不可用，请稍后重试"
                     else -> "请求失败（$status），请刷新核对后重试"
                 }
-                throw CloudFailure(status, message)
+                val code = runCatching { JSONObject(text).optJSONObject("detail")?.optString("code").orEmpty() }.getOrDefault("")
+                throw CloudFailure(status, message, code)
             }
             when {
                 text.isBlank() -> JSONObject()
@@ -100,7 +101,7 @@ internal fun JSONObject.toStock(): StockItem = StockItem(
     id = getString("id"), name = getString("name"), quantity = getString("quantity").toDouble(), unit = getString("unit"),
     category = stringOrEmpty("category").ifBlank { "其他" }, location = stringOrEmpty("storage_location").ifBlank { "待定位" },
     minimum = optString("minimum_quantity", "0").toDouble(), expiry = stringOrEmpty("expires_on"), purchasedAt = stringOrEmpty("purchased_on"),
-    history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.getString("message") }.orEmpty(),
+    history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.stringOrEmpty("message").ifBlank { it.stringOrEmpty("kind") } }.orEmpty(),
     version = getInt("version")
 )
 internal fun JSONObject.toShopping(): CloudShoppingItem = CloudShoppingItem(getString("id"), stringOrEmpty("source_inventory_item_id"),

@@ -14,13 +14,14 @@ from app.routers.ai_inventory import router as ai_inventory_router
 from app.routers.agent_gateway import router as agent_gateway_router
 from app.routers.shopping import router as shopping_router
 from app.routers.inventory import router as inventory_router
+from app.routers.draft_execution import router as draft_execution_router
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="MagicVVu API",
     description="Shared shopping and atomic purchase-to-stock; household-scoped read-only P1 gateway",
-    version="0.8.0",
+    version="0.9.0",
 )
 app.include_router(auth_router)
 app.include_router(household_router)
@@ -28,6 +29,7 @@ app.include_router(ai_inventory_router)
 app.include_router(agent_gateway_router)
 app.include_router(shopping_router)
 app.include_router(inventory_router)
+app.include_router(draft_execution_router)
 
 
 @app.get("/api/v1/health", tags=["System"])

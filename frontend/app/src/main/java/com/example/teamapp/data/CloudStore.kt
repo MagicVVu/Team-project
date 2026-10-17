@@ -30,6 +30,7 @@ class CloudStore(context: Context) {
     val signedIn get() = account != null
     val household get() = households.firstOrNull { it.id == account?.householdId }
     val scopeKey get() = account?.let { "${it.address}|${it.userId}|${it.householdId}" }.orEmpty()
+    val assistant = AssistantStore(context, this)
     private val root get() = "/api/v1/households/${requireNotNull(account).householdId}"
 
     init { loadCache() }
@@ -159,6 +160,7 @@ class CloudStore(context: Context) {
     }
     suspend fun logout() = guarded {
         val a = account
+        assistant.clearAccount(a)
         // Remove local access first even if the server is unreachable; never restore another user's cache.
         credentials.save(null); account = null; households = emptyList(); items = emptyList(); shopping = emptyList(); lastSync = ""; expired = false
         if (a != null) runCatching { CloudApi(a.address, a.token).request("POST", "/api/v1/auth/logout") }
@@ -212,13 +214,9 @@ class CloudStore(context: Context) {
             api.request("PATCH", "$root/inventory-items/${item.id}", versionBody(item).put("minimum_quantity", BigDecimal.valueOf(values.getValue(item.id)).toPlainString()))
         }
     }
+    @Deprecated("Use assistant entries for structured task, draft and receipt state")
     suspend fun ask(text: String): String {
-        val a = requireNotNull(account)
-        require(!expired) { "请重新登录" }
-        val response = CloudApi(a.address, a.token).request("POST", "/api/v1/agent/messages", JSONObject().put("household_id", a.householdId)
-            .put("text", text).put("request_id", UUID.randomUUID().toString()).put("household_timezone", "Asia/Shanghai"))
-        val result = response.optJSONObject("result")
-        val reply = result?.stringOrEmpty("reply").orEmpty().ifBlank { "服务暂时无法回答，请刷新后重试" }
-        return reply + if (response.optString("status") == "needs_confirmation") "\n\n这是待确认草稿，尚未修改库存。请在物品或采购清单中核对并操作。" else ""
+        assistant.send(text)
+        return assistant.entries.lastOrNull()?.reply.orEmpty().ifBlank { assistant.error.ifBlank { "服务暂时无法回答，请恢复原任务" } }
     }
 }
