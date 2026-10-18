@@ -23,11 +23,13 @@ class CloudUiIntegrationTest {
         val url = InstrumentationRegistry.getArguments().getString("cloudTestUrl").orEmpty()
         assumeTrue("Requires isolated test service", url.isNotBlank())
         val suffix = System.currentTimeMillis().toString().takeLast(9)
-        val phone = "+1998${suffix}1"
-        val password = UUID.randomUUID().toString()
+        val fixture = InstrumentationRegistry.getArguments()
+        val preseeded = !fixture.getString("legacyUiPhone").isNullOrBlank()
+        val phone = fixture.getString("legacyUiPhone") ?: "+1998${suffix}1"
+        val password = if (preseeded) fixture.getString("fixturePassword")!! else UUID.randomUUID().toString()
         runBlocking {
             assertTrue(CloudApi(url).request("GET", "/api/v1/health").getBoolean("isolated_test"))
-            CloudApi(url).register(phone, password, "UI 联调")
+            if (!preseeded) CloudApi(url).register(phone, password, "UI 联调")
         }
         val target = InstrumentationRegistry.getInstrumentation().targetContext
         val context = object : ContextWrapper(target) {

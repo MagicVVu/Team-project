@@ -5,6 +5,7 @@ captured privately outside Git. This runner only accepts the localhost test tunn
 """
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 import urllib.request
@@ -18,9 +19,10 @@ parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--classes", default="com.example.teamapp.AssistantExecutionTest,com.example.teamapp.AssistantExecutionUiTest")
 parser.add_argument("--process-restart", action="store_true")
 parser.add_argument("--install", action="store_true")
+parser.add_argument("--tunnel-port", type=int, default=18082)
 args = parser.parse_args()
 fixture = json.loads(args.fixture.read_text(encoding="utf-8-sig"))
-health = json.load(urllib.request.urlopen("http://127.0.0.1:18082/api/v1/health", timeout=5))
+health = json.load(urllib.request.urlopen(f"http://127.0.0.1:{args.tunnel_port}/api/v1/health", timeout=5))
 assert health["version"] == "0.9.0" and health["isolated_test"] is True
 args.output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -32,9 +34,11 @@ if args.install:
         result = adb("install", "-r", apk)
         assert result.returncode == 0 and "Success" in result.stdout, "APK install failed"
 
-params = {"executionTestUrl": "http://10.0.2.2:18082", "fixturePhone": fixture["phone"],
+params = {"executionTestUrl": f"http://10.0.2.2:{args.tunnel_port}", "cloudTestUrl": f"http://10.0.2.2:{args.tunnel_port}", "fixturePhone": fixture["phone"],
     "fixturePassword": fixture["password"], "fixtureHousehold": fixture["household"],
     "fixtureSecondHousehold": fixture["second_household"], "fixtureOtherPhone": fixture["other_phone"]}
+for source, target in {"legacy_phone":"legacyPhone", "legacy_other_phone":"legacyOtherPhone", "legacy_ui_phone":"legacyUiPhone", "member_phone":"fixtureMemberPhone"}.items():
+    if source in fixture: params[target] = fixture[source]
 logs = []
 
 def instrument(classes, extra=None):
@@ -46,7 +50,8 @@ def instrument(classes, extra=None):
     logs.append(safe)
     args.output.write_text("\n".join(logs), encoding="utf-8")
     print(safe)
-    assert result.returncode == 0 and "OK (" in safe and "FAILURES!!!" not in safe, "Instrumentation failed; see sanitized evidence"
+    count = re.search(r"OK \((\d+) tests?\)", safe)
+    assert result.returncode == 0 and count and int(count.group(1)) > 0 and "FAILURES!!!" not in safe, "Instrumentation failed or ran zero tests; see sanitized evidence"
 
 if args.process_restart:
     namespace = "p4process_" + uuid.uuid4().hex + "_"

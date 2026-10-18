@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
@@ -66,7 +67,7 @@ internal fun CloudFamilyPanel(store: InventoryStore, notify: (String) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text("我的家庭", fontWeight = FontWeight.Bold)
         cloud.households.forEach { home ->
-            OutlinedButton(enabled = !cloud.busy && !cloud.expired, onClick = { execute("已切换家庭") { cloud.selectHousehold(home.id) } }, modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(enabled = !cloud.busy && !cloud.expired, onClick = { execute("已切换家庭") { cloud.selectHousehold(home.id) } }, modifier = Modifier.fillMaxWidth().testTag("family-${home.id}")) {
                 Text("${if (home.id == cloud.account?.householdId) "✓ " else ""}${home.name} · ${home.role}")
             }
         }

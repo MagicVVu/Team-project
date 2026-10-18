@@ -26,17 +26,14 @@ internal val AssistantMascotRestHeight = 32.dp * PullMascotScale + AssistantMasc
 /** All facial PNGs share the body's 600 x 768 canvas and its rope attachment point. */
 @Composable
 internal fun AssistantPullMascot(dragging: Boolean, smiling: Boolean, modifier: Modifier = Modifier) {
-    val resources = LocalContext.current.resources
-    val images = remember(resources) {
-        listOf(
+    val images = listOf(
             R.drawable.maoyou_pull_rope,
             R.drawable.maoyou_pull_body,
             R.drawable.maoyou_pull_eyes_open,
             R.drawable.maoyou_pull_eyes_closed,
             R.drawable.maoyou_pull_mouth_idle,
             R.drawable.maoyou_pull_mouth_smile
-        ).map { ImageBitmap.imageResource(resources, it) }
-    }
+        ).map { ImageBitmap.imageResource(it) }
     val expression = animateFloatAsState(if (smiling) 1f else 0f, tween(80), label = "pull-cat-smile")
     val lean = animateFloatAsState(
         if (dragging) -1.5f else 0f,

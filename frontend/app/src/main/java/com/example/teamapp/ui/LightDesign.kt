@@ -86,8 +86,7 @@ private val maoyouFrames = listOf(
 
 @Composable
 internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = "Mew") {
-    val resources = LocalContext.current.resources
-    val bitmap = remember(resources) { ImageBitmap.imageResource(resources, R.drawable.maoyou_states) }
+    val bitmap = ImageBitmap.imageResource(R.drawable.maoyou_states)
     val index = state.coerceIn(0, 11)
     val painter = remember(bitmap, index) {
         val frame = maoyouFrames[index]

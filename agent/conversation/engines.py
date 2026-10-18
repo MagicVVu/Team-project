@@ -1,5 +1,17 @@
 from p0.deepseek import DeepSeekEngine as BaseEngine
-from v1.engines import SYSTEM_PROMPT as BASE_PROMPT, parse_json_output, RuleEngine
+from v1.engines import SYSTEM_PROMPT as BASE_PROMPT, parse_json_output, RuleEngine as BaseRuleEngine
+import re
+
+QUALIFIED_MOVE = re.compile(r"把([^\s，,。；;？?！!]{1,100}?)的([^\s，,。；;？?！!]{1,80}?)移(?:动)?到([^\s，,。；;？?！!]{1,100})[。！？?!]?")
+
+
+class RuleEngine(BaseRuleEngine):
+    async def extract(self, text):
+        parsed = await super().extract(text)
+        match = QUALIFIED_MOVE.fullmatch(text)
+        if match and parsed.intent == "MOVE" and not parsed.partial_batch and not parsed.multiple_actions:
+            parsed = parsed.model_copy(update={"name": match[2], "to_location": match[3]})
+        return parsed
 
 PROMPT_VERSION = "p7-extract-1"
 SYSTEM_PROMPT = BASE_PROMPT + """

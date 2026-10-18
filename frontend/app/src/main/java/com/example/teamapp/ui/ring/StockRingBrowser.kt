@@ -137,7 +137,14 @@ internal fun StockRingBrowser(
         }
     }
 
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val view = androidx.compose.ui.platform.LocalView.current
+    var windowHeight by remember(view) { mutableIntStateOf(view.rootView.height) }
+    DisposableEffect(view) {
+        val listener = android.view.ViewTreeObserver.OnGlobalLayoutListener { windowHeight = view.rootView.height }
+        view.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose { view.viewTreeObserver.removeOnGlobalLayoutListener(listener) }
+    }
+    val screenHeight = with(androidx.compose.ui.platform.LocalDensity.current) { windowHeight.coerceAtLeast(1).toDp() }
     val palette = remember(light) { RingPalette(if (light) 1f else 0f) }
     var infoHeightPx by remember { mutableIntStateOf(0) }
     var seekHeightPx by remember { mutableIntStateOf(0) }

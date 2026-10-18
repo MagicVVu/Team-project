@@ -12,7 +12,7 @@ from v1.manager import Manager as BaseManager, Operation as BaseOperation
 from v1.schemas import ClarificationRequest as OldRequest
 from .schemas import (AgentResult, ReferenceContext, ReferenceUse, RuntimeInfo,
                       POLICY_VERSION)
-from .engines import PROMPT_VERSION
+from .engines import PROMPT_VERSION, QUALIFIED_MOVE
 
 PRONOUN = re.compile(r"它|这一批|这批|这一个|这个|这件")
 PRONOUN_NAMES = {"它", "这一批", "这批", "这一个", "这个", "这件", "这"}
@@ -32,6 +32,15 @@ class Manager(BaseManager):
 
 class Operation(BaseOperation):
     bound_reference = None
+
+    def restrict_move_source(self, text):
+        match = QUALIFIED_MOVE.fullmatch(extraction_text(text))
+        if match:
+            original_search = self.reader.search
+            async def search(scope, name):
+                rows = await original_search(scope, name)  # Scope checks happen before filtering.
+                return [b for b in rows if b.location == match[1]]
+            self.reader.search = search
 
     def __init__(self, owner):
         super().__init__(owner)
@@ -77,8 +86,29 @@ class Operation(BaseOperation):
     async def handle(self, message, scope):
         self.current_message, self.scope = message, scope
         text = extraction_text(message.text)
+        self.restrict_move_source(message.text)
         if message.input and not message.input.user_confirmed:
             return await super().handle(message, scope)
+        if re.fullmatch(r"库存(?:有什么|有哪些)[？?。]?", text) and not guard(message.text) and not review_reason(message.text):
+            rows = await self.reader.search(scope, None)
+            matched = [b for b in rows if b.status == "ACTIVE" and b.quantity > 0]
+            summary = "；".join(f"{b.name} {format(b.quantity, 'f')} {b.unit}（{b.location or '未定位'}）" for b in matched)
+            return AgentResult(status="answered", intent="QUERY_INVENTORY", original_text=message.text,
+                trace_id=new_id("trace"), facts=matched, reply=summary or "当前家庭没有有效库存记录。")
+        # Literal location/name query: do not rewrite the user's text or invent a name.
+        located = re.fullmatch(r"([^\s，,；;？?。]{1,100})里还有多少([^\s，,；;？?。]{1,80})[？?。]?", text)
+        if located and not PRONOUN.search(text) and not guard(message.text) and not review_reason(message.text):
+            location, name = located.groups()
+            rows = await self.reader.search(scope, name)
+            matched = [b for b in rows if b.name.casefold() == name.casefold() and
+                       b.location == location and b.status == "ACTIVE" and b.quantity > 0]
+            totals = {}
+            for batch in matched:
+                totals[batch.unit] = totals.get(batch.unit, 0) + batch.quantity
+            summary = "、".join(f"{format(q, 'f')} {u}" for u, q in sorted(totals.items()))
+            return AgentResult(status="answered", intent="QUERY_INVENTORY", original_text=message.text,
+                trace_id=new_id("trace"), facts=matched,
+                reply=f"{location}里的{name}：{summary}。" if matched else f"未找到{location}中名称为{name}的有效库存记录。")
         if text.strip().rstrip("。！! ") == "开始新任务":
             from v1.schemas import AgentResult as BaseResult
             result = BaseResult(status="answered", reply="已清除当前对象引用，请输入新的库存任务。",
@@ -151,6 +181,7 @@ class Operation(BaseOperation):
         return await self.delegate.handle(message, scope)
 
     async def clarify(self, request, scope):
+        self.restrict_move_source(request.context.original_text)
         if not isinstance(request.context, ReferenceContext):
             return await super().clarify(OldRequest.model_validate(request.model_dump()), scope)
         wrapped = request.context

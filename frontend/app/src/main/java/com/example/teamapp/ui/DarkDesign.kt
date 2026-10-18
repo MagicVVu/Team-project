@@ -72,9 +72,8 @@ internal fun DarkMaoYou(kind: String = "home", modifier: Modifier = Modifier, de
         "confirmed" -> R.drawable.dark_maoyou_confirmed to intArrayOf(80, 173, 352, 229)
         else -> R.drawable.dark_maoyou_home to intArrayOf(56, 142, 400, 260)
     }
-    val resources = LocalContext.current.resources
-    val painter = remember(resources, resource) {
-        val bitmap = ImageBitmap.imageResource(resources, resource)
+    val bitmap = ImageBitmap.imageResource(resource)
+    val painter = remember(bitmap, resource) {
         BitmapPainter(bitmap, IntOffset(frame[0], frame[1]), IntSize(frame[2], frame[3]))
     }
     Image(painter, description, modifier)

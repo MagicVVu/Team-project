@@ -11,7 +11,9 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.util.UUID
 
-data class CloudAccount(val address: String, val token: String, val userId: String, val displayName: String, val householdId: String = "")
+data class CloudAccount(val address: String, val token: String, val userId: String, val displayName: String, val householdId: String = "") {
+    override fun toString() = "CloudAccount(session=[REDACTED])"
+}
 data class CloudHousehold(val id: String, val name: String, val role: String)
 data class CloudShoppingItem(val id: String, val sourceId: String, val name: String, val quantity: Double, val unit: String,
     val purchased: Boolean, val addedBy: String, val purchasedBy: String)
@@ -21,16 +23,21 @@ class CloudFailure(val status: Int, message: String, val errorCode: String = "")
 class CloudApi(val address: String, private val token: String = "") {
     companion object {
         fun validateAddress(value: String) {
-            val uri = runCatching { URI(value.trim()) }.getOrElse { error("请输入正确的服务器地址") }
-            require(uri.host != null && uri.userInfo == null && uri.query == null && uri.fragment == null && uri.path.orEmpty() in setOf("", "/")) { "请输入服务器根地址" }
-            val privateDebugHost = uri.host == "localhost" || uri.host == "127.0.0.1" || uri.host == "10.0.2.2"
-            require(uri.scheme == "https" || (BuildConfig.DEBUG && uri.scheme == "http" && privateDebugHost)) { "服务器需要 HTTPS；调试 HTTP 仅支持电脑隧道地址" }
+            TargetPolicy.address(value, BuildConfig.DEBUG, BuildConfig.CLOUD_API_URL)
         }
     }
 
     suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
         validateAddress(address)
         require(!token.contains('\r') && !token.contains('\n'))
+        if (method !in setOf("GET", "HEAD")) {
+            val health = request("GET", "/api/v1/health")
+            TargetPolicy.health(BuildConfig.DEBUG, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+            if (!path.startsWith("/api/v1/auth/")) {
+                val caps = request("GET", "/api/v1/agent/execution-capabilities")
+                TargetPolicy.capabilities(caps.optString("protocol_version"), caps.optString("owner"))
+            }
+        }
         val connection = URI(address.trim().trimEnd('/') + path).toURL().openConnection() as HttpURLConnection
         try {
             connection.requestMethod = method

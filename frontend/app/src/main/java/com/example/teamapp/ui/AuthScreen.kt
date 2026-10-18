@@ -157,7 +157,7 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
 private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticated: () -> Unit, onInformation: (String) -> Unit) {
     var nickname by rememberSaveable { mutableStateOf("") }
     var phone by rememberSaveable { mutableStateOf("") }
-    var address by rememberSaveable { mutableStateOf(store?.cloud?.account?.address ?: BuildConfig.CLOUD_API_URL) }
+    var address by rememberSaveable { mutableStateOf(if (BuildConfig.DEBUG) store?.cloud?.account?.address ?: BuildConfig.CLOUD_API_URL else BuildConfig.CLOUD_API_URL) }
     var password by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
     var errors by remember { mutableStateOf(emptyMap<String, String>()) }
@@ -185,7 +185,8 @@ private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticat
     }
     if (registering) AuthField("nickname", "昵称", nickname, { nickname = it; changed("nickname") }, errors["nickname"])
     AuthField("phone", "手机号", phone, { phone = it; changed("phone") }, errors["phone"], keyboardType = KeyboardType.Phone)
-    AuthField("server", "服务器地址", address, { address = it; serviceNotice = null }, null, keyboardType = KeyboardType.Uri)
+    if (BuildConfig.DEBUG) AuthField("server", "服务器地址", address, { address = it; serviceNotice = null }, null, keyboardType = KeyboardType.Uri)
+    else if (address.isBlank()) Text("正式服务尚未配置，此候选包不能联网登录。", color = MaterialTheme.colorScheme.error)
     AuthField("password", "密码", password, { password = it; changed("password"); errors = errors - "confirmation" }, errors["password"],
         password = true, hint = if (registering) "10–128 位；服务器可能暂未开放注册" else null,
         done = !registering, onDone = submit)

@@ -108,8 +108,12 @@ class AssistantExecutionTest {
         cloud.selectHousehold(args.getString("fixtureSecondHousehold")!!); a.bind(); assertTrue(a.entries.isEmpty())
         a.confirm(stale.requestId); cloud.selectHousehold(home); a.bind()
         assertTrue(a.entries.any { it.requestId == stale.requestId })
+        val beforeLogout = ctx.getSharedPreferences("mewstow_assistant_v1", 0).all.toMap()
         cloud.logout(); a.bind(); assertTrue(a.entries.isEmpty())
-        val restored = login(ctx); assertTrue(restored.assistant.entries.isEmpty()); restored.logout()
+        assertEquals("Logout detaches identity without deleting durable requests", beforeLogout, ctx.getSharedPreferences("mewstow_assistant_v1", 0).all)
+        val restored = login(ctx)
+        assertTrue(restored.assistant.entries.any { it.requestId == stale.requestId })
+        restored.logout()
     }
     @Test fun lostSuccessfulResponseRestoresAfterStoreAndCredentialRecreation() = runBlocking {
         val ctx = context(); val cloud = login(ctx)

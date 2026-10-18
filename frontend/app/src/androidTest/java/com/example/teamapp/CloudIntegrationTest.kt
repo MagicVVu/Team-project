@@ -34,11 +34,13 @@ class CloudIntegrationTest {
         store.saveItem(guest); store.plan(guest.id, 2.0)
         val localBefore = context.getSharedPreferences("magicvvu_v1", 0).getString("state", null)
         val suffix = System.currentTimeMillis().toString().takeLast(9)
-        val phoneA = "+1999${suffix}1"
-        val phoneB = "+1999${suffix}2"
-        val password = UUID.randomUUID().toString()
+        val fixture = InstrumentationRegistry.getArguments()
+        val preseeded = !fixture.getString("legacyPhone").isNullOrBlank()
+        val phoneA = fixture.getString("legacyPhone") ?: "+1999${suffix}1"
+        val phoneB = fixture.getString("legacyOtherPhone") ?: "+1999${suffix}2"
+        val password = if (preseeded) fixture.getString("fixturePassword")!! else UUID.randomUUID().toString()
         try {
-            store.cloud.login(url, phoneA, password, "Android owner")
+            store.cloud.login(url, phoneA, password, if (preseeded) null else "Android owner")
             assertTrue(store.cloud.signedIn)
             assertTrue(store.items.isEmpty())
             store.cloud.createHousehold("Android 联调 $suffix")
@@ -57,7 +59,7 @@ class CloudIntegrationTest {
             val restored = InventoryStore(context)
             assertEquals(firstHome, restored.cloud.account!!.householdId)
             assertEquals(milk.id, restored.items.single().id)
-            second.cloud.login(url, phoneB, password, "Android member")
+            second.cloud.login(url, phoneB, password, if (preseeded) null else "Android member")
             second.cloud.joinHousehold(store.cloud.invitation())
             assertEquals(milk.id, second.items.single().id)
             val operationId = UUID.randomUUID().toString()

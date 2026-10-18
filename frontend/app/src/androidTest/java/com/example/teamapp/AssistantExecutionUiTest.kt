@@ -45,10 +45,26 @@ class AssistantExecutionUiTest {
         compose.waitUntil(30_000) { current.cloud.assistant.capabilities != "{}" && !current.cloud.assistant.busy }
     }
     private fun send(text: String): AssistantEntry {
+        // The curtain bounces after its first full-height frame. Wait for the final
+        // accessibility state instead of injecting a touch into a moving surface.
+        if (compose.onAllNodesWithTag("assistant-curtain").fetchSemanticsNodes().isNotEmpty()) {
+            compose.waitUntil(10_000) {
+                compose.onAllNodes(hasTestTag("assistant-curtain") and hasStateDescription("已展开")).fetchSemanticsNodes().isNotEmpty()
+            }
+        }
         val size = current.cloud.assistant.entries.size
         compose.onNodeWithTag("ai-input").performTextInput(text)
-        compose.onNodeWithTag("ai-send").performClick()
-        compose.waitUntil(35_000) { current.cloud.assistant.entries.size > size && !current.cloud.assistant.busy }
+        compose.waitUntil(10_000) { compose.onAllNodes(hasTestTag("ai-send") and isEnabled()).fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithTag("ai-send").assertIsEnabled().performClick()
+        try {
+            compose.waitUntil(35_000) { current.cloud.assistant.entries.size > size && !current.cloud.assistant.busy }
+        } catch (failure: Throwable) {
+            screenshot("send-failed")
+            println("AI_SEND_DIAGNOSTIC size=$size actual=${current.cloud.assistant.entries.size} busy=${current.cloud.assistant.busy} error=${current.cloud.assistant.error}")
+            println(compose.onNodeWithTag("ai-input").printToString())
+            println(compose.onNodeWithTag("ai-send").printToString())
+            throw failure
+        }
         return current.cloud.assistant.entries.last()
     }
     private fun find(tag: String): SemanticsNodeInteraction {
@@ -133,4 +149,69 @@ class AssistantExecutionUiTest {
             assertTrue(current.cloud.households.any { it.id == args.getString("fixtureHousehold") })
         } finally { scenario.close() }
     }
+
+    private fun completeUserJourney(dark: Boolean) {
+        val url = args.getString("executionTestUrl").orEmpty(); assumeTrue(url.isNotBlank())
+        // Re-establish only this synthetic batch's starting position via its normal versioned API.
+        runBlocking {
+            val a = CloudApi(url).login(args.getString("fixturePhone")!!, args.getString("fixturePassword")!!)
+            val api = CloudApi(url, a.token); val home = args.getString("fixtureHousehold")!!
+            val paper = api.pages("/api/v1/households/$home/inventory-items").single { it.getString("name") == "纸巾" }
+            if (paper.optString("storage_location") != "书房") api.request("PATCH", "/api/v1/households/$home/inventory-items/${paper.getString("id")}",
+                org.json.JSONObject().put("expected_version", paper.getInt("version")).put("operation_id", UUID.randomUUID().toString()).put("storage_location", "书房"))
+            api.request("POST", "/api/v1/auth/logout")
+        }
+        val target = InstrumentationRegistry.getInstrumentation().targetContext
+        val prefix = "p4ui_${UUID.randomUUID().toString().replace("-", "")}_"
+        scenario = ActivityScenario.launch(Intent(target, AssistantHarnessActivity::class.java).putExtra("test_namespace", prefix).putExtra("auth_entry", true).putExtra("dark", dark))
+        try {
+            scenario.onActivity { current = it.store }
+            compose.onNodeWithTag("auth-server").performScrollTo().performTextReplacement(url)
+            compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput(args.getString("fixturePhone")!!)
+            compose.onNodeWithTag("auth-password").performScrollTo().performTextInput(args.getString("fixturePassword")!!)
+            compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
+            compose.waitUntil(30_000) { current.cloud.signedIn && !current.cloud.busy }
+            compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
+            compose.onNodeWithText("我的家庭").performScrollTo().performClick()
+            compose.onNodeWithTag("family-${args.getString("fixtureHousehold")}").performScrollTo().performClick()
+            compose.waitUntil(30_000) { current.cloud.account?.householdId == args.getString("fixtureHousehold") && !current.cloud.busy }
+            compose.onNodeWithText("关闭").performClick()
+            compose.onNodeWithText("首页", useUnmergedTree = true).performClick()
+            if (dark) compose.onNodeWithContentDescription("发送").performScrollTo().performClick()
+            else compose.onNodeWithText("发送").performScrollTo().performClick()
+            compose.waitUntil(30_000) { current.cloud.assistant.capabilities != "{}" && !current.cloud.assistant.busy }
+            val query = send("冰箱里还有多少牛奶？")
+            assertEquals(AssistantStatus.ANSWERED, query.state)
+            assertTrue(query.reply.contains("冰箱")); assertTrue(query.draftId.isBlank())
+            compose.onNodeWithText("关闭").performClick()
+            compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+            compose.onNodeWithTag("assistant-pull-cord").performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+            compose.waitUntil(30_000) { !current.cloud.assistant.busy }
+            val add = send("添加两盒牛奶。")
+            val name = "验收牛奶${if (dark) "深" else "浅"}${UUID.randomUUID().toString().take(4)}"
+            find("ai-edit-name-${add.requestId}").performTextReplacement(name)
+            find("ai-edit-location-${add.requestId}").performTextReplacement("冰箱")
+            confirm(add)
+            val beforeMove = current.items.single { it.name == "纸巾" }.quantity
+            val move = send("把书房的纸巾移动到储藏室。")
+            assertEquals(AssistantStatus.PENDING, move.state); confirm(move)
+            assertEquals(beforeMove, current.items.single { it.name == "纸巾" }.quantity, 0.0)
+            val consume = send("纸巾消耗一包。"); confirm(consume)
+            assertEquals(beforeMove - 1, current.items.single { it.name == "纸巾" }.quantity, 0.0)
+            val plan = send("采购清单加两包纸巾。"); confirm(plan)
+            compose.onNodeWithTag("assistant-close").performClick()
+            compose.onNodeWithTag("ring-search").performTextInput(name)
+            compose.onNodeWithTag("ring-selected-info").assertTextContains(name, substring = true)
+            compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
+            compose.onNodeWithText("待购买").assertExists()
+            assertTrue(current.cloud.shopping.any { it.name == "纸巾" && it.quantity == 2.0 && !it.purchased })
+            compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
+            compose.onNodeWithText("账号设置").performScrollTo().performClick()
+            compose.onNodeWithText("退出登录").performScrollTo().performClick()
+            compose.waitUntil(30_000) { !current.cloud.signedIn }
+            assertFalse(current.cloud.signedIn)
+        } finally { scenario.close() }
+    }
+    @Test fun completeLightUserJourneyWithExactSentences() = completeUserJourney(false)
+    @Test fun completeDarkUserJourneyWithExactSentences() = completeUserJourney(true)
 }

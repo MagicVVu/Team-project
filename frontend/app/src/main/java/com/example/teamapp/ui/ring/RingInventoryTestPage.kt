@@ -52,7 +52,7 @@ internal fun mockRingInventory(count: Int): List<StockItem> = (0 until count).ma
         category == "日用品" -> "瓶"
         else -> "个"
     }
-    StockItem(id = "ring-mock-$i", name = "$name ${String.format("%03d", i + 1)}", quantity = quantity,
+    StockItem(id = "ring-mock-$i", name = "$name ${String.format(java.util.Locale.ROOT, "%03d", i + 1)}", quantity = quantity,
         unit = unit, category = category,
         location = listOf("冰箱", "阳台", "储物柜")[i % 3], minimum = if (i % 4 == 2) quantity + 2 else 0.0,
         expiry = when (i % 4) { 0 -> LocalDate.now().minusDays(4).toString(); 1 -> LocalDate.now().plusDays(2).toString(); else -> "" },

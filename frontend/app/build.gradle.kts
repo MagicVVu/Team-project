@@ -26,7 +26,9 @@ android {
             buildConfigField("String", "CLOUD_API_URL", "\"${providers.gradleProperty("magicvvuApiUrl").orElse("http://10.0.2.2:18080").get()}\"")
         }
         release {
-            buildConfigField("String", "CLOUD_API_URL", "\"\"")
+            val releaseUrl = providers.gradleProperty("mewstowReleaseApiUrl").orElse("").get()
+            require(releaseUrl.isEmpty() || (releaseUrl.startsWith("https://") && !releaseUrl.contains('"') && !releaseUrl.contains('\\') && !releaseUrl.contains('\n') && !releaseUrl.contains('\r'))) { "Release API must be a configured HTTPS origin" }
+            buildConfigField("String", "CLOUD_API_URL", "\"$releaseUrl\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

@@ -129,7 +129,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text("猫又 ${stringResource(R.string.mascot_formal_name)} · 昵称 ${stringResource(R.string.mascot_nickname)}",
                     style = MaterialTheme.typography.titleSmall)
                 Text("版本 1.0 · Android 初版\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
-                Text("支持游客本机空间与登录后的家庭云端库存、共享采购和服务器 AI 只读问答。图像识别、照片云端备份及 AI 草稿执行尚未开放。数据说明见「隐私与安全」。")
+                Text("支持游客本机空间、家庭云端库存及共享采购。本候选支持库存问答，以及用户确认后的添加、移动、消耗和手动采购草稿；实际可用动作以后端能力为准。图像识别、照片云端备份、开封、丢弃及自动规划确认暂未开放。数据说明见「隐私与安全」。")
             }
         }
         Spacer(Modifier.height(20.dp))

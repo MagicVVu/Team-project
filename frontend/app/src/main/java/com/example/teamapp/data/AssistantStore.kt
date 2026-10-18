@@ -42,10 +42,8 @@ class AssistantStore(
         }
     }
     fun clearAccount(account: CloudAccount?) {
-        if (account != null) {
-            val prefix = "${account.address}|${account.userId}|"
-            check(prefs.edit().apply { prefs.all.keys.filter { it.startsWith(prefix) }.forEach { remove(it) } }.commit())
-        }
+        // Detach active identity only. Preserve durable requests/receipts across logout.
+        // A later authenticated login may GET-recover the same scoped outbox, never auto-POST.
         boundScope = ""; entries = emptyList(); capabilities = "{}"
     }
     private fun verifyScope(scope: String) {
@@ -117,10 +115,16 @@ class AssistantStore(
     suspend fun send(text: String) {
         require(text.isNotBlank() && text.length <= 1000) { "消息须为 1–1000 字" }
         val id = UUID.randomUUID().toString()
-        session { scope, api ->
+        val preparedScope = mutex.withLock {
+            bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", "Asia/Shanghai")
             save(scope, entries + AssistantEntry(id, body.toString()))
+            scope
+        }
+        session(id) { scope, api ->
+            require(scope == preparedScope) { "家庭已切换，原消息已保留在原家庭" }
+            val body = JSONObject(entry(id).requestBody)
             try { acceptTask(scope, api, id, api.message(body)) }
             catch (e: Exception) {
                 verifyScope(scope); update(scope, entry(id).copy(state = AssistantStatus.UNKNOWN, notice = "消息结果待核实；恢复时保留原 request_id 和原文")); throw e

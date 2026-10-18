@@ -216,6 +216,7 @@ def restore_after_failure(db: Session, task: AITask, nonce: str, previous: str) 
 async def new_message(body: NewMessage, identity: Identity = Depends(get_identity),
                       db: Session = Depends(get_db)) -> dict:
     check_membership(db, identity, body.household_id)
+    user_id = identity.user.id  # Snapshot before commit expires ORM attributes.
     check_config()  # fail closed: do not create a stuck task if AI isn't configured
     digest = fingerprint(body)
     task = db.scalar(select(AITask).where(AITask.user_id == identity.user.id,
@@ -242,7 +243,7 @@ async def new_message(body: NewMessage, identity: Identity = Depends(get_identit
         # A concurrent duplicate is still at most one paid AI call.
         raise HTTPException(409, "Concurrent duplicate request; retry same request_id") from None
     try:
-        result = await _call_ai("/agent/message", identity.user.id, body.household_id,
+        result = await _call_ai("/agent/message", user_id, body.household_id,
                                 {"text": body.text, "request_id": body.request_id,
                                  "household_timezone": body.household_timezone})
         if result["original_text"] != body.text:
@@ -285,12 +286,13 @@ async def clarification(task_id: UUID, body: ContinueMessage,
     check_config()
     prior = "needs_clarification"
     context = task.context_json
+    user_id, household_id, original_text = identity.user.id, task.household_id, task.original_text
     nonce = reserve(task)
     db.commit()
     try:
-        result = await _call_ai("/agent/clarification", identity.user.id, task.household_id,
+        result = await _call_ai("/agent/clarification", user_id, household_id,
                                 {"context": context, "revision": body.revision, "answers": body.answers})
-        if result["original_text"] != task.original_text:
+        if result["original_text"] != original_text:
             raise HTTPException(503, "AI returned inconsistent original text")
         save_result(db, task, nonce, result)
     except Exception:

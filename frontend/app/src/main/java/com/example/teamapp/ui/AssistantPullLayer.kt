@@ -152,9 +152,12 @@ internal fun AssistantPullLayer(
                         drawRect(softShadow, Offset(0f, size.height), Size(size.width, spread))
                         drawRect(edgeShadow, Offset(0f, size.height), Size(size.width, contact))
                     }
-                }.testTag("assistant-curtain").semantics { paneTitle = "AI 助手" }) {
+                }.testTag("assistant-curtain").semantics {
+                    paneTitle = "AI 助手"
+                    stateDescription = if (expanded && !transition.isRunning) "已展开" else "切换中"
+                }) {
                 Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Box(Modifier.fillMaxSize().motionInput(expanded)) {
+                    Box(Modifier.fillMaxSize().motionInput(expanded && !transition.isRunning)) {
                         AssistantCurtainPage(store, conversation, notify) { dismiss() }
                         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())
                     }
