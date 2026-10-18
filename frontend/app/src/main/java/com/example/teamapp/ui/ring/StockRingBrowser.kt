@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
@@ -22,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
@@ -44,6 +46,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.data.*
@@ -63,7 +66,9 @@ internal fun StockRingBrowser(
     items: List<StockItem>, reminderDays: Int,
     onOpenItem: (StockItem) -> Unit, onAdd: () -> Unit,
     modifier: Modifier = Modifier,
-    onSelectedItem: (StockItem?) -> Unit = {}
+    onSelectedItem: (StockItem?) -> Unit = {},
+    showAddAction: Boolean = false,
+    toolbarEndPadding: Dp = 18.dp
 ) {
     val light = LocalLightDesign.current
     val scheme = MaterialTheme.colorScheme
@@ -149,15 +154,25 @@ internal fun StockRingBrowser(
     var infoHeightPx by remember { mutableIntStateOf(0) }
     var seekHeightPx by remember { mutableIntStateOf(0) }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(Modifier.padding(horizontal = 18.dp).fillMaxWidth().height(28.dp)
-            .background(palette.panel, RoundedCornerShape(18.dp)).border(1.dp, palette.line, RoundedCornerShape(18.dp)).padding(horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-            DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
-            BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
-                modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = "搜索物品名称" },
-                decorationBox = { field -> Box { if (query.isEmpty()) Text("搜索物品名称", fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
-            if (query.isNotEmpty()) Text("清空", fontSize = 11.sp, color = scheme.primary,
-                modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
+        Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding)
+            .height(if (showAddAction) 48.dp else 28.dp).testTag("ring-toolbar"),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(Modifier.weight(1f).height(28.dp)
+                .background(palette.panel, RoundedCornerShape(18.dp)).border(1.dp, palette.line, RoundedCornerShape(18.dp)).padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
+                DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
+                BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
+                    modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = "搜索物品名称" },
+                    decorationBox = { field -> Box { if (query.isEmpty()) Text("搜索物品名称", fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
+                if (query.isNotEmpty()) Text("清空", fontSize = 11.sp, color = scheme.primary,
+                    modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
+            }
+            if (showAddAction) IconButton(onClick = { focus.clearFocus(); onAdd() },
+                modifier = Modifier.size(48.dp).testTag("ring-add").semantics { contentDescription = "添加物品" }) {
+                Box(Modifier.size(30.dp).background(scheme.primaryContainer, CircleShape), contentAlignment = Alignment.Center) {
+                    DesignGlyph("plus", Modifier.size(17.dp), scheme.onPrimaryContainer)
+                }
+            }
         }
 
         BoxWithConstraints(Modifier.fillMaxWidth().testTag("ring-viewport")) {
@@ -191,6 +206,7 @@ internal fun StockRingBrowser(
             } }
 
             Box(Modifier.fillMaxWidth().height(viewportHeight).clip(RoundedCornerShape(0.dp))
+                .ringAccents(palette)
                 .pointerInput(displayed.map { it.id }, widthPx, heightPx) {
                     awaitEachGesture {
                         // Inspect Initial before child clickables consume their down event, while
@@ -357,7 +373,7 @@ internal fun StockRingBrowser(
                         RingInfoCard(cardItem, reminderDays, !interacting, { onOpenItem(cardItem) }, palette, Modifier.fillMaxWidth())
                     } else {
                         Column(Modifier.fillMaxWidth()
-                            .background(palette.panel, RoundedCornerShape(14.dp)).border(1.dp, palette.line, RoundedCornerShape(14.dp)).padding(12.dp)) {
+                            .background(palette.detailPanel, RoundedCornerShape(14.dp)).border(1.dp, palette.detailLine, RoundedCornerShape(14.dp)).padding(12.dp)) {
                             Text(if (items.isEmpty()) "家里的小物，慢慢记好" else "没有找到匹配的物品", fontSize = 13.sp, lineHeight = 19.sp, color = palette.ink)
                             Text(if (items.isEmpty()) "添加第一件物品，开始整理库存。" else "试试清空搜索或分类筛选。", fontSize = 10.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, modifier = Modifier.padding(top = 5.dp))
                             TextButton(onClick = { if (items.isEmpty()) onAdd() else { query = ""; category = "全部"; attention = false; focus.clearFocus() } },
@@ -411,13 +427,51 @@ private class RingPalette(private val light: Float) {
         color(0xFF444A3F, 0xFFC4CEAC), color(0xFF353D37, 0xFFD7DCC8))
     val panel = color(0xFF242528, 0xFFF4F2DE)
     val line = color(0xFF3D3F42, 0xFFD8DFC1)
+    val detailPanel = panel.copy(alpha = .60f)
+    val detailLine = line.copy(alpha = .75f)
     val track = color(0xFF2B2D2B, 0xFFE8ECD9)
     val edge = color(0xFFD2D8C6, 0xFFFFFFF3)
     val seam = color(0xFF686C60, 0xFFFFFFF3)
     val ink = color(0xFFEBEBDF, 0xFF38452E)
     val accent = color(0xFFA1AD91, 0xFF657F46)
+    val leaf = accent.copy(alpha = .28f)
+    val lightDot = color(0xFFB4A274, 0xFFE2C16B).copy(alpha = .5f)
     val badge = color(0xFFA4AD95, 0xFF838466)
     val badgeInk = color(0xFF30392B, 0xFFFFFFF1)
+}
+
+/** Two quiet accents stay in the empty margins and never participate in ring gestures. */
+private fun Modifier.ringAccents(palette: RingPalette): Modifier = drawWithCache {
+    val unit = 1.dp.toPx()
+    val origin = Offset(18.dp.toPx(), 10.dp.toPx())
+    val sprig = Path().apply {
+        moveTo(5f, 29f)
+        cubicTo(12f, 23f, 14f, 16f, 18f, 7f)
+        moveTo(10f, 23f)
+        cubicTo(1f, 21f, 0f, 13f, 1f, 10f)
+        cubicTo(8f, 12f, 12f, 17f, 10f, 23f)
+        moveTo(14f, 14f)
+        cubicTo(14f, 6f, 22f, 1f, 28f, 2f)
+        cubicTo(26f, 9f, 20f, 14f, 14f, 14f)
+    }
+    val sparkle = Path().apply {
+        moveTo(0f, -3.5f)
+        quadraticTo(.8f, -.8f, 3.5f, 0f)
+        quadraticTo(.8f, .8f, 0f, 3.5f)
+        quadraticTo(-.8f, .8f, -3.5f, 0f)
+        quadraticTo(-.8f, -.8f, 0f, -3.5f)
+        close()
+    }
+    onDrawBehind {
+        withTransform({ translate(origin.x, origin.y); scale(unit, unit, Offset.Zero) }) {
+            drawPath(sprig, palette.leaf, style = Stroke(.9f, cap = StrokeCap.Round))
+        }
+        withTransform({ translate(23f * unit, size.height - 6f * unit); scale(unit, unit, Offset.Zero) }) {
+            drawPath(sparkle, palette.lightDot)
+        }
+        drawCircle(palette.leaf, 1.5.dp.toPx(), Offset(17.dp.toPx(), size.height - 3.dp.toPx()))
+        drawCircle(palette.lightDot, 1.8.dp.toPx(), Offset(34.dp.toPx(), size.height - 5.dp.toPx()))
+    }
 }
 
 @Composable
@@ -439,18 +493,22 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
     }
     Card(onClick = open, enabled = enabled,
         modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(18.dp),
-        border = BorderStroke(1.dp, palette.line), colors = CardDefaults.cardColors(
-            containerColor = palette.panel, contentColor = palette.ink,
-            disabledContainerColor = palette.panel, disabledContentColor = palette.ink)) {
+        border = BorderStroke(1.dp, palette.detailLine), colors = CardDefaults.cardColors(
+            containerColor = palette.detailPanel, contentColor = palette.ink,
+            disabledContainerColor = palette.detailPanel, disabledContentColor = palette.ink)) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Column(Modifier.weight(.4f)) {
-                    Text(item.category, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
-                    Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            BoxWithConstraints(Modifier.fillMaxWidth()) {
+                // Give the title more room on narrow phones without shrinking its text.
+                val compact = maxWidth < 160.dp
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(Modifier.weight(if (compact) .3f else .4f)) {
+                        Text(item.category, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                        Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    }
+                    Text(item.name, modifier = Modifier.weight(if (compact) .7f else .6f).testTag("ring-info-name"), fontSize = 18.sp, lineHeight = 23.sp,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.End, color = palette.ink, fontWeight = FontWeight.SemiBold,
+                        maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
-                Text(item.name, modifier = Modifier.weight(.6f), fontSize = 18.sp, lineHeight = 23.sp,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.End, color = palette.ink, fontWeight = FontWeight.SemiBold,
-                    maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
             Text("${item.quantity.display()} ${item.unit}", fontSize = 15.sp, lineHeight = 20.sp, color = palette.accent, fontWeight = FontWeight.Medium)
             Text(statusText, fontSize = 12.sp, lineHeight = 17.sp, color = palette.accent, maxLines = 2, overflow = TextOverflow.Ellipsis)
