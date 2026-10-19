@@ -1,0 +1,48 @@
+{
+  "stage": "V1-P7.2",
+  "kind": "unit_compatibility_fix",
+  "checked_at": "2026-10-19T14:47:30.427413+00:00",
+  "conflicting_units_before": {
+    "吨": 1,
+    "台": 1
+  },
+  "supported_units_added": [
+    "吨",
+    "台"
+  ],
+  "backend_inventory_http_status": 200,
+  "ai_status": "answered",
+  "ai_error_code": null,
+  "backend_batch_count": 3,
+  "ai_fact_count": 3,
+  "returned_units": [
+    "个",
+    "台",
+    "吨"
+  ],
+  "all_facts_match_current_inventory": true,
+  "model_calls": 0,
+  "inventory_writes": false,
+  "shopping_writes": false,
+  "database_content_unchanged": true,
+  "database_container_and_other_services_preserved": true,
+  "images": {
+    "agent": {
+      "tag": "magicvvu/agent:p72-units-755c1561abc8",
+      "id": "sha256:47d49783ecbc13d17bebffb04f744c5bd14fc055c58c11eaad1dc0dced94a031"
+    },
+    "backend": {
+      "tag": "magicvvu/backend:p72-units-736c2299edda",
+      "id": "sha256:ebdad8c041baa72fd4ae938b009ae1721960025b6ff1493ad7b54010ae114a4f"
+    }
+  },
+  "runtime_hashes": {
+    "agent/p0/domain.py": "b213d20b735acbea866d54f2f2014fd27eb92c855b19a326e2bed031a480bce4",
+    "agent/p0/text.py": "4b727fac6f7bca6131722ad395f8667ad0c41fad1ce5289002e2e18e7eda0485",
+    "agent/integration/source_manifest.py": "87172ef2e7b94347226878c8ba499ebe8d43def367b540f2183e2a8ea4534b52",
+    "backend/server/app/services/ai_inventory.py": "030cab6d2c5377db4f6939d6304fb6bd242aa0d9f1a3770cf36aed7fc69f2652",
+    "backend/server/app/services/draft_execution.py": "a0eb126163f7a183b249f5ce1135e80b010c4775d63c3dcec54abdf8b36cf8df"
+  },
+  "private_backup_directory": "/var/backups/magicvvu/20261019-p72-unit-fix",
+  "database_backup_sha256": "77aa8dcbdd0a3ccc36f0d2e8490307c157e7f1ef45f2bdaf0383d0f12259c0d8"
+}

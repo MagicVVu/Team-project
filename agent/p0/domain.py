@@ -5,9 +5,11 @@ from .schemas import Command
 
 UNITS = {"毫升": "ml", "ml": "ml", "mL": "ml", "升": "L", "l": "L", "L": "L",
          "克": "g", "g": "g", "千克": "kg", "公斤": "kg", "kg": "kg",
-         "盒": "盒", "瓶": "瓶", "包": "包", "袋": "袋", "个": "个", "卷": "卷", "片": "片"}
+         "盒": "盒", "瓶": "瓶", "包": "包", "袋": "袋", "个": "个", "卷": "卷", "片": "片",
+         "吨": "吨", "台": "台"}
 SCALES = {"ml": ("volume", Decimal(1)), "L": ("volume", Decimal(1000)),
-          "g": ("mass", Decimal(1)), "kg": ("mass", Decimal(1000))}
+          "g": ("mass", Decimal(1)), "kg": ("mass", Decimal(1000)),
+          "吨": ("mass", Decimal(1000000))}
 
 
 def new_id(prefix: str) -> str:
@@ -22,7 +24,7 @@ class DomainError(Exception):
 
 def normalize_unit(unit: str) -> str:
     if unit not in UNITS:
-        raise DomainError("INVALID_UNIT", "请选择盒、瓶、包、袋、个、卷、片、ml、L、g 或 kg。")
+        raise DomainError("INVALID_UNIT", "请选择盒、瓶、包、袋、个、卷、片、台、吨、ml、L、g 或 kg。")
     return UNITS[unit]
 
 

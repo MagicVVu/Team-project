@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = (
-    "p0/text.py", "p0/engines.py", "p0/manager.py",
+    "p0/text.py", "p0/domain.py", "p0/engines.py", "p0/manager.py",
     "p1/engines.py", "p1/domain.py", "p1/manager.py",
     "p2/__init__.py", "p2/app.py", "p2/engines.py", "p2/knowledge.py",
     "p2/manager.py", "p2/risk.py", "p2/schemas.py", "p2/tools.py", "p2/rules.json",

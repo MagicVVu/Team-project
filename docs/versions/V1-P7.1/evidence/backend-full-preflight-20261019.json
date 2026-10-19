@@ -1,0 +1,111 @@
+{
+  "checked_at": "2026-10-19T13:36:21.029073+00:00",
+  "account": "magicvvu_ai",
+  "sudo_access_verified": true,
+  "source_directory": "/home/admin/magicvvu-p71-backend-20261019",
+  "source_hashes": {
+    "README.md": "40d46bc690f7b5f142331ac751f0267923cfc3ea9050379bc2f73dce18b5d456",
+    "compose.p7.override.yaml": "575c1a8f2aae52e52f48b66f1463b6e591eae6d89fb4ce9a16a084c46c829bf9",
+    "p7_preflight.py": "41040641034ef8b3e357bc7c42ebed3d6ed6a0b665c1c402153f37dddad9b423",
+    "check-p7-deployment.py": "db82e86e7f4a51ab9e3e65849ed981e76e834b91461b73b9fb55f31a5b32a10e"
+  },
+  "environments": {
+    "execution_isolation": {
+      "wiring": {
+        "exit_code": 0,
+        "report": {
+          "checks": {
+            "ai_cache_mounted": true,
+            "ai_no_database_password": true,
+            "ai_no_host_ports": true,
+            "ai_read_only": true,
+            "ai_service_token_matches": true,
+            "ai_service_url": true,
+            "backend_base_url": true,
+            "backend_tool_token_matches": true,
+            "explicit_p7_engine": true,
+            "p7_entrypoint": true,
+            "shared_network": true
+          },
+          "configuration_changed": false,
+          "live_acceptance_verified": false,
+          "model_called": false,
+          "token_values_disclosed": false,
+          "wiring_passed": true
+        }
+      },
+      "preflight": {
+        "exit_code": 0,
+        "report": {
+          "business_data_written": false,
+          "checks": {
+            "ai_p7_health": true,
+            "ai_p7_schema": true,
+            "ai_service_token": true,
+            "ai_service_url": true,
+            "backend_p7_version": true,
+            "backend_to_ai_auth": true,
+            "backend_tool_token": true,
+            "database_ready": true,
+            "execution_migration": true,
+            "execution_routes": true,
+            "execution_tables": true
+          },
+          "live_acceptance_verified": false,
+          "model_called": false,
+          "preflight_passed": true
+        }
+      }
+    },
+    "production": {
+      "wiring": {
+        "exit_code": 1,
+        "report": {
+          "checks": {
+            "ai_cache_mounted": true,
+            "ai_no_database_password": true,
+            "ai_no_host_ports": true,
+            "ai_read_only": true,
+            "ai_service_token_matches": true,
+            "ai_service_url": true,
+            "backend_base_url": true,
+            "backend_tool_token_matches": true,
+            "explicit_p7_engine": false,
+            "p7_entrypoint": false,
+            "shared_network": true
+          },
+          "configuration_changed": false,
+          "live_acceptance_verified": false,
+          "model_called": false,
+          "token_values_disclosed": false,
+          "wiring_passed": false
+        }
+      },
+      "preflight": {
+        "exit_code": 1,
+        "report": {
+          "business_data_written": false,
+          "checks": {
+            "ai_p7_health": false,
+            "ai_p7_schema": false,
+            "ai_service_token": true,
+            "ai_service_url": true,
+            "backend_p7_version": false,
+            "backend_to_ai_auth": true,
+            "backend_tool_token": true,
+            "database_ready": true,
+            "execution_migration": false,
+            "execution_routes": false,
+            "execution_tables": false
+          },
+          "live_acceptance_verified": false,
+          "model_called": false,
+          "preflight_passed": false
+        }
+      }
+    }
+  },
+  "services_changed": false,
+  "business_writes": false,
+  "model_called": false
+}

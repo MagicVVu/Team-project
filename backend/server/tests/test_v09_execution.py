@@ -170,6 +170,50 @@ def test_cancel_is_terminal_and_idempotent(execution_state):
         assert db.scalar(select(func.count()).select_from(DraftOperation)) == 0
 
 
+@pytest.mark.parametrize("stock_unit,input_unit,amount,remaining,delta", [
+    ("吨", "kg", "500", "4.5", "0.5"),
+    ("台", "台", "1", "4", "1"),
+])
+def test_extended_units_have_exact_consumption_events(execution_state, stock_unit, input_unit, amount, remaining, delta):
+    client, Session, ids = execution_state
+    with Session.begin() as db:
+        db.get(InventoryItem, ids["batch"]).unit = stock_unit
+    draft, _ = seed_draft(Session, ids, unit=stock_unit)
+    request = body(edits={"quantity": amount, "unit": input_unit})
+    result = post(client, draft, request)
+    assert result.status_code == 200, result.text
+    assert post(client, draft, request).json() == result.json()
+    with Session() as db:
+        item = db.get(InventoryItem, ids["batch"])
+        event = db.scalar(select(BusinessEvent))
+        assert item.quantity == Decimal(remaining) and item.unit == stock_unit and item.version == 2
+        assert event.quantity == Decimal(delta) and event.unit == stock_unit
+        assert db.scalar(select(func.count()).select_from(BusinessEvent)) == 1
+
+
+def test_machine_unit_does_not_alias_individual_items(execution_state):
+    client, Session, ids = execution_state
+    with Session.begin() as db:
+        db.get(InventoryItem, ids["batch"]).unit = "台"
+    draft, _ = seed_draft(Session, ids, unit="台")
+    assert post(client, draft, body(edits={"unit":"个"})).status_code == 422
+    with Session() as db:
+        assert db.get(InventoryItem, ids["batch"]).quantity == 5
+        assert db.scalar(select(func.count()).select_from(BusinessEvent)) == 0
+
+
+def test_tonne_conversion_rejects_subprecision_without_stock_or_event_write(execution_state):
+    client, Session, ids = execution_state
+    with Session.begin() as db:
+        db.get(InventoryItem, ids["batch"]).unit = "吨"
+    draft, _ = seed_draft(Session, ids, unit="吨")
+    result = post(client, draft, body(edits={"quantity":"0.000001", "unit":"kg"}))
+    assert result.status_code == 422 and result.json()["detail"]["code"] == "CONVERTED_QUANTITY_INVALID"
+    with Session() as db:
+        assert db.get(InventoryItem, ids["batch"]).quantity == 5
+        assert db.scalar(select(func.count()).select_from(BusinessEvent)) == 0
+
+
 def test_auth_and_ownership_for_every_new_route(execution_state):
     client, Session, ids = execution_state
     draft, _ = seed_draft(Session, ids)

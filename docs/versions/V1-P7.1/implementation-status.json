@@ -52,5 +52,8 @@
     "deployment_selection_of_p7",
     "online_model_and_joint_acceptance",
     "preexisting_P1_P2_git_blob_vs_frozen_digest_release_gate"
-  ]
+  ],
+  "status_scope": "original_P7.1_delivery_snapshot",
+  "followup_stage": "V1-P7.2",
+  "followup_record": "../V1-P7.2/README.md"
 }

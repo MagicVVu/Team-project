@@ -149,7 +149,8 @@ def unit(value):
 def converted(quantity, source_unit, target_unit):
     source, target = unit(source_unit), unit(target_unit)
     factors = {"ml": ("volume", Decimal(1)), "L": ("volume", Decimal(1000)),
-               "g": ("mass", Decimal(1)), "kg": ("mass", Decimal(1000))}
+               "g": ("mass", Decimal(1)), "kg": ("mass", Decimal(1000)),
+               "吨": ("mass", Decimal(1000000))}
     if source == target:
         return quantity
     if source not in factors or target not in factors or factors[source][0] != factors[target][0]:

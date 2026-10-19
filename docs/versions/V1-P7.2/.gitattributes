@@ -1,0 +1,2 @@
+# Preserve the archived report bytes used by implementation-status.json.
+evidence/*.json -text

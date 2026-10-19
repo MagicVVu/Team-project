@@ -137,6 +137,22 @@ def test_more_than_1000_rejected(state):
     assert r.status_code == 409
 
 
+@pytest.mark.parametrize("unit", ["吨", "台"])
+def test_tonne_and_machine_units_read_without_rewriting_stock(state, unit):
+    client, Session, ids = state
+    with Session.begin() as db:
+        item = db.get(InventoryItem, ids["good"])
+        item.unit = unit
+    h = _h(user=ids["owner"], home=ids["family"])
+    result = client.get(f"/internal/v1/inventory/batches/{ids['good']}", headers=h)
+    assert result.status_code == 200
+    batch = result.json()["data"]["batch"]
+    assert batch["unit"] == unit and batch["quantity"] == "2.000001" and batch["version"] == 7
+    with Session() as db:
+        item = db.get(InventoryItem, ids["good"])
+        assert item.unit == unit and item.quantity == Decimal("2.000001") and item.version == 7
+
+
 def test_v04_to_v05_migration_preserves_rows(tmp_path):
     from uuid import uuid4
     engine = create_engine(f"sqlite:///{tmp_path / 'upgrade.sqlite'}", connect_args={"check_same_thread": False})
