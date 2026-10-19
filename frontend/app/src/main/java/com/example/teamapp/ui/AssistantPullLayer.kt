@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -52,6 +53,20 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+// One bounded impact, rather than an oscillating spring. Distances are physical pixels.
+private object AssistantLandingMotion {
+    const val Duration = 680
+    const val FallEnd = 472
+    const val CompressionPeak = 495
+    const val ReboundStart = 518
+    const val ReboundPeak = 586
+    const val ReboundEnd = 654
+    const val LiftPx = 10f
+    const val CompressedScale = .994f
+    val gravity = Easing { fraction -> fraction * fraction }
+    val upward = Easing { fraction -> 1f - (1f - fraction) * (1f - fraction) }
+}
+
 /** A full-screen curtain sits above the entire scaffold, including its navigation bar. */
 @Composable
 internal fun AssistantPullLayer(
@@ -69,25 +84,32 @@ internal fun AssistantPullLayer(
         .onGloballyPositioned { headerBottom = it.boundsInWindow().bottom }
     val focus = LocalFocusManager.current
     fun dismiss() { focus.clearFocus(); expanded = false }
-    // Keep the landing lift the same small physical distance on phones and tablets.
-    val landingLiftPx = with(LocalDensity.current) { 7.dp.toPx() }
-    val landingReveal = 1f - landingLiftPx / heightPx.coerceAtLeast(landingLiftPx.roundToInt())
+    val reboundReveal = 1f - AssistantLandingMotion.LiftPx.coerceAtMost(heightPx * .01f) / heightPx.coerceAtLeast(1)
     val transition = updateTransition(expanded, label = "assistant-curtain")
     val reveal = transition.animateFloat(
         transitionSpec = {
             if (targetState) keyframes {
-                durationMillis = 720
-                // Accelerate from release through landing, then settle with a quick, small bounce.
-                0f at 0 using CubicBezierEasing(.42f, 0f, 1f, 1f)
-                1f at 580 using CubicBezierEasing(.2f, 0f, .4f, 1f)
-                // Present at least one complete landing frame before lifting for the bounce.
-                1f at 596 using CubicBezierEasing(.2f, 0f, .4f, 1f)
-                landingReveal at 640 using CubicBezierEasing(.2f, 0f, .3f, 1f)
-                1f at 720
+                durationMillis = AssistantLandingMotion.Duration
+                // Normalized displacement follows s = 1/2 g t² over the measured height.
+                0f at 0 using AssistantLandingMotion.gravity
+                1f at AssistantLandingMotion.FallEnd using LinearEasing
+                1f at AssistantLandingMotion.ReboundStart using AssistantLandingMotion.upward
+                reboundReveal at AssistantLandingMotion.ReboundPeak using AssistantLandingMotion.gravity
+                1f at AssistantLandingMotion.ReboundEnd
+                1f at AssistantLandingMotion.Duration
             } else tween(380, easing = AppMotion.easing)
         },
         label = "reveal"
     ) { if (it) 1f else 0f }
+    val impactScale = transition.animateFloat(transitionSpec = {
+        if (targetState) keyframes {
+            durationMillis = AssistantLandingMotion.Duration
+            1f at AssistantLandingMotion.FallEnd using FastOutSlowInEasing
+            AssistantLandingMotion.CompressedScale at AssistantLandingMotion.CompressionPeak using FastOutSlowInEasing
+            1f at AssistantLandingMotion.ReboundStart
+            1f at AssistantLandingMotion.Duration
+        } else tween(100)
+    }, label = "impact-compression") { 1f }
     val visible = transition.currentState || transition.targetState || transition.isRunning
     val cordRequested = tab in 1..3 && available && !visible && headerBottom != null
     val cordState = remember { MutableTransitionState(false) }
@@ -132,6 +154,7 @@ internal fun AssistantPullLayer(
             // This surface also blocks touches to the lower page while the curtain is moving.
             val scrim = MaterialTheme.colorScheme.scrim
             val light = LocalLightDesign.current
+            val paper = MaterialTheme.colorScheme.background
             Box(Modifier.fillMaxSize().drawBehind { drawRect(scrim.copy(alpha = .14f * reveal.value.coerceIn(0f, 1f))) }
                 .clickable(remember { MutableInteractionSource() }, indication = null) {}.clearAndSetSemantics {})
             Box(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal.value - 1f) * heightPx }
@@ -149,6 +172,9 @@ internal fun AssistantPullLayer(
                         listOf(Color.Black.copy(alpha = if (light) .12f else .24f), Color.Transparent),
                         startY = size.height, endY = size.height + contact)
                     onDrawBehind {
+                        // Extend the paper color below its moving edge: a small hop must not
+                        // uncover a blank strip. This also backs the bottom-anchored compression.
+                        drawRect(paper, size = Size(size.width, size.height + AssistantLandingMotion.LiftPx + 1f))
                         drawRect(softShadow, Offset(0f, size.height), Size(size.width, spread))
                         drawRect(edgeShadow, Offset(0f, size.height), Size(size.width, contact))
                     }
@@ -156,7 +182,10 @@ internal fun AssistantPullLayer(
                     paneTitle = "AI 助手"
                     stateDescription = if (expanded && !transition.isRunning) "已展开" else "切换中"
                 }) {
-                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(Modifier.fillMaxSize().graphicsLayer {
+                    transformOrigin = TransformOrigin(.5f, 1f)
+                    scaleY = impactScale.value
+                }.testTag("assistant-impact-surface"), color = paper) {
                     Box(Modifier.fillMaxSize().motionInput(expanded && !transition.isRunning)) {
                         AssistantCurtainPage(store, conversation, notify) { dismiss() }
                         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())

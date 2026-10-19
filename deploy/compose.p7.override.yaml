@@ -1,0 +1,20 @@
+# Merge with the existing deployment; this file alone cannot start a stack.
+# Supply reviewed image tags/digests through the deployment environment.
+services:
+  backend:
+    image: ${MAGICVVU_P7_BACKEND_IMAGE:?Set reviewed P7 backend image}
+  agent:
+    image: ${MAGICVVU_P7_AGENT_IMAGE:?Set reviewed P7 AI image}
+    command: ["python", "-m", "uvicorn", "conversation.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8767"]
+    environment:
+      P3_ENGINE: ${MAGICVVU_P7_ENGINE:?Select rules or deepseek explicitly}
+      BACKEND_BASE_URL: http://backend:8000
+    healthcheck:
+      test: ["CMD", "python", "-m", "conversation.health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+# Existing AI_SERVICE_TOKEN, BACKEND_TOOL_TOKEN, provider configuration,
+# network, cache/ledger volume and security settings come from the base stack.
+# Apply migration 0007 separately after backup; never migrate at app startup.

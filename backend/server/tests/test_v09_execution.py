@@ -370,6 +370,69 @@ def test_reference_adapter_disabled_without_ai_call(execution_state, monkeypatch
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
 
 
+def test_real_p7_move_clarify_commit_and_recover(execution_state, monkeypatch):
+    """Real P7 HTTP, backend tools, persisted clarification and business execution."""
+    import httpx
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "agent"))
+    from conversation.app import create_app
+    from conversation.engines import RuleEngine
+    from v1.tools import RemoteReader
+
+    client, Session, ids = execution_state
+    token = "synthetic-p7-service-token-32-characters"
+    tool_token = "synthetic-p7-tool-token-32-characters"
+    for key, value in {"AI_SERVICE_URL": "http://agent:8767", "AI_SERVICE_TOKEN": token,
+                       "BACKEND_TOOL_TOKEN": tool_token, "P3_ENGINE": "rules"}.items():
+        monkeypatch.setenv(key, value)
+    with Session.begin() as db:
+        db.add(InventoryItem(household_id=ids["home"], name="牛奶", quantity=Decimal(2),
+            unit="盒", storage_location="厨房", status="ACTIVE", version=1,
+            created_by_user_id=ids["user"]))
+    ai = create_app(engine=RuleEngine(), reader=RemoteReader("http://backend:8000", tool_token))
+    transports = {"agent": httpx.ASGITransport(app=ai), "backend": httpx.ASGITransport(app=app)}
+    calls = []
+
+    async def dispatch(request):
+        calls.append((request.url.host, request.url.path))
+        return await transports[request.url.host].handle_async_request(request)
+
+    real_client = httpx.AsyncClient
+
+    def in_memory_client(*args, **kwargs):
+        kwargs["transport"] = httpx.MockTransport(dispatch)
+        return real_client(*args, **kwargs)
+
+    monkeypatch.setattr(httpx, "AsyncClient", in_memory_client)
+    message = {"household_id": str(ids["home"]), "text": "把牛奶移到书房", "request_id": "p7-move"}
+    response = client.post("/api/v1/agent/messages", headers=headers(), json=message)
+    assert response.status_code == 200, response.text
+    task = response.json()
+    assert task["status"] == "needs_clarification"
+    continued = client.post("/api/v1/agent/clarifications/" + task["task_id"], headers=headers(),
+        json={"revision": task["revision"], "answers": {"batch_id": str(ids["batch"])}})
+    assert continued.status_code == 200, continued.text
+    task = continued.json()
+    assert task["status"] == "needs_confirmation" and task["inventory_written"] is False
+    draft = task["draft_id"]
+    execution = client.get(url(draft, "execution"), headers=headers()).json()
+    request = body(task_revision=execution["task_revision"], draft_revision=execution["draft_revision"])
+    committed = post(client, draft, request)
+    assert committed.status_code == 200, committed.text
+    receipt = committed.json()
+    assert receipt["status"] == "committed" and receipt["action"] == "MOVE"
+    assert post(client, draft, request).json() == receipt
+    assert client.get("/api/v1/operations/" + request["operation_id"], headers=headers()).json() == receipt
+    call_count = len(calls)
+    recovered = client.post("/api/v1/agent/messages", headers=headers(), json=message).json()
+    assert recovered["task_id"] == task["task_id"] and len(calls) == call_count
+    inventory = client.get(f"/api/v1/households/{ids['home']}/inventory-items", headers=headers()).json()
+    moved = next(row for row in inventory["items"] if row["id"] == str(ids["batch"]))
+    assert moved["storage_location"] == "书房" and Decimal(moved["quantity"]) == 5
+    with Session() as db:
+        assert db.scalar(select(func.count()).select_from(DraftOperation)) == 1
+        assert db.scalar(select(func.count()).select_from(BusinessEvent)) == 1
+
+
 def test_receipt_survives_expiry_and_later_stock_changes(execution_state):
     client,Session,ids=execution_state;draft,task=seed_draft(Session,ids);request=body()
     receipt=post(client,draft,request).json()
