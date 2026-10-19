@@ -8,7 +8,16 @@
 python -m uvicorn conversation.app:create_app --factory --host 127.0.0.1 --port 8767
 ```
 
-启动进程需要已有的 AI_SERVICE_TOKEN、BACKEND_BASE_URL、BACKEND_TOOL_TOKEN；DeepSeek 模式还需要 P3_ENGINE=deepseek、LLM_MODEL 和 DEEPSEEK_API_KEY。直接运行 uvicorn 不会自动读取私有配置文件；由部署方注入既有环境。P6.1 的运行工具仍启动 P6，不因同步 P7 自动改动。
+启动进程需要已有的 AI_SERVICE_TOKEN、BACKEND_BASE_URL、BACKEND_TOOL_TOKEN；DeepSeek 模式还需要 P3_ENGINE=deepseek、LLM_MODEL 和 DEEPSEEK_API_KEY。直接运行 uvicorn 不会自动读取私有配置文件；由部署方注入既有环境。
+
+V1-P7.1 的私有配置工具支持显式选择 P7；以下检查仅返回配置是否齐全及启动参数，不连接模型或启动服务，缺配置时退出码为 1：
+
+```bash
+cd ~/workspace/agent
+.venv-p2/bin/python -B -m integration.runtime_config check --profile p7
+```
+
+部署负责人正式选择 P7 时，可使用 `integration.runtime_config run --profile p7`（同一 Python、工作目录）。这会启动本机监听进程，不能与已有服务重复运行。本轮只同步源码，不执行此命令；旧命令省略 `--profile` 时仍保留 P6 行为。配置检查通过只证明本地配置完整，不证明令牌有效、网络可达或模型在线可用。详见 [P7.1 收尾与运行说明](../../docs/versions/V1-P7.1/README.md)。
 
 容器构建文件为 Dockerfile.conversation，仅供部署负责人审阅，本轮不构建/重启正式容器。
 

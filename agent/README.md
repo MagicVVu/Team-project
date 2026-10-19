@@ -1,4 +1,4 @@
-最新接入准备配置为 [conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0），新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；本轮不切换正式服务、不改 Android 或数据库网关。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
+最新接入准备配置为 [conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0），新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；[V1-P7.1 收尾](../docs/versions/V1-P7.1/README.md)补齐 `check --profile p7` 配置预检、显式启动选择及服务器源码同步，不切换正式服务、不改 Android 或数据库网关。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
 
 # V1-P0 AI 开发包
 

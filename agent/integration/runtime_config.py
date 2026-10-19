@@ -19,6 +19,7 @@ import warnings
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULTS = {"DEEPSEEK_API_KEY": "", "LLM_MODEL": "deepseek-flash", "P3_ENGINE": "deepseek"}
 REQUIRED = ("DEEPSEEK_API_KEY", "AI_SERVICE_TOKEN", "BACKEND_TOOL_TOKEN", "BACKEND_BASE_URL")
+PROFILES = {"p6": "v1.app:create_app", "p7": "conversation.app:create_app"}
 HEADER = "# Private AI runtime configuration; never commit or upload this file.\n"
 
 
@@ -145,47 +146,66 @@ def environment(root=ROOT, inherited=None):
     return env
 
 
-def status(root=ROOT, inherited=None):
+def launch_arguments(root=ROOT, profile="p6"):
+    # Keep the historical default; P7 must be selected explicitly by operators.
+    if profile not in PROFILES:
+        raise ConfigError("Unknown AI profile; choose p6 or p7.")
+    python = Path(root) / ".venv-p2/bin/python"
+    if not python.is_file():
+        python = Path(sys.executable)
+    return [str(python), "-B", "-m", "uvicorn", PROFILES[profile], "--factory",
+            "--host", "127.0.0.1", "--port", "8767"]
+
+
+def status(root=ROOT, inherited=None, profile="p6"):
+    argv = launch_arguments(root, profile)
     env = environment(root, inherited)
     present = {key: bool(env.get(key)) for key in REQUIRED}
+    engine_ok = env.get("P3_ENGINE") == "deepseek"
+    model_ok = env.get("LLM_MODEL") == "deepseek-flash"
     return {"config_exists": config_path(root).is_file(), "configured": present,
-            "deepseek_selected": env.get("P3_ENGINE") == "deepseek",
-            "model_matches_existing_pricing": env.get("LLM_MODEL") == "deepseek-flash",
+            "profile": profile, "entrypoint": PROFILES[profile],
+            "argv": argv, "deepseek_selected": engine_ok,
+            "model_matches_existing_pricing": model_ok,
             "provider_key_present": present["DEEPSEEK_API_KEY"],
-            "service_ready": all(present.values()), "services_started": False,
+            "missing_configuration": [key for key, ready in present.items() if not ready],
+            "service_ready": all(present.values()) and engine_ok and model_ok,
+            "readiness_scope": "local_configuration_only",
+            "backend_connectivity_verified": False, "services_started": False,
             "provider_key_validated_online": False}
 
 
-def run_service(root=ROOT, inherited=None, execute=None):
+def run_service(root=ROOT, inherited=None, execute=None, profile="p6"):
+    argv = launch_arguments(root, profile)
     env = environment(root, inherited)
     missing = [key for key in REQUIRED if not env.get(key)]
     if missing:
         raise ConfigError("Service not started. Deployment must supply: " + ", ".join(missing))
     if env.get("P3_ENGINE") != "deepseek" or env.get("LLM_MODEL") != "deepseek-flash":
         raise ConfigError("Expected the configured deepseek engine and verified model.")
-    python = Path(root) / ".venv-p2/bin/python"
-    if not python.is_file():
-        python = Path(sys.executable)
     os.chdir(root)
-    argv = [str(python), "-B", "-m", "uvicorn", "v1.app:create_app", "--factory",
-            "--host", "127.0.0.1", "--port", "8767"]
     # exec inherits the terminal; no daemon, background process or public port.
-    (execute or os.execve)(str(python), argv, env)
+    (execute or os.execve)(argv[0], argv, env)
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description="Private host-side AI configuration")
-    parser.add_argument("command", choices=["init", "set-key", "status", "run"])
-    args = parser.parse_args()
+    parser.add_argument("command", choices=["init", "set-key", "status", "check", "run"])
+    parser.add_argument("--profile", choices=PROFILES, default="p6",
+                        help="Explicit runtime profile; legacy default is p6")
+    args = parser.parse_args(argv)
     try:
         if args.command == "init":
             initialize()
         elif args.command == "set-key":
             set_key()
         elif args.command == "run":
-            run_service()
+            run_service(profile=args.profile)
             return 0
-        print(json.dumps(status()))
+        result = status(profile=args.profile)
+        print(json.dumps(result))
+        if args.command == "check" and not result["service_ready"]:
+            return 1
         return 0
     except (ConfigError, OSError, UnicodeError):
         # ConfigError messages contain names only, never parsed values or keys.

@@ -141,3 +141,59 @@ def test_echoing_getpass_fallback_is_never_allowed(tmp_path, monkeypatch):
     with pytest.raises(config.ConfigError):
         config.set_key(tmp_path)
     assert not (tmp_path / ".env.runtime").exists()
+
+
+@pytest.mark.parametrize("profile,entrypoint", list(config.PROFILES.items()))
+def test_explicit_profile_selects_entry_without_changing_credentials(tmp_path, monkeypatch, profile, entrypoint):
+    monkeypatch.chdir(tmp_path)
+    config.write_config({**config.DEFAULTS, "DEEPSEEK_API_KEY": KEY}, tmp_path)
+    before = (tmp_path / ".env.runtime").read_bytes()
+    inherited = {"AI_SERVICE_TOKEN": "service", "BACKEND_TOOL_TOKEN": "tool"}
+    executed = []
+    report = config.status(tmp_path, inherited, profile=profile)
+    config.run_service(tmp_path, inherited, execute=lambda *args: executed.append(args), profile=profile)
+    assert report["entrypoint"] == entrypoint
+    assert report["argv"] == executed[0][1]
+    assert report["service_ready"] and not report["services_started"]
+    assert not report["backend_connectivity_verified"] and not report["provider_key_validated_online"]
+    assert KEY not in json.dumps(report) and "service\"" not in json.dumps(report)
+    assert (tmp_path / ".env.runtime").read_bytes() == before
+
+
+def test_profile_cannot_inject_an_arbitrary_module(tmp_path):
+    executed = []
+    with pytest.raises(config.ConfigError):
+        config.run_service(tmp_path, {}, execute=lambda *args: executed.append(args), profile="other.app:create_app")
+    assert executed == []
+
+
+@pytest.mark.parametrize("override", [{"P3_ENGINE": "rules"}, {"LLM_MODEL": "unknown-model"}])
+def test_config_readiness_rejects_engine_or_model_mismatch(tmp_path, override):
+    inherited = {**config.DEFAULTS, "DEEPSEEK_API_KEY": KEY,
+                 "AI_SERVICE_TOKEN": "service", "BACKEND_TOOL_TOKEN": "tool", **override}
+    assert not config.status(tmp_path, inherited, profile="p7")["service_ready"]
+    with pytest.raises(config.ConfigError):
+        config.run_service(tmp_path, inherited, execute=lambda *_: pytest.fail("must not execute"), profile="p7")
+
+
+@pytest.mark.parametrize("ready", [True, False])
+def test_check_cli_only_reports_configuration_and_never_launches(tmp_path, monkeypatch, capsys, ready):
+    inherited = {**config.DEFAULTS, "DEEPSEEK_API_KEY": KEY}
+    if ready:
+        inherited.update(AI_SERVICE_TOKEN="service", BACKEND_TOOL_TOKEN="tool")
+    original_status = config.status
+    monkeypatch.setattr(config, "status", lambda profile: original_status(tmp_path, inherited, profile))
+    monkeypatch.setattr(config, "run_service", lambda **_: pytest.fail("check cannot launch a service"))
+    assert config.main(["check", "--profile", "p7"]) == (0 if ready else 1)
+    report = json.loads(capsys.readouterr().out)
+    assert report["profile"] == "p7" and report["entrypoint"] == "conversation.app:create_app"
+    assert report["readiness_scope"] == "local_configuration_only"
+    assert report["missing_configuration"] == ([] if ready else ["AI_SERVICE_TOKEN", "BACKEND_TOOL_TOKEN"])
+    assert not (tmp_path / ".env.runtime").exists()
+
+
+def test_selected_profile_uses_workspace_python_when_available(tmp_path):
+    python = tmp_path / ".venv-p2" / "bin" / "python"
+    python.parent.mkdir(parents=True)
+    python.touch()
+    assert config.launch_arguments(tmp_path, "p7")[0] == str(python)
