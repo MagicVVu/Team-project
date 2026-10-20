@@ -1,0 +1,23 @@
+{
+  "origin": "https://iz7xvftxzwe1mwbso1ovyyz.tail0abb88.ts.net",
+  "tls_verification_disabled": false,
+  "login_tested": false,
+  "observations": [
+    {
+      "path": "/api/v1/health",
+      "status": "network_or_tls_error"
+    },
+    {
+      "path": "/api/v1/ready",
+      "status": "network_or_tls_error"
+    },
+    {
+      "path": "/api/v1/agent/execution-capabilities",
+      "status": "network_or_tls_error"
+    },
+    {
+      "path": "/api/v1/users/me",
+      "status": "network_or_tls_error"
+    }
+  ]
+}

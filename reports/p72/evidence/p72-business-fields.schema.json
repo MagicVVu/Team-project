@@ -1,0 +1,113 @@
+{
+  "OpenFields": {
+    "additionalProperties": false,
+    "properties": {
+      "opened_at": {
+        "format": "date",
+        "title": "Opened At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "opened_at"
+    ],
+    "title": "OpenFields",
+    "type": "object"
+  },
+  "DiscardFields": {
+    "additionalProperties": false,
+    "properties": {
+      "discard_mode": {
+        "enum": [
+          "partial",
+          "all"
+        ],
+        "title": "Discard Mode",
+        "type": "string"
+      },
+      "quantity": {
+        "anyOf": [
+          {
+            "exclusiveMinimum": 0.0,
+            "maximum": 1000000000.0,
+            "type": "number"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "title": "Quantity"
+      },
+      "unit": {
+        "maxLength": 30,
+        "minLength": 1,
+        "title": "Unit",
+        "type": "string"
+      }
+    },
+    "required": [
+      "discard_mode",
+      "quantity",
+      "unit"
+    ],
+    "title": "DiscardFields",
+    "type": "object"
+  },
+  "ReferenceMessage": {
+    "additionalProperties": false,
+    "description": "Public selector; identity and validity are always supplied by the backend.",
+    "properties": {
+      "household_id": {
+        "format": "uuid",
+        "title": "Household Id",
+        "type": "string"
+      },
+      "text": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "pattern": "\\S",
+        "title": "Text",
+        "type": "string"
+      },
+      "request_id": {
+        "maxLength": 100,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9._:-]+$",
+        "title": "Request Id",
+        "type": "string"
+      },
+      "household_timezone": {
+        "default": "Asia/Shanghai",
+        "maxLength": 64,
+        "minLength": 1,
+        "title": "Household Timezone",
+        "type": "string"
+      },
+      "source_task_id": {
+        "format": "uuid",
+        "title": "Source Task Id",
+        "type": "string"
+      },
+      "source_revision": {
+        "minimum": 1,
+        "title": "Source Revision",
+        "type": "integer"
+      },
+      "batch_id": {
+        "format": "uuid",
+        "title": "Batch Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "household_id",
+      "text",
+      "request_id",
+      "source_task_id",
+      "source_revision",
+      "batch_id"
+    ],
+    "title": "ReferenceMessage",
+    "type": "object"
+  }
+}

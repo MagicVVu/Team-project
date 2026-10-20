@@ -1,0 +1,50 @@
+[
+  {
+    "name": "com.example.teamapp.AgentExecutionPolicyTest",
+    "tests": "4",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.AuthFormTest",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.ClarificationRepliesTest",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.ExampleUnitTest",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.InventoryTest",
+    "tests": "7",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.RingModelTest",
+    "tests": "6",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.SampleInventoryTest",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.example.teamapp.TargetPolicyTest",
+    "tests": "3",
+    "failures": "0",
+    "errors": "0"
+  }
+]
