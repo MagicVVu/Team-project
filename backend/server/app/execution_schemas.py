@@ -1,10 +1,10 @@
 """Business-owned confirmation DTOs; AI previews and protected fields are not inputs."""
 from datetime import date
 from decimal import Decimal
-from typing import Annotated, Literal
+from typing import Annotated
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator, field_validator
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
 
 
 class Input(BaseModel):
@@ -52,16 +52,6 @@ class ConsumeFields(Input):
     unit: Unit
 
 
-class OpenFields(Input):
-    opened_at: date
-
-
-class DiscardFields(Input):
-    discard_mode: Literal["partial", "all"]
-    quantity: Quantity
-    unit: Unit
-
-
 class PlanFields(Input):
     quantity: ShoppingQuantity
     unit: Unit
@@ -74,6 +64,7 @@ class Target(Input):
 
 
 class ReferenceMessage(Input):
+<<<<<<< HEAD
     """Public selector; identity and validity are always supplied by the backend."""
 <<<<<<< Updated upstream
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=False)
@@ -85,16 +76,13 @@ class ReferenceMessage(Input):
 >>>>>>> Stashed changes
     request_id: str = Field(min_length=1, max_length=100, pattern=r"^[A-Za-z0-9._:-]+$")
     household_timezone: str = Field(default="Asia/Shanghai", min_length=1, max_length=64)
+=======
+    """Reserved adapter input, deliberately unavailable until source binding ships."""
+    household_id: UUID
+    text: str = Field(min_length=1, max_length=1000)
+    request_id: str = Field(min_length=1, max_length=100)
+    household_timezone: str = "Asia/Shanghai"
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
     source_task_id: UUID
     source_revision: int = Field(ge=1, strict=True)
     batch_id: UUID
-
-    @field_validator('household_timezone')
-    @classmethod
-    def valid_timezone(cls, value):
-        from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-        try:
-            ZoneInfo(value)
-        except (ZoneInfoNotFoundError, ValueError):
-            raise ValueError('Invalid IANA timezone') from None
-        return value

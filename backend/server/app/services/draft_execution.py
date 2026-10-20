@@ -8,21 +8,19 @@ import json
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from uuid import UUID, uuid5
-from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
 from pydantic import ValidationError
 from sqlalchemy import select
 
 from app.execution_models import BusinessEvent, DraftDecision, DraftOperation
-from app.execution_schemas import AddFields, ConsumeFields, MoveFields, PlanFields, Target, OpenFields, DiscardFields
+from app.execution_schemas import AddFields, ConsumeFields, MoveFields, PlanFields, Target
 from app.models import AIDraft, AITask, HouseholdMember, InventoryItem, ShoppingList, ShoppingListItem
 from app.services.ai_inventory import UNIT_CANONICAL
 from app.shopping_schemas import ShoppingItemResponse, StockResponse
 
 EDITABLE = {"ADD": set(AddFields.model_fields), "MOVE": {"to_location"},
-            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": {"quantity", "unit"},
-            "OPEN": {"opened_at"}, "DISCARD": {"discard_mode", "quantity", "unit"}}
+            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": {"quantity", "unit"}}
 EXECUTION_TTL = timedelta(minutes=15)
 
 
@@ -177,7 +175,7 @@ def command(task, draft, edits):
         fail("PLANNING_REVALIDATION_UNAVAILABLE")
     target = None
     try:
-        if action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
+        if action in {"MOVE", "CONSUME"}:
             target = Target.model_validate({k: raw.pop(k) for k in ("name", "batch_id", "expected_version")})
         if action == "PLAN_ADD":
             # Name and any identity/provenance always come from the stored draft.
@@ -185,8 +183,7 @@ def command(task, draft, edits):
             from pydantic import TypeAdapter
             name = TypeAdapter(Name).validate_python(raw.pop("name"))
         values = {**raw, **edits}
-        schema = {"ADD": AddFields, "MOVE": MoveFields, "CONSUME": ConsumeFields, "PLAN_ADD": PlanFields,
-                  "OPEN": OpenFields, "DISCARD": DiscardFields}[action]
+        schema = {"ADD": AddFields, "MOVE": MoveFields, "CONSUME": ConsumeFields, "PLAN_ADD": PlanFields}[action]
         fields = schema.model_validate(values)
         if action == "PLAN_ADD":
             # Quantity is user-editable, but changing a package into a mass is not.
@@ -222,8 +219,7 @@ def execute(db, identity, draft_id, body):
     at = now()
     event_id = uuid5(body.operation_id, "event")
     before, batch_versions, item, shopping = {}, {}, None, None
-    quantity, event_type = None, {"ADD": "StockAdded", "MOVE": "StockMoved", "PLAN_ADD": "PlanAdded",
-                                 "CONSUME": "Consumed", "OPEN": "Opened", "DISCARD": "Discarded"}[action]
+    quantity, event_type = None, {"ADD": "StockAdded", "MOVE": "StockMoved", "PLAN_ADD": "PlanAdded", "CONSUME": "Consumed"}[action]
     if action == "ADD":
         item = InventoryItem(id=uuid5(body.operation_id, "inventory"), household_id=draft.household_id,
             created_by_user_id=identity.user.id, name=fields.name, quantity=fields.quantity,
@@ -232,7 +228,7 @@ def execute(db, identity, draft_id, body):
             status="ACTIVE", version=1, history_json=[])
         db.add(item)
         quantity = fields.quantity
-    elif action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
+    elif action in {"MOVE", "CONSUME"}:
         item = db.scalar(select(InventoryItem).where(InventoryItem.id == target.batch_id,
             InventoryItem.household_id == draft.household_id).with_for_update().execution_options(populate_existing=True))
         if item is None:
@@ -246,22 +242,12 @@ def execute(db, identity, draft_id, body):
         before = StockResponse.model_validate(item).model_dump(mode="json")
         if action == "MOVE":
             item.storage_location = fields.to_location
-        elif action == "OPEN":
-            if fields.opened_at > at.astimezone(ZoneInfo(task.household_timezone)).date():
-                fail("OPENED_AT_IN_FUTURE", 422)
-            if item.purchased_on and fields.opened_at < item.purchased_on:
-                fail("OPENED_BEFORE_PURCHASE", 422)
-            if item.opened_at is not None:
-                fail("ALREADY_OPENED")
-            item.opened_at = fields.opened_at
         else:
             quantity = converted(fields.quantity, fields.unit, item.unit)
-            if action == "DISCARD" and fields.discard_mode == "all" and quantity != item.quantity:
-                fail("DISCARD_ALL_QUANTITY_CHANGED")
             if quantity > item.quantity:
                 fail("INSUFFICIENT_STOCK", 422)
             item.quantity -= quantity
-            item.status = "ACTIVE" if item.quantity > 0 else "DISCARDED" if action == "DISCARD" else "FINISHED"
+            item.status = "ACTIVE" if item.quantity > 0 else "FINISHED"
         item.version += 1
     else:
         shared = db.scalar(select(ShoppingList).where(ShoppingList.household_id == draft.household_id).with_for_update())

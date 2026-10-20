@@ -143,13 +143,13 @@ def response_for(db: Session, task: AITask) -> dict:
         "task_id": str(task.id), "household_id": str(task.household_id),
         "status": task.status, "revision": task.revision,
         "expires_at": as_aware(task.expires_at).isoformat() if task.expires_at else None,
-        "reference_expires_at": reference_expiry(task).isoformat(),
         "draft_id": str(draft.id) if draft and draft.status == "pending" else None,
         "result": public_result,
         "inventory_written": False,
     }
 
 
+<<<<<<< HEAD
 def reference_expiry(task: AITask) -> datetime:
     # GET/reopening a window never extends a reference's lifetime.
     limit = as_aware(task.updated_at) + timedelta(minutes=15)
@@ -233,6 +233,8 @@ async def reference_message(body, identity, db):
     return response_for(db, task)
 
 
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 def reserve(task: AITask) -> str:
     nonce = str(uuid4())
     task.status = "processing"

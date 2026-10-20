@@ -37,6 +37,7 @@ def execution_state(tmp_path):
     admin, schema = None, None
     if PG:
         assert os.environ.get("DB_NAME") == "magicvvu_p7_execution_test"
+<<<<<<< HEAD
         local = os.getenv('P72_LOCAL_EPHEMERAL') == 'yes'
 <<<<<<< Updated upstream
         assert os.environ.get('DB_HOST') == 'db' or (local and os.environ.get('DB_HOST') == '127.0.0.1' and int(os.environ['DB_PORT']) >= 20000)
@@ -53,6 +54,11 @@ def execution_state(tmp_path):
                 actual = check.execute(text('SHOW data_directory')).scalar()
                 assert Path(actual).resolve() == Path(os.environ['P72_PG_DATA_DIR']).resolve()
 >>>>>>> Stashed changes
+=======
+        assert os.environ.get("DB_HOST") == "db"
+        schema = "p7_case_" + uuid4().hex
+        admin = create_engine(database_url())
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
         with admin.begin() as db:
             db.execute(text('CREATE SCHEMA "' + schema + '"'))
         engine = create_engine(database_url(), connect_args={"options": "-csearch_path=" + schema}, pool_size=10, max_overflow=0)
@@ -309,7 +315,7 @@ def test_retry_changed_body_or_different_key_never_reexecutes(execution_state):
     with Session() as db:assert db.get(InventoryItem,ids["batch"]).quantity == 4
 
 
-@pytest.mark.parametrize("action", ["UNKNOWN", "PURCHASE"])
+@pytest.mark.parametrize("action", ["OPEN", "DISCARD"])
 def test_unsupported_actions_fail_closed(execution_state, action):
     client,Session,ids=execution_state
     draft,_=seed_draft(Session,ids,action)
@@ -373,18 +379,23 @@ def test_plan_delete_keeps_audit_and_plan_is_not_inventory_receipt(execution_sta
         assert event.shopping_item_id is None
 
 
-def test_reference_adapter_rejects_missing_source_without_ai_call(execution_state, monkeypatch):
+def test_reference_adapter_disabled_without_ai_call(execution_state, monkeypatch):
     client,_,ids=execution_state
     async def forbidden(*args,**kwargs):raise AssertionError("Must not call AI")
     monkeypatch.setattr(agent_gateway,"_call_ai",forbidden)
     payload={"household_id":str(ids["home"]),"text":"它在哪里","request_id":"r", "source_task_id":str(uuid4()),"source_revision":1,"batch_id":str(ids["batch"])}
     result=client.post("/api/v1/agent/reference-messages",headers=headers(),json=payload)
+<<<<<<< HEAD
     assert result.status_code == 404
 <<<<<<< Updated upstream
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is True
 =======
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
 >>>>>>> Stashed changes
+=======
+    assert result.status_code == 503 and result.json()["detail"]["code"] == "TRUSTED_REFERENCE_ADAPTER_UNAVAILABLE"
+    assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 
 
 def test_real_p7_move_clarify_commit_and_recover(execution_state, monkeypatch):

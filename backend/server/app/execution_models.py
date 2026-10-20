@@ -13,7 +13,7 @@ class DraftOperation(Base):
     __tablename__ = "draft_operations"
     __table_args__ = (
         CheckConstraint("draft_revision >= 1 AND task_revision >= 1", name="ck_operation_revisions"),
-        CheckConstraint("action IN ('ADD','MOVE','PLAN_ADD','CONSUME','OPEN','DISCARD')", name="ck_operation_action"),
+        CheckConstraint("action IN ('ADD','MOVE','PLAN_ADD','CONSUME')", name="ck_operation_action"),
     )
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True)
     draft_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("ai_drafts.id", ondelete="RESTRICT"), unique=True, nullable=False)
@@ -46,8 +46,8 @@ class BusinessEvent(Base):
     """One durable semantic event per committed action; only Consumed is consumption."""
     __tablename__ = "business_events"
     __table_args__ = (
-        CheckConstraint("event_type IN ('StockAdded','StockMoved','PlanAdded','Consumed','Opened','Discarded')", name="ck_business_event_type"),
-        CheckConstraint("(event_type IN ('StockMoved','Opened') AND quantity IS NULL) OR (event_type NOT IN ('StockMoved','Opened') AND quantity IS NOT NULL AND quantity > 0 AND quantity <= 1000000000)", name="ck_business_event_quantity"),
+        CheckConstraint("event_type IN ('StockAdded','StockMoved','PlanAdded','Consumed')", name="ck_business_event_type"),
+        CheckConstraint("(event_type = 'StockMoved' AND quantity IS NULL) OR (event_type != 'StockMoved' AND quantity IS NOT NULL AND quantity > 0 AND quantity <= 1000000000)", name="ck_business_event_quantity"),
     )
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid4)
     operation_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("draft_operations.id", ondelete="RESTRICT"), unique=True, nullable=False)
