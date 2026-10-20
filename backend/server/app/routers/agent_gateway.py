@@ -150,6 +150,7 @@ def response_for(db: Session, task: AITask) -> dict:
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def reference_expiry(task: AITask) -> datetime:
     # GET/reopening a window never extends a reference's lifetime.
     limit = as_aware(task.updated_at) + timedelta(minutes=15)
@@ -233,6 +234,8 @@ async def reference_message(body, identity, db):
     return response_for(db, task)
 
 
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 def reserve(task: AITask) -> str:

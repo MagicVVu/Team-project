@@ -82,11 +82,15 @@ private fun JSONObject.batchId() = stringOrEmpty("batch_id").ifBlank { stringOrE
 internal fun actionLabel(action: String) = mapOf("ADD" to "添加库存", "MOVE" to "移动", "CONSUME" to "消耗", "PLAN_ADD" to "添加采购", "OPEN" to "开封", "DISCARD" to "丢弃")[action] ?: action
 private val fieldLabels = mapOf("name" to "物品名称", "quantity" to "数量", "unit" to "单位", "location" to "存放位置（必填）",
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     "to_location" to "目标位置", "purchased_at" to "购入日期（YYYY-MM-DD，可空）", "label_expiry" to "有效日期（YYYY-MM-DD，可空）", "opened_at" to "开封日期", "discard_mode" to "丢弃模式")
 =======
     "to_location" to "目标位置", "purchased_at" to "购入日期（YYYY-MM-DD，可空）", "label_expiry" to "有效日期（YYYY-MM-DD，可空）", "opened_at" to "开封日期", "discard_mode" to "丢弃模式（partial / all）")
 >>>>>>> Stashed changes
+=======
+    "to_location" to "目标位置", "purchased_at" to "购入日期（YYYY-MM-DD，可空）", "label_expiry" to "有效日期（YYYY-MM-DD，可空）", "opened_at" to "开封日期")
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
     "to_location" to "目标位置", "purchased_at" to "购入日期（YYYY-MM-DD，可空）", "label_expiry" to "有效日期（YYYY-MM-DD，可空）", "opened_at" to "开封日期")
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
@@ -137,6 +141,7 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                     else Text("当前批次库存未同步，请刷新核对")
                     if (entry.action == "MOVE") Text("原位置 ${target?.location ?: "待核对"} → ${entry.edits["to_location"] ?: command.stringOrEmpty("to_location")}")
 <<<<<<< HEAD
+<<<<<<< HEAD
                     if (entry.action == "OPEN") Text("开封日期：${before?.stringOrEmpty("opened_at")?.ifBlank { "未开封" } ?: "待核对"} → ${entry.edits["opened_at"] ?: command.stringOrEmpty("opened_at")}；数量与位置不变")
 <<<<<<< Updated upstream
                     if (entry.action == "DISCARD") Text("丢弃模式：${entry.edits["discard_mode"] ?: command.stringOrEmpty("discard_mode")}；all 使用草稿生成时的整批量，提交时重新核对")
@@ -144,6 +149,9 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                     if (entry.action == "DISCARD") Text("丢弃模式：${entry.edits["discard_mode"] ?: command.stringOrEmpty("discard_mode")}；all 必须与服务器当前整批数量一致")
 >>>>>>> Stashed changes
                     if (entry.action in listOf("CONSUME", "DISCARD")) {
+=======
+                    if (entry.action == "CONSUME") {
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
                     if (entry.action == "CONSUME") {
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
@@ -155,6 +163,7 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                     }
                 }
                 if (entry.state == AssistantStatus.PENDING && entry.commitBody.isBlank()) {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< Updated upstream
                     if (entry.action == "DISCARD") Row {
@@ -176,6 +185,8 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                         }
 >>>>>>> Stashed changes
                     }
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
                     entry.editableFields.forEach { field ->

@@ -24,12 +24,15 @@ object AgentExecutionPolicy {
         values["name"]?.let { require(it.isNotBlank() && it.codePointCount(0, it.length) <= 200) { "物品名称必填且最多 200 字" } }
         values["unit"]?.let { require(it.isNotBlank()) { "单位必填" } }
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (action == "OPEN") require(!LocalDate.parse(values.getValue("opened_at")).isAfter(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")))) { "开封日期不能在未来" }
 <<<<<<< Updated upstream
         if (action == "DISCARD") require(values["discard_mode"] in setOf("partial", "all")) { "请选择丢弃模式" }
 =======
         if (action == "DISCARD") require(values["discard_mode"] in setOf("partial", "all")) { "丢弃模式必须是 partial 或 all" }
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
         val dates = listOf("purchased_at", "label_expiry").map { key -> values[key]?.takeIf { it.isNotBlank() }?.let { LocalDate.parse(it) } }

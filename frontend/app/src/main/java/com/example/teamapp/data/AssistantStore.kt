@@ -25,6 +25,7 @@ class AssistantStore(
     private val mutex = Mutex()
     private var boundScope = ""
 <<<<<<< HEAD
+<<<<<<< HEAD
     private var selectedReference: Pair<String, String>? = null
     private var newTaskRequested = false
     private var activeTaskRequestId = ""
@@ -32,6 +33,8 @@ class AssistantStore(
     var referenceLabel by mutableStateOf(""); private set
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
     var entries by mutableStateOf<List<AssistantEntry>>(emptyList()); private set
@@ -126,6 +129,7 @@ class AssistantStore(
     suspend fun send(text: String) {
         require(text.isNotBlank() && text.length <= 1000) { "消息须为 1–1000 字" }
 <<<<<<< HEAD
+<<<<<<< HEAD
         bind()
         if (text.trim() == "开始新任务") {
             selectedReference = null; referenceLabel = ""; newTaskRequested = true; error = "已清除活动引用，请输入新的库存任务"; return
@@ -171,12 +175,15 @@ class AssistantStore(
         if (!pronoun) { selectedReference = null; referenceLabel = "" }
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
         val id = UUID.randomUUID().toString()
         val preparedScope = mutex.withLock {
             bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", "Asia/Shanghai")
             save(scope, entries + AssistantEntry(id, body.toString()))
+<<<<<<< HEAD
 <<<<<<< HEAD
             check(prefs.edit().putString(scope + ":active", id).commit()) { "无法保存活动任务，已停止发送" }
 <<<<<<< Updated upstream
@@ -185,6 +192,8 @@ class AssistantStore(
             activeTaskRequestId = id
             newTaskRequested = false
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
             scope
@@ -202,6 +211,7 @@ class AssistantStore(
     suspend fun retryMessage(id: String) = session(id) { scope, api ->
         val old = entry(id)
         require(old.taskId.isBlank() && old.commitBody.isBlank())
+<<<<<<< HEAD
 <<<<<<< HEAD
         acceptTask(scope, api, id, submitMessage(api, JSONObject(old.requestBody)))
     }
@@ -230,6 +240,9 @@ class AssistantStore(
 >>>>>>> Stashed changes
         check(prefs.edit().putString(boundScope + ":active", id).commit())
         activeTaskRequestId = id; selectedReference = null; referenceLabel = ""; newTaskRequested = false
+=======
+        acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
         acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))
 >>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)

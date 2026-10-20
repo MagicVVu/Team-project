@@ -38,6 +38,7 @@ def execution_state(tmp_path):
     if PG:
         assert os.environ.get("DB_NAME") == "magicvvu_p7_execution_test"
 <<<<<<< HEAD
+<<<<<<< HEAD
         local = os.getenv('P72_LOCAL_EPHEMERAL') == 'yes'
 <<<<<<< Updated upstream
         assert os.environ.get('DB_HOST') == 'db' or (local and os.environ.get('DB_HOST') == '127.0.0.1' and int(os.environ['DB_PORT']) >= 20000)
@@ -54,6 +55,11 @@ def execution_state(tmp_path):
                 actual = check.execute(text('SHOW data_directory')).scalar()
                 assert Path(actual).resolve() == Path(os.environ['P72_PG_DATA_DIR']).resolve()
 >>>>>>> Stashed changes
+=======
+        assert os.environ.get("DB_HOST") == "db"
+        schema = "p7_case_" + uuid4().hex
+        admin = create_engine(database_url())
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
         assert os.environ.get("DB_HOST") == "db"
         schema = "p7_case_" + uuid4().hex
@@ -386,12 +392,17 @@ def test_reference_adapter_disabled_without_ai_call(execution_state, monkeypatch
     payload={"household_id":str(ids["home"]),"text":"它在哪里","request_id":"r", "source_task_id":str(uuid4()),"source_revision":1,"batch_id":str(ids["batch"])}
     result=client.post("/api/v1/agent/reference-messages",headers=headers(),json=payload)
 <<<<<<< HEAD
+<<<<<<< HEAD
     assert result.status_code == 404
 <<<<<<< Updated upstream
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is True
 =======
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
 >>>>>>> Stashed changes
+=======
+    assert result.status_code == 503 and result.json()["detail"]["code"] == "TRUSTED_REFERENCE_ADAPTER_UNAVAILABLE"
+    assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
+>>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 =======
     assert result.status_code == 503 and result.json()["detail"]["code"] == "TRUSTED_REFERENCE_ADAPTER_UNAVAILABLE"
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
