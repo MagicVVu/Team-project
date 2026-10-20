@@ -76,6 +76,7 @@ class ShoppingPage(BaseModel):
 
 class StockResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
+    opened_at: date | None = None
     id: UUID
     household_id: UUID
     name: str

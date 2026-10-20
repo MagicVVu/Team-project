@@ -87,7 +87,7 @@ def test_reference_actions_use_original_fields_and_fresh_target(text, action):
     assert not result.inventory_writes and not result.shopping_writes
 
 
-@pytest.mark.parametrize("text,intent", [("它在哪里", "QUERY_LOCATION"), ("这一批在哪里？", "QUERY_LOCATION"),
+@pytest.mark.parametrize("text,intent", [("它在哪里", "QUERY_LOCATION"), ("它在什么地方", "QUERY_LOCATION"), ("它在什么地方？", "QUERY_LOCATION"), ("这一批在哪里？", "QUERY_LOCATION"),
     ("它还有多少", "QUERY_INVENTORY"), ("这个剩多少？", "QUERY_INVENTORY")])
 def test_literal_followup_queries_are_zero_model_and_reread(text, intent):
     manager, engine, reader = service(multiple=True)

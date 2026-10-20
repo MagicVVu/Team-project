@@ -14,6 +14,7 @@ open class AgentClient(address: String, token: String) {
         }
     }
     open suspend fun message(body: JSONObject) = api.request("POST", "/api/v1/agent/messages", body)
+    suspend fun referenceMessage(body: JSONObject) = api.request("POST", "/api/v1/agent/reference-messages", body)
     suspend fun task(id: String) = api.request("GET", "/api/v1/agent/tasks/${uuid(id)}")
     suspend fun clarify(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/clarifications/${uuid(id)}", body)
     open suspend fun draft(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}")

@@ -15,7 +15,7 @@ data class AssistantEntry(
     val commitBody: String = "", val clarificationBody: String = "", val cancelBody: String = "",
     val edits: Map<String, String> = emptyMap(), val state: AssistantStatus = AssistantStatus.PROCESSING,
     val notice: String = "", val receipt: String = "", val refreshNeeded: Boolean = false,
-    val failureCode: String = ""
+    val failureCode: String = "", val clarificationEdits: Map<String, String> = emptyMap()
 ) {
     val taskJson get() = JSONObject(task)
     val draftJson get() = JSONObject(draft)
@@ -42,10 +42,12 @@ data class AssistantEntry(
         .put("draft", draft).put("execution", execution).put("commit_body", commitBody).put("clarification_body", clarificationBody)
         .put("cancel_body", cancelBody).put("edits", JSONObject(edits)).put("state", state.name).put("notice", notice)
         .put("receipt", receipt).put("refresh_needed", refreshNeeded).put("failure_code", failureCode)
+        .put("clarification_edits", JSONObject(clarificationEdits))
     companion object {
         fun fromJson(j: JSONObject) = AssistantEntry(j.getString("request_id"), j.getString("request_body"), j.getString("task"),
             j.getString("draft"), j.getString("execution"), j.optString("commit_body"), j.optString("clarification_body"), j.optString("cancel_body"),
             j.optJSONObject("edits")?.let { v -> v.keys().asSequence().associateWith { v.getString(it) } }.orEmpty(),
-            AssistantStatus.valueOf(j.getString("state")), j.optString("notice"), j.optString("receipt"), j.optBoolean("refresh_needed"), j.optString("failure_code"))
+            AssistantStatus.valueOf(j.getString("state")), j.optString("notice"), j.optString("receipt"), j.optBoolean("refresh_needed"), j.optString("failure_code"),
+            j.optJSONObject("clarification_edits")?.let { v -> v.keys().asSequence().associateWith { v.getString(it) } }.orEmpty())
     }
 }

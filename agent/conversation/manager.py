@@ -121,7 +121,7 @@ class Operation(BaseOperation):
         self.input_receipt = receipt(message, scope)
         if message.reference and message.reference.scope != scope:
             raise DomainError("HOUSEHOLD_FORBIDDEN", "对象引用不属于当前用户或家庭。", 403)
-        if re.fullmatch(r"(?:它|这一批|这批|这个)(?:在哪里|在哪|在哪儿|的位置|放在哪里)[？?]?", text):
+        if re.fullmatch(r"(?:它|这一批|这批|这个)(?:在哪里|在哪|在哪儿|在什么地方|的位置|放在哪里)[？?]?", text):
             from p3.schemas import Parsed as Extracted
             raw = Extracted(intent="QUERY_LOCATION")
         elif re.fullmatch(r"(?:它|这一批|这批|这个)(?:还有多少|剩多少|的数量)[？?]?", text):

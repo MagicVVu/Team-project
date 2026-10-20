@@ -24,18 +24,23 @@ class AssistantStore(
     private val work = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val mutex = Mutex()
     private var boundScope = ""
+    private var selectedReference: Pair<String, String>? = null
+    private var newTaskRequested = false
+    private var activeTaskRequestId = ""
+    var referenceLabel by mutableStateOf(""); private set
     var entries by mutableStateOf<List<AssistantEntry>>(emptyList()); private set
     var capabilities by mutableStateOf<String>("{}"); private set
     var busy by mutableStateOf(false); private set
     var error by mutableStateOf(""); private set
     private var unreadable = false
 
-    fun launch(block: suspend AssistantStore.() -> Unit) = work.launch { runCatching { block() } }
+    fun launch(block: suspend AssistantStore.() -> Unit) = work.launch { runCatching { block() }.onFailure { error = it.message ?: "操作未完成，请核对任务" } }
     fun bind() {
         if (boundScope == cloud.scopeKey) return
-        boundScope = cloud.scopeKey; entries = emptyList(); capabilities = "{}"; error = ""; unreadable = false
+        boundScope = cloud.scopeKey; selectedReference = null; referenceLabel = ""; newTaskRequested = false; activeTaskRequestId = ""; entries = emptyList(); capabilities = "{}"; error = ""; unreadable = false
         if (boundScope.isBlank()) return
         try {
+            activeTaskRequestId = prefs.getString(boundScope + ":active", "").orEmpty()
             entries = prefs.getString(boundScope, null)?.let { JSONArray(it).objects().map(AssistantEntry::fromJson) }.orEmpty()
         } catch (_: Exception) {
             unreadable = true; error = "任务缓存无法读取，原始记录已保留。请核对服务器回执，勿重复执行。"
@@ -44,7 +49,7 @@ class AssistantStore(
     fun clearAccount(account: CloudAccount?) {
         // Detach active identity only. Preserve durable requests/receipts across logout.
         // A later authenticated login may GET-recover the same scoped outbox, never auto-POST.
-        boundScope = ""; entries = emptyList(); capabilities = "{}"
+        boundScope = ""; selectedReference = null; referenceLabel = ""; activeTaskRequestId = ""; entries = emptyList(); capabilities = "{}"
     }
     private fun verifyScope(scope: String) {
         check(scope == cloud.scopeKey && scope == boundScope && !cloud.expired && cloud.signedIn) { "账号或家庭已切换，请重新选择当前家庭任务" }
@@ -114,18 +119,55 @@ class AssistantStore(
 
     suspend fun send(text: String) {
         require(text.isNotBlank() && text.length <= 1000) { "消息须为 1–1000 字" }
+        bind()
+        if (text.trim() == "开始新任务") {
+            selectedReference = null; referenceLabel = ""; newTaskRequested = true; error = "已清除活动引用，请输入新的库存任务"; return
+        }
+        val active = entries.firstOrNull { it.requestId == activeTaskRequestId }
+        val explicitTopic = !Regex("它|这一批|这批|这个").containsMatchIn(text) &&
+            (text.startsWith("添加") || text.startsWith("新增") ||
+                (cloud.items.any { text.contains(it.name) } && Regex("消耗|丢弃|开封|移到|移动|放到|还有多少|在哪里|在什么地方").containsMatchIn(text)))
+        if (explicitTopic) { newTaskRequested = true; selectedReference = null; referenceLabel = "" }
+        if (!newTaskRequested && active == null && entries.any { it.state in setOf(AssistantStatus.CLARIFICATION, AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.SUBMITTING) }) {
+            error = "存在未完成的历史任务，请明确选择任务或核实原请求"; return
+        }
+        if (!newTaskRequested && active?.state == AssistantStatus.CLARIFICATION) {
+            val answers = ClarificationReplies.resolve(text, active.allowedFields.toSet(), active.candidates.map { it.stringOrEmpty("batch_id").ifBlank { it.stringOrEmpty("id") } }, active.clarificationEdits["batch_id"])
+            if (answers == null) { error = "无法唯一确定补充内容，请使用当前任务的字段或批次选择"; return }
+            clarify(active.requestId, answers); return
+        }
+        if (active?.state in setOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.SUBMITTING)) { error = "原请求结果待核实，请先恢复任务，避免创建重复任务"; return }
+        val pronoun = Regex("它|这一批|这批|这个").containsMatchIn(text)
+        val source = selectedReference?.let { selected -> entries.firstOrNull { it.requestId == selected.first } }
+        val batch = selectedReference?.second
+        if (pronoun && (source == null || batch.isNullOrBlank())) { error = "请先明确选择当前结果中的一个批次"; return }
+        if (!pronoun) { selectedReference = null; referenceLabel = "" }
         val id = UUID.randomUUID().toString()
         val preparedScope = mutex.withLock {
             bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", "Asia/Shanghai")
+            if (pronoun) {
+                require(java.time.OffsetDateTime.parse(source!!.taskJson.getString("reference_expires_at")).toInstant().isAfter(java.time.Instant.now())) { "对象引用已过期，请重新查询或选择" }
+                body.put("source_task_id", source.taskId).put("source_revision", source.taskRevision).put("batch_id", batch)
+            }
             save(scope, entries + AssistantEntry(id, body.toString()))
+            check(prefs.edit().putString(scope + ":active", id).commit()) { "无法保存活动任务，已停止发送" }
+            activeTaskRequestId = id; newTaskRequested = false
             scope
         }
         session(id) { scope, api ->
             require(scope == preparedScope) { "家庭已切换，原消息已保留在原家庭" }
             val body = JSONObject(entry(id).requestBody)
-            try { acceptTask(scope, api, id, api.message(body)) }
+            try {
+                acceptTask(scope, api, id, submitMessage(api, body))
+                val answered = entry(id)
+                if (answered.state == AssistantStatus.ANSWERED) {
+                    val fact = answered.result.optJSONArray("facts")?.objects().orEmpty().singleOrNull()
+                    selectedReference = fact?.stringOrEmpty("id")?.takeIf { it.isNotBlank() }?.let { id to it }
+                    referenceLabel = fact?.let { "当前对象：${it.stringOrEmpty("name")} · ${it.stringOrEmpty("location")} · ${it.stringOrEmpty("id").take(8)}" }.orEmpty()
+                }
+            }
             catch (e: Exception) {
                 verifyScope(scope); update(scope, entry(id).copy(state = AssistantStatus.UNKNOWN, notice = "消息结果待核实；恢复时保留原 request_id 和原文")); throw e
             }
@@ -135,7 +177,22 @@ class AssistantStore(
     suspend fun retryMessage(id: String) = session(id) { scope, api ->
         val old = entry(id)
         require(old.taskId.isBlank() && old.commitBody.isBlank())
-        acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))
+        acceptTask(scope, api, id, submitMessage(api, JSONObject(old.requestBody)))
+    }
+    private suspend fun submitMessage(api: AgentClient, body: JSONObject): JSONObject {
+        if (!body.has("source_task_id")) return api.message(body)
+        require(JSONObject(capabilities).optBoolean("trusted_reference_messages")) { "服务器尚未开放受信对象引用" }
+        return api.referenceMessage(body)
+    }
+    fun selectReference(id: String, batch: String) {
+        bind(); verifyScope(boundScope)
+        val fact = entry(id).result.optJSONArray("facts")?.objects().orEmpty().single { it.stringOrEmpty("id") == batch }
+        selectedReference = id to batch; referenceLabel = "当前对象：${fact.stringOrEmpty("name")} · ${batch.take(8)}"
+    }
+    fun selectTask(id: String) {
+        bind(); verifyScope(boundScope); require(entry(id).state == AssistantStatus.CLARIFICATION)
+        check(prefs.edit().putString(boundScope + ":active", id).commit())
+        activeTaskRequestId = id; selectedReference = null; referenceLabel = ""; newTaskRequested = false
     }
     private suspend fun acceptTask(scope: String, api: AgentClient, id: String, task: JSONObject) {
         verifyScope(scope)
@@ -158,6 +215,7 @@ class AssistantStore(
         val resolvedContinuation = old.clarificationBody.isNotBlank() &&
             (task.getInt("revision") > JSONObject(old.clarificationBody).getInt("revision") || task.optString("status") !in setOf("needs_clarification", "processing"))
         update(scope, old.copy(task = task.toString(), state = status,
+            clarificationEdits = if (task.getInt("revision") != old.taskRevision) emptyMap() else old.clarificationEdits,
             clarificationBody = if (resolvedContinuation) "" else old.clarificationBody,
             notice = task.optJSONObject("result")?.stringOrEmpty("error_code").orEmpty()))
         val draftId = entry(id).draftId
@@ -248,6 +306,12 @@ class AssistantStore(
         require(old.clarificationBody.isBlank() || JSONObject(old.clarificationBody).toString() == body) { "先恢复原澄清结果，不能覆盖结果未知的请求" }
         update(scope, old.copy(clarificationBody = body, state = AssistantStatus.PROCESSING))
         acceptTask(scope, api, id, api.clarify(old.taskId, JSONObject(body)))
+    }
+    fun editClarification(id: String, field: String, value: String) {
+        bind(); verifyScope(boundScope)
+        val old = entry(id)
+        if (busy || old.state != AssistantStatus.CLARIFICATION || old.clarificationBody.isNotBlank() || field !in old.allowedFields) return
+        update(boundScope, old.copy(clarificationEdits = old.clarificationEdits + (field to value)))
     }
     suspend fun retryClarification(id: String) = session(id) { scope, api ->
         val old = entry(id); require(old.clarificationBody.isNotBlank())

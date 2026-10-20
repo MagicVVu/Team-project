@@ -8,7 +8,8 @@ object AgentExecutionPolicy {
     val editable = mapOf(
         "ADD" to listOf("name", "quantity", "unit", "location", "purchased_at", "label_expiry"),
         "MOVE" to listOf("to_location"), "CONSUME" to listOf("quantity", "unit"),
-        "PLAN_ADD" to listOf("quantity", "unit")
+        "PLAN_ADD" to listOf("quantity", "unit"), "OPEN" to listOf("opened_at"),
+        "DISCARD" to listOf("discard_mode", "quantity", "unit")
     )
     fun validate(action: String, values: Map<String, String>, allowed: List<String>) {
         require(action in editable) { "当前版本暂不支持自动执行此动作" }
@@ -23,6 +24,8 @@ object AgentExecutionPolicy {
         }
         values["name"]?.let { require(it.isNotBlank() && it.codePointCount(0, it.length) <= 200) { "物品名称必填且最多 200 字" } }
         values["unit"]?.let { require(it.isNotBlank()) { "单位必填" } }
+        if (action == "OPEN") require(!LocalDate.parse(values.getValue("opened_at")).isAfter(LocalDate.now(java.time.ZoneId.of("Asia/Shanghai")))) { "开封日期不能在未来" }
+        if (action == "DISCARD") require(values["discard_mode"] in setOf("partial", "all")) { "请选择丢弃模式" }
         val dates = listOf("purchased_at", "label_expiry").map { key -> values[key]?.takeIf { it.isNotBlank() }?.let { LocalDate.parse(it) } }
         require(dates[0] == null || dates[1] == null || !dates[1]!!.isBefore(dates[0])) { "有效期不能早于购入日期" }
     }

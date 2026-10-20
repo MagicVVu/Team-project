@@ -143,10 +143,89 @@ def response_for(db: Session, task: AITask) -> dict:
         "task_id": str(task.id), "household_id": str(task.household_id),
         "status": task.status, "revision": task.revision,
         "expires_at": as_aware(task.expires_at).isoformat() if task.expires_at else None,
+        "reference_expires_at": reference_expiry(task).isoformat(),
         "draft_id": str(draft.id) if draft and draft.status == "pending" else None,
         "result": public_result,
         "inventory_written": False,
     }
+
+
+def reference_expiry(task: AITask) -> datetime:
+    # GET/reopening a window never extends a reference's lifetime.
+    limit = as_aware(task.updated_at) + timedelta(minutes=15)
+    return min(limit, as_aware(task.expires_at)) if task.expires_at else limit
+
+
+async def reference_message(body, identity, db):
+    from app.services.draft_execution import fail
+    check_membership(db, identity, body.household_id)
+    # Idempotency lookup precedes expiry validation so completed requests recover.
+    canonical = body.model_dump(mode="json")
+    digest = hashlib.sha256(json.dumps(canonical, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    task = db.scalar(select(AITask).where(AITask.user_id == identity.user.id,
+        AITask.household_id == body.household_id, AITask.request_id == body.request_id).with_for_update())
+    if task is not None:
+        if task.request_hash != digest:
+            fail("REQUEST_ID_CONFLICT")
+        if task.status != "processing":
+            return response_for(db, task)
+        if task.lease_until and as_aware(task.lease_until) > now():
+            fail("TASK_PROCESSING")
+    source = owned_task(db, body.source_task_id, identity)
+    if source.household_id != body.household_id:
+        fail("REFERENCE_NOT_FOUND", 404)
+    if source.revision != body.source_revision:
+        fail("REFERENCE_REVISION_CONFLICT")
+    if source.status not in {"answered", "needs_clarification", "needs_confirmation"}:
+        fail("REFERENCE_REQUIRED")
+    until = reference_expiry(source)
+    if until <= now():
+        fail("REFERENCE_EXPIRED")
+    result = source.result_json or {}
+    rows = [*(result.get("facts") or []), *(result.get("candidates") or [])]
+    before = (result.get("preview") or {}).get("before")
+    if isinstance(before, dict):
+        rows.append(before)
+    if not any(isinstance(row, dict) and str(row.get("id")) == str(body.batch_id) for row in rows):
+        fail("INVALID_REFERENCE_CANDIDATE", 422)
+    from app.models import InventoryItem
+    batch = db.scalar(select(InventoryItem).where(InventoryItem.id == body.batch_id,
+                                               InventoryItem.household_id == body.household_id))
+    if batch is None:
+        fail("REFERENCE_NOT_FOUND", 404)
+    if batch.status != 'ACTIVE' or batch.quantity <= 0: fail('REFERENCE_TERMINAL')
+    # Validate timezone with the same rules as ordinary four-field messages.
+    NewMessage.model_validate({k: canonical[k] for k in NewMessage.model_fields})
+    check_config()
+    reference = {"protocol_version": "p7-object-reference-1",
+        "scope": {"user_id": str(identity.user.id), "household_id": str(body.household_id)},
+        "source_task_id": str(source.id), "source_revision": source.revision,
+        "batch_id": str(body.batch_id), "issued_at": as_aware(source.updated_at).isoformat(),
+        "expires_at": until.isoformat()}
+    user_id, household_id = identity.user.id, body.household_id
+    if task is None:
+        task = AITask(user_id=user_id, household_id=household_id, request_id=body.request_id,
+            request_hash=digest, original_text=body.text, household_timezone=body.household_timezone,
+            status="processing", expires_at=until)
+        db.add(task)
+    nonce = reserve(task)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        fail("CONCURRENT_DUPLICATE_REQUEST")
+    try:
+        data = await _call_ai("/agent/message", user_id, household_id,
+            {"text": body.text, "request_id": body.request_id,
+             "household_timezone": body.household_timezone, "reference": reference})
+        if data["original_text"] != body.text:
+            raise HTTPException(503, "AI returned inconsistent original text")
+        save_result(db, task, nonce, data)
+    except Exception:
+        db.rollback()
+        restore_after_failure(db, task, nonce, "error")
+        raise
+    return response_for(db, task)
 
 
 def reserve(task: AITask) -> str:

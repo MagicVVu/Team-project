@@ -15,21 +15,31 @@ from app.services import draft_execution as service
 router = APIRouter(tags=["Draft execution — business backend"])
 
 
+@router.get("/internal/v1/planning/context")
+def planning_context(household_id: UUID = Depends(_authorize), x_user_id: str = Header(default=""),
+                     name: str | None = Query(None, min_length=1, max_length=80),
+                     item_key: UUID | None = None, db: Session = Depends(get_db)):
+    from app.services.planning_context import snapshot
+    if name is not None and item_key is not None:
+        service.fail("PLANNING_SELECTOR_CONFLICT", 422)
+    return {"data": snapshot(db, UUID(x_user_id), household_id, name, str(item_key) if item_key else None)}
+
+
 @router.get("/api/v1/agent/execution-capabilities")
 def capabilities(identity: Identity = Depends(get_identity)):
     return {"protocol_version": "draft-execution-1", "owner": "business_backend",
             "actions": {"ADD": True, "MOVE": True, "PLAN_ADD": True, "CONSUME": True,
-                        "OPEN": False, "DISCARD": False},
-            "automatic_planning_commit": False, "trusted_reference_messages": False,
+                        "OPEN": True, "DISCARD": True},
+            "automatic_planning_commit": False, "trusted_reference_messages": True,
             "manual_plan_only": True, "draft_ttl_seconds": 900,
             "inventory_quantity_decimal_places": 6, "shopping_quantity_decimal_places": 3,
             "location_max_length": 100}
 
 
 @router.post("/api/v1/agent/reference-messages")
-def reference_message(body: ReferenceMessage, identity: Identity = Depends(get_identity)):
-    # Reserved separate protocol: never forward client-created trusted references.
-    service.fail("TRUSTED_REFERENCE_ADAPTER_UNAVAILABLE", 503)
+async def reference_message(body: ReferenceMessage, identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    from app.routers.agent_gateway import reference_message as handle
+    return await handle(body, identity, db)
 
 
 @router.get("/api/v1/drafts/{draft_id}/execution")
