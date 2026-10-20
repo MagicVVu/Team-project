@@ -101,6 +101,8 @@ internal fun AssistantPullLayer(
         },
         label = "reveal"
     ) { if (it) 1f else 0f }
+    // Both resting states have full scale; opening keyframes supply the brief compression.
+    @Suppress("UnusedTransitionTargetStateParameter")
     val impactScale = transition.animateFloat(transitionSpec = {
         if (targetState) keyframes {
             durationMillis = AssistantLandingMotion.Duration

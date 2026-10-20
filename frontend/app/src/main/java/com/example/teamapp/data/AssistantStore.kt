@@ -24,19 +24,6 @@ class AssistantStore(
     private val work = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val mutex = Mutex()
     private var boundScope = ""
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private var selectedReference: Pair<String, String>? = null
-    private var newTaskRequested = false
-    private var activeTaskRequestId = ""
-<<<<<<< Updated upstream
-    var referenceLabel by mutableStateOf(""); private set
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
     var entries by mutableStateOf<List<AssistantEntry>>(emptyList()); private set
     var capabilities by mutableStateOf<String>("{}"); private set
     var busy by mutableStateOf(false); private set
@@ -128,74 +115,12 @@ class AssistantStore(
 
     suspend fun send(text: String) {
         require(text.isNotBlank() && text.length <= 1000) { "消息须为 1–1000 字" }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        bind()
-        if (text.trim() == "开始新任务") {
-            selectedReference = null; referenceLabel = ""; newTaskRequested = true; error = "已清除活动引用，请输入新的库存任务"; return
-        }
-        val active = entries.firstOrNull { it.requestId == activeTaskRequestId }
-<<<<<<< Updated upstream
-        val explicitTopic = !Regex("它|这一批|这批|这个").containsMatchIn(text) &&
-            (text.startsWith("添加") || text.startsWith("新增") ||
-                (cloud.items.any { text.contains(it.name) } && Regex("消耗|丢弃|开封|移到|移动|放到|还有多少|在哪里|在什么地方").containsMatchIn(text)))
-        if (explicitTopic) { newTaskRequested = true; selectedReference = null; referenceLabel = "" }
-=======
->>>>>>> Stashed changes
-        if (!newTaskRequested && active == null && entries.any { it.state in setOf(AssistantStatus.CLARIFICATION, AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.SUBMITTING) }) {
-            error = "存在未完成的历史任务，请明确选择任务或核实原请求"; return
-        }
-        if (!newTaskRequested && active?.state == AssistantStatus.CLARIFICATION) {
-<<<<<<< Updated upstream
-            val answers = ClarificationReplies.resolve(text, active.allowedFields.toSet(), active.candidates.map { it.stringOrEmpty("batch_id").ifBlank { it.stringOrEmpty("id") } }, active.clarificationEdits["batch_id"])
-            if (answers == null) { error = "无法唯一确定补充内容，请使用当前任务的字段或批次选择"; return }
-            clarify(active.requestId, answers); return
-        }
-        if (active?.state in setOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.SUBMITTING)) { error = "原请求结果待核实，请先恢复任务，避免创建重复任务"; return }
-        val pronoun = Regex("它|这一批|这批|这个").containsMatchIn(text)
-        val source = selectedReference?.let { selected -> entries.firstOrNull { it.requestId == selected.first } }
-        val batch = selectedReference?.second
-=======
-            val answers = ClarificationReplies.resolve(text, active.allowedFields.toSet(), active.candidates.map {
-                it.stringOrEmpty("batch_id").ifBlank { it.stringOrEmpty("id") }
-            }, active.clarificationEdits["batch_id"])
-            if (answers == null) { error = "无法唯一确定补充内容，请使用当前任务的字段或批次选择"; return }
-            clarify(active.requestId, answers); return
-        }
-        if (active?.state in setOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.SUBMITTING)) {
-            error = "原请求结果待核实，请先恢复任务，避免创建重复任务"; return
-        }
-        val pronoun = Regex("它|这一批|这批|这个").containsMatchIn(text)
-        val explicit = selectedReference
-        val source = if (explicit != null) entries.firstOrNull { it.requestId == explicit.first } else null
-        val facts = source?.result?.optJSONArray("facts")?.objects().orEmpty()
-        val batch = explicit?.second ?: facts.singleOrNull()?.stringOrEmpty("id")
->>>>>>> Stashed changes
-        if (pronoun && (source == null || batch.isNullOrBlank())) { error = "请先明确选择当前结果中的一个批次"; return }
-        if (!pronoun) { selectedReference = null; referenceLabel = "" }
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
         val id = UUID.randomUUID().toString()
         val preparedScope = mutex.withLock {
             bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", "Asia/Shanghai")
             save(scope, entries + AssistantEntry(id, body.toString()))
-<<<<<<< HEAD
-<<<<<<< HEAD
-            check(prefs.edit().putString(scope + ":active", id).commit()) { "无法保存活动任务，已停止发送" }
-<<<<<<< Updated upstream
-            activeTaskRequestId = id; newTaskRequested = false
-=======
-            activeTaskRequestId = id
-            newTaskRequested = false
->>>>>>> Stashed changes
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
             scope
         }
         session(id) { scope, api ->
@@ -211,41 +136,7 @@ class AssistantStore(
     suspend fun retryMessage(id: String) = session(id) { scope, api ->
         val old = entry(id)
         require(old.taskId.isBlank() && old.commitBody.isBlank())
-<<<<<<< HEAD
-<<<<<<< HEAD
-        acceptTask(scope, api, id, submitMessage(api, JSONObject(old.requestBody)))
-    }
-    private suspend fun submitMessage(api: AgentClient, body: JSONObject): JSONObject {
-        if (!body.has("source_task_id")) return api.message(body)
-        require(JSONObject(capabilities).optBoolean("trusted_reference_messages")) { "服务器尚未开放受信对象引用" }
-        return api.referenceMessage(body)
-    }
-    fun selectReference(id: String, batch: String) {
-        bind(); verifyScope(boundScope)
-<<<<<<< Updated upstream
-        val fact = entry(id).result.optJSONArray("facts")?.objects().orEmpty().single { it.stringOrEmpty("id") == batch }
-        selectedReference = id to batch; referenceLabel = "当前对象：${fact.stringOrEmpty("name")} · ${batch.take(8)}"
-    }
-    fun selectTask(id: String) {
-        bind(); verifyScope(boundScope); require(entry(id).state == AssistantStatus.CLARIFICATION)
-=======
-        val old = entry(id)
-        require(old.result.optJSONArray("facts")?.objects().orEmpty().any { it.stringOrEmpty("id") == batch })
-        selectedReference = id to batch
-        referenceLabel = "当前对象：${old.result.optJSONArray("facts")?.objects().orEmpty().first { it.stringOrEmpty("id") == batch }.stringOrEmpty("name")} · ${batch.take(8)}"
-    }
-    fun selectTask(id: String) {
-        bind(); verifyScope(boundScope)
-        require(entry(id).state == AssistantStatus.CLARIFICATION)
->>>>>>> Stashed changes
-        check(prefs.edit().putString(boundScope + ":active", id).commit())
-        activeTaskRequestId = id; selectedReference = null; referenceLabel = ""; newTaskRequested = false
-=======
         acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
-=======
-        acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
     }
     private suspend fun acceptTask(scope: String, api: AgentClient, id: String, task: JSONObject) {
         verifyScope(scope)
@@ -347,12 +238,6 @@ class AssistantStore(
             check(!busy && old.state == AssistantStatus.PENDING && old.commitBody.isBlank() && field in old.editableFields)
             update(boundScope, old.copy(edits = old.edits + (field to value)))
         } catch (failure: Exception) { error = failure.message ?: "任务已变化，请重新选择" }
-    }
-    fun editClarification(id: String, field: String, value: String) {
-        bind(); verifyScope(boundScope)
-        val old = entry(id)
-        if (busy || old.state != AssistantStatus.CLARIFICATION || old.clarificationBody.isNotBlank() || field !in old.allowedFields) return
-        update(boundScope, old.copy(clarificationEdits = old.clarificationEdits + (field to value)))
     }
     suspend fun clarify(id: String, answers: Map<String, String>) = session(id) { scope, api ->
         val old = entry(id)
