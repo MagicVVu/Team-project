@@ -8,6 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.database import engine
+from app.login_guard import LoginGuard
 from app.routers.auth import router as auth_router
 from app.routers.households import router as household_router
 from app.routers.ai_inventory import router as ai_inventory_router
@@ -22,7 +23,11 @@ app = FastAPI(
     title="MagicVVu API",
     description="Shared shopping and atomic purchase-to-stock; household-scoped read-only P1 gateway",
     version="0.9.0",
+    docs_url="/docs" if os.getenv("MAGICVVU_ENABLE_DOCS", "false").lower() == "true" else None,
+    redoc_url="/redoc" if os.getenv("MAGICVVU_ENABLE_DOCS", "false").lower() == "true" else None,
+    openapi_url="/openapi.json" if os.getenv("MAGICVVU_ENABLE_DOCS", "false").lower() == "true" else None,
 )
+app.state.login_guard = LoginGuard()
 app.include_router(auth_router)
 app.include_router(household_router)
 app.include_router(ai_inventory_router)

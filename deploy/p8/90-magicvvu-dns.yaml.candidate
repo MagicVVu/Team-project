@@ -1,0 +1,10 @@
+# Candidate ONLY: obtain approval and verify PrivateZone dependencies first.
+# Install as /etc/netplan/90-magicvvu-dns.yaml with mode 0600 after backup.
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4-overrides:
+        use-dns: false
+      nameservers:
+        addresses: [223.5.5.5, 119.29.29.29]

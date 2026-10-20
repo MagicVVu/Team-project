@@ -193,7 +193,12 @@ async def reference_message(body, identity, db):
                                                InventoryItem.household_id == body.household_id))
     if batch is None:
         fail("REFERENCE_NOT_FOUND", 404)
+<<<<<<< Updated upstream
     if batch.status != 'ACTIVE' or batch.quantity <= 0: fail('REFERENCE_TERMINAL')
+=======
+    if batch.status != 'ACTIVE' or batch.quantity <= 0:
+        fail('REFERENCE_TERMINAL')
+>>>>>>> Stashed changes
     # Validate timezone with the same rules as ordinary four-field messages.
     NewMessage.model_validate({k: canonical[k] for k in NewMessage.model_fields})
     check_config()

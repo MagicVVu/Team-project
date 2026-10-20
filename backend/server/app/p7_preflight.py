@@ -41,15 +41,20 @@ async def check_http(client, env):
         return (await get_json("http://127.0.0.1:8000/api/v1/ready")).get("database") == "ok"
 
     async def routes():
-        spec = await get_json("http://127.0.0.1:8000/openapi.json")
-        required = {
-            "/api/v1/agent/execution-capabilities": "get",
-            "/api/v1/drafts/{draft_id}/execution": "get",
-            "/api/v1/drafts/{draft_id}/commit": "post",
-            "/api/v1/drafts/{draft_id}/cancel": "post",
-            "/api/v1/operations/{operation_id}": "get",
-        }
-        return all(method in spec["paths"].get(path, {}) for path, method in required.items())
+        # Docs are disabled in hardened deployments. Probe only unauthenticated
+        # GETs using a nonexistent identifier; never submit a write or a token.
+        placeholder = "00000000-0000-0000-0000-000000000000"
+        required = [
+            ("/api/v1/agent/execution-capabilities", 401),
+            (f"/api/v1/drafts/{placeholder}/execution", 401),
+            (f"/api/v1/drafts/{placeholder}/commit", 405),
+            (f"/api/v1/drafts/{placeholder}/cancel", 405),
+            (f"/api/v1/operations/{placeholder}", 401),
+        ]
+        for path, expected in required:
+            if (await client.get("http://127.0.0.1:8000" + path)).status_code != expected:
+                return False
+        return True
 
     await record("backend_p7_version", backend)
     await record("database_ready", ready)

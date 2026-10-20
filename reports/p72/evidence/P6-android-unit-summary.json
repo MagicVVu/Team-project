@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< Updated upstream
     "name": "com.example.teamapp.AgentExecutionPolicyTest",
     "tests": "4",
     "failures": "0",
@@ -48,3 +49,53 @@
     "errors": "0"
   }
 ]
+=======
+    "Suite": "com.example.teamapp.AgentExecutionPolicyTest",
+    "Tests": "4",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.AuthFormTest",
+    "Tests": "2",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.ClarificationRepliesTest",
+    "Tests": "2",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.ExampleUnitTest",
+    "Tests": "1",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.InventoryTest",
+    "Tests": "7",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.RingModelTest",
+    "Tests": "6",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.SampleInventoryTest",
+    "Tests": "1",
+    "Failures": "0",
+    "Errors": "0"
+  },
+  {
+    "Suite": "com.example.teamapp.TargetPolicyTest",
+    "Tests": "3",
+    "Failures": "0",
+    "Errors": "0"
+  }
+]
+>>>>>>> Stashed changes

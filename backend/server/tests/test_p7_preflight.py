@@ -54,12 +54,9 @@ def test_preflight_real_p7_auth_without_model_or_inventory(monkeypatch, case):
                 return httpx.Response(200, json={"status": "ok", "version": "0.9.0"})
             if request.url.path.endswith("/ready"):
                 return httpx.Response(200, json={"database": "ok"})
-            paths = {"/api/v1/agent/execution-capabilities": {"get": {}},
-                     "/api/v1/drafts/{draft_id}/execution": {"get": {}},
-                     "/api/v1/drafts/{draft_id}/commit": {"post": {}},
-                     "/api/v1/drafts/{draft_id}/cancel": {"post": {}},
-                     "/api/v1/operations/{operation_id}": {"get": {}}}
-            return httpx.Response(200, json={"paths": paths})
+            assert request.url.path != "/openapi.json"
+            status = 405 if request.url.path.endswith(("/commit", "/cancel")) else 401
+            return httpx.Response(status, json={"detail": "synthetic denial"})
 
         async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
             return await check_http(client, env)

@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
   "origin": "https://iz7xvftxzwe1mwbso1ovyyz.tail0abb88.ts.net",
   "tls_verification_disabled": false,
   "login_tested": false,
@@ -21,3 +22,39 @@
     }
   ]
 }
+=======
+  "public_observations": [
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "healthy": true
+    },
+    {
+      "path": "/openapi.json",
+      "status": 200
+    },
+    {
+      "path": "/docs",
+      "status": 200
+    },
+    {
+      "path": "/redoc",
+      "status": 200
+    },
+    {
+      "path": "/internal/v1/inventory/search",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/users/me",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/households/00000000-0000-0000-0000-000000000000/inventory-items",
+      "status": 401
+    }
+  ],
+  "network_must_be_confirmed_non_tailnet_by_operator": true,
+  "overall_pass": false
+}
+>>>>>>> Stashed changes

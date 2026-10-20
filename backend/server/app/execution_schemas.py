@@ -75,9 +75,14 @@ class Target(Input):
 
 class ReferenceMessage(Input):
     """Public selector; identity and validity are always supplied by the backend."""
+<<<<<<< Updated upstream
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=False)
     household_id: UUID
     text: str = Field(min_length=1, max_length=1000, pattern=r'\S')
+=======
+    household_id: UUID
+    text: str = Field(min_length=1, max_length=1000)
+>>>>>>> Stashed changes
     request_id: str = Field(min_length=1, max_length=100, pattern=r"^[A-Za-z0-9._:-]+$")
     household_timezone: str = Field(default="Asia/Shanghai", min_length=1, max_length=64)
     source_task_id: UUID

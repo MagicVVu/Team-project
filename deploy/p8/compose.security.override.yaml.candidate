@@ -1,0 +1,9 @@
+# Candidate only. Apply to the existing base Compose after deployment approval.
+# P8_BACKEND_IMAGE must identify the built/tested immutable image digest.
+services:
+  backend:
+    image: ${P8_BACKEND_IMAGE:?Set the reviewed P8 backend image digest}
+    environment:
+      MAGICVVU_ENABLE_DOCS: "false"
+      AUTH_ALLOW_UNVERIFIED_SIGNUP: "false"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--no-proxy-headers"]

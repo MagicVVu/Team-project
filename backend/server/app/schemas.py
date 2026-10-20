@@ -30,7 +30,7 @@ class RegisterRequest(BaseModel):
 class LoginRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     phone: str
-    password: str
+    password: str = Field(max_length=128)
 
     @field_validator("phone")
     @classmethod

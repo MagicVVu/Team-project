@@ -38,12 +38,21 @@ def execution_state(tmp_path):
     if PG:
         assert os.environ.get("DB_NAME") == "magicvvu_p7_execution_test"
         local = os.getenv('P72_LOCAL_EPHEMERAL') == 'yes'
+<<<<<<< Updated upstream
         assert os.environ.get('DB_HOST') == 'db' or (local and os.environ.get('DB_HOST') == '127.0.0.1' and int(os.environ['DB_PORT']) >= 20000)
+=======
+        assert os.environ.get("DB_HOST") == "db" or (local and os.environ.get('DB_HOST') == '127.0.0.1' and int(os.environ['DB_PORT']) >= 20000)
+>>>>>>> Stashed changes
         schema = "p7_case_" + uuid4().hex
         admin = create_engine(database_url())
         if local:
             with admin.connect() as check:
+<<<<<<< Updated upstream
                 assert Path(check.execute(text('SHOW data_directory')).scalar()).resolve() == Path(os.environ['P72_PG_DATA_DIR']).resolve()
+=======
+                actual = check.execute(text('SHOW data_directory')).scalar()
+                assert Path(actual).resolve() == Path(os.environ['P72_PG_DATA_DIR']).resolve()
+>>>>>>> Stashed changes
         with admin.begin() as db:
             db.execute(text('CREATE SCHEMA "' + schema + '"'))
         engine = create_engine(database_url(), connect_args={"options": "-csearch_path=" + schema}, pool_size=10, max_overflow=0)
@@ -371,7 +380,11 @@ def test_reference_adapter_rejects_missing_source_without_ai_call(execution_stat
     payload={"household_id":str(ids["home"]),"text":"它在哪里","request_id":"r", "source_task_id":str(uuid4()),"source_revision":1,"batch_id":str(ids["batch"])}
     result=client.post("/api/v1/agent/reference-messages",headers=headers(),json=payload)
     assert result.status_code == 404
+<<<<<<< Updated upstream
     assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is True
+=======
+    assert client.get("/api/v1/agent/execution-capabilities",headers=headers()).json()["trusted_reference_messages"] is False
+>>>>>>> Stashed changes
 
 
 def test_real_p7_move_clarify_commit_and_recover(execution_state, monkeypatch):

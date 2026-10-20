@@ -76,6 +76,7 @@ def test_second_open_does_not_mutate(execution_state):
 
 
 @pytest.mark.skipif(not PG, reason='PostgreSQL row locks required')
+<<<<<<< Updated upstream
 @pytest.mark.parametrize('action', ['OPEN', 'DISCARD'])
 def test_concurrent_action_drafts_do_not_double_mutate(execution_state, action):
     client, Session, ids = execution_state
@@ -86,3 +87,12 @@ def test_concurrent_action_drafts_do_not_double_mutate(execution_state, action):
     with Session() as db:
         item = db.get(InventoryItem, ids['batch'])
         assert item.quantity == (5 if action == 'OPEN' else 3) and item.version == 2
+=======
+def test_concurrent_discard_drafts_do_not_double_deduct(execution_state):
+    client, Session, ids = execution_state
+    drafts = [draft_for(Session, ids, 'DISCARD') for _ in range(2)]
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(lambda d: post(client, d, body()), drafts))
+    assert sorted(r.status_code for r in results) == [200, 409]
+    with Session() as db: assert db.get(InventoryItem, ids['batch']).quantity == 3
+>>>>>>> Stashed changes

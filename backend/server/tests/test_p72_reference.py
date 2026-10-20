@@ -27,7 +27,10 @@ def test_reference_attestation_replay_and_exact_original(execution_state, monkey
     client, Session, ids = execution_state
     task_id = source(Session, ids)
     body = payload(ids, task_id)
+<<<<<<< Updated upstream
     body['text'] = ' 它在什么地方？ '
+=======
+>>>>>>> Stashed changes
     monkeypatch.setenv('AI_SERVICE_URL', 'http://agent:8767')
     monkeypatch.setenv('AI_SERVICE_TOKEN', 'x' * 32)
     upstream = AsyncMock(return_value=dict(status='answered', trace_id='synthetic', original_text=body['text'], facts=[]))
@@ -77,8 +80,15 @@ def test_real_p7_reference_rereads_moved_location_without_model(execution_state,
 
     client, Session, ids = execution_state
     token, tool = 'p72-service-token-with-at-least-32-characters', 'p72-tool-token-with-at-least-32-characters'
+<<<<<<< Updated upstream
     for key, value in {'AI_SERVICE_URL': 'http://agent:8767', 'AI_SERVICE_TOKEN': token,
                        'BACKEND_TOOL_TOKEN': tool, 'P3_ENGINE': 'rules'}.items(): monkeypatch.setenv(key, value)
+=======
+    monkeypatch.setenv('AI_SERVICE_URL', 'http://agent:8767')
+    monkeypatch.setenv('AI_SERVICE_TOKEN', token)
+    monkeypatch.setenv('BACKEND_TOOL_TOKEN', tool)
+    monkeypatch.setenv('P3_ENGINE', 'rules')
+>>>>>>> Stashed changes
     class Counted(RuleEngine):
         calls = 0
         async def extract(self, text):
@@ -100,7 +110,12 @@ def test_real_p7_reference_rereads_moved_location_without_model(execution_state,
     task = original.json()
     move, _ = seed_draft(Session, ids, 'MOVE')
     assert post(client, move, commit_body()).status_code == 200
+<<<<<<< Updated upstream
     response = client.post('/api/v1/agent/reference-messages', headers=headers(), json=payload(ids, task['task_id']))
+=======
+    ref = payload(ids, task['task_id'])
+    response = client.post('/api/v1/agent/reference-messages', headers=headers(), json=ref)
+>>>>>>> Stashed changes
     assert response.status_code == 200, response.text
     result = response.json()['result']
     assert result['original_text'] == '它在什么地方' and result['status'] == 'answered'

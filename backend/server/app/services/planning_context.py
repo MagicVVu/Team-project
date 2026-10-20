@@ -12,7 +12,11 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+<<<<<<< Updated upstream
 from app.execution_models import BusinessEvent, DraftOperation
+=======
+from app.execution_models import BusinessEvent
+>>>>>>> Stashed changes
 from app.models import InventoryItem, ShoppingListItem, ShoppingList, HouseholdMember
 from app.services.ai_inventory import to_p1_batch, IncompatibleInventory
 
@@ -47,6 +51,7 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None):
                     continue
                 at = event.occurred_at
                 if at.tzinfo is None: at = at.replace(tzinfo=timezone.utc)
+<<<<<<< Updated upstream
                 recorded = db.get(DraftOperation, event.operation_id).committed_at
                 if recorded.tzinfo is None: recorded = recorded.replace(tzinfo=timezone.utc)
                 item_events.append({'id': str(event.id), 'item_key': str(row.id), 'kind': kinds[event.event_type],
@@ -56,6 +61,15 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None):
                 'category': 'unknown', 'batches': [batch], 'events': item_events,
                 'coverage': [], 'recording_completeness_source': None,
                 'preferences': {'version': row.version, 'minimum_stock': str(row.minimum_quantity) if row.minimum_quantity > 0 else None,
+=======
+                item_events.append({'id': str(event.id), 'item_key': str(row.id), 'kind': kinds[event.event_type],
+                    'quantity': str(event.quantity or 0), 'unit': event.unit, 'occurred_at': at.isoformat(),
+                    'recorded_at': at.isoformat(), 'committed': True, 'related_event_id': None})
+            items.append({'item_key': str(row.id), 'name': row.name, 'unit': batch['unit'], 'version': row.version,
+                'category': 'unknown', 'batches': [batch], 'events': item_events,
+                'coverage': [], 'recording_completeness_source': None,
+                'preferences': {'version': row.version, 'minimum_stock': str(row.minimum_quantity),
+>>>>>>> Stashed changes
                     'coverage_days': None, 'lead_days': None, 'order_unit': None, 'pack_size': None},
                 'usable_quantity_verified': False, 'stock_verification': None})
     except IncompatibleInventory as error:
