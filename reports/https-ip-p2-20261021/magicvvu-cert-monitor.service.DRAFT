@@ -1,0 +1,12 @@
+# DRAFT P2 ONLY. Requires reviewed monitor with DRAFT_ONLY=False before activation.
+[Unit]
+Description=MagicVVu production certificate expiry and loaded-certificate check
+After=network-online.target nginx.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/local/sbin/magicvvu-cert-monitor
+TimeoutStartSec=30
+NoNewPrivileges=true
+PrivateTmp=true

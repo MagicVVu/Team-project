@@ -1,0 +1,30 @@
+{
+  "backend": {
+    "app_entrypoint": [
+      "app.main:app"
+    ],
+    "health": "healthy"
+  },
+  "agent": {
+    "app_entrypoint": [
+      "conversation.app:create_app"
+    ],
+    "health": "healthy"
+  },
+  "/api/v1/health": {
+    "http": 200,
+    "body": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "isolated_test": false
+    }
+  },
+  "/api/v1/ready": {
+    "http": 200,
+    "body": {
+      "status": "ready",
+      "database": "ok"
+    }
+  }
+}

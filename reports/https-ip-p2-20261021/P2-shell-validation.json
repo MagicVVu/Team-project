@@ -1,0 +1,1 @@
+{"check":"bash -n via stdin, no execution or server file writes","passed":true}

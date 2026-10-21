@@ -1,0 +1,185 @@
+{
+  "utc": "2026-10-21T11:24:25.261328+00:00",
+  "containers": [
+    {
+      "name": "/magicvvu-starter-backend-1",
+      "same_image": true,
+      "same_container": false,
+      "image_id": "sha256:ebdad8c041baa72fd4ae938b009ae1721960025b6ff1493ad7b54010ae114a4f",
+      "started_at": "2026-10-21T11:17:51.673651681Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8001"
+          }
+        ],
+        "8443/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "8000"
+          }
+        ]
+      },
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      }
+    },
+    {
+      "name": "/magicvvu-starter-agent-1",
+      "same_image": true,
+      "same_container": true,
+      "image_id": "sha256:47d49783ecbc13d17bebffb04f744c5bd14fc055c58c11eaad1dc0dced94a031",
+      "started_at": "2026-10-21T11:17:51.669910689Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "ports": {
+        "8767/tcp": null
+      },
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      }
+    },
+    {
+      "name": "/magicvvu-starter-db-1",
+      "same_image": true,
+      "same_container": true,
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "started_at": "2026-10-21T11:17:51.67115513Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": null
+      },
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      }
+    }
+  ],
+  "runtime_env_unchanged": true,
+  "services": {
+    "docker": {
+      "rc": 0,
+      "stdout": "Result=success\nActiveState=active\nUnitFileState=enabled",
+      "stderr": ""
+    },
+    "magicvvu-direct": {
+      "rc": 0,
+      "stdout": "Result=success\nActiveState=active\nUnitFileState=enabled",
+      "stderr": ""
+    },
+    "magicvvu-direct-firewall": {
+      "rc": 0,
+      "stdout": "Result=success\nActiveState=active\nUnitFileState=enabled",
+      "stderr": ""
+    },
+    "magicvvu-direct-renew.timer": {
+      "rc": 0,
+      "stdout": "Result=success\nActiveState=active\nUnitFileState=enabled",
+      "stderr": ""
+    }
+  },
+  "proxy_paths": {
+    "/etc/nginx": {
+      "exists": false
+    },
+    "/etc/caddy": {
+      "exists": false
+    },
+    "/etc/letsencrypt": {
+      "exists": false
+    },
+    "/var/log/nginx": {
+      "exists": false
+    },
+    "/var/log/magicvvu-nginx": {
+      "exists": false
+    },
+    "/var/cache/nginx": {
+      "exists": false
+    },
+    "/var/lib/caddy": {
+      "exists": false
+    },
+    "/var/snap/certbot": {
+      "exists": false
+    },
+    "/root/.acme.sh": {
+      "exists": false
+    },
+    "/var/www/letsencrypt": {
+      "exists": false
+    },
+    "/etc/apache2": {
+      "exists": true
+    }
+  },
+  "proxy_packages": {
+    "nginx": false,
+    "nginx-common": false,
+    "caddy": false,
+    "certbot": false,
+    "haproxy": false,
+    "apache2": false
+  },
+  "retained_apache_config": {
+    "rc": 0,
+    "stdout": "127\t/etc/apache2",
+    "stderr": ""
+  },
+  "snap": {
+    "rc": 0,
+    "stdout": "",
+    "stderr": "No snaps are installed yet. Try 'snap install hello-world'."
+  },
+  "listeners": {
+    "rc": 0,
+    "stdout": "State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess\nLISTEN 0      4096      127.0.0.54:53        0.0.0.0:*          \nLISTEN 0      4096         0.0.0.0:22        0.0.0.0:*          \nLISTEN 0      4096       127.0.0.1:8001      0.0.0.0:*          \nLISTEN 0      4096   127.0.0.53%lo:53        0.0.0.0:*          \nLISTEN 0      4096         0.0.0.0:8000      0.0.0.0:*          \nLISTEN 0      4096            [::]:22           [::]:*",
+    "stderr": ""
+  },
+  "source_guard": {
+    "rc": 0,
+    "stdout": "-N MAGICVVU-TLS\n-A MAGICVVU-TLS -s 223.104.55.242/32 -j RETURN\n-A MAGICVVU-TLS -j DROP",
+    "stderr": ""
+  },
+  "certificate": {
+    "rc": 0,
+    "stdout": "notBefore=Oct 21 11:12:40 2026 GMT\nnotAfter=Jan 19 11:12:40 2027 GMT\nX509v3 Subject Alternative Name: \n    IP Address:8.134.172.165",
+    "stderr": ""
+  },
+  "ca_fingerprint": {
+    "rc": 0,
+    "stdout": "sha256 Fingerprint=8E:E1:30:7B:BC:25:2A:6B:C2:F4:03:16:45:CC:DA:53:1A:B9:93:EF:F0:2C:9F:7E:FD:34:7A:4C:4E:83:10:76",
+    "stderr": ""
+  },
+  "disk": {
+    "total": 41882943488,
+    "used": 8220061696,
+    "free": 31727144960
+  },
+  "new_deployment_bytes": {
+    "rc": 0,
+    "stdout": "17262\t/etc/magicvvu/ip-direct\n4387\t/srv/magicvvu/ip-direct",
+    "stderr": ""
+  },
+  "private_health": {
+    "rc": 0,
+    "stdout": "{\"status\":\"ok\",\"service\":\"magicvvu-backend\",\"version\":\"0.9.0\",\"isolated_test\":false}",
+    "stderr": ""
+  },
+  "private_ready": {
+    "rc": 0,
+    "stdout": "{\"status\":\"ready\",\"database\":\"ok\"}",
+    "stderr": ""
+  },
+  "agent_health": {
+    "rc": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

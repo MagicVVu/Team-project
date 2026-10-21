@@ -6,6 +6,14 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class TargetPolicyTest {
+    @Test fun internalTeamBuildPinsSharedServerAndRequiresTls() {
+        val origin = "https://8.134.172.165:8000"
+        assertEquals(origin, TargetPolicy.address(origin, false, origin))
+        TargetPolicy.health(false, "magicvvu-backend", "0.9.0", false)
+        for (url in listOf("http://8.134.172.165:8000", "https://8.134.172.165:8443", "https://other.example.com"))
+            assertTrue(runCatching { TargetPolicy.address(url, false, origin) }.isFailure)
+        assertTrue(runCatching { TargetPolicy.health(false, "magicvvu-backend", "0.9.0", true) }.isFailure)
+    }
     @Test fun debugRejectsProductionAndOldBackends() {
         TargetPolicy.address("http://10.0.2.2:18083", true, "")
         TargetPolicy.health(true, "magicvvu-backend", "0.9.0", true)

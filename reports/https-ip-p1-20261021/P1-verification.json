@@ -1,0 +1,84 @@
+{
+  "phase": "P1",
+  "read_only": true,
+  "started_utc": "2026-10-21T07:12:30.451860+00:00",
+  "health": {
+    "/api/v1/health": {
+      "http": 200,
+      "body": {
+        "status": "ok",
+        "service": "magicvvu-backend",
+        "version": "0.9.0",
+        "isolated_test": false
+      }
+    },
+    "/api/v1/ready": {
+      "http": 200,
+      "body": {
+        "status": "ready",
+        "database": "ok"
+      }
+    }
+  },
+  "db_readiness": {
+    "rc": 0,
+    "stdout": "127.0.0.1:5432 - accepting connections",
+    "stderr": ""
+  },
+  "deployed_route_metadata": {
+    "rc": 0,
+    "stdout": "{\"routes\": [{\"file\": \"app/main.py\", \"method\": \"get\", \"path\": \"/api/v1/health\"}, {\"file\": \"app/main.py\", \"method\": \"get\", \"path\": \"/api/v1/ready\"}, {\"file\": \"app/routers/auth.py\", \"method\": \"post\", \"path\": \"/auth/register\"}, {\"file\": \"app/routers/auth.py\", \"method\": \"post\", \"path\": \"/auth/login\"}, {\"file\": \"app/routers/auth.py\", \"method\": \"get\", \"path\": \"/users/me\"}, {\"file\": \"app/routers/auth.py\", \"method\": \"post\", \"path\": \"/auth/logout\"}, {\"file\": \"app/routers/auth.py\", \"method\": \"patch\", \"path\": \"/users/me\"}, {\"file\": \"app/routers/households.py\", \"method\": \"patch\", \"path\": \"/{household_id}\"}, {\"file\": \"app/routers/households.py\", \"method\": \"post\", \"path\": \"\"}, {\"file\": \"app/routers/households.py\", \"method\": \"get\", \"path\": \"\"}, {\"file\": \"app/routers/households.py\", \"method\": \"get\", \"path\": \"/{household_id}/members\"}, {\"file\": \"app/routers/households.py\", \"method\": \"post\", \"path\": \"/{household_id}/invitations\"}, {\"file\": \"app/routers/households.py\", \"method\": \"post\", \"path\": \"/join\"}, {\"file\": \"app/routers/agent_gateway.py\", \"method\": \"post\", \"path\": \"/api/v1/agent/messages\"}, {\"file\": \"app/routers/agent_gateway.py\", \"method\": \"post\", \"path\": \"/api/v1/agent/clarifications/{task_id}\"}, {\"file\": \"app/routers/agent_gateway.py\", \"method\": \"get\", \"path\": \"/api/v1/agent/tasks/{task_id}\"}, {\"file\": \"app/routers/agent_gateway.py\", \"method\": \"get\", \"path\": \"/api/v1/drafts/{draft_id}\"}, {\"file\": \"app/routers/inventory.py\", \"method\": \"get\", \"path\": \"\"}, {\"file\": \"app/routers/inventory.py\", \"method\": \"post\", \"path\": \"\"}, {\"file\": \"app/routers/inventory.py\", \"method\": \"patch\", \"path\": \"/{item_id}\"}, {\"file\": \"app/routers/inventory.py\", \"method\": \"post\", \"path\": \"/{item_id}/adjustments\"}, {\"file\": \"app/routers/inventory.py\", \"method\": \"delete\", \"path\": \"/{item_id}\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"get\", \"path\": \"/{household_id}/shopping-list\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"get\", \"path\": \"/{household_id}/shopping-list/items\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"post\", \"path\": \"/{household_id}/shopping-list/items\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"patch\", \"path\": \"/{household_id}/shopping-list/items/{item_id}\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"delete\", \"path\": \"/{household_id}/shopping-list/items/{item_id}\"}, {\"file\": \"app/routers/shopping.py\", \"method\": \"post\", \"path\": \"/{household_id}/shopping-list/items/{item_id}/purchase\"}, {\"file\": \"app/routers/ai_inventory.py\", \"method\": \"get\", \"path\": \"/search\"}, {\"file\": \"app/routers/ai_inventory.py\", \"method\": \"get\", \"path\": \"/batches/{batch_id}\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"get\", \"path\": \"/api/v1/agent/execution-capabilities\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"post\", \"path\": \"/api/v1/agent/reference-messages\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"get\", \"path\": \"/api/v1/drafts/{draft_id}/execution\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"post\", \"path\": \"/api/v1/drafts/{draft_id}/commit\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"post\", \"path\": \"/api/v1/drafts/{draft_id}/cancel\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"get\", \"path\": \"/api/v1/operations/{operation_id}\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"get\", \"path\": \"/internal/v1/operations/{operation_id}\"}, {\"file\": \"app/routers/draft_execution.py\", \"method\": \"get\", \"path\": \"/api/v1/households/{household_id}/consumption-events\"}], \"streaming_timeout_markers\": [{\"file\": \"app/routers/agent_gateway.py\", \"markers\": [\"httpx.Timeout(13.0, connect=3.0)\"]}]}",
+    "stderr": ""
+  },
+  "snap_certbot_info": {
+    "rc": 0,
+    "stdout": "name:      certbot\nsummary:   Automatically configure HTTPS using Let's Encrypt\npublisher: Certbot Project (certbot-eff**)\nstore-url: https://snapcraft.io/certbot\ncontact:   https://github.com/certbot/certbot/issues\nlicense:   Apache-2.0\ndescription: |\n  The objective of Certbot, Let's Encrypt, and the ACME (Automated\n  Certificate Management Environment) protocol is to make it possible\n  to set up an HTTPS server and have it automatically obtain a\n  browser-trusted certificate, without any human intervention. This is\n  accomplished by running a certificate management agent on the web\n  server.\n  \n  This agent is used to:\n    - Automatically prove to the Let's Encrypt CA that you control the\n    website\n    - Obtain a browser-trusted certificate and set it up on your web server\n    - Keep track of when your certificate is going to expire, and renew it\n    - Help you revoke the certificate if that ever becomes necessary.\nsnap-id: wy7i66qPx4neXr6m9rTh7Y40h8EhtZFh\nchannels:\n  latest/stable:    5.8.0      2026-09-01 (5893) 75.2MB classic\n  latest/candidate: ^                                   \n  latest/beta:      5.8.0      2026-09-01 (5893) 75.2MB classic\n  latest/edge:      5.9.0.dev0 2026-09-07 (5906) 75.2MB classic",
+    "stderr": ""
+  },
+  "snap_changes": {
+    "rc": 0,
+    "stdout": "ID   Status  Spawn       Ready       Summary\n1    Done    2025-07-02  2025-07-02  Initialize system state",
+    "stderr": ""
+  },
+  "network_recheck": [
+    {
+      "label": "production_repeat_1",
+      "result": {
+        "rc": 0,
+        "stdout": "http=200 peer=172.65.32.248 tls_verify=0 total=0.720299",
+        "stderr": ""
+      }
+    },
+    {
+      "label": "staging_repeat",
+      "result": {
+        "rc": 0,
+        "stdout": "http=200 peer=172.65.46.172 tls_verify=0 total=0.973907",
+        "stderr": ""
+      }
+    },
+    {
+      "label": "configured_aliyun_apt_mirror",
+      "result": {
+        "rc": 0,
+        "stdout": "http=200 peer=100.100.2.148 tls_verify=0 total=0.072318",
+        "stderr": ""
+      }
+    },
+    {
+      "label": "production_repeat_2",
+      "result": {
+        "rc": 0,
+        "stdout": "http=200 peer=172.65.32.248 tls_verify=0 total=5.588896",
+        "stderr": ""
+      }
+    }
+  ],
+  "extra_certificate_locations": [],
+  "final_health": {
+    "rc": 0,
+    "stdout": "magicvvu-starter-agent-1|Up 8 hours (healthy)|8767/tcp\nmagicvvu-starter-backend-1|Up 8 hours (healthy)|127.0.0.1:8000->8000/tcp\nmagicvvu-starter-db-1|Up 8 hours (healthy)|5432/tcp",
+    "stderr": ""
+  },
+  "finished_utc": "2026-10-21T07:12:39.394681+00:00"
+}

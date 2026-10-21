@@ -8,7 +8,7 @@ open class AgentClient(address: String, token: String) {
     private val api = CloudApi(address, token)
     suspend fun capabilities(): JSONObject {
         val health = api.request("GET", "/api/v1/health")
-        TargetPolicy.health(BuildConfig.DEBUG, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+        TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
         return api.request("GET", "/api/v1/agent/execution-capabilities").also {
             TargetPolicy.capabilities(it.optString("protocol_version"), it.optString("owner"))
         }

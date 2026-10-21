@@ -1,0 +1,820 @@
+{
+  "phase": "P1",
+  "read_only": true,
+  "started_utc": "2026-10-21T07:11:18.250155+00:00",
+  "host": {
+    "hostname": {
+      "rc": 0,
+      "stdout": "iZ7xvftxzwe1mwbso1ovyyZ",
+      "stderr": ""
+    },
+    "os": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+    "uptime": {
+      "rc": 0,
+      "stdout": "15:11:18 up  8:23,  2 users,  load average: 0.00, 0.06, 0.07",
+      "stderr": ""
+    },
+    "memory": {
+      "rc": 0,
+      "stdout": "total        used        free      shared  buff/cache   available\nMem:            1613         623         106          16        1059         989\nSwap:           2047           0        2047",
+      "stderr": ""
+    },
+    "disk": {
+      "rc": 0,
+      "stdout": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/vda3        40G  7.7G   30G  21% /\n/dev/vda3        40G  7.7G   30G  21% /\n/dev/vda3        40G  7.7G   30G  21% /",
+      "stderr": ""
+    },
+    "inodes": {
+      "rc": 0,
+      "stdout": "Filesystem      Inodes  IUsed   IFree IUse% Mounted on\n/dev/vda3      2608144 171339 2436805    7% /\n/dev/vda3      2608144 171339 2436805    7% /\n/dev/vda3      2608144 171339 2436805    7% /",
+      "stderr": ""
+    },
+    "time_sync": {
+      "rc": 0,
+      "stdout": "Timezone=Asia/Shanghai\nNTPSynchronized=yes",
+      "stderr": ""
+    }
+  },
+  "listeners": {
+    "rc": 0,
+    "stdout": "Netid State  Recv-Q Send-Q     Local Address:Port Peer Address:PortProcess                                                 \nudp   UNCONN 0      0              127.0.0.1:323       0.0.0.0:*    users:((\"chronyd\",pid=919,fd=5))                       \nudp   UNCONN 0      0             127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=475,fd=16))              \nudp   UNCONN 0      0          127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=475,fd=14))              \nudp   UNCONN 0      0      172.19.29.17%eth0:68        0.0.0.0:*    users:((\"systemd-network\",pid=759,fd=21))              \nudp   UNCONN 0      0                  [::1]:323          [::]:*    users:((\"chronyd\",pid=919,fd=6))                       \ntcp   LISTEN 0      4096          127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=475,fd=17))              \ntcp   LISTEN 0      4096             0.0.0.0:22        0.0.0.0:*    users:((\"sshd\",pid=4539,fd=3),(\"systemd\",pid=1,fd=162))\ntcp   LISTEN 0      4096           127.0.0.1:8000      0.0.0.0:*    users:((\"docker-proxy\",pid=1869,fd=8))                 \ntcp   LISTEN 0      4096       127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=475,fd=15))              \ntcp   LISTEN 0      4096                [::]:22           [::]:*    users:((\"sshd\",pid=4539,fd=4),(\"systemd\",pid=1,fd=167))",
+    "stderr": ""
+  },
+  "services": {
+    "docker": {
+      "rc": 0,
+      "stdout": "ActiveState=active\nSubState=running\nUnitFileState=enabled",
+      "stderr": ""
+    },
+    "nginx": {
+      "rc": 0,
+      "stdout": "ActiveState=inactive\nSubState=dead\nUnitFileState=",
+      "stderr": ""
+    },
+    "snapd": {
+      "rc": 0,
+      "stdout": "ActiveState=inactive\nSubState=dead\nUnitFileState=enabled",
+      "stderr": ""
+    },
+    "snapd.socket": {
+      "rc": 0,
+      "stdout": "ActiveState=active\nSubState=listening\nUnitFileState=enabled",
+      "stderr": ""
+    }
+  },
+  "packages": {
+    "rc": 1,
+    "stdout": "ca-certificates\t20260601~24.04.1\tinstall ok installed\npython3-venv\t\tunknown ok not-installed\nsnapd\t2.76.3+ubuntu24.04\tinstall ok installed",
+    "stderr": "dpkg-query: no packages found matching nginx\ndpkg-query: no packages found matching nginx-common\ndpkg-query: no packages found matching certbot"
+  },
+  "executables": {
+    "nginx": null,
+    "certbot": null,
+    "snap": "/usr/bin/snap",
+    "openssl": "/usr/bin/openssl",
+    "curl": "/usr/bin/curl",
+    "python3": "/usr/bin/python3",
+    "apt-cache": "/usr/bin/apt-cache"
+  },
+  "nginx_version": {
+    "error": "FileNotFoundError",
+    "argv0": "nginx"
+  },
+  "certbot_version": {
+    "error": "FileNotFoundError",
+    "argv0": "certbot"
+  },
+  "snap_list": {
+    "rc": 0,
+    "stdout": "",
+    "stderr": "No snaps are installed yet. Try 'snap install hello-world'."
+  },
+  "snap_version": {
+    "rc": 0,
+    "stdout": "snap          2.76.3+ubuntu24.04\nsnapd         2.76.3+ubuntu24.04\nseries        16\nubuntu        24.04\nkernel        6.8.0-63-generic\narchitecture  amd64",
+    "stderr": ""
+  },
+  "apt_candidates": {
+    "rc": 0,
+    "stdout": "nginx:\n  Installed: (none)\n  Candidate: 1.24.0-2ubuntu7.18\n  Version table:\n     1.24.0-2ubuntu7.18 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble-updates/main amd64 Packages\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble-security/main amd64 Packages\n     1.24.0-2ubuntu7 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble/main amd64 Packages\ncertbot:\n  Installed: (none)\n  Candidate: 2.9.0-1\n  Version table:\n     2.9.0-1 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble/universe amd64 Packages\nsnapd:\n  Installed: 2.76.3+ubuntu24.04\n  Candidate: 2.77.1+ubuntu24.04\n  Version table:\n     2.77.1+ubuntu24.04 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble-updates/main amd64 Packages\n *** 2.76.3+ubuntu24.04 100\n        100 /var/lib/dpkg/status\n     2.76+ubuntu24.04.1 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble-security/main amd64 Packages\n     2.62+24.04build1 500\n        500 http://mirrors.cloud.aliyuncs.com/ubuntu noble/main amd64 Packages",
+    "stderr": ""
+  },
+  "nginx_config_metadata": [],
+  "nginx_directive_summary": [],
+  "config_baseline": [
+    {
+      "path": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "exists": true,
+      "mode": "0o660",
+      "uid": 0,
+      "gid": 0,
+      "size": 3364,
+      "symlink": false,
+      "sha256": "966d254c918d86c5f00e994369860b5c7c093068287c8f52ab6d82622b066fe3"
+    },
+    {
+      "path": "/srv/magicvvu/magicvvu-starter/deploy/.env",
+      "exists": true,
+      "mode": "0o660",
+      "uid": 1000,
+      "gid": 1000,
+      "size": 280,
+      "symlink": false,
+      "sha256": "589f8feaf3972b54255c1a23b5353f358b87d2251cc07e1a01b9024b6016cdfd"
+    },
+    {
+      "path": "/etc/nginx/nginx.conf",
+      "exists": false
+    },
+    {
+      "path": "/etc/letsencrypt/cli.ini",
+      "exists": false
+    }
+  ],
+  "docker_version": {
+    "rc": 0,
+    "stdout": "Docker version 29.9.0, build f415da8",
+    "stderr": ""
+  },
+  "compose_version": {
+    "rc": 0,
+    "stdout": "Docker Compose version v5.6.0",
+    "stderr": ""
+  },
+  "containers": [
+    {
+      "name": "magicvvu-p72-ephemeral-af5d108fb7b6-db",
+      "image": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-20T12:59:25.396433839Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p72-ephemeral-af5d108fb7b6-net"
+      ],
+      "compose_files": null,
+      "mounts": []
+    },
+    {
+      "name": "magicvvu-starter-agent-1",
+      "image": "magicvvu/agent:p72-units-755c1561abc8",
+      "status": "running",
+      "health": "healthy",
+      "started": "2026-10-20T22:48:24.132041646Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {
+        "8767/tcp": null
+      },
+      "networks": [
+        "magicvvu-starter_ai_net"
+      ],
+      "compose_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-starter_agent_cache",
+          "Source": "/var/lib/docker/volumes/magicvvu-starter_agent_cache/_data",
+          "Destination": "/app/agent/.cache",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/magicvvu_ai/workspace/agent/.cache/p0",
+          "Destination": "/app/agent/.cache/p0",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-starter-backend-1",
+      "image": "magicvvu/backend:p72-units-736c2299edda",
+      "status": "running",
+      "health": "healthy",
+      "started": "2026-10-20T22:48:24.129677223Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8000"
+          }
+        ]
+      },
+      "runtime_ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8000"
+          }
+        ]
+      },
+      "networks": [
+        "magicvvu-starter_ai_net",
+        "magicvvu-starter_default"
+      ],
+      "compose_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "mounts": []
+    },
+    {
+      "name": "magicvvu-p52-rehearsal-080-859e1ea2",
+      "image": "magicvvu/backend:app-v0.8",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-18T02:17:54.336166978Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": null,
+      "mounts": []
+    },
+    {
+      "name": "magicvvu-p52-rehearsal-090-8e0a9c3c",
+      "image": "magicvvu/backend:p52-843c6855920c",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-18T02:16:12.804281304Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": null,
+      "mounts": []
+    },
+    {
+      "name": "magicvvu-p7-execution-20261017-agent-1",
+      "image": "magicvvu/agent:p52-843c6855920c",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-18T01:57:34.177241512Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json,/home/admin/magicvvu-p7-p52-final-20261018/candidate.override.json",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-p7-execution-20261017_execution_ai_cache",
+          "Source": "/var/lib/docker/volumes/magicvvu-p7-execution-20261017_execution_ai_cache/_data",
+          "Destination": "/app/agent/.cache",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-execution-20261017-backend-1",
+      "image": "magicvvu/backend:p52-843c6855920c",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-18T01:57:33.231284461Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json,/home/admin/magicvvu-p7-p52-final-20261018/candidate.override.json",
+      "mounts": []
+    },
+    {
+      "name": "magicvvu-p52-validation-postgres-1792288534",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-18T01:55:34.577916621Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": null,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-final-20261018/evidence",
+          "Destination": "/evidence",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-final-20261018/source",
+          "Destination": "/repo",
+          "RW": false
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p52-validation-postgres-1792287440",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-18T01:37:20.772792274Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": null,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-20261018/evidence",
+          "Destination": "/evidence",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-20261018/source",
+          "Destination": "/repo",
+          "RW": false
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p52-validation-postgres",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "status": "exited",
+      "health": null,
+      "started": "2026-10-18T01:35:20.787809379Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": null,
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-20261018/evidence",
+          "Destination": "/evidence",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-p52-20261018/source",
+          "Destination": "/repo",
+          "RW": false
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-execution-20261017-db-1",
+      "image": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T10:31:22.679790625Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-p7-execution-20261017_execution_db",
+          "Source": "/var/lib/docker/volumes/magicvvu-p7-execution-20261017_execution_db/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-test-20261017-agent-model-1",
+      "image": "magicvvu/agent:p7-test-db55fda",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T09:55:09.763437711Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-test-20261017_model_egress",
+        "magicvvu-p7-test-20261017_model_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-p7-test-20261017_p7_model_cache",
+          "Source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_model_cache/_data",
+          "Destination": "/app/agent/.cache",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-test-20261017-agent-1",
+      "image": "magicvvu/agent:p7-test-db55fda",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T09:55:09.486912157Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-p7-test-20261017_p7_rules_cache",
+          "Source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_rules_cache/_data",
+          "Destination": "/app/agent/.cache",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-test-20261017-backend-model-1",
+      "image": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T09:55:11.705469085Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-test-20261017_model_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-test-20261017/source/backend/server",
+          "Destination": "/app",
+          "RW": false
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-test-20261017-backend-1",
+      "image": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T09:55:10.364996572Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/home/admin/magicvvu-p7-test-20261017/source/backend/server",
+          "Destination": "/app",
+          "RW": false
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-p7-test-20261017-db-1",
+      "image": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "exited",
+      "health": "starting",
+      "started": "2026-10-17T09:55:00.106522493Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {},
+      "networks": [
+        "magicvvu-p7-test-20261017_model_net",
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "compose_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-p7-test-20261017_p7_db",
+          "Source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_db/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "RW": true
+        }
+      ]
+    },
+    {
+      "name": "magicvvu-starter-db-1",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "status": "running",
+      "health": "healthy",
+      "started": "2026-10-20T22:48:24.127513268Z",
+      "restarts": 0,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "bindings": {},
+      "runtime_ports": {
+        "5432/tcp": null
+      },
+      "networks": [
+        "magicvvu-starter_default"
+      ],
+      "compose_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "magicvvu-starter_postgres_data",
+          "Source": "/var/lib/docker/volumes/magicvvu-starter_postgres_data/_data",
+          "Destination": "/var/lib/postgresql/data",
+          "RW": true
+        }
+      ]
+    }
+  ],
+  "docker_stats": {
+    "rc": 0,
+    "stdout": "magicvvu-starter-agent-1|0.17%|66.19MiB / 256MiB|2\nmagicvvu-starter-backend-1|0.13%|90.54MiB / 384MiB|2\nmagicvvu-starter-db-1|0.00%|73.05MiB / 384MiB|7",
+    "stderr": ""
+  },
+  "docker_disk": {
+    "rc": 0,
+    "stdout": "TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE\nImages          26        8         1.244GB   326MB (26%)\nContainers      17        3         172kB     143.4kB (83%)\nLocal Volumes   11        7         301MB     1.984MB (0%)\nBuild Cache     115       0         755MB     40.37MB",
+    "stderr": ""
+  },
+  "compose_projects": {
+    "rc": 0,
+    "stdout": "[{\"Name\":\"magicvvu-starter\",\"Status\":\"running(3)\",\"ConfigFiles\":\"/srv/magicvvu/magicvvu-starter/deploy/compose.yaml\"}]",
+    "stderr": ""
+  },
+  "compose_services": {
+    "agent": {
+      "image": "magicvvu/agent:p72-units-755c1561abc8",
+      "ports": null,
+      "expose": [
+        "8767"
+      ],
+      "restart": "unless-stopped",
+      "networks": {
+        "ai_net": null
+      },
+      "depends_on": {
+        "backend": {
+          "condition": "service_healthy",
+          "required": true
+        }
+      }
+    },
+    "backend": {
+      "image": "magicvvu/backend:p72-units-736c2299edda",
+      "ports": [
+        {
+          "mode": "ingress",
+          "host_ip": "127.0.0.1",
+          "target": 8000,
+          "published": "8000",
+          "protocol": "tcp"
+        }
+      ],
+      "expose": null,
+      "restart": "unless-stopped",
+      "networks": {
+        "ai_net": null,
+        "default": null
+      },
+      "depends_on": {
+        "db": {
+          "condition": "service_healthy",
+          "required": true
+        }
+      }
+    },
+    "db": {
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "ports": null,
+      "expose": null,
+      "restart": "unless-stopped",
+      "networks": {
+        "default": null
+      },
+      "depends_on": null
+    }
+  },
+  "health_function_audit": {
+    "health_check": "def health_check() -> dict:\n    return {\"status\": \"ok\", \"service\": \"magicvvu-backend\", \"version\": app.version,\n            \"isolated_test\": os.getenv(\"ISOLATED_APP_TEST\") == \"yes\"}",
+    "readiness_check": "def readiness_check() -> dict[str, str]:\n    try:\n        with engine.connect() as conn:\n            conn.execute(text(\"SELECT 1\"))\n    except SQLAlchemyError:\n        logger.exception(\"Database readiness query failed\")\n        raise HTTPException(status_code=503, detail=\"Database unavailable\") from None\n    return {\"status\": \"ready\", \"database\": \"ok\"}"
+  },
+  "certificates": [],
+  "certificate_directories": [
+    {
+      "path": "/etc/letsencrypt",
+      "exists": false
+    },
+    {
+      "path": "/etc/letsencrypt/live",
+      "exists": false
+    },
+    {
+      "path": "/etc/letsencrypt/renewal",
+      "exists": false
+    },
+    {
+      "path": "/etc/letsencrypt/renewal-hooks/deploy",
+      "exists": false
+    },
+    {
+      "path": "/var/snap/certbot/common",
+      "exists": false
+    },
+    {
+      "path": "/root/.acme.sh",
+      "exists": false
+    }
+  ],
+  "renewal_files": [],
+  "timers": {
+    "rc": 0,
+    "stdout": "NEXT                            LEFT LAST                              PASSED UNIT                           ACTIVATES\nWed 2026-10-21 15:20:00 CST     8min Wed 2026-10-21 15:10:04 CST 1min 21s ago sysstat-collect.timer          sysstat-collect.service\nWed 2026-10-21 15:47:30 CST    36min Wed 2026-10-21 14:54:08 CST    17min ago fwupd-refresh.timer            fwupd-refresh.service\nWed 2026-10-21 16:52:34 CST 1h 41min Wed 2026-10-21 00:42:36 CST            - apt-daily.timer                apt-daily.service\nWed 2026-10-21 17:09:23 CST 1h 57min Wed 2026-10-21 05:50:37 CST            - motd-news.timer                motd-news.service\nThu 2026-10-22 00:00:00 CST       8h Wed 2026-10-21 00:00:05 CST            - dpkg-db-backup.timer           dpkg-db-backup.service\nThu 2026-10-22 00:00:00 CST       8h Wed 2026-10-21 00:00:05 CST            - logrotate.timer                logrotate.service\nThu 2026-10-22 00:07:00 CST       8h -                                      - sysstat-summary.timer          sysstat-summary.service\nThu 2026-10-22 06:28:20 CST      15h Wed 2026-10-21 06:55:01 CST       8h ago apt-daily-upgrade.timer        apt-daily-upgrade.service\nThu 2026-10-22 06:53:30 CST      15h Wed 2026-10-21 06:53:30 CST       8h ago update-notifier-download.timer update-notifier-download.service\nThu 2026-10-22 07:03:12 CST      15h Wed 2026-10-21 07:03:12 CST       8h ago systemd-tmpfiles-clean.timer   systemd-tmpfiles-clean.service\nThu 2026-10-22 07:16:03 CST      16h Wed 2026-10-21 01:08:37 CST            - man-db.timer                   man-db.service\nSun 2026-10-25 03:10:53 CST   3 days Sun 2026-10-18 03:11:00 CST            - e2scrub_all.timer              e2scrub_all.service\nSun 2026-10-25 16:56:44 CST   4 days Sun 2026-10-18 16:27:39 CST            - update-notifier-motd.timer     update-notifier-motd.service\nMon 2026-10-26 01:08:43 CST   4 days Mon 2026-10-19 01:38:27 CST            - fstrim.timer                   fstrim.service\n-                                  - -                                      - apport-autoreport.timer        apport-autoreport.service\n-                                  - -                                      - snapd.snap-repair.timer        snapd.snap-repair.service\n-                                  - -                                      - ua-timer.timer                 ua-timer.service\n\n17 timers listed.",
+    "stderr": ""
+  },
+  "certificate_units": [],
+  "certificate_schedules": [],
+  "ufw": {
+    "rc": 0,
+    "stdout": "Status: inactive",
+    "stderr": ""
+  },
+  "iptables_policies": [
+    ":PREROUTING ACCEPT [82903:12397922]",
+    ":INPUT ACCEPT [0:0]",
+    ":FORWARD ACCEPT [0:0]",
+    ":OUTPUT ACCEPT [66405:35521783]",
+    ":POSTROUTING ACCEPT [0:0]",
+    ":PREROUTING ACCEPT [82655:12002951]",
+    ":OUTPUT ACCEPT [0:0]",
+    ":INPUT ACCEPT [64186:10023940]",
+    ":FORWARD DROP [0:0]",
+    ":OUTPUT ACCEPT [0:0]",
+    ":DOCKER - [0:0]",
+    ":DOCKER-BRIDGE - [0:0]",
+    ":DOCKER-CT - [0:0]",
+    ":DOCKER-FORWARD - [0:0]",
+    ":DOCKER-INTERNAL - [0:0]",
+    ":DOCKER-USER - [0:0]",
+    ":PREROUTING ACCEPT [2020:138624]",
+    ":INPUT ACCEPT [0:0]",
+    ":OUTPUT ACCEPT [25666:2127665]",
+    ":POSTROUTING ACCEPT [25666:2127665]",
+    ":DOCKER - [0:0]"
+  ],
+  "iptables_port_rules": [
+    "-A PREROUTING -d 127.0.0.1/32 ! -i lo -p tcp -m tcp --dport 8000 -j DROP",
+    "-A DOCKER -d 172.20.0.3/32 ! -i br-3d1bcbcebe8d -o br-3d1bcbcebe8d -p tcp -m tcp --dport 8000 -j ACCEPT",
+    "-A DOCKER -d 127.0.0.1/32 ! -i br-3d1bcbcebe8d -p tcp -m tcp --dport 8000 -j DNAT --to-destination 172.20.0.3:8000"
+  ],
+  "ipv6_policies": {
+    "rc": 0,
+    "stdout": "-P INPUT ACCEPT",
+    "stderr": ""
+  },
+  "routes": {
+    "rc": 0,
+    "stdout": "default via 172.19.63.253 dev eth0 proto dhcp src 172.19.29.17 metric 100",
+    "stderr": ""
+  },
+  "proxy_env_present": [],
+  "network_checks": [
+    {
+      "url": "https://acme-staging-v02.api.letsencrypt.org/directory",
+      "dns": {
+        "rc": 0,
+        "stdout": "172.65.46.172   STREAM 56a5f4b0bc8146689ec3e272c43525f9.pacloudflare.com\n172.65.46.172   DGRAM  \n172.65.46.172   RAW",
+        "stderr": ""
+      },
+      "https_probe": {
+        "rc": 0,
+        "stdout": "http=200 peer=172.65.46.172 tls_verify=0",
+        "stderr": ""
+      }
+    },
+    {
+      "url": "https://acme-v02.api.letsencrypt.org/directory",
+      "dns": {
+        "rc": 0,
+        "stdout": "172.65.32.248   STREAM ca80a1adb12a4fbdac5ffcbc944e9a61.pacloudflare.com\n172.65.32.248   DGRAM  \n172.65.32.248   RAW",
+        "stderr": ""
+      },
+      "https_probe": {
+        "rc": 28,
+        "stdout": "http=000 peer=172.65.32.248 tls_verify=1",
+        "stderr": "curl: (28) SSL connection timeout"
+      }
+    },
+    {
+      "url": "https://api.snapcraft.io/",
+      "dns": {
+        "rc": 0,
+        "stdout": "185.125.188.59  STREAM api.snapcraft.io\n185.125.188.59  DGRAM  \n185.125.188.59  RAW    \n185.125.188.57  STREAM \n185.125.188.57  DGRAM  \n185.125.188.57  RAW    \n185.125.188.54  STREAM \n185.125.188.54  DGRAM  \n185.125.188.54  RAW    \n185.125.188.60  STREAM \n185.125.188.60  DGRAM  \n185.125.188.60  RAW    \n185.125.188.55  STREAM \n185.125.188.55  DGRAM  \n185.125.188.55  RAW    \n185.125.188.58  STREAM \n185.125.188.58  DGRAM  \n185.125.188.58  RAW",
+        "stderr": ""
+      },
+      "https_probe": {
+        "rc": 0,
+        "stdout": "http=200 peer=185.125.188.58 tls_verify=0",
+        "stderr": ""
+      }
+    },
+    {
+      "url": "https://archive.ubuntu.com/ubuntu/",
+      "dns": {
+        "rc": 0,
+        "stdout": "91.189.92.24    STREAM archive.ubuntu.com\n91.189.92.24    DGRAM  \n91.189.92.24    RAW    \n91.189.91.81    STREAM \n91.189.91.81    DGRAM  \n91.189.91.81    RAW    \n91.189.91.82    STREAM \n91.189.91.82    DGRAM  \n91.189.91.82    RAW    \n91.189.91.83    STREAM \n91.189.91.83    DGRAM  \n91.189.91.83    RAW    \n185.125.190.81  STREAM \n185.125.190.81  DGRAM  \n185.125.190.81  RAW    \n185.125.190.82  STREAM \n185.125.190.82  DGRAM  \n185.125.190.82  RAW    \n185.125.190.83  STREAM \n185.125.190.83  DGRAM  \n185.125.190.83  RAW    \n91.189.92.23    STREAM \n91.189.92.23    DGRAM  \n91.189.92.23    RAW    \n91.189.92.22    STREAM \n91.189.92.22    DGRAM  \n91.189.92.22    RAW",
+        "stderr": ""
+      },
+      "https_probe": {
+        "rc": 0,
+        "stdout": "http=200 peer=91.189.92.23 tls_verify=0",
+        "stderr": ""
+      }
+    }
+  ],
+  "finished_utc": "2026-10-21T07:11:39.174105+00:00"
+}

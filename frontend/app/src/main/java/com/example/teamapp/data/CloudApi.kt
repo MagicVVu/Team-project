@@ -23,7 +23,7 @@ class CloudFailure(val status: Int, message: String, val errorCode: String = "")
 class CloudApi(val address: String, private val token: String = "") {
     companion object {
         fun validateAddress(value: String) {
-            TargetPolicy.address(value, BuildConfig.DEBUG, BuildConfig.CLOUD_API_URL)
+            TargetPolicy.address(value, BuildConfig.CLOUD_EXPECT_ISOLATED, BuildConfig.CLOUD_API_URL)
         }
     }
 
@@ -32,7 +32,7 @@ class CloudApi(val address: String, private val token: String = "") {
         require(!token.contains('\r') && !token.contains('\n'))
         if (method !in setOf("GET", "HEAD")) {
             val health = request("GET", "/api/v1/health")
-            TargetPolicy.health(BuildConfig.DEBUG, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+            TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
             if (!path.startsWith("/api/v1/auth/")) {
                 val caps = request("GET", "/api/v1/agent/execution-capabilities")
                 TargetPolicy.capabilities(caps.optString("protocol_version"), caps.optString("owner"))
@@ -73,7 +73,7 @@ class CloudApi(val address: String, private val token: String = "") {
                 else -> JSONObject(text)
             }
         } catch (failure: CloudFailure) { throw failure }
-        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络或 SSH 隧道；如刚提交操作，请先刷新核对结果。", failure) }
+        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络、服务器地址、证书及测试 IP 放行状态；如刚提交操作，请先刷新核对结果。", failure) }
         finally { connection.disconnect() }
     }
 

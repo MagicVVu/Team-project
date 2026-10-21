@@ -23,9 +23,11 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "true")
             buildConfigField("String", "CLOUD_API_URL", "\"${providers.gradleProperty("magicvvuApiUrl").orElse("http://10.0.2.2:18080").get()}\"")
         }
         release {
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "false")
             val releaseUrl = providers.gradleProperty("mewstowReleaseApiUrl").orElse("").get()
             require(releaseUrl.isEmpty() || (releaseUrl.startsWith("https://") && !releaseUrl.contains('"') && !releaseUrl.contains('\\') && !releaseUrl.contains('\n') && !releaseUrl.contains('\r'))) { "Release API must be a configured HTTPS origin" }
             buildConfigField("String", "CLOUD_API_URL", "\"$releaseUrl\"")
@@ -34,6 +36,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        create("internal") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".internal"
+            versionNameSuffix = "-internal"
+            // A separate team build, explicitly bound to the shared server over TLS.
+            buildConfigField("String", "CLOUD_API_URL", "\"https://8.134.172.165:8000\"")
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "false")
+            matchingFallbacks += listOf("debug")
         }
     }
     compileOptions {
