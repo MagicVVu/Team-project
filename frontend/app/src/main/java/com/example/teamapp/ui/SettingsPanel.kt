@@ -122,7 +122,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text("分享仅打开系统分享面板，初版无在线反馈提交服务。", style = MaterialTheme.typography.bodySmall)
             }
             "关于 Mewstow" -> {
-                if (!LocalLightDesign.current) DarkMaoYou(modifier = Modifier.fillMaxWidth().height(145.dp), description = "Mew · Nekomata 猫又")
+                MewMascot(MewPose.Overview, Modifier.fillMaxWidth().height(145.dp), "Mew · Nekomata 猫又")
                 MewstowWordmark(Modifier.widthIn(max = 280.dp).fillMaxWidth().height(64.dp))
                 Text("你的智能家庭物品管家", style = MaterialTheme.typography.titleMedium)
                 Text(stringResource(R.string.brand_slogan), style = MaterialTheme.typography.bodyMedium)

@@ -77,7 +77,6 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
     val focus = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val continueAsGuest = { focus.clearFocus(); scope.launch { store?.cloud?.logout(); onContinue() }; Unit }
-    val light = LocalLightDesign.current
     val colors = MaterialTheme.colorScheme
     BackHandler(registering) { focus.clearFocus(); formVersion++; registering = false }
 
@@ -97,10 +96,7 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
                 Modifier.size(112.dp).background(colors.primaryContainer, RoundedCornerShape(36.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                if (light) AppMotionContent(registering, label = "auth-mascot") { creatingAccount ->
-                    MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), "Mew 陪你记录生活")
-                }
-                else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = "Mew 陪你记录生活")
+                MewMascot(MewPose.Welcome, Modifier.size(100.dp), "Mew 陪你记录生活")
             }
             AppMotionContent(registering, label = "auth-heading") { creatingAccount ->
                 Text(if (creatingAccount) "一起，把家照顾好" else "你好，欢迎回家", fontSize = 27.sp,

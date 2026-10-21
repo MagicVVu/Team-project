@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,23 +27,18 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.R
@@ -61,23 +55,6 @@ internal val DarkLine = Color(0xFF3D3F42)
 internal val DarkInk = Color(0xFFE6E7E1)
 internal val DarkMuted = Color(0xFFB8B9B3)
 internal val DarkGreen = Color(0xFF9BA78B)
-
-/** Draw the provided PNGs directly. The frame only excludes transparent outer padding. */
-@Composable
-internal fun DarkMaoYou(kind: String = "home", modifier: Modifier = Modifier, description: String? = null) {
-    val (resource, frame) = when (kind) {
-        "empty" -> R.drawable.dark_maoyou_empty to intArrayOf(108, 254, 295, 148)
-        "thinking" -> R.drawable.dark_maoyou_thinking to intArrayOf(79, 186, 354, 216)
-        "voice" -> R.drawable.dark_maoyou_voice to intArrayOf(77, 190, 357, 212)
-        "confirmed" -> R.drawable.dark_maoyou_confirmed to intArrayOf(80, 173, 352, 229)
-        else -> R.drawable.dark_maoyou_home to intArrayOf(56, 142, 400, 260)
-    }
-    val bitmap = ImageBitmap.imageResource(resource)
-    val painter = remember(bitmap, resource) {
-        BitmapPainter(bitmap, IntOffset(frame[0], frame[1]), IntSize(frame[2], frame[3]))
-    }
-    Image(painter, description, modifier)
-}
 
 @Composable
 internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
@@ -110,7 +87,8 @@ internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(3.dp)
                     ) {
                         Box(Modifier.size(47.dp, 31.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
-                            DarkGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(24.dp), foreground)
+                            if (index == 0) MewMascot(MewPose.Overview, Modifier.size(30.dp), description = null)
+                            else DarkGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(24.dp), foreground)
                         }
                         Text(label, color = foreground, fontSize = 11.sp, lineHeight = 16.sp)
                     }
@@ -130,7 +108,7 @@ internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () 
                     Text("Mew · AI 智能管家", fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
                     Text(if (store.items.isEmpty()) "从记录第一件物品开始\n让家更有条理" else "${store.items.size} 种物品已记录 · ${store.items.count { it.status(store.reminderDays).low }} 种库存不足\n${store.items.count { it.status(store.reminderDays).soon }} 种即将过期 · ${store.items.count { it.status(store.reminderDays).expired }} 种已过期", fontSize = 12.sp, lineHeight = 20.sp)
                 }
-                DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = "Mew 库存管家")
+                MewMascot(MewPose.Overview, Modifier.size(64.dp), "Mew 库存管家")
             }
             Text(if (store.cloud.signedIn) "家庭云端助手 · 回答依据服务器库存" else "本地库存助手 · 回答依据已确认记录", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -154,7 +132,7 @@ internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () 
             Text("最近库存状态", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
             TextButton(onClick = all) { Text("查看全部 ›", fontSize = 11.sp) }
         }
-        if (store.items.isEmpty()) DarkEmpty("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
+        if (store.items.isEmpty()) MewEmptyState("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
         store.items.sortedBy { it.status(store.reminderDays).priority }.take(4).forEach { item ->
             key(item.id) { DarkStockRow(item, store.reminderDays) { open(item) } }
         }
@@ -213,7 +191,7 @@ internal fun DarkInventory(store: InventoryStore, open: (StockItem) -> Unit, add
             }
         }
         if (result.isEmpty()) item(key = "inventory-empty") {
-            Box(Modifier.animateItem()) { DarkEmpty(if (store.items.isEmpty()) "还没有记录物品" else "没有匹配的物品", if (store.items.isEmpty()) "拍照、语音或手动添加第一件家庭物品" else "试试其他关键词，或添加一件新物品") }
+            Box(Modifier.animateItem()) { MewEmptyState(if (store.items.isEmpty()) "还没有记录物品" else "没有匹配的物品", if (store.items.isEmpty()) "拍照、语音或手动添加第一件家庭物品" else "试试其他关键词，或添加一件新物品") }
         }
         items(result, key = { it.id }) { item ->
             Box(Modifier.animateItem()) { DarkStockRow(item, store.reminderDays) { open(item) } }
@@ -261,9 +239,15 @@ private fun DarkStatus(status: StockStatus) {
 @Composable
 internal fun DarkShopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        item(key = "shopping-summary") {
+            DarkCard {
+                MewIntro(MewPose.Shopping, "把生活所需，慢慢补齐", "待采购 ${store.purchases.size} 项 · 买好后记得确认入库",
+                    Modifier.padding(end = AssistantMascotWidth))
+            }
+        }
         item(key = "shopping-title") { Text("待采购 · ${store.purchases.size}", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 4.dp)) }
         if (store.purchases.isEmpty()) item(key = "shopping-empty") {
-            Box(Modifier.animateItem()) { DarkEmpty("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来") }
+            Box(Modifier.animateItem()) { MewEmptyState("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来") }
         }
         items(store.purchases, key = { "purchase-${it.itemId}" }) { task -> store.items.firstOrNull { it.id == task.itemId }?.let { item ->
             DarkCard(modifier = Modifier.animateItem()) {
@@ -282,7 +266,7 @@ internal fun DarkShopping(store: InventoryStore, action: (String, String) -> Uni
         item(key = "recommendations-title") { Text("根据库存推荐", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.animateItem().padding(top = 8.dp)) }
         val low = store.items.filter { it.status(store.reminderDays).low }
         if (low.isEmpty()) item(key = "recommendations-empty") {
-            Box(Modifier.animateItem()) { DarkEmpty("库存充足", "目前没有低于最低库存的物品") }
+            Box(Modifier.animateItem()) { MewEmptyState("库存充足", "目前没有低于最低库存的物品") }
         }
         items(low, key = { "recommendation-${it.id}" }) { item ->
             DarkCard(DarkHero, modifier = Modifier.animateItem()) {
@@ -301,7 +285,7 @@ internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkHero)) {
             Row(Modifier.padding(15.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(13.dp)) {
-                DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = "Mew 个人资料")
+                MewMascot(MewPose.Overview, Modifier.size(72.dp), "Mew 个人资料")
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(store.nickname, fontSize = 18.sp, lineHeight = 24.sp)
                     Text(if (store.cloud.signedIn) "云端账号 · ${store.family}" else "本机个人资料", fontSize = 11.sp, lineHeight = 17.sp, color = DarkMuted)
@@ -331,19 +315,6 @@ private fun DarkMenu(title: String, rows: List<Pair<String, String>>, open: (Str
                 Text("›", fontSize = 22.sp, color = DarkMuted)
             }
             if (index != rows.lastIndex) HorizontalDivider(color = DarkLine)
-        }
-    }
-}
-
-@Composable
-internal fun DarkEmpty(title: String, subtitle: String) {
-    DarkCard {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-            DarkMaoYou("empty", Modifier.size(72.dp, 60.dp))
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(7.dp)) {
-                Text(title, fontSize = 15.sp, lineHeight = 21.sp)
-                Text(subtitle, fontSize = 11.sp, lineHeight = 18.sp, color = DarkMuted)
-            }
         }
     }
 }

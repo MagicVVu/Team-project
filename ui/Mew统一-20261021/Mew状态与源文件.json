@@ -1,0 +1,158 @@
+[
+  {
+    "state": "Welcome",
+    "resource": "mew_welcome",
+    "label": "新手引导",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-01-新手引导.png",
+    "sha256": "f6a90b8c16de6df58ae452a4ce9246e347ad51ae9a3055079ab01d9a738c7d36",
+    "frame": [
+      66,
+      171,
+      380,
+      234
+    ]
+  },
+  {
+    "state": "Listening",
+    "resource": "mew_listening",
+    "label": "录入倾听",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-02-录入倾听.png",
+    "sha256": "08ed5d8b1c73da6ab3cc2fac01ebf01288b61a43f22651a0367a4bcf1fc0c756",
+    "frame": [
+      75,
+      188,
+      362,
+      216
+    ]
+  },
+  {
+    "state": "Confirming",
+    "resource": "mew_confirming",
+    "label": "信息确认",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-03-信息确认.png",
+    "sha256": "dfc974dd172f778bf4379b35adb5d9bdaebfebb1e44a7d19f36f302ec1ed8833",
+    "frame": [
+      77,
+      171,
+      358,
+      234
+    ]
+  },
+  {
+    "state": "Overview",
+    "resource": "mew_overview",
+    "label": "首页概览",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-04-首页概览.png",
+    "sha256": "d626c1dd6d34e5361d0080888f9031f4d7d84ec910dab96b54161db023b677e2",
+    "frame": [
+      63,
+      162,
+      386,
+      242
+    ]
+  },
+  {
+    "state": "Expiring",
+    "resource": "mew_expiring",
+    "label": "临期提醒",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-05-临期提醒.png",
+    "sha256": "d510a9667056a5cd3385d60b3a7506e226f8405a9bcc0046f6d01f623555fe82",
+    "frame": [
+      56,
+      165,
+      399,
+      240
+    ]
+  },
+  {
+    "state": "Expired",
+    "resource": "mew_expired",
+    "label": "过期提醒",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-06-过期提醒.png",
+    "sha256": "10c756cbac3eb07fcd9b9bb9cbf72917e9f2f5c1a7dcb761cc8023db0a5157d3",
+    "frame": [
+      72,
+      167,
+      367,
+      237
+    ]
+  },
+  {
+    "state": "LowStock",
+    "resource": "mew_low_stock",
+    "label": "补货提醒",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-07-补货提醒.png",
+    "sha256": "d3c3f2e2fe9ef5ebad31ec2226f5fe25b5b7c95073c604177a990a77e917a8cc",
+    "frame": [
+      56,
+      152,
+      398,
+      253
+    ]
+  },
+  {
+    "state": "Shopping",
+    "resource": "mew_shopping",
+    "label": "采购计划",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-08-采购计划.png",
+    "sha256": "65d1e54f0d4bdfe9c9551a1c5d5306e1a9e50b8b943316a1850bc5fd539ca1cc",
+    "frame": [
+      77,
+      137,
+      358,
+      268
+    ]
+  },
+  {
+    "state": "Success",
+    "resource": "mew_success",
+    "label": "操作成功",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-09-操作成功.png",
+    "sha256": "b624e764ee56a3adb025b2f15edc39caf13a08e8bfe272a1b0d665708c5b42a6",
+    "frame": [
+      86,
+      152,
+      339,
+      253
+    ]
+  },
+  {
+    "state": "Empty",
+    "resource": "mew_empty",
+    "label": "空白状态",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-10-空白状态.png",
+    "sha256": "be9c204d7a32f4a6db93d305988240cc455f0a9d74a72bd0d754aa2124efa3d0",
+    "frame": [
+      73,
+      182,
+      366,
+      223
+    ]
+  },
+  {
+    "state": "Thinking",
+    "resource": "mew_thinking",
+    "label": "AI思考",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-11-AI思考.png",
+    "sha256": "f7ea83270edaf82d2f18f8e6e3e3d219e22ec2778c5ba7fb17bfe9703453e158",
+    "frame": [
+      77,
+      183,
+      359,
+      221
+    ]
+  },
+  {
+    "state": "Retry",
+    "resource": "mew_retry",
+    "label": "异常重试",
+    "source": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-12-异常重试.png",
+    "sha256": "7e870491b90d9921ed4f681998efbc4c2f706fdfc36ba822187122f12372ae67",
+    "frame": [
+      68,
+      150,
+      378,
+      254
+    ]
+  }
+]

@@ -179,8 +179,7 @@ private fun Profile(store: InventoryStore, open: (String) -> Unit) {
 
 @Composable
 internal fun Empty(title: String, subtitle: String) {
-    if (LocalLightDesign.current) DesignEmpty(title, subtitle)
-    else DarkEmpty(title, subtitle)
+    MewEmptyState(title, subtitle)
 }
 
 @Composable
@@ -262,7 +261,7 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
 @Composable
 internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit, showIntro: Boolean = true) {
     if (store.cloud.signedIn) {
-        key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed) }
+        key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed, showIntro = showIntro) }
         return
     }
     val lightDesign = LocalLightDesign.current
@@ -278,7 +277,7 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
     }
     LaunchedEffect(initial) { if (initial.isNotBlank()) { send(initial); consumed() } }
     Column(Modifier.padding(horizontal = 22.dp)) {
-        if (showIntro && LocalLightDesign.current) DesignChatIntro()
+        if (showIntro) MewChatIntro()
         if (store.cloud.signedIn) Text("服务器家庭库存问答 · AI 草稿尚未执行，库存操作请核对后确认", style = MaterialTheme.typography.bodySmall)
         else if (!showIntro) Text("依据本机已登记库存回答 · 补货需确认", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         else if (LocalLightDesign.current) Text("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。", style = MaterialTheme.typography.bodySmall)
@@ -287,10 +286,9 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
         LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex) }
         LazyColumn(Modifier.weight(1f).padding(vertical = 12.dp), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (conversation.isEmpty()) item {
-                if (showIntro) Empty("今天需要我帮你查看什么？", "试试「哪些快过期了」或「需要补什么」")
-                else Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
                     Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("今天想先整理什么？", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                        Text("今天需要我帮你查看什么？", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
                         Text("选择上方的快捷查询，或直接输入问题。", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }

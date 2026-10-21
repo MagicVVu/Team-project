@@ -88,7 +88,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
         }
     } else {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            if (LocalLightDesign.current) DesignAddIntro(mode)
+            MewAddIntro(mode)
             if (mode == "拍照添加") {
                 Text("用照片记录家里的物品", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 ModeNotice("拍照将打开系统相机，照片仅用于本机库存记录。初版未接入图像识别，请自行填写并核对名称、数量。")

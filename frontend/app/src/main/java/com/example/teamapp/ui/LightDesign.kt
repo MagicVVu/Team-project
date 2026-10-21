@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -35,17 +34,13 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -53,8 +48,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.R
@@ -73,27 +66,6 @@ private val DesignSoft = Color(0xFFE4EACF)
 private val DesignLine = Color(0xFFC5CFAD)
 private val DesignMuted = Color(0xFF68745C)
 private val DesignRed = Color(0xFFB75649)
-
-/** The supplied poses slightly overlap the nominal grid; use each pose's full frame. */
-private val maoyouFrames = listOf(
-    intArrayOf(10, 50, 369, 328), intArrayOf(380, 60, 340, 320),
-    intArrayOf(725, 60, 355, 320), intArrayOf(1085, 55, 354, 310),
-    intArrayOf(12, 380, 380, 331), intArrayOf(391, 390, 353, 320),
-    intArrayOf(739, 380, 357, 333), intArrayOf(1093, 400, 350, 315),
-    intArrayOf(10, 713, 342, 335), intArrayOf(380, 721, 360, 335),
-    intArrayOf(743, 721, 358, 335), intArrayOf(1103, 715, 340, 340)
-)
-
-@Composable
-internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = "Mew") {
-    val bitmap = ImageBitmap.imageResource(R.drawable.maoyou_states)
-    val index = state.coerceIn(0, 11)
-    val painter = remember(bitmap, index) {
-        val frame = maoyouFrames[index]
-        BitmapPainter(bitmap, IntOffset(frame[0], frame[1]), IntSize(frame[2], frame[3]))
-    }
-    Image(painter, description, modifier)
-}
 
 @Composable
 internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
@@ -128,7 +100,7 @@ internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(3.dp)
                 ) {
                     Box(Modifier.size(30.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
-                        if (index == 0) MaoYou(modifier = Modifier.size(30.dp), description = null)
+                        if (index == 0) MewMascot(MewPose.Overview, Modifier.size(30.dp), description = null)
                         else DesignGlyph(listOf("leaf", "box", "cart", "person")[index], Modifier.size(27.dp), foreground)
                     }
                     Text(label, color = foreground, fontSize = 11.sp, fontWeight = FontWeight.Medium)
@@ -150,11 +122,11 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
                 Text("你好，欢迎回家", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = DesignInk, modifier = Modifier.padding(top = 6.dp))
                 Text(LocalDate.now().format(DateTimeFormatter.ofPattern("M月d日")) + "  ·  慢慢记好每一件小物", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 6.dp))
             }
-            Image(painterResource(R.drawable.maoyou_welcome), "欢迎回家的 Mew", Modifier.size(94.dp))
+            MewMascot(MewPose.Welcome, Modifier.size(94.dp), "欢迎回家的 Mew")
         }
         DesignCard {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                MaoYou(3, Modifier.size(60.dp), null)
+                MewMascot(MewPose.Overview, Modifier.size(64.dp), null)
                 Column(Modifier.weight(1f).padding(start = 10.dp)) {
                     Text("Mew · AI 智能管家", fontWeight = FontWeight.Bold, fontSize = 19.sp)
                     Text("家里的物品，一起记清楚", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
@@ -190,7 +162,7 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
             Text("最近库存状态", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
             TextButton(onClick = all) { Text("查看全部 ›", fontSize = 11.sp) }
         }
-        if (store.items.isEmpty()) DesignEmpty("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
+        if (store.items.isEmpty()) MewEmptyState("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
         store.items.sortedBy { it.status(store.reminderDays).priority }.take(4).forEach { item ->
             key(item.id) { DesignStockRow(item, store.reminderDays) { open(item) } }
         }
@@ -258,7 +230,7 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
             ) { InventoryRing(result, store.reminderDays, open) }
         }
         if (result.isEmpty()) item(key = "inventory-empty") {
-            Box(Modifier.animateItem()) { DesignEmpty("没有匹配的物品", if (store.items.isEmpty()) "先记下一件小物，圆环会随真实库存展开" else "试试其他关键词或筛选条件") }
+            Box(Modifier.animateItem()) { MewEmptyState("没有匹配的物品", if (store.items.isEmpty()) "先记下一件小物，圆环会随真实库存展开" else "试试其他关键词或筛选条件") }
         }
         items(result, key = { it.id }) { item ->
             Box(Modifier.animateItem()) { DesignStockRow(item, store.reminderDays) { open(item) } }
@@ -304,7 +276,7 @@ private fun InventoryRing(items: List<StockItem>, days: Int, open: (StockItem) -
             }
         } }
         Column(Modifier.align(Alignment.Center).width(116.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            MaoYou(modifier = Modifier.size(76.dp), description = null)
+            MewMascot(MewPose.Overview, Modifier.size(76.dp), description = null)
             AppMotionContent(selectedItem, label = "ring-details") { current ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(current?.name ?: "家里的小物", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -342,18 +314,13 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(13.dp)) {
         item(key = "shopping-summary") {
             DesignCard(DesignSoft) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    MaoYou(7, Modifier.size(67.dp), null)
-                    Column(Modifier.weight(1f).padding(start = 12.dp)) {
-                        Text("把生活所需，慢慢补齐", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        Text("待采购 ${store.purchases.size} 项 · 买好后记得确认入库", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 5.dp))
-                    }
-                }
+                MewIntro(MewPose.Shopping, "把生活所需，慢慢补齐", "待采购 ${store.purchases.size} 项 · 买好后记得确认入库",
+                    Modifier.padding(end = AssistantMascotWidth))
             }
         }
         item(key = "shopping-title") { DesignSection("待采购", "${store.purchases.size} 项") }
         if (store.purchases.isEmpty()) item(key = "shopping-empty") {
-            Box(Modifier.animateItem()) { DesignEmpty("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来", 7) }
+            Box(Modifier.animateItem()) { MewEmptyState("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来") }
         }
         items(store.purchases, key = { "purchase-${it.itemId}" }) { task ->
             store.items.firstOrNull { it.id == task.itemId }?.let { item ->
@@ -397,7 +364,7 @@ internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(17.dp)) {
         Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
             Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
-                MaoYou(8, Modifier.size(73.dp), null)
+                MewMascot(MewPose.Overview, Modifier.size(72.dp), "Mew 个人资料")
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
                     Text(store.nickname, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Text(store.family, fontSize = 12.sp, color = DesignMuted, modifier = Modifier.padding(top = 5.dp))
@@ -426,37 +393,6 @@ private fun DesignMenu(title: String, rows: List<Pair<String, String>>, open: (S
                 Text("›", fontSize = 22.sp, color = DesignMuted)
             }
             if (index != rows.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = DesignLine.copy(alpha = 0.65f))
-        }
-    }
-}
-
-@Composable
-internal fun DesignEmpty(title: String, subtitle: String, state: Int = 9) {
-    Column(Modifier.fillMaxWidth().padding(vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        MaoYou(state, Modifier.size(91.dp), null)
-        Text(title, fontSize = 15.sp, fontWeight = FontWeight.Medium)
-        Text(subtitle, fontSize = 11.sp, lineHeight = 18.sp, color = DesignMuted, textAlign = TextAlign.Center, modifier = Modifier.padding(horizontal = 20.dp))
-    }
-}
-
-@Composable
-internal fun DesignChatIntro() {
-    Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-        MaoYou(10, Modifier.size(61.dp), null)
-        Column(Modifier.padding(start = 12.dp)) {
-            Text("Mew", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Text("家里的物品，一起记清楚", fontSize = 12.sp, color = DesignMuted)
-        }
-    }
-}
-
-@Composable
-internal fun DesignAddIntro(mode: String) {
-    Row(Modifier.fillMaxWidth().background(DesignSoft, RoundedCornerShape(14.dp)).padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
-        MaoYou(if (mode == "语音添加") 1 else 2, Modifier.size(67.dp), null)
-        Column(Modifier.padding(start = 12.dp)) {
-            Text("记一件家里的小物", fontSize = 17.sp, fontWeight = FontWeight.SemiBold)
-            Text("确认后，再放进小账本", fontSize = 11.sp, color = DesignMuted)
         }
     }
 }

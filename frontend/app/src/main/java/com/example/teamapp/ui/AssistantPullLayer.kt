@@ -2,7 +2,6 @@ package com.example.teamapp.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -37,7 +36,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
@@ -281,13 +279,10 @@ private fun AssistantCurtainPage(
     notify: (String) -> Unit, close: () -> Unit
 ) {
     var initial by rememberSaveable { mutableStateOf("") }
-    val light = LocalLightDesign.current
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding()) {
         Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp)) {
             Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-                if (light) Image(painterResource(R.drawable.maoyou_welcome),
-                    "Mew AI 助手", Modifier.size(88.dp).testTag("assistant-ip"))
-                else DarkMaoYou("thinking", Modifier.size(88.dp).testTag("assistant-ip"), "Mew AI 助手")
+                MewMascot(MewPose.Thinking, Modifier.size(88.dp).testTag("assistant-ip"), "Mew AI 助手")
                 Text(stringResource(R.string.brand_assistant_title), fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
                 Text("看看库存，也一起安排补货", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp))

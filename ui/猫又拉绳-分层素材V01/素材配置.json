@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "character": "猫又",
   "basedOn": "IP拉绳-饱满体型调整-两态-V04.png",
   "canvas": {
@@ -10,7 +10,7 @@
     "x": 317.5,
     "y": 0
   },
-  "recommendedPendantWidthDp": 96,
+  "recommendedPendantWidthDp": 57.6,
   "stackBottomToTop": [
     "02-小猫双尾绳结-底层.png",
     "03-眼睛-睁眼.png 或 04-眼睛-闭眼.png",
@@ -57,7 +57,9 @@
     "延长上方绳子的显示区域，纵向重复纹理，不能纵向拉伸整只小猫。",
     "深色模式保持小猫原色，不染色，不使用混合模式。",
     "07和08是合成校对图，09是分层总览，10是演示GIF。",
-    "预览仅模拟触发，不实际打开项目里的AI页面。"
+    "预览仅模拟触发，不实际打开项目里的AI页面。",
+    "2026-10-21：Android挂件保持V04分层；普通页面形象已集中到MewMascot.kt的V14语义状态。",
+    "Android实际尺寸为57.6dp（原建议96dp的五分之三）。原motion字段的弹簧参数属于早期独立演示，当前实现以androidImplementation与源码为准。"
   ],
   "preview": {
     "gif": "10-动作演示-浅色与深色.gif",
@@ -67,5 +69,23 @@
   "generation": {
     "method": "内置图像生成＋原图裁切与同坐标图层整理",
     "promptSummary": "保留原版IP与绳尾结构，生成同姿态闭眼笑表情和奶白空白脸底色。"
+  },
+  "androidImplementation": {
+    "baseWidthDp": 96,
+    "displayScale": 0.6,
+    "widthDp": 57.6,
+    "restHeightDp": 92.928,
+    "idleSwayDegrees": 0.6,
+    "dragLeanDegrees": -1.5,
+    "triggerDp": 72,
+    "maxPullDp": 120,
+    "expressionTransitionMs": 80,
+    "entranceMs": 360,
+    "exitMs": 240,
+    "recoil": {
+      "dampingRatio": "0.64 - 0.24 × energy",
+      "stiffness": "320 + 100 × energy",
+      "energy": "sqrt((displacement / 72dp)^2 + (releaseVelocity / 700dp/s)^2), clamped 0..1"
+    }
   }
 }

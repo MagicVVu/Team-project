@@ -17,7 +17,7 @@ import com.example.teamapp.data.*
 import org.json.JSONObject
 
 @Composable
-internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: () -> Unit = {}) {
+internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: () -> Unit = {}, showIntro: Boolean = true) {
     val assistant = cloud.assistant
     val scroll = rememberLazyListState()
     var input by rememberSaveable(cloud.scopeKey) { mutableStateOf("") }
@@ -47,6 +47,7 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
         if (assistant.entries.isNotEmpty()) scroll.animateScrollToItem(assistant.entries.lastIndex)
     }
     Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
+        if (showIntro) MewChatIntro()
         Text("家庭 AI 助手 · 确认后才执行", style = MaterialTheme.typography.labelLarge)
         Text("开封、丢弃、自动预测采购及跨提问引用暂不支持。可在库存或清单页面手动管理。", style = MaterialTheme.typography.bodySmall)
         val caps = JSONObject(assistant.capabilities).optJSONObject("actions")

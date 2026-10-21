@@ -94,3 +94,10 @@ MuMu 运行截图、检查结果 JSON 和便于安装的 APK 副本位于：
 本次没有重新验证云端后端、相机识别或真实语音服务，因为品牌替换没有改变这些逻辑。旧的圆环原型截图与历史说明继续保留原名称，不能用来判断当前应用显示名。所有修改仅在本机，未提交或推送 GitHub。
 
 Android 自适应图标的尺寸和资源引用按[官方说明](https://developer.android.com/develop/ui/compose/system/icon_design_adaptive)配置。
+
+
+## 2026-10-21 Mew角色统一
+
+普通角色已集中到 `ui/MewMascot.kt` 的MewPose语义状态，两主题共用V14无脚奶白形象。旧十二宫格与dark_maoyou资源已移到项目ui历史资源目录，不再打包。V1字标与桌面图标继续沿用；V04拉绳保留原有分层与动作。
+
+具体接入与验收见 `../ui/Mew统一-20261021/完成清单.md`，素材来源见同目录JSON。

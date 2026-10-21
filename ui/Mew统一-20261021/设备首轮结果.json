@@ -1,0 +1,167 @@
+[
+  {
+    "class": "com.example.teamapp.MewConsistencyTest",
+    "name": "loginRegistrationAndAboutUseTheSameIdentityInBothThemes",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MewConsistencyTest",
+    "name": "addMethodsKeepListeningAndConfirmationDistinctAcrossThemes",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MewConsistencyTest",
+    "name": "navigationProfileShoppingAndCurtainKeepTheirPosesAcrossThemes",
+    "passed": false
+  },
+  {
+    "class": "com.example.teamapp.AuthScreenTest",
+    "name": "darkFormsAndGuestCanNavigateBackFromProfile",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AuthScreenTest",
+    "name": "lightFormsValidateAndDoNotReportAuthenticationSuccess",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "mascotExpressionTracksPullThresholdAndCanBeCancelled",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "darkPullThresholdAndCoverageWorkAcrossAllThreeTabs",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "lightPullThresholdAndCoverageWorkAcrossAllThreeTabs",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "fallingCurtainCanBeDismissedAndOpenedAgain",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "mascotSlidesDownOnEntryAndUpOnExitAndCanReverse",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "activationRetainsCordRecoilAndPaperHasOneDampedImpact",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "recoilOvershootsAndScalesWithDistanceAndReleaseSpeed",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.AssistantPullTest",
+    "name": "inventoryAnswerAndReplenishmentRequireConfirmation",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.InventoryV02UiTest",
+    "name": "darkCompactToolbarAndInventoryActions",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.InventoryV02UiTest",
+    "name": "lightCompactToolbarAndInventoryActions",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.DarkDesignTest",
+    "name": "appearanceSwitchKeepsCurrentPanelAndInventory",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.DarkDesignTest",
+    "name": "cancelledPhotoAndManualEntryDoNotChangeStock",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.DarkDesignTest",
+    "name": "tabsSearchFilterDetailAndRemindersUseRealRecords",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.DarkDesignTest",
+    "name": "purchaseStillValidatesActualQuantityBeforeUpdatingStock",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.LightDesignTest",
+    "name": "lightTabsDetailAndProfileKeepTheirActions",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.LightDesignTest",
+    "name": "cancelAddKeepsInventoryUntouched",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.LightDesignTest",
+    "name": "darkModeKeepsExistingNavigationAndDetailActions",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.LightDesignTest",
+    "name": "purchaseStillRequiresConfirmedActualQuantity",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.LightDesignTest",
+    "name": "ringUsesRealInventoryAndSearchFiltersWithoutChangingData",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "cancellingAssistantDuringCordRecoilRestoresPage",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "reversingAssistantEntranceKeepsItsExitUntilItFinishes",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "closingAndReopeningAnAddPanelDiscardsOnlyTheUnconfirmedDraft",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "reversingAuthModeClearsPasswordsAndValidationWithoutLosingTypedEdits",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "rapidTabChangesKeepInventorySearchAndFilters",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MotionBehaviorTest",
+    "name": "outgoingControlsStayComposedForExitButCannotReceiveTouch",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MagicAppTest",
+    "name": "purchaseRequiresActualQuantityAndUpdatesAllViews",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MagicAppTest",
+    "name": "cancelledAddDoesNotChangeInventory",
+    "passed": true
+  },
+  {
+    "class": "com.example.teamapp.MagicAppTest",
+    "name": "fourTabsAndDetailNavigationWork",
+    "passed": true
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-21",
+  "build": "passed",
+  "applicationId": "com.example.teamapp",
+  "lint_errors": 0,
+  "lint_warnings": 28,
+  "unit_tests_passed": 26,
+  "device_checks_passed": 33,
+  "screenshots": 16,
+  "preserved_artwork_files": [
+    "maoyou_pull_body.png",
+    "maoyou_pull_eyes_closed.png",
+    "maoyou_pull_eyes_open.png",
+    "maoyou_pull_mouth_idle.png",
+    "maoyou_pull_mouth_smile.png",
+    "maoyou_pull_rope.png",
+    "mewstow_launcher_foreground.png",
+    "mewstow_launcher_monochrome.png",
+    "mewstow_mark.png",
+    "mewstow_wordmark.png"
+  ],
+  "old_resources_archived": 7,
+  "apk_sha256": "b53c8d99fc36cd1834c1f56fcaa2c15c3b67b70270bf167af95ba8c0d33fa39d",
+  "apk": "E:\\TM_code\\Team-project\\ui\\Mew统一-20261021\\Mewstow-Mew统一-debug.apk",
+  "installation": "adb install -r succeeded; official package retained"
+}
