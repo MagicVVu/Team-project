@@ -1,0 +1,44 @@
+﻿范围,文件,尺寸,代码引用,相同文件,备注
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\dark_maoyou_confirmed.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:72,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-03-信息确认.png,"{""alpha_threshold"": 128, ""bbox_inclusive"": [80, 174, 431, 401], ""meaningful_pixels"": 43563, ""pixels_outside_frame"": 0, ""outside_percent"": 0.0, ""frame_xywh"": [80, 173, 352, 229]}"
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\dark_maoyou_empty.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:69,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-01-小盒子轻晃.png,"{""alpha_threshold"": 128, ""bbox_inclusive"": [109, 254, 401, 401], ""meaningful_pixels"": 27136, ""pixels_outside_frame"": 0, ""outside_percent"": 0.0, ""frame_xywh"": [108, 254, 295, 148]}"
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\dark_maoyou_home.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:73,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-07-完整猫又回应.png,"{""alpha_threshold"": 128, ""bbox_inclusive"": [56, 143, 454, 400], ""meaningful_pixels"": 65075, ""pixels_outside_frame"": 0, ""outside_percent"": 0.0, ""frame_xywh"": [56, 142, 400, 260]}"
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\dark_maoyou_thinking.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:70,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-11-AI思考.png,"{""alpha_threshold"": 128, ""bbox_inclusive"": [80, 186, 432, 400], ""meaningful_pixels"": 44112, ""pixels_outside_frame"": 0, ""outside_percent"": 0.0, ""frame_xywh"": [79, 186, 354, 216]}"
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\dark_maoyou_voice.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:71,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-02-录入倾听.png,"{""alpha_threshold"": 128, ""bbox_inclusive"": [78, 191, 433, 400], ""meaningful_pixels"": 44683, ""pixels_outside_frame"": 0, ""outside_percent"": 0.0, ""frame_xywh"": [77, 190, 357, 212]}"
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_body.png,600×768,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:31,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\02-小猫双尾绳结-底层.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_eyes_closed.png,600×768,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:33,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\04-眼睛-闭眼.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_eyes_open.png,600×768,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:32,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\03-眼睛-睁眼.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_mouth_idle.png,600×768,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:34,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\05-嘴巴-待机.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_mouth_smile.png,600×768,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:35,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\06-嘴巴-开心.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_pull_rope.png,104×65,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt:30,E:\TM_code\Team-project\ui\猫又拉绳-分层素材V01\01-麻绳-循环纹理.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_states.png,1448×1086,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt:89,E:\1-大三上\团队项目\UI设计稿\猫又圆环版\IP素材\猫又-十二状态与配色.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\maoyou_welcome.png,1254×1254,"E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullLayer.kt:288
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt:153",E:\1-大三上\团队项目\UI设计稿\猫又圆环版\IP素材\猫又-新版基础形象.png,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\mewstow_launcher_foreground.png,432×432,,"E:\1-大三上\团队项目\UI设计稿\Mewstow品牌设计\Android接入版-20261017\mewstow-launcher-foreground.png
+E:\TM_code\Team-project\docs\ui\branding\Mewstow\mewstow-launcher-foreground.png",{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\mewstow_launcher_monochrome.png,432×432,,,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\mewstow_mark.png,512×512,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AppBrand.kt:59,,{}
+Android资源,E:\TM_code\Team-project\frontend\app\src\main\res\drawable-nodpi\mewstow_wordmark.png,1624×312,E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AppBrand.kt:31,"E:\1-大三上\团队项目\UI设计稿\Mewstow品牌设计\Android接入版-20261017\mewstow-wordmark-v1.png
+E:\TM_code\Team-project\docs\ui\branding\Mewstow\mewstow-wordmark-v1.png",{}
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\00-八个展开收起姿态-透明总图V16.png,1536×1024,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\00-十二场景表情-透明总图V14.png,1536×1024,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-01-新手引导.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-02-录入倾听.png,512×512,,dark_maoyou_voice.png,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-03-信息确认.png,512×512,,dark_maoyou_confirmed.png,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-04-首页概览.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-05-临期提醒.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-06-过期提醒.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-07-补货提醒.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-08-采购计划.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-09-操作成功.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-10-空白状态.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-11-AI思考.png,512×512,,dark_maoyou_thinking.png,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\A-12-异常重试.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-01-小盒子轻晃.png,512×512,,dark_maoyou_empty.png,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-02-偶尔露眼耳.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-03-点击后长大.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-04-猫耳探出.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-05-原有五官显现.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-06-小手双尾伸展.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-07-完整猫又回应.png,512×512,,dark_maoyou_home.png,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\B-08-反向收回小盒子.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用
+最终版素材库,E:\TM_code\Team-project\ui\猫又IP-最终版-透明PNG\C-01-加载失败-开盖空盒.png,512×512,,,无匹配表示未原样复制到Android；不能据此排除重绘/裁切复用

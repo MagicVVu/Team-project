@@ -1,0 +1,42 @@
+﻿file,line,text
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AddFlow.kt,91,if (LocalLightDesign.current) DesignAddIntro(mode)
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AppBrand.kt,29,"internal fun MewstowWordmark(modifier: Modifier = Modifier, outlined: Boolean = false) {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AppBrand.kt,58,internal fun MewstowMark(modifier: Modifier = Modifier) {
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AppHeader.kt,41,if (page == 0) MewstowWordmark(
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullLayer.kt,274,"AssistantPullMascot(dragging = dragging, smiling = ready || opening)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullLayer.kt,288,"if (light) Image(painterResource(R.drawable.maoyou_welcome),"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullLayer.kt,290,"else DarkMaoYou(""thinking"", Modifier.size(88.dp).testTag(""assistant-ip""), ""Mew AI 助手"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AssistantPullMascot.kt,28,"internal fun AssistantPullMascot(dragging: Boolean, smiling: Boolean, modifier: Modifier = Modifier) {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AuthScreen.kt,91,MewstowWordmark(Modifier.width(176.dp).height(40.dp))
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AuthScreen.kt,101,"MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), ""Mew 陪你记录生活"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\AuthScreen.kt,103,"else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = ""Mew 陪你记录生活"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,67,"internal fun DarkMaoYou(kind: String = ""home"", modifier: Modifier = Modifier, description: String? = null) {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,133,"DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = ""Mew 库存管家"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,157,"if (store.items.isEmpty()) DarkEmpty(""还没有记录物品"", ""拍照、语音或手动添加第一件家庭物品"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,216,"Box(Modifier.animateItem()) { DarkEmpty(if (store.items.isEmpty()) ""还没有记录物品"" else ""没有匹配的物品"", if (store.items.isEmpty()) ""拍照、语音或手动添加第一件家庭物品"" else ""试试其他关键词，或添加一件新物品"") }"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,266,"Box(Modifier.animateItem()) { DarkEmpty(""采购清单还是空的"", ""看看下方的库存推荐，把补货计划记下来"") }"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,285,"Box(Modifier.animateItem()) { DarkEmpty(""库存充足"", ""目前没有低于最低库存的物品"") }"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,304,"DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = ""Mew 个人资料"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,339,"internal fun DarkEmpty(title: String, subtitle: String) {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt,342,"DarkMaoYou(""empty"", Modifier.size(72.dp, 60.dp))"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,88,"internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = ""Mew"") {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,131,"if (index == 0) MaoYou(modifier = Modifier.size(30.dp), description = null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,153,"Image(painterResource(R.drawable.maoyou_welcome), ""欢迎回家的 Mew"", Modifier.size(94.dp))"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,157,"MaoYou(3, Modifier.size(60.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,193,"if (store.items.isEmpty()) DesignEmpty(""还没有记录物品"", ""拍照、语音或手动添加第一件家庭物品"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,261,"Box(Modifier.animateItem()) { DesignEmpty(""没有匹配的物品"", if (store.items.isEmpty()) ""先记下一件小物，圆环会随真实库存展开"" else ""试试其他关键词或筛选条件"") }"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,307,"MaoYou(modifier = Modifier.size(76.dp), description = null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,346,"MaoYou(7, Modifier.size(67.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,356,"Box(Modifier.animateItem()) { DesignEmpty(""采购清单还是空的"", ""看看下方的库存推荐，把补货计划记下来"", 7) }"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,400,"MaoYou(8, Modifier.size(73.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,434,"internal fun DesignEmpty(title: String, subtitle: String, state: Int = 9) {"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,436,"MaoYou(state, Modifier.size(91.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,443,internal fun DesignChatIntro() {
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,445,"MaoYou(10, Modifier.size(61.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,454,internal fun DesignAddIntro(mode: String) {
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt,456,"MaoYou(if (mode == ""语音添加"") 1 else 2, Modifier.size(67.dp), null)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\MagicApp.kt,182,"if (LocalLightDesign.current) DesignEmpty(title, subtitle)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\MagicApp.kt,183,"else DarkEmpty(title, subtitle)"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\MagicApp.kt,281,if (showIntro && LocalLightDesign.current) DesignChatIntro()
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\SettingsPanel.kt,125,"if (!LocalLightDesign.current) DarkMaoYou(modifier = Modifier.fillMaxWidth().height(145.dp), description = ""Mew · Nekomata 猫又"")"
+E:\TM_code\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\SettingsPanel.kt,126,MewstowWordmark(Modifier.widthIn(max = 280.dp).fillMaxWidth().height(64.dp))

@@ -1,0 +1,916 @@
+{
+  "date": "2026-10-21",
+  "git_head": "5b29d8bc7207ec4b1c234487de2926ac28e3810b",
+  "runtime_assets": [
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\dark_maoyou_confirmed.png",
+      "name": "dark_maoyou_confirmed.png",
+      "bytes": 108209,
+      "sha256": "dfc974dd172f778bf4379b35adb5d9bdaebfebb1e44a7d19f36f302ec1ed8833",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+          "line": 72,
+          "text": "\"confirmed\" -> R.drawable.dark_maoyou_confirmed to intArrayOf(80, 173, 352, 229)"
+        }
+      ],
+      "alpha": {
+        "alpha_threshold": 128,
+        "bbox_inclusive": [
+          80,
+          174,
+          431,
+          401
+        ],
+        "meaningful_pixels": 43563,
+        "pixels_outside_frame": 0,
+        "outside_percent": 0.0,
+        "frame_xywh": [
+          80,
+          173,
+          352,
+          229
+        ]
+      },
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-03-信息确认.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\dark_maoyou_empty.png",
+      "name": "dark_maoyou_empty.png",
+      "bytes": 58908,
+      "sha256": "cb20703e15d4ac6d9c5794176f8d24eded52a007c23b67cda72ccaf5cc808d1f",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+          "line": 69,
+          "text": "\"empty\" -> R.drawable.dark_maoyou_empty to intArrayOf(108, 254, 295, 148)"
+        }
+      ],
+      "alpha": {
+        "alpha_threshold": 128,
+        "bbox_inclusive": [
+          109,
+          254,
+          401,
+          401
+        ],
+        "meaningful_pixels": 27136,
+        "pixels_outside_frame": 0,
+        "outside_percent": 0.0,
+        "frame_xywh": [
+          108,
+          254,
+          295,
+          148
+        ]
+      },
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-01-小盒子轻晃.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\dark_maoyou_home.png",
+      "name": "dark_maoyou_home.png",
+      "bytes": 157012,
+      "sha256": "d0d7de67ea7193b8bfdc153845ccc6682f6095da2691b71d51c92b3c3a6a85f6",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+          "line": 73,
+          "text": "else -> R.drawable.dark_maoyou_home to intArrayOf(56, 142, 400, 260)"
+        }
+      ],
+      "alpha": {
+        "alpha_threshold": 128,
+        "bbox_inclusive": [
+          56,
+          143,
+          454,
+          400
+        ],
+        "meaningful_pixels": 65075,
+        "pixels_outside_frame": 0,
+        "outside_percent": 0.0,
+        "frame_xywh": [
+          56,
+          142,
+          400,
+          260
+        ]
+      },
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-07-完整猫又回应.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\dark_maoyou_thinking.png",
+      "name": "dark_maoyou_thinking.png",
+      "bytes": 106497,
+      "sha256": "f7ea83270edaf82d2f18f8e6e3e3d219e22ec2778c5ba7fb17bfe9703453e158",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+          "line": 70,
+          "text": "\"thinking\" -> R.drawable.dark_maoyou_thinking to intArrayOf(79, 186, 354, 216)"
+        }
+      ],
+      "alpha": {
+        "alpha_threshold": 128,
+        "bbox_inclusive": [
+          80,
+          186,
+          432,
+          400
+        ],
+        "meaningful_pixels": 44112,
+        "pixels_outside_frame": 0,
+        "outside_percent": 0.0,
+        "frame_xywh": [
+          79,
+          186,
+          354,
+          216
+        ]
+      },
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-11-AI思考.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\dark_maoyou_voice.png",
+      "name": "dark_maoyou_voice.png",
+      "bytes": 117057,
+      "sha256": "08ed5d8b1c73da6ab3cc2fac01ebf01288b61a43f22651a0367a4bcf1fc0c756",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+          "line": 71,
+          "text": "\"voice\" -> R.drawable.dark_maoyou_voice to intArrayOf(77, 190, 357, 212)"
+        }
+      ],
+      "alpha": {
+        "alpha_threshold": 128,
+        "bbox_inclusive": [
+          78,
+          191,
+          433,
+          400
+        ],
+        "meaningful_pixels": 44683,
+        "pixels_outside_frame": 0,
+        "outside_percent": 0.0,
+        "frame_xywh": [
+          77,
+          190,
+          357,
+          212
+        ]
+      },
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-02-录入倾听.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_body.png",
+      "name": "maoyou_pull_body.png",
+      "bytes": 365279,
+      "sha256": "c135103e7296a1d71cf69beb4a31181c5850060d1218394b01344ff631dc74d0",
+      "width": 600,
+      "height": 768,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 31,
+          "text": "R.drawable.maoyou_pull_body,"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\02-小猫双尾绳结-底层.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_eyes_closed.png",
+      "name": "maoyou_pull_eyes_closed.png",
+      "bytes": 16611,
+      "sha256": "b8681b8fd0756a8db062eb7d7ed97783ced54f024fd5afbb7ee8e8f6ad0a6fb9",
+      "width": 600,
+      "height": 768,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 33,
+          "text": "R.drawable.maoyou_pull_eyes_closed,"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\04-眼睛-闭眼.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_eyes_open.png",
+      "name": "maoyou_pull_eyes_open.png",
+      "bytes": 54838,
+      "sha256": "46ad4c142da4b9cf1ccb8ba8a029e0243ec735aa545470639b0bb9d1bae17597",
+      "width": 600,
+      "height": 768,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 32,
+          "text": "R.drawable.maoyou_pull_eyes_open,"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\03-眼睛-睁眼.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_mouth_idle.png",
+      "name": "maoyou_pull_mouth_idle.png",
+      "bytes": 6561,
+      "sha256": "1ab53b80d26cbac5a129f2d6d52c3cde336e4dd7892a4fb6b0a6857826880239",
+      "width": 600,
+      "height": 768,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 34,
+          "text": "R.drawable.maoyou_pull_mouth_idle,"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\05-嘴巴-待机.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_mouth_smile.png",
+      "name": "maoyou_pull_mouth_smile.png",
+      "bytes": 10789,
+      "sha256": "a19e5e42db93f027513b083f8e5d38caf0c5428460e505ed35cc1c177688755c",
+      "width": 600,
+      "height": 768,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 35,
+          "text": "R.drawable.maoyou_pull_mouth_smile"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\06-嘴巴-开心.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_pull_rope.png",
+      "name": "maoyou_pull_rope.png",
+      "bytes": 12144,
+      "sha256": "afda0b96fa19a970a2afda06c08a1d6b64fc8527782d49423c90b44332ffe836",
+      "width": 104,
+      "height": 65,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+          "line": 30,
+          "text": "R.drawable.maoyou_pull_rope,"
+        }
+      ],
+      "identical_files": [
+        "E:\\TM_code\\Team-project\\ui\\猫又拉绳-分层素材V01\\01-麻绳-循环纹理.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_states.png",
+      "name": "maoyou_states.png",
+      "bytes": 1994071,
+      "sha256": "7c497f475f46cccb2de7ad0cf6b3bf0c80414f2f215de648e4b9b5b5861f2b4b",
+      "width": 1448,
+      "height": 1086,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+          "line": 89,
+          "text": "val bitmap = ImageBitmap.imageResource(R.drawable.maoyou_states)"
+        }
+      ],
+      "identical_files": [
+        "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版\\IP素材\\猫又-十二状态与配色.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\maoyou_welcome.png",
+      "name": "maoyou_welcome.png",
+      "bytes": 1003905,
+      "sha256": "1272d679bb7d062f147f2b5a3a0268ebf3df16eba10c1a2fac92cbb3b09ea843",
+      "width": 1254,
+      "height": 1254,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullLayer.kt",
+          "line": 288,
+          "text": "if (light) Image(painterResource(R.drawable.maoyou_welcome),"
+        },
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+          "line": 153,
+          "text": "Image(painterResource(R.drawable.maoyou_welcome), \"欢迎回家的 Mew\", Modifier.size(94.dp))"
+        }
+      ],
+      "identical_files": [
+        "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版\\IP素材\\猫又-新版基础形象.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\mewstow_launcher_foreground.png",
+      "name": "mewstow_launcher_foreground.png",
+      "bytes": 47090,
+      "sha256": "f3aef8e130077092711e3ac2677e64aa65752b78fdff8868c68b74acd49755aa",
+      "width": 432,
+      "height": 432,
+      "bit": 8,
+      "color_type": 6,
+      "references": [],
+      "identical_files": [
+        "E:\\1-大三上\\团队项目\\UI设计稿\\Mewstow品牌设计\\Android接入版-20261017\\mewstow-launcher-foreground.png",
+        "E:\\TM_code\\Team-project\\docs\\ui\\branding\\Mewstow\\mewstow-launcher-foreground.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\mewstow_launcher_monochrome.png",
+      "name": "mewstow_launcher_monochrome.png",
+      "bytes": 10327,
+      "sha256": "8965cbd4043c82d7a676f1a8f6fa2cdcf569d2f0424d661ddcbb5050bc25bca0",
+      "width": 432,
+      "height": 432,
+      "bit": 8,
+      "color_type": 6,
+      "references": [],
+      "identical_files": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\mewstow_mark.png",
+      "name": "mewstow_mark.png",
+      "bytes": 144553,
+      "sha256": "4faa6c1abebd7450413e26fe2a844bc28b331d1ac0c842ee8a9a07b66c2d0905",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AppBrand.kt",
+          "line": 59,
+          "text": "Image(painterResource(R.drawable.mewstow_mark), contentDescription = null,"
+        }
+      ],
+      "identical_files": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\res\\drawable-nodpi\\mewstow_wordmark.png",
+      "name": "mewstow_wordmark.png",
+      "bytes": 328596,
+      "sha256": "56aad1b428ee80e7c2691673045493b860a0aba7dd87427add29d19372a32d42",
+      "width": 1624,
+      "height": 312,
+      "bit": 8,
+      "color_type": 6,
+      "references": [
+        {
+          "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AppBrand.kt",
+          "line": 31,
+          "text": "val painter = painterResource(R.drawable.mewstow_wordmark)"
+        }
+      ],
+      "identical_files": [
+        "E:\\1-大三上\\团队项目\\UI设计稿\\Mewstow品牌设计\\Android接入版-20261017\\mewstow-wordmark-v1.png",
+        "E:\\TM_code\\Team-project\\docs\\ui\\branding\\Mewstow\\mewstow-wordmark-v1.png"
+      ]
+    }
+  ],
+  "final_library": [
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\00-八个展开收起姿态-透明总图V16.png",
+      "name": "00-八个展开收起姿态-透明总图V16.png",
+      "sha256": "a18d3f1a43d894609dcf4ecad71b7e1398608049101869a344c1782ae886b0dc",
+      "width": 1536,
+      "height": 1024,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\00-十二场景表情-透明总图V14.png",
+      "name": "00-十二场景表情-透明总图V14.png",
+      "sha256": "f02885f1382710ab594ca9f2d23e6700a18f395e03e2355ada7752594916669d",
+      "width": 1536,
+      "height": 1024,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-01-新手引导.png",
+      "name": "A-01-新手引导.png",
+      "sha256": "f6a90b8c16de6df58ae452a4ce9246e347ad51ae9a3055079ab01d9a738c7d36",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-02-录入倾听.png",
+      "name": "A-02-录入倾听.png",
+      "sha256": "08ed5d8b1c73da6ab3cc2fac01ebf01288b61a43f22651a0367a4bcf1fc0c756",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": [
+        "dark_maoyou_voice.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-03-信息确认.png",
+      "name": "A-03-信息确认.png",
+      "sha256": "dfc974dd172f778bf4379b35adb5d9bdaebfebb1e44a7d19f36f302ec1ed8833",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": [
+        "dark_maoyou_confirmed.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-04-首页概览.png",
+      "name": "A-04-首页概览.png",
+      "sha256": "d626c1dd6d34e5361d0080888f9031f4d7d84ec910dab96b54161db023b677e2",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-05-临期提醒.png",
+      "name": "A-05-临期提醒.png",
+      "sha256": "d510a9667056a5cd3385d60b3a7506e226f8405a9bcc0046f6d01f623555fe82",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-06-过期提醒.png",
+      "name": "A-06-过期提醒.png",
+      "sha256": "10c756cbac3eb07fcd9b9bb9cbf72917e9f2f5c1a7dcb761cc8023db0a5157d3",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-07-补货提醒.png",
+      "name": "A-07-补货提醒.png",
+      "sha256": "d3c3f2e2fe9ef5ebad31ec2226f5fe25b5b7c95073c604177a990a77e917a8cc",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-08-采购计划.png",
+      "name": "A-08-采购计划.png",
+      "sha256": "65d1e54f0d4bdfe9c9551a1c5d5306e1a9e50b8b943316a1850bc5fd539ca1cc",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-09-操作成功.png",
+      "name": "A-09-操作成功.png",
+      "sha256": "b624e764ee56a3adb025b2f15edc39caf13a08e8bfe272a1b0d665708c5b42a6",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-10-空白状态.png",
+      "name": "A-10-空白状态.png",
+      "sha256": "be9c204d7a32f4a6db93d305988240cc455f0a9d74a72bd0d754aa2124efa3d0",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-11-AI思考.png",
+      "name": "A-11-AI思考.png",
+      "sha256": "f7ea83270edaf82d2f18f8e6e3e3d219e22ec2778c5ba7fb17bfe9703453e158",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": [
+        "dark_maoyou_thinking.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\A-12-异常重试.png",
+      "name": "A-12-异常重试.png",
+      "sha256": "7e870491b90d9921ed4f681998efbc4c2f706fdfc36ba822187122f12372ae67",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-01-小盒子轻晃.png",
+      "name": "B-01-小盒子轻晃.png",
+      "sha256": "cb20703e15d4ac6d9c5794176f8d24eded52a007c23b67cda72ccaf5cc808d1f",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": [
+        "dark_maoyou_empty.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-02-偶尔露眼耳.png",
+      "name": "B-02-偶尔露眼耳.png",
+      "sha256": "1cae6039d4d5034cd0fdc81577b6a47b4e47184637da20804bc04caa2cc5c4a4",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-03-点击后长大.png",
+      "name": "B-03-点击后长大.png",
+      "sha256": "7312efbe05f9dc523083a17f74f3d4fc2b57d7950196809f04d9c95d7a00526d",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-04-猫耳探出.png",
+      "name": "B-04-猫耳探出.png",
+      "sha256": "f771e87745bb5fef6a64a0ba6d7ca40995a797f9e11280b4506d792b02c33f53",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-05-原有五官显现.png",
+      "name": "B-05-原有五官显现.png",
+      "sha256": "0e0e2256eefcca5814f055d78c134ef38f9ae69496c3575d4b30618b4be85d3d",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-06-小手双尾伸展.png",
+      "name": "B-06-小手双尾伸展.png",
+      "sha256": "9cf1f67b2ee466677e905ef795303176da050cfb444b83219ac844e73544d8b6",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-07-完整猫又回应.png",
+      "name": "B-07-完整猫又回应.png",
+      "sha256": "d0d7de67ea7193b8bfdc153845ccc6682f6095da2691b71d51c92b3c3a6a85f6",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": [
+        "dark_maoyou_home.png"
+      ]
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\B-08-反向收回小盒子.png",
+      "name": "B-08-反向收回小盒子.png",
+      "sha256": "9a2f74dbb8ce8d761360474a01d0c955e2bd41e8a67a85dad345d1a64dc69080",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\ui\\猫又IP-最终版-透明PNG\\C-01-加载失败-开盖空盒.png",
+      "name": "C-01-加载失败-开盖空盒.png",
+      "sha256": "4d1567f50e6d4056695fa5c5baa084d6cf8e6252e79d2181c8ae09b084ef5d60",
+      "width": 512,
+      "height": 512,
+      "bit": 8,
+      "color_type": 6,
+      "exact_resource_matches": []
+    }
+  ],
+  "source_usage": [
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AddFlow.kt",
+      "line": 91,
+      "text": "if (LocalLightDesign.current) DesignAddIntro(mode)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AppBrand.kt",
+      "line": 29,
+      "text": "internal fun MewstowWordmark(modifier: Modifier = Modifier, outlined: Boolean = false) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AppBrand.kt",
+      "line": 58,
+      "text": "internal fun MewstowMark(modifier: Modifier = Modifier) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AppHeader.kt",
+      "line": 41,
+      "text": "if (page == 0) MewstowWordmark("
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullLayer.kt",
+      "line": 274,
+      "text": "AssistantPullMascot(dragging = dragging, smiling = ready || opening)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullLayer.kt",
+      "line": 288,
+      "text": "if (light) Image(painterResource(R.drawable.maoyou_welcome),"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullLayer.kt",
+      "line": 290,
+      "text": "else DarkMaoYou(\"thinking\", Modifier.size(88.dp).testTag(\"assistant-ip\"), \"Mew AI 助手\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AssistantPullMascot.kt",
+      "line": 28,
+      "text": "internal fun AssistantPullMascot(dragging: Boolean, smiling: Boolean, modifier: Modifier = Modifier) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AuthScreen.kt",
+      "line": 91,
+      "text": "MewstowWordmark(Modifier.width(176.dp).height(40.dp))"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AuthScreen.kt",
+      "line": 101,
+      "text": "MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), \"Mew 陪你记录生活\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\AuthScreen.kt",
+      "line": 103,
+      "text": "else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = \"Mew 陪你记录生活\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 67,
+      "text": "internal fun DarkMaoYou(kind: String = \"home\", modifier: Modifier = Modifier, description: String? = null) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 133,
+      "text": "DarkMaoYou(modifier = Modifier.size(96.dp, 86.dp), description = \"Mew 库存管家\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 157,
+      "text": "if (store.items.isEmpty()) DarkEmpty(\"还没有记录物品\", \"拍照、语音或手动添加第一件家庭物品\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 216,
+      "text": "Box(Modifier.animateItem()) { DarkEmpty(if (store.items.isEmpty()) \"还没有记录物品\" else \"没有匹配的物品\", if (store.items.isEmpty()) \"拍照、语音或手动添加第一件家庭物品\" else \"试试其他关键词，或添加一件新物品\") }"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 266,
+      "text": "Box(Modifier.animateItem()) { DarkEmpty(\"采购清单还是空的\", \"看看下方的库存推荐，把补货计划记下来\") }"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 285,
+      "text": "Box(Modifier.animateItem()) { DarkEmpty(\"库存充足\", \"目前没有低于最低库存的物品\") }"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 304,
+      "text": "DarkMaoYou(modifier = Modifier.size(70.dp, 64.dp), description = \"Mew 个人资料\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 339,
+      "text": "internal fun DarkEmpty(title: String, subtitle: String) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\DarkDesign.kt",
+      "line": 342,
+      "text": "DarkMaoYou(\"empty\", Modifier.size(72.dp, 60.dp))"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 88,
+      "text": "internal fun MaoYou(state: Int = 3, modifier: Modifier = Modifier, description: String? = \"Mew\") {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 131,
+      "text": "if (index == 0) MaoYou(modifier = Modifier.size(30.dp), description = null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 153,
+      "text": "Image(painterResource(R.drawable.maoyou_welcome), \"欢迎回家的 Mew\", Modifier.size(94.dp))"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 157,
+      "text": "MaoYou(3, Modifier.size(60.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 193,
+      "text": "if (store.items.isEmpty()) DesignEmpty(\"还没有记录物品\", \"拍照、语音或手动添加第一件家庭物品\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 261,
+      "text": "Box(Modifier.animateItem()) { DesignEmpty(\"没有匹配的物品\", if (store.items.isEmpty()) \"先记下一件小物，圆环会随真实库存展开\" else \"试试其他关键词或筛选条件\") }"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 307,
+      "text": "MaoYou(modifier = Modifier.size(76.dp), description = null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 346,
+      "text": "MaoYou(7, Modifier.size(67.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 356,
+      "text": "Box(Modifier.animateItem()) { DesignEmpty(\"采购清单还是空的\", \"看看下方的库存推荐，把补货计划记下来\", 7) }"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 400,
+      "text": "MaoYou(8, Modifier.size(73.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 434,
+      "text": "internal fun DesignEmpty(title: String, subtitle: String, state: Int = 9) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 436,
+      "text": "MaoYou(state, Modifier.size(91.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 443,
+      "text": "internal fun DesignChatIntro() {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 445,
+      "text": "MaoYou(10, Modifier.size(61.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 454,
+      "text": "internal fun DesignAddIntro(mode: String) {"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\LightDesign.kt",
+      "line": 456,
+      "text": "MaoYou(if (mode == \"语音添加\") 1 else 2, Modifier.size(67.dp), null)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\MagicApp.kt",
+      "line": 182,
+      "text": "if (LocalLightDesign.current) DesignEmpty(title, subtitle)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\MagicApp.kt",
+      "line": 183,
+      "text": "else DarkEmpty(title, subtitle)"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\MagicApp.kt",
+      "line": 281,
+      "text": "if (showIntro && LocalLightDesign.current) DesignChatIntro()"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\SettingsPanel.kt",
+      "line": 125,
+      "text": "if (!LocalLightDesign.current) DarkMaoYou(modifier = Modifier.fillMaxWidth().height(145.dp), description = \"Mew · Nekomata 猫又\")"
+    },
+    {
+      "file": "E:\\TM_code\\Team-project\\frontend\\app\\src\\main\\java\\com\\example\\teamapp\\ui\\SettingsPanel.kt",
+      "line": 126,
+      "text": "MewstowWordmark(Modifier.widthIn(max = 280.dp).fillMaxWidth().height(64.dp))"
+    }
+  ],
+  "historical_archives": [
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版-含相机识别.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V2-清晰配色版.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V2-环形卡片与无脚IP.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V2-统一字体版.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V3-南丝记风格修订.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V3-含猫又AI对话.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\猫又圆环版V3-清晰配色版.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    },
+    {
+      "file": "E:\\1-大三上\\团队项目\\UI设计稿\\移动端V4-V1功能补齐.zip",
+      "role": "历史打包稿；不属于 Android 资源引用，未解压逐页审阅"
+    }
+  ],
+  "scan_counts": {
+    "candidate_png_files": 836,
+    "kotlin_files": 36,
+    "resource_png_files": 17,
+    "final_library_png_files": 23
+  }
+}
