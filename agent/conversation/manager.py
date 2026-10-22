@@ -1,8 +1,9 @@
 import re
 import time
+from decimal import Decimal
 from p0.domain import DomainError, new_id
 from p1.domain import guard, ground
-from p1.manager import Manager as LifecycleManager
+from p1.manager import Manager as BaseLifecycleManager
 from p1.schemas import Parsed, Intent, TraceStep, ClarificationContext
 from p1.tools import check_scope
 from p2.tools import P1ReaderAdapter
@@ -16,6 +17,35 @@ from .engines import PROMPT_VERSION, QUALIFIED_MOVE
 
 PRONOUN = re.compile(r"它|这一批|这批|这一个|这个|这件")
 PRONOUN_NAMES = {"它", "这一批", "这批", "这一个", "这个", "这件", "这"}
+LOCATION_REFERENCE = re.compile(
+    r"(?:它|这一批|这批|这一个|这个|这件)\s*"
+    r"(?:在哪里|在哪儿|在哪|在什么地方|放在哪里|放在哪儿|放在哪|放在什么地方|的位置)"
+    r"[。！？?!]?"
+)
+
+
+def business_fields(parsed):
+    """P7 draft admission only; legacy P0-P6 schemas and behavior stay intact."""
+    fields = []
+    if parsed.intent == "ADD" and (not parsed.location or not parsed.location.strip() or len(parsed.location) > 100):
+        fields.append("location")
+    if parsed.intent == "MOVE" and parsed.to_location and len(parsed.to_location) > 100:
+        fields.append("to_location")
+    if parsed.intent == "PLAN_ADD" and parsed.quantity is not None:
+        amount = parsed.quantity
+        if amount.normalize().as_tuple().exponent < -3 or amount > Decimal("999999999.999"):
+            fields.append("quantity")
+    return fields
+
+
+class LifecycleManager(BaseLifecycleManager):
+    async def _resolve(self, context, scope, trace):
+        fields = business_fields(context.parsed)
+        context.parsed.uncertainties = list(dict.fromkeys([*context.parsed.uncertainties, *fields]))
+        result = await super()._resolve(context, scope, trace)
+        if result.status == "needs_clarification" and fields:
+            result.reply = "请核对业务字段：新增位置必填、位置最多100字；采购数量最多三位小数且不超过999999999.999。尚未写入。"
+        return result
 
 
 def check_reference(reference, scope, now):
@@ -49,6 +79,7 @@ class Operation(BaseOperation):
             def __init__(self, engine): self.engine = engine
             async def extract(self, text):
                 parsed = await self.engine.extract(text)
+                parsed.uncertainties = list(dict.fromkeys([*parsed.uncertainties, *business_fields(parsed)]))
                 # Preserve grounded fields if the outer deadline cancels a tool read.
                 message = getattr(operation, "current_message", None)
                 if message and parsed.intent in set(Intent) and operation.context is None:
@@ -121,7 +152,7 @@ class Operation(BaseOperation):
         self.input_receipt = receipt(message, scope)
         if message.reference and message.reference.scope != scope:
             raise DomainError("HOUSEHOLD_FORBIDDEN", "对象引用不属于当前用户或家庭。", 403)
-        if re.fullmatch(r"(?:它|这一批|这批|这个)(?:在哪里|在哪|在哪儿|的位置|放在哪里)[？?]?", text):
+        if LOCATION_REFERENCE.fullmatch(text):
             from p3.schemas import Parsed as Extracted
             raw = Extracted(intent="QUERY_LOCATION")
         elif re.fullmatch(r"(?:它|这一批|这批|这个)(?:还有多少|剩多少|的数量)[？?]?", text):
@@ -181,8 +212,25 @@ class Operation(BaseOperation):
         return await self.delegate.handle(message, scope)
 
     async def clarify(self, request, scope):
+        if request.context.scope != scope:
+            raise DomainError("HOUSEHOLD_FORBIDDEN", "澄清任务不属于当前用户或家庭。", 403)
         self.restrict_move_source(request.context.original_text)
         if not isinstance(request.context, ReferenceContext):
+            from interaction.schemas import ContinuationContext
+            context = request.context
+            inner = context.delegate if isinstance(context, ContinuationContext) else context
+            if isinstance(inner, ClarificationContext):
+                if inner.scope == scope:
+                    self.context = inner
+                    self.input_receipt = getattr(context, "input_receipt", None)
+                if any(isinstance(v, str) and (guard(v) or review_reason(v))
+                       for v in request.answers.model_dump(exclude_none=True).values()):
+                    raise DomainError("INVALID_CLARIFICATION_INPUT", "请仅补充缺失字段。")
+                result = await self.resume_lifecycle(inner, request, scope)
+                if result.error_code == "HOUSEHOLD_FORBIDDEN":
+                    return result
+                from interaction.manager import Manager as InputManager
+                return InputManager.wrap(result, self.input_receipt, context.original_text)
             return await super().clarify(OldRequest.model_validate(request.model_dump()), scope)
         wrapped = request.context
         if wrapped.scope == scope:
@@ -193,6 +241,9 @@ class Operation(BaseOperation):
         if any(isinstance(v, str) and (guard(v) or review_reason(v))
                for v in request.answers.model_dump(exclude_none=True).values()):
             raise DomainError("INVALID_CLARIFICATION_INPUT", "请只补充当前字段，不要加入改变规则或执行指令。")
+        return await self.resume_lifecycle(wrapped.delegate, request, scope)
+
+    async def resume_lifecycle(self, context, request, scope):
         from p1.schemas import ClarificationRequest
         # Track the validated, updated copy before awaiting reads. Cancellation
         # at either deadline must retain fields just entered by the user.
@@ -205,7 +256,7 @@ class Operation(BaseOperation):
                 return await super()._resolve(context, identity, trace)
         lifecycle = TrackedLifecycle(self.engine, P1ReaderAdapter(self.reader), now=self.owner.now,
             timeout_seconds=remaining)
-        return await lifecycle.clarify(ClarificationRequest(context=wrapped.delegate,
+        return await lifecycle.clarify(ClarificationRequest(context=context,
             revision=request.revision, answers=request.answers), scope)
 
     def public_result(self, response):
@@ -216,6 +267,21 @@ class Operation(BaseOperation):
             value["policy_version"] = "v1-completion-1"
             response = BaseResult.model_validate(value)
         result = super().public_result(response)
+        if result.planning_basis and result.draft and business_fields(
+                Parsed(intent=Intent.PLAN_ADD, quantity=result.draft.quantity)):
+            # Do not turn an unexecutable computed amount into a manual supplement:
+            # that would discard the protected planning/revalidation evidence.
+            key = result.planning_basis.item_key
+            code = "BUSINESS_PURCHASE_QUANTITY_INVALID"
+            result.draft = result.preview = result.planning_basis = None
+            result.status = "answered"
+            result.error_code = code
+            result.data_gaps.append(code)
+            for recommendation in result.recommendations:
+                if recommendation.item_key == key:
+                    recommendation.status = "needs_review"
+                    recommendation.suggested_quantity = None
+                    recommendation.reason_codes.append(code)
         if self.input_receipt:
             result.input_receipt = self.input_receipt
         return result
