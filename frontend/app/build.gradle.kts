@@ -5,6 +5,16 @@ plugins {
 
 android {
     namespace = "com.example.teamapp"
+    // Opt-in read-only device checks for the actual internal APK and its TLS policy.
+    // Keep the existing debug instrumentation suite and fixtures separate.
+    if (providers.gradleProperty("magicvvuInternalNetworkTest").orNull == "true") {
+        testBuildType = "internal"
+        sourceSets.getByName("androidTest").apply {
+            java.directories.clear()
+            kotlin.directories.clear()
+            kotlin.directories.add("src/internalAndroidTest/java")
+        }
+    }
     compileSdk {
         version = release(37) {
             minorApiLevel = 1
