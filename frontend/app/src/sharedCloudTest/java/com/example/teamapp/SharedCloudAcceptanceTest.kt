@@ -47,7 +47,7 @@ class SharedCloudAcceptanceTest {
         }
         val store = InventoryStore(context)
         val phone = "+999" + System.currentTimeMillis().toString().takeLast(11)
-        val password = UUID.randomUUID().toString()
+        val password = "T7" + UUID.randomUUID().toString().replace("-", "").take(14)
         try {
             compose.setContent { TeamAppTheme(darkTheme = false) { AppEntry(store) } }
             compose.onNodeWithText("去注册").performScrollTo().performClick()

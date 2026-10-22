@@ -8,6 +8,7 @@ import importlib.util
 import json
 import os
 import secrets
+import string
 from datetime import timedelta
 from pathlib import Path
 from unittest.mock import patch
@@ -23,7 +24,7 @@ with patch("sqlalchemy.create_engine", return_value=engine):
     from app.dependencies import get_db
     from app.main import app
     from app.models import AuthSession, User
-from app.security import digest_token, now_utc, verify_password
+from app.security import digest_token, hash_password, now_utc, verify_password
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine, autoflush=False)
@@ -45,7 +46,7 @@ def check(name, condition):
         raise AssertionError(name)
 
 
-payload = {"phone": "19900000001", "password": secrets.token_urlsafe(24), "display_name": " Auth smoke "}
+payload = {"phone": "19900000001", "password": "T7" + "".join(secrets.choice(string.ascii_letters + string.digits) for _ in range(14)), "display_name": " Auth smoke "}
 try:
     with TestClient(app) as client:
         os.environ["AUTH_ALLOW_UNVERIFIED_SIGNUP"] = "false"
@@ -54,7 +55,15 @@ try:
         for label, changed in {
             "invalid_phone": {"phone": "invalid"},
             "short_password": {"password": "short"},
+            "seven_character_password": {"password": "Abcd123"},
+            "seventeen_character_password": {"password": "Abcdef12345678901"},
             "long_password": {"password": "x" * 129},
+            "digits_only_password": {"password": "12345678"},
+            "letters_only_password": {"password": "Abcdefgh"},
+            "symbols_in_password": {"password": "Abcd123!"},
+            "space_in_password": {"password": "Abcd123 "},
+            "unicode_in_password": {"password": "中文abc123"},
+            "newline_in_password": {"password": "Abcd1234\n"},
             "blank_name": {"display_name": "   "},
             "extra_fields": {"is_active": True},
         }.items():
@@ -88,6 +97,17 @@ try:
             check("only_token_digest_at_rest", session.token_hash == digest_token(token) and session.token_hash != token)
         check("logout_200", client.post("/api/v1/auth/logout", headers=auth).status_code == 200)
         check("revoked_token_401", client.get("/api/v1/users/me", headers=auth).status_code == 401)
+        legacy_password = "Legacy-" + secrets.token_urlsafe(24)
+        with Session.begin() as db:
+            user = db.scalar(select(User).where(User.phone == canonical["phone"]))
+            original_hash = user.password_hash
+            user.password_hash = hash_password(legacy_password)
+        legacy_login = client.post("/api/v1/auth/login", json={**credentials, "password": legacy_password})
+        check("legacy_password_login_200", legacy_login.status_code == 200)
+        check("legacy_session_logout", client.post("/api/v1/auth/logout", headers={"Authorization": "Bearer " + legacy_login.json()["access_token"]}).status_code == 200)
+        with Session.begin() as db:
+            user = db.scalar(select(User).where(User.phone == canonical["phone"]))
+            user.password_hash = original_hash
         again = client.post("/api/v1/auth/login", json=credentials)
         check("login_again_200", again.status_code == 200)
         with Session.begin() as db:

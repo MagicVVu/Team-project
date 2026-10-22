@@ -7,6 +7,7 @@ Uses the existing private CA with full certificate and IP verification.
 import json
 import http.client
 import secrets
+import string
 import socket
 import ssl
 import subprocess
@@ -16,7 +17,7 @@ origin = "https://8.134.172.165:8000"
 context = ssl.create_default_context(cafile="/etc/magicvvu/ip-direct/ca/ca.crt")
 phone = "+1999" + str(secrets.randbelow(10**8)).zfill(8)
 marker = "auth-acceptance-" + uuid4().hex
-password = secrets.token_urlsafe(32)
+password = "T7" + "".join(secrets.choice(string.ascii_letters + string.digits) for _ in range(6))
 checks = {}
 completed = False
 attempted = False

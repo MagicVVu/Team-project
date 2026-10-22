@@ -43,7 +43,7 @@ tokens = []
 logged_out = set()
 error = None
 try:
-    password = secrets.token_urlsafe(24)
+    password = "T7" + secrets.token_hex(7)
     phone_a = "+999" + str(secrets.randbelow(10**11)).zfill(11)
     phone_b = "+999" + str(secrets.randbelow(10**11)).zfill(11)
     for index, phone in enumerate((phone_a, phone_b)):

@@ -11,8 +11,17 @@ from app.security import normalize_phone
 class RegisterRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     phone: str
-    password: str = Field(min_length=10, max_length=128)
+    password: str = Field(min_length=8, max_length=16)
     display_name: str = Field(min_length=1, max_length=100)
+
+    @field_validator("password")
+    @classmethod
+    def password_format(cls, password: str) -> str:
+        import re
+        if (not re.fullmatch(r"[A-Za-z0-9]{8,16}", password)
+                or not re.search(r"[A-Za-z]", password) or not re.search(r"[0-9]", password)):
+            raise ValueError("Password must be 8-16 ASCII letters and digits, including both")
+        return password
 
     @field_validator("phone")
     @classmethod

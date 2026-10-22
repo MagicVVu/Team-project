@@ -183,7 +183,7 @@ private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticat
     AuthField("phone", "手机号", phone, { phone = it; changed("phone") }, errors["phone"], keyboardType = KeyboardType.Phone)
     if (address.isBlank()) Text("账号服务尚未配置，请联系管理员。", color = MaterialTheme.colorScheme.error)
     AuthField("password", "密码", password, { password = it; changed("password"); errors = errors - "confirmation" }, errors["password"],
-        password = true, hint = if (registering) "10–128 位；服务器可能暂未开放注册" else null,
+        password = true, hint = if (registering) "8–16 位英文字母和数字的组合，需同时包含两者" else null,
         done = !registering, onDone = submit)
     if (registering) AuthField("confirmation", "确认密码", confirmation, { confirmation = it; changed("confirmation") }, errors["confirmation"],
         password = true, done = true, onDone = submit)

@@ -57,8 +57,8 @@ def test_migrated_phone_auth():
         with TestClient(main.app) as client:
             assert client.get("/api/v1/health").json()["version"] == main.app.version
             assert client.get("/api/v1/ready").status_code == 200
-            u1={"phone":"13800138000","password":"Passphrase1234!","display_name":"Evan"}
-            u2={"phone":"13900139000","password":"Passphrase1234!","display_name":"Teammate"}
+            u1={"phone":"13800138000","password":"Pass1234","display_name":"Evan"}
+            u2={"phone":"13900139000","password":"Passphrase1234","display_name":"Teammate"}
             with patch.dict(os.environ, {"AUTH_ALLOW_UNVERIFIED_SIGNUP": "false"}):
                 assert client.post("/api/v1/auth/register", json=u1).status_code==403
             assert client.post("/api/v1/auth/register", json=u1).status_code==201

@@ -27,7 +27,7 @@ class CloudUiIntegrationTest {
         val fixture = InstrumentationRegistry.getArguments()
         val preseeded = !fixture.getString("legacyUiPhone").isNullOrBlank()
         val phone = fixture.getString("legacyUiPhone") ?: "+1998${suffix}1"
-        val password = if (preseeded) fixture.getString("fixturePassword")!! else UUID.randomUUID().toString()
+        val password = if (preseeded) fixture.getString("fixturePassword")!! else "T7" + UUID.randomUUID().toString().replace("-", "").take(14)
         runBlocking {
             assertTrue(CloudApi(url).request("GET", "/api/v1/health").getBoolean("isolated_test"))
             if (!preseeded) CloudApi(url).register(phone, password, "UI 联调")
