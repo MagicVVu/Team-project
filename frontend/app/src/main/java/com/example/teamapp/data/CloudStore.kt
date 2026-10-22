@@ -19,7 +19,11 @@ class CloudStore(context: Context) {
     private val credentials = CloudCredentials(context)
     private val cache = context.getSharedPreferences("magicvvu_cloud_cache", Context.MODE_PRIVATE)
     private val mutex = Mutex()
-    var account by mutableStateOf(credentials.load()); private set
+    // Upgrades can retain an old tunnel session. Never forward its token to a new
+    // origin or delete its encrypted envelope/cache; ask the user to log in again.
+    var account by mutableStateOf(credentials.load()?.takeIf { saved ->
+        runCatching { CloudApi.validateAddress(saved.address) }.isSuccess
+    }); private set
     var households by mutableStateOf<List<CloudHousehold>>(emptyList()); private set
     var items by mutableStateOf<List<StockItem>>(emptyList()); private set
     var shopping by mutableStateOf<List<CloudShoppingItem>>(emptyList()); private set

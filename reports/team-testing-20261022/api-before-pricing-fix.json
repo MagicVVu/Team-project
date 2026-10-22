@@ -1,0 +1,126 @@
+{
+  "utc": "2026-10-22T07:23:23.190771+00:00",
+  "passed": false,
+  "error": "AssertionError: remote_agent_answered",
+  "checks": [
+    {
+      "name": "POST /api/v1/auth/register status 201",
+      "passed": true
+    },
+    {
+      "name": "registered_unverified_0",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/auth/register status 201",
+      "passed": true
+    },
+    {
+      "name": "registered_unverified_1",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/auth/register status 409",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/auth/login status 401",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/auth/login status 200",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/auth/login status 200",
+      "passed": true
+    },
+    {
+      "name": "GET /api/v1/households status 200",
+      "passed": true
+    },
+    {
+      "name": "new_account_no_implicit_family",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households status 201",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/{test-home}/inventory-items status 201",
+      "passed": true
+    },
+    {
+      "name": "GET /api/v1/households/{test-home}/inventory-items status 404",
+      "passed": true
+    },
+    {
+      "name": "PATCH /api/v1/households/{test-home}/inventory-items/aa22aacc-9c3f-496f-a651-fce79d3d0d64 status 404",
+      "passed": true
+    },
+    {
+      "name": "PATCH /api/v1/users/me status 422",
+      "passed": true
+    },
+    {
+      "name": "PATCH /api/v1/households/{test-home}/inventory-items/aa22aacc-9c3f-496f-a651-fce79d3d0d64 status 200",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/{test-home}/invitations status 201",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/join status 200",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/{test-home}/inventory-items/aa22aacc-9c3f-496f-a651-fce79d3d0d64/adjustments status 200",
+      "passed": true
+    },
+    {
+      "name": "authorized_shared_inventory_write",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/{test-home}/shopping-list/items status 201",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/households/{test-home}/shopping-list/items/afb3e1c3-b786-45aa-a5a5-82392ec7863b/purchase status 200",
+      "passed": true
+    },
+    {
+      "name": "purchase_stocked",
+      "passed": true
+    },
+    {
+      "name": "GET /api/v1/agent/execution-capabilities status 200",
+      "passed": true
+    },
+    {
+      "name": "agent_contract",
+      "passed": true
+    },
+    {
+      "name": "POST /api/v1/agent/messages status 200",
+      "passed": true
+    },
+    {
+      "name": "remote_agent_answered",
+      "passed": false
+    }
+  ],
+  "dedicated_fixture": {
+    "run": "team-api-da109fb16437",
+    "user_ids": [
+      "137489f6-874b-4a04-8aae-b9bae94516e0",
+      "314e32ff-dc9f-4039-9433-b8502710d48d"
+    ],
+    "household_ids": [
+      "37db8a9a-86b6-4b97-8dd1-4b0e9fba6909"
+    ],
+    "home": "37db8a9a-86b6-4b97-8dd1-4b0e9fba6909"
+  }
+}

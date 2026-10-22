@@ -4,8 +4,8 @@
 !.env.example
 !.env.*.example
 *.pem
-# Public CA certificate for the dedicated internal Android build; never a private key.
-!frontend/app/src/internal/res/raw/magicvvu_internal_ca.pem
+# Public CA certificate for the team test APK; never a private key.
+!frontend/app/src/debug/res/raw/magicvvu_test_ca.pem
 *.key
 credentials.json
 secrets.json

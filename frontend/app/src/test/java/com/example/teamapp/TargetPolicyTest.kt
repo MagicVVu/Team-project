@@ -6,7 +6,14 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class TargetPolicyTest {
-    @Test fun internalTeamBuildPinsSharedServerAndRequiresTls() {
+    @Test fun generatedBuildUsesItsSelectedEnvironmentAndRejectsTheOpposite() {
+        val selected = BuildConfig.CLOUD_EXPECT_ISOLATED
+        TargetPolicy.address(BuildConfig.CLOUD_API_URL, selected, BuildConfig.CLOUD_API_URL)
+        TargetPolicy.health(selected, "magicvvu-backend", "0.9.0", selected)
+        assertTrue(runCatching { TargetPolicy.health(selected, "magicvvu-backend", "0.9.0", !selected) }.isFailure)
+        if (!selected) assertTrue(BuildConfig.CLOUD_API_URL.startsWith("https://"))
+    }
+    @Test fun dailyTestBuildPinsSharedServerAndRequiresTls() {
         val origin = "https://8.134.172.165:8000"
         assertEquals(origin, TargetPolicy.address(origin, false, origin))
         TargetPolicy.health(false, "magicvvu-backend", "0.9.0", false)
@@ -14,7 +21,7 @@ class TargetPolicyTest {
             assertTrue(runCatching { TargetPolicy.address(url, false, origin) }.isFailure)
         assertTrue(runCatching { TargetPolicy.health(false, "magicvvu-backend", "0.9.0", true) }.isFailure)
     }
-    @Test fun debugRejectsProductionAndOldBackends() {
+    @Test fun explicitIsolationRejectsSharedAndOldBackends() {
         TargetPolicy.address("http://10.0.2.2:18083", true, "")
         TargetPolicy.health(true, "magicvvu-backend", "0.9.0", true)
         assertTrue(runCatching { TargetPolicy.health(true, "magicvvu-backend", "0.8.0", true) }.isFailure)

@@ -5,14 +5,13 @@ plugins {
 
 android {
     namespace = "com.example.teamapp"
-    // Opt-in read-only device checks for the actual internal APK and its TLS policy.
-    // Keep the existing debug instrumentation suite and fixtures separate.
-    if (providers.gradleProperty("magicvvuInternalNetworkTest").orNull == "true") {
-        testBuildType = "internal"
+    // Explicit live acceptance writes only dedicated test accounts/families.
+    // The ordinary instrumentation suite remains unchanged unless opted in.
+    if (providers.gradleProperty("magicvvuSharedCloudTest").orNull == "true") {
         sourceSets.getByName("androidTest").apply {
             java.directories.clear()
             kotlin.directories.clear()
-            kotlin.directories.add("src/internalAndroidTest/java")
+            kotlin.directories.add("src/sharedCloudTest/java")
         }
     }
     compileSdk {
@@ -25,16 +24,20 @@ android {
         applicationId = "com.example.teamapp"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1-test"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "true")
-            buildConfigField("String", "CLOUD_API_URL", "\"${providers.gradleProperty("magicvvuApiUrl").orElse("http://10.0.2.2:18080").get()}\"")
+            val isolated = providers.gradleProperty("magicvvuIsolatedTest").orNull == "true"
+            val testUrl = providers.gradleProperty("magicvvuApiUrl")
+                .orElse(if (isolated) "http://10.0.2.2:18081" else "https://8.134.172.165:8000").get()
+            require(!testUrl.contains('"') && !testUrl.contains('\\') && !testUrl.contains('\n') && !testUrl.contains('\r')) { "Invalid test API origin" }
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", isolated.toString())
+            buildConfigField("String", "CLOUD_API_URL", "\"$testUrl\"")
         }
         release {
             buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "false")
@@ -46,15 +49,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        create("internal") {
-            initWith(getByName("debug"))
-            applicationIdSuffix = ".internal"
-            versionNameSuffix = "-internal"
-            // A separate team build, explicitly bound to the shared server over TLS.
-            buildConfigField("String", "CLOUD_API_URL", "\"https://8.134.172.165:8000\"")
-            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "false")
-            matchingFallbacks += listOf("debug")
         }
     }
     compileOptions {
