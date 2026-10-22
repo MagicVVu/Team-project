@@ -35,14 +35,14 @@ Set-Location 'D:\软件\大三\cs353团队项目\Team-project\agent'
 & 'D:\python\python3.13.5\python.exe' -m pytest -q
 & 'D:\python\python3.13.5\python.exe' export_contract.py
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine rules --split test
-# 以下真实调用需要已有密钥、可用网络和七天内核实的费率：
+# 以下真实调用需要已有密钥、可用网络和与模型匹配的费率配置：
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine deepseek --split dev --limit 3
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine deepseek --split test
 ```
 
 评测逐条结果保存在 `eval/results/`。150 条 AI 构造样本分为 90 开发 / 60 保留测试；标注尚需人工复核。冻结后不修改保留集或据其失败案例调 Prompt。更改解析逻辑后应使用新版本的保留集进行独立复测，不把旧结果当成新版本结果。
 
-模型采用 JSON 输出、非思考模式、最多 768 输出 tokens；无 SDK 自动重试，模型请求总时限 10 秒。预算 SQLite 保存于 `.cache/p0/budget.sqlite`，调用前按输入字节上界与输出上限预留费用，未知用量保留预留费用。累计上限 20 元，Mock 重置不会清空预算。`eval/pricing.json` 使用 2026-10-08 核实的高峰、缓存未命中费率；超过七天或切换模型后，程序拒绝付费调用，需要重新核实更新费率。
+模型采用 JSON 输出、非思考模式、最多 768 输出 tokens；无 SDK 自动重试，模型请求总时限 10 秒。预算 SQLite 保存于 `.cache/p0/budget.sqlite`，调用前按输入字节上界与输出上限预留费用，未知用量保留预留费用。累计上限 20 元，Mock 重置不会清空预算。`eval/pricing.json` 使用配置的缓存未命中费率估算费用；核实日期仅作记录，没有七天有效期，不再按日期阻止调用。切换模型时仍须提供匹配的费率配置，费用估算不代表供应商最终账单。
 
 ## 正式服务接入
 
