@@ -22,6 +22,7 @@ class CloudUiIntegrationTest {
     @Test fun phoneLoginCreateHomeAddPlanAndPurchaseThroughRealScreens() {
         val url = InstrumentationRegistry.getArguments().getString("cloudTestUrl").orEmpty()
         assumeTrue("Requires isolated test service", url.isNotBlank())
+        assertEquals("Build the APK with the isolated fixture URL", url.trimEnd('/'), BuildConfig.CLOUD_API_URL.trimEnd('/'))
         val suffix = System.currentTimeMillis().toString().takeLast(9)
         val fixture = InstrumentationRegistry.getArguments()
         val preseeded = !fixture.getString("legacyUiPhone").isNullOrBlank()
@@ -39,8 +40,6 @@ class CloudUiIntegrationTest {
         try {
             compose.setContent { TeamAppTheme(darkTheme=false) { AppEntry(store) } }
             compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput(phone)
-            compose.onNodeWithTag("auth-server").performScrollTo().performTextClearance()
-            compose.onNodeWithTag("auth-server").performTextInput(url)
             compose.onNodeWithTag("auth-password").performScrollTo().performTextInput(password)
             compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
             compose.waitUntil(25_000) { store.cloud.signedIn && !store.cloud.busy }

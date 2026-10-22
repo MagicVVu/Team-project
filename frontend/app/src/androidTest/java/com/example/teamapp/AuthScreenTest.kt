@@ -30,6 +30,7 @@ class AuthScreenTest {
     @Test fun lightFormsValidateAndDoNotReportAuthenticationSuccess() {
         var guestCount = 0
         compose.setContent { TeamAppTheme(darkTheme = false) { AuthScreen { guestCount++ } } }
+        compose.onNodeWithTag("auth-server").assertDoesNotExist()
         screenshot("light-login")
         compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
         compose.onNodeWithText("请输入大陆 11 位手机号或带国家码的号码").assertExists()
@@ -39,6 +40,7 @@ class AuthScreenTest {
         compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
         compose.onNodeWithTag("auth-service-notice").assertExists()
         compose.onNodeWithText("去注册").performScrollTo().performClick()
+        compose.onNodeWithTag("auth-server").assertDoesNotExist()
         compose.onNodeWithTag("auth-password").assertTextContains("")
         screenshot("light-register")
         compose.onNodeWithTag("auth-nickname").performScrollTo().performTextInput("猫又")

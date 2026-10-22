@@ -132,6 +132,7 @@ class AssistantExecutionUiTest {
     @Test fun existingLoginScreenAuthenticatesSyntheticAccount() {
         val url = args.getString("executionTestUrl").orEmpty()
         assumeTrue(url.isNotBlank())
+        assertEquals("Build the APK with the isolated fixture URL", url.trimEnd('/'), BuildConfig.CLOUD_API_URL.trimEnd('/'))
         runBlocking {
             val health = CloudApi(url).request("GET", "/api/v1/health")
             assertTrue(health.getBoolean("isolated_test")); assertEquals("0.9.0", health.getString("version"))
@@ -141,7 +142,6 @@ class AssistantExecutionUiTest {
         scenario = ActivityScenario.launch(Intent(target, AssistantHarnessActivity::class.java).putExtra("test_namespace", prefix).putExtra("auth_entry", true))
         try {
             scenario.onActivity { current = it.store }
-            compose.onNodeWithTag("auth-server").performScrollTo().performTextReplacement(url)
             compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput(args.getString("fixturePhone")!!)
             compose.onNodeWithTag("auth-password").performScrollTo().performTextInput(args.getString("fixturePassword")!!)
             compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
@@ -152,6 +152,7 @@ class AssistantExecutionUiTest {
 
     private fun completeUserJourney(dark: Boolean) {
         val url = args.getString("executionTestUrl").orEmpty(); assumeTrue(url.isNotBlank())
+        assertEquals("Build the APK with the isolated fixture URL", url.trimEnd('/'), BuildConfig.CLOUD_API_URL.trimEnd('/'))
         // Re-establish only this synthetic batch's starting position via its normal versioned API.
         runBlocking {
             val a = CloudApi(url).login(args.getString("fixturePhone")!!, args.getString("fixturePassword")!!)
@@ -166,7 +167,6 @@ class AssistantExecutionUiTest {
         scenario = ActivityScenario.launch(Intent(target, AssistantHarnessActivity::class.java).putExtra("test_namespace", prefix).putExtra("auth_entry", true).putExtra("dark", dark))
         try {
             scenario.onActivity { current = it.store }
-            compose.onNodeWithTag("auth-server").performScrollTo().performTextReplacement(url)
             compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput(args.getString("fixturePhone")!!)
             compose.onNodeWithTag("auth-password").performScrollTo().performTextInput(args.getString("fixturePassword")!!)
             compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
