@@ -1,5 +1,7 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
+import com.example.teamapp.R
 import androidx.compose.foundation.background
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -25,6 +27,7 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 /** Shared header: the home wordmark starts at the margin; other pages keep their glyphs. */
 @Composable
 internal fun AppHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, modifier: Modifier = Modifier) {
+    val strings = rememberUiStrings()
     val light = LocalLightDesign.current
     val ink = if (light) DesignInk else DarkInk
     val background = if (light) DesignHeaderColor else DarkHeaderColor
@@ -45,13 +48,13 @@ internal fun AppHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, m
                 val glyph = listOf("", "box", "cart", "person")[page]
                 if (light) DesignGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
                 else DarkGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
-                Text(listOf("", "我的库存", "采购清单", "我的")[page],
+                Text(listOf("", strings.get(R.string.ui_inventory), strings.get(R.string.ui_shopping_list), strings.get(R.string.ui_profile))[page],
                     fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.Bold,
                     color = ink, modifier = Modifier.testTag("app-top-bar-title"))
             }
         }
         IconButton(onClick = reminders, modifier = Modifier.size(48.dp)
-            .testTag("app-top-bar-notifications").semantics { contentDescription = "库存提醒" }) {
+            .testTag("app-top-bar-notifications").semantics { contentDescription = strings.get(R.string.ui_stock_alerts) }) {
             BadgedBox(badge = {
                 androidx.compose.animation.AnimatedVisibility(count > 0, enter = fadeIn(tween(AppMotion.Quick)) + scaleIn(tween(AppMotion.Duration)),
                     exit = fadeOut(tween(AppMotion.Quick)) + scaleOut(tween(AppMotion.Quick))) {

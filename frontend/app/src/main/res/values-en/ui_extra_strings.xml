@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_select">Select</string>
+    <string name="ui_choice_value">%1$s: %2$s</string>
+    <string name="ui_new_start">A fresh start 🌿</string>
+    <string name="ui_welcome_back">Welcome back 🌿</string>
+    <string name="ui_not_supported">" not supported"</string>
+    <string name="ui_unknown">Unknown</string>
+    <string name="ui_actual_purchase">Actual purchase</string>
+    <string name="ui_this_change">Change</string>
+    <string name="ui_not_synced">Not synced</string>
+    <string name="ui_synced_at">Synced at %1$s</string>
+    <string name="ui_me_actor">You</string>
+    <string name="ui_household_member">A household member</string>
+    <string name="ui_status_normal">Normal</string>
+    <string name="ui_order_status">Status first</string>
+    <string name="ui_order_category">By category</string>
+    <string name="ui_order_name">By name</string>
+    <string name="ui_auth_nickname_error">Enter a nickname with 1–20 characters</string>
+    <string name="ui_auth_phone_error">Enter an 11-digit mainland China number or a number with a country code</string>
+    <string name="ui_auth_password_required">Enter your password</string>
+    <string name="ui_auth_password_error">Use 8–16 English letters and digits, including at least one of each</string>
+    <string name="ui_auth_confirmation_error">The passwords do not match</string>
+    <string name="ui_processing">Processing</string>
+    <string name="ui_clarification">More information needed</string>
+    <string name="ui_pending">Awaiting confirmation</string>
+    <string name="ui_submitting">Submitting</string>
+    <string name="ui_committed">Completed</string>
+    <string name="ui_cancelled">Cancelled</string>
+    <string name="ui_conflict">Version conflict</string>
+    <string name="ui_outcome_unknown">Outcome needs checking</string>
+    <string name="ui_unsupported">Not supported</string>
+    <string name="ui_failed">Action failed</string>
+    <string name="ui_answered">Answered</string>
+    <string name="ui_ai_language_note">Replies and existing conversations keep their original language.</string>
+    <string name="ui_language_save_error">Could not save the language setting. Try again.</string>
+    <plurals name="ui_item_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+    <plurals name="ui_stock_count">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
+    <plurals name="ui_day_count">
+        <item quantity="one">%1$s day</item>
+        <item quantity="other">%1$s days</item>
+    </plurals>
+</resources>

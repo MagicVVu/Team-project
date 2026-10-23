@@ -1,5 +1,6 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,9 +56,10 @@ internal fun MewMascot(
     modifier: Modifier = Modifier,
     description: String? = "Mew"
 ) {
+    val strings = rememberUiStrings()
     val bitmap = ImageBitmap.imageResource(pose.resource)
     val painter = remember(bitmap, pose) { BitmapPainter(bitmap, pose.offset, pose.size) }
-    Image(painter, description, modifier.semantics { this[MewPoseKey] = pose.name })
+    Image(painter, description?.let(strings::label), modifier.semantics { this[MewPoseKey] = pose.name })
 }
 
 @Composable
@@ -78,8 +80,9 @@ internal fun MewChatIntro() {
 
 @Composable
 internal fun MewAddIntro(mode: String) {
+    val strings = rememberUiStrings()
     MewIntro(if (mode == "语音添加") MewPose.Listening else MewPose.Confirming,
-        "记一件家里的小物", "确认后，再放进小账本",
+        strings.get(R.string.ui_add_a_little_thing), strings.get(R.string.ui_review_it__then_save_it),
         Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(14.dp)).padding(13.dp))
 }
 

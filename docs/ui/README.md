@@ -1,5 +1,7 @@
 # UI 设计资料
 
+2026-10-24：Android **v1.2.0-test · 中英文界面切换**，支持即时切换与本机记忆，详见 [更新说明](../../frontend/CHANGELOG.md)。
+
 2026-10-24：Android **v1.1.1-test · 中文界面精简与采购清单优化**，详见 [更新说明](../../frontend/CHANGELOG.md)。
 
 负责人：[summerdong2006-dot](https://github.com/summerdong2006-dot)。在共享 `dev` 分支整理设计稿、原型链接、视觉规范和导出资源，Commit 后直接 Push 到 `dev`。

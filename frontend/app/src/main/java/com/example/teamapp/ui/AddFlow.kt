@@ -1,5 +1,7 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
+import com.example.teamapp.R
 import android.app.Activity
 import android.content.Intent
 import android.speech.RecognizerIntent
@@ -46,6 +48,7 @@ private data class AddReviewStep(
 
 @Composable
 internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Unit, close: () -> Unit) {
+    val strings = rememberUiStrings()
     val context = LocalContext.current
     val focus = LocalFocusManager.current
     var image by rememberSaveable { mutableStateOf("") }
@@ -78,7 +81,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
     AppMotionContent(reviewStep, Modifier.fillMaxSize(), label = "add-step") { step ->
     if (step != null) {
         Column(Modifier.fillMaxSize()) {
-            if (step.total > 0) Text("逐项确认 ${step.index + 1} / ${step.total} · 每项确认后才保存", modifier = Modifier.padding(horizontal = 22.dp))
+            if (step.total > 0) Text(strings.get(R.string.ui_review_____each_item_is, step.index + 1, step.total), modifier = Modifier.padding(horizontal = 22.dp))
             key(step.index, step.image, mode) {
                 Editor(store, initial = null, image = step.image, draft = step.draft, notify = notify, onSaved = {
                     focus.clearFocus()
@@ -90,8 +93,8 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
         Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             MewAddIntro(mode)
             if (mode == "拍照添加") {
-                Text("用照片记录家里的物品", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                ModeNotice("拍照将打开系统相机，照片仅用于本机库存记录。初版未接入图像识别，请自行填写并核对名称、数量。")
+                Text(strings.get(R.string.ui_record_an_item_with_a_photo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                ModeNotice(strings.get(R.string.ui_use_the_system_camera_to_take))
                 Button(onClick = {
                     runCatching {
                         val directory = File(context.filesDir, "photos").apply { mkdirs() }
@@ -99,25 +102,25 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
                         val uri = FileProvider.getUriForFile(context, "${context.packageName}.files", file)
                         cameraUri = uri.toString(); camera.launch(uri)
                     }.onFailure { error = "设备无法打开相机，请选图或手动填写。" }
-                }, modifier = Modifier.fillMaxWidth()) { Text("打开相机拍照") }
-                OutlinedButton(onClick = { runCatching { photoPicker.launch(arrayOf("image/*")) }.onFailure { error = "设备无法打开图库，请手动填写。" } }, modifier = Modifier.fillMaxWidth()) { Text("选择已有照片") }
+                }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_take_a_photo)) }
+                OutlinedButton(onClick = { runCatching { photoPicker.launch(arrayOf("image/*")) }.onFailure { error = "设备无法打开图库，请手动填写。" } }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_choose_a_photo)) }
             } else {
-                Text("说出需要录入的物品", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                ModeNotice("例如：添加两盒纯牛奶，三袋面包。系统语音服务将使用麦克风，可能需要联网；识别后逐项核对，不自动入库。")
+                Text(strings.get(R.string.ui_say_what_you_want_to_add), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                ModeNotice(strings.get(R.string.ui_speak_chinese__for_example____the))
                 Button(onClick = {
                     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM).putExtra(RecognizerIntent.EXTRA_LANGUAGE, "zh-CN").putExtra(RecognizerIntent.EXTRA_PROMPT, "说出物品、数量和单位")
                     runCatching { speech.launch(intent) }.onFailure { error = "设备未安装可用的语音识别服务，请手动输入。" }
-                }, modifier = Modifier.fillMaxWidth()) { Text("开始语音输入 / 重新输入") }
-                OutlinedTextField(transcript, { transcript = it; error = "" }, label = { Text("识别文字 / 手动输入") }, minLines = 3, modifier = Modifier.fillMaxWidth())
+                }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_start___retry_voice_input)) }
+                OutlinedTextField(transcript, { transcript = it; error = "" }, label = { Text(strings.get(R.string.ui_recognized_text___manual_input)) }, minLines = 3, modifier = Modifier.fillMaxWidth())
                 Button(onClick = {
                     focus.clearFocus()
                     draftSource = transcript; index = 0
                     if (parseVoice(transcript).isEmpty()) error = "请先说出或输入物品信息" else review = true
-                }, modifier = Modifier.fillMaxWidth()) { Text("解析并逐项核对") }
-                Text("仅提取简单的名称、数量与单位。缺少或不确定的信息必须由你补全。", style = MaterialTheme.typography.bodySmall)
+                }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_parse_and_review_items)) }
+                Text(strings.get(R.string.ui_only_simple_names__quantities_and_units), style = MaterialTheme.typography.bodySmall)
             }
             MotionErrorText(error)
-            TextButton(onClick = { focus.clearFocus(); draftSource = ""; image = ""; transcript = ""; review = true }) { Text("改为手动填写") }
+            TextButton(onClick = { focus.clearFocus(); draftSource = ""; image = ""; transcript = ""; review = true }) { Text(strings.get(R.string.ui_enter_manually)) }
         }
     }
     }
@@ -125,6 +128,7 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
 
 @Composable
 internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = "", draft: VoiceDraft? = null, notify: (String) -> Unit, onSaved: () -> Unit, cancel: (() -> Unit)? = null, sourceText: String = "") {
+    val strings = rememberUiStrings()
     val scope = rememberCoroutineScope()
     var submitting by remember { mutableStateOf(false) }
     val itemId = rememberSaveable { initial?.id ?: java.util.UUID.randomUUID().toString() }
@@ -142,27 +146,27 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     fun save(item: StockItem, mode: String = "新建") {
         if (!submitting) scope.launch {
             submitting = true
-            try { notify(store.saveItemSynced(item, initial, mode)); onSaved() }
+            try { store.saveItemSynced(item, initial, mode); notify(strings.get(R.string.ui_saved)); onSaved() }
             catch (failure: Exception) { generalError = failure.message ?: "保存失败" }
             finally { submitting = false }
         }
     }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(if (initial == null) "核对物品信息" else "编辑物品信息", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-        if (sourceText.isNotBlank()) Text("原始识别文字：$sourceText", style = MaterialTheme.typography.bodySmall)
+        Text(if (initial == null) strings.get(R.string.ui_review_item) else strings.get(R.string.ui_edit_item), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        if (sourceText.isNotBlank()) Text(strings.get(R.string.ui_original_transcript, sourceText), style = MaterialTheme.typography.bodySmall)
         Photo(initial?.image ?: image)
-        if (store.cloud.signedIn) Text("保存至当前家庭云端。同名物品可保留为不同批次；照片仅保留在当前设备。", style = MaterialTheme.typography.bodySmall)
-        else if (LocalLightDesign.current) Text("* 为必填项。未确认前不会更改库存。", style = MaterialTheme.typography.bodySmall)
-        else DarkNotice("* 为必填项。未确认前不会更改库存。")
-        Field("物品名称 *", name, { name = it }, errors["name"])
-        Field("数量 *", quantity, { quantity = it }, errors["quantity"], numeric = true)
-        Field("单位 *（如盒、袋、瓶、个）", unit, { unit = it }, errors["unit"])
-        Text("类别", style = MaterialTheme.typography.labelLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(c) }) } }
-        Choice("存放位置 *", store.locations, location) { location = it }
+        if (store.cloud.signedIn) Text(strings.get(R.string.ui_save_to_the_current_household__items), style = MaterialTheme.typography.bodySmall)
+        else if (LocalLightDesign.current) Text(strings.get(R.string.ui___required__inventory_changes_only_after), style = MaterialTheme.typography.bodySmall)
+        else DarkNotice(strings.get(R.string.ui___required__inventory_changes_only_after))
+        Field(strings.get(R.string.ui_item_name), name, { name = it }, errors["name"])
+        Field(strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true)
+        Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"])
+        Text(strings.get(R.string.ui_category), style = MaterialTheme.typography.labelLarge)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(strings.label(c)) }) } }
+        Choice(strings.get(R.string.ui_location), store.locations, location) { location = it }
         MotionErrorText(errors["location"])
-        Field("最低库存（选填，默认 0）", minimum, { minimum = it }, errors["minimum"], numeric = true)
-        Field("有效期（选填，YYYY-MM-DD）", expiry, { expiry = it }, errors["expiry"])
+        Field(strings.get(R.string.ui_minimum_stock__optional__default_0), minimum, { minimum = it }, errors["minimum"], numeric = true)
+        Field(strings.get(R.string.ui_expiry_date__optional__yyyy_mm_dd), expiry, { expiry = it }, errors["expiry"])
         MotionErrorText(generalError)
         Button(onClick = {
             val q = if (initial == null) positiveNumber(quantity) else nonNegativeNumber(quantity)
@@ -183,13 +187,13 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
                     if (initial != null) generalError = "已有同名物品，请使用不同名称；合并入库请从添加入口操作。" else { duplicate = existing; pending = item }
                 } else save(item)
             }
-        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth()) { Text(if (submitting) "正在保存…" else if (initial == null) "确认添加" else "保存修改") }
-        cancel?.let { TextButton(onClick = it) { Text("返回输入 / 放弃未确认项") } }
+        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth()) { Text(if (submitting) strings.get(R.string.ui_saving) else if (initial == null) strings.get(R.string.ui_confirm_add) else strings.get(R.string.ui_save_changes)) }
+        cancel?.let { TextButton(onClick = it) { Text(strings.get(R.string.ui_back___discard_unconfirmed_items)) } }
         Spacer(Modifier.height(16.dp))
     }
     duplicate?.let { old ->
-        AlertDialog(onDismissRequest = { duplicate = null }, modifier = Modifier.appearanceFade(), title = { Text("该物品已在库存中") }, text = { Text("${old.name}现有 ${old.quantity.display()} ${old.unit}。\n新增入库会累加数量；盘点会以填写数量替换现有数量。原有分类、位置、阈值和有效期保留，可在详情中编辑。") }, dismissButton = { TextButton(onClick = { duplicate = null }) { Text("取消") } }, confirmButton = {
-            Column { TextButton(onClick = { pending?.let { save(it, "入库") }; duplicate = null }) { Text("新增入库") }; TextButton(onClick = { pending?.let { save(it, "盘点") }; duplicate = null }) { Text("更新盘点结果") } }
+        AlertDialog(onDismissRequest = { duplicate = null }, modifier = Modifier.appearanceFade(), title = { Text(strings.get(R.string.ui_this_item_is_already_in_inventory)) }, text = { Text(strings.get(R.string.ui_currently_has___adding_stock_increases, old.name, old.quantity.display(), old.unit)) }, dismissButton = { TextButton(onClick = { duplicate = null }) { Text(strings.get(R.string.ui_cancel)) } }, confirmButton = {
+            Column { TextButton(onClick = { pending?.let { save(it, "入库") }; duplicate = null }) { Text(strings.get(R.string.ui_add_to_stock)) }; TextButton(onClick = { pending?.let { save(it, "盘点") }; duplicate = null }) { Text(strings.get(R.string.ui_update_stocktake)) } }
         })
     }
 }
@@ -203,23 +207,25 @@ internal fun Field(label: String, value: String, change: (String) -> Unit, error
 }
 
 @Composable
-internal fun Choice(label: String, options: List<String>, selected: String, change: (String) -> Unit) {
+internal fun Choice(label: String, options: List<String>, selected: String, translateOptions: Boolean = false, change: (String) -> Unit) {
+    val strings = rememberUiStrings()
     var expanded by remember { mutableStateOf(false) }
     val arrowRotation by animateFloatAsState(if (expanded) 180f else 0f,
         tween(AppMotion.Quick, easing = AppMotion.easing), label = "choice-arrow")
     Box {
         OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
-            AppMotionContent(selected, label = "choice-value") { value -> Text("$label：${value.ifBlank { "请选择" }}") }
+            AppMotionContent(selected, label = "choice-value") { value -> Text(strings.get(R.string.ui_choice_value, label, if (value.isBlank()) strings.get(R.string.ui_select) else if (translateOptions) strings.label(value) else value)) }
             Text("▾", Modifier.padding(start = 8.dp).rotate(arrowRotation))
         }
         DropdownMenu(expanded, { expanded = false }) {
-            options.forEach { option -> DropdownMenuItem(text = { Text(option) }, onClick = { change(option); expanded = false }) }
+            options.forEach { option -> DropdownMenuItem(text = { Text(if (translateOptions) strings.label(option) else option) }, onClick = { change(option); expanded = false }) }
         }
     }
 }
 
 @Composable
 internal fun MotionErrorText(message: String?, modifier: Modifier = Modifier) {
+    val strings = rememberUiStrings()
     val visible = !message.isNullOrBlank()
     var retainedMessage by remember { mutableStateOf(message.orEmpty()) }
     SideEffect { if (visible) retainedMessage = message.orEmpty() }
@@ -228,6 +234,6 @@ internal fun MotionErrorText(message: String?, modifier: Modifier = Modifier) {
         enter = fadeIn(tween(AppMotion.Quick)) + expandVertically(tween(AppMotion.Duration, easing = AppMotion.easing)),
         exit = fadeOut(tween(AppMotion.Quick)) + shrinkVertically(tween(AppMotion.Duration, easing = AppMotion.easing))
     ) {
-        Text(if (visible) message.orEmpty() else retainedMessage, color = Red)
+        Text(strings.label(if (visible) message.orEmpty() else retainedMessage), color = Red)
     }
 }

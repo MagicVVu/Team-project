@@ -33,6 +33,7 @@ class InventoryStore(context: Context) {
     var locations by mutableStateOf(listOf("冰箱", "厨房", "储物柜", "阳台")); private set
     var reminderDays by mutableIntStateOf(3); private set
     var appearance by mutableStateOf("跟随系统"); private set
+    var language by mutableStateOf(preferences.getString("ui_language", "zh-CN").let { if (it == "en") "en" else "zh-CN" }); private set
     var notifications by mutableStateOf(listOf(true, true, true)); private set
     var storageError by mutableStateOf<String?>(null); private set
 
@@ -124,6 +125,12 @@ class InventoryStore(context: Context) {
         reminderDays = days; items = items.map { it.copy(minimum = minimums[it.id] ?: it.minimum) }; persist()
     }
     fun updateAppearance(value: String) { appearance = value; persist() }
+    fun updateLanguage(value: String): Boolean {
+        require(value in setOf("zh-CN", "en"))
+        val saved = preferences.edit().putString("ui_language", value).commit()
+        if (saved) language = value
+        return saved
+    }
     fun setNotification(index: Int, value: Boolean) { notifications = notifications.mapIndexed { i, old -> if (i == index) value else old }; persist() }
     fun clear() { require(!cloud.signedIn) { "云端家庭不支持批量清空，请逐项核对后删除" }; items = emptyList(); purchases = emptyList(); storageError = null; readFailed = false; persist() }
     fun export(): String = if (cloud.signedIn) JSONObject().put("mode", "cloud").put("householdId", cloud.account?.householdId)
