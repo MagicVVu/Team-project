@@ -1,0 +1,16 @@
+{
+  "git_diff_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'backend/server/app/services/planning_context.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tools/backend_p2_export_contract.py', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  "alembic_heads": {
+    "exit_code": 0,
+    "stdout": "20261023_0009 (head)\n",
+    "stderr": ""
+  },
+  "docker_cli_available": false,
+  "docker_image_built": false,
+  "paid_model_called": false,
+  "production_deployed": false
+}

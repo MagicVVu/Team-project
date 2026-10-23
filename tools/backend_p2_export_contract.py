@@ -9,7 +9,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('side', choices=('backend', 'agent'))
-parser.add_argument('--stage', choices=('p2', 'p3'), default='p2')
+parser.add_argument('--stage', choices=('p2', 'p3', 'p4'), default='p2')
 args = parser.parse_args()
 side, stage = args.side, args.stage
 if side == 'backend':
