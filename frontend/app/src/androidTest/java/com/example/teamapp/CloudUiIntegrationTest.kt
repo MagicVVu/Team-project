@@ -61,7 +61,7 @@ class CloudUiIntegrationTest {
             compose.onNodeWithText("确认保存").performClick()
             compose.waitUntil(25_000) { store.purchases.size == 1 && !store.cloud.busy }
             compose.onNodeWithText("清单", useUnmergedTree=true).performClick()
-            compose.onNodeWithText("已购买").performClick()
+            compose.onNodeWithText("购买入库").performClick()
             compose.onNodeWithText("实际数量（盒）").performTextClearance()
             compose.onNodeWithText("实际数量（盒）").performTextInput("3")
             compose.onNodeWithText("确认购买并入库").performClick()

@@ -74,12 +74,12 @@ class MewConsistencyTest {
             mode(isDark)
             val prefix = if (isDark) "dark" else "light"
             tab("首页")
-            compose.onAllNodes(hasPose(MewPose.Overview), useUnmergedTree = true).assertCountEquals(2)
+            compose.onAllNodes(hasPose(MewPose.Overview), useUnmergedTree = true).assertCountEquals(1)
             shot("$prefix-home")
             tab("清单")
             compose.onAllNodes(hasPose(MewPose.Shopping), useUnmergedTree = true).assertCountEquals(1)
             compose.onAllNodes(hasPose(MewPose.Empty), useUnmergedTree = true).assertCountEquals(1)
-            val title = compose.onNodeWithText("把生活所需，慢慢补齐").fetchSemanticsNode().boundsInRoot
+            val title = compose.onNodeWithText("慢慢补齐").fetchSemanticsNode().boundsInRoot
             val cord = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot
             assertTrue("Shopping introduction stays clear of the hanging mascot", title.right < cord.left)
             shot("$prefix-shopping")

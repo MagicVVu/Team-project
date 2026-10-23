@@ -87,8 +87,7 @@ internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(3.dp)
                     ) {
                         Box(Modifier.size(47.dp, 31.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
-                            if (index == 0) MewMascot(MewPose.Overview, Modifier.size(30.dp), description = null)
-                            else DarkGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(24.dp), foreground)
+                            DarkGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(24.dp), foreground)
                         }
                         Text(label, color = foreground, fontSize = 11.sp, lineHeight = 16.sp)
                     }
@@ -100,36 +99,35 @@ internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
 
 @Composable
 internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         DarkCard(DarkHero) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Mewstow · Mew", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted)
-                    Text("Mew · AI 智能管家", fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
-                    Text(if (store.items.isEmpty()) "从记录第一件物品开始\n让家更有条理" else "${store.items.size} 种物品已记录 · ${store.items.count { it.status(store.reminderDays).low }} 种库存不足\n${store.items.count { it.status(store.reminderDays).soon }} 种即将过期 · ${store.items.count { it.status(store.reminderDays).expired }} 种已过期", fontSize = 12.sp, lineHeight = 20.sp)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Mew 助手", fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
+                    Text(if (store.items.isEmpty()) "添加第一件物品吧" else "${store.items.size} 种物品 · ${store.items.count { it.status(store.reminderDays).low }} 种不足\n${store.items.count { it.status(store.reminderDays).soon }} 种临期 · ${store.items.count { it.status(store.reminderDays).expired }} 种过期", fontSize = 12.sp, lineHeight = 20.sp)
                 }
-                MewMascot(MewPose.Overview, Modifier.size(64.dp), "Mew 库存管家")
+                MewMascot(MewPose.Overview, Modifier.size(52.dp), "Mew 库存管家")
             }
-            Text(if (store.cloud.signedIn) "家庭云端助手 · 回答依据服务器库存" else "本地库存助手 · 回答依据已确认记录", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 12.dp))
+            Text(if (store.cloud.signedIn) "依据家庭云端库存" else "依据本机库存", fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 6.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SuggestionChip(onClick = { ask("哪些快过期了？") }, label = { Text("哪些快过期了？", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
-                SuggestionChip(onClick = { ask("需要补什么？") }, label = { Text("需要补什么？", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
+                SuggestionChip(onClick = { ask("哪些快过期了？") }, label = { Text("临期物品", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
+                SuggestionChip(onClick = { ask("需要补什么？") }, label = { Text("补货建议", fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
             }
             var question by rememberSaveable { mutableStateOf("") }
-            OutlinedTextField(question, { question = it }, singleLine = true, placeholder = { Text("问问家里的库存…", fontSize = 13.sp) },
+            OutlinedTextField(question, { question = it }, singleLine = true, placeholder = { Text("问库存，记物品…", fontSize = 13.sp) },
                 shape = RoundedCornerShape(14.dp), modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(unfocusedContainerColor = DarkHeaderColor, focusedContainerColor = DarkHeaderColor, unfocusedBorderColor = DarkLine),
                 trailingIcon = { IconButton(onClick = { if (question.isNotBlank()) { ask(question); question = "" } else panel("AI 智能管家") }, modifier = Modifier.semantics { contentDescription = "发送" }) {
                     Box(Modifier.size(27.dp).background(DarkGreen, CircleShape), contentAlignment = Alignment.Center) { DarkGlyph("arrow", Modifier.size(18.dp), Color(0xFF20251C)) }
                 } })
         }
-        Text("快捷添加", fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
+        Text("添加物品", fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            DarkQuick("camera", "拍照添加", "看一眼，记录生活所需", Modifier.weight(1f)) { panel("拍照添加") }
-            DarkQuick("mic", "语音添加", "说出来，轻松记录", Modifier.weight(1f)) { panel("语音添加") }
+            DarkQuick("camera", "拍照添加", Modifier.weight(1f)) { panel("拍照添加") }
+            DarkQuick("mic", "语音添加", Modifier.weight(1f)) { panel("语音添加") }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("最近库存状态", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
+            Text("最近库存", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
             TextButton(onClick = all) { Text("查看全部 ›", fontSize = 11.sp) }
         }
         if (store.items.isEmpty()) MewEmptyState("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
@@ -140,12 +138,12 @@ internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () 
 }
 
 @Composable
-private fun DarkQuick(glyph: String, title: String, subtitle: String, modifier: Modifier, action: () -> Unit) {
+private fun DarkQuick(glyph: String, title: String, modifier: Modifier, action: () -> Unit) {
     Card(modifier = modifier.clip(RoundedCornerShape(18.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkCardColor)) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            DarkGlyph(glyph, Modifier.size(27.dp))
+        Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            DarkGlyph(glyph, Modifier.size(24.dp))
             Text(title, fontSize = 14.sp, lineHeight = 19.sp)
-            Text(subtitle, fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted)
         }
     }
 }
@@ -238,10 +236,10 @@ private fun DarkStatus(status: StockStatus) {
 
 @Composable
 internal fun DarkShopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item(key = "shopping-summary") {
             DarkCard {
-                MewIntro(MewPose.Shopping, "把生活所需，慢慢补齐", "待采购 ${store.purchases.size} 项 · 买好后记得确认入库",
+                MewIntro(MewPose.Shopping, "慢慢补齐", "买后确认入库",
                     Modifier.padding(end = AssistantMascotWidth))
             }
         }
@@ -250,18 +248,11 @@ internal fun DarkShopping(store: InventoryStore, action: (String, String) -> Uni
             Box(Modifier.animateItem()) { MewEmptyState("采购清单还是空的", "看看下方的库存推荐，把补货计划记下来") }
         }
         items(store.purchases, key = { "purchase-${it.itemId}" }) { task -> store.items.firstOrNull { it.id == task.itemId }?.let { item ->
-            DarkCard(modifier = Modifier.animateItem()) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    DarkStockIcon(item, Modifier.size(24.dp))
-                    Text(item.name, fontSize = 16.sp, lineHeight = 22.sp)
-                }
-                Text("待采购 ${task.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 17.sp, color = DarkMuted, modifier = Modifier.padding(top = 6.dp, bottom = 8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { action(item.id, "调整采购数量") }, modifier = Modifier.weight(1f)) { Text("调整", fontSize = 12.sp) }
-                    OutlinedButton(onClick = { store.removePlan(item.id); notify("已移出采购清单") }, modifier = Modifier.weight(1f)) { Text("移除", fontSize = 12.sp) }
-                    Button(onClick = { action(item.id, "购买入库") }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 6.dp, vertical = 8.dp)) { Text("已购买", fontSize = 12.sp) }
-                }
-            }
+            CompactPurchaseCard(item, task.quantity, Modifier.animateItem(),
+                illustration = { DarkStockIcon(item, Modifier.size(24.dp)) },
+                adjust = { action(item.id, "调整采购数量") },
+                remove = { store.removePlan(item.id); notify("已移出采购清单") },
+                purchase = { action(item.id, "购买入库") })
         } }
         item(key = "recommendations-title") { Text("根据库存推荐", fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.animateItem().padding(top = 8.dp)) }
         val low = store.items.filter { it.status(store.reminderDays).low }
@@ -282,7 +273,7 @@ internal fun DarkShopping(store: InventoryStore, action: (String, String) -> Uni
 
 @Composable
 internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkHero)) {
             Row(Modifier.padding(15.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(13.dp)) {
                 MewMascot(MewPose.Overview, Modifier.size(72.dp), "Mew 个人资料")
@@ -293,8 +284,8 @@ internal fun DarkProfile(store: InventoryStore, open: (String) -> Unit) {
                 }
             }
         }
-        DarkMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
-        DarkMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+        DarkMenu("家庭与库存", listOf("我的家庭" to "家庭与位置", "库存检测规则" to "最低库存、到期提醒"), open)
+        DarkMenu("账号设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "登录家庭云端", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
         DarkMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
         Text("Mewstow / Every little thing, remembered.", fontSize = 10.sp, lineHeight = 16.sp, color = DarkMuted, modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp))
     }
@@ -309,7 +300,7 @@ private fun DarkMenu(title: String, rows: List<Pair<String, String>>, open: (Str
                 val glyph = when (name) { "我的家庭" -> "home"; "库存检测规则" -> "box"; "账号设置" -> "person"; "消息通知" -> "bell"; "隐私与安全" -> "shield"; "关于 Mewstow" -> "leaf"; else -> "sun" }
                 Box(Modifier.size(32.dp).background(DarkSoft, RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center) { DarkGlyph(glyph, Modifier.size(22.dp)) }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                    Text(name, fontSize = 14.sp, lineHeight = 20.sp)
+                    Text(if (name == "库存检测规则") "库存规则" else name, fontSize = 14.sp, lineHeight = 20.sp)
                     Text(description, fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted)
                 }
                 Text("›", fontSize = 22.sp, color = DarkMuted)
@@ -321,7 +312,7 @@ private fun DarkMenu(title: String, rows: List<Pair<String, String>>, open: (Str
 
 @Composable
 internal fun DarkDetail(store: InventoryStore, item: StockItem, open: (String) -> Unit, delete: () -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Photo(item.image)
         DarkCard {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -341,14 +332,14 @@ internal fun DarkDetail(store: InventoryStore, item: StockItem, open: (String) -
                 DarkFact("有效期", item.expiry.ifBlank { "未设置" }, Modifier.weight(1f))
             }
         }
-        DarkNotice(reasons(item, store.reminderDays), if (item.status(store.reminderDays).attention) Color(0xFF38342B) else DarkSoft)
+        DarkNotice(reasons(item, store.reminderDays, concise = true), if (item.status(store.reminderDays).attention) Color(0xFF38342B) else DarkSoft)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton(onClick = { open("编辑物品") }, modifier = Modifier.weight(1f)) { Text("编辑") }
             OutlinedButton(onClick = { open("增加库存") }, modifier = Modifier.weight(1f)) { Text("入库") }
             OutlinedButton(onClick = { open("消耗库存") }, modifier = Modifier.weight(1f)) { Text("消耗") }
         }
-        Button(onClick = { open(if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }, modifier = Modifier.fillMaxWidth()) { Text("加入采购清单 / 调整计划") }
-        Text("最近数量变化", fontSize = 16.sp, lineHeight = 22.sp)
+        Button(onClick = { open(if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }, modifier = Modifier.fillMaxWidth()) { Text("加入清单 / 调整") }
+        Text("数量记录", fontSize = 16.sp, lineHeight = 22.sp)
         item.history.forEach { DarkNotice(it) }
         TextButton(onClick = delete) { Text("删除物品", color = MaterialTheme.colorScheme.error) }
     }
@@ -365,7 +356,7 @@ private fun DarkFact(label: String, value: String, modifier: Modifier) {
 @Composable
 internal fun DarkCard(color: Color = DarkCardColor, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Card(modifier = modifier.fillMaxWidth(), shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = color)) {
-        Column(Modifier.padding(14.dp), content = content)
+        Column(Modifier.padding(12.dp), content = content)
     }
 }
 

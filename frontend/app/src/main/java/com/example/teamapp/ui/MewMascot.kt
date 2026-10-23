@@ -66,14 +66,14 @@ internal fun MewIntro(pose: MewPose, title: String, subtitle: String, modifier: 
         MewMascot(pose, Modifier.size(61.dp), description = null)
         Column(Modifier.weight(1f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(title, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.SemiBold)
-            Text(subtitle, fontSize = 12.sp, lineHeight = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 12.sp, lineHeight = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable
 internal fun MewChatIntro() {
-    MewIntro(MewPose.Thinking, "Mew", "家里的物品，一起记清楚", Modifier.padding(vertical = 12.dp))
+    MewIntro(MewPose.Thinking, "Mew", "", Modifier.padding(vertical = 12.dp))
 }
 
 @Composable

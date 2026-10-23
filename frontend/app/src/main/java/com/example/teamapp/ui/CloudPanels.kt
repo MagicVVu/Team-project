@@ -123,7 +123,7 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
                     Text("${entry.quantity.display()} ${entry.unit}")
                     Text(if (entry.purchased) "${if (entry.purchasedBy == cloud.account?.userId) "我" else "家庭成员"}已购买入库" else "${if (entry.addedBy == cloud.account?.userId) "我" else "家庭成员"}添加", style = MaterialTheme.typography.bodySmall)
                     if (!entry.purchased) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(enabled = !cloud.busy && !cloud.expired, onClick = { purchasing = entry }) { Text("已购买") }
+                        Button(enabled = !cloud.busy && !cloud.expired, onClick = { purchasing = entry }) { Text("购买入库") }
                         TextButton(enabled = !cloud.busy, onClick = { editing = entry }) { Text("调整") }
                         TextButton(enabled = !cloud.busy, onClick = { removing = entry }) { Text("移除") }
                     }

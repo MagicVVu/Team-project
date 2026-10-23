@@ -57,12 +57,12 @@ class MagicAppTest {
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         compose.onNodeWithText("我的家庭").assertExists()
-        compose.onNodeWithText("库存检测规则").assertExists()
+        compose.onNodeWithText("库存规则").assertExists()
     }
     @Test fun purchaseRequiresActualQuantityAndUpdatesAllViews() {
         compose.runOnIdle { store.plan(milk.id, 2.0) }
         compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("已购买").performClick()
+        compose.onNodeWithText("购买入库").performClick()
         compose.onNodeWithText("确认入库").performClick()
         compose.onNodeWithText("请输入有效正数").assertExists()
         compose.runOnIdle { Assert.assertEquals(1.0, store.items.single().quantity, 0.0) }

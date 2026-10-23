@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.teamapp.R
 import com.example.teamapp.data.*
+import com.example.teamapp.ui.theme.LocalLightDesign
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.math.cos
@@ -100,10 +101,9 @@ internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(3.dp)
                 ) {
                     Box(Modifier.size(30.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
-                        if (index == 0) MewMascot(MewPose.Overview, Modifier.size(30.dp), description = null)
-                        else DesignGlyph(listOf("leaf", "box", "cart", "person")[index], Modifier.size(27.dp), foreground)
+                        DesignGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(27.dp), foreground)
                     }
-                    Text(label, color = foreground, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                    Text(label, color = foreground, fontSize = 11.sp, lineHeight = 16.sp, fontWeight = FontWeight.Medium)
                 }
             }
         }
@@ -113,53 +113,51 @@ internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
 @Composable
 internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text("家里的小物", fontSize = 11.sp, color = DesignMuted)
-                Text("你好，欢迎回家", fontSize = 25.sp, fontWeight = FontWeight.Bold, color = DesignInk, modifier = Modifier.padding(top = 6.dp))
-                Text(LocalDate.now().format(DateTimeFormatter.ofPattern("M月d日")) + "  ·  慢慢记好每一件小物", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 6.dp))
+                Text("欢迎回家", fontSize = 25.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold, color = DesignInk)
+                Text(LocalDate.now().format(DateTimeFormatter.ofPattern("M月d日")), fontSize = 11.sp, lineHeight = 16.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
             }
-            MewMascot(MewPose.Welcome, Modifier.size(94.dp), "欢迎回家的 Mew")
+            MewMascot(MewPose.Welcome, Modifier.size(72.dp), "欢迎回家的 Mew")
         }
         DesignCard {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                MewMascot(MewPose.Overview, Modifier.size(64.dp), null)
+                MewMascot(MewPose.Overview, Modifier.size(44.dp), null)
                 Column(Modifier.weight(1f).padding(start = 10.dp)) {
-                    Text("Mew · AI 智能管家", fontWeight = FontWeight.Bold, fontSize = 19.sp)
-                    Text("家里的物品，一起记清楚", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
+                    Text("Mew 助手", fontWeight = FontWeight.Bold, fontSize = 19.sp, lineHeight = 26.sp)
                 }
             }
-            HorizontalDivider(color = DesignLine, modifier = Modifier.padding(vertical = 13.dp))
+            HorizontalDivider(color = DesignLine, modifier = Modifier.padding(vertical = 8.dp))
             Text(
-                if (store.items.isEmpty()) "从记录第一件物品开始，让家更有条理。"
-                else "已记好 ${store.items.size} 种物品 · ${store.items.count { it.status(store.reminderDays).attention }} 种需要关注",
+                if (store.items.isEmpty()) "添加第一件物品吧"
+                else "${store.items.size} 种物品 · ${store.items.count { it.status(store.reminderDays).attention }} 种待关注",
                 fontSize = 13.sp, lineHeight = 21.sp
             )
-            Row(Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                AssistChip(onClick = { ask("哪些快过期了？") }, label = { Text("哪些快过期了？", fontSize = 11.sp) })
-                AssistChip(onClick = { ask("需要补什么？") }, label = { Text("需要补什么？", fontSize = 11.sp) })
+            Row(Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                AssistChip(onClick = { ask("哪些快过期了？") }, label = { Text("临期物品", fontSize = 11.sp) })
+                AssistChip(onClick = { ask("需要补什么？") }, label = { Text("补货建议", fontSize = 11.sp) })
             }
             var question by rememberSaveable { mutableStateOf("") }
             OutlinedTextField(
                 question, { question = it }, singleLine = true,
-                placeholder = { Text("问问 Mew，或记一件小物…", fontSize = 12.sp) },
+                placeholder = { Text("问库存，记物品…", fontSize = 12.sp) },
                 trailingIcon = { TextButton(onClick = {
                     if (question.isNotBlank()) { ask(question); question = "" } else panel("AI 智能管家")
                 }) { Text("发送", fontSize = 12.sp) } },
                 modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(10.dp)
             )
-            Text(if (store.cloud.signedIn) "回答依据当前家庭的云端库存记录" else "回答依据本机已确认的库存记录", fontSize = 10.sp, color = DesignMuted, modifier = Modifier.padding(top = 8.dp))
+            Text(if (store.cloud.signedIn) "依据家庭云端库存" else "依据本机库存", fontSize = 10.sp, lineHeight = 14.sp, color = DesignMuted, modifier = Modifier.padding(top = 6.dp))
         }
-        DesignSection("记一件家里的小物", "快捷添加")
+        DesignSection("添加物品", "")
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            DesignQuick("camera", "拍照添加", "拍一下，慢慢核对", Modifier.weight(1f)) { panel("拍照添加") }
-            DesignQuick("mic", "语音添加", "说出来，轻松记录", Modifier.weight(1f)) { panel("语音添加") }
+            DesignQuick("camera", "拍照添加", Modifier.weight(1f)) { panel("拍照添加") }
+            DesignQuick("mic", "语音添加", Modifier.weight(1f)) { panel("语音添加") }
         }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("最近库存状态", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+            Text("最近库存", fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
             TextButton(onClick = all) { Text("查看全部 ›", fontSize = 11.sp) }
         }
         if (store.items.isEmpty()) MewEmptyState("还没有记录物品", "拍照、语音或手动添加第一件家庭物品")
@@ -170,12 +168,12 @@ internal fun DesignHome(store: InventoryStore, open: (StockItem) -> Unit, all: (
 }
 
 @Composable
-private fun DesignQuick(glyph: String, title: String, subtitle: String, modifier: Modifier, action: () -> Unit) {
+private fun DesignQuick(glyph: String, title: String, modifier: Modifier, action: () -> Unit) {
     Card(modifier = modifier.clip(RoundedCornerShape(14.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft), shape = RoundedCornerShape(14.dp)) {
-        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
-            DesignGlyph(glyph, Modifier.size(29.dp))
-            Text(title, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-            Text(subtitle, fontSize = 10.sp, color = DesignMuted)
+        Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            DesignGlyph(glyph, Modifier.size(24.dp))
+            Text(title, fontWeight = FontWeight.SemiBold, fontSize = 14.sp, lineHeight = 20.sp)
         }
     }
 }
@@ -296,13 +294,13 @@ internal fun DesignStockRow(item: StockItem, days: Int, action: () -> Unit) {
         Row(Modifier.fillMaxWidth().background(DesignSoft).padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Box(Modifier.size(46.dp).background(Color(0xFFFBFAEE), RoundedCornerShape(11.dp)).border(1.dp, DesignLine, RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) { StockIllustration(item, Modifier.size(34.dp)) }
             Column(Modifier.weight(1f)) {
-                Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Text("${item.quantity.display()} ${item.unit} · ${item.location}", fontSize = 11.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
+                Text(item.name, fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold)
+                Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = DesignMuted, modifier = Modifier.padding(top = 3.dp))
             }
-            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, color = DesignOlive, modifier = Modifier.border(1.dp, Color(0xFFA7BC80), RoundedCornerShape(7.dp)).padding(horizontal = 9.dp, vertical = 6.dp))
+            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = DesignOlive, modifier = Modifier.border(1.dp, Color(0xFFA7BC80), RoundedCornerShape(7.dp)).padding(horizontal = 9.dp, vertical = 6.dp))
         }
-        Column(Modifier.padding(horizontal = 14.dp, vertical = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            DesignFact("保质日期", item.expiry.ifBlank { "未设置" })
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            DesignFact("有效期", item.expiry.ifBlank { "未设置" })
             HorizontalDivider(color = DesignLine.copy(alpha = 0.65f))
             DesignFact("状态", status.label, if (status.attention) DesignRed else DesignInk)
         }
@@ -311,10 +309,10 @@ internal fun DesignStockRow(item: StockItem, days: Int, action: () -> Unit) {
 
 @Composable
 internal fun DesignShopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(13.dp)) {
+    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item(key = "shopping-summary") {
             DesignCard(DesignSoft) {
-                MewIntro(MewPose.Shopping, "把生活所需，慢慢补齐", "待采购 ${store.purchases.size} 项 · 买好后记得确认入库",
+                MewIntro(MewPose.Shopping, "慢慢补齐", "买后确认入库",
                     Modifier.padding(end = AssistantMascotWidth))
             }
         }
@@ -324,22 +322,11 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
         }
         items(store.purchases, key = { "purchase-${it.itemId}" }) { task ->
             store.items.firstOrNull { it.id == task.itemId }?.let { item ->
-                DesignCard(modifier = Modifier.animateItem()) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        StockIllustration(item, Modifier.size(40.dp))
-                        Column(Modifier.weight(1f).padding(start = 12.dp)) {
-                            Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                            Text("待采购 ${task.quantity.display()} ${item.unit}", fontSize = 12.sp, color = DesignMuted)
-                        }
-                        DesignGlyph("cart", Modifier.size(24.dp))
-                    }
-                    Row(Modifier.padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        TextButton(onClick = { action(item.id, "调整采购数量") }) { Text("调整") }
-                        TextButton(onClick = { store.removePlan(item.id); notify("已移出采购清单") }) { Text("移除") }
-                        Spacer(Modifier.weight(1f))
-                        Button(onClick = { action(item.id, "购买入库") }) { Text("已购买") }
-                    }
-                }
+                CompactPurchaseCard(item, task.quantity, Modifier.animateItem(),
+                    illustration = { StockIllustration(item, Modifier.size(24.dp)) },
+                    adjust = { action(item.id, "调整采购数量") },
+                    remove = { store.removePlan(item.id); notify("已移出采购清单") },
+                    purchase = { action(item.id, "购买入库") })
             }
         }
         item(key = "recommendations-title") {
@@ -360,20 +347,60 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
 }
 
 @Composable
-internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(17.dp)) {
-        Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
-            Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
-                MewMascot(MewPose.Overview, Modifier.size(72.dp), "Mew 个人资料")
-                Column(Modifier.weight(1f).padding(start = 14.dp)) {
-                    Text(store.nickname, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(store.family, fontSize = 12.sp, color = DesignMuted, modifier = Modifier.padding(top = 5.dp))
-                    Text(if (store.cloud.signedIn) "云端账号 · 编辑资料 ›" else "本机个人资料 · 编辑资料 ›", fontSize = 10.sp, color = DesignOlive, modifier = Modifier.padding(top = 8.dp))
+internal fun CompactPurchaseCard(
+    item: StockItem, quantity: Double, modifier: Modifier = Modifier,
+    illustration: @Composable () -> Unit, adjust: () -> Unit, remove: () -> Unit, purchase: () -> Unit
+) {
+    val light = LocalLightDesign.current
+    val muted = if (light) DesignMuted else DarkMuted
+    var menuOpen by remember { mutableStateOf(false) }
+    Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(10.dp),
+        border = BorderStroke(1.dp, if (light) DesignLine else DarkLine),
+        colors = CardDefaults.cardColors(containerColor = if (light) Color(0xFFF7F5E8) else DarkCardColor)) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Box(Modifier.size(34.dp).background(if (light) DesignSoft else DarkSoft, RoundedCornerShape(8.dp)),
+                contentAlignment = Alignment.Center) { illustration() }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(item.name, fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium,
+                    maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text("${quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = muted)
+            }
+            Box(Modifier.height(48.dp), contentAlignment = Alignment.Center) {
+                Button(onClick = purchase, modifier = Modifier.height(32.dp), shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp)) {
+                    Text("购买入库", fontSize = 11.sp, lineHeight = 16.sp)
+                }
+            }
+            Box {
+                IconButton(onClick = { menuOpen = true }, modifier = Modifier.size(48.dp)
+                    .semantics { contentDescription = "${item.name}的更多操作" }) {
+                    DesignGlyph("more", Modifier.size(18.dp), muted)
+                }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(text = { Text("调整数量") }, onClick = { menuOpen = false; adjust() })
+                    DropdownMenuItem(text = { Text("移除") }, onClick = { menuOpen = false; remove() })
                 }
             }
         }
-        DesignMenu("家庭与物品管理", listOf("我的家庭" to "家庭空间与存放位置", "库存检测规则" to "最低库存与有效期提醒"), open)
-        DesignMenu("账号与个人设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "手机号登录 · 家庭云端空间", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+    }
+}
+
+@Composable
+internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
+            Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                MewMascot(MewPose.Overview, Modifier.size(72.dp), "Mew 个人资料")
+                Column(Modifier.weight(1f).padding(start = 14.dp)) {
+                    Text(store.nickname, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.Bold)
+                    Text(store.family, fontSize = 12.sp, lineHeight = 18.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
+                    Text(if (store.cloud.signedIn) "编辑云端资料 ›" else "编辑本机资料 ›", fontSize = 10.sp, lineHeight = 16.sp, color = DesignOlive, modifier = Modifier.padding(top = 6.dp))
+                }
+            }
+        }
+        DesignMenu("家庭与库存", listOf("我的家庭" to "家庭与位置", "库存检测规则" to "最低库存、到期提醒"), open)
+        DesignMenu("账号设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "登录家庭云端", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
         DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
         Text("家的小物，慢慢记好。", color = DesignMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
     }
@@ -381,14 +408,14 @@ internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
 
 @Composable
 private fun DesignMenu(title: String, rows: List<Pair<String, String>>, open: (String) -> Unit) {
-    Text(title, color = DesignMuted, fontSize = 12.sp)
+    Text(title, color = DesignMuted, fontSize = 12.sp, lineHeight = 18.sp)
     Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8)), shape = RoundedCornerShape(14.dp)) {
         rows.forEachIndexed { index, (name, description) ->
-            Row(Modifier.fillMaxWidth().motionClickable { open(name) }.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).motionClickable { open(name) }.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 DesignGlyph(if (name == "我的家庭") "leaf" else if (name == "消息通知") "bell" else if (name == "账号设置") "person" else "box", Modifier.size(23.dp))
                 Column(Modifier.weight(1f).padding(horizontal = 13.dp)) {
-                    Text(name, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                    Text(description, fontSize = 10.sp, color = DesignMuted, modifier = Modifier.padding(top = 3.dp))
+                    Text(if (name == "库存检测规则") "库存规则" else name, fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
+                    Text(description, fontSize = 10.sp, lineHeight = 14.sp, color = DesignMuted, modifier = Modifier.padding(top = 3.dp))
                 }
                 Text("›", fontSize = 22.sp, color = DesignMuted)
             }
@@ -400,15 +427,15 @@ private fun DesignMenu(title: String, rows: List<Pair<String, String>>, open: (S
 @Composable
 private fun DesignCard(color: Color = Color(0xFFF7F5E8), modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = color)) {
-        Column(Modifier.padding(15.dp), content = content)
+        Column(Modifier.padding(12.dp), content = content)
     }
 }
 
 @Composable
 private fun DesignSection(title: String, subtitle: String) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
-        Text(subtitle, fontSize = 10.sp, color = DesignMuted)
+        Text(title, fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+        if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 10.sp, lineHeight = 14.sp, color = DesignMuted)
     }
 }
 
@@ -416,8 +443,8 @@ private fun DesignSection(title: String, subtitle: String) {
 private fun DesignFact(label: String, value: String, color: Color = DesignInk) {
     val foreground by animateColorAsState(color, tween(AppMotion.Duration), label = "stock-fact-color")
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(label, fontSize = 12.sp, color = DesignMuted, modifier = Modifier.weight(1f))
-        Text(value, fontSize = 12.sp, color = foreground)
+        Text(label, fontSize = 12.sp, lineHeight = 18.sp, color = DesignMuted, modifier = Modifier.weight(1f))
+        Text(value, fontSize = 12.sp, lineHeight = 18.sp, color = foreground)
     }
 }
 
@@ -435,6 +462,11 @@ internal fun DesignGlyph(kind: String, modifier: Modifier = Modifier.size(24.dp)
             val stroke = Stroke(1.5f, cap = StrokeCap.Round)
             fun line(x1: Float, y1: Float, x2: Float, y2: Float) = drawLine(color, Offset(x1, y1), Offset(x2, y2), 1.5f, StrokeCap.Round)
             when (kind) {
+                "more" -> listOf(5f, 12f, 19f).forEach { drawCircle(color, 1.4f, Offset(it, 12f)) }
+                "home" -> {
+                    val path = Path().apply { moveTo(3f, 10f); lineTo(12f, 2f); lineTo(21f, 10f); lineTo(21f, 22f); lineTo(15f, 22f); lineTo(15f, 14f); lineTo(9f, 14f); lineTo(9f, 22f); lineTo(3f, 22f); close() }
+                    drawPath(path, color, style = stroke)
+                }
                 "leaf" -> {
                     val path = Path().apply { moveTo(4f, 20f); cubicTo(3f, 7f, 10f, 2f, 21f, 3f); cubicTo(20f, 15f, 12f, 21f, 4f, 20f); close() }
                     drawPath(path, color, style = stroke); line(3f, 22f, 16f, 8f)

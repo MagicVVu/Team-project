@@ -163,7 +163,7 @@ internal fun StockRingBrowser(
                 DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
                 BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
                     modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = "搜索物品名称" },
-                    decorationBox = { field -> Box { if (query.isEmpty()) Text("搜索物品名称", fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
+                    decorationBox = { field -> Box { if (query.isEmpty()) Text("搜索物品", fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
                 if (query.isNotEmpty()) Text("清空", fontSize = 11.sp, color = scheme.primary,
                     modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
             }
@@ -392,7 +392,7 @@ internal fun StockRingBrowser(
                         RingSeekSlider(displayPosition, displayed.lastIndex.toFloat(), palette, onValueChange = {
                             motion?.cancel(); motionTarget = null; interacting = true; seeking = true; dragPosition = it; focus.clearFocus()
                         }, onValueChangeFinished = { settle(displayPosition()) })
-                        Text(if (seeking) "定位至：${displayed[currentIndex].name}" else "滑动圆环 · 拖动定位", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
+                        Text(if (seeking) "定位至：${displayed[currentIndex].name}" else "滑动切换 · 拖动定位", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
                             overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant, modifier = Modifier.testTag("ring-seek-label"))
                     }
                 }
@@ -487,7 +487,7 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
     val scheme = MaterialTheme.colorScheme
     val status = item.status(days)
     val statusText = buildString {
-        append(status.label)
+        append(if (status.expired) "过期" else status.label)
         when { status.expired -> append(" ${-(status.days ?: 0)} 天"); status.soon -> append(" · 剩 ${status.days} 天") }
         if (status.low) append(" · 缺 ${(item.minimum - item.quantity).display()} ${item.unit}")
     }
@@ -515,7 +515,7 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                     Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
-                    if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                    if (item.minimum > 0) Text("最低 ${item.minimum.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
                 }
                 RingItemIllustration(item, Modifier.size(44.dp).testTag("ring-info-icon"))
             }

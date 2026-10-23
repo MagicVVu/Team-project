@@ -130,7 +130,11 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
             Column(Modifier.fillMaxWidth().fillMaxHeight(0.92f).imePadding().motionInput(!closingPanel)) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp), verticalAlignment = Alignment.CenterVertically) {
                     AppMotionContent(panel.orEmpty(), Modifier.weight(1f), label = "panel-title") { title ->
-                        Text(if (title == "AI 智能管家") stringResource(R.string.brand_assistant_title) else title,
+                        Text(when (title) {
+                            "AI 智能管家" -> stringResource(R.string.brand_assistant_title)
+                            "库存检测规则" -> "库存规则"
+                            else -> title
+                        },
                             style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     }
                     TextButton(onClick = { closePanel() }) { Text("关闭") }
@@ -192,15 +196,15 @@ private fun Attention(store: InventoryStore, open: (StockItem) -> Unit) {
     }
 }
 
-internal fun reasons(item: StockItem, days: Int): String {
+internal fun reasons(item: StockItem, days: Int, concise: Boolean = false): String {
     val s = item.status(days)
     return buildList {
-        if (s.low) add("剩余 ${item.quantity.display()} ${item.unit}，低于最低库存 ${item.minimum.display()} ${item.unit}")
-        if (s.expired) add("有效期 ${item.expiry}，已过期 ${-s.days!!} 天，请核对处理")
-        if (s.soon) add("有效期 ${item.expiry}，剩余 ${s.days} 天")
+        if (s.low) add(if (concise) "缺 ${(item.minimum - item.quantity).display()} ${item.unit}" else "剩余 ${item.quantity.display()} ${item.unit}，低于最低库存 ${item.minimum.display()} ${item.unit}")
+        if (s.expired) add(if (concise) "已过期 ${-s.days!!} 天，请核对处理" else "有效期 ${item.expiry}，已过期 ${-s.days!!} 天，请核对处理")
+        if (s.soon) add(if (concise) "剩余 ${s.days} 天到期" else "有效期 ${item.expiry}，剩余 ${s.days} 天")
         if (!s.attention) add("当前库存状态正常")
         if (item.expiry.isBlank()) add("未设置有效期")
-    }.joinToString("\n")
+    }.joinToString(if (concise) "；" else "\n")
 }
 
 @Composable
@@ -209,15 +213,15 @@ private fun Detail(store: InventoryStore, item: StockItem, open: (String) -> Uni
     val scope = rememberCoroutineScope()
     val operationId = rememberSaveable(item.id) { java.util.UUID.randomUUID().toString() }
     if (!LocalLightDesign.current) DarkDetail(store, item, open) { deleting = true } else {
-    Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(Modifier.verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Photo(item.image)
         Text("${emoji(item)} ${item.name}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text("${item.quantity.display()} ${item.unit}", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
         Text("${item.category} · ${item.location}\n最低库存：${item.minimum.display()} ${item.unit}\n有效期：${item.expiry.ifBlank { "未设置" }}")
-        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) { Text(reasons(item, store.reminderDays), modifier = Modifier.fillMaxWidth().padding(16.dp)) }
+        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) { Text(reasons(item, store.reminderDays, concise = true), modifier = Modifier.fillMaxWidth().padding(12.dp)) }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { OutlinedButton(onClick = { open("编辑物品") }) { Text("编辑") }; OutlinedButton(onClick = { open("增加库存") }) { Text("入库") }; OutlinedButton(onClick = { open("消耗库存") }) { Text("消耗") } }
-        Button(onClick = { open(if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }, modifier = Modifier.fillMaxWidth()) { Text("加入采购清单 / 调整计划") }
-        Text("最近数量变化", fontWeight = FontWeight.Bold)
+        Button(onClick = { open(if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }, modifier = Modifier.fillMaxWidth()) { Text("加入清单 / 调整") }
+        Text("数量记录", fontWeight = FontWeight.Bold)
         item.history.forEach { Text(it, style = MaterialTheme.typography.bodySmall) }
         TextButton(onClick = { deleting = true }) { Text("删除物品", color = Red) }
     }
@@ -279,30 +283,29 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
     Column(Modifier.padding(horizontal = 22.dp)) {
         if (showIntro) MewChatIntro()
         if (store.cloud.signedIn) Text("服务器家庭库存问答 · AI 草稿尚未执行，库存操作请核对后确认", style = MaterialTheme.typography.bodySmall)
-        else if (!showIntro) Text("依据本机已登记库存回答 · 补货需确认", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        else if (!showIntro) Text("依据本机库存 · 补货需确认", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         else if (LocalLightDesign.current) Text("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。", style = MaterialTheme.typography.bodySmall)
         else DarkNotice("本地库存问答 · 每次提问重新读取当前记录\n历史回答保留当时快照，请追问以获取最新数量。")
         val scroll = androidx.compose.foundation.lazy.rememberLazyListState()
         LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex) }
-        LazyColumn(Modifier.weight(1f).padding(vertical = 12.dp), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        LazyColumn(Modifier.weight(1f).padding(vertical = 8.dp), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (conversation.isEmpty()) item {
                 Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-                    Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("今天需要我帮你查看什么？", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                        Text("选择上方的快捷查询，或直接输入问题。", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Column(Modifier.fillMaxWidth().padding(12.dp)) {
+                        Text("想查点什么？", fontWeight = FontWeight.SemiBold, fontSize = 18.sp, lineHeight = 24.sp)
                     }
                 }
             }
             if (showIntro && conversation.isEmpty() && !lightDesign) item {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    SuggestionChip(onClick = { send("哪些快过期了？") }, label = { Text("哪些快过期了？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
-                    SuggestionChip(onClick = { send("需要补什么？") }, label = { Text("需要补什么？", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
+                    SuggestionChip(onClick = { send("哪些快过期了？") }, label = { Text("临期物品", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
+                    SuggestionChip(onClick = { send("需要补什么？") }, label = { Text("补货建议", fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
                 }
             }
             itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) "你" else "✦ Mew", style = MaterialTheme.typography.labelSmall); Text(message) } } }
         }
-        TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text("核对并加入补货清单") }
-        Row(verticalAlignment = Alignment.CenterVertically) { OutlinedTextField(input, { input = it }, placeholder = { Text("继续问问…") }, modifier = Modifier.weight(1f)); TextButton(onClick = { send(input) }, enabled = !asking) { Text(if (asking) "查询中…" else "发送") } }
+        TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text("核对补货") }
+        Row(verticalAlignment = Alignment.CenterVertically) { OutlinedTextField(input, { input = it }, placeholder = { Text("输入问题…") }, modifier = Modifier.weight(1f)); TextButton(onClick = { send(input) }, enabled = !asking) { Text(if (asking) "查询中…" else "发送") } }
         Spacer(Modifier.height(16.dp))
     }
     if (confirming) {

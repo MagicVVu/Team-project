@@ -88,7 +88,7 @@ class DarkDesignTest {
         launch()
         compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
         screenshot("shopping-fixture")
-        compose.onNodeWithText("已购买").performScrollTo().performClick()
+        compose.onNodeWithText("购买入库").performScrollTo().performClick()
         screenshot("purchase-fixture")
         compose.onNodeWithText("确认入库").performClick()
         compose.onNodeWithText("请输入有效正数").assertExists()

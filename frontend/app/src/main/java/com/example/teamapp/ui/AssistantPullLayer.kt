@@ -280,16 +280,14 @@ private fun AssistantCurtainPage(
 ) {
     var initial by rememberSaveable { mutableStateOf("") }
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding()) {
-        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp)) {
+        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 6.dp)) {
             Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-                MewMascot(MewPose.Thinking, Modifier.size(88.dp).testTag("assistant-ip"), "Mew AI 助手")
-                Text(stringResource(R.string.brand_assistant_title), fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
-                Text("看看库存，也一起安排补货", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp))
+                MewMascot(MewPose.Thinking, Modifier.size(64.dp).testTag("assistant-ip"), "Mew AI 助手")
+                Text(stringResource(R.string.brand_assistant_title), fontSize = 21.sp, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold)
             }
             TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text("收起 ↑") }
         }
-        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("查库存" to "家里有什么库存？", "临期提醒" to "哪些快过期了？", "补货建议" to "需要补什么？").forEach { (label, query) ->
                 OutlinedButton(onClick = { initial = query }, modifier = Modifier.weight(1f), shape = CircleShape,
                     contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(label, fontSize = 12.sp) }

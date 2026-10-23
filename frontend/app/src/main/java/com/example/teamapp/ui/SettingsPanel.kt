@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.R
+import com.example.teamapp.BuildConfig
 import com.example.teamapp.ui.theme.LocalLightDesign
 import kotlinx.coroutines.launch
 
@@ -113,12 +114,12 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
             }
             "帮助与反馈" -> {
                 Text("第一次使用", fontWeight = FontWeight.Bold)
-                ModeNotice("1. 在首页拍照、语音或库存页手动添加物品。\n2. 核对名称、数量、单位与存放位置，确认保存。\n3. 设置最低库存及有效期，查看需关注物品。\n4. 加入采购清单，已购买后输入实际数量并确认入库。")
+                ModeNotice("1. 在首页拍照、语音或库存页手动添加物品。\n2. 核对名称、数量、单位与存放位置，确认保存。\n3. 设置最低库存及有效期，查看需关注物品。\n4. 加入采购清单，买好后点击「购买入库」，输入实际数量并确认。")
                 Text("常见问题", fontWeight = FontWeight.Bold)
                 ModeNotice("照片为什么没有自动识别？初版暂未连接图像识别服务，请根据照片填写信息。\n语音不可用？设备需要可处理中文语音的系统服务，也可手动输入原文。\n数据会丢失吗？重启仍保留；卸载或清除应用数据会删除本机记录，请先导出。\nAI 能做什么？本地助手根据已确认库存回答名称、过期和补货问题，不会自动修改记录。")
                 var feedback by rememberSaveable { mutableStateOf("") }
                 OutlinedTextField(feedback, { feedback = it }, label = { Text("问题或建议") }, minLines = 3, modifier = Modifier.fillMaxWidth())
-                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "Mewstow v1.0 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
+                OutlinedButton(onClick = { if (feedback.isBlank()) notify("请先填写反馈") else runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "Mewstow ${BuildConfig.VERSION_NAME} 反馈\n$feedback"), "选择反馈分享方式")) }.onFailure { notify("没有可用的分享应用") } }) { Text("分享反馈内容") }
                 Text("分享仅打开系统分享面板，初版无在线反馈提交服务。", style = MaterialTheme.typography.bodySmall)
             }
             "关于 Mewstow" -> {
@@ -128,7 +129,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 Text(stringResource(R.string.brand_slogan), style = MaterialTheme.typography.bodyMedium)
                 Text("猫又 ${stringResource(R.string.mascot_formal_name)} · 昵称 ${stringResource(R.string.mascot_nickname)}",
                     style = MaterialTheme.typography.titleSmall)
-                Text("版本 1.0 · Android 初版\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
+                Text("版本 ${BuildConfig.VERSION_NAME} · Android\n围绕家里有什么、还有多少、放在哪里、什么时候补充，让家庭生活更有条理。")
                 Text("支持游客本机空间、家庭云端库存及共享采购。本候选支持库存问答，以及用户确认后的添加、移动、消耗和手动采购草稿；实际可用动作以后端能力为准。图像识别、照片云端备份、开封、丢弃及自动规划确认暂未开放。数据说明见「隐私与安全」。")
             }
         }

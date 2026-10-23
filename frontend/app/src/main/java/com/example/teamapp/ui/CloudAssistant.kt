@@ -62,7 +62,7 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
             }
         }
         Row(Modifier.fillMaxWidth()) {
-            OutlinedTextField(input, { input = it }, label = { Text("继续问问…") }, modifier = Modifier.weight(1f).testTag("ai-input"))
+            OutlinedTextField(input, { input = it }, label = { Text("输入问题…") }, modifier = Modifier.weight(1f).testTag("ai-input"))
             TextButton(onClick = { send(input) }, enabled = !assistant.busy && !cloud.expired && input.isNotBlank(), modifier = Modifier.testTag("ai-send")) { Text("发送") }
         }
         Spacer(Modifier.height(12.dp))
