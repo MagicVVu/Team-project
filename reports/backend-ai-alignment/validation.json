@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-24",
+  "tests": {
+    "sqlite-tests.xml": {
+      "tests": 382,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 37,
+      "passed": 345
+    },
+    "preflight-tests.xml": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3
+    },
+    "timezone-regression.xml": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 1
+    },
+    "postgres": {
+      "tests": 385,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 16,
+      "passed": 369
+    }
+  },
+  "schema_check": "No new upgrade operations detected.",
+  "migration_targets": [
+    "head",
+    "20261023_0009",
+    "head",
+    "20261023_0008",
+    "head",
+    "20261017_0007",
+    "head",
+    "20261016_0006",
+    "head"
+  ],
+  "postgres_version": "postgres (PostgreSQL) 17.11",
+  "isolated_startup": {
+    "health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "isolated_test": true
+    },
+    "ready": {
+      "status": "ready",
+      "database": "ok"
+    }
+  },
+  "postgres_stopped": true,
+  "temporary_cluster_removed": true,
+  "production_deployed": false,
+  "production_database_accessed": false,
+  "paid_model_calls": 0,
+  "remaining_acceptance": [
+    "16 actual Nginx tests need P8_NGINX_EXE",
+    "Android device integration",
+    "production rollout"
+  ],
+  "source_sha256": {
+    "backend/server/alembic/versions/20261014_0001_core_tables.py": "bfca634175471bd016507a8e26bf737419f129f33a920d0dc184c8e4f3a800d0",
+    "backend/server/alembic/versions/20261014_0002_shared_shopping.py": "bef0d803f7f2943d15b4585e4cb7ea9aeec190705f51a1cd2f801cf84f7cbd1a",
+    "backend/server/alembic/versions/20261014_0003_phone_auth_households.py": "6c65a9140dd215cc44adb7f3fced74d30b0996e891ee09baee38de2018b62586",
+    "backend/server/alembic/versions/20261014_0004_ai_inventory_read.py": "b3efe94d9266b9b84a18ac346cc76f2562623e1f6f34de621584c4ae6f47e05a",
+    "backend/server/alembic/versions/20261014_0005_ai_tasks.py": "0fb73b697552beb2212ef0183f20ad878e9c457a4d1a3a36dc260084e6cc7649",
+    "backend/server/alembic/versions/20261016_0006_app_inventory.py": "f19b290a8c8e62dc77c87a80cb9bb693e6d085adfcd37aa356153d292ac53aeb",
+    "backend/server/alembic/versions/20261017_0007_draft_execution.py": "0b7476c7fda47676cf699c69d4892d7c8aa233b87a176cdaeda44c0d966af247",
+    "backend/server/alembic/versions/20261023_0008_conversation.py": "ca9792d15491431279989d36ac6acbd1c0ff3254ddb92174f255cb2cefa50ed9",
+    "backend/server/alembic/versions/20261023_0009_open_discard.py": "831ffbbf48dcc5a233ca919e070196465848ec0b120b17087513b341b3870b88",
+    "backend/server/alembic/versions/20261023_0010_planning_facts.py": "caacdefe24e4e7f0bd35c03763fdfa949f04baa84d99d6387fc6255c1a81220f",
+    "backend/server/app/__init__.py": "7ddfdd3955061c7698037126ead49f6675820130dd22308ac7b568105eaaa65a",
+    "backend/server/app/ai_agent_smoke.py": "9abf772404b16b36da5aa5f4b57340a3c55ed25fcc97a32ce1e3b22b3a651f34",
+    "backend/server/app/ai_inventory_audit.py": "9e5970f5f27bb34629cbac17076bcd9642003f19157f3a9f06d281ffb29cb6a9",
+    "backend/server/app/ai_inventory_smoke.py": "0f16c28f3729285e1e288365c024ac5b1d8e710e987db84393723093b5e6f6bd",
+    "backend/server/app/conversation_models.py": "62a18c7c626b5f5224eea8084f2d4802c2f721410cb74265b2e93d6b8dd05497",
+    "backend/server/app/conversation_schemas.py": "d3bd549098e19a2e6b537887e5ae23d7382287adce012c4e523280640e16e82b",
+    "backend/server/app/database.py": "04abaa99aaafc5dfcabc43bc6bf21cf34a8715ff0ef96c082cb6ae5e050cbce2",
+    "backend/server/app/dependencies.py": "3c759f94318148fa12fa313f3f86c3cd0f08d09c9d8b24e89d890add0e196bc2",
+    "backend/server/app/execution_models.py": "09b01438a10f12cf8240fd903c0a9b6c81221e42cb43e1da3adf6086a885dcee",
+    "backend/server/app/execution_schemas.py": "2c610eb220110877d99ca31ac8f8cc23d2ef6d9d9a256f455148f03365786ea0",
+    "backend/server/app/inventory_schemas.py": "f68f9556db52a2e5142f9b4162c87dc0bff751d52c1228f8674a6ba4d7950d78",
+    "backend/server/app/login_guard.py": "007189c2e4086e8c38680f3393d7441d633a25254fed733f5ab0363ff1458451",
+    "backend/server/app/main.py": "e27641cd825cc32c34c64d20759b999a3d12de893be0e0759a8767e8db9d1fe2",
+    "backend/server/app/models.py": "fcbfeb7b1be738c79a33a8a7fb7a9aece441e5690651885dab81313f3000902b",
+    "backend/server/app/p7_preflight.py": "bde41f765910e34a48d653ce5c89291d88710f2a48542fe9b24194b1a3afeacb",
+    "backend/server/app/p8_preflight.py": "4bdbed6e072b3010992e3cefd12e3115c5e76e19fa1342de0f0536b028bf1206",
+    "backend/server/app/planning_fact_models.py": "381ba9e79402878999775e705d01e016a83e591c80e97f626331a2cff574b729",
+    "backend/server/app/planning_fact_schemas.py": "11269e7cf945e9c06c2e54aaaa23aa8804499c69493bdd4121f286616804b5ce",
+    "backend/server/app/planning_schemas.py": "5a6a1707b082acf0d808959fb980c9ba18882be48eb850592b1a5f03cd740554",
+    "backend/server/app/provision_debug_account.py": "081785b24df770498ce4b2050818a9b0f926c8a26679ff1bfe991022da5c2968",
+    "backend/server/app/routers/__init__.py": "886d448f8e7ade0e55b03eb5f39b3fb4d84c8ee1082b2be1aa20d79c6e9b9483",
+    "backend/server/app/routers/agent_gateway.py": "bd2ccbc5bcf68d1215687e82ebaa008e7447822f12c481d97e785140c1347abc",
+    "backend/server/app/routers/ai_inventory.py": "6184530ba910fa878a37ff51aedd0714eee837202f229d1f32ed08c95d3e2734",
+    "backend/server/app/routers/auth.py": "14898bd776ec555bade85e058cece2fb1669338c0f0446e495ac490caff3dcfc",
+    "backend/server/app/routers/conversation.py": "8cdf2bfdd6fd4d3eecf34c33dcf01bad10c8c89505d57696cfe9001434de9c0a",
+    "backend/server/app/routers/draft_execution.py": "954831d0c1f740d4b0ddab467e540cbe7497c83efa6de73fab02ca7c119a2187",
+    "backend/server/app/routers/households.py": "e6d97a14466986ffba84dfcadde4bbc920f7043e589b4ef308c7994c6d9c8361",
+    "backend/server/app/routers/inventory.py": "f4ee13000d2cb2414c9dd82b982af3878f3bbb5804e189ab36bc80943cd9ddef",
+    "backend/server/app/routers/planning.py": "e802140d194aaaf1da236bdb37d39f79d3445105424d5e70ad698350bf0f2e1c",
+    "backend/server/app/routers/planning_facts.py": "32c427c18fc3d07f57c8144147c03f3d52a8633ab9fa1bd05f25e8779d80d31d",
+    "backend/server/app/routers/shopping.py": "b1bc4875d6870354ef9db1b9178f5366b3b9dacb017fcaaef532c41a3a9f4eb8",
+    "backend/server/app/schema_smoke.py": "c4e658d57911f3d1af62aec140c8b65709457c2b5f599382a91197d451f7445a",
+    "backend/server/app/schemas.py": "758db4a1a7ff61fc5ef8e39685de41e2e549dff88e224f75bf942a93d0e738e9",
+    "backend/server/app/security.py": "5752e79d8a424f4592fc772912ca020986274505dc64cc8cb2a7c5fb44325f90",
+    "backend/server/app/services/__init__.py": "cded567e280fb0a68ee40ce034d3927971118b9f3237f08e38dca1ea844f080c",
+    "backend/server/app/services/ai_inventory.py": "030cab6d2c5377db4f6939d6304fb6bd242aa0d9f1a3770cf36aed7fc69f2652",
+    "backend/server/app/services/chat_controls.py": "c4175037c4f6873785110c7640e2c53f663deabe3d59dd3edd8ae01af4ccde72",
+    "backend/server/app/services/conversation.py": "8c892366a16ca7c0e83764eda79edb4dd22c51349368d833f005bebab1bea5c3",
+    "backend/server/app/services/draft_execution.py": "a00650ddcd442eff813b3bc0d244af0671517724512c5bf42a3f68427e600864",
+    "backend/server/app/services/planning_context.py": "c28b79cf45698f04930ea7ed3aeaeb350cb12bfdf303b0d143bde7852e696936",
+    "backend/server/app/services/planning_facts.py": "dde07eb2afec1584c42423ffb30f1fc5cc6518a12cf5952488bf7d89cd6cb2d5",
+    "backend/server/app/services/shopping.py": "3370a3576fde10b87b76591a282e1cbfb4b790362e33ff28f94b19848f4df8ba",
+    "backend/server/app/shopping_schemas.py": "104058907b8d50e372de3b51c210306bfefa295c4489279bafdc455a9406a9b3"
+  }
+}

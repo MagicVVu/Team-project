@@ -1,7 +1,7 @@
 """One consistent, bounded, read-only view of committed household facts.
 
 Transport completeness is separate from real-world recording completeness.
-There is no durable coverage/stock-verification writer in this application.
+User attestations are read from the same snapshot as inventory and events.
 """
 import hashlib
 import json
@@ -15,6 +15,8 @@ from sqlalchemy.orm import Session
 
 from app.execution_models import BusinessEvent, DraftOperation
 from app.models import InventoryItem, ShoppingListItem, ShoppingList, HouseholdMember, User
+from app.planning_fact_models import InventoryPlanningFacts
+from app.services import planning_facts
 from app.services.ai_inventory import to_p1_batch, IncompatibleInventory, UNIT_CANONICAL
 
 ITEM_LIMIT, EVENT_LIMIT, SHOPPING_LIMIT = 1000, 20000, 10000
@@ -71,6 +73,8 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
         .order_by(ShoppingListItem.id).limit(SHOPPING_LIMIT + 1)).all()
     if len(rows) > ITEM_LIMIT or len(event_rows) > EVENT_LIMIT or len(shopping) > SHOPPING_LIMIT:
         raise HTTPException(409, {'code': 'PLANNING_INCOMPLETE', 'message': 'Planning snapshot exceeds complete read limits'})
+    profiles = {p.inventory_item_id: p for p in db.scalars(select(InventoryPlanningFacts)
+        .join(InventoryItem).where(InventoryItem.household_id == household_id)).all()}
     ids = {r.id for r in rows}
     grouped = {r.id: [] for r in rows}
     event_sources = {}
@@ -121,6 +125,42 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
             'reason_codes': ['RECORDING_COMPLETENESS_UNKNOWN', 'NO_COMPLETE_COVERAGE_DAYS', 'STOCK_VERIFICATION_REQUIRED'],
             'missing_sources': ['product_catalogue', 'coverage_attestation', 'stockout_history', 'stock_verification',
                 'lead_days', 'coverage_days', 'order_pack', 'label_date_type', 'storage_conditions']}
+        if row.id in profiles:
+            facts = planning_facts.project(row, profiles[row.id], grouped[row.id])
+            current, source = items[-1], item_sources[str(row.id)]
+            batch.update(planning_facts.risk_fields(row, facts))
+            current['category'] = batch['category']
+            current['preferences']['version'] = row.version + profiles[row.id].version
+            current['coverage'] = facts['coverage']
+            if facts['coverage']:
+                current['recording_completeness_source'] = 'authenticated_household_attestation'
+                source['recording_completeness'] = 'user_attested_per_day'
+                source['reason_codes'] = [r for r in source['reason_codes']
+                    if r not in {'RECORDING_COMPLETENESS_UNKNOWN', 'NO_COMPLETE_COVERAGE_DAYS'}]
+                source['missing_sources'] = [r for r in source['missing_sources']
+                    if r not in {'coverage_attestation', 'stockout_history'}]
+            if facts['preferences'] is not None:
+                current['preferences'].update(facts['preferences'])
+                source['preference_version_source'] = 'inventory_version_plus_planning_facts_version'
+                for key in ('lead_days', 'coverage_days'):
+                    if facts['preferences'][key] is not None:
+                        source['missing_sources'].remove(key)
+                if facts['preferences']['pack_size'] is not None:
+                    source['missing_sources'].remove('order_pack')
+            verification = facts['stock_verification']
+            if verification is not None:
+                current['stock_verification'] = {k: verification[k] for k in ('checked_at', 'source')}
+                current['usable_quantity_verified'] = True
+                source['stock_verification'] = 'explicit_count_matches_inventory_version'
+                source['reason_codes'].remove('STOCK_VERIFICATION_REQUIRED')
+                source['missing_sources'].remove('stock_verification')
+            if facts['risk_facts'] is not None:
+                if facts['risk_facts']['label_date_type'] != 'unknown':
+                    source['missing_sources'].remove('label_date_type')
+                if all(facts['risk_facts'][k] is not None for k in ('storage_condition', 'label_storage_condition')):
+                    source['missing_sources'].remove('storage_conditions')
+            source['attestations'] = facts['provenance']
+            source['invalidated_sections'] = facts['invalidated_sections']
     keys = {i['item_key'] for i in items}
     pending, pending_complete, shopping_sources = [], len(lists) == 1, []
     # Acquisition link proves purchase provenance, not future pending demand.
@@ -152,7 +192,9 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
         'event_watermark_kind': 'sha256_visible_ledger_content_not_commit_sequence',
         'shopping_version_kind': 'content_digest_60_bits_not_monotonic',
         'database_rows_complete': True, 'shopping_list_present': len(lists) == 1,
-        'recording_completeness': 'unknown', 'automatic_planning_commit': False,
+        'recording_completeness': ('user_attested_per_day' if items and all(i['coverage'] for i in items)
+            else 'partial_or_unknown' if any(i['coverage'] for i in items) else 'unknown'),
+        'automatic_planning_commit': False,
         'items': item_sources, 'events': event_sources, 'shopping': shopping_sources}
     # V1 selection compares this token across name and item_key reads. It must
     # identify household facts, independent of selectors or the capture clock;
@@ -160,6 +202,7 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
     # fresh DB reads and supplies its own DB as_of (never a cached relabel).
     result['snapshot_id'] = digest({'scope': result['scope'],
         'inventory': [[getattr(row, column.name) for column in InventoryItem.__table__.columns] for row in rows],
+        'planning_facts': [(str(key), p.version, p.facts_json) for key, p in sorted(profiles.items())],
         'events': event_sources, 'event_watermark': watermark, 'shopping_content': shopping_hash})
     return {'data': result, 'provenance': provenance} if with_provenance else result
 

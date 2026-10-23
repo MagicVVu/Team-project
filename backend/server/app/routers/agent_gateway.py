@@ -260,6 +260,10 @@ async def run_message(body, identity, db, *, reference=None, on_saved=None):
         check_config()
         nonce = reserve(task)  # recover an abandoned request after lease expiry
     else:
+        from app.services.planning_facts import business_zone
+        if body.household_timezone != business_zone().key:
+            raise HTTPException(422, {"code": "HOUSEHOLD_TIMEZONE_MISMATCH",
+                                      "household_timezone": business_zone().key})
         check_config()  # no new task if AI isn't configured; persisted results still recover
         task = AITask(user_id=identity.user.id, household_id=body.household_id,
                       request_id=body.request_id, request_hash=digest,

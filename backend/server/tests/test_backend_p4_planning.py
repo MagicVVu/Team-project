@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 import httpx
 import pytest
@@ -48,7 +49,9 @@ def parse(value):
 
 
 def save(name, value):
-    path = ROOT / 'reports' / ('backend-p4-postgres-examples.json' if PG else 'backend-p4-sqlite-examples.json')
+    directory = ROOT / '.cache' / 'backend-test-evidence'
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / ('backend-p4-postgres-examples.json' if PG else 'backend-p4-sqlite-examples.json')
     previous = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {}
     previous[name] = value
     path.write_text(json.dumps(previous, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -210,7 +213,7 @@ def test_events_provenance_and_exclusions(planning, enabled):
         assert e.recorded_at <= parse(payload['data']).as_of
     # Historical opening date is separate from registration timestamp.
     opened = next(e for e in item.events if e.kind == 'Opened')
-    assert opened.recorded_at.date() > item.batches[0].opened_at
+    assert opened.recorded_at.astimezone(ZoneInfo('Asia/Shanghai')).date() > item.batches[0].opened_at
     save('semantic_events', payload)
 
 

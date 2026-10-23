@@ -19,8 +19,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--stage', choices=('p1', 'p2', 'p3', 'p4'), default='p1')
+parser.add_argument('--stage', choices=('p1', 'p2', 'p3', 'p4', 'p8'), default='p1')
 stage = parser.parse_args().stage
+evidence = ROOT / 'reports' / 'backend-ai-alignment' if stage == 'p8' else ROOT / 'reports'
+evidence.mkdir(parents=True, exist_ok=True)
 BIN = ROOT / '.cache/p72-postgresql/pgsql/bin'
 assert (BIN / 'postgres.exe').is_file()
 work = Path(tempfile.mkdtemp(prefix='p72-local-postgres-', dir=ROOT / '.cache')).resolve()
@@ -65,13 +67,17 @@ try:
     run([BIN / 'pg_ctl.exe', '-D', data, '-l', work / 'server.log', '-o', f'-h 127.0.0.1 -p {port}', '-w', 'start'])
     run([BIN / 'createdb.exe', '-h', '127.0.0.1', '-p', str(port), '-U', 'p72_test', env['DB_NAME']])
     result['migration'] = []
-    if stage in ('p3', 'p4'):
+    if stage == 'p8':
+        targets = ('head', '20261023_0009', 'head', '20261023_0008', 'head', '20261017_0007', 'head', '20261016_0006', 'head')
+    elif stage in ('p3', 'p4'):
         targets = ('head', '20261023_0008', 'head', '20261017_0007', 'head', '20261016_0006', 'head')
     else:
         targets = ('head', '20261017_0007', 'head', '20261016_0006', 'head') if stage == 'p2' else ('head', '20261016_0006', 'head')
     for target in targets:
         p = run([sys.executable, '-m', 'alembic', 'upgrade' if target == 'head' else 'downgrade', target], cwd=ROOT / 'backend/server')
         result['migration'].append({'target': target, 'exit_code': p.returncode, 'log': p.stderr})
+    if stage == 'p8':
+        result['schema_check'] = run([sys.executable, '-m', 'alembic', 'check'], cwd=ROOT / 'backend/server').stdout.strip()
     # Boot the actual ASGI server against the migrated disposable database.
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', 0))
@@ -108,7 +114,7 @@ try:
             server.terminate()
             server.wait(timeout=10)
     p = run([sys.executable, '-m', 'pytest', 'backend/server/tests', '-q', '--tb=short',
-             f'--junitxml=reports/backend-{stage}-postgres-tests.xml',
+             '--junitxml=' + str(evidence / f'backend-{stage}-postgres-tests.xml'),
              '--basetemp=' + str(work / 'pytest')], check=False, timeout=300)
     result.update(exit_code=p.returncode, stdout=p.stdout, stderr=p.stderr)
 finally:
@@ -119,7 +125,7 @@ finally:
     assert work.name.startswith('p72-local-postgres-')
     if result['postgres_stopped'] and data.exists(): shutil.rmtree(data)
     result['cluster_removed'] = not data.exists()
-    (ROOT / f'reports/backend-{stage}-postgres-evidence.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+    (evidence / f'backend-{stage}-postgres-evidence.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
     print(json.dumps({k: v for k, v in result.items() if k not in {'stdout', 'stderr', 'migration'}}, ensure_ascii=False))
 
 sys.exit(result.get('exit_code', 1) if result['postgres_stopped'] and result['cluster_removed'] else 1)

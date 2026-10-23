@@ -16,9 +16,20 @@ from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
 from app.models import HouseholdMember, InventoryItem, User
+from app.planning_fact_models import InventoryPlanningFacts
 from app.services.ai_inventory import IncompatibleInventory, to_p1_batch
 
 router = APIRouter(prefix="/internal/v1/inventory", tags=["Internal AI Inventory"])
+
+
+def with_risk_facts(item, profile):
+    batch = to_p1_batch(item)
+    if profile is not None and (profile.facts_json or {}).get("risk_facts"):
+        from app.services.planning_facts import identity, risk_fields
+        saved = profile.facts_json["risk_facts"]
+        if saved["inventory_identity"] == identity(item, "risk_facts"):
+            batch.update(risk_fields(item, {"risk_facts": saved["value"]}))
+    return batch
 
 
 def _authorize(
@@ -70,7 +81,9 @@ def search_batches(
     if len(rows) > 1000:
         raise HTTPException(status_code=409, detail="Too many batches for P1 tool; narrow inventory query")
     try:
-        batches = [to_p1_batch(row) for row in rows]
+        profiles = {p.inventory_item_id: p for p in db.scalars(select(InventoryPlanningFacts)
+            .where(InventoryPlanningFacts.inventory_item_id.in_([row.id for row in rows]))).all()}
+        batches = [with_risk_facts(row, profiles.get(row.id)) for row in rows]
     except IncompatibleInventory as error:
         raise HTTPException(status_code=409, detail=str(error)) from None
     return {"data": {"batches": batches}}
@@ -89,7 +102,7 @@ def get_batch(
     if item is None:
         raise HTTPException(status_code=404, detail="Batch not found")
     try:
-        batch = to_p1_batch(item)
+        batch = with_risk_facts(item, db.get(InventoryPlanningFacts, item.id))
     except IncompatibleInventory as error:
         raise HTTPException(status_code=409, detail=str(error)) from None
     return {"data": {"batch": batch}}

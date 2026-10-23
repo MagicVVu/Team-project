@@ -566,9 +566,10 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             getattr(command, direction)(cfg, target)
 
     def snapshot():
+        existing = set(inspect(engine).get_table_names())
         with engine.connect() as db:
             return {table.name: [dict(row) for row in db.execute(select(table).order_by(*table.primary_key.columns)).mappings()]
-                for table in service.AITask.metadata.tables.values() if table.name != "alembic_version"}
+                for table in service.AITask.metadata.tables.values() if table.name in existing and table.name != "alembic_version"}
 
     try:
         migrate("upgrade", "20261023_0008")
@@ -601,7 +602,7 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             # Explicitly prove the local SQLite limitation preserves all data,
             # rather than turning off constraints to claim migration success.
             with pytest.raises(RuntimeError, match="Populated SQLite execution ledger"):
-                migrate("upgrade", "head")
+                migrate("upgrade", "20261023_0009")
             assert snapshot() == before
             with engine.connect() as db:
                 assert db.scalar(text("SELECT version_num FROM alembic_version")) == "20261023_0008"
@@ -610,7 +611,7 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             evidence("populated_migration", {"database": "sqlite", "result": "guarded_before_DDL",
                 "data_preserved": True, "foreign_keys_enabled": True})
             return
-        for direction, target in (("upgrade", "head"), ("downgrade", "20261023_0008"), ("upgrade", "head")):
+        for direction, target in (("upgrade", "20261023_0009"), ("downgrade", "20261023_0008"), ("upgrade", "20261023_0009")):
             migrate(direction, target)
             assert snapshot() == before
         assert client.get("/api/v1/operations/" + request["operation_id"], headers=headers()).json() == old_result.json()
