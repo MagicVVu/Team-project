@@ -17,6 +17,8 @@ from .manager import PRONOUN, LOCATION_REFERENCE
 from .schemas import ObjectReference
 from .tasks import Task
 from v1.schemas import PUBLIC_FIELDS
+from .chat_text import quick_response
+from .supplements import multiple_fields, RESET, SupplementError
 
 REPLY_PROTOCOL = "p7-reply-routing-1"
 
@@ -101,13 +103,27 @@ def resolve_reply(binding, text, scope, now, *, selected_batch_id=None):
     if not isinstance(text, str) or not text.strip() or len(text) > 1000:
         return ReplyResolution(kind="needs_input", error_code="INVALID_CLARIFICATION_INPUT")
     text = text.strip().rstrip("。！! ")
-    if text == "开始新任务":
+    if RESET.fullmatch(text):
         return ReplyResolution(kind="clear_reference", clear_reference=True)
+    if text in {"算了", "不用了", "取消草稿", "取消这次任务", "取消这次操作", "先不做了"}:
+        if binding.task.status == "needs_confirmation":
+            return ReplyResolution(kind="needs_input", error_code="DRAFT_CANCEL_REQUIRES_CONFIRMATION")
+        return ReplyResolution(kind="clear_reference", clear_reference=True)
+    if binding.task.status != "needs_clarification" and re.match(r"(?:数量)?改(?:成|为)|位置改(?:成|为)|开封日期改(?:成|为)", text):
+        return ReplyResolution(kind="needs_input", error_code="DRAFT_EDIT_REQUIRES_FORM")
     if not text or guard(text) or review_reason(text):
         return ReplyResolution(kind="needs_input", error_code="INVALID_CLARIFICATION_INPUT")
+    if quick := quick_response(text):
+        return ReplyResolution(kind="needs_input", error_code=quick[0])
     task = binding.task
     # An explicit new request is independent of an expired previous task.
-    if actions(text) or LOCATION_REFERENCE.fullmatch(text) or re.search(r"哪里|在哪|什么地方|多少|有什么|过期[了吗]?", text):
+    supplement = None
+    if task.status == "needs_clarification" and task.result and task.result.clarification:
+        try:
+            supplement = multiple_fields(text, set(task.result.clarification.allowed_fields), binding.household_timezone, now)
+        except SupplementError as error:
+            return ReplyResolution(kind="needs_input", error_code=error.code)
+    if not supplement and (actions(text) or LOCATION_REFERENCE.fullmatch(text) or re.search(r"哪里|在哪|什么地方|多少|有什么|过期[了吗]?", text)):
         return ReplyResolution(kind="new_task", clear_reference=not bool(PRONOUN.search(text)))
     if task.status != "needs_clarification":
         return ReplyResolution(kind="new_task", clear_reference=not bool(PRONOUN.search(text)))
@@ -119,10 +135,12 @@ def resolve_reply(binding, text, scope, now, *, selected_batch_id=None):
     allowed = set(advice.allowed_fields)
     if not allowed or not allowed <= PUBLIC_FIELDS:
         return ReplyResolution(kind="needs_input", error_code="INVALID_CLARIFICATION_FIELDS")
-    answers = {}
-    ordinal = re.fullmatch(r"(?:选|选择|我要|就)?第([一二两三四五六七八九十0-9]+)(?:个|批|项)(?:吧)?", text)
+    answers = supplement or {}
+    ordinal = re.fullmatch(r"(?:选|选择|我要|就)?第([一二两三四五六七八九十0-9]+)(?:个|批|项)(?:吧|就行|就可以)?", text)
     candidates = task.result.candidates
-    if ordinal:
+    if supplement:
+        pass
+    elif ordinal:
         if "batch_id" not in allowed:
             return ReplyResolution(kind="needs_input", error_code="INVALID_CANDIDATE")
         n = number(ordinal[1])

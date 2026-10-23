@@ -5,10 +5,13 @@ import java.time.LocalDate
 
 /** Client validation assists the form; the backend remains authoritative. */
 object AgentExecutionPolicy {
+    fun wireEdits(values: Map<String, String>): Map<String, String?> = values.mapValues { (field, value) ->
+        if (field in setOf("purchased_at", "label_expiry") && value.isBlank()) null else value
+    }
     val editable = mapOf(
         "ADD" to listOf("name", "quantity", "unit", "location", "purchased_at", "label_expiry"),
         "MOVE" to listOf("to_location"), "CONSUME" to listOf("quantity", "unit"),
-        "PLAN_ADD" to listOf("quantity", "unit")
+        "PLAN_ADD" to listOf("quantity", "unit"), "OPEN" to listOf("opened_at"), "DISCARD" to listOf("quantity", "unit")
     )
     fun validate(action: String, values: Map<String, String>, allowed: List<String>) {
         require(action in editable) { "当前版本暂不支持自动执行此动作" }
@@ -21,6 +24,7 @@ object AgentExecutionPolicy {
         for (field in listOf("location", "to_location")) values[field]?.let {
             require(it.isNotBlank() && it.codePointCount(0, it.length) <= 100) { "位置必填且最多 100 字，不会自动截断" }
         }
+        values["opened_at"]?.let { if (it !in setOf("今天", "昨天")) LocalDate.parse(it) }
         values["name"]?.let { require(it.isNotBlank() && it.codePointCount(0, it.length) <= 200) { "物品名称必填且最多 200 字" } }
         values["unit"]?.let { require(it.isNotBlank()) { "单位必填" } }
         val dates = listOf("purchased_at", "label_expiry").map { key -> values[key]?.takeIf { it.isNotBlank() }?.let { LocalDate.parse(it) } }

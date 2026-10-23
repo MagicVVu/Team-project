@@ -14,6 +14,8 @@ from v1.schemas import ClarificationRequest as OldRequest
 from .schemas import (AgentResult, ReferenceContext, ReferenceUse, RuntimeInfo,
                       POLICY_VERSION)
 from .engines import PROMPT_VERSION, QUALIFIED_MOVE
+from .chat_text import present, quick_response
+from .supplements import RESET
 
 PRONOUN = re.compile(r"它|这一批|这批|这一个|这个|这件")
 PRONOUN_NAMES = {"它", "这一批", "这批", "这一个", "这个", "这件", "这"}
@@ -45,6 +47,7 @@ class LifecycleManager(BaseLifecycleManager):
         result = await super()._resolve(context, scope, trace)
         if result.status == "needs_clarification" and fields:
             result.reply = "请核对业务字段：新增位置必填、位置最多100字；采购数量最多三位小数且不超过999999999.999。尚未写入。"
+        result.reply = present(result)
         return result
 
 
@@ -112,12 +115,19 @@ class Operation(BaseOperation):
         else:
             result.clarification = None
             result.candidates = result.facts = []
+        result.reply = present(result)
         return result
 
     async def handle(self, message, scope):
         self.current_message, self.scope = message, scope
         text = extraction_text(message.text)
         self.restrict_move_source(message.text)
+        quick = quick_response(text)
+        if quick and message.reference and message.reference.scope != scope:
+            raise DomainError("HOUSEHOLD_FORBIDDEN", "对象引用不属于当前用户或家庭。", 403)
+        if quick and not guard(message.text) and not review_reason(message.text) and not (message.input and not message.input.user_confirmed):
+            return AgentResult(status="answered", reply=quick[1], original_text=message.text,
+                               trace_id=new_id("trace"))
         if message.input and not message.input.user_confirmed:
             return await super().handle(message, scope)
         if re.fullmatch(r"库存(?:有什么|有哪些)[？?。]?", text) and not guard(message.text) and not review_reason(message.text):
@@ -140,7 +150,7 @@ class Operation(BaseOperation):
             return AgentResult(status="answered", intent="QUERY_INVENTORY", original_text=message.text,
                 trace_id=new_id("trace"), facts=matched,
                 reply=f"{location}里的{name}：{summary}。" if matched else f"未找到{location}中名称为{name}的有效库存记录。")
-        if text.strip().rstrip("。！! ") == "开始新任务":
+        if RESET.fullmatch(text.strip()):
             from v1.schemas import AgentResult as BaseResult
             result = BaseResult(status="answered", reply="已清除当前对象引用，请输入新的库存任务。",
                 trace_id=new_id("trace"), original_text=message.text)

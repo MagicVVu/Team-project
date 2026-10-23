@@ -7,12 +7,11 @@ import com.example.teamapp.BuildConfig
 open class AgentClient(address: String, token: String) {
     private val api = CloudApi(address, token)
     suspend fun capabilities(): JSONObject {
-        val health = api.request("GET", "/api/v1/health")
-        TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
-        return api.request("GET", "/api/v1/agent/execution-capabilities").also {
-            TargetPolicy.capabilities(it.optString("protocol_version"), it.optString("owner"))
-        }
+        return api.verifiedCapabilities()
     }
+    open suspend fun conversation(body: JSONObject) = api.request("POST", "/api/v1/agent/conversation-messages", body)
+    suspend fun control(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/tasks/${uuid(id)}/chat-control", body)
+    suspend fun preview(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/execution-preview", body)
     open suspend fun message(body: JSONObject) = api.request("POST", "/api/v1/agent/messages", body)
     suspend fun task(id: String) = api.request("GET", "/api/v1/agent/tasks/${uuid(id)}")
     suspend fun clarify(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/clarifications/${uuid(id)}", body)

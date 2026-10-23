@@ -15,13 +15,16 @@ data class AssistantEntry(
     val commitBody: String = "", val clarificationBody: String = "", val cancelBody: String = "",
     val edits: Map<String, String> = emptyMap(), val state: AssistantStatus = AssistantStatus.PROCESSING,
     val notice: String = "", val receipt: String = "", val refreshNeeded: Boolean = false,
-    val failureCode: String = ""
+    val failureCode: String = "",
+    val conversationBody: String = "", val conversationResolved: Boolean = false,
+    val conversationSession: String = "", val controlBody: String = "",
+    val conversationReply: String = "", val checkedPreview: String = "", val transportMode: String = "legacy"
 ) {
     val taskJson get() = JSONObject(task)
     val draftJson get() = JSONObject(draft)
     val executionJson get() = JSONObject(execution)
     val result get() = taskJson.optJSONObject("result") ?: JSONObject()
-    val command get() = draftJson.optJSONObject("draft") ?: result.optJSONObject("draft") ?: JSONObject()
+    val command get() = if (checkedPreview.isNotBlank()) JSONObject(checkedPreview).getJSONObject("command") else draftJson.optJSONObject("draft") ?: result.optJSONObject("draft") ?: JSONObject()
     val taskId get() = taskJson.stringOrEmpty("task_id")
     val draftId get() = taskJson.stringOrEmpty("draft_id").ifBlank { executionJson.stringOrEmpty("draft_id") }
     val operationId get() = if (commitBody.isBlank()) "" else JSONObject(commitBody).getString("operation_id")
@@ -31,8 +34,8 @@ data class AssistantEntry(
     val executionStatus get() = executionJson.stringOrEmpty("status")
     val errorCode get() = failureCode.ifBlank { executionJson.stringOrEmpty("reason_code").ifBlank { result.stringOrEmpty("error_code") } }
     val action get() = command.stringOrEmpty("action")
-    val reply get() = result.stringOrEmpty("reply")
-    val preview get() = draftJson.optJSONObject("preview") ?: result.optJSONObject("preview") ?: JSONObject()
+    val reply get() = conversationReply.ifBlank { result.stringOrEmpty("reply") }
+    val preview get() = if (checkedPreview.isNotBlank()) JSONObject(checkedPreview) else draftJson.optJSONObject("preview") ?: result.optJSONObject("preview") ?: JSONObject()
     val allowedFields get() = result.optJSONObject("clarification")?.optJSONArray("allowed_fields")?.let { a -> (0 until a.length()).map { a.getString(it) } }.orEmpty()
     val candidates get() = result.optJSONArray("candidates")?.objects().orEmpty()
     val editableFields get() = executionJson.optJSONArray("editable_fields")?.let { a ->
@@ -42,10 +45,16 @@ data class AssistantEntry(
         .put("draft", draft).put("execution", execution).put("commit_body", commitBody).put("clarification_body", clarificationBody)
         .put("cancel_body", cancelBody).put("edits", JSONObject(edits)).put("state", state.name).put("notice", notice)
         .put("receipt", receipt).put("refresh_needed", refreshNeeded).put("failure_code", failureCode)
+        .put("conversation_body", conversationBody).put("conversation_resolved", conversationResolved)
+        .put("conversation_session", conversationSession).put("control_body", controlBody)
+        .put("conversation_reply", conversationReply).put("checked_preview", checkedPreview)
+        .put("transport_mode", transportMode)
     companion object {
         fun fromJson(j: JSONObject) = AssistantEntry(j.getString("request_id"), j.getString("request_body"), j.getString("task"),
             j.getString("draft"), j.getString("execution"), j.optString("commit_body"), j.optString("clarification_body"), j.optString("cancel_body"),
             j.optJSONObject("edits")?.let { v -> v.keys().asSequence().associateWith { v.getString(it) } }.orEmpty(),
-            AssistantStatus.valueOf(j.getString("state")), j.optString("notice"), j.optString("receipt"), j.optBoolean("refresh_needed"), j.optString("failure_code"))
+            AssistantStatus.valueOf(j.getString("state")), j.optString("notice"), j.optString("receipt"), j.optBoolean("refresh_needed"), j.optString("failure_code"),
+            j.optString("conversation_body"), j.optBoolean("conversation_resolved"), j.optString("conversation_session"), j.optString("control_body"),
+            j.optString("conversation_reply"), j.optString("checked_preview"), j.optString("transport_mode", "legacy"))
     }
 }

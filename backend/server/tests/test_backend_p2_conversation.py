@@ -1,5 +1,6 @@
 """Real P7.3 adapter, backend HTTP, DB cursor/receipts, and counted extraction."""
 import sys
+import os
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -578,8 +579,9 @@ def test_model_call_evidence(execution_state, p7):
     assert response.status_code == 200, response.text
     phases.append({"phase": "structured_amount", "extractions": p7[0].calls})
     assert [p["extractions"] for p in phases] == [0, 1, 1, 1, 2, 2]
-    target = Path(__file__).resolve().parents[3] / "reports" / (
+    target = Path(os.getenv("BACKEND_TEST_EVIDENCE_DIR", str(Path(__file__).resolve().parents[3] / ".cache/backend-test-evidence"))) / (
         "backend-p2-postgres-model-calls.json" if PG else "backend-p2-sqlite-model-calls.json")
+    target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps({"engine": "counted project RuleEngine", "configured_mode": "deepseek",
         "paid_provider_calls": 0, "phases": phases, "http_calls": p7[1]}, ensure_ascii=False, indent=2), encoding="utf-8")
 

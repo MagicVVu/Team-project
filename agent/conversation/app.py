@@ -20,6 +20,7 @@ class Profile(BaseProfile):
         "input_policy_version":POLICY_VERSION, "extraction_prompt_version":PROMPT_VERSION,
         "clarification_protocols":[*BaseProfile.health["clarification_protocols"], "p7-reference-continuation-1"],
         "object_reference_protocol":"p7-object-reference-1", "reference_ttl_seconds":900,
+        "chat_policy_version":"p8-chat-1", "reply_routing_model_calls":0,
         "frontend_integration_verified":False, "execution_capabilities_owner":"business_backend",
         "public_reference_forwarding":"requires_separate_trusted_adapter"}
 

@@ -10,6 +10,9 @@ import java.math.BigDecimal
 import java.net.HttpURLConnection
 import java.net.URI
 import java.util.UUID
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import java.security.MessageDigest
 
 data class CloudAccount(val address: String, val token: String, val userId: String, val displayName: String, val householdId: String = "") {
     override fun toString() = "CloudAccount(session=[REDACTED])"
@@ -17,25 +20,37 @@ data class CloudAccount(val address: String, val token: String, val userId: Stri
 data class CloudHousehold(val id: String, val name: String, val role: String)
 data class CloudShoppingItem(val id: String, val sourceId: String, val name: String, val quantity: Double, val unit: String,
     val purchased: Boolean, val addedBy: String, val purchasedBy: String)
-class CloudFailure(val status: Int, message: String, val errorCode: String = "") : IOException(message)
+class CloudFailure(val status: Int, message: String, val errorCode: String = "", val taskIdHint: String = "") : IOException(message)
 
 /** No automatic mutation retries: callers keep IDs stable when retrying a confirmed operation. */
 class CloudApi(val address: String, private val token: String = "") {
     companion object {
+        private val targetChecks = TargetCheckCache()
+        private val discovery = Mutex()
         fun validateAddress(value: String) {
             TargetPolicy.address(value, BuildConfig.CLOUD_EXPECT_ISOLATED, BuildConfig.CLOUD_API_URL)
         }
+    }
+    private val targetKey get() = address + ":" + MessageDigest.getInstance("SHA-256").digest(token.toByteArray()).joinToString("") { "%02x".format(it) }
+    suspend fun verifiedCapabilities(): JSONObject = discovery.withLock {
+        val now = System.nanoTime() / 1_000_000
+        targetChecks.get(targetKey, now)?.let { return@withLock JSONObject(it) }
+        val health = request("GET", "/api/v1/health")
+        TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+        val caps = request("GET", "/api/v1/agent/execution-capabilities")
+        TargetPolicy.capabilities(caps.optString("protocol_version"), caps.optString("owner"))
+        targetChecks.put(targetKey, System.nanoTime() / 1_000_000, caps.toString())
+        caps
     }
 
     suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
         validateAddress(address)
         require(!token.contains('\r') && !token.contains('\n'))
         if (method !in setOf("GET", "HEAD")) {
-            val health = request("GET", "/api/v1/health")
-            TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
-            if (!path.startsWith("/api/v1/auth/")) {
-                val caps = request("GET", "/api/v1/agent/execution-capabilities")
-                TargetPolicy.capabilities(caps.optString("protocol_version"), caps.optString("owner"))
+            if (!path.startsWith("/api/v1/auth/")) verifiedCapabilities()
+            else {
+                val health = request("GET", "/api/v1/health")
+                TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
             }
         }
         val connection = URI(address.trim().trimEnd('/') + path).toURL().openConnection() as HttpURLConnection
@@ -65,7 +80,9 @@ class CloudApi(val address: String, private val token: String = "") {
                     else -> "请求失败（$status），请刷新核对后重试"
                 }
                 val code = runCatching { JSONObject(text).optJSONObject("detail")?.optString("code").orEmpty() }.getOrDefault("")
-                throw CloudFailure(status, message, code)
+                if (status in setOf(401, 403, 503)) targetChecks.invalidate(targetKey)
+                val hint = runCatching { JSONObject(text).optJSONObject("detail")?.optString("task_id").orEmpty() }.getOrDefault("")
+                throw CloudFailure(status, ChatMessages.reason(code, message), code, hint)
             }
             when {
                 text.isBlank() -> JSONObject()

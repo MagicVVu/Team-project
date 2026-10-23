@@ -21,7 +21,7 @@ class AgentExecutionPolicyTest {
     @Test fun protectedFieldsAndUnsupportedActionsNeverPass() {
         for (key in listOf("batch_id", "expected_version", "action", "household_id", "planning_basis", "quantity"))
             assertTrue(runCatching { validate("MOVE", mapOf(key to "1")) }.isFailure)
-        for (action in listOf("OPEN", "DISCARD", "SUGGEST_PURCHASE")) assertTrue(runCatching { validate(action, emptyMap()) }.isFailure)
+        for (action in listOf("SUGGEST_PURCHASE", "UNSUPPORTED")) assertTrue(runCatching { validate(action, emptyMap()) }.isFailure)
         assertTrue(runCatching { AgentExecutionPolicy.validate("ADD", mapOf("location" to "冰箱"), emptyList()) }.isFailure)
     }
     @Test fun datesMustBeValidAndOrdered() {

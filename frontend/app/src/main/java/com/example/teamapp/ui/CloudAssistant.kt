@@ -26,18 +26,13 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
     LaunchedEffect(cloud.scopeKey) { assistant.bind(); assistant.launch { connectAndRecover() } }
     fun send(text: String) {
         if (text.isBlank() || assistant.busy || cloud.expired) return
-        val active = assistant.entries.lastOrNull()?.takeIf { it.state == AssistantStatus.CLARIFICATION }
-        val ordinal = mapOf("第一个" to 0, "第二个" to 1, "第三个" to 2)[text.trim().removeSuffix("。").removeSuffix("！")]
-        if (ordinal != null) {
-            val candidate = active?.candidates?.getOrNull(ordinal)
-            if (candidate != null && "batch_id" in active.allowedFields) {
-                input = ""; assistant.launch { clarify(active.requestId, mapOf("batch_id" to candidate.batchId())) }
-            } else localError = "当前没有对应的有效候选列表，请重新选择具体物品"
-            return
-        }
-        if (text.trim().startsWith("它") || text.contains("把它")) {
-            localError = "当前版本不支持跨提问的“它”，请写出物品名称，或从当前候选批次中选择"
-            return
+        if (!assistant.conversationEnabled) {
+            val active = assistant.activeEntry?.takeIf { it.state == AssistantStatus.CLARIFICATION }
+            val answers = active?.let { ClarificationReplies.resolve(text, it.allowedFields.toSet(), it.candidates.map { c -> c.batchId() }) }
+            if (answers != null) { input = ""; assistant.launch { clarify(active.requestId, answers) }; return }
+            if (text.trim().startsWith("它") || text.contains("把它")) {
+                localError = "当前服务尚未启用连续引用，请写明物品名称或使用候选按钮"; return
+            }
         }
         if (text.length > 1000) { localError = "消息最多 1000 字，不会自动截断"; return }
         input = ""; localError = ""; assistant.launch { this.send(text) }
@@ -49,18 +44,21 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
     Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
         if (showIntro) MewChatIntro()
         Text("家庭 AI 助手 · 确认后才执行", style = MaterialTheme.typography.labelLarge)
-        Text("开封、丢弃、自动预测采购及跨提问引用暂不支持。可在库存或清单页面手动管理。", style = MaterialTheme.typography.bodySmall)
+        Text(if (assistant.conversationEnabled) "可以直接补充当前任务；修改草稿后仍需确认才执行。" else "当前服务按独立任务处理；候选按钮和补充表单仍可使用。", style = MaterialTheme.typography.bodySmall)
+        assistant.activeEntry?.let { Text("当前任务：${JSONObject(it.requestBody).optString("text").take(50)}", style = MaterialTheme.typography.labelMedium) }
+        if (assistant.referenceLabel.isNotBlank()) Text(assistant.referenceLabel, style = MaterialTheme.typography.bodySmall)
+        if (assistant.conversationEnabled) TextButton(onClick = { send("开始新任务") }, enabled = !assistant.busy) { Text("开始新任务") }
         val caps = JSONObject(assistant.capabilities).optJSONObject("actions")
         Text(if (caps == null) "执行能力尚未验证" else listOf("ADD", "MOVE", "CONSUME", "PLAN_ADD", "OPEN", "DISCARD").joinToString(" · ") {
             "${actionLabel(it)}${if (caps.optBoolean(it)) " ✓" else " 暂不支持"}"
         }, style = MaterialTheme.typography.labelSmall, modifier = Modifier.testTag("ai-capabilities"))
-        if (assistant.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
+        if (assistant.busy) { LinearProgressIndicator(Modifier.fillMaxWidth()); Text(assistant.phase, style = MaterialTheme.typography.bodySmall) }
         if (assistant.error.isNotBlank() || localError.isNotBlank()) Text(localError.ifBlank { assistant.error }, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         LazyColumn(Modifier.weight(1f).testTag("ai-tasks"), state = scroll, verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
             if (assistant.entries.isEmpty()) item { Text("试试“纸巾还有多少”或“添加两盒牛奶”。") }
             items(assistant.entries, key = { it.requestId }) { entry ->
                 AssistantTaskCard(entry, cloud, assistant.busy || cloud.expired,
-                    confirm = { confirmId = entry.requestId })
+                    confirm = { assistant.launch { validateDraft(entry.requestId); if (assistant.error.isBlank()) confirmId = entry.requestId } })
             }
         }
         Row(Modifier.fillMaxWidth()) {
@@ -73,7 +71,18 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
         val entry = assistant.entries.firstOrNull { it.requestId == id }
         if (entry != null) AlertDialog(onDismissRequest = { confirmId = null },
             title = { Text("确认${actionLabel(entry.action)}？") },
-            text = { Text("确认后由服务器校验库存版本并执行。若其他成员已更新库存，需要重新核对。") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("${actionLabel(entry.action)}：${entry.command.stringOrEmpty("name")}")
+                    val command = entry.command
+                    if (entry.action in setOf("ADD", "CONSUME", "DISCARD", "PLAN_ADD"))
+                        Text("数量：${command.stringOrEmpty("quantity")} ${command.stringOrEmpty("unit")}" + if (command.optString("discard_mode") == "all") "（全部）" else "")
+                    if (entry.action == "MOVE") Text("目标位置：${command.stringOrEmpty("to_location")}")
+                    if (entry.action == "ADD") Text("存放位置：${command.stringOrEmpty("location")}")
+                    if (entry.action == "OPEN") Text("开封日期：${command.stringOrEmpty("opened_at")}，数量不变")
+                    Text("尚未执行。确认后服务器仍会核对库存和草稿版本；有变化时须重新核对。")
+                }
+            },
             confirmButton = { TextButton(onClick = { confirmId = null; assistant.launch { confirm(id) } }, modifier = Modifier.testTag("ai-final-confirm")) { Text("确认执行") } },
             dismissButton = { TextButton(onClick = { confirmId = null }) { Text("返回核对") } })
     }
@@ -88,24 +97,26 @@ private val fieldLabels = mapOf("name" to "物品名称", "quantity" to "数量"
 internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disabled: Boolean, confirm: () -> Unit) {
     val assistant = cloud.assistant
     val id = entry.requestId
+    val historical = entry.taskId.isNotBlank() && assistant.entries.lastOrNull { it.taskId == entry.taskId }?.requestId != id
+    var details by rememberSaveable(id) { mutableStateOf(false) }
     var answers by rememberSaveable(id, entry.taskRevision) { mutableStateOf("") }
     var selectedField by rememberSaveable(id, entry.taskRevision) { mutableStateOf("") }
     Card(Modifier.fillMaxWidth().testTag("ai-task-$id")) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(JSONObject(entry.requestBody).getString("text"), fontWeight = FontWeight.SemiBold)
-            Text(entry.state.label, color = if (entry.state == AssistantStatus.COMMITTED) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+            Text(if (historical) "该任务的历史消息" else entry.state.label, color = if (entry.state == AssistantStatus.COMMITTED) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.testTag("ai-state-$id"))
             if (entry.reply.isNotBlank()) {
                 if (entry.state in setOf(AssistantStatus.COMMITTED, AssistantStatus.CANCELLED)) Text("AI 生成时的回复（历史记录）", style = MaterialTheme.typography.labelSmall)
                 Text(entry.reply)
             }
             if (entry.notice.isNotBlank()) Text(entry.notice, style = MaterialTheme.typography.bodySmall)
-            if (entry.errorCode.isNotBlank() && !entry.notice.contains(entry.errorCode)) Text("原因：${entry.errorCode}", style = MaterialTheme.typography.bodySmall)
-            if (entry.state == AssistantStatus.CLARIFICATION) {
+            if (entry.errorCode.isNotBlank() && !entry.notice.contains(entry.errorCode)) Text(ChatMessages.reason(entry.errorCode, entry.notice.ifBlank { "请核对当前任务后继续" }), style = MaterialTheme.typography.bodySmall)
+            if (!historical && entry.state == AssistantStatus.CLARIFICATION) {
                 if ("batch_id" in entry.allowedFields) entry.candidates.forEachIndexed { index, c ->
                     OutlinedButton(onClick = { assistant.launch { clarify(id, mapOf("batch_id" to c.batchId())) } }, enabled = !disabled,
                         modifier = Modifier.fillMaxWidth().testTag("ai-candidate-$id-$index")) {
-                        Text("${index + 1}. ${c.stringOrEmpty("name")} · ${c.stringOrEmpty("quantity")} ${c.stringOrEmpty("unit")} · ${c.stringOrEmpty("location").ifBlank { c.stringOrEmpty("storage_location") }}\n购入 ${c.stringOrEmpty("purchased_at").ifBlank { "未知" }} · 有效期 ${c.stringOrEmpty("label_expiry").ifBlank { "未知" }} · 版本 ${c.optInt("version")} · ${c.batchId().take(8)}")
+                        Text("${index + 1}. ${c.stringOrEmpty("name")} · ${c.stringOrEmpty("quantity")} ${c.stringOrEmpty("unit")} · ${c.stringOrEmpty("location").ifBlank { c.stringOrEmpty("storage_location") }}\n购入 ${c.stringOrEmpty("purchased_at").ifBlank { "未知" }} · 有效期 ${c.stringOrEmpty("label_expiry").ifBlank { "未知" }}")
                     }
                 }
                 entry.allowedFields.filter { it != "batch_id" && it in fieldLabels }.forEach { field ->
@@ -114,15 +125,17 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                 }
                 if (selectedField.isNotBlank()) TextButton(onClick = { assistant.launch { clarify(id, mapOf(selectedField to answers)) } }, enabled = !disabled && answers.isNotBlank()) { Text("继续澄清") }
             }
-            if (entry.draftId.isNotBlank()) {
+            if (!historical && entry.draftId.isNotBlank()) {
                 val command = entry.command
                 Text("${actionLabel(entry.action)}：${command.stringOrEmpty("name")}", fontWeight = FontWeight.SemiBold)
                 val before = entry.preview.optJSONObject("before")
                 val after = entry.preview.optJSONObject("after")
-                if (before != null || after != null) Text("生成时的预览（尚非执行结果）\n" +
-                    (before?.let { "原记录：${it.stringOrEmpty("quantity")} ${it.stringOrEmpty("unit")} · ${it.stringOrEmpty("location")}\n" } ?: "") +
-                    (after?.let { "原草稿预计：${it.stringOrEmpty("quantity")} ${it.stringOrEmpty("unit")} · ${it.stringOrEmpty("location")}" } ?: ""),
+                if (before != null || after != null) Text("${if (entry.checkedPreview.isNotBlank()) "已校验的预览" else "生成时的预览"}（尚非执行结果）\n" +
+                    (before?.let { "原记录：${it.stringOrEmpty("quantity")} ${it.stringOrEmpty("unit")} · ${it.stringOrEmpty("location").ifBlank { it.stringOrEmpty("storage_location") }}\n" } ?: "") +
+                    (after?.let { "预计：${it.stringOrEmpty("quantity")} ${it.stringOrEmpty("unit")} · ${it.stringOrEmpty("location").ifBlank { it.stringOrEmpty("storage_location") }}" } ?: ""),
                     style = MaterialTheme.typography.bodySmall)
+                if (entry.action == "OPEN") Text("开封日期：${command.stringOrEmpty("opened_at")} · 数量不变")
+                if (entry.action == "DISCARD") Text(if (command.optString("discard_mode") == "all") "全部丢弃 · 数量取自当前批次，版本变化时需要重新核对" else "定量丢弃 · 数量由你提供；不计入消费统计")
                 val target = cloud.items.firstOrNull { it.id == command.stringOrEmpty("batch_id") }
                 if (entry.action in listOf("MOVE", "CONSUME") && entry.state in setOf(AssistantStatus.PENDING, AssistantStatus.CONFLICT)) {
                     Text("批次 ${command.stringOrEmpty("batch_id").take(8)} · 原版本 ${command.optInt("expected_version")}", style = MaterialTheme.typography.bodySmall)
@@ -162,12 +175,16 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                 resource?.let { Text("${it.stringOrEmpty("name")} · ${it.stringOrEmpty("quantity")} ${it.stringOrEmpty("unit")} ${it.stringOrEmpty("storage_location")}") }
                 Text("操作凭证 ${receipt.getString("operation_id")}\n${receipt.getString("committed_at")}", style = MaterialTheme.typography.labelSmall)
             }
-            if (entry.state == AssistantStatus.CONFLICT) Text("库存或草稿版本已变化。请刷新库存并重新提问生成新草稿；不会替换版本自动执行。")
-            if (entry.state in listOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.FAILED, AssistantStatus.CONFLICT) || entry.refreshNeeded) {
-                TextButton(onClick = { assistant.launch { if (entry.taskId.isBlank()) retryMessage(id) else recover(id) } }, enabled = !disabled, modifier = Modifier.testTag("ai-recover-$id")) { Text(if (entry.refreshNeeded) "重新刷新库存" else "核实并恢复") }
+            if (!historical && entry.state == AssistantStatus.CONFLICT) Text("库存或草稿版本已变化。请刷新库存并重新提问生成新草稿；不会替换版本自动执行。")
+            if (!historical && (entry.state in listOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.FAILED, AssistantStatus.CONFLICT) || entry.refreshNeeded)) {
+                TextButton(onClick = { assistant.launch { if (entry.taskId.isBlank() && entry.conversationBody.isBlank()) retryMessage(id) else recover(id) } }, enabled = !disabled, modifier = Modifier.testTag("ai-recover-$id")) { Text(if (entry.refreshNeeded) "重新刷新库存" else "核实并恢复") }
                 if (entry.state == AssistantStatus.UNKNOWN && entry.commitBody.isNotBlank()) TextButton(onClick = { assistant.launch { retryCommit(id) } }, enabled = !disabled) { Text("用原确认请求恢复提交") }
                 if (entry.state == AssistantStatus.UNKNOWN && entry.clarificationBody.isNotBlank()) TextButton(onClick = { assistant.launch { retryClarification(id) } }, enabled = !disabled) { Text("恢复原澄清") }
                 if (entry.state == AssistantStatus.UNKNOWN && entry.cancelBody.isNotBlank()) TextButton(onClick = { assistant.launch { cancel(id) } }, enabled = !disabled) { Text("恢复原取消请求") }
+            }
+            if (entry.taskId.isNotBlank() || entry.errorCode.isNotBlank()) {
+                TextButton(onClick = { details = !details }) { Text(if (details) "收起记录详情" else "记录详情") }
+                if (details) Text("任务 ${entry.taskId}\n修订 ${entry.taskRevision} · 草稿修订 ${entry.draftRevision}\n${entry.errorCode}", style = MaterialTheme.typography.labelSmall)
             }
         }
     }

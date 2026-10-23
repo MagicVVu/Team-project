@@ -1,5 +1,6 @@
 """P3 real database execution + real P7/P2 HTTP chains, never production data."""
 import json
+import os
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
@@ -49,8 +50,9 @@ def preview(client, draft_id, **updates):
 
 
 def evidence(name, value):
-    target = Path(__file__).resolve().parents[3] / "reports" / (
+    target = Path(os.getenv("BACKEND_TEST_EVIDENCE_DIR", str(Path(__file__).resolve().parents[3] / ".cache/backend-test-evidence"))) / (
         "backend-p3-postgres-examples.json" if PG else "backend-p3-sqlite-examples.json")
+    target.parent.mkdir(parents=True, exist_ok=True)
     previous = json.loads(target.read_text(encoding="utf-8")) if target.exists() else {}
     previous[name] = value
     target.write_text(json.dumps(previous, ensure_ascii=False, indent=2), encoding="utf-8")
