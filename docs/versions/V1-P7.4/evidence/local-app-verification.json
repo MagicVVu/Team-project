@@ -1,0 +1,38 @@
+{
+  "ai_tests": {
+    "tests": 772,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "android_debug_build": "passed",
+  "android_gradle_unit_tests": {
+    "status": "runner_failed",
+    "reason": "ClassNotFoundException for 8 test classes; not an assertion failure"
+  },
+  "apk": {
+    "file": "frontend/app/build/outputs/apk/debug/app-debug.apk",
+    "sha256": "e1395d1c3b8019774b65300a9379647ddcc5385b085733c479f1974803b3385d",
+    "bytes": 15103190,
+    "version_code": 2,
+    "version_name": "1.1-test"
+  },
+  "connected_mumu_installed_app": {
+    "package": "com.example.teamapp",
+    "version_code": 1,
+    "version_name": "1.0",
+    "updated_or_reinstalled_this_turn": false
+  },
+  "public_tls": {
+    "certificate_and_ip_verified": true,
+    "health_status": 200,
+    "unauthenticated_me_status": 401,
+    "internal_route_status": 404
+  },
+  "new_android_joint_acceptance": false,
+  "backend_source_conflicts_found": [
+    "backend/server/app/execution_schemas.py",
+    "backend/server/app/routers/agent_gateway.py",
+    "backend/server/app/services/planning_context.py"
+  ]
+}

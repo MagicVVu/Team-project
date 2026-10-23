@@ -1,0 +1,237 @@
+{
+  "rows": [
+    {
+      "id": "add",
+      "text": "买了两盒牛奶，放在冰箱上层",
+      "name": "牛奶",
+      "intent": "ADD",
+      "status": "needs_confirmation",
+      "parsed": {
+        "intent": "ADD",
+        "name": "牛奶",
+        "quantity": "2",
+        "unit": "盒",
+        "location": "冰箱上层",
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": null,
+        "to_location": null,
+        "discard_mode": "partial",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1455,
+        "completion_tokens": 88,
+        "total_tokens": 1543,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 175
+      },
+      "elapsed_seconds": 1.2450208740192465
+    },
+    {
+      "id": "move",
+      "text": "麻烦把牛奶整批挪到储物柜",
+      "name": "牛奶",
+      "intent": "MOVE",
+      "status": "needs_confirmation",
+      "parsed": {
+        "intent": "MOVE",
+        "name": "牛奶",
+        "quantity": null,
+        "unit": null,
+        "location": null,
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": null,
+        "to_location": "储物柜",
+        "discard_mode": "partial",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1456,
+        "completion_tokens": 35,
+        "total_tokens": 1491,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 176
+      },
+      "elapsed_seconds": 0.9906142289983109
+    },
+    {
+      "id": "open",
+      "text": "牛奶昨天开封了",
+      "name": "牛奶",
+      "intent": "OPEN",
+      "status": "needs_confirmation",
+      "parsed": {
+        "intent": "OPEN",
+        "name": "牛奶",
+        "quantity": null,
+        "unit": null,
+        "location": null,
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": "昨天",
+        "to_location": null,
+        "discard_mode": "partial",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1451,
+        "completion_tokens": 87,
+        "total_tokens": 1538,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 171
+      },
+      "elapsed_seconds": 1.1457806479884312
+    },
+    {
+      "id": "discard",
+      "text": "这批牛奶坏了，全部丢弃",
+      "name": "牛奶",
+      "intent": "DISCARD",
+      "status": "needs_confirmation",
+      "parsed": {
+        "intent": "DISCARD",
+        "name": "牛奶",
+        "quantity": null,
+        "unit": null,
+        "location": null,
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": null,
+        "to_location": null,
+        "discard_mode": "all",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1453,
+        "completion_tokens": 89,
+        "total_tokens": 1542,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 173
+      },
+      "elapsed_seconds": 1.1814072370179929
+    },
+    {
+      "id": "plan",
+      "text": "帮我把2包纸巾加到采购清单",
+      "name": "纸巾",
+      "intent": "PLAN_ADD",
+      "status": "needs_confirmation",
+      "parsed": {
+        "intent": "PLAN_ADD",
+        "name": "纸巾",
+        "quantity": "2",
+        "unit": "包",
+        "location": null,
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": null,
+        "to_location": null,
+        "discard_mode": "partial",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1455,
+        "completion_tokens": 90,
+        "total_tokens": 1545,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 175
+      },
+      "elapsed_seconds": 1.0194624889991246
+    },
+    {
+      "id": "location",
+      "text": "麻烦告诉我牛奶放在哪个位置",
+      "name": "牛奶",
+      "intent": "QUERY_LOCATION",
+      "status": "answered",
+      "parsed": {
+        "intent": "QUERY_LOCATION",
+        "name": "牛奶",
+        "quantity": null,
+        "unit": null,
+        "location": null,
+        "purchased_at": null,
+        "label_expiry": null,
+        "opened_at": null,
+        "to_location": null,
+        "discard_mode": "partial",
+        "partial_batch": false,
+        "multiple_items": false,
+        "multiple_actions": false,
+        "uncertainties": [],
+        "window_days": 28,
+        "draft_mode": false
+      },
+      "usage": {
+        "prompt_tokens": 1453,
+        "completion_tokens": 90,
+        "total_tokens": 1543,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 173
+      },
+      "elapsed_seconds": 1.1149631870212033
+    }
+  ],
+  "requests_attempted": 6,
+  "retries": 0,
+  "real_inventory_read": false,
+  "real_inventory_sent": false,
+  "source": "static synthetic user phrases only",
+  "budget_before": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 0.867692,
+    "calls": 242,
+    "unknown_usage_calls": 1
+  },
+  "budget_after": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 0.88897,
+    "calls": 248,
+    "unknown_usage_calls": 1
+  }
+}

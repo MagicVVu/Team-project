@@ -298,9 +298,13 @@ def test_server_source_manifest_includes_p4_fixes_and_excludes_documents_and_sec
     assert "p2/rules.json" in result["files"] and "integration/backend_v06.py" in result["files"]
     assert {"p0/text.py", "p0/engines.py", "p0/manager.py", "p1/engines.py",
             "p1/domain.py", "p1/manager.py"} <= result["files"].keys()
-    assert "p0/mock.py" not in result["files"] and "p0/budget.py" not in result["files"]
+    # Budget implementation is a runtime dependency; no ledger/config is shipped.
+    assert {"p0/budget.py", "p0/deepseek.py", "p0/schemas.py", "p1/tools.py",
+            "conversation/chat_text.py", "conversation/supplements.py", "conversation/reply_adapter.py"} <= result["files"].keys()
+    assert "p0/mock.py" not in result["files"]
+    assert len(result["files"]) == len(__import__("integration.source_manifest", fromlist=["SOURCE_PATHS"]).SOURCE_PATHS)
     assert all(not name.startswith(("tests/", "docs/", "eval/"))
-               and not name.endswith((".md", ".docx", ".tar.gz", ".key", ".pem"))
+               and not name.endswith((".md", ".docx", ".tar.gz", ".key", ".pem", ".sqlite", ".db", ".env"))
                and name != "requirements.runtime.txt" for name in result["files"])
 
 

@@ -23,6 +23,7 @@ def capabilities(identity: Identity = Depends(get_identity)):
             "actions": {"ADD": True, "MOVE": True, "PLAN_ADD": True, "CONSUME": True,
                         "OPEN": service.action_enabled("OPEN"), "DISCARD": service.action_enabled("DISCARD")},
             "automatic_planning_commit": False, "trusted_reference_messages": reference_enabled(),
+            "conversation_protocol": "backend-conversation-1", "chat_controls": True,
             "manual_plan_only": True, "draft_ttl_seconds": 900,
             "inventory_quantity_decimal_places": 6, "shopping_quantity_decimal_places": 3,
             "location_max_length": 100}

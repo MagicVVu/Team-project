@@ -10,8 +10,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = (
-    "p0/text.py", "p0/domain.py", "p0/engines.py", "p0/manager.py",
-    "p1/engines.py", "p1/domain.py", "p1/manager.py",
+    "p0/__init__.py", "p0/text.py", "p0/domain.py", "p0/engines.py", "p0/manager.py",
+    "p0/budget.py", "p0/deepseek.py", "p0/schemas.py", "p0/tools.py",
+    "p1/__init__.py", "p1/engines.py", "p1/domain.py", "p1/manager.py", "p1/schemas.py", "p1/tools.py",
     "p2/__init__.py", "p2/app.py", "p2/engines.py", "p2/knowledge.py",
     "p2/manager.py", "p2/risk.py", "p2/schemas.py", "p2/tools.py", "p2/rules.json",
     "integration/__init__.py", "integration/agent_health.py",
@@ -30,6 +31,7 @@ SOURCE_PATHS = (
     "conversation/__init__.py", "conversation/app.py", "conversation/schemas.py",
     "conversation/engines.py", "conversation/manager.py", "conversation/replies.py",
     "conversation/tasks.py", "conversation/health.py",
+    "conversation/reply_adapter.py", "conversation/chat_text.py", "conversation/supplements.py",
     "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 

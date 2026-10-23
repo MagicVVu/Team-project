@@ -1,0 +1,32 @@
+{
+  "mode": "read-only",
+  "services": [
+    {
+      "name": "magicvvu-starter-backend-1",
+      "id": "140f64d4ec142a24967bcab9d3848b79bce15172e1c7580e46c12d38cd992f96",
+      "image": "magicvvu/backend:households-20261022",
+      "started_at": "2026-10-22T09:52:50.246466159Z",
+      "restart_count": 0,
+      "healthy": "healthy",
+      "runtime_config_sha256": "c647c1e98ec6a8fda01120ef5540341175e2545c02b03f830d64cac864da229f"
+    },
+    {
+      "name": "magicvvu-starter-agent-1",
+      "id": "97f02fa6dc246cada4f24d91f38eebe94d7c296ba88f831502582d869a415780",
+      "image": "magicvvu/agent:p74-6630097c1f56",
+      "started_at": "2026-10-22T13:16:21.463049095Z",
+      "restart_count": 0,
+      "healthy": "healthy",
+      "runtime_config_sha256": "4d0bdad4646eb48908d915bf08e568a63871a379fbc319c08d061bbc2506fe67"
+    },
+    {
+      "name": "magicvvu-starter-db-1",
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-21T11:17:51.67115513Z",
+      "restart_count": 0,
+      "healthy": "healthy",
+      "runtime_config_sha256": "b40898d052719d44e3ae17f6d5c408aa8da0cfe13cfdb497213cbe372c351876"
+    }
+  ]
+}

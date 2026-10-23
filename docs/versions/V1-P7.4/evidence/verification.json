@@ -1,0 +1,170 @@
+{
+  "checks": {
+    "inventory": {
+      "status": "answered",
+      "intent": "QUERY_INVENTORY",
+      "error_code": null,
+      "model_calls": 0,
+      "fact_count": 3,
+      "candidate_count": 0,
+      "has_draft": false,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "elapsed_seconds": 0.058,
+      "facts_match_current_backend": true
+    },
+    "reference_without_adapter": {
+      "status": "needs_clarification",
+      "intent": "QUERY_LOCATION",
+      "error_code": "REFERENCE_REQUIRED",
+      "model_calls": 0,
+      "fact_count": 0,
+      "candidate_count": 0,
+      "has_draft": false,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "elapsed_seconds": 0.034
+    },
+    "read_capability_sections": [
+      {
+        "name": "risk",
+        "status": "partial",
+        "reason_codes": [
+          "HUMAN_RULE_REVIEW_REQUIRED",
+          "RISK_FACTS_INCOMPLETE"
+        ]
+      },
+      {
+        "name": "planning",
+        "status": "unavailable",
+        "reason_codes": [
+          "PLANNING_CONTEXT_UNAVAILABLE"
+        ]
+      }
+    ],
+    "/consumption/query": {
+      "status": "error",
+      "intent": "QUERY_CONSUMPTION",
+      "error_code": "PLANNING_CONTEXT_UNAVAILABLE",
+      "model_calls": 0,
+      "fact_count": 0,
+      "candidate_count": 0,
+      "has_draft": false,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "elapsed_seconds": 0.058,
+      "data_gaps": [],
+      "sections": []
+    },
+    "/forecast/evaluate": {
+      "status": "error",
+      "intent": "QUERY_FORECAST",
+      "error_code": "PLANNING_CONTEXT_UNAVAILABLE",
+      "model_calls": 0,
+      "fact_count": 0,
+      "candidate_count": 0,
+      "has_draft": false,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "elapsed_seconds": 0.054,
+      "data_gaps": [],
+      "sections": []
+    },
+    "/procurement/suggest": {
+      "status": "error",
+      "intent": "SUGGEST_PURCHASE",
+      "error_code": "PLANNING_CONTEXT_UNAVAILABLE",
+      "model_calls": 0,
+      "fact_count": 0,
+      "candidate_count": 0,
+      "has_draft": false,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "elapsed_seconds": 0.048,
+      "data_gaps": [],
+      "sections": []
+    },
+    "internal_trusted_reference": {
+      "verified": false,
+      "reason": "public_adapter_not_enabled; offline_contract_tests_passed"
+    },
+    "zero_paid_model_requests": true
+  },
+  "database_counts": {
+    "ai_drafts": 0,
+    "ai_tasks": 4,
+    "alembic_version": 1,
+    "auth_sessions": 10,
+    "business_events": 0,
+    "draft_decisions": 0,
+    "draft_operations": 0,
+    "household_invitations": 2,
+    "household_members": 10,
+    "households": 8,
+    "inventory_items": 11,
+    "shopping_list_items": 4,
+    "shopping_lists": 8,
+    "users": 10
+  },
+  "database_counts_unchanged": true,
+  "created_tasks_or_sessions": false,
+  "capabilities": {
+    "protocol_version": "draft-execution-1",
+    "owner": "business_backend",
+    "actions": {
+      "ADD": true,
+      "MOVE": true,
+      "PLAN_ADD": true,
+      "CONSUME": true,
+      "OPEN": false,
+      "DISCARD": false
+    },
+    "automatic_planning_commit": false,
+    "trusted_reference_messages": false,
+    "manual_plan_only": true,
+    "draft_ttl_seconds": 900,
+    "inventory_quantity_decimal_places": 6,
+    "shopping_quantity_decimal_places": 3,
+    "location_max_length": 100
+  },
+  "planning_context_route_present": false,
+  "backend_running_source_syntax": {
+    "execution_schemas.py": "valid",
+    "routers/agent_gateway.py": "valid",
+    "services/planning_context.py": "absent"
+  },
+  "health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "isolated_test": false
+  },
+  "ready": {
+    "status": "ready",
+    "database": "ok"
+  },
+  "budget_before_deterministic_checks": {
+    "calls": 242,
+    "conservative_cost_cny": 0.867692
+  },
+  "budget_after_deterministic_checks": {
+    "calls": 242,
+    "conservative_cost_cny": 0.867692
+  },
+  "running_services": {
+    "magicvvu-starter-backend-1": {
+      "image": "magicvvu/backend:households-20261022",
+      "health": "healthy"
+    },
+    "magicvvu-starter-agent-1": {
+      "image": "magicvvu/agent:p74-6630097c1f56",
+      "health": "healthy"
+    },
+    "magicvvu-starter-db-1": {
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "health": "healthy"
+    }
+  },
+  "inventory_and_shopping_writes_performed": false,
+  "new_android_joint_acceptance_performed": false
+}
