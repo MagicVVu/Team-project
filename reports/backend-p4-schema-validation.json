@@ -1,0 +1,125 @@
+{
+  "published_schema": "docs\\versions\\V1-P6\\planning-context.schema.json",
+  "validator": "jsonschema 4.26.0 Draft202012Validator + FormatChecker",
+  "snapshots_validated": 17,
+  "failures": 0,
+  "cases": [
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "unknown_snapshot",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_CONSUME",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_CONSUME",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_PLAN_ADD",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_PLAN_ADD",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_OPEN",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "concurrent_OPEN",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-postgres-examples.json",
+      "case": "semantic_events",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "unknown_snapshot",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_CONSUME",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_CONSUME",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_PLAN_ADD",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_PLAN_ADD",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_OPEN",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "concurrent_OPEN",
+      "index": 1,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-sqlite-examples.json",
+      "case": "semantic_events",
+      "index": 0,
+      "schema_valid": true,
+      "agent_valid": true
+    },
+    {
+      "file": "backend-p4-http-evidence.json",
+      "schema_valid": true,
+      "agent_valid": true
+    }
+  ]
+}

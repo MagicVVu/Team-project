@@ -1,0 +1,163 @@
+[
+  {
+    "schema_field": "scope",
+    "database_source": "household_members + users.is_active",
+    "completeness": "家庭作用域在快照事务首条SELECT重新校验",
+    "gap": "service token不等于用户权限",
+    "handling": "401/404拒绝，全部按家庭过滤"
+  },
+  {
+    "schema_field": "snapshot_id / as_of",
+    "database_source": "服务端SHA256 / 首条SELECT数据库clock_timestamp或strftime",
+    "completeness": "同事务可见家庭内容/来源标识，as_of独立采集",
+    "gap": "不是客户端时间；不是人工核实时间",
+    "handling": "同内容跨筛选ID稳定；每次重新读取DB，as_of不可由请求覆盖"
+  },
+  {
+    "schema_field": "event_watermark",
+    "database_source": "business_events + draft_operations.committed_at",
+    "completeness": "全部家庭已可见语义事件内容散列",
+    "gap": "不是递增序号、WAL LSN或精确提交时间",
+    "handling": "包含ID/类型/数量/单位/before/after/occurred/recorded，禁止当范围游标"
+  },
+  {
+    "schema_field": "shopping_version",
+    "database_source": "shopping_lists + shopping_list_items全量内容",
+    "completeness": "同快照家庭全清单含来源FK、数量、购买状态",
+    "gap": "60位散列整数，非递增版本；有极小碰撞概率",
+    "handling": "只作保守变化标识，不允许据此自动提交"
+  },
+  {
+    "schema_field": "items_complete / history_complete",
+    "database_source": "有界查询成功且未超1000批/20000事件",
+    "completeness": "传输完整，可重现同一MVCC读取",
+    "gap": "不证明现实消费已全部记录",
+    "handling": "超限409；查询失败503；不返回部分成功"
+  },
+  {
+    "schema_field": "items[].item_key / batches[].id",
+    "database_source": "inventory_items.id",
+    "completeness": "稳定批次ID；不合并同名或相似名",
+    "gap": "没有商品目录或可信跨批次product_id",
+    "handling": "一批次一item；product_id=null"
+  },
+  {
+    "schema_field": "name / unit / quantity / version / location / status",
+    "database_source": "inventory_items真实对应列 + 原to_p1_batch",
+    "completeness": "六位Decimal、规范单位、真实版本状态",
+    "gap": "旧件等不受支持单位仍存在可能",
+    "handling": "不猜包装换算；不兼容数据409"
+  },
+  {
+    "schema_field": "category",
+    "database_source": "inventory_items.category",
+    "completeness": "仅food/medicine/household精确值映射",
+    "gap": "中文自由分类无审核映射",
+    "handling": "unknown并在来源保留raw_category，药品不猜"
+  },
+  {
+    "schema_field": "purchased_at / label_expiry / opened_at",
+    "database_source": "purchased_on / expires_on / opened_at",
+    "completeness": "真实保存日期，不改变其业务粒度",
+    "gap": "日期不等于标签类型/储存条件/审核事实",
+    "handling": "返回原日期；is_opened仅已存在日期时true，否则null"
+  },
+  {
+    "schema_field": "label_date_type / label_context_valid / storage_condition / label_storage_condition",
+    "database_source": "无真实业务列/写入来源",
+    "completeness": "unknown / null",
+    "gap": "不能用位置名字或物品名字推断",
+    "handling": "本轮不编规则、不写审核记录"
+  },
+  {
+    "schema_field": "events[].id / item_key / kind / quantity / unit",
+    "database_source": "business_events真实行 + event_type确定性映射",
+    "completeness": "仅Consumed参与原消费净量算法",
+    "gap": "Moved/Opened数据库quantity NULL",
+    "handling": "V1兼容数量0占位，provenance保留NULL；丢弃仍独立"
+  },
+  {
+    "schema_field": "events[].occurred_at / recorded_at / committed",
+    "database_source": "business_events.occurred_at / draft_operations.committed_at /事务可见性",
+    "completeness": "已提交事务中行及operation可见",
+    "gap": "committed_at为应用事务内登记时间，不是PG精确commit timestamp",
+    "handling": "开封日不覆盖事件时间；不声称墙钟保证等于提交时刻"
+  },
+  {
+    "schema_field": "operation_id / household / actor / batch / relation",
+    "database_source": "provenance.events按真实event_id提供",
+    "completeness": "真实关联可追溯",
+    "gap": "V1 Event不允许额外字段；DB不支持语义撤销/纠正",
+    "handling": "来源在data外；related_event_id=null，不将REVERSED状态猜成撤销消费"
+  },
+  {
+    "schema_field": "coverage / recording_completeness_source",
+    "database_source": "当前无覆盖、每日消费确认或缺货记录模型",
+    "completeness": "[] / null，完整性unknown",
+    "gap": "无事件不等于零；连续事件不等于完整",
+    "handling": "保留RECORDING_COMPLETENESS_UNKNOWN / NO_COMPLETE_COVERAGE_DAYS"
+  },
+  {
+    "schema_field": "known_quantity_adjustments",
+    "database_source": "现有history_json新增结构化kind、变更前后",
+    "completeness": "只证明仍保留的adjust/edit_quantity，不算Consumed",
+    "gap": "最多30条，旧展示文字无可靠语义",
+    "handling": "仅provenance列证据，adjustment_history_complete=false，不推日覆盖"
+  },
+  {
+    "schema_field": "usable_quantity_verified / stock_verification",
+    "database_source": "无人工核实写入来源",
+    "completeness": "false / null",
+    "gap": "updated_at、添加、编辑或执行成功均不是盘点",
+    "handling": "STOCK_VERIFICATION_REQUIRED，不提供耗尽日期/可用量保证"
+  },
+  {
+    "schema_field": "preferences.minimum_stock",
+    "database_source": "minimum_quantity + 显式请求的结构化历史证据",
+    "completeness": "旧正值是真实存储值；新显式零有来源",
+    "gap": "旧零为默认值，无法辨别；历史证据会被淘汰",
+    "handling": "旧零null；显式零返回0；证据淘汰后零降级null"
+  },
+  {
+    "schema_field": "preferences.version / source",
+    "database_source": "inventory_items.version / provenance.minimum_preference",
+    "completeness": "保守复用库存版本；有证据时记录actor/time/unit/version",
+    "gap": "不存在独立偏好版本；旧正值无精确操作者/时间",
+    "handling": "不伪造精确来源，source标明来源列或authenticated_inventory_input"
+  },
+  {
+    "schema_field": "coverage_days / lead_days / order_unit / pack_size",
+    "database_source": "无保存源",
+    "completeness": "null",
+    "gap": "不能生成默认偏好",
+    "handling": "沿用EXPLICIT_PURCHASE_PREFERENCES_REQUIRED及原算法门槛"
+  },
+  {
+    "schema_field": "pending[].id / item_key / quantity / unit",
+    "database_source": "shopping_list_items.id / source_inventory_item_id /真实列",
+    "completeness": "仅同家庭明确FK关联，六位Decimal规范化",
+    "gap": "名称匹配、采购入库来源反向关联不能证明待购商品身份",
+    "handling": "不猜匹配；无关联的待购使pending_complete=false"
+  },
+  {
+    "schema_field": "pending[].status / confirmed / visibility",
+    "database_source": "is_checked / 已持久化共享清单事实",
+    "completeness": "purchased或pending；confirmed=true=已是业务清单行",
+    "gap": "不代表本轮AI自动确认；draft不写购物表",
+    "handling": "已购不计待购扣减；保留原确认执行边界"
+  },
+  {
+    "schema_field": "pending_complete / provenance.shopping",
+    "database_source": "家庭列表存在且全部待购可关联并表示",
+    "completeness": "全家庭读取成功；含未关联/已购明细与内容版本",
+    "gap": "关联不确定仍有重复采购风险；缺列表不是空列表",
+    "handling": "无列表或无关联/不受支持数量单位的待购置false；不遗漏其他家庭内列表"
+  },
+  {
+    "schema_field": "automatic_planning_commit",
+    "database_source": "原capabilities与执行拒绝门禁",
+    "completeness": "false",
+    "gap": "规划基准尚无后端确认重验能力",
+    "handling": "不通过PLAN_ADD绕过；AI不直接写库存/采购"
+  }
+]

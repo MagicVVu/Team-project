@@ -30,9 +30,18 @@ def fingerprint(kind, payload):
     return hashlib.sha256((kind + json.dumps(payload.model_dump(mode="json"), sort_keys=True)).encode()).hexdigest()
 
 
-def record(item, operation_id, digest, message):
+def record(item, operation_id, digest, message, **facts):
     item.history_json = ([{"id": str(operation_id), "hash": digest, "message": message,
-                          "created_at": datetime.now(timezone.utc).isoformat()}] + (item.history_json or []))[:30]
+                          "created_at": datetime.now(timezone.utc).isoformat(), **facts}] + (item.history_json or []))[:30]
+
+
+def minimum_preference(item, payload, actor_user_id):
+    # Request field presence is evidence; the schema/database default is not.
+    if "minimum_quantity" not in payload.model_fields_set:
+        return {}
+    return {"minimum_preference": {"quantity": str(item.minimum_quantity), "unit": item.unit,
+        "source": "authenticated_inventory_input", "actor_user_id": str(actor_user_id),
+        "recorded_at": datetime.now(timezone.utc).isoformat(), "inventory_version": item.version or 1}}
 
 
 def replay(item, operation_id, digest):
@@ -76,7 +85,8 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
         raise HTTPException(409, "Item ID is already in use; refresh inventory")
     item = InventoryItem(household_id=household_id, created_by_user_id=identity.user.id,
                          status="ACTIVE" if payload.quantity > 0 else "FINISHED", **payload.model_dump())
-    record(item, payload.id, digest, f"首次录入 {payload.quantity} {payload.unit}")
+    record(item, payload.id, digest, f"首次录入 {payload.quantity} {payload.unit}", kind="create",
+           **minimum_preference(item, payload, identity.user.id))
     db.add(item)
     try:
         db.flush()
@@ -92,7 +102,7 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
         raise HTTPException(409, "Concurrent item creation; refresh inventory") from None
 
 
-def mutate(db, household_id, item_id, payload, kind):
+def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
     item = locked(db, household_id, item_id)
     digest = fingerprint(kind, payload)
     if replay(item, payload.operation_id, digest):
@@ -101,6 +111,7 @@ def mutate(db, household_id, item_id, payload, kind):
         raise HTTPException(409, "Inventory item was removed; refresh inventory")
     if item.version != payload.expected_version:
         raise HTTPException(409, "Inventory changed on another device; refresh and confirm again")
+    before_quantity, before_unit = str(item.quantity), item.unit
     if kind == "adjust":
         quantity = item.quantity + payload.delta
         if quantity < 0 or quantity > 1_000_000_000:
@@ -118,7 +129,14 @@ def mutate(db, household_id, item_id, payload, kind):
     if kind != "delete":
         item.status = "ACTIVE" if item.quantity > 0 else "FINISHED"
     item.version += 1
-    record(item, payload.operation_id, digest, message)
+    facts = {"kind": "edit_quantity" if kind == "edit" and
+             {"quantity", "unit"} & payload.model_fields_set else kind}
+    if facts["kind"] in {"adjust", "edit_quantity"}:
+        facts.update(before_quantity=before_quantity, before_unit=before_unit,
+                     after_quantity=str(item.quantity), after_unit=item.unit)
+    if kind == "edit":
+        facts.update(minimum_preference(item, payload, actor_user_id))
+    record(item, payload.operation_id, digest, message, **facts)
     db.flush()
     return item
 
@@ -127,7 +145,7 @@ def mutate(db, household_id, item_id, payload, kind):
 def edit_inventory(household_id: UUID, item_id: UUID, payload: InventoryUpdate,
                    identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
-    result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, "edit"))
+    result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, "edit", identity.user.id))
     db.commit()
     return result
 
