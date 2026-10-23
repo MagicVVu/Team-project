@@ -5,23 +5,45 @@ Legacy AI state stays prospective; only this durable ledger proves execution.
 """
 import hashlib
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from uuid import UUID, uuid5
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import HTTPException
 from pydantic import ValidationError
 from sqlalchemy import select
 
 from app.execution_models import BusinessEvent, DraftDecision, DraftOperation
-from app.execution_schemas import AddFields, ConsumeFields, MoveFields, PlanFields, Target
+from app.execution_schemas import AddFields, ConsumeFields, MoveFields, PlanFields, Target, OpenFields, DiscardFields
 from app.models import AIDraft, AITask, HouseholdMember, InventoryItem, ShoppingList, ShoppingListItem
 from app.services.ai_inventory import UNIT_CANONICAL
 from app.shopping_schemas import ShoppingItemResponse, StockResponse
 
 EDITABLE = {"ADD": set(AddFields.model_fields), "MOVE": {"to_location"},
-            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": {"quantity", "unit"}}
+            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": {"quantity", "unit"},
+            "OPEN": {"opened_at"}, "DISCARD": {"quantity", "unit"}}
 EXECUTION_TTL = timedelta(minutes=15)
+
+
+def action_enabled(action):
+    if action in {"OPEN", "DISCARD"}:
+        return os.getenv(f"MAGICVVU_{action}_EXECUTION", "false").lower() == "true"
+    return action in EDITABLE
+
+
+def editable(action, raw):
+    if action == "DISCARD" and isinstance(raw, dict) and raw.get("discard_mode") == "all":
+        return set()
+    return EDITABLE.get(action, set())
+
+
+def business_day(task, at=None):
+    try:
+        return (at or now()).astimezone(ZoneInfo(task.household_timezone)).date()
+    except (ZoneInfoNotFoundError, ValueError):
+        fail("TASK_TIMEZONE_INVALID")
 
 
 def fail(code, status=409):
@@ -85,6 +107,8 @@ def pending(task, draft):
         fail("TASK_RESULT_INCONSISTENT")
     if task.result_json.get("draft") != draft.command_json:
         fail("DRAFT_SOURCE_CHANGED")
+    if task.result_json.get("reference_used") and task.expires_at is None:
+        fail("REFERENCE_EXPIRY_UNAVAILABLE")
 
 
 def execution_status(db, identity, draft_id):
@@ -98,7 +122,7 @@ def execution_status(db, identity, draft_id):
         status, reason = "superseded", "DRAFT_NOT_PENDING"
     elif expiry(task, draft) <= now():
         status, reason = "expired", "DRAFT_EXPIRED"
-    elif action not in EDITABLE:
+    elif not action_enabled(action):
         status, reason = "unavailable", "ACTION_NOT_EXECUTABLE"
     elif action == "PLAN_ADD" and automated_plan(task):
         status, reason = "unavailable", "PLANNING_REVALIDATION_UNAVAILABLE"
@@ -107,7 +131,7 @@ def execution_status(db, identity, draft_id):
     receipt = db.get(DraftOperation, decision.operation_id).receipt_json if decision and decision.operation_id else None
     return {"draft_id": str(draft.id), "task_id": str(task.id), "status": status,
             "draft_revision": draft.revision, "task_revision": task.revision, "action": action,
-            "editable_fields": sorted(EDITABLE.get(action, set())), "reason_code": reason,
+            "editable_fields": sorted(editable(action, draft.command_json)), "reason_code": reason,
             "expires_at": expiry(task, draft).isoformat(),
             "operation_id": str(decision.operation_id) if decision and decision.operation_id else None,
             "receipt": receipt}
@@ -167,15 +191,15 @@ def command(task, draft, edits):
         fail("INVALID_DRAFT_FIELDS", 422)
     raw = dict(draft.command_json)
     action = raw.pop("action", None)
-    if action not in EDITABLE:
+    if not action_enabled(action):
         fail("ACTION_NOT_EXECUTABLE")
-    if not set(edits).issubset(EDITABLE[action]):
+    if not set(edits).issubset(editable(action, draft.command_json)):
         fail("PROTECTED_OR_UNKNOWN_FIELD", 422)
     if action == "PLAN_ADD" and automated_plan(task):
         fail("PLANNING_REVALIDATION_UNAVAILABLE")
     target = None
     try:
-        if action in {"MOVE", "CONSUME"}:
+        if action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
             target = Target.model_validate({k: raw.pop(k) for k in ("name", "batch_id", "expected_version")})
         if action == "PLAN_ADD":
             # Name and any identity/provenance always come from the stored draft.
@@ -183,8 +207,13 @@ def command(task, draft, edits):
             from pydantic import TypeAdapter
             name = TypeAdapter(Name).validate_python(raw.pop("name"))
         values = {**raw, **edits}
-        schema = {"ADD": AddFields, "MOVE": MoveFields, "CONSUME": ConsumeFields, "PLAN_ADD": PlanFields}[action]
+        if action == "OPEN" and edits.get("opened_at") in {"今天", "昨天"}:
+            values["opened_at"] = business_day(task, aware(task.created_at)) - timedelta(days=edits["opened_at"] == "昨天")
+        schema = {"ADD": AddFields, "MOVE": MoveFields, "CONSUME": ConsumeFields,
+                  "PLAN_ADD": PlanFields, "OPEN": OpenFields, "DISCARD": DiscardFields}[action]
         fields = schema.model_validate(values)
+        if action == "OPEN" and fields.opened_at > business_day(task):
+            fail("OPEN_DATE_IN_FUTURE", 422)
         if action == "PLAN_ADD":
             # Quantity is user-editable, but changing a package into a mass is not.
             converted(Decimal(1), fields.unit, raw["unit"])
@@ -204,6 +233,70 @@ def persist_event(db, **values):
     db.flush()
 
 
+def target_item(db, household_id, target, lock=False):
+    query = select(InventoryItem).where(InventoryItem.id == target.batch_id,
+        InventoryItem.household_id == household_id).execution_options(populate_existing=True)
+    if lock:
+        query = query.with_for_update()
+    item = db.scalar(query)
+    if item is None:
+        fail("INVENTORY_NOT_FOUND", 404)
+    if item.status != "ACTIVE" or item.quantity <= 0:
+        fail("INVENTORY_NOT_ACTIVE")
+    if item.version != target.expected_version:
+        fail("INVENTORY_VERSION_CONFLICT")
+    if item.name != target.name:
+        fail("INVENTORY_IDENTITY_CHANGED")
+    return item
+
+
+def stock_changes(action, fields, item, normalized):
+    """The same exact business projection is used by read-only preview and commit."""
+    quantity, changes = None, {"version": item.version + 1}
+    if action == "MOVE":
+        changes["storage_location"] = fields.to_location
+    elif action == "OPEN":
+        if item.opened_at is not None:
+            fail("ALREADY_OPENED")
+        changes["opened_at"] = fields.opened_at
+    else:
+        quantity = converted(fields.quantity, fields.unit, item.unit)
+        if action == "DISCARD" and fields.discard_mode == "all":
+            if quantity != item.quantity:
+                fail("DISCARD_ALL_QUANTITY_CONFLICT")
+            quantity = item.quantity
+            normalized["quantity"], normalized["unit"] = str(quantity), item.unit
+        if quantity > item.quantity:
+            fail("INSUFFICIENT_STOCK", 422)
+        remaining = item.quantity - quantity
+        changes.update(quantity=remaining, status="ACTIVE" if remaining > 0 else (
+            "DISCARDED" if action == "DISCARD" else "FINISHED"))
+    return quantity, changes
+
+
+def preview(db, identity, draft_id, body):
+    task, draft = owned(db, identity, draft_id)
+    revision(task, draft, body)
+    if db.get(DraftDecision, draft_id) is not None:
+        fail("DRAFT_ALREADY_DECIDED")
+    pending(task, draft)
+    if expiry(task, draft) <= now():
+        fail("DRAFT_EXPIRED")
+    action, target, fields, normalized = command(task, draft, body.edits)
+    if action not in {"OPEN", "DISCARD"}:
+        fail("PREVIEW_ACTION_UNAVAILABLE")
+    item = target_item(db, draft.household_id, target)
+    quantity, changes = stock_changes(action, fields, item, normalized)
+    before = StockResponse.model_validate(item).model_dump(mode="json")
+    after = StockResponse.model_validate({**before, **changes}).model_dump(mode="json")
+    return {"draft_id": str(draft.id), "task_id": str(task.id), "draft_revision": draft.revision,
+        "task_revision": task.revision, "command": normalized, "before": before, "after": after,
+        "event_type": "Opened" if action == "OPEN" else "Discarded",
+        "event_quantity": quantity, "quantity_source": ("current_batch" if fields.discard_mode == "all"
+            else "user_input") if action == "DISCARD" else None,
+        "expires_at": expiry(task, draft).isoformat(), "prospective": True, "inventory_written": False}
+
+
 def execute(db, identity, draft_id, body):
     task, draft = owned(db, identity, draft_id, lock=True)
     prior = recover(db, identity, draft_id, body)
@@ -219,7 +312,8 @@ def execute(db, identity, draft_id, body):
     at = now()
     event_id = uuid5(body.operation_id, "event")
     before, batch_versions, item, shopping = {}, {}, None, None
-    quantity, event_type = None, {"ADD": "StockAdded", "MOVE": "StockMoved", "PLAN_ADD": "PlanAdded", "CONSUME": "Consumed"}[action]
+    quantity, event_type = None, {"ADD": "StockAdded", "MOVE": "StockMoved", "PLAN_ADD": "PlanAdded",
+                                "CONSUME": "Consumed", "OPEN": "Opened", "DISCARD": "Discarded"}[action]
     if action == "ADD":
         item = InventoryItem(id=uuid5(body.operation_id, "inventory"), household_id=draft.household_id,
             created_by_user_id=identity.user.id, name=fields.name, quantity=fields.quantity,
@@ -228,27 +322,12 @@ def execute(db, identity, draft_id, body):
             status="ACTIVE", version=1, history_json=[])
         db.add(item)
         quantity = fields.quantity
-    elif action in {"MOVE", "CONSUME"}:
-        item = db.scalar(select(InventoryItem).where(InventoryItem.id == target.batch_id,
-            InventoryItem.household_id == draft.household_id).with_for_update().execution_options(populate_existing=True))
-        if item is None:
-            fail("INVENTORY_NOT_FOUND", 404)
-        if item.status != "ACTIVE" or item.quantity <= 0:
-            fail("INVENTORY_NOT_ACTIVE")
-        if item.version != target.expected_version:
-            fail("INVENTORY_VERSION_CONFLICT")
-        if item.name != target.name:
-            fail("INVENTORY_IDENTITY_CHANGED")
+    elif action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
+        item = target_item(db, draft.household_id, target, lock=True)
         before = StockResponse.model_validate(item).model_dump(mode="json")
-        if action == "MOVE":
-            item.storage_location = fields.to_location
-        else:
-            quantity = converted(fields.quantity, fields.unit, item.unit)
-            if quantity > item.quantity:
-                fail("INSUFFICIENT_STOCK", 422)
-            item.quantity -= quantity
-            item.status = "ACTIVE" if item.quantity > 0 else "FINISHED"
-        item.version += 1
+        quantity, changes = stock_changes(action, fields, item, normalized)
+        for key, value in changes.items():
+            setattr(item, key, value)
     else:
         shared = db.scalar(select(ShoppingList).where(ShoppingList.household_id == draft.household_id).with_for_update())
         if shared is None:
@@ -276,6 +355,11 @@ def execute(db, identity, draft_id, body):
         "event_ids": [str(event_id)], "inventory_written": item is not None,
         "shopping_written": shopping is not None,
         "result": {"inventory_item" if item is not None else "shopping_item": after}}
+    if action in {"OPEN", "DISCARD"}:
+        receipt["execution"] = {"before": before, "after": after, "event_type": event_type,
+            "quantity": str(quantity) if quantity is not None else None, "unit": item.unit,
+            "discard_mode": fields.discard_mode if action == "DISCARD" else None,
+            "quantity_source": ("current_batch" if fields.discard_mode == "all" else "user_input") if action == "DISCARD" else None}
     db.add(DraftOperation(id=body.operation_id, draft_id=draft.id, user_id=identity.user.id,
         household_id=draft.household_id, draft_revision=draft.revision, task_revision=task.revision,
         action=action, request_hash=request_hash(draft_id, body), command_json=normalized,

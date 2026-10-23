@@ -149,95 +149,6 @@ def response_for(db: Session, task: AITask) -> dict:
     }
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-def reference_expiry(task: AITask) -> datetime:
-    # GET/reopening a window never extends a reference's lifetime.
-    limit = as_aware(task.updated_at) + timedelta(minutes=15)
-    return min(limit, as_aware(task.expires_at)) if task.expires_at else limit
-
-
-async def reference_message(body, identity, db):
-    from app.services.draft_execution import fail
-    check_membership(db, identity, body.household_id)
-    # Idempotency lookup precedes expiry validation so completed requests recover.
-    canonical = body.model_dump(mode="json")
-    digest = hashlib.sha256(json.dumps(canonical, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-    task = db.scalar(select(AITask).where(AITask.user_id == identity.user.id,
-        AITask.household_id == body.household_id, AITask.request_id == body.request_id).with_for_update())
-    if task is not None:
-        if task.request_hash != digest:
-            fail("REQUEST_ID_CONFLICT")
-        if task.status != "processing":
-            return response_for(db, task)
-        if task.lease_until and as_aware(task.lease_until) > now():
-            fail("TASK_PROCESSING")
-    source = owned_task(db, body.source_task_id, identity)
-    if source.household_id != body.household_id:
-        fail("REFERENCE_NOT_FOUND", 404)
-    if source.revision != body.source_revision:
-        fail("REFERENCE_REVISION_CONFLICT")
-    if source.status not in {"answered", "needs_clarification", "needs_confirmation"}:
-        fail("REFERENCE_REQUIRED")
-    until = reference_expiry(source)
-    if until <= now():
-        fail("REFERENCE_EXPIRED")
-    result = source.result_json or {}
-    rows = [*(result.get("facts") or []), *(result.get("candidates") or [])]
-    before = (result.get("preview") or {}).get("before")
-    if isinstance(before, dict):
-        rows.append(before)
-    if not any(isinstance(row, dict) and str(row.get("id")) == str(body.batch_id) for row in rows):
-        fail("INVALID_REFERENCE_CANDIDATE", 422)
-    from app.models import InventoryItem
-    batch = db.scalar(select(InventoryItem).where(InventoryItem.id == body.batch_id,
-                                               InventoryItem.household_id == body.household_id))
-    if batch is None:
-        fail("REFERENCE_NOT_FOUND", 404)
-<<<<<<< Updated upstream
-    if batch.status != 'ACTIVE' or batch.quantity <= 0: fail('REFERENCE_TERMINAL')
-=======
-    if batch.status != 'ACTIVE' or batch.quantity <= 0:
-        fail('REFERENCE_TERMINAL')
->>>>>>> Stashed changes
-    # Validate timezone with the same rules as ordinary four-field messages.
-    NewMessage.model_validate({k: canonical[k] for k in NewMessage.model_fields})
-    check_config()
-    reference = {"protocol_version": "p7-object-reference-1",
-        "scope": {"user_id": str(identity.user.id), "household_id": str(body.household_id)},
-        "source_task_id": str(source.id), "source_revision": source.revision,
-        "batch_id": str(body.batch_id), "issued_at": as_aware(source.updated_at).isoformat(),
-        "expires_at": until.isoformat()}
-    user_id, household_id = identity.user.id, body.household_id
-    if task is None:
-        task = AITask(user_id=user_id, household_id=household_id, request_id=body.request_id,
-            request_hash=digest, original_text=body.text, household_timezone=body.household_timezone,
-            status="processing", expires_at=until)
-        db.add(task)
-    nonce = reserve(task)
-    try:
-        db.commit()
-    except IntegrityError:
-        db.rollback()
-        fail("CONCURRENT_DUPLICATE_REQUEST")
-    try:
-        data = await _call_ai("/agent/message", user_id, household_id,
-            {"text": body.text, "request_id": body.request_id,
-             "household_timezone": body.household_timezone, "reference": reference})
-        if data["original_text"] != body.text:
-            raise HTTPException(503, "AI returned inconsistent original text")
-        save_result(db, task, nonce, data)
-    except Exception:
-        db.rollback()
-        restore_after_failure(db, task, nonce, "error")
-        raise
-    return response_for(db, task)
-
-
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
-=======
->>>>>>> parent of 3aa98be (feat: integrate P72 clarification references and open discard execution)
 def reserve(task: AITask) -> str:
     nonce = str(uuid4())
     task.status = "processing"
@@ -247,16 +158,29 @@ def reserve(task: AITask) -> str:
     return nonce
 
 
-def save_result(db: Session, task: AITask, nonce: str, data: dict) -> None:
-    db.refresh(task)
+def save_result(db: Session, task: AITask, nonce: str, data: dict, on_saved=None, next_revision=None, deadline=None) -> None:
+    # Serialize lease recovery and result persistence, including a late worker.
+    task = db.scalar(select(AITask).where(AITask.id == task.id).with_for_update()
+                     .execution_options(populate_existing=True))
+    if task is None:
+        raise HTTPException(404, "AI task not found")
     if task.processing_nonce != nonce or task.status != "processing":
         raise HTTPException(409, "Task already superseded; fetch latest")
+    from app.services.draft_execution import membership
+    membership(db, task.user_id, task.household_id, lock=True)
+    if next_revision is not None and task.expires_at is not None:
+        # A continuation may shorten the original lease, never renew it or a
+        # trusted reference's lifetime through a newer adapter response.
+        original_deadline = as_aware(task.expires_at)
+        deadline = min(deadline, original_deadline) if deadline else original_deadline
     task.status = data["status"]
     task.result_json = data
     task.processing_nonce = None
     task.lease_until = None
     task.updated_at = now()
     context = data.get("clarification")
+    if not isinstance(context, dict) and next_revision is not None:
+        task.revision = next_revision
     if isinstance(context, dict):
         if context.get("scope") != {"user_id": str(task.user_id), "household_id": str(task.household_id)}:
             raise HTTPException(503, "AI returned inconsistent identity")
@@ -268,7 +192,11 @@ def save_result(db: Session, task: AITask, nonce: str, data: dict) -> None:
             expiry = datetime.fromisoformat(context["expires_at"].replace("Z", "+00:00"))
         except (ValueError, TypeError, KeyError, AttributeError):
             raise HTTPException(503, "Invalid AI clarification expiry") from None
+        if expiry.tzinfo is None or expiry <= now():
+            raise HTTPException(503, "Invalid AI clarification expiry")
         task.expires_at = expiry
+    if deadline is not None:
+        task.expires_at = min(as_aware(task.expires_at), deadline) if task.expires_at else deadline
     if data["status"] == "needs_confirmation":
         preview = data.get("preview")
         if preview is not None and not isinstance(preview, dict):
@@ -288,12 +216,16 @@ def save_result(db: Session, task: AITask, nonce: str, data: dict) -> None:
         previous = db.scalar(select(AIDraft).where(AIDraft.task_id == task.id))
         if previous is not None:
             previous.status = "superseded"
+    db.flush()
+    if on_saved is not None:
+        on_saved(db, task)
     db.commit()
 
 
 def restore_after_failure(db: Session, task: AITask, nonce: str, previous: str) -> None:
-    db.refresh(task)
-    if task.processing_nonce == nonce:
+    task = db.scalar(select(AITask).where(AITask.id == task.id).with_for_update()
+                     .execution_options(populate_existing=True))
+    if task is not None and task.processing_nonce == nonce:
         task.status = previous
         task.processing_nonce = None
         task.lease_until = None
@@ -304,21 +236,31 @@ def restore_after_failure(db: Session, task: AITask, nonce: str, previous: str) 
 @router.post("/api/v1/agent/messages")
 async def new_message(body: NewMessage, identity: Identity = Depends(get_identity),
                       db: Session = Depends(get_db)) -> dict:
+    return await run_message(body, identity, db)
+
+
+async def run_message(body, identity, db, *, reference=None, on_saved=None):
     check_membership(db, identity, body.household_id)
     user_id = identity.user.id  # Snapshot before commit expires ORM attributes.
-    check_config()  # fail closed: do not create a stuck task if AI isn't configured
     digest = fingerprint(body)
+    if reference is not None:
+        digest = hashlib.sha256((digest + json.dumps(reference, sort_keys=True)).encode()).hexdigest()
     task = db.scalar(select(AITask).where(AITask.user_id == identity.user.id,
                     AITask.household_id == body.household_id, AITask.request_id == body.request_id).with_for_update())
     if task is not None:
         if task.request_hash != digest:
             raise HTTPException(409, "request_id was already used with different content")
         if task.status != "processing":
+            if on_saved is not None:
+                on_saved(db, task)
+                db.commit()
             return response_for(db, task)
         if task.lease_until and as_aware(task.lease_until) > now():
             raise HTTPException(409, "Task is currently processing; retry later")
+        check_config()
         nonce = reserve(task)  # recover an abandoned request after lease expiry
     else:
+        check_config()  # no new task if AI isn't configured; persisted results still recover
         task = AITask(user_id=identity.user.id, household_id=body.household_id,
                       request_id=body.request_id, request_hash=digest,
                       original_text=body.text, household_timezone=body.household_timezone,
@@ -332,15 +274,27 @@ async def new_message(body: NewMessage, identity: Identity = Depends(get_identit
         # A concurrent duplicate is still at most one paid AI call.
         raise HTTPException(409, "Concurrent duplicate request; retry same request_id") from None
     try:
-        result = await _call_ai("/agent/message", user_id, body.household_id,
-                                {"text": body.text, "request_id": body.request_id,
-                                 "household_timezone": body.household_timezone})
+        payload = {"text": body.text, "request_id": body.request_id,
+                   "household_timezone": body.household_timezone}
+        if reference is not None:
+            payload["reference"] = reference
+        result = await _call_ai("/agent/message", user_id, body.household_id, payload)
         if result["original_text"] != body.text:
             raise HTTPException(503, "AI returned inconsistent original text")
-        save_result(db, task, nonce, result)
+        if reference is not None and result["status"] in {"answered", "needs_confirmation"}:
+            expected = {key: reference[key] for key in ("source_task_id", "source_revision", "batch_id")}
+            if result.get("reference_used") != expected:
+                raise HTTPException(503, "AI returned inconsistent reference")
+            draft = result.get("draft") or {}
+            if draft.get("batch_id") is not None and str(draft["batch_id"]) != reference["batch_id"]:
+                raise HTTPException(503, "AI returned inconsistent reference target")
+        save_result(db, task, nonce, result, on_saved,
+                    deadline=datetime.fromisoformat(reference["expires_at"]) if reference is not None else None)
     except Exception:
         db.rollback()
-        restore_after_failure(db, task, nonce, "error")
+        # A transport failure is an unknown AI outcome, not a terminal task error.
+        # Same request_id can recover this task without creating a parallel task.
+        restore_after_failure(db, task, nonce, "processing")
         raise
     return response_for(db, task)
 
@@ -348,6 +302,10 @@ async def new_message(body: NewMessage, identity: Identity = Depends(get_identit
 @router.post("/api/v1/agent/clarifications/{task_id}")
 async def clarification(task_id: UUID, body: ContinueMessage,
                         identity: Identity = Depends(get_identity), db: Session = Depends(get_db)) -> dict:
+    return await run_clarification(task_id, body, identity, db)
+
+
+async def run_clarification(task_id, body, identity, db, *, on_saved=None):
     task = db.scalar(select(AITask).where(AITask.id == task_id, AITask.user_id == identity.user.id).with_for_update())
     if task is None:
         raise HTTPException(404, "AI task not found")
@@ -383,7 +341,7 @@ async def clarification(task_id: UUID, body: ContinueMessage,
                                 {"context": context, "revision": body.revision, "answers": body.answers})
         if result["original_text"] != original_text:
             raise HTTPException(503, "AI returned inconsistent original text")
-        save_result(db, task, nonce, result)
+        save_result(db, task, nonce, result, on_saved, next_revision=body.revision + 1)
     except Exception:
         db.rollback()
         restore_after_failure(db, task, nonce, prior)

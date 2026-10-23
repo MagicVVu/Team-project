@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session
 
 from app.dependencies import Identity, get_db, get_identity
 from app.execution_models import BusinessEvent
-from app.execution_schemas import CommitRequest, DraftRevision, ReferenceMessage
+from app.execution_schemas import CommitRequest, DraftRevision, ReferenceMessage, PreviewRequest, ExecutionPreview, OperationReceipt
+from app.conversation_schemas import ConversationResponse
 from app.routers.ai_inventory import _authorize
 from app.services import draft_execution as service
 
@@ -17,19 +18,21 @@ router = APIRouter(tags=["Draft execution — business backend"])
 
 @router.get("/api/v1/agent/execution-capabilities")
 def capabilities(identity: Identity = Depends(get_identity)):
+    from app.services.conversation import reference_enabled
     return {"protocol_version": "draft-execution-1", "owner": "business_backend",
             "actions": {"ADD": True, "MOVE": True, "PLAN_ADD": True, "CONSUME": True,
-                        "OPEN": False, "DISCARD": False},
-            "automatic_planning_commit": False, "trusted_reference_messages": False,
+                        "OPEN": service.action_enabled("OPEN"), "DISCARD": service.action_enabled("DISCARD")},
+            "automatic_planning_commit": False, "trusted_reference_messages": reference_enabled(),
             "manual_plan_only": True, "draft_ttl_seconds": 900,
             "inventory_quantity_decimal_places": 6, "shopping_quantity_decimal_places": 3,
             "location_max_length": 100}
 
 
-@router.post("/api/v1/agent/reference-messages")
-def reference_message(body: ReferenceMessage, identity: Identity = Depends(get_identity)):
-    # Reserved separate protocol: never forward client-created trusted references.
-    service.fail("TRUSTED_REFERENCE_ADAPTER_UNAVAILABLE", 503)
+@router.post("/api/v1/agent/reference-messages", response_model=ConversationResponse)
+async def reference_message(body: ReferenceMessage, identity: Identity = Depends(get_identity),
+                            db: Session = Depends(get_db)):
+    from app.services.conversation import handle
+    return await handle(body, identity, db, explicit_reference=True)
 
 
 @router.get("/api/v1/drafts/{draft_id}/execution")
@@ -37,7 +40,7 @@ def execution(draft_id: UUID, identity: Identity = Depends(get_identity), db: Se
     return service.execution_status(db, identity, draft_id)
 
 
-@router.post("/api/v1/drafts/{draft_id}/commit")
+@router.post("/api/v1/drafts/{draft_id}/commit", responses={200: {"model": OperationReceipt}})
 def commit(draft_id: UUID, body: CommitRequest, identity: Identity = Depends(get_identity),
            db: Session = Depends(get_db)):
     try:
@@ -59,6 +62,13 @@ def commit(draft_id: UUID, body: CommitRequest, identity: Identity = Depends(get
         raise
 
 
+@router.post("/api/v1/drafts/{draft_id}/execution-preview", response_model=ExecutionPreview)
+def execution_preview(draft_id: UUID, body: PreviewRequest, identity: Identity = Depends(get_identity),
+                      db: Session = Depends(get_db)):
+    # Pure read: does not update draft/TTL, reserve an operation, or change business rows.
+    return service.preview(db, identity, draft_id, body)
+
+
 @router.post("/api/v1/drafts/{draft_id}/cancel")
 def cancel(draft_id: UUID, body: DraftRevision, identity: Identity = Depends(get_identity),
            db: Session = Depends(get_db)):
@@ -71,7 +81,7 @@ def cancel(draft_id: UUID, body: DraftRevision, identity: Identity = Depends(get
         raise
 
 
-@router.get("/api/v1/operations/{operation_id}")
+@router.get("/api/v1/operations/{operation_id}", responses={200: {"model": OperationReceipt}})
 def operation(operation_id: UUID, identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     return service.operation_for(db, identity, operation_id).receipt_json
 

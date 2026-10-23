@@ -1,0 +1,62 @@
+{
+  "containers": [
+    "magicvvu-starter-agent-1|magicvvu/agent:p74-6630097c1f56|Up 12 hours (healthy)",
+    "magicvvu-starter-backend-1|magicvvu/backend:households-20261022|Up 15 hours (healthy)",
+    "magicvvu-starter-db-1|public.ecr.aws/docker/library/postgres:17|Up 38 hours (healthy)"
+  ],
+  "backend": {
+    "health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "isolated_test": false
+    },
+    "db_revision": "20261017_0007",
+    "capabilities": {
+      "protocol_version": "draft-execution-1",
+      "owner": "business_backend",
+      "actions": {
+        "ADD": true,
+        "MOVE": true,
+        "PLAN_ADD": true,
+        "CONSUME": true,
+        "OPEN": false,
+        "DISCARD": false
+      },
+      "automatic_planning_commit": false,
+      "trusted_reference_messages": false,
+      "manual_plan_only": true,
+      "draft_ttl_seconds": 900,
+      "inventory_quantity_decimal_places": 6,
+      "shopping_quantity_decimal_places": 3,
+      "location_max_length": 100
+    },
+    "source_sha256": {
+      "routers/auth.py": "f897a278d4eb9c21c5f06c036c1bd30c202d4b7169c44a4b2f44bdd8e54055c0",
+      "routers/households.py": "06603931a0aeb6d0fbc7e97f42955d45c0cfb490d10c58b780ebf78fee01690c",
+      "security.py": "f54ee78b2f24cb3c9ddebc2661fb9f74b30aadbc5be7d4e98fcc2b2db8a3609b",
+      "schemas.py": "58c00317732779809b293cce179508e375a47d957346edd3e7598920ceda0cce",
+      "routers/inventory.py": "d1758ef5c865be699e0a4b7a1973cf3c9e00e94f3c0985182b15ce9331248359",
+      "services/draft_execution.py": "b462b0eb4aae53acfabb261768cf4e08e12adc279bd736d4b1da9d60e1fb9a16",
+      "execution_models.py": "bc0c2b578c567c48dc62ea79080e6e5e18d5bb44c4856cb1f463c4a46df54fcf"
+    }
+  },
+  "agent": {
+    "status": "ok",
+    "engine": "deepseek",
+    "release_version": "V1-P7",
+    "inventory_writes": false,
+    "input_policy_version": "p7-limited-context-1"
+  },
+  "checked_at_utc": "2026-10-23T01:19:37.151558+00:00",
+  "mode": "read_only",
+  "local_matches_runtime": {
+    "routers/auth.py": false,
+    "routers/households.py": true,
+    "security.py": false,
+    "schemas.py": false,
+    "routers/inventory.py": true,
+    "services/draft_execution.py": true,
+    "execution_models.py": true
+  }
+}

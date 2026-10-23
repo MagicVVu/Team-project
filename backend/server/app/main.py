@@ -16,6 +16,7 @@ from app.routers.agent_gateway import router as agent_gateway_router
 from app.routers.shopping import router as shopping_router
 from app.routers.inventory import router as inventory_router
 from app.routers.draft_execution import router as draft_execution_router
+from app.routers.conversation import router as conversation_router
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,7 @@ app.include_router(agent_gateway_router)
 app.include_router(shopping_router)
 app.include_router(inventory_router)
 app.include_router(draft_execution_router)
+app.include_router(conversation_router)
 
 
 @app.get("/api/v1/health", tags=["System"])

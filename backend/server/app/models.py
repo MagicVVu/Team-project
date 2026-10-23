@@ -283,3 +283,4 @@ class AIDraft(Base):
 
 # Register additive business tables for Alembic and existing Base.metadata users.
 from app.execution_models import BusinessEvent, DraftDecision, DraftOperation  # noqa: E402,F401
+from app.conversation_models import ConversationBinding, ConversationTurn  # noqa: E402,F401

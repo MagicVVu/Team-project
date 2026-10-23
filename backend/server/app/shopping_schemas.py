@@ -91,6 +91,7 @@ class StockResponse(BaseModel):
     source_shopping_list_item_id: UUID | None
     status: str
     version: int
+    opened_at: date | None = None
 
 
 class PurchaseResponse(BaseModel):

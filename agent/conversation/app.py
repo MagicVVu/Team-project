@@ -29,6 +29,8 @@ class Profile(BaseProfile):
 
     @staticmethod
     def install_routes(app, manager, scope):
+        from .reply_adapter import install
+        install(app, scope)
         from fastapi import Depends
         from p0.schemas import Scope
         from p3.schemas import Query
