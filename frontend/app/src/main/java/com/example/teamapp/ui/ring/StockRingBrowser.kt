@@ -166,7 +166,7 @@ internal fun StockRingBrowser(
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         if (showAddAction) {
             InventorySearchToolbar(query, { query = it }, onAdd, palette,
-                Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding))
+                Modifier.fillMaxWidth().padding(start = 18.dp, top = 16.dp, end = toolbarEndPadding))
         } else {
             Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding)
                 .height(28.dp).testTag("ring-toolbar"),

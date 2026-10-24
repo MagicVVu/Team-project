@@ -87,6 +87,7 @@ class InventoryV02UiTest {
         compose.onNodeWithTag("ring-search").performTextInput("纸巾")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试纸巾")
+        shot(if (dark) "dark-search-expanded" else "light-search-expanded")
         compose.onNodeWithTag("ring-category-食品").performClick()
         compose.onNodeWithTag("ring-position").assertTextEquals("0 / 0")
         compose.onNodeWithTag("ring-empty-action").performClick()
