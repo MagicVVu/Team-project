@@ -1,0 +1,188 @@
+{
+  "date": "2026-10-24",
+  "source_commit": "771374b",
+  "backend_image": "magicvvu/backend:p8-771374b-20261024",
+  "runtime_before": {
+    "magicvvu-starter-backend-1": {
+      "id": "140f64d4ec142a24967bcab9d3848b79bce15172e1c7580e46c12d38cd992f96",
+      "image": "magicvvu/backend:households-20261022",
+      "image_id": "sha256:b4870611b478f9418fefecd5f3355aa6920270b1f13b28af863285453b4710da",
+      "started_at": "2026-10-22T09:52:50.246466159Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "d106357a5a181f2ab0ec263a49af3e17f4c784a386d819219bc08c214d53ec40"
+    },
+    "magicvvu-starter-agent-1": {
+      "id": "071b666b7fdf6c5d2f839124028f8505373493c1d2b6dd6522d45e53c2fc82d8",
+      "image": "magicvvu/agent:p8-0175b52f054c",
+      "image_id": "sha256:15e072c4ddd548509f8796b8277b16ab715be132f7ddf28c84c23a1b0010d2d1",
+      "started_at": "2026-10-23T09:33:47.795813381Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "c71c2eea5b30e707b1ce92ad388763a2e79603828e9961a6329f3a12219071ea"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "started_at": "2026-10-21T11:17:51.67115513Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "1297237c5bb9140613871116f19787be575ac4c15428df0ce2223d7779b312db"
+    }
+  },
+  "runtime_after": {
+    "magicvvu-starter-backend-1": {
+      "id": "88b4b18adeafcbc6ac8e01d626570b97248a8ecf18ed4162cba65652f650837e",
+      "image": "magicvvu/backend:p8-771374b-20261024",
+      "image_id": "sha256:3d9663bb770e06a4c662973c607362d192d02ab8f30090d7e7b9d30170dd32de",
+      "started_at": "2026-10-24T02:28:06.538801215Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "a69c7b2e3c4825ac9483106ce2ad214c3b1d85e08b054419b57cfb529a02ddcd"
+    },
+    "magicvvu-starter-agent-1": {
+      "id": "071b666b7fdf6c5d2f839124028f8505373493c1d2b6dd6522d45e53c2fc82d8",
+      "image": "magicvvu/agent:p8-0175b52f054c",
+      "image_id": "sha256:15e072c4ddd548509f8796b8277b16ab715be132f7ddf28c84c23a1b0010d2d1",
+      "started_at": "2026-10-23T09:33:47.795813381Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "c71c2eea5b30e707b1ce92ad388763a2e79603828e9961a6329f3a12219071ea"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "started_at": "2026-10-21T11:17:51.67115513Z",
+      "restart_count": 0,
+      "health": "healthy",
+      "config_sha256": "1297237c5bb9140613871116f19787be575ac4c15428df0ce2223d7779b312db"
+    }
+  },
+  "backup": {
+    "path": "/srv/magicvvu/releases/backend-p8-771374b-20261024/private-production-backup.dump",
+    "bytes": 54480,
+    "sha256": "c348a0d92c310c51de6bc5374e5d9186b0c191f77f7da0b49b6a6881129a5596"
+  },
+  "final_backup": {
+    "bytes": 54480,
+    "sha256": "710764a8f7a31d14b632e9a76d6f94b24fb13bdafc1b4e07349830b4931a9279"
+  },
+  "restore_verified": true,
+  "migration_from": "20261017_0007",
+  "migration_to": "20261023_0010",
+  "old_business_tables_unchanged": true,
+  "old_business_table_count": 13,
+  "candidate_preflight": {
+    "business_data_written": false,
+    "checks": {
+      "ai_p7_health": true,
+      "ai_p7_schema": true,
+      "ai_p8_contract": true,
+      "ai_service_token": true,
+      "ai_service_url": true,
+      "backend_p7_version": true,
+      "backend_to_ai_auth": true,
+      "backend_tool_token": true,
+      "database_ready": true,
+      "execution_routes": true,
+      "p8_migration": true,
+      "p8_routes": true,
+      "p8_tables": true
+    },
+    "live_acceptance_verified": false,
+    "model_called": false,
+    "preflight_passed": true
+  },
+  "production_preflight": {
+    "business_data_written": false,
+    "checks": {
+      "ai_p7_health": true,
+      "ai_p7_schema": true,
+      "ai_p8_contract": true,
+      "ai_service_token": true,
+      "ai_service_url": true,
+      "backend_p7_version": true,
+      "backend_to_ai_auth": true,
+      "backend_tool_token": true,
+      "database_ready": true,
+      "execution_routes": true,
+      "p8_migration": true,
+      "p8_routes": true,
+      "p8_tables": true
+    },
+    "live_acceptance_verified": false,
+    "model_called": false,
+    "preflight_passed": true
+  },
+  "postdeploy_validation": {
+    "tls_verified": true,
+    "certificate_sha256": "9e6fb871598e9462eba322e9871ded09e89b08af4f1c761b288641118f5c4d0e",
+    "public_routes": {
+      "/api/v1/health": {
+        "status": 200,
+        "expected": 200
+      },
+      "/api/v1/ready": {
+        "status": 404,
+        "expected": 404
+      },
+      "/api/v1/agent/execution-capabilities": {
+        "status": 401,
+        "expected": 401
+      },
+      "/api/v1/agent/conversation-messages": {
+        "status": 405,
+        "expected": 405
+      },
+      "/api/v1/agent/tasks/00000000-0000-0000-0000-000000000000/chat-control": {
+        "status": 405,
+        "expected": 405
+      },
+      "/api/v1/drafts/00000000-0000-0000-0000-000000000000/execution-preview": {
+        "status": 405,
+        "expected": 405
+      },
+      "/api/v1/households/00000000-0000-0000-0000-000000000000/inventory-items/00000000-0000-0000-0000-000000000000/planning-facts": {
+        "status": 401,
+        "expected": 401
+      },
+      "/internal/v1/planning/context": {
+        "status": 404,
+        "expected": 404
+      }
+    },
+    "source_matches": true,
+    "capabilities": {
+      "protocol_version": "draft-execution-1",
+      "owner": "business_backend",
+      "actions": {
+        "ADD": true,
+        "MOVE": true,
+        "PLAN_ADD": true,
+        "CONSUME": true,
+        "OPEN": true,
+        "DISCARD": true
+      },
+      "automatic_planning_commit": false,
+      "trusted_reference_messages": true,
+      "conversation_protocol": "backend-conversation-1",
+      "chat_controls": true,
+      "planning_context_protocol": "v1-planning-context-1",
+      "planning_facts_protocol": "backend-planning-facts-1",
+      "execution_preview": true,
+      "household_timezone": "Asia/Shanghai",
+      "manual_plan_only": true,
+      "draft_ttl_seconds": 900,
+      "inventory_quantity_decimal_places": 6,
+      "shopping_quantity_decimal_places": 3,
+      "location_max_length": 100
+    },
+    "paid_model_calls": 0,
+    "production_inventory_writes": 0
+  },
+  "server_release_directory": "/srv/magicvvu/releases/backend-p8-771374b-20261024",
+  "provider_configuration_and_budget_ledger_untouched": true,
+  "android_device_acceptance_performed": false
+}
