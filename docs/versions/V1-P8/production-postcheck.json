@@ -1,0 +1,70 @@
+{
+  "protected_services_unchanged": true,
+  "protected_services": {
+    "magicvvu-starter-backend-1": {
+      "id": "140f64d4ec142a24967bcab9d3848b79bce15172e1c7580e46c12d38cd992f96",
+      "image_id": "sha256:b4870611b478f9418fefecd5f3355aa6920270b1f13b28af863285453b4710da",
+      "image": "magicvvu/backend:households-20261022",
+      "started_at": "2026-10-22T09:52:50.246466159Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "c647c1e98ec6a8fda01120ef5540341175e2545c02b03f830d64cac864da229f"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-21T11:17:51.67115513Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "b40898d052719d44e3ae17f6d5c408aa8da0cfe13cfdb497213cbe372c351876"
+    }
+  },
+  "agent": {
+    "id": "071b666b7fdf6c5d2f839124028f8505373493c1d2b6dd6522d45e53c2fc82d8",
+    "image_id": "sha256:15e072c4ddd548509f8796b8277b16ab715be132f7ddf28c84c23a1b0010d2d1",
+    "image": "magicvvu/agent:p8-0175b52f054c",
+    "started_at": "2026-10-23T09:33:47.795813381Z",
+    "restarts": 0,
+    "health": "healthy",
+    "config_sha256": "8aaa0c140fa74cbc955c35e19d0e7118c6fb5114915bd865f2f1d4e3bf89a134"
+  },
+  "backend_contract": {
+    "capabilities": {
+      "protocol_version": "draft-execution-1",
+      "owner": "business_backend",
+      "actions": {
+        "ADD": true,
+        "MOVE": true,
+        "PLAN_ADD": true,
+        "CONSUME": true,
+        "OPEN": false,
+        "DISCARD": false
+      },
+      "automatic_planning_commit": false,
+      "trusted_reference_messages": false,
+      "manual_plan_only": true,
+      "draft_ttl_seconds": 900,
+      "inventory_quantity_decimal_places": 6,
+      "shopping_quantity_decimal_places": 3,
+      "location_max_length": 100
+    },
+    "routes": {
+      "/api/v1/agent/conversation-messages": false,
+      "/api/v1/agent/tasks/{task_id}/chat-control": false,
+      "/internal/v1/planning/context": false
+    }
+  },
+  "seven_running_sources_match_local": true,
+  "ai_openapi_exported_from_running_service": true,
+  "previous_export_exactly_equal": false,
+  "first_attempt": {
+    "automatically_rolled_back": true,
+    "reason": "Environment variable ordering compared as a list; values, mounts and HostConfig remained equal. Semantic map comparison fixed before final release."
+  },
+  "ai_business_contract_matches_local": true,
+  "framework_validation_schema_export_differences": [
+    "/components/schemas/ValidationError/properties/ctx:key",
+    "/components/schemas/ValidationError/properties/input:key"
+  ]
+}

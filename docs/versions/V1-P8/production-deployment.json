@@ -1,0 +1,95 @@
+{
+  "stage": "deployed",
+  "image": "magicvvu/agent:p8-0175b52f054c",
+  "agent": {
+    "id": "071b666b7fdf6c5d2f839124028f8505373493c1d2b6dd6522d45e53c2fc82d8",
+    "image_id": "sha256:15e072c4ddd548509f8796b8277b16ab715be132f7ddf28c84c23a1b0010d2d1",
+    "image": "magicvvu/agent:p8-0175b52f054c",
+    "started_at": "2026-10-23T09:33:47.795813381Z",
+    "restarts": 0,
+    "health": "healthy",
+    "config_sha256": "8aaa0c140fa74cbc955c35e19d0e7118c6fb5114915bd865f2f1d4e3bf89a134"
+  },
+  "overlay_files": [
+    "conversation/app.py",
+    "conversation/manager.py",
+    "conversation/replies.py",
+    "conversation/chat_text.py",
+    "conversation/supplements.py",
+    "conversation/reply_adapter.py",
+    "integration/source_manifest.py"
+  ],
+  "protected_services_unchanged": true,
+  "backend_database_code_or_schema_modified": false,
+  "only_compose_change": "services.agent.image",
+  "runtime_environment_mounts_security_preserved": true,
+  "existing_keys_and_configuration_preserved": true,
+  "shared_budget_preserved": true,
+  "budget": {
+    "calls": 248,
+    "conservative_cost_cny": 0.88897
+  },
+  "health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p8-20261023-0175b52f054c-r2",
+  "backend_contract": {
+    "capabilities": {
+      "protocol_version": "draft-execution-1",
+      "owner": "business_backend",
+      "actions": {
+        "ADD": true,
+        "MOVE": true,
+        "PLAN_ADD": true,
+        "CONSUME": true,
+        "OPEN": false,
+        "DISCARD": false
+      },
+      "automatic_planning_commit": false,
+      "trusted_reference_messages": false,
+      "manual_plan_only": true,
+      "draft_ttl_seconds": 900,
+      "inventory_quantity_decimal_places": 6,
+      "shopping_quantity_decimal_places": 3,
+      "location_max_length": 100
+    },
+    "routes": {
+      "/api/v1/agent/conversation-messages": false,
+      "/api/v1/agent/tasks/{task_id}/chat-control": false,
+      "/internal/v1/planning/context": false
+    }
+  }
+}
