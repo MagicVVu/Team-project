@@ -44,7 +44,7 @@ class InventorySearchInteractionTest {
     @Test fun cancelClearsQueryPreservesCategoryAndRestoresAdd() {
         launch()
         compose.onNodeWithTag("ring-search").assertDoesNotExist()
-        compose.onNodeWithTag("ring-search-surface").assertWidthIsEqualTo(48.dp)
+        compose.onNodeWithTag("ring-search-surface").assertWidthIsEqualTo(40.dp)
         compose.onNodeWithTag("ring-add").assertContentDescriptionEquals("添加物品").performClick()
         compose.runOnIdle { assertEquals(1, additions) }
         compose.onNodeWithTag("ring-category-食品").performClick()
@@ -101,7 +101,7 @@ class InventorySearchInteractionTest {
         assertEquals(add.top, expandedAdd.top, .1f)
         assertEquals(viewport, compose.onNodeWithTag("ring-viewport").fetchSemanticsNode().boundsInRoot)
         compose.onNodeWithTag("ring-add").performClick()
-        compose.onNodeWithTag("ring-search-surface").assertWidthIsEqualTo(48.dp)
+        compose.onNodeWithTag("ring-search-surface").assertWidthIsEqualTo(40.dp)
         compose.onNodeWithTag("ring-search").assertDoesNotExist()
         assertEquals(add, compose.onNodeWithTag("ring-add").fetchSemanticsNode().boundsInRoot)
         compose.runOnIdle { assertEquals(0, additions) }

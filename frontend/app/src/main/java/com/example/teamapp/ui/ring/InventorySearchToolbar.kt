@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -66,60 +67,64 @@ internal fun InventorySearchToolbar(
         }
     }
 
-    BoxWithConstraints(modifier.height(48.dp).testTag("ring-toolbar")) {
-        // Reserve room for the action and its gap. Both controls share one row, so
-        // the action follows the animated search edge in either direction.
-        val expandedWidth = (maxWidth - 56.dp).coerceAtLeast(48.dp)
-        Row(Modifier.fillMaxWidth().height(48.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            // A constant 24dp radius turns the same surface from a circle into a capsule.
-            Row(Modifier.width(lerp(48.dp, expandedWidth, progress)).height(48.dp)
-                .clip(CircleShape)
-                .border(1.dp, palette.line, CircleShape).testTag("ring-search-surface"),
-                verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = {
-                    if (!searching) searching = true
-                    else if (!transition.isRunning) { requester.requestFocus(); keyboard?.show() }
-                }, modifier = Modifier.size(48.dp).testTag("ring-search-toggle")
-                    .semantics { contentDescription = strings.get(R.string.ui_search_items) }) {
-                    DesignGlyph("search", Modifier.size(20.dp), scheme.onSurfaceVariant)
-                }
-                // Keep the field mounted through collapse. Its full-width contents are clipped
-                // by the shrinking surface, so neither text reflow nor a replacement icon jumps.
-                if (searching || progress > 0f) {
-                    Box(Modifier.weight(1f).padding(end = 12.dp).graphicsLayer { alpha = progress }
-                        .motionInput(searching)) {
-                        BasicTextField(query, onQueryChange, singleLine = true, enabled = searching,
-                            textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
-                            modifier = Modifier.wrapContentSize(Alignment.CenterStart, unbounded = true)
-                                .requiredWidth((expandedWidth - 60.dp).coerceAtLeast(1.dp))
-                                .focusRequester(requester).testTag("ring-search")
-                                .semantics { contentDescription = strings.get(R.string.ui_search_item_names) },
-                            decorationBox = { field ->
-                                Box {
-                                    if (query.isEmpty()) Text(strings.get(R.string.ui_search_items),
-                                        fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
-                                    field()
-                                }
-                            })
+    val buttonSize = 40.dp
+    val buttonGap = 8.dp
+    CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides buttonSize) {
+        BoxWithConstraints(modifier.height(buttonSize).testTag("ring-toolbar")) {
+            // Reserve room for the action and its gap. Both controls share one row, so
+            // the action follows the animated search edge in either direction.
+            val expandedWidth = (maxWidth - buttonSize - buttonGap).coerceAtLeast(buttonSize)
+            Row(Modifier.fillMaxWidth().height(buttonSize),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(buttonGap)) {
+                // A constant 20dp radius turns the same surface from a circle into a capsule.
+                Row(Modifier.width(lerp(buttonSize, expandedWidth, progress)).height(buttonSize)
+                    .clip(CircleShape)
+                    .border(1.dp, palette.line, CircleShape).testTag("ring-search-surface"),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = {
+                        if (!searching) searching = true
+                        else if (!transition.isRunning) { requester.requestFocus(); keyboard?.show() }
+                    }, modifier = Modifier.size(buttonSize).testTag("ring-search-toggle")
+                        .semantics { contentDescription = strings.get(R.string.ui_search_items) }) {
+                        DesignGlyph("search", Modifier.size(18.dp), scheme.onSurfaceVariant)
+                    }
+                    // Keep the field mounted through collapse. Its full-width contents are clipped
+                    // by the shrinking surface, so neither text reflow nor a replacement icon jumps.
+                    if (searching || progress > 0f) {
+                        Box(Modifier.weight(1f).padding(end = 12.dp).graphicsLayer { alpha = progress }
+                            .motionInput(searching)) {
+                            BasicTextField(query, onQueryChange, singleLine = true, enabled = searching,
+                                textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
+                                modifier = Modifier.wrapContentSize(Alignment.CenterStart, unbounded = true)
+                                    .requiredWidth((expandedWidth - buttonSize - 12.dp).coerceAtLeast(1.dp))
+                                    .focusRequester(requester).testTag("ring-search")
+                                    .semantics { contentDescription = strings.get(R.string.ui_search_item_names) },
+                                decorationBox = { field ->
+                                    Box {
+                                        if (query.isEmpty()) Text(strings.get(R.string.ui_search_items),
+                                            fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                                        field()
+                                    }
+                                })
+                        }
                     }
                 }
-            }
-            IconButton(onClick = {
-                focus.clearFocus(force = true)
-                keyboard?.hide()
-                if (searching) {
-                    searching = false
-                    onQueryChange("")
-                } else onAdd()
-            }, modifier = Modifier.size(48.dp).clip(CircleShape)
-                .background(scheme.primaryContainer).testTag("ring-add")
-                .semantics {
-                    contentDescription = strings.get(if (searching) R.string.ui_cancel else R.string.ui_add_items)
-                }) {
-                DesignGlyph("plus", Modifier.size(22.dp).graphicsLayer { rotationZ = 45f * progress },
-                    scheme.onPrimaryContainer)
+                IconButton(onClick = {
+                    focus.clearFocus(force = true)
+                    keyboard?.hide()
+                    if (searching) {
+                        searching = false
+                        onQueryChange("")
+                    } else onAdd()
+                }, modifier = Modifier.size(buttonSize).clip(CircleShape)
+                    .background(scheme.primaryContainer).testTag("ring-add")
+                    .semantics {
+                        contentDescription = strings.get(if (searching) R.string.ui_cancel else R.string.ui_add_items)
+                    }) {
+                    DesignGlyph("plus", Modifier.size(18.dp).graphicsLayer { rotationZ = 45f * progress },
+                        scheme.onPrimaryContainer)
+                }
             }
         }
     }

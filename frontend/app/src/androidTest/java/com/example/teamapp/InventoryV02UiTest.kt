@@ -47,7 +47,7 @@ class InventoryV02UiTest {
         compose.setContent { TeamAppTheme(darkTheme = dark) { MagicApp(store) } }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.waitForIdle()
-        compose.onNodeWithTag("ring-toolbar").assertHeightIsEqualTo(48.dp)
+        compose.onNodeWithTag("ring-toolbar").assertHeightIsEqualTo(40.dp)
         compose.onNodeWithTag("ring-search").assertDoesNotExist()
         val search = compose.onNodeWithTag("ring-search-surface").fetchSemanticsNode().boundsInRoot
         val add = compose.onNodeWithTag("ring-add").fetchSemanticsNode().boundsInRoot
