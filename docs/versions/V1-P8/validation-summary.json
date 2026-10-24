@@ -31,14 +31,21 @@
   "postgres_concurrency": "not performed in this stage; local database regression used SQLite",
   "human_sample_review": "pending",
   "app_p95_le_10_seconds": "not verified; offline timing and provider-only timing are separate",
-  "production_deployment": "not authorized in this stage; unchanged",
+  "production_deployment": {
+    "status": "AI-only deployed and verified",
+    "image": "magicvvu/agent:p8-0175b52f054c",
+    "evidence": "production-deployment.json",
+    "verification": "production-verification.json",
+    "backend_database_changed": false
+  },
   "source_sync": {
     "candidate_path": "/home/magicvvu_ai/workspace/agent/candidates/v1-p8",
     "file_count": 81,
     "ast_checked": 69,
     "formal_runtime_unchanged": true,
     "services_built_or_restarted": false,
-    "database_migrations_executed": false
+    "database_migrations_executed": false,
+    "note": "Historical candidate-source synchronization check before separately authorized production switch."
   },
   "offline_eval": {
     "dev": 90,

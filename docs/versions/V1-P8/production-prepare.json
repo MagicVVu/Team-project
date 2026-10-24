@@ -1,0 +1,39 @@
+{
+  "stage": "prepared",
+  "image": "magicvvu/agent:p8-0175b52f054c",
+  "base_image_id": "sha256:a19fe1cd7c31e71f55a395eafc5e0e2246ad2bb644d559f4ca2cc3a521b83f9a",
+  "overlay_files": [
+    "conversation/app.py",
+    "conversation/manager.py",
+    "conversation/replies.py",
+    "conversation/chat_text.py",
+    "conversation/supplements.py",
+    "conversation/reply_adapter.py",
+    "integration/source_manifest.py"
+  ],
+  "overlay_sha256": {
+    "conversation/app.py": "a63c171212a310d6d4c2180c6211563a4f62d0fdf3f612dc287f3128b625927f",
+    "conversation/manager.py": "c1af3785825526bae5b68ff85bd52e6afeb283f2fe4db8015a2b5d4e43884b85",
+    "conversation/replies.py": "9252be909b6ba4dc37f8792f70bdebaca4843dae6fe016d468b0ce8c1b7ee632",
+    "conversation/chat_text.py": "4c62e79df94ec19a757e3f069c18a91113830ff06eaa2fb095bd46e9755fac84",
+    "conversation/supplements.py": "37be0fbf7387fd0e1389d3c861cba3324f25708d51dcc2e5cc6296169c4d3ded",
+    "conversation/reply_adapter.py": "9945485cd0902e2944dcde8aa53ce78d460f35536543b488012462d44e460f24",
+    "integration/source_manifest.py": "0a9e3e3e900dde768070decf0dc1015394fd45cf8eaeeb95534d7b48ac2a5a18"
+  },
+  "source_sha256": "0175b52f054c5afb4aabeeef9d207f14dde68b95a6fd5b3fdfe5384a0b13c38a",
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p8-20261023-0175b52f054c-r2",
+  "candidate_smoke": {
+    "synthetic_manager_workflows": "passed",
+    "ordinal_target": "b2",
+    "multifield_continuation": "passed",
+    "zero_model_continuation": true,
+    "fixture_inventory_unchanged": true,
+    "real_inventory_accessed": false
+  },
+  "protected_services_unchanged": true,
+  "budget_before": {
+    "calls": 248,
+    "conservative_cost_cny": 0.88897
+  },
+  "formal_runtime_switched": false
+}

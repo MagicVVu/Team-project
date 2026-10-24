@@ -1,0 +1,100 @@
+{
+  "stage": "verified",
+  "verified_at": "2026-10-23T09:36:11.668814+00:00",
+  "image": "magicvvu/agent:p8-0175b52f054c",
+  "agent_healthy": true,
+  "health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "checks": {
+    "greeting": {
+      "status": "answered",
+      "model_calls": 0,
+      "inventory_writes": false
+    },
+    "help": {
+      "status": "answered",
+      "model_calls": 0,
+      "inventory_writes": false
+    },
+    "reset": {
+      "status": "answered",
+      "model_calls": 0,
+      "inventory_writes": false
+    },
+    "reply_resolution": {
+      "kind": "clarify",
+      "answers_match": true,
+      "revision": 3,
+      "model_calls": 0
+    },
+    "unauthenticated_rejected": true,
+    "legacy_backend_inventory_read": {
+      "facts_match_backend": true,
+      "fact_count": 3,
+      "model_calls": 0,
+      "inventory_writes": false
+    }
+  },
+  "synthetic_workflows": {
+    "synthetic_manager_workflows": "passed",
+    "ordinal_target": "b2",
+    "multifield_continuation": "passed",
+    "zero_model_continuation": true,
+    "fixture_inventory_unchanged": true,
+    "real_inventory_accessed": false
+  },
+  "model": {
+    "passed": true,
+    "intent": "ADD",
+    "fields_match": true,
+    "requests": 1,
+    "retries": 0,
+    "elapsed_seconds": 1.78,
+    "real_inventory_sent": false
+  },
+  "budget_before": {
+    "calls": 248,
+    "conservative_cost_cny": 0.88897
+  },
+  "budget_after": {
+    "calls": 249,
+    "conservative_cost_cny": 0.892574
+  },
+  "database_or_inventory_writes_performed": false,
+  "tasks_or_sessions_created": false,
+  "new_android_joint_acceptance_performed": false
+}

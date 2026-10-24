@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-23",
+  "scope": "Agent-contained opt-in Jev lab; no production integration",
+  "existing_environment": {
+    "python": "3.13.5",
+    "pydantic": "2.12.5",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "new_dependencies": false
+  },
+  "jev_tests": {
+    "tests": 62,
+    "passed": 61,
+    "skipped": 1,
+    "failed_or_errors": 0
+  },
+  "existing_agent_tests": {
+    "tests": 818,
+    "passed": 817,
+    "skipped": 1,
+    "failed_or_errors": 0
+  },
+  "combined_previous_run": {
+    "tests": 878,
+    "passed": 876,
+    "skipped": 2,
+    "failed_or_errors": 0
+  },
+  "datasets": {
+    "version": "jev-synthetic-1",
+    "count": 300,
+    "groups": 100,
+    "dev": 180,
+    "calibration": 60,
+    "test": 60,
+    "categories": 20,
+    "source": "AI-authored synthetic expressions and fixture facts",
+    "human_reviewed": false,
+    "real_audio": false,
+    "split_rule": "expression families 1-3 dev, 4 calibration, 5 test; variants never cross splits",
+    "limitations": "Same product and shared vocabulary; template generalization is limited. Not representative production accuracy.",
+    "sha256": "6957c39a1410dca598f0218cd5c54dfa2a23a352e35690fe2c990020d974a871"
+  },
+  "offline_mock_reports": {
+    "dev": {
+      "completed": 180,
+      "requested": 180,
+      "sources": {
+        "mock": 360
+      },
+      "final_action_accuracy": 1.0,
+      "clarification_recall": 1.0,
+      "redundant_clarification_rate": 0.0,
+      "charged_or_reserved_usd": "0",
+      "p95_ms": 0.44080003863200545,
+      "node_accuracy": {
+        "intent_router": 0.9833333333333333,
+        "event_classifier": 1.0,
+        "clarification_gate": 1.0,
+        "action_gate": 1.0
+      }
+    },
+    "calibration": {
+      "completed": 60,
+      "requested": 60,
+      "sources": {
+        "mock": 120
+      },
+      "final_action_accuracy": 1.0,
+      "clarification_recall": 1.0,
+      "redundant_clarification_rate": 0.0,
+      "charged_or_reserved_usd": "0",
+      "p95_ms": 0.34850003430619836,
+      "node_accuracy": {
+        "intent_router": 1.0,
+        "event_classifier": 1.0,
+        "clarification_gate": 1.0,
+        "action_gate": 1.0
+      }
+    },
+    "test": {
+      "completed": 60,
+      "requested": 60,
+      "sources": {
+        "mock": 120
+      },
+      "final_action_accuracy": 1.0,
+      "clarification_recall": 1.0,
+      "redundant_clarification_rate": 0.0,
+      "charged_or_reserved_usd": "0",
+      "p95_ms": 0.41009997949004173,
+      "node_accuracy": {
+        "intent_router": 1.0,
+        "event_classifier": 1.0,
+        "clarification_gate": 1.0,
+        "action_gate": 1.0
+      }
+    }
+  },
+  "live_model_validation": {
+    "credential_configured": true,
+    "credential_storage": "Windows DPAPI CurrentUser; explicit local.ps1 launcher only",
+    "status": "connectivity_verified_semantics_need_review",
+    "date_local": "2026-10-24",
+    "timezone": "Asia/Shanghai",
+    "synthetic_scenarios": 1,
+    "requests": 2,
+    "successful_requests": 2,
+    "model": "jev-1.13.0",
+    "charged_usd": "0.0001302",
+    "cost_source": "local ledger using validated usage and versioned rate; vendor bill not reconciled",
+    "elapsed_ms": 2346.624800004065,
+    "node_choices": {
+      "intent_router": "ADD",
+      "event_classifier": "ADDED",
+      "clarification_gate": "CLARIFY",
+      "action_gate": "CONFIRM"
+    },
+    "multiple_actions_noul": 0.38,
+    "raw_action": "CONFIRM",
+    "final_action": "CLARIFY",
+    "reasons": [
+      "MULTIPLE_ACTIONS_OR_UNCERTAIN"
+    ],
+    "accuracy_verified": false,
+    "notes": "One live synthetic smoke via launcher, not a pytest run or model-quality acceptance. Review multiple-actions and clarification behavior before integration."
+  },
+  "default_budget": {
+    "currency": "USD",
+    "limit_usd": "1",
+    "price_version": "typesafe-2026-10-23-usd-0.042-per-million",
+    "charged_or_reserved_usd": "0.0001302",
+    "calls": 2,
+    "unknown_usage_calls": 0
+  },
+  "tracked_existing_agent_changes": [],
+  "business_flow_connected": false,
+  "services_deployed": false,
+  "database_accessed": false,
+  "human_sample_review": "pending",
+  "threshold_calibration": "not performed",
+  "app_latency_verified": false,
+  "test_environment_note": "Windows sandbox blocked asyncio socketpair; local tests used an unrestricted process. Old P4 gateway tests require repository root on PYTHONPATH.",
+  "evidence": {
+    "jev_tests": ".cache/jev-tests.xml",
+    "combined_tests": ".cache/combined-regression.xml",
+    "reports": ".cache/reports/",
+    "live_smoke": ".cache/setup/live-smoke.json",
+    "credential_setup_status": ".cache/setup/state.json"
+  },
+  "updated_date": "2026-10-24"
+}
