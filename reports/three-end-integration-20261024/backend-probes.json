@@ -1,0 +1,26 @@
+[
+  {
+    "case": "shared_event_private_receipt",
+    "events_status": 200,
+    "event_count": 1,
+    "receipt_status": 404,
+    "receipt_error": {
+      "detail": {
+        "code": "OPERATION_NOT_FOUND"
+      }
+    }
+  },
+  {
+    "case": "manual_ai_plan_loses_inventory_source",
+    "committed": "committed",
+    "source_inventory_item_id": null,
+    "pending_complete": false,
+    "planning_pending_count": 0
+  },
+  {
+    "case": "discarded_batch_not_publicly_listed",
+    "committed": "committed",
+    "lifecycle": "DISCARDED",
+    "inventory_list_total": 0
+  }
+]

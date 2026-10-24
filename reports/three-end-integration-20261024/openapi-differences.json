@@ -1,0 +1,1027 @@
+{
+  "versions": {
+    "fastapi": "0.116.1",
+    "pydantic": "2.14.1",
+    "starlette": "0.47.3"
+  },
+  "comparisons": [
+    {
+      "version": "V1-P3",
+      "diff_count": 24,
+      "diffs": [
+        [
+          "$.components.schemas.p2__schemas__Batch-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.AddCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ConsumeCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ValidationError.properties.input",
+          "<absent>",
+          {
+            "title": "Input"
+          }
+        ],
+        [
+          "$.components.schemas.ValidationError.properties.ctx",
+          "<absent>",
+          {
+            "type": "object",
+            "title": "Context"
+          }
+        ],
+        [
+          "$.components.schemas.ChangePreview.properties.quantity_delta.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ProposedState.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.p1__schemas__Batch-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.ConsumptionSummary.properties.effective_quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Parsed-Output.properties.quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.PlanCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.DiscardCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.PlanningBasis.properties.original_suggested_quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Answers.properties.quantity.anyOf",
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Parsed-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.p2__schemas__Batch-Output.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Forecast.properties.current_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Forecast.properties.remaining_days.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Forecast.properties.daily_recorded_consumption.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.p1__schemas__Batch-Output.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.pending_quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.target_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.current_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.suggested_quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ]
+      ]
+    },
+    {
+      "version": "V1-P6",
+      "diff_count": 29,
+      "diffs": [
+        [
+          "$.components.schemas.p2__schemas__Batch-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.AgentResult.properties.clarification.anyOf",
+          [
+            {
+              "$ref": "#/components/schemas/LocalContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionEnvelope-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ContinuationContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ReviewContext"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/RiskSelectionContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ClarificationContext-Output"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "$ref": "#/components/schemas/LocalContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionEnvelope-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ContinuationContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ReviewContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/RiskSelectionContext-Output"
+            },
+            {
+              "$ref": "#/components/schemas/ClarificationContext-Output"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.AddCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ConsumeCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ValidationError.properties.input",
+          "<absent>",
+          {
+            "title": "Input"
+          }
+        ],
+        [
+          "$.components.schemas.ValidationError.properties.ctx",
+          "<absent>",
+          {
+            "type": "object",
+            "title": "Context"
+          }
+        ],
+        [
+          "$.components.schemas.ReviewContext-Input",
+          "<absent>",
+          {
+            "properties": {
+              "protocol_version": {
+                "type": "string",
+                "const": "p5-text-review-1",
+                "title": "Protocol Version",
+                "default": "p5-text-review-1"
+              },
+              "id": {
+                "type": "string",
+                "title": "Id"
+              },
+              "revision": {
+                "type": "integer",
+                "const": 1,
+                "title": "Revision",
+                "default": 1
+              },
+              "scope": {
+                "$ref": "#/components/schemas/Scope"
+              },
+              "original_text": {
+                "type": "string",
+                "title": "Original Text"
+              },
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "trace_id": {
+                "type": "string",
+                "title": "Trace Id"
+              },
+              "household_timezone": {
+                "type": "string",
+                "title": "Household Timezone"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Created At"
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Expires At"
+              },
+              "allowed_fields": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 0,
+                "title": "Allowed Fields"
+              },
+              "input_receipt": {
+                "$ref": "#/components/schemas/Receipt"
+              },
+              "resubmit_required": {
+                "type": "boolean",
+                "const": true,
+                "title": "Resubmit Required",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "id",
+              "scope",
+              "original_text",
+              "request_id",
+              "trace_id",
+              "household_timezone",
+              "created_at",
+              "expires_at",
+              "input_receipt"
+            ],
+            "title": "ReviewContext"
+          }
+        ],
+        [
+          "$.components.schemas.ChangePreview.properties.quantity_delta.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ProposedState.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ReviewContext-Output",
+          "<absent>",
+          {
+            "properties": {
+              "protocol_version": {
+                "type": "string",
+                "const": "p5-text-review-1",
+                "title": "Protocol Version",
+                "default": "p5-text-review-1"
+              },
+              "id": {
+                "type": "string",
+                "title": "Id"
+              },
+              "revision": {
+                "type": "integer",
+                "const": 1,
+                "title": "Revision",
+                "default": 1
+              },
+              "scope": {
+                "$ref": "#/components/schemas/Scope"
+              },
+              "original_text": {
+                "type": "string",
+                "title": "Original Text"
+              },
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "trace_id": {
+                "type": "string",
+                "title": "Trace Id"
+              },
+              "household_timezone": {
+                "type": "string",
+                "title": "Household Timezone"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Created At"
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Expires At"
+              },
+              "allowed_fields": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 0,
+                "title": "Allowed Fields"
+              },
+              "input_receipt": {
+                "$ref": "#/components/schemas/Receipt"
+              },
+              "resubmit_required": {
+                "type": "boolean",
+                "const": true,
+                "title": "Resubmit Required",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "id",
+              "scope",
+              "original_text",
+              "request_id",
+              "trace_id",
+              "household_timezone",
+              "created_at",
+              "expires_at",
+              "input_receipt"
+            ],
+            "title": "ReviewContext"
+          }
+        ],
+        [
+          "$.components.schemas.p1__schemas__Batch-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string"
+            }
+          ],
+          [
+            {
+              "type": "number",
+              "maximum": 1000000000.0,
+              "minimum": 0.0
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.ConsumptionSummary.properties.effective_quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.ReviewContext",
+          {
+            "properties": {
+              "protocol_version": {
+                "type": "string",
+                "const": "p5-text-review-1",
+                "title": "Protocol Version",
+                "default": "p5-text-review-1"
+              },
+              "id": {
+                "type": "string",
+                "title": "Id"
+              },
+              "revision": {
+                "type": "integer",
+                "const": 1,
+                "title": "Revision",
+                "default": 1
+              },
+              "scope": {
+                "$ref": "#/components/schemas/Scope"
+              },
+              "original_text": {
+                "type": "string",
+                "title": "Original Text"
+              },
+              "request_id": {
+                "type": "string",
+                "title": "Request Id"
+              },
+              "trace_id": {
+                "type": "string",
+                "title": "Trace Id"
+              },
+              "household_timezone": {
+                "type": "string",
+                "title": "Household Timezone"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Created At"
+              },
+              "expires_at": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Expires At"
+              },
+              "allowed_fields": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 0,
+                "title": "Allowed Fields"
+              },
+              "input_receipt": {
+                "$ref": "#/components/schemas/Receipt"
+              },
+              "resubmit_required": {
+                "type": "boolean",
+                "const": true,
+                "title": "Resubmit Required",
+                "default": true
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "id",
+              "scope",
+              "original_text",
+              "request_id",
+              "trace_id",
+              "household_timezone",
+              "created_at",
+              "expires_at",
+              "input_receipt"
+            ],
+            "title": "ReviewContext"
+          },
+          "<absent>"
+        ],
+        [
+          "$.components.schemas.Parsed-Output.properties.quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.PlanCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.DiscardCommand.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.PlanningBasis.properties.original_suggested_quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Answers.properties.quantity.anyOf",
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Parsed-Input.properties.quantity.anyOf",
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.ClarificationRequest.properties.context.anyOf",
+          [
+            {
+              "$ref": "#/components/schemas/LocalContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionEnvelope-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ContinuationContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ReviewContext"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/RiskSelectionContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ClarificationContext-Input"
+            }
+          ],
+          [
+            {
+              "$ref": "#/components/schemas/LocalContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionEnvelope-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ContinuationContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ReviewContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/SelectionContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/RiskSelectionContext-Input"
+            },
+            {
+              "$ref": "#/components/schemas/ClarificationContext-Input"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Forecast.properties.current_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Forecast.properties.remaining_days.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Forecast.properties.daily_recorded_consumption.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.p1__schemas__Batch-Output.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.p2__schemas__Batch-Output.properties.quantity.pattern",
+          "<absent>",
+          "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.pending_quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.target_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.current_stock.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ],
+        [
+          "$.components.schemas.Recommendation.properties.suggested_quantity.anyOf",
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        ]
+      ]
+    }
+  ]
+}
