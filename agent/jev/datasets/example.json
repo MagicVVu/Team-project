@@ -1,0 +1,56 @@
+{
+  "synthetic": true,
+  "request_id": "g01-1-v1",
+  "text": "刚买了两盒牛奶，放冰箱",
+  "now": "2026-10-23T12:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "facts": {
+    "known": true,
+    "fields": {
+      "name": "牛奶",
+      "quantity": "2",
+      "unit": "盒",
+      "location": "冰箱",
+      "to_location": "厨房",
+      "purchased_at": null,
+      "label_expiry": null,
+      "opened_at": "2026-10-22"
+    },
+    "candidates": [
+      {
+        "id": "synthetic-c1",
+        "name": "牛奶",
+        "quantity": "3",
+        "unit": "盒",
+        "location": "冰箱",
+        "version": 1,
+        "status": "ACTIVE"
+      }
+    ],
+    "selected_id": "synthetic-c1",
+    "scope_valid": true,
+    "version_current": true,
+    "unit_compatible": true,
+    "has_reference": false,
+    "reference_valid": null,
+    "missing_fields": [],
+    "conflicts": [],
+    "task_status": "ready",
+    "capabilities": [
+      "ADD",
+      "CONSUME",
+      "QUERY_INVENTORY",
+      "QUERY_LOCATION",
+      "PLAN_ADD",
+      "OPEN",
+      "MOVE",
+      "DISCARD",
+      "QUERY_RISK",
+      "QUERY_CONSUMPTION",
+      "QUERY_FORECAST",
+      "SUGGEST_PURCHASE",
+      "QUERY_LOCATION_ITEMS",
+      "QUERY_OVERVIEW"
+    ]
+  }
+}
