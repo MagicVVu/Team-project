@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="44" failures="0" errors="0" skipped="0" time="80.005" timestamp="2026-10-24T04:42:14" hostname="localhost">
+  <testsuite name="com.example.teamapp.FrontendAlignmentTest" tests="14" failures="0" errors="0" skipped="0" time="12.416" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="explicitClearDoesNotClearOmittedSectionsAndConflictsNeverAutoRetry" classname="com.example.teamapp.FrontendAlignmentTest" time="0.504" />
+    <testcase name="independentPreviewRunsOnlyOnceAndEditsInvalidateIt" classname="com.example.teamapp.FrontendAlignmentTest" time="0.367" />
+    <testcase name="factsPageUsesRealVersionsAndLeavesCoverageUnknownUntilExplicitInput" classname="com.example.teamapp.FrontendAlignmentTest" time="1.194" />
+    <testcase name="changingOnePreferencePreservesTheOtherFieldsInItsReplacementBlock" classname="com.example.teamapp.FrontendAlignmentTest" time="1.903" />
+    <testcase name="absentBatchNeverFabricatesAReferenceSource" classname="com.example.teamapp.FrontendAlignmentTest" time="0.902" />
+    <testcase name="ledgerShowsOnlyConsumedEventsAndOriginalReceipt" classname="com.example.teamapp.FrontendAlignmentTest" time="1.3" />
+    <testcase name="unknownWriteReplaysTheSameOperationAfterStoreRecreation" classname="com.example.teamapp.FrontendAlignmentTest" time="0.325" />
+    <testcase name="structuredCardsKeepNullForecastUnknownAndSeparatePartialSections" classname="com.example.teamapp.FrontendAlignmentTest" time="1.017" />
+    <testcase name="familyActionsAreGatedByRoleAndRequireNameConfirmation" classname="com.example.teamapp.FrontendAlignmentTest" time="0.843" />
+    <testcase name="cancellationStaysCancelledWhileReferenceResetReplaysItsOriginalBody" classname="com.example.teamapp.FrontendAlignmentTest" time="0.478" />
+    <testcase name="lifecycleDtosRetainExactQuantityAndWireCategory" classname="com.example.teamapp.FrontendAlignmentTest" time="0.946" />
+    <testcase name="batchRequestBindsOnlyARealSourceTaskAndTheExactBatch" classname="com.example.teamapp.FrontendAlignmentTest" time="0.292" />
+    <testcase name="englishDarkFactsKeepProtocolValuesAndRenderConsistently" classname="com.example.teamapp.FrontendAlignmentTest" time="1.486" />
+    <testcase name="outboxesRemainIsolatedWhenTheHouseholdChanges" classname="com.example.teamapp.FrontendAlignmentTest" time="0.859" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.InventoryDetailAnimationTest" tests="8" failures="0" errors="0" skipped="0" time="13.402" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="darkDetailBackAndBackdropRestoreSelection" classname="com.example.teamapp.InventoryDetailAnimationTest" time="2.161" />
+    <testcase name="unselectedTapSelectsAndSelectedTapExpands" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.617" />
+    <testcase name="liveDataUpdatesAndDeletionSafelyRemoveOverlay" classname="com.example.teamapp.InventoryDetailAnimationTest" time="0.99" />
+    <testcase name="cardStartsAtMeasuredPreviewAndSurvivesDeletionWhileExpanding" classname="com.example.teamapp.InventoryDetailAnimationTest" time="0.772" />
+    <testcase name="largeFontAndShortViewportKeepControlsVisibleAndDisposeCleanly" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.239" />
+    <testcase name="switchingTabsDisposesDetailAndReusesExistingEditor" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.362" />
+    <testcase name="rapidTapsAndEarlyBackReverseFromCurrentBounds" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.288" />
+    <testcase name="smallPhoneFitsWithoutPageScrollAndLongDetailRemainsReadable" classname="com.example.teamapp.InventoryDetailAnimationTest" time="3.973" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.InventoryV02UiTest" tests="2" failures="0" errors="0" skipped="0" time="5.801" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="darkCompactToolbarAndInventoryActions" classname="com.example.teamapp.InventoryV02UiTest" time="2.924" />
+    <testcase name="lightCompactToolbarAndInventoryActions" classname="com.example.teamapp.InventoryV02UiTest" time="2.877" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.MagicAppTest" tests="3" failures="0" errors="0" skipped="0" time="4.762" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="purchaseRequiresActualQuantityAndUpdatesAllViews" classname="com.example.teamapp.MagicAppTest" time="1.894" />
+    <testcase name="cancelledAddDoesNotChangeInventory" classname="com.example.teamapp.MagicAppTest" time="1.452" />
+    <testcase name="fourTabsAndDetailNavigationWork" classname="com.example.teamapp.MagicAppTest" time="1.416" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.LightDesignTest" tests="5" failures="0" errors="0" skipped="0" time="7.73" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="lightTabsDetailAndProfileKeepTheirActions" classname="com.example.teamapp.LightDesignTest" time="1.304" />
+    <testcase name="cancelAddKeepsInventoryUntouched" classname="com.example.teamapp.LightDesignTest" time="1.634" />
+    <testcase name="darkModeKeepsExistingNavigationAndDetailActions" classname="com.example.teamapp.LightDesignTest" time="0.986" />
+    <testcase name="purchaseStillRequiresConfirmedActualQuantity" classname="com.example.teamapp.LightDesignTest" time="2.014" />
+    <testcase name="ringUsesRealInventoryAndSearchFiltersWithoutChangingData" classname="com.example.teamapp.LightDesignTest" time="1.792" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.MotionBehaviorTest" tests="6" failures="0" errors="0" skipped="0" time="11.526" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="cancellingAssistantDuringCordRecoilRestoresPage" classname="com.example.teamapp.MotionBehaviorTest" time="1.482" />
+    <testcase name="reversingAssistantEntranceKeepsItsExitUntilItFinishes" classname="com.example.teamapp.MotionBehaviorTest" time="1.43" />
+    <testcase name="closingAndReopeningAnAddPanelDiscardsOnlyTheUnconfirmedDraft" classname="com.example.teamapp.MotionBehaviorTest" time="2.568" />
+    <testcase name="reversingAuthModeClearsPasswordsAndValidationWithoutLosingTypedEdits" classname="com.example.teamapp.MotionBehaviorTest" time="2.629" />
+    <testcase name="rapidTabChangesKeepInventorySearchAndFilters" classname="com.example.teamapp.MotionBehaviorTest" time="2.245" />
+    <testcase name="outgoingControlsStayComposedForExitButCannotReceiveTouch" classname="com.example.teamapp.MotionBehaviorTest" time="1.172" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.RingPrototypeTest" tests="6" failures="0" errors="0" skipped="0" time="22.775" timestamp="2026-10-24T04:42:14" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="allRequestedSizesKeepCardDimensionsAndCanReachTheLastItem" classname="com.example.teamapp.RingPrototypeTest" time="8.083" />
+    <testcase name="arcDragSnapsAndStopsAtBothEndsWithoutWrapping" classname="com.example.teamapp.RingPrototypeTest" time="2.024" />
+    <testcase name="captureSixReviewScreens" classname="com.example.teamapp.RingPrototypeTest" time="8.112" />
+    <testcase name="draggingSeekBarPreviewsNameAndCommitsTheSameItem" classname="com.example.teamapp.RingPrototypeTest" time="0.974" />
+    <testcase name="searchCategoryAttentionAndDetailsAgree" classname="com.example.teamapp.RingPrototypeTest" time="1.742" />
+    <testcase name="mockAddDeleteUpdateAndEmptyAddKeepSelectionCoherent" classname="com.example.teamapp.RingPrototypeTest" time="1.84" />
+  </testsuite>
+</testsuites>

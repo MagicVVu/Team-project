@@ -135,7 +135,7 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     var name by rememberSaveable { mutableStateOf(initial?.name ?: draft?.name.orEmpty()) }
     var quantity by rememberSaveable { mutableStateOf(initial?.quantity?.display() ?: draft?.quantity.orEmpty()) }
     var unit by rememberSaveable { mutableStateOf(initial?.unit ?: draft?.unit.orEmpty()) }
-    var category by rememberSaveable { mutableStateOf(initial?.category ?: "食品") }
+    var category by rememberSaveable { mutableStateOf(initial?.category?.let(InventoryContract::categoryLabel) ?: "食品") }
     var location by rememberSaveable { mutableStateOf(initial?.location ?: draft?.location?.takeIf { it.isNotBlank() } ?: store.locations.firstOrNull().orEmpty()) }
     var minimum by rememberSaveable { mutableStateOf(initial?.minimum?.display() ?: "0") }
     var expiry by rememberSaveable { mutableStateOf(initial?.expiry.orEmpty()) }
@@ -162,7 +162,7 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         Field(strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true)
         Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"])
         Text(strings.get(R.string.ui_category), style = MaterialTheme.typography.labelLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(strings.label(c)) }) } }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "药品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(if (c == "药品") strings.tr("药品", "Medicine") else strings.label(c)) }) } }
         Choice(strings.get(R.string.ui_location), store.locations, location) { location = it }
         MotionErrorText(errors["location"])
         Field(strings.get(R.string.ui_minimum_stock__optional__default_0), minimum, { minimum = it }, errors["minimum"], numeric = true)
@@ -173,15 +173,17 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
             val m = nonNegativeNumber(minimum.ifBlank { "0" })
             errors = buildMap {
                 if (name.isBlank()) put("name", "请填写物品名称")
+                else if (name.trim().length > 80) put("name", strings.tr("最多 80 字；旧名称不会自动截断，请核对后修改", "Up to 80 characters. Review legacy names explicitly; they are not truncated."))
                 if (q == null) put("quantity", if (initial == null) "请输入有效正数" else "数量不能为负数")
-                if (unit.isBlank()) put("unit", "请核对计量单位")
+                if (InventoryContract.unit(unit) == null) put("unit", strings.tr("请核对单位：${InventoryContract.units.joinToString("、")}；不猜测容量换算", "Review the unit: ${InventoryContract.units.joinToString(", ")}. No guessed capacity conversions."))
                 if (location.isBlank()) put("location", "请选择存放位置")
                 if (m == null) put("minimum", "最低库存必须是有效非负数")
                 if (expiry.isNotBlank() && runCatching { LocalDate.parse(expiry) }.isFailure) put("expiry", "请填写有效日期，如 2026-10-20")
             }
             if (errors.isEmpty()) {
-                val item = StockItem(itemId, name.trim(), q!!, unit.trim(), category, location, m!!, expiry, initial?.image ?: image,
-                    purchasedAt = initial?.purchasedAt.orEmpty(), version = initial?.version ?: 1)
+                val item = StockItem(itemId, name.trim(), q!!, InventoryContract.unit(unit)!!, category, location, m!!, expiry, initial?.image ?: image,
+                    purchasedAt = initial?.purchasedAt.orEmpty(), version = initial?.version ?: 1,
+                    openedAt = initial?.openedAt.orEmpty(), lifecycleStatus = initial?.lifecycleStatus ?: "ACTIVE", quantityExact = quantity.trim())
                 val existing = store.items.firstOrNull { it.id != itemId && it.name.equals(item.name, true) }
                 if (existing != null && !store.cloud.signedIn) {
                     if (initial != null) generalError = "已有同名物品，请使用不同名称；合并入库请从添加入口操作。" else { duplicate = existing; pending = item }

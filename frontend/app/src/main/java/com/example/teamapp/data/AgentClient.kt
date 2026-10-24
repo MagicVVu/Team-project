@@ -6,19 +6,20 @@ import com.example.teamapp.BuildConfig
 /** Public user APIs only; never connects directly to the AI or database. */
 open class AgentClient(address: String, token: String) {
     private val api = CloudApi(address, token)
-    suspend fun capabilities(): JSONObject {
+    open suspend fun capabilities(): JSONObject {
         return api.verifiedCapabilities()
     }
     open suspend fun conversation(body: JSONObject) = api.request("POST", "/api/v1/agent/conversation-messages", body)
-    suspend fun control(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/tasks/${uuid(id)}/chat-control", body)
-    suspend fun preview(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/execution-preview", body)
+    open suspend fun referenceMessage(body: JSONObject) = api.request("POST", "/api/v1/agent/reference-messages", body)
+    open suspend fun control(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/tasks/${uuid(id)}/chat-control", body)
+    open suspend fun preview(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/execution-preview", body)
     open suspend fun message(body: JSONObject) = api.request("POST", "/api/v1/agent/messages", body)
-    suspend fun task(id: String) = api.request("GET", "/api/v1/agent/tasks/${uuid(id)}")
+    open suspend fun task(id: String) = api.request("GET", "/api/v1/agent/tasks/${uuid(id)}")
     suspend fun clarify(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/clarifications/${uuid(id)}", body)
     open suspend fun draft(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}")
-    suspend fun execution(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}/execution")
+    open suspend fun execution(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}/execution")
     open suspend fun commit(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/commit", body)
-    suspend fun cancel(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/cancel", body)
+    open suspend fun cancel(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/cancel", body)
     suspend fun operation(id: String) = api.request("GET", "/api/v1/operations/${uuid(id)}")
     private fun uuid(value: String) = java.util.UUID.fromString(value).toString()
 }

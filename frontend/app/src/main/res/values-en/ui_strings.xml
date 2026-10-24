@@ -507,4 +507,11 @@
     <string name="ui___short">" · Short %1$s %2$s"</string>
     <string name="ui_selected_item">Selected item: %1$s</string>
     <string name="ui___items">%1$s: %2$s</string>
+    <string name="ui_medicine">Medicine</string>
+    <string name="ui_planning_facts">Facts &amp; verification</string>
+    <string name="ui_consumption_ledger">Consumption ledger</string>
+    <string name="ui_batch_actions">Batch actions</string>
+    <string name="ui_correct_count">Correct count</string>
+    <string name="ui_ai_overview">AI overview</string>
+    <string name="ui_batch_terminal">Batch ended</string>
 </resources>

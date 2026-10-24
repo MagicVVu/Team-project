@@ -81,6 +81,7 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 val minimums = remember { mutableStateMapOf<String, String>().apply { store.items.forEach { put(it.id, it.minimum.display()) } } }
                 var error by remember { mutableStateOf("") }
                 ModeNotice(strings.get(R.string.ui_stock_is_low_when_the_quantity))
+                if (store.cloud.signedIn) ModeNotice(strings.tr("此处修改登记阈值。AI 补货偏好请到库存详情 → 资料与盘点核对；修改阈值后请重新读取偏好来源。", "This edits registered thresholds. Review AI preferences in Item details → Facts & verification, and refresh their source after changes."))
                 Field(strings.get(R.string.ui_days_before_expiry_to_alert__0_365), days, { days = it }, numeric = true)
                 store.items.forEach { item -> key(item.id) { Field(strings.get(R.string.ui_minimum_for, item.name, item.unit), minimums[item.id].orEmpty(), { minimums[item.id] = it }, numeric = true) } }
                 if (store.items.isEmpty()) Text(strings.get(R.string.ui_add_items_first_to_set_their))

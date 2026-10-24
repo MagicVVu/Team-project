@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="8" failures="0" errors="0" skipped="0" time="18.677" timestamp="2026-10-24T04:08:56" hostname="localhost">
+  <testsuite name="com.example.teamapp.InventoryDetailAnimationTest" tests="8" failures="0" errors="0" skipped="0" time="17.356" timestamp="2026-10-24T04:08:56" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="darkDetailBackAndBackdropRestoreSelection" classname="com.example.teamapp.InventoryDetailAnimationTest" time="4.144" />
+    <testcase name="unselectedTapSelectsAndSelectedTapExpands" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.952" />
+    <testcase name="liveDataUpdatesAndDeletionSafelyRemoveOverlay" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.702" />
+    <testcase name="cardStartsAtMeasuredPreviewAndSurvivesDeletionWhileExpanding" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.422" />
+    <testcase name="largeFontAndShortViewportKeepControlsVisibleAndDisposeCleanly" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.882" />
+    <testcase name="switchingTabsDisposesDetailAndReusesExistingEditor" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.399" />
+    <testcase name="rapidTapsAndEarlyBackReverseFromCurrentBounds" classname="com.example.teamapp.InventoryDetailAnimationTest" time="0.78" />
+    <testcase name="smallPhoneFitsWithoutPageScrollAndLongDetailRemainsReadable" classname="com.example.teamapp.InventoryDetailAnimationTest" time="4.075" />
+  </testsuite>
+</testsuites>

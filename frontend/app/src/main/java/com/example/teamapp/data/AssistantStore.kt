@@ -150,7 +150,7 @@ class AssistantStore(
             bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
             require(entries.none { it.conversationBody.isNotBlank() && !it.conversationResolved && it.conversationSession == currentSession }) { "请先核实上一条消息的结果，不会自动重复调用模型" }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
-                .put("request_id", id).put("household_timezone", "Asia/Shanghai")
+                .put("request_id", id).put("household_timezone", JSONObject(capabilities).optString("household_timezone", "Asia/Shanghai"))
             val conversation = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId).put("request_id", id)
             activeEntry?.takeIf { it.taskId.isNotBlank() }?.let { conversation.put("task_id", it.taskId).put("revision", it.taskRevision) }
             save(scope, entries + AssistantEntry(id, body.toString(), conversationBody = conversation.toString(), conversationSession = currentSession, transportMode = "discover"))
@@ -218,7 +218,7 @@ class AssistantStore(
         require(conversationEnabled) { "当前服务尚未启用会话协议，请保留原请求，勿转换为普通消息重试" }
         var old = entry(id)
         val active = activeEntry
-        if (old.controlBody.isNotBlank() || (JSONObject(capabilities).optBoolean("chat_controls") && active?.state in setOf(AssistantStatus.PENDING, AssistantStatus.UNSUPPORTED) && active?.draftId?.isNotBlank() == true && active.commitBody.isBlank())) {
+        if (old.transportMode != "reference" && (old.controlBody.isNotBlank() || (JSONObject(capabilities).optBoolean("chat_controls") && active?.state in setOf(AssistantStatus.PENDING, AssistantStatus.UNSUPPORTED) && active?.draftId?.isNotBlank() == true && active.commitBody.isBlank()))) {
             val envelope = if (old.controlBody.isNotBlank()) JSONObject(old.controlBody) else JSONObject().put("task_id", active!!.taskId)
                 .put("request", JSONObject().put("text", JSONObject(old.requestBody).getString("text"))
                     .put("task_revision", active.taskRevision).put("draft_revision", active.draftRevision).put("edits", draftEdits(active.edits)))
@@ -241,7 +241,8 @@ class AssistantStore(
             update(scope, entry(id).copy(controlBody = ""))
         }
         old = entry(id)
-        val response = api.conversation(JSONObject(old.conversationBody)); verifyScope(scope)
+        val response = if (old.transportMode == "reference") api.referenceMessage(JSONObject(old.conversationBody)) else api.conversation(JSONObject(old.conversationBody))
+        verifyScope(scope)
         require(response.getString("protocol_version") == "backend-conversation-1" && response.getString("request_id") == id && response.getBoolean("inventory_written") == false)
         val resolution = response.getJSONObject("resolution")
         val kind = resolution.getString("kind")
@@ -274,7 +275,44 @@ class AssistantStore(
             verifyScope(scope)
             checkControl(result, old.taskId, request)
             require(result.getString("kind") == "edit" && result.getString("draft_id") == old.draftId)
-            update(scope, entry(id).copy(checkedPreview = result.getJSONObject("preview").toString()))
+            acceptCheckedPreview(scope, id, result.getJSONObject("preview"))
+        } else if (JSONObject(capabilities).optBoolean("execution_preview") && old.action in setOf("OPEN", "DISCARD")) {
+            val request = JSONObject().put("task_revision", old.taskRevision).put("draft_revision", old.draftRevision).put("edits", draftEdits(old.edits))
+            val result = api.preview(old.draftId, request); verifyScope(scope)
+            require(result.getString("draft_id") == old.draftId && result.getString("task_id") == old.taskId &&
+                result.getInt("draft_revision") == old.draftRevision && result.getInt("task_revision") == old.taskRevision &&
+                result.getBoolean("prospective") && !result.getBoolean("inventory_written")) { "草稿预览修订不匹配" }
+            acceptCheckedPreview(scope, id, result)
+        }
+    }
+    private fun acceptCheckedPreview(scope: String, id: String, preview: JSONObject) {
+        val current = entry(id)
+        val opened = preview.optJSONObject("command")?.stringOrEmpty("opened_at").orEmpty()
+        val edits = if (current.edits["opened_at"] in setOf("今天", "昨天") && opened.isNotBlank()) {
+            java.time.LocalDate.parse(opened)
+            current.edits + ("opened_at" to opened)
+        } else current.edits
+        update(scope, current.copy(checkedPreview = preview.toString(), edits = edits))
+    }
+
+    /** Resolve a real source task first, then bind the exact batch via the public reference API. */
+    suspend fun sendForBatch(item: StockItem, text: String) {
+        require(InventoryContract.compatible(item)) { "请先在物品资料中核对名称和单位" }
+        val expectedScope = cloud.scopeKey
+        send("查询名为“${item.name}”的库存批次")
+        if (error.isNotBlank()) return
+        val source = entries.lastOrNull() ?: return
+        val facts = source.result.optJSONArray("facts")?.objects().orEmpty() + source.candidates
+        require(facts.any { it.stringOrEmpty("batch_id").ifBlank { it.stringOrEmpty("id") } == item.id }) { "查询结果未包含当前批次，请在助手中核对候选，尚未提交操作" }
+        val id = UUID.randomUUID().toString()
+        session(id) { scope, api ->
+            require(expectedScope == scope && JSONObject(capabilities).optBoolean("trusted_reference_messages")) { "当前服务不能绑定指定批次" }
+            val body = JSONObject().put("household_id", requireNotNull(cloud.account).householdId).put("text", text).put("request_id", id)
+                .put("source_task_id", source.taskId).put("source_revision", source.taskRevision).put("batch_id", item.id)
+                .put("household_timezone", JSONObject(capabilities).optString("household_timezone", "Asia/Shanghai"))
+            save(scope, entries + AssistantEntry(id, JSONObject().put("text", text).toString(), conversationBody = body.toString(),
+                conversationSession = currentSession, transportMode = "reference"))
+            sendConversation(scope, api, id)
         }
     }
     private fun checkControl(result: JSONObject, taskId: String, request: JSONObject) {
@@ -288,7 +326,13 @@ class AssistantStore(
         }
     }
     private fun draftEdits(values: Map<String, String>) = JSONObject().apply {
-        AgentExecutionPolicy.wireEdits(values).forEach { (key, value) -> put(key, value ?: JSONObject.NULL) }
+        val normalized = values.mapValues { (field, value) ->
+            if (field == "opened_at" && value in setOf("今天", "昨天")) {
+                java.time.LocalDate.now(java.time.ZoneId.of(JSONObject(capabilities).optString("household_timezone", "Asia/Shanghai")))
+                    .minusDays(if (value == "昨天") 1 else 0).toString()
+            } else value
+        }
+        AgentExecutionPolicy.wireEdits(normalized).forEach { (key, value) -> put(key, value ?: JSONObject.NULL) }
     }
     private suspend fun acceptTask(scope: String, api: AgentClient, id: String, task: JSONObject) {
         verifyScope(scope)
@@ -436,7 +480,7 @@ class AssistantStore(
         val values = old.editableFields.associateWith { old.edits[it] ?: old.command.stringOrEmpty(it) }
         AgentExecutionPolicy.validate(old.action, values, old.editableFields)
         if (old.action == "ADD") require(values["location"].orEmpty().isNotBlank()) { "ADD 必须填写存放位置" }
-        val edits = JSONObject().apply { values.forEach { (k, v) -> put(k, if (k in listOf("purchased_at", "label_expiry") && v.isBlank()) JSONObject.NULL else v) } }
+        val edits = draftEdits(values)
         val body = JSONObject().put("operation_id", UUID.randomUUID().toString()).put("draft_revision", old.draftRevision)
             .put("task_revision", old.taskRevision).put("edits", edits).toString()
         update(scope, entry(id).copy(commitBody = body, state = AssistantStatus.SUBMITTING, notice = ""))
@@ -456,14 +500,32 @@ class AssistantStore(
     suspend fun cancel(id: String) = session(id) { scope, api ->
         phase = "正在取消草稿，库存不变"
         val old = entry(id)
-        require(old.commitBody.isBlank() && old.state in setOf(AssistantStatus.PENDING, AssistantStatus.UNSUPPORTED, AssistantStatus.UNKNOWN))
+        require(old.commitBody.isBlank() && old.state in setOf(AssistantStatus.PENDING, AssistantStatus.UNSUPPORTED, AssistantStatus.UNKNOWN, AssistantStatus.CANCELLED))
         val latest = api.execution(old.draftId); verifyScope(scope)
-        if (latest.getString("status") == "cancelled") { acceptExecution(scope, id, latest); return@session }
+        if (latest.getString("status") == "cancelled") { acceptExecution(scope, id, latest); clearCancelledReference(scope, api, id); return@session }
         require(latest.getString("status") in setOf("pending", "unavailable") && latest.getInt("draft_revision") == old.draftRevision && latest.getInt("task_revision") == old.taskRevision) { "草稿已变化，请恢复核实" }
         val body = old.cancelBody.ifBlank { JSONObject().put("draft_revision", old.draftRevision).put("task_revision", old.taskRevision).toString() }
         update(scope, old.copy(cancelBody = body, state = AssistantStatus.SUBMITTING))
         val result = api.cancel(old.draftId, JSONObject(body)); verifyScope(scope)
         require(result.getString("status") == "cancelled" && result.getString("draft_id") == old.draftId)
         update(scope, entry(id).copy(state = AssistantStatus.CANCELLED, notice = ""))
+        clearCancelledReference(scope, api, id)
+    }
+    private suspend fun clearCancelledReference(scope: String, api: AgentClient, entryId: String) {
+        activeRequestId = ""; referenceLabel = ""; save(scope, entries)
+        if (conversationEnabled) {
+            val old = entry(entryId)
+            if (old.referenceCleared) return
+            val body = old.referenceClearBody.ifBlank {
+                JSONObject().put("household_id", requireNotNull(cloud.account).householdId).put("text", "开始新任务").put("request_id", UUID.randomUUID().toString())
+                    .put("task_id", old.taskId).put("revision", old.taskRevision).toString()
+            }
+            update(scope, old.copy(referenceClearBody = body, notice = "草稿已取消，会话引用待核实"))
+            val response = api.conversation(JSONObject(body)); verifyScope(scope)
+            require(response.getString("protocol_version") == "backend-conversation-1" &&
+                response.getString("request_id") == JSONObject(body).getString("request_id") &&
+                !response.getBoolean("inventory_written") && response.getJSONObject("resolution").getString("kind") == "clear_reference")
+            update(scope, entry(entryId).copy(referenceCleared = true, notice = ""))
+        }
     }
 }

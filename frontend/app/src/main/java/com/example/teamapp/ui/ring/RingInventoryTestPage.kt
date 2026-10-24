@@ -146,7 +146,12 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
                     TextButton(onClick = onClose, contentPadding = PaddingValues(0.dp), modifier = Modifier.width(30.dp)) { Text("退出", fontSize = 10.sp) }
                 }
                 Spacer(Modifier.height(10.dp))
-                StockRingBrowser(items, 3, onOpenItem = { detailId = it.id }, onAdd = { add() }, onSelectedItem = { selected = it })
+                // The showcase has extra debug controls in a scrolling host; give the shared
+                // browser a finite viewport just as the production scaffold does.
+                BoxWithConstraints(Modifier.fillMaxWidth()) {
+                    StockRingBrowser(items, 3, onOpenItem = { detailId = it.id }, onAdd = { add() },
+                        onSelectedItem = { selected = it }, modifier = Modifier.height(maxWidth * 1.5f + 65.dp))
+                }
                 HorizontalDivider(Modifier.padding(top = 10.dp), color = MaterialTheme.colorScheme.outlineVariant)
                 Column(Modifier.padding(horizontal = 18.dp, vertical = 10.dp)) {
                     Text("圆环测试设置", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)

@@ -507,4 +507,11 @@
     <string name="ui___short">" · 缺 %1$s %2$s"</string>
     <string name="ui_selected_item">已选中物品：%1$s</string>
     <string name="ui___items">%1$s，%2$s 件</string>
+    <string name="ui_medicine">药品</string>
+    <string name="ui_planning_facts">资料与盘点</string>
+    <string name="ui_consumption_ledger">消费流水</string>
+    <string name="ui_batch_actions">批次操作</string>
+    <string name="ui_correct_count">盘点修正</string>
+    <string name="ui_ai_overview">关注概览</string>
+    <string name="ui_batch_terminal">批次已结束</string>
 </resources>

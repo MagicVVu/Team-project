@@ -1,0 +1,266 @@
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\AssistantStore.kt:45: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+        if (boundScope.isNotBlank()) prefs.edit().remove("$boundScope|active").commit()
+                                                                               ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\AssistantStore.kt:60: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+        if (boundScope.isNotBlank()) prefs.edit().remove("$boundScope|active").remove("$boundScope|session").commit()
+                                                                                                             ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudCredentials.kt:44: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+        }.getOrElse { preferences.edit().remove("session").commit(); null }
+                                                           ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\InventoryStore.kt:70: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+        if (storageError == null) preferences.edit().putBoolean("ring_preview_inventory_v1", true).commit()
+                                                                                                   ~~~~~~~~
+
+   Explanation for issues of type "ApplySharedPref":
+   Consider using apply() instead of commit on shared preferences. Whereas
+   commit blocks and writes its data to persistent storage immediately, apply
+   will handle it in the background.
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\build.gradle.kts:26: Warning: Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details. [OldTargetApi]
+        targetSdk = 36
+        ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "OldTargetApi":
+   When your application or sdk runs on a version of Android that is more
+   recent than your targetSdk specifies that it has been tested with, various
+   compatibility modes kick in. This ensures that your application continues
+   to work, but it may look out of place. For example, if the targetSdk is
+   less than 14, your app may get an option button in the UI.
+
+   To fix this issue, set the targetSdk to the highest available value. Then
+   test your app to make sure everything works correctly. You may want to
+   consult the compatibility notes to see what changes apply to each version
+   you are adding support for:
+   https://developer.android.com/reference/android/os/Build.VERSION_CODES.html
+   as well as follow this guide:
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.
+   html
+
+   https://developer.android.com/distribute/best-practices/develop/target-sdk.html
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\i18n\AppLanguage.kt:42: Warning: Found dynamic locale changes, but did not find corresponding Play Core library calls for downloading languages and splitting by language is not disabled in the bundle configuration [AppBundleLocaleChanges]
+    private val localized = context.createConfigurationContext(Configuration(context.resources.configuration).apply { setLocale(this@UiStrings.locale) })
+                                                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "AppBundleLocaleChanges":
+   When changing locales at runtime (e.g. to provide an in-app language
+   switcher), the Android App Bundle must be configured to not split by locale
+   or the Play Core library must be used to download additional locales at
+   runtime.
+
+   https://developer.android.com/guide/app-bundle/configure-base#handling_language_changes
+
+D:\project\Team_Project_Shared\Team-project\frontend\gradle\libs.versions.toml:9: Warning: A newer version of org.jetbrains.kotlin.plugin.compose than 2.2.10 is available: 2.4.21 [NewerVersionAvailable]
+kotlin = "2.2.10"
+         ~~~~~~~~
+
+   Explanation for issues of type "NewerVersionAvailable":
+   This detector checks with a central repository to see if there are newer
+   versions available for the dependencies used by this project. This is
+   similar to the GradleDependency check, which checks for newer versions
+   available in the Android SDK tools and libraries, but this works with any
+   MavenCentral dependency, and connects to the library every time, which
+   makes it more flexible but also much slower.
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:369: Warning: Modifier parameter should be the first optional parameter [ModifierParameter from androidx.compose.ui]
+internal fun DarkCard(color: Color = DarkCardColor, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+                                                    ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\DarkDesign.kt:464: Warning: Optional Modifier parameter should have a default value of Modifier [ModifierParameter from androidx.compose.ui]
+internal fun DarkGlyph(kind: String, modifier: Modifier = Modifier.size(24.dp), color: Color = DarkMuted) {
+                                     ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt:438: Warning: Modifier parameter should be the first optional parameter [ModifierParameter from androidx.compose.ui]
+private fun DesignCard(color: Color = Color(0xFFF7F5E8), modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+                                                         ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\LightDesign.kt:470: Warning: Optional Modifier parameter should have a default value of Modifier [ModifierParameter from androidx.compose.ui]
+internal fun DesignGlyph(kind: String, modifier: Modifier = Modifier.size(24.dp), color: Color = DesignOlive) {
+                                       ~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\MewMascot.kt:56: Warning: Modifier parameter should be the first optional parameter [ModifierParameter from androidx.compose.ui]
+    modifier: Modifier = Modifier,
+    ~~~~~~~~
+
+   Explanation for issues of type "ModifierParameter":
+   The first (or only) Modifier parameter in a Composable function should
+   follow the following rules:
+   - Be named modifier
+   - Have a type of Modifier
+   - Either have no default value, or have a default value of Modifier
+   - If optional, be the first optional parameter in the parameter list
+
+   Vendor: Jetpack Compose
+   Identifier: androidx.compose.ui
+   Feedback: https://issuetracker.google.com/issues/new?component=612128
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:3: Warning: The resource R.color.purple_200 appears to be unused [UnusedResources]
+    <color name="purple_200">#FFBB86FC</color>
+           ~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:4: Warning: The resource R.color.purple_500 appears to be unused [UnusedResources]
+    <color name="purple_500">#FF6200EE</color>
+           ~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:5: Warning: The resource R.color.purple_700 appears to be unused [UnusedResources]
+    <color name="purple_700">#FF3700B3</color>
+           ~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:6: Warning: The resource R.color.teal_200 appears to be unused [UnusedResources]
+    <color name="teal_200">#FF03DAC5</color>
+           ~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:7: Warning: The resource R.color.teal_700 appears to be unused [UnusedResources]
+    <color name="teal_700">#FF018786</color>
+           ~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:8: Warning: The resource R.color.black appears to be unused [UnusedResources]
+    <color name="black">#FF000000</color>
+           ~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\colors.xml:9: Warning: The resource R.color.white appears to be unused [UnusedResources]
+    <color name="white">#FFFFFFFF</color>
+           ~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\ui_strings.xml:234: Warning: The resource R.string.ui_item_s appears to be unused [UnusedResources]
+    <string name="ui_item_s">%1$s 项</string>
+            ~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\ui_strings.xml:497: Warning: The resource R.string.ui_days appears to be unused [UnusedResources]
+    <string name="ui_days">%1$s\n天</string>
+            ~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\ui_strings.xml:505: Warning: The resource R.string.ui_day_s appears to be unused [UnusedResources]
+    <string name="ui_day_s">" %1$s 天"</string>
+            ~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+   Available options:
+
+   **skip-libraries** (default is true):
+   Whether the unused resource check should skip reporting unused resources in libraries.
+
+   Many libraries will declare resources that are part of the library surface; other modules depending on the library will also reference the resources. To avoid reporting all these resources as unused (in the context of a library), the unused resource check normally skips reporting unused resources in libraries. Instead, run the unused resource check on the consuming app module (along with `checkDependencies=true`).
+
+   However, there are cases where you want to check that all the resources declared in a library are used; in that case, you can disable the skip option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UnusedResources">
+           <option name="skip-libraries" value="true" />
+       </issue>
+   </lint>
+   ```
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values-en\ui_strings.xml:363: Warning: Replace "-" with an "en dash" character (–, &#8211;) ? [TypographyDashes]
+    <string name="ui_enter_a_valid_date__for_example">Enter a valid date, for example 2026-10-20</string>
+                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\res\values\ui_strings.xml:363: Warning: Replace "-" with an "en dash" character (–, &#8211;) ? [TypographyDashes]
+    <string name="ui_enter_a_valid_date__for_example">请填写有效日期，如 2026-10-20</string>
+                                                      ~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "TypographyDashes":
+   The "n dash" (u2013, &#8211;) and the "m dash" (u2014, &#8212;) characters
+   are used for ranges (n dash) and breaks (m dash). Using these instead of
+   plain hyphens can make text easier to read and your application will look
+   more polished.
+
+   https://en.wikipedia.org/wiki/Dash
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudCredentials.kt:27: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        if (account == null) { check(preferences.edit().remove("session").commit()); return }
+                                     ~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudCredentials.kt:33: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        check(preferences.edit().putString("session", envelope).commit()) { "无法安全保存登录状态，请检查设备存储" }
+              ~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudCredentials.kt:44: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        }.getOrElse { preferences.edit().remove("session").commit(); null }
+                      ~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudStore.kt:113: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        check(cache.edit().putString(cacheKey(a), json.toString()).commit()) { "服务器已读取，但设备无法保存缓存，请检查存储空间" }
+              ~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\CloudStore.kt:178: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        if (item.image.isNotBlank()) check(cache.edit().putString("photo|${cacheKey(requireNotNull(account))}|${item.id}", item.image).commit()) { "物品已保存，照片引用保存失败，请刷新核对" }
+                                           ~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\InventoryStore.kt:70: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        if (storageError == null) preferences.edit().putBoolean("ring_preview_inventory_v1", true).commit()
+                                  ~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\data\InventoryStore.kt:168: Warning: Use the KTX extension function SharedPreferences.edit instead? [UseKtx]
+        if (!preferences.edit().putString("state", json().toString()).commit()) storageError = "保存失败，请检查设备存储空间并导出当前记录。"
+             ~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\src\main\java\com\example\teamapp\ui\MagicApp.kt:353: Warning: Use the KTX extension function String.toUri instead? [UseKtx]
+            runCatching { context.contentResolver.openInputStream(Uri.parse(uri))?.use { stream ->
+                                                                  ~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseKtx":
+   The Android KTX libraries decorates the Android platform SDK as well as
+   various libraries with more convenient extension functions available from
+   Kotlin, allowing you to use default parameters, named parameters, and
+   more.
+
+   Available options:
+
+   **remove-defaults** (default is true):
+   Whether to skip arguments that match the defaults provided by the extension.
+
+   Extensions often provide default values for some of the parameters. For example:
+   ```kotlin
+   fun Path.readLines(charset: Charset = Charsets.UTF_8): List<String> { return Files.readAllLines(this, charset) }
+   ```
+   This lint check will by default automatically omit parameters that match the default, so if your code was calling
+
+   ```kotlin
+   Files.readAllLines(file, Charset.UTF_8)
+   ```
+   lint would replace this with
+   ```kotlin
+   file.readLines()
+   ```
+   rather than
+
+   ```kotlin
+   file.readLines(Charset.UTF_8
+   ```
+   You can turn this behavior off using this option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="remove-defaults" value="true" />
+       </issue>
+   </lint>
+   ```
+
+   **require-present** (default is true):
+   Whether to only offer extensions already available.
+
+   This option lets you only have lint suggest extension replacements if those extensions are already available on the class path (in other words, you're already depending on the library containing the extension method.)
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UseKtx">
+           <option name="require-present" value="true" />
+       </issue>
+   </lint>
+   ```
+
+D:\project\Team_Project_Shared\Team-project\frontend\app\build.gradle.kts:66: Warning: Use version catalog instead [UseTomlInstead]
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\project\Team_Project_Shared\Team-project\frontend\app\build.gradle.kts:75: Warning: Use version catalog instead [UseTomlInstead]
+    implementation("androidx.compose.material:material-icons-core")
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UseTomlInstead":
+   If your project is using a libs.versions.toml file, you should place all
+   Gradle dependencies in the TOML file. This lint check looks for version
+   declarations outside of the TOML file and suggests moving them (and in the
+   IDE, provides a quickfix to performing the operation automatically).
+
+0 errors, 34 warnings

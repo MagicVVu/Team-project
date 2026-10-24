@@ -13,6 +13,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.*
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.asAndroidPath
@@ -40,7 +42,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
@@ -70,7 +73,10 @@ internal fun StockRingBrowser(
     modifier: Modifier = Modifier,
     onSelectedItem: (StockItem?) -> Unit = {},
     showAddAction: Boolean = false,
-    toolbarEndPadding: Dp = 18.dp
+    toolbarEndPadding: Dp = 18.dp,
+    detailFocus: () -> Float = { 0f },
+    hidePreview: Boolean = false,
+    onPreviewBounds: (Rect, Boolean) -> Unit = { _, _ -> }
 ) {
     val strings = rememberUiStrings()
     val light = LocalLightDesign.current
@@ -145,18 +151,19 @@ internal fun StockRingBrowser(
         }
     }
 
-    val view = androidx.compose.ui.platform.LocalView.current
-    var windowHeight by remember(view) { mutableIntStateOf(view.rootView.height) }
-    DisposableEffect(view) {
-        val listener = android.view.ViewTreeObserver.OnGlobalLayoutListener { windowHeight = view.rootView.height }
-        view.viewTreeObserver.addOnGlobalLayoutListener(listener)
-        onDispose { view.viewTreeObserver.removeOnGlobalLayoutListener(listener) }
+    fun tapItem(index: Int) {
+        focus.clearFocus()
+        // A moving sector is still a selection gesture, even if it crosses the selected slot.
+        if (!interacting && displayed.getOrNull(index)?.id == selectedId) {
+            displayed.getOrNull(index)?.let(onOpenItem)
+        } else {
+            settle(index.toFloat())
+        }
     }
-    val screenHeight = with(androidx.compose.ui.platform.LocalDensity.current) { windowHeight.coerceAtLeast(1).toDp() }
     val palette = remember(light) { RingPalette(if (light) 1f else 0f) }
     var infoHeightPx by remember { mutableIntStateOf(0) }
     var seekHeightPx by remember { mutableIntStateOf(0) }
-    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding)
             .height(if (showAddAction) 48.dp else 28.dp).testTag("ring-toolbar"),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -178,9 +185,11 @@ internal fun StockRingBrowser(
             }
         }
 
-        BoxWithConstraints(Modifier.fillMaxWidth().testTag("ring-viewport")) {
+        BoxWithConstraints(Modifier.weight(1f).fillMaxWidth().testTag("ring-viewport")) {
             val viewportWidth = maxWidth
-            val viewportHeight = (screenHeight - 205.dp).coerceIn(maxWidth * 1.08f, maxWidth * 1.5f)
+            // The scaffold has already reserved the header, cloud banner, navigation and insets.
+            val viewportHeight = maxHeight
+            val compactViewport = viewportHeight < 320.dp
             val widthPx = constraints.maxWidth.toFloat()
             val heightPx = with(androidx.compose.ui.platform.LocalDensity.current) { viewportHeight.toPx() }
             val center = Offset(widthPx * 1.07f, heightPx * .46f)
@@ -269,18 +278,22 @@ internal fun StockRingBrowser(
                             val angle = atan2(down.position.y - center.y, down.position.x - center.x) * 180f / PI.toFloat()
                             val relative = RingMath.deltaDegrees(RingMath.SELECTION_ANGLE, angle)
                             val target = (displayPosition() + relative / RingMath.STEP).roundToInt()
-                            if (abs(relative) <= 80f && target in displayed.indices) settle(target.toFloat())
+                            if (abs(relative) <= 80f && target in displayed.indices) tapItem(target)
                         }
                     }
                 }) {
-                Canvas(Modifier.fillMaxSize().graphicsLayer { alpha = resultAlpha.value }) {
+                Canvas(Modifier.fillMaxSize().graphicsLayer {
+                    alpha = resultAlpha.value
+                    scaleX = 1f - .025f * detailFocus(); scaleY = scaleX
+                }) {
                     val framePosition = displayPosition()
-                    drawPath(trackPath, palette.track)
+                    val quiet = 1f - .28f * detailFocus()
+                    drawPath(trackPath, palette.track.copy(alpha = quiet))
                     val guideRadius = inner - 13.dp.toPx()
                     val guideBounds = Offset(center.x - guideRadius, center.y - guideRadius)
                     val guideSize = Size(guideRadius * 2, guideRadius * 2)
                     // A quiet continuous rail with rounded ends follows the inner contour.
-                    drawArc(palette.line, RingMath.SELECTION_ANGLE - 83f, 166f, false,
+                    drawArc(palette.line.copy(alpha = quiet), RingMath.SELECTION_ANGLE - 83f, 166f, false,
                         guideBounds, guideSize, style = Stroke(1.2.dp.toPx(), cap = StrokeCap.Round))
                     if (displayed.isNotEmpty()) {
                         drawArc(palette.accent.copy(alpha = .10f), RingMath.SELECTION_ANGLE - 7f, 14f, false,
@@ -305,8 +318,9 @@ internal fun StockRingBrowser(
                                         android.graphics.Color.argb(((if (light) 45 else 95) * amount).toInt(), 0, 0, 0))
                                     canvas.nativeCanvas.drawPath(cardPath.asAndroidPath(), shadowPaint)
                                 }
-                                drawPath(cardPath, palette.fills[status.priority])
-                                drawPath(cardPath, androidx.compose.ui.graphics.lerp(palette.seam, palette.edge, amount), style = Stroke((.5f + 3.1f * amount).dp.toPx()))
+                                val cardAlpha = if (index == currentIndex) 1f else quiet
+                                drawPath(cardPath, palette.fills[status.priority].copy(alpha = cardAlpha))
+                                drawPath(cardPath, androidx.compose.ui.graphics.lerp(palette.seam, palette.edge, amount).copy(alpha = cardAlpha), style = Stroke((.5f + 3.1f * amount).dp.toPx()))
                             }
                         }
                     }
@@ -323,15 +337,17 @@ internal fun StockRingBrowser(
                             val amount = elevation.value
                             val contentDistance = radius + (contentRadius - radius) * (1f + .12f * amount) + popPx * amount
                             val labelCenter = center + Offset(cos(angle), sin(angle)) * contentDistance
-                            IntOffset((labelCenter.x - widthPx * .235f / 2f).roundToInt(), (labelCenter.y - widthPx * .30f / 2f).roundToInt())
+                            val focusedCenter = Offset(widthPx / 2, heightPx / 2) + (labelCenter - Offset(widthPx / 2, heightPx / 2)) * (1f - .025f * detailFocus())
+                            IntOffset((focusedCenter.x - widthPx * .235f / 2f).roundToInt(), (focusedCenter.y - widthPx * .30f / 2f).roundToInt())
                         }
                             .size(boxWidth, boxHeight).testTag("ring-card-${item.id}")
                             .semantics { contentDescription = strings.get(R.string.ui_ring_item, item.name); this.selected = index == currentIndex }
                             .graphicsLayer {
                                 rotationZ = RingMath.angle(index, displayPosition()) - 180f
-                                scaleX = 1f + .12f * elevation.value; scaleY = scaleX; alpha = resultAlpha.value
+                                scaleX = (1f + .12f * elevation.value) * (1f - .025f * detailFocus()); scaleY = scaleX
+                                alpha = resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
                             }
-                            .clickable { focus.clearFocus(); settle(index.toFloat()) },
+                            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tapItem(index) },
                             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                             RingItemIllustration(item, Modifier.size(32.dp))
                             Text(item.name, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
@@ -344,15 +360,18 @@ internal fun StockRingBrowser(
                             val amount = elevation.value
                             val badgeDistance = radius + (badgeRadius - radius) * (1f + .12f * amount) + popPx * amount
                             val badgeCenter = center + Offset(cos(angle), sin(angle)) * badgeDistance
-                            IntOffset((badgeCenter.x - with(density) { 16.dp.toPx() } / 2f).roundToInt(), (badgeCenter.y - with(density) { 48.dp.toPx() } / 2f).roundToInt())
+                            val focusedCenter = Offset(widthPx / 2, heightPx / 2) + (badgeCenter - Offset(widthPx / 2, heightPx / 2)) * (1f - .025f * detailFocus())
+                            IntOffset((focusedCenter.x - with(density) { 16.dp.toPx() } / 2f).roundToInt(), (focusedCenter.y - with(density) { 48.dp.toPx() } / 2f).roundToInt())
                         }
                             .size(16.dp, 48.dp).graphicsLayer {
                                 rotationZ = RingMath.angle(index, displayPosition()) - 180f
-                                scaleX = 1f + .12f * elevation.value; scaleY = scaleX; alpha = resultAlpha.value
+                                scaleX = (1f + .12f * elevation.value) * (1f - .025f * detailFocus()); scaleY = scaleX
+                                alpha = resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
                             }
                             .background(palette.badge, RoundedCornerShape(2.dp)).padding(vertical = 3.dp), contentAlignment = Alignment.Center) {
                             val status = statuses[index]
                             val badgeText = when {
+                                status.terminal -> if (strings.english) "E\nN\nD" else "已\n结\n束"
                                 status.expired -> if (strings.english) "E\nX\nP" else "已\n过\n期"
                                 status.days == 0L -> if (strings.english) "T\nO\nD" else "今\n天"
                                 status.days != null && status.days < 100 -> if (strings.english) "${status.days}\nd" else "${status.days}\n天"
@@ -364,16 +383,21 @@ internal fun StockRingBrowser(
                     }
                 }
                 CategoryPanel(items, reminderDays, query, category, { category = it; focus.clearFocus() }, attention, { attention = it }, order, { order = it },
-                    Modifier.align(Alignment.CenterEnd).padding(end = 12.dp, bottom = viewportHeight * .08f).width(maxOf(92.dp, viewportWidth * .25f)), onAdd, palette)
+                    Modifier.align(if (compactViewport) Alignment.TopEnd else Alignment.CenterEnd)
+                        .padding(end = 12.dp, bottom = if (compactViewport) 0.dp else viewportHeight * .08f)
+                        .width(if (compactViewport) maxOf(160.dp, viewportWidth * .40f) else maxOf(92.dp, viewportWidth * .25f)),
+                    onAdd, palette, compactViewport)
 
                 // The card and navigation sit in the lower empty area, as in the design reference.
                 AppMotionContent(infoItem, label = "ring-selection",
                     // A fast seek updates one preview instead of composing an exit for every item.
                     contentKey = { if (interacting) "ring-preview" else it?.id },
                     modifier = Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 13.dp)
-                        .width(viewportWidth * .55f).onSizeChanged { infoHeightPx = it.height }) { cardItem ->
+                        .width(viewportWidth * if (compactViewport) .50f else .55f).onSizeChanged { infoHeightPx = it.height }
+                        .graphicsLayer { alpha = if (hidePreview) 0f else 1f }) { cardItem ->
                     if (cardItem != null) {
-                        RingInfoCard(cardItem, reminderDays, !interacting, { onOpenItem(cardItem) }, palette, Modifier.fillMaxWidth())
+                        RingInfoCard(cardItem, reminderDays, !interacting && !hidePreview, { onOpenItem(cardItem) }, palette,
+                            Modifier.fillMaxWidth().onGloballyPositioned { if (!interacting) onPreviewBounds(it.boundsInRoot(), compactViewport) }, compactViewport)
                     } else {
                         Column(Modifier.fillMaxWidth()
                             .background(palette.detailPanel, RoundedCornerShape(14.dp)).border(1.dp, palette.detailLine, RoundedCornerShape(14.dp)).padding(12.dp)) {
@@ -395,7 +419,7 @@ internal fun StockRingBrowser(
                         RingSeekSlider(displayPosition, displayed.lastIndex.toFloat(), palette, onValueChange = {
                             motion?.cancel(); motionTarget = null; interacting = true; seeking = true; dragPosition = it; focus.clearFocus()
                         }, onValueChangeFinished = { settle(displayPosition()) })
-                        Text(if (seeking) strings.get(R.string.ui_go_to, displayed[currentIndex].name) else strings.get(R.string.ui_swipe_to_browse___drag_to), fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
+                        if (!compactViewport) Text(if (seeking) strings.get(R.string.ui_go_to, displayed[currentIndex].name) else strings.get(R.string.ui_swipe_to_browse___drag_to), fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
                             overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant, modifier = Modifier.testTag("ring-seek-label"))
                     }
                 }
@@ -424,7 +448,7 @@ private fun RingSeekSlider(position: () -> Float, lastIndex: Float, palette: Rin
         modifier = Modifier.fillMaxWidth().height(28.dp).testTag("ring-seek"))
 }
 
-private class RingPalette(private val light: Float) {
+internal class RingPalette(private val light: Float) {
     private fun color(dark: Long, pale: Long) = androidx.compose.ui.graphics.lerp(Color(dark), Color(pale), light)
     val fills = listOf(color(0xFF58494D, 0xFFD98F85), color(0xFF575346, 0xFFE7B580),
         color(0xFF444A3F, 0xFFC4CEAC), color(0xFF353D37, 0xFFD7DCC8))
@@ -487,7 +511,7 @@ private fun RingStepButton(label: String, enabled: Boolean, tag: String, palette
 }
 
 @Composable
-private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () -> Unit, palette: RingPalette, modifier: Modifier) {
+internal fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () -> Unit, palette: RingPalette, modifier: Modifier, compactViewport: Boolean = false) {
     val strings = rememberUiStrings()
     val scheme = MaterialTheme.colorScheme
     val status = item.status(days)
@@ -496,12 +520,33 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
         when { status.expired -> append(" " + strings.days(-(status.days ?: 0))); status.soon -> append(strings.get(R.string.ui___day_s__left, if (strings.english) strings.days(status.days ?: 0) else status.days)) }
         if (status.low) append(strings.get(R.string.ui___short, (item.minimum - item.quantity).display(), item.unit))
     }
-    Card(onClick = open, enabled = enabled,
-        modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = strings.get(R.string.ui_selected_item, item.name) }, shape = RoundedCornerShape(18.dp),
+    Card(
+        modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = strings.get(R.string.ui_selected_item, item.name) }
+            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, enabled = enabled, onClick = open), shape = RoundedCornerShape(18.dp),
         border = BorderStroke(1.dp, palette.detailLine), colors = CardDefaults.cardColors(
             containerColor = palette.detailPanel, contentColor = palette.ink,
             disabledContainerColor = palette.detailPanel, disabledContentColor = palette.ink)) {
-        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        if (compactViewport) Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(item.name, modifier = Modifier.testTag("ring-info-name"), fontSize = 16.sp, lineHeight = 21.sp,
+                fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text("${strings.label(item.category)} · ${item.location}", fontSize = 10.sp, lineHeight = 14.sp,
+                color = scheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("${item.quantity.display()} ${item.unit}", fontSize = 14.sp, lineHeight = 19.sp, color = palette.accent,
+                    modifier = Modifier.weight(.35f), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(statusText, fontSize = 10.sp, lineHeight = 14.sp, color = palette.accent,
+                    modifier = Modifier.weight(.65f), maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
+                Column(Modifier.weight(1f)) {
+                    Text(strings.get(R.string.ui_expires, item.expiry.ifBlank { strings.get(R.string.ui_not_set) }),
+                        fontSize = 10.sp, lineHeight = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    if (item.minimum > 0) Text(strings.get(R.string.ui_minimum, item.minimum.display(), item.unit),
+                        fontSize = 10.sp, lineHeight = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+                RingItemIllustration(item, Modifier.size(32.dp).testTag("ring-info-icon"))
+            }
+        } else Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             BoxWithConstraints(Modifier.fillMaxWidth()) {
                 // Give the title more room on narrow phones without shrinking its text.
                 val compact = maxWidth < 160.dp
@@ -554,16 +599,20 @@ private fun sector(center: Offset, inner: Float, outer: Float, start: Float, swe
 
 @Composable
 private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, category: String, select: (String) -> Unit,
-    attention: Boolean, toggle: (Boolean) -> Unit, order: RingOrder, sort: (RingOrder) -> Unit, modifier: Modifier, add: () -> Unit, palette: RingPalette) {
+    attention: Boolean, toggle: (Boolean) -> Unit, order: RingOrder, sort: (RingOrder) -> Unit, modifier: Modifier, add: () -> Unit, palette: RingPalette,
+    compactViewport: Boolean = false) {
     val strings = rememberUiStrings()
     val colors = MaterialTheme.colorScheme
     var expanded by remember { mutableStateOf(false) }
     val searched = remember(items, query) { items.filter { it.name.contains(query.trim(), true) } }
-    Column(modifier.animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing))
-        .background(palette.panel, RoundedCornerShape(15.dp)).border(1.dp, palette.line, RoundedCornerShape(15.dp)).padding(9.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(strings.get(R.string.ui_categories), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp, modifier = Modifier.padding(bottom = 3.dp))
-        listOf("全部", "食品", "日用品", "其他").forEach { label ->
+    Column(modifier.testTag("ring-categories").animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing))
+        .background(palette.panel, RoundedCornerShape(15.dp)).border(1.dp, palette.line, RoundedCornerShape(15.dp))
+        .padding(if (compactViewport) 6.dp else 9.dp),
+        verticalArrangement = Arrangement.spacedBy(if (compactViewport) 2.dp else 4.dp)) {
+        Text(strings.get(R.string.ui_categories), fontSize = if (compactViewport) 11.sp else 13.sp,
+            fontWeight = FontWeight.SemiBold, lineHeight = if (compactViewport) 14.sp else 18.sp,
+            modifier = Modifier.padding(bottom = if (compactViewport) 0.dp else 3.dp))
+        @Composable fun CategoryEntry(label: String, entryModifier: Modifier = Modifier) {
             val count = searched.count { (label == "全部" || it.category == label) && (!attention || it.status(days).attention) }
             val background by animateColorAsState(if (category == label) palette.accent else palette.panel,
                 tween(AppMotion.Quick, easing = AppMotion.easing), label = "ring-category-background")
@@ -571,26 +620,44 @@ private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, cate
                 tween(AppMotion.Quick, easing = AppMotion.easing), label = "ring-category-border")
             val foreground by animateColorAsState(if (category == label) colors.onPrimary else colors.onSurface,
                 tween(AppMotion.Quick, easing = AppMotion.easing), label = "ring-category-foreground")
-            Row(Modifier.fillMaxWidth().height(24.dp).clip(RoundedCornerShape(7.dp))
+            Row(entryModifier.fillMaxWidth().height(24.dp).clip(RoundedCornerShape(7.dp))
                 .background(background)
                 .border(1.dp, border, RoundedCornerShape(7.dp))
                 .testTag("ring-category-$label").semantics { selected = category == label; contentDescription = strings.get(R.string.ui___items, strings.label(label), count) }
                 .motionClickable { select(label) }.padding(horizontal = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(strings.label(label), fontSize = 10.sp, lineHeight = 14.sp, color = foreground, modifier = Modifier.weight(1f))
+                Text(strings.label(label), fontSize = 10.sp, lineHeight = 14.sp, color = foreground,
+                    modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(count.toString(), fontSize = 10.sp, lineHeight = 14.sp, color = foreground)
             }
         }
+        if (compactViewport) listOf(listOf("全部", "食品", "药品"), listOf("日用品", "其他")).forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) { row.forEach { CategoryEntry(it, Modifier.weight(1f)) } }
+        } else listOf("全部", "食品", "日用品", "药品", "其他").forEach { CategoryEntry(it) }
         HorizontalDivider(color = colors.outlineVariant, modifier = Modifier.padding(vertical = 2.dp))
-        Row(Modifier.fillMaxWidth().height(27.dp).testTag("ring-attention").semantics { toggleableState = if (attention) androidx.compose.ui.state.ToggleableState.On else androidx.compose.ui.state.ToggleableState.Off }
-            .motionClickable { toggle(!attention) }, verticalAlignment = Alignment.CenterVertically) {
-            Text(if (attention) "☑" else "□", fontSize = 13.sp, color = colors.primary)
-            Text(strings.get(R.string.ui_needs_attention), fontSize = 10.sp, lineHeight = 14.sp, modifier = Modifier.weight(1f).padding(start = 3.dp))
-            Text(searched.count { (category == "全部" || it.category == category) && it.status(days).attention }.toString(), fontSize = 10.sp, color = colors.onSurfaceVariant)
+        @Composable fun AttentionEntry(entryModifier: Modifier = Modifier) {
+            Row(entryModifier.height(27.dp).testTag("ring-attention").semantics {
+                toggleableState = if (attention) androidx.compose.ui.state.ToggleableState.On else androidx.compose.ui.state.ToggleableState.Off
+                contentDescription = strings.get(R.string.ui_needs_attention)
+            }.motionClickable { toggle(!attention) }, verticalAlignment = Alignment.CenterVertically) {
+                Text(if (attention) "☑" else "□", fontSize = 13.sp, color = colors.primary)
+                Text(strings.get(R.string.ui_needs_attention), fontSize = 10.sp, lineHeight = 14.sp,
+                    modifier = Modifier.weight(1f).padding(start = 3.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(searched.count { (category == "全部" || it.category == category) && it.status(days).attention }.toString(), fontSize = 10.sp, color = colors.onSurfaceVariant)
+            }
         }
-        Box {
-            Text("${strings.label(order.title)} ⌄", fontSize = 10.sp, lineHeight = 14.sp,
-                modifier = Modifier.fillMaxWidth().height(26.dp).testTag("ring-order").motionClickable { expanded = true }.padding(top = 5.dp))
-            DropdownMenu(expanded, { expanded = false }) { RingOrder.entries.forEach { option -> DropdownMenuItem(text = { Text(strings.label(option.title)) }, onClick = { sort(option); expanded = false }) } }
+        @Composable fun OrderEntry(entryModifier: Modifier = Modifier) {
+            Box(entryModifier) {
+                Text("${strings.label(order.title)} ⌄", fontSize = 10.sp, lineHeight = 14.sp,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth().height(26.dp).testTag("ring-order").motionClickable { expanded = true }.padding(top = 5.dp))
+                DropdownMenu(expanded, { expanded = false }) { RingOrder.entries.forEach { option -> DropdownMenuItem(text = { Text(strings.label(option.title)) }, onClick = { sort(option); expanded = false }) } }
+            }
+        }
+        if (compactViewport) Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            AttentionEntry(Modifier.weight(1f))
+            OrderEntry(Modifier.weight(1f))
+        } else {
+            AttentionEntry(Modifier.fillMaxWidth()); OrderEntry()
         }
         if (items.isEmpty()) Text(strings.get(R.string.ui___add_item), fontSize = 10.sp, lineHeight = 17.sp, color = colors.primary,
             modifier = Modifier.fillMaxWidth().height(28.dp).testTag("ring-add-inside").motionClickable(onClick = add).padding(top = 5.dp))

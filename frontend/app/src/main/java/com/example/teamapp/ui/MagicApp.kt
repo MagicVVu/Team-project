@@ -45,6 +45,7 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import com.example.teamapp.ui.i18n.AppLanguageProvider
 import com.example.teamapp.ui.ring.RingInventoryPage
+import com.example.teamapp.ui.ring.InventoryDetailContent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -67,6 +68,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
+    var inventoryDetailVisible by remember { mutableStateOf(false) }
     var initialQuestion by rememberSaveable { mutableStateOf("") }
     val conversation = rememberSaveable(store.cloud.scopeKey, saver = listSaver<androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, String>(
         save = { messages -> messages.flatMap { listOf(it.first, if (it.second) "user" else "assistant") } },
@@ -76,6 +78,10 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     val scope = rememberCoroutineScope()
     val focus = LocalFocusManager.current
     val pageStates = rememberSaveableStateHolder()
+    LaunchedEffect(store.cloud.scopeKey) {
+        panel = null; selected = null
+        store.cloud.assistant.bind(); store.cloud.planningFacts.bind()
+    }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var closingPanel by remember { mutableStateOf(false) }
     fun closePanel() {
@@ -99,7 +105,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     val sheetItem = item ?: retainedItem
     val pageTravel = with(LocalDensity.current) { 28.dp.roundToPx() }
     BackHandler(panel != null) { closePanel() }
-    AssistantPullLayer(tab, panel == null, store, conversation, snackbar, notify) { headerModifier ->
+    AssistantPullLayer(tab, panel == null && !inventoryDetailVisible, store, conversation, snackbar, notify) { headerModifier ->
         Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
             if (lightDesign) DesignNavigation(tab) { selectTab(it) } else {
                 DarkNavigation(tab) { selectTab(it) }
@@ -121,7 +127,9 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                         Box(Modifier.fillMaxSize().motionInput(page == tab)) {
                             when (page) {
                                 0 -> Home(store, openItem, { selectTab(1) }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
-                                1 -> RingInventoryPage(store, openItem, { panel = "手动添加" })
+                                1 -> RingInventoryPage(store, { stockItem, route -> selected = stockItem.id; panel = route },
+                                    { panel = "手动添加" }, notify, active = page == tab,
+                                    onDetailVisibilityChanged = { inventoryDetailVisible = it })
                                 2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
                                 3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
                             }
@@ -153,7 +161,12 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                         "AI 智能管家" -> Chat(store, conversation, initialQuestion, { initialQuestion = "" }, notify)
                         "拍照添加", "语音添加", "手动添加" -> AddFlow(store, route, notify) { closePanel() }
                         "编辑物品" -> sheetItem?.let { Editor(store, it, notify = notify, onSaved = { focus.clearFocus(); panel = "详情" }) }
-                        "详情" -> sheetItem?.let { Detail(store, it, { panel = it }, notify) { closePanel() } }
+                        "详情" -> sheetItem?.let { Detail(store, it, { panel = it }, notify, close = { closePanel() }) }
+                        "资料与盘点" -> sheetItem?.let { PlanningFactsPanel(store.cloud, it, adjust = { panel = "盘点修正" }) }
+                        "消费流水" -> ConsumptionEventsPanel(store.cloud, sheetItem?.id.orEmpty())
+                        "批次操作" -> sheetItem?.let { BatchOperationsPanel(store.cloud, it, "ASK") }
+                        "关注概览" -> CloudAssistant(store.cloud, "今天需要关注什么，分别展示风险和规划资料", showIntro = false)
+                        "盘点修正" -> sheetItem?.let { QuantityAction(store, it, route, notify) { closePanel() } }
                         "加入采购清单", "调整采购数量", "购买入库", "增加库存", "消耗库存" -> sheetItem?.let { QuantityAction(store, it, route, notify) { closePanel() } }
                         "提醒" -> Attention(store, openItem)
                         else -> SettingsPanel(store, route, notify) { closePanel() }
@@ -166,8 +179,17 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
 
 @Composable
 private fun Home(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
-    if (LocalLightDesign.current) DesignHome(store, open, all, panel, ask)
-    else DarkHome(store, open, all, panel, ask)
+    val strings = rememberUiStrings()
+    Column(Modifier.fillMaxSize()) {
+        if (store.cloud.signedIn) Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(strings.tr("登记日期与阈值提醒", "Recorded dates & stock thresholds"), modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelMedium)
+            TextButton(onClick = { panel("关注概览") }) { Text(strings.tr("AI 关注概览", "AI overview")) }
+        }
+        Box(Modifier.weight(1f)) {
+            if (LocalLightDesign.current) DesignHome(store, open, all, panel, ask)
+            else DarkHome(store, open, all, panel, ask)
+        }
+    }
 }
 
 @Composable
@@ -218,12 +240,14 @@ internal fun reasons(item: StockItem, days: Int, concise: Boolean = false, strin
 }
 
 @Composable
-private fun Detail(store: InventoryStore, item: StockItem, open: (String) -> Unit, notify: (String) -> Unit, close: () -> Unit) {
+internal fun Detail(store: InventoryStore, item: StockItem, open: (String) -> Unit, notify: (String) -> Unit, close: () -> Unit,
+    cardPresentation: Boolean = false, reveal: (Int) -> Modifier = { Modifier }) {
     val strings = rememberUiStrings()
     var deleting by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val operationId = rememberSaveable(item.id) { java.util.UUID.randomUUID().toString() }
-    if (!LocalLightDesign.current) DarkDetail(store, item, open) { deleting = true } else {
+    if (cardPresentation || store.cloud.signedIn) InventoryDetailContent(store, item, open, { deleting = true }, reveal)
+    else if (!LocalLightDesign.current) DarkDetail(store, item, open) { deleting = true } else {
     Column(Modifier.verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Photo(item.image)
         Text("${emoji(item)} ${item.name}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -245,6 +269,10 @@ private fun Detail(store: InventoryStore, item: StockItem, open: (String) -> Uni
 @Composable
 private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String, notify: (String) -> Unit, close: () -> Unit) {
     val strings = rememberUiStrings()
+    if (store.cloud.signedIn && mode == "消耗库存") {
+        BatchOperationsPanel(store.cloud, item, "CONSUME")
+        return
+    }
     val scope = rememberCoroutineScope()
     val operationId = rememberSaveable(item.id, mode) { java.util.UUID.randomUUID().toString() }
     var submitting by remember { mutableStateOf(false) }
@@ -256,7 +284,7 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
         ModeNotice(if (mode == "购买入库") strings.get(R.string.ui_bought_this_item__check_the_quantity) else if (mode.contains("采购")) strings.get(R.string.ui_check_the_planned_quantity_before_saving) else strings.get(R.string.ui_check_this_quantity_before_confirming_the))
         OutlinedTextField(quantity, { quantity = it; error = "" }, label = { Text(strings.get(R.string.ui_quantity_3, if (mode == "购买入库") strings.get(R.string.ui_actual_purchase) else strings.get(R.string.ui_this_change), item.unit)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), isError = error.isNotBlank(), supportingText = { MotionErrorText(error) }, modifier = Modifier.fillMaxWidth())
         Button(onClick = {
-            val amount = positiveNumber(quantity)
+            val amount = if (mode == "盘点修正") nonNegativeNumber(quantity) else positiveNumber(quantity)
             if (amount == null) error = "请输入有效正数" else if (!submitting) scope.launch {
                 submitting = true
                 try {
@@ -264,9 +292,10 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
                         "购买入库" -> store.receive(item.id, amount)
                         "增加库存" -> store.changeQuantitySynced(item, amount, operationId)
                         "消耗库存" -> store.changeQuantitySynced(item, -amount, operationId)
+                        "盘点修正" -> store.changeQuantitySynced(item, java.math.BigDecimal.valueOf(amount).subtract(item.quantityText.toBigDecimal()).toDouble(), operationId)
                         else -> store.planSynced(item, amount, operationId)
                     }
-                    notify(if (mode == "购买入库" || mode == "增加库存") strings.get(R.string.ui_added_to, item.name, amount.display(), item.unit) else if (mode == "消耗库存") strings.get(R.string.ui_recorded_use_of, amount.display(), item.unit) else strings.get(R.string.ui_shopping_plan_saved)); close()
+                    notify(if (mode == "盘点修正") strings.tr("盘点修正已保存，未计为消费", "Stock correction saved; not counted as consumption") else if (mode == "购买入库" || mode == "增加库存") strings.get(R.string.ui_added_to, item.name, amount.display(), item.unit) else if (mode == "消耗库存") strings.get(R.string.ui_recorded_use_of, amount.display(), item.unit) else strings.get(R.string.ui_shopping_plan_saved)); close()
                 } catch (failure: Exception) { error = failure.message ?: "保存失败" }
                 finally { submitting = false }
             }

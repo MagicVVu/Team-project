@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="4" failures="0" errors="0" skipped="0" time="10.301" timestamp="2026-10-24T03:58:27" hostname="localhost">
+  <testsuite name="com.example.teamapp.InventoryDetailAnimationTest" tests="2" failures="0" errors="0" skipped="0" time="3.807" timestamp="2026-10-24T03:58:27" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="darkDetailBackAndBackdropRestoreSelection" classname="com.example.teamapp.InventoryDetailAnimationTest" time="2.338" />
+    <testcase name="unselectedTapSelectsAndSelectedTapExpands" classname="com.example.teamapp.InventoryDetailAnimationTest" time="1.469" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.InventoryV02UiTest" tests="2" failures="0" errors="0" skipped="0" time="5.395" timestamp="2026-10-24T03:58:27" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="darkCompactToolbarAndInventoryActions" classname="com.example.teamapp.InventoryV02UiTest" time="2.722" />
+    <testcase name="lightCompactToolbarAndInventoryActions" classname="com.example.teamapp.InventoryV02UiTest" time="2.673" />
+  </testsuite>
+</testsuites>

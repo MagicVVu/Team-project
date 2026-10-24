@@ -5,6 +5,13 @@ import com.example.teamapp.R
 /** Built-in UI labels only; user data must bypass this lookup. */
 internal object UiTextIds {
     val labels: Map<String, Int> = mapOf(
+        "批次已结束" to R.string.ui_batch_terminal,
+        "药品" to R.string.ui_medicine,
+        "资料与盘点" to R.string.ui_planning_facts,
+        "消费流水" to R.string.ui_consumption_ledger,
+        "批次操作" to R.string.ui_batch_actions,
+        "盘点修正" to R.string.ui_correct_count,
+        "关注概览" to R.string.ui_ai_overview,
         "用照片记录家里的物品" to R.string.ui_record_an_item_with_a_photo,
         "拍照将打开系统相机，照片仅用于本机库存记录。初版未接入图像识别，请自行填写并核对名称、数量。" to R.string.ui_use_the_system_camera_to_take,
         "打开相机拍照" to R.string.ui_take_a_photo,

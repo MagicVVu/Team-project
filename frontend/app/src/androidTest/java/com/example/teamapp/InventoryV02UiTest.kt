@@ -67,13 +67,11 @@ class InventoryV02UiTest {
         compose.onNodeWithTag("ring-next").assertIsNotEnabled()
         shot(if (dark) "dark-v02" else "light-v02")
 
-        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
-        if (dark) {
-            compose.onNodeWithText("最低库存").assertExists()
-            compose.onNodeWithText("3 盒").assertExists()
-        } else compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
-        compose.onNodeWithText("关闭").performClick()
-        compose.onNodeWithTag("ring-add").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performClick()
+        compose.onNodeWithText("最低库存：3 盒").assertExists()
+        compose.onNodeWithTag("inventory-detail-close").performClick()
+        compose.waitUntil(5_000) { compose.onAllNodesWithTag("inventory-detail-card").fetchSemanticsNodes().isEmpty() }
+        compose.onNodeWithTag("ring-add").performClick()
         compose.onNodeWithText("物品名称 *").performTextInput("取消录入的测试物品")
         compose.onNodeWithText("关闭").performClick()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
@@ -84,17 +82,17 @@ class InventoryV02UiTest {
         }
         compose.waitForIdle()
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 3")
-        compose.onNodeWithTag("ring-search").performScrollTo().performTextInput("纸巾")
+        compose.onNodeWithTag("ring-search").performTextInput("纸巾")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试纸巾")
-        compose.onNodeWithTag("ring-category-食品").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-category-食品").performClick()
         compose.onNodeWithTag("ring-position").assertTextEquals("0 / 0")
-        compose.onNodeWithTag("ring-empty-action").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-empty-action").performClick()
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 3")
-        compose.onNodeWithTag("ring-category-日用品").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-category-日用品").performClick()
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-category-全部").performClick()
-        compose.onNodeWithTag("ring-seek").performScrollTo().performSemanticsAction(SemanticsActions.SetProgress) { Assert.assertTrue(it(2f)) }
+        compose.onNodeWithTag("ring-seek").performSemanticsAction(SemanticsActions.SetProgress) { Assert.assertTrue(it(2f)) }
         compose.waitForIdle()
         compose.onNodeWithTag("ring-position").assertTextEquals("3 / 3")
         compose.onNodeWithTag("ring-next").assertIsNotEnabled()

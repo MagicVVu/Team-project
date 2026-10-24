@@ -18,12 +18,13 @@ data class CloudAccount(val address: String, val token: String, val userId: Stri
     override fun toString() = "CloudAccount(session=[REDACTED])"
 }
 data class CloudHousehold(val id: String, val name: String, val role: String)
+data class CloudMember(val userId: String, val name: String, val role: String, val joinedAt: String)
 data class CloudShoppingItem(val id: String, val sourceId: String, val name: String, val quantity: Double, val unit: String,
     val purchased: Boolean, val addedBy: String, val purchasedBy: String)
 class CloudFailure(val status: Int, message: String, val errorCode: String = "", val taskIdHint: String = "") : IOException(message)
 
 /** No automatic mutation retries: callers keep IDs stable when retrying a confirmed operation. */
-class CloudApi(val address: String, private val token: String = "") {
+open class CloudApi(val address: String, private val token: String = "") {
     companion object {
         private val targetChecks = TargetCheckCache()
         private val discovery = Mutex()
@@ -32,7 +33,7 @@ class CloudApi(val address: String, private val token: String = "") {
         }
     }
     private val targetKey get() = address + ":" + MessageDigest.getInstance("SHA-256").digest(token.toByteArray()).joinToString("") { "%02x".format(it) }
-    suspend fun verifiedCapabilities(): JSONObject = discovery.withLock {
+    open suspend fun verifiedCapabilities(): JSONObject = discovery.withLock {
         val now = System.nanoTime() / 1_000_000
         targetChecks.get(targetKey, now)?.let { return@withLock JSONObject(it) }
         val health = request("GET", "/api/v1/health")
@@ -43,7 +44,7 @@ class CloudApi(val address: String, private val token: String = "") {
         caps
     }
 
-    suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
+    open suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
         validateAddress(address)
         require(!token.contains('\r') && !token.contains('\n'))
         if (method !in setOf("GET", "HEAD")) {
@@ -123,15 +124,16 @@ internal fun JSONArray.objects(): List<JSONObject> = (0 until length()).map { ge
 internal fun JSONObject.stringOrEmpty(key: String): String = if (isNull(key)) "" else optString(key)
 internal fun JSONObject.toStock(): StockItem = StockItem(
     id = getString("id"), name = getString("name"), quantity = getString("quantity").toDouble(), unit = getString("unit"),
-    category = stringOrEmpty("category").ifBlank { "其他" }, location = stringOrEmpty("storage_location").ifBlank { "待定位" },
+    category = InventoryContract.categoryLabel(stringOrEmpty("category").ifBlank { "unknown" }), location = stringOrEmpty("storage_location").ifBlank { "待定位" },
     minimum = optString("minimum_quantity", "0").toDouble(), expiry = stringOrEmpty("expires_on"), purchasedAt = stringOrEmpty("purchased_on"),
     history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.stringOrEmpty("message").ifBlank { it.stringOrEmpty("kind") } }.orEmpty(),
-    version = getInt("version")
+    version = getInt("version"), openedAt = stringOrEmpty("opened_at"), lifecycleStatus = stringOrEmpty("status").ifBlank { "ACTIVE" },
+    quantityExact = getString("quantity")
 )
 internal fun JSONObject.toShopping(): CloudShoppingItem = CloudShoppingItem(getString("id"), stringOrEmpty("source_inventory_item_id"),
     getString("name"), getString("quantity").toDouble(), getString("unit"), getBoolean("is_checked"), stringOrEmpty("added_by_user_id"), stringOrEmpty("purchased_by_user_id"))
 internal fun StockItem.toCloudJson() = JSONObject().put("id", id).put("name", name).put("quantity", BigDecimal.valueOf(quantity).toPlainString())
-    .put("unit", unit).put("category", category).put("storage_location", location).put("minimum_quantity", BigDecimal.valueOf(minimum).toPlainString())
+    .put("unit", InventoryContract.unit(unit) ?: unit).put("category", InventoryContract.category(category)).put("storage_location", location).put("minimum_quantity", BigDecimal.valueOf(minimum).toPlainString())
     .put("expires_on", expiry.ifBlank { null } ?: JSONObject.NULL).put("purchased_on", purchasedAt.ifBlank { null } ?: JSONObject.NULL)
 internal fun versionBody(item: StockItem, operationId: String = UUID.randomUUID().toString()) =
     JSONObject().put("expected_version", item.version).put("operation_id", operationId)

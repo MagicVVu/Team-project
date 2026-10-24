@@ -1,0 +1,198 @@
+{
+  "device": "emulator-5554, Android 12 / API 32, 900x1600, density 320",
+  "instrumentation": {
+    "tests": 30,
+    "failures": 0,
+    "errors": 0,
+    "cases": [
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "darkDetailBackAndBackdropRestoreSelection"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "unselectedTapSelectsAndSelectedTapExpands"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "liveDataUpdatesAndDeletionSafelyRemoveOverlay"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "cardStartsAtMeasuredPreviewAndSurvivesDeletionWhileExpanding"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "largeFontAndShortViewportKeepControlsVisibleAndDisposeCleanly"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "switchingTabsDisposesDetailAndReusesExistingEditor"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "rapidTapsAndEarlyBackReverseFromCurrentBounds"
+      },
+      {
+        "class": "com.example.teamapp.InventoryDetailAnimationTest",
+        "name": "smallPhoneFitsWithoutPageScrollAndLongDetailRemainsReadable"
+      },
+      {
+        "class": "com.example.teamapp.InventoryV02UiTest",
+        "name": "darkCompactToolbarAndInventoryActions"
+      },
+      {
+        "class": "com.example.teamapp.InventoryV02UiTest",
+        "name": "lightCompactToolbarAndInventoryActions"
+      },
+      {
+        "class": "com.example.teamapp.MagicAppTest",
+        "name": "purchaseRequiresActualQuantityAndUpdatesAllViews"
+      },
+      {
+        "class": "com.example.teamapp.MagicAppTest",
+        "name": "cancelledAddDoesNotChangeInventory"
+      },
+      {
+        "class": "com.example.teamapp.MagicAppTest",
+        "name": "fourTabsAndDetailNavigationWork"
+      },
+      {
+        "class": "com.example.teamapp.LightDesignTest",
+        "name": "lightTabsDetailAndProfileKeepTheirActions"
+      },
+      {
+        "class": "com.example.teamapp.LightDesignTest",
+        "name": "cancelAddKeepsInventoryUntouched"
+      },
+      {
+        "class": "com.example.teamapp.LightDesignTest",
+        "name": "darkModeKeepsExistingNavigationAndDetailActions"
+      },
+      {
+        "class": "com.example.teamapp.LightDesignTest",
+        "name": "purchaseStillRequiresConfirmedActualQuantity"
+      },
+      {
+        "class": "com.example.teamapp.LightDesignTest",
+        "name": "ringUsesRealInventoryAndSearchFiltersWithoutChangingData"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "cancellingAssistantDuringCordRecoilRestoresPage"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "reversingAssistantEntranceKeepsItsExitUntilItFinishes"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "closingAndReopeningAnAddPanelDiscardsOnlyTheUnconfirmedDraft"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "reversingAuthModeClearsPasswordsAndValidationWithoutLosingTypedEdits"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "rapidTabChangesKeepInventorySearchAndFilters"
+      },
+      {
+        "class": "com.example.teamapp.MotionBehaviorTest",
+        "name": "outgoingControlsStayComposedForExitButCannotReceiveTouch"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "allRequestedSizesKeepCardDimensionsAndCanReachTheLastItem"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "arcDragSnapsAndStopsAtBothEndsWithoutWrapping"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "captureSixReviewScreens"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "draggingSeekBarPreviewsNameAndCommitsTheSameItem"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "searchCategoryAttentionAndDetailsAgree"
+      },
+      {
+        "class": "com.example.teamapp.RingPrototypeTest",
+        "name": "mockAddDeleteUpdateAndEmptyAddKeepSelectionCoherent"
+      }
+    ]
+  },
+  "unit": [
+    {
+      "name": "com.example.teamapp.AgentExecutionPolicyTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.AuthFormTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ChatOptimizationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ClarificationRepliesTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ExampleUnitTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.InventoryTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.RingModelTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.SampleInventoryTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.TargetPolicyTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "reduced_motion": {
+    "animator_duration_scale": 0,
+    "restored_scale": 1.5,
+    "tests": 4,
+    "failures": 0,
+    "errors": 0
+  },
+  "simultaneous_opening": {
+    "tests": 8,
+    "failures": 0,
+    "errors": 0
+  }
+}

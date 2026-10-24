@@ -18,7 +18,8 @@ data class AssistantEntry(
     val failureCode: String = "",
     val conversationBody: String = "", val conversationResolved: Boolean = false,
     val conversationSession: String = "", val controlBody: String = "",
-    val conversationReply: String = "", val checkedPreview: String = "", val transportMode: String = "legacy"
+    val conversationReply: String = "", val checkedPreview: String = "", val transportMode: String = "legacy",
+    val referenceClearBody: String = "", val referenceCleared: Boolean = false
 ) {
     val taskJson get() = JSONObject(task)
     val draftJson get() = JSONObject(draft)
@@ -49,12 +50,14 @@ data class AssistantEntry(
         .put("conversation_session", conversationSession).put("control_body", controlBody)
         .put("conversation_reply", conversationReply).put("checked_preview", checkedPreview)
         .put("transport_mode", transportMode)
+        .put("reference_clear_body", referenceClearBody).put("reference_cleared", referenceCleared)
     companion object {
         fun fromJson(j: JSONObject) = AssistantEntry(j.getString("request_id"), j.getString("request_body"), j.getString("task"),
             j.getString("draft"), j.getString("execution"), j.optString("commit_body"), j.optString("clarification_body"), j.optString("cancel_body"),
             j.optJSONObject("edits")?.let { v -> v.keys().asSequence().associateWith { v.getString(it) } }.orEmpty(),
             AssistantStatus.valueOf(j.getString("state")), j.optString("notice"), j.optString("receipt"), j.optBoolean("refresh_needed"), j.optString("failure_code"),
             j.optString("conversation_body"), j.optBoolean("conversation_resolved"), j.optString("conversation_session"), j.optString("control_body"),
-            j.optString("conversation_reply"), j.optString("checked_preview"), j.optString("transport_mode", "legacy"))
+            j.optString("conversation_reply"), j.optString("checked_preview"), j.optString("transport_mode", "legacy"),
+            j.optString("reference_clear_body"), j.optBoolean("reference_cleared"))
     }
 }

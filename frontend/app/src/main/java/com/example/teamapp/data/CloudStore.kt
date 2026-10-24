@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 /** Server is authoritative. Guest state is never uploaded or overwritten by this store. */
-class CloudStore(context: Context) {
+class CloudStore(context: Context, private val apiFactory: (String, String) -> CloudApi = { address, token -> CloudApi(address, token) }) {
     private val credentials = CloudCredentials(context)
     private val cache = context.getSharedPreferences("magicvvu_cloud_cache", Context.MODE_PRIVATE)
     private val mutex = Mutex()
@@ -35,6 +35,13 @@ class CloudStore(context: Context) {
     val household get() = households.firstOrNull { it.id == account?.householdId }
     val scopeKey get() = account?.let { "${it.address}|${it.userId}|${it.householdId}" }.orEmpty()
     val assistant = AssistantStore(context, this)
+    val planningFacts = PlanningFactsStore(context, this) { apiFactory(it.address, it.token) }
+    suspend fun capabilities(): JSONObject {
+        val a = requireNotNull(account); val expected = scopeKey
+        val result = apiFactory(a.address, a.token).verifiedCapabilities()
+        check(expected == scopeKey && !expired) { "家庭已切换，请重新核对" }
+        return result
+    }
     private val root get() = "/api/v1/households/${requireNotNull(account).householdId}"
 
     init { loadCache() }
@@ -70,10 +77,10 @@ class CloudStore(context: Context) {
 
     suspend fun login(address: String, phone: String, password: String, name: String? = null) = guarded(expireOnUnauthorized = false) {
         CloudApi.validateAddress(address)
-        val api = CloudApi(address)
+        val api = apiFactory(address, "")
         if (name != null) api.register(phone.trim(), password, name.trim())
         val authenticated = api.login(phone.trim(), password)
-        val homes = CloudApi(authenticated.address, authenticated.token).households()
+        val homes = apiFactory(authenticated.address, authenticated.token).households()
         val next = authenticated.copy(householdId = homes.firstOrNull()?.id.orEmpty())
         credentials.save(next)
         account = next
@@ -87,7 +94,7 @@ class CloudStore(context: Context) {
         if (!signedIn || expired) return
         guarded {
             val current = requireNotNull(account)
-            val api = CloudApi(current.address, current.token)
+            val api = apiFactory(current.address, current.token)
             val user = api.request("GET", "/api/v1/users/me")
             val homes = api.households()
             val selected = homes.firstOrNull { it.id == current.householdId } ?: homes.firstOrNull()
@@ -102,7 +109,7 @@ class CloudStore(context: Context) {
     private suspend fun refreshData() {
         val a = requireNotNull(account)
         require(a.householdId.isNotEmpty()) { "请先创建或加入家庭" }
-        val api = CloudApi(a.address, a.token)
+        val api = apiFactory(a.address, a.token)
         val stockJson = api.pages("$root/inventory-items")
         val shoppingJson = api.pages("$root/shopping-list/items?status=all")
         val stock = stockJson.map { it.toStock().let { item -> item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty()) } }
@@ -120,8 +127,10 @@ class CloudStore(context: Context) {
             require(expectedScope == scopeKey && !expired) { "账号或家庭已切换，请重新操作" }
             val a = requireNotNull(account)
             require(a.householdId.isNotBlank()) { "请先创建或加入家庭" }
-            action(CloudApi(a.address, a.token))
-            refreshData()
+            action(apiFactory(a.address, a.token))
+            try { refreshData() }
+            catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { error = "操作已提交，最新家庭数据暂未刷新；请刷新核对，不要重复提交" }
         }
     }
 
@@ -137,8 +146,8 @@ class CloudStore(context: Context) {
     }
     suspend fun createHousehold(name: String) = guarded {
         val a = requireNotNull(account)
-        val created = CloudApi(a.address, a.token).request("POST", "/api/v1/households", JSONObject().put("name", name.trim()))
-        val homes = CloudApi(a.address, a.token).households()
+        val created = apiFactory(a.address, a.token).request("POST", "/api/v1/households", JSONObject().put("name", name.trim()))
+        val homes = apiFactory(a.address, a.token).households()
         val next = a.copy(householdId = created.getString("id"))
         credentials.save(next); account = next; households = homes
         items = emptyList(); shopping = emptyList(); lastSync = ""
@@ -146,9 +155,9 @@ class CloudStore(context: Context) {
     }
     suspend fun joinHousehold(code: String) = guarded {
         val a = requireNotNull(account)
-        val joined = CloudApi(a.address, a.token).request("POST", "/api/v1/households/join", JSONObject().put("invite_code", code.trim()))
+        val joined = apiFactory(a.address, a.token).request("POST", "/api/v1/households/join", JSONObject().put("invite_code", code.trim()))
         val next = a.copy(householdId = joined.getString("id"))
-        val homes = CloudApi(a.address, a.token).households()
+        val homes = apiFactory(a.address, a.token).households()
         credentials.save(next); account = next; households = homes
         items = emptyList(); shopping = emptyList(); lastSync = ""
         refreshData()
@@ -158,18 +167,64 @@ class CloudStore(context: Context) {
         mutate { code = it.request("POST", "$root/invitations").getString("invite_code") }
         return code
     }
-    suspend fun members(): List<String> {
+    suspend fun members(): List<CloudMember> {
         val a = requireNotNull(account)
-        return CloudApi(a.address, a.token).request("GET", "$root/members").getJSONArray("items").objects().map { "${it.getString("display_name")} · ${it.getString("role")}" }
+        return apiFactory(a.address, a.token).request("GET", "$root/members").getJSONArray("items").objects().map {
+            CloudMember(it.getString("user_id"), it.getString("display_name"), it.getString("role"), it.stringOrEmpty("joined_at"))
+        }
+    }
+    suspend fun readHousehold(path: String): JSONObject {
+        val scope = scopeKey
+        val a = requireNotNull(account)
+        require(a.householdId.isNotBlank() && !expired)
+        val result = apiFactory(a.address, a.token).request("GET", "$root/$path")
+        check(scope == scopeKey && !expired) { "家庭已切换，请重新读取" }
+        return result
+    }
+    suspend fun operationReceipt(id: String): JSONObject {
+        val a = requireNotNull(account); val scope = scopeKey
+        val receipt = apiFactory(a.address, a.token).request("GET", "/api/v1/operations/${UUID.fromString(id)}")
+        check(scope == scopeKey && receipt.getString("operation_id") == id &&
+            receipt.getJSONObject("scope").getString("household_id") == a.householdId) { "回执家庭不匹配" }
+        return receipt
+    }
+    suspend fun manageFamily(action: String, memberId: String = "", confirmation: String = "") {
+        guarded {
+            val a = requireNotNull(account); val api = apiFactory(a.address, a.token)
+            val memberPath = "$root/members/${if (memberId.isBlank()) "" else UUID.fromString(memberId)}"
+            when(action) {
+                "leave" -> api.request("POST", "$root/leave")
+                "remove" -> api.request("DELETE", memberPath)
+                "admin", "member" -> api.request("PATCH", memberPath, JSONObject().put("role", action))
+                "transfer" -> api.request("POST", "$root/transfer-ownership", JSONObject().put("new_owner_user_id", memberId))
+                "dissolve" -> api.request("DELETE", root, JSONObject().put("confirmation_name", confirmation))
+                else -> error("不支持的家庭操作")
+            }
+            if (action in setOf("leave", "dissolve")) {
+                households = households.filterNot { it.id == a.householdId }
+                val next = a.copy(householdId = "")
+                credentials.save(next); account = next; items = emptyList(); shopping = emptyList(); lastSync = ""
+                assistant.bind(); planningFacts.bind()
+            }
+            try {
+                val homes = api.households()
+                val next = requireNotNull(account).copy(householdId = homes.firstOrNull { it.id == account?.householdId }?.id ?: homes.firstOrNull()?.id.orEmpty())
+                credentials.save(next); account = next; households = homes
+                if (next.householdId.isNotBlank()) refreshData()
+            } catch (failure: Exception) {
+                error = "家庭操作已提交，刷新暂未完成；请刷新核对，勿重复提交"
+            }
+        }
     }
     suspend fun logout() = guarded {
         val a = account
         assistant.clearAccount(a)
         // Remove local access first even if the server is unreachable; never restore another user's cache.
         credentials.save(null); account = null; households = emptyList(); items = emptyList(); shopping = emptyList(); lastSync = ""; expired = false
-        if (a != null) runCatching { CloudApi(a.address, a.token).request("POST", "/api/v1/auth/logout") }
+        if (a != null) runCatching { apiFactory(a.address, a.token).request("POST", "/api/v1/auth/logout") }
     }
     suspend fun saveItem(item: StockItem, initial: StockItem?) = mutate { api ->
+        require(item.name.length <= 80 && InventoryContract.unit(item.unit) != null) { "AI 支持的名称最多 80 字；请核对计量单位，旧记录不会自动截断或猜测换算" }
         if (initial == null) api.request("POST", "$root/inventory-items", item.toCloudJson())
         else {
             val json = item.toCloudJson().apply { remove("id"); put("expected_version", initial.version); put("operation_id", UUID.randomUUID().toString()) }
@@ -184,14 +239,20 @@ class CloudStore(context: Context) {
         it.request("DELETE", "$root/inventory-items/${item.id}", versionBody(item, operationId))
     }
     suspend fun plan(item: StockItem, quantity: Double, requestId: String) = mutate { api ->
+        require(item.name.length <= 80 && InventoryContract.amount(BigDecimal.valueOf(quantity).toPlainString(), 3, true) != null && InventoryContract.unit(item.unit) != null) { "采购名称最多 80 字、数量最多三位小数，请核对单位" }
         val existing = shopping.firstOrNull { !it.purchased && it.sourceId == item.id }
         if (existing != null) api.request("PATCH", "$root/shopping-list/items/${existing.id}", JSONObject().put("quantity", BigDecimal.valueOf(quantity).toPlainString()))
         else api.request("POST", "$root/shopping-list/items", JSONObject().put("id", requestId).put("source_inventory_item_id", item.id)
             .put("name", item.name).put("quantity", BigDecimal.valueOf(quantity).toPlainString()).put("unit", item.unit))
     }
-    suspend fun saveShopping(id: String, name: String, quantity: Double, unit: String, creating: Boolean) = mutate {
-        val json = JSONObject().put("name", name.trim()).put("quantity", BigDecimal.valueOf(quantity).toPlainString()).put("unit", unit.trim())
+    suspend fun saveShopping(id: String, name: String, quantity: Double, unit: String, creating: Boolean, sourceId: String = "") = mutate {
+        require(name.trim().length in 1..80 && InventoryContract.unit(unit) != null && InventoryContract.amount(BigDecimal.valueOf(quantity).toPlainString(), 3, true) != null) { "请核对名称、单位及最多三位小数的采购数量" }
+        val json = JSONObject().put("name", name.trim()).put("quantity", BigDecimal.valueOf(quantity).toPlainString()).put("unit", InventoryContract.unit(unit))
         if (creating) json.put("id", id)
+        if (creating && sourceId.isNotBlank()) {
+            require(items.any { item -> item.id == sourceId && item.name.trim() == name.trim() && InventoryContract.unit(item.unit) == InventoryContract.unit(unit) }) { "关联批次的名称或单位不匹配，请重新核对；新物品请明确选择暂无关联" }
+            json.put("source_inventory_item_id", sourceId)
+        }
         it.request(if (creating) "POST" else "PATCH", "$root/shopping-list/items" + if (creating) "" else "/$id", json)
     }
     suspend fun removeShopping(id: String) = mutate { it.request("DELETE", "$root/shopping-list/items/$id") }

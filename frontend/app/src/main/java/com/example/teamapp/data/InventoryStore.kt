@@ -44,7 +44,7 @@ class InventoryStore(context: Context) {
                 val array = json.getJSONArray("items")
                 items = (0 until array.length()).map { i ->
                     val o = array.getJSONObject(i)
-                    StockItem(o.getString("id"), o.getString("name"), o.getDouble("quantity"), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"))
+                    StockItem(o.getString("id"), o.getString("name"), o.getDouble("quantity"), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"), openedAt = o.optString("openedAt"), lifecycleStatus = o.optString("lifecycleStatus", "ACTIVE"), quantityExact = o.optString("quantityExact"))
                 }
                 val tasks = json.getJSONArray("purchases")
                 purchases = (0 until tasks.length()).map { i -> tasks.getJSONObject(i).let { Purchase(it.getString("itemId"), it.getDouble("quantity")) } }.filter { p -> localItems.any { it.id == p.itemId } }
@@ -160,7 +160,7 @@ class InventoryStore(context: Context) {
     }
     private fun json() = JSONObject().apply {
         put("version", 1); put("nickname", localNickname); put("family", localFamily); put("locations", JSONArray(locations)); put("reminderDays", reminderDays); put("appearance", appearance); put("notifications", JSONArray(notifications))
-        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("quantity", i.quantity); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("history", JSONArray(i.history)) }) } })
+        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("quantity", i.quantity); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("openedAt", i.openedAt); put("lifecycleStatus", i.lifecycleStatus); put("quantityExact", i.quantityExact); put("history", JSONArray(i.history)) }) } })
         put("purchases", JSONArray().apply { localPurchases.forEach { put(JSONObject().put("itemId", it.itemId).put("quantity", it.quantity)) } })
     }
     private fun persist() {

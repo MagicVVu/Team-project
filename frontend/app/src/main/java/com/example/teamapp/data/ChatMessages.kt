@@ -2,6 +2,14 @@ package com.example.teamapp.data
 
 object ChatMessages {
     fun reason(code: String, fallback: String = "请核对当前任务后继续"): String = when (code) {
+        "STOCK_COUNT_MISMATCH" -> "盘点数量与当前库存不同，请先盘点修正、刷新，再由你重新确认盘点。"
+        "PLANNING_FACTS_VERSION_CONFLICT" -> "资料已被更新，输入仍保留。请读取最新版本并复核，不会自动覆盖。"
+        "COVERAGE_DAY_OUT_OF_RANGE" -> "只能核对家庭时区中已经结束的日期，今天与未来不能提交。"
+        "COVERAGE_LIMIT_EXCEEDED" -> "每次最多核对 366 天，累计最多 3660 天。"
+        "LABEL_DATE_REQUIRED" -> "请先填写包装标签日期，再核实标签适用条件。"
+        "OPENED_STATE_CONFLICT" -> "该批次已有开封日期，不能否认已开封。"
+        "HOUSEHOLD_TIMEZONE_MISMATCH" -> "家庭时区已变化，请刷新并重新核对日期。"
+        "OPERATION_ID_CONFLICT" -> "原操作 ID 对应不同内容，请保留原请求并核实，勿重复新建。"
         "CHAT_GREETING" -> "你好，可以继续补充当前任务，或问我能做什么。"
         "CHAT_HELP" -> "可以查库存和位置，整理库存或采购草稿。补充当前缺少的信息后，我会继续；需要实际操作时仍请你确认。"
         "CHAT_THANKS" -> "不客气。可以继续当前任务，或说“开始新任务”。"

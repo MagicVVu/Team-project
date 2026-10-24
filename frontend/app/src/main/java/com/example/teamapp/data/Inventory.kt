@@ -16,24 +16,31 @@ data class StockItem(
     val image: String = "",
     val history: List<String> = emptyList(),
     val purchasedAt: String = "",
-    val version: Int = 1
+    val version: Int = 1,
+    val openedAt: String = "",
+    val lifecycleStatus: String = "ACTIVE",
+    val quantityExact: String = ""
 )
 
+val StockItem.activeBatch get() = lifecycleStatus.uppercase() == "ACTIVE"
+val StockItem.quantityText get() = quantityExact.takeIf { it.toDoubleOrNull() == quantity } ?: quantity.display()
+
 data class Purchase(val itemId: String, val quantity: Double)
-data class StockStatus(val low: Boolean, val days: Long?, val soon: Boolean, val expired: Boolean) {
+data class StockStatus(val low: Boolean, val days: Long?, val soon: Boolean, val expired: Boolean, val terminal: Boolean = false) {
     val attention get() = low || soon || expired
-    val label get() = when { expired -> "已过期"; soon -> "临期提醒"; low -> "库存不足"; else -> "状态正常" }
+    val label get() = when { terminal -> "批次已结束"; expired -> "已过期"; soon -> "临期提醒"; low -> "库存不足"; else -> "状态正常" }
     val priority get() = when { expired -> 0; soon -> 1; low -> 2; else -> 3 }
 }
 
 fun StockItem.status(reminderDays: Int, today: LocalDate = LocalDate.now()): StockStatus {
     val days = runCatching { ChronoUnit.DAYS.between(today, LocalDate.parse(expiry)) }.getOrNull()
+    if (!activeBatch) return StockStatus(false, days, false, false, terminal = true)
     return StockStatus(quantity < minimum, days, days != null && days in 0..reminderDays.toLong(), days != null && days < 0)
 }
 
 fun Double.display(): String = if (this % 1.0 == 0.0) toLong().toString() else toString()
-fun positiveNumber(value: String): Double? = value.toDoubleOrNull()?.takeIf { it.isFinite() && it > 0 }
-fun nonNegativeNumber(value: String): Double? = value.toDoubleOrNull()?.takeIf { it.isFinite() && it >= 0 }
+fun positiveNumber(value: String): Double? = InventoryContract.amount(value, positive = true)?.toDouble()
+fun nonNegativeNumber(value: String): Double? = InventoryContract.amount(value)?.toDouble()
 
 data class VoiceDraft(val name: String, val quantity: String, val unit: String, val location: String)
 

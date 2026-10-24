@@ -62,8 +62,8 @@ internal fun CloudFamilyPanel(store: InventoryStore, notify: (String) -> Unit) {
     var newName by rememberSaveable { mutableStateOf("") }
     var code by rememberSaveable { mutableStateOf("") }
     var rename by rememberSaveable(cloud.account?.householdId, cloud.household?.name) { mutableStateOf(cloud.household?.name.orEmpty()) }
-    var invitation by remember { mutableStateOf("") }
-    var members by remember { mutableStateOf<List<String>>(emptyList()) }
+    var invitation by remember(cloud.scopeKey) { mutableStateOf("") }
+    var members by remember(cloud.scopeKey) { mutableStateOf<List<CloudMember>>(emptyList()) }
     var error by remember { mutableStateOf("") }
     fun execute(message: String = "已保存", block: suspend () -> Unit) {
         scope.launch { runCatching { block() }.onSuccess { error = ""; notify(strings.label(message)) }.onFailure { error = it.message ?: "操作失败" } }
@@ -81,7 +81,9 @@ internal fun CloudFamilyPanel(store: InventoryStore, notify: (String) -> Unit) {
             Button(enabled = !cloud.busy && rename.isNotBlank() && cloud.household?.role in listOf("owner", "admin"),
                 onClick = { execute("家庭名称已更新") { cloud.profile(store.nickname, rename) } }) { Text(strings.get(R.string.ui_save_household_name)) }
             Text(strings.get(R.string.ui_household_members), fontWeight = FontWeight.Bold)
-            members.forEach { Text(it) }
+            FamilyManagement(cloud, members, changed = { execute("家庭成员已更新") {
+                cloud.refresh(); members = if (cloud.household != null) cloud.members() else emptyList()
+            } })
             OutlinedButton(enabled = !cloud.busy && cloud.household?.role in listOf("owner", "admin"),
                 onClick = { execute("邀请码已生成，30 分钟内有效，仅能使用一次") { invitation = cloud.invitation() } }) { Text(strings.get(R.string.ui_create_member_invite)) }
             if (invitation.isNotBlank()) androidx.compose.foundation.text.selection.SelectionContainer {
@@ -127,6 +129,8 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(entry.name, style = MaterialTheme.typography.titleMedium)
                     Text("${entry.quantity.display()} ${entry.unit}")
+                    Text(if (entry.sourceId.isBlank()) strings.tr("来源：新物品，尚无库存批次关联；AI 待购完整性需核对", "Source: new item without a stock link; AI pending completeness needs review")
+                        else strings.tr("关联批次：", "Linked batch: ") + entry.sourceId, style = MaterialTheme.typography.bodySmall)
                     Text(if (entry.purchased) strings.get(R.string.ui_recorded_the_purchase, if (entry.purchasedBy == cloud.account?.userId) strings.get(R.string.ui_me_actor) else strings.get(R.string.ui_household_member)) else strings.get(R.string.ui_added_by, if (entry.addedBy == cloud.account?.userId) strings.get(R.string.ui_me_actor) else strings.get(R.string.ui_household_member)), style = MaterialTheme.typography.bodySmall)
                     if (!entry.purchased) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(enabled = !cloud.busy && !cloud.expired, onClick = { purchasing = entry }) { Text(strings.get(R.string.ui_receive)) }
@@ -137,8 +141,11 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
             }
         }
         if (!history) {
-            item { Text(strings.get(R.string.ui_restock), fontWeight = FontWeight.Bold) }
-            items(store.items.filter { it.status(store.reminderDays).low }, key = { "recommend-${it.id}" }) { item ->
+            item {
+                Text(strings.tr("按最低库存差值补货", "Restock from minimum-stock shortfall"), fontWeight = FontWeight.Bold)
+                Text(strings.tr("这是登记阈值差值，不是本次 AI 计算建议；确认时请核对已有待购。", "These are registered threshold differences, not AI calculations. Review pending purchases before confirming."), style = MaterialTheme.typography.bodySmall)
+            }
+            items(store.items.filter { it.activeBatch && InventoryContract.category(it.category) != "medicine" && it.status(store.reminderDays).low }, key = { "recommend-${it.id}" }) { item ->
                 OutlinedButton(onClick = { action(item.id, "加入采购清单") }, enabled = !cloud.busy) {
                     Text(strings.get(R.string.ui___suggested_restock, item.name, (item.minimum - item.quantity).display(), item.unit))
                 }
@@ -161,17 +168,23 @@ private fun CloudShoppingEditor(store: InventoryStore, item: CloudShoppingItem?,
     val id = rememberSaveable { item?.id ?: UUID.randomUUID().toString() }
     var name by rememberSaveable { mutableStateOf(item?.name.orEmpty()) }
     var quantity by rememberSaveable { mutableStateOf(item?.quantity?.display() ?: "1") }
-    var unit by rememberSaveable { mutableStateOf(item?.unit ?: "件") }
+    var unit by rememberSaveable { mutableStateOf(item?.unit ?: "个") }
+    var sourceId by rememberSaveable { mutableStateOf(item?.sourceId.orEmpty()) }
     var error by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     AlertDialog(onDismissRequest = { if (!store.cloud.busy) close() }, title = { Text(if (item == null) strings.get(R.string.ui_add_purchase) else strings.get(R.string.ui_edit_purchase)) },
         text = { Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (item == null) ContractChoice(strings.tr("采购来源", "Purchase source"),
+                listOf(Triple("", "新物品暂无关联", "New item, no batch link")) + store.items.filter { it.activeBatch }.map { Triple(it.id, "${it.name} · ${it.location} · ${it.id.take(8)}", "${it.name} · ${it.location} · ${it.id.take(8)}") }, sourceId) { selected ->
+                sourceId = selected
+                store.items.firstOrNull { it.id == selected }?.let { linked -> name = linked.name; unit = linked.unit }
+            } else Text(strings.tr("来源关联不能在当前服务中修改，保留原关联。", "This service does not support editing existing source links. The original link is retained."), style = MaterialTheme.typography.bodySmall)
             Field(strings.get(R.string.ui_item_name_2), name, { name = it }); Field(strings.get(R.string.ui_planned_quantity), quantity, { quantity = it }, numeric = true); Field(strings.get(R.string.ui_unit), unit, { unit = it }); MotionErrorText(error)
         } }, dismissButton = { TextButton(onClick = close, enabled = !store.cloud.busy) { Text(strings.get(R.string.ui_cancel)) } },
         confirmButton = { TextButton(enabled = !store.cloud.busy, onClick = {
             val amount = positiveNumber(quantity)
-            if (name.isBlank() || unit.isBlank() || amount == null) error = "请填写名称、正数数量和单位"
-            else scope.launch { runCatching { store.cloud.saveShopping(id, name, amount, unit, item == null) }
+            if (name.trim().length !in 1..80 || InventoryContract.unit(unit) == null || InventoryContract.amount(quantity, 3, true) == null || amount == null) error = strings.tr("名称最多 80 字，数量最多三位小数，请核对支持的单位", "Name up to 80 characters; quantity up to three decimals; review the supported unit")
+            else scope.launch { runCatching { store.cloud.saveShopping(id, name, amount, unit, item == null, sourceId) }
                 .onSuccess { notify(strings.get(R.string.ui_shopping_list_saved)); close() }.onFailure { error = it.message ?: "保存失败" } }
         }) { Text(strings.get(R.string.ui_save)) } })
 }

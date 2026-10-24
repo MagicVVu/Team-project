@@ -56,7 +56,7 @@ class CloudUiIntegrationTest {
             compose.onNodeWithText("确认添加").performScrollTo().performClick()
             compose.waitUntil(25_000) { store.items.size == 1 && !store.cloud.busy }
             compose.onNodeWithText("库存", useUnmergedTree=true).performClick()
-            compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
+            compose.onNodeWithTag("ring-selected-info").performClick()
             compose.onNodeWithText("加入采购清单 / 调整计划").performScrollTo().performClick()
             compose.onNodeWithText("确认保存").performClick()
             compose.waitUntil(25_000) { store.purchases.size == 1 && !store.cloud.busy }
