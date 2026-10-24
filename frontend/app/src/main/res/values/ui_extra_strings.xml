@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_select">请选择</string>
+    <string name="ui_choice_value">%1$s：%2$s</string>
+    <string name="ui_new_start">新的开始 🌿</string>
+    <string name="ui_welcome_back">好久不见 🌿</string>
+    <string name="ui_not_supported">" 暂不支持"</string>
+    <string name="ui_unknown">未知</string>
+    <string name="ui_actual_purchase">实际购入</string>
+    <string name="ui_this_change">本次</string>
+    <string name="ui_not_synced">尚未同步</string>
+    <string name="ui_synced_at">同步于 %1$s</string>
+    <string name="ui_me_actor">我</string>
+    <string name="ui_household_member">家庭成员</string>
+    <string name="ui_status_normal">状态正常</string>
+    <string name="ui_order_status">状态优先</string>
+    <string name="ui_order_category">类别顺序</string>
+    <string name="ui_order_name">名称顺序</string>
+    <string name="ui_auth_nickname_error">请输入 1–20 个字符的昵称</string>
+    <string name="ui_auth_phone_error">请输入大陆 11 位手机号或带国家码的号码</string>
+    <string name="ui_auth_password_required">请输入密码</string>
+    <string name="ui_auth_password_error">密码需为 8–16 位英文字母和数字的组合，且同时包含字母和数字</string>
+    <string name="ui_auth_confirmation_error">两次输入的密码不一致</string>
+    <string name="ui_processing">正在处理</string>
+    <string name="ui_clarification">需要澄清</string>
+    <string name="ui_pending">待确认</string>
+    <string name="ui_submitting">正在提交</string>
+    <string name="ui_committed">已执行</string>
+    <string name="ui_cancelled">已取消</string>
+    <string name="ui_conflict">版本冲突</string>
+    <string name="ui_outcome_unknown">结果待核实</string>
+    <string name="ui_unsupported">暂不支持</string>
+    <string name="ui_failed">执行失败</string>
+    <string name="ui_answered">已回答</string>
+    <string name="ui_ai_language_note">回答与已有对话保留原语言。</string>
+    <string name="ui_language_save_error">语言设置保存失败，请重试。</string>
+    <plurals name="ui_item_count">
+        <item quantity="one">%1$d 项</item>
+        <item quantity="other">%1$d 项</item>
+    </plurals>
+    <plurals name="ui_stock_count">
+        <item quantity="one">%1$d 种物品</item>
+        <item quantity="other">%1$d 种物品</item>
+    </plurals>
+    <plurals name="ui_day_count">
+        <item quantity="one">%1$s 天</item>
+        <item quantity="other">%1$s 天</item>
+    </plurals>
+</resources>

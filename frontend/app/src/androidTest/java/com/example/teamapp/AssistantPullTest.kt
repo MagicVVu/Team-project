@@ -273,7 +273,7 @@ class AssistantPullTest {
         compose.onNodeWithText("补货建议").performClick()
         compose.onNodeWithText("测试纯牛奶：", substring = true).assertExists()
         compose.runOnIdle { Assert.assertTrue(store.purchases.isEmpty()) }
-        compose.onNodeWithText("核对并加入补货清单").performClick()
+        compose.onNodeWithText("核对补货").performClick()
         compose.onNodeWithText("确认补货建议").assertIsDisplayed()
         compose.runOnIdle { Assert.assertTrue(store.purchases.isEmpty()) }
         compose.onNodeWithText("确认").performClick()

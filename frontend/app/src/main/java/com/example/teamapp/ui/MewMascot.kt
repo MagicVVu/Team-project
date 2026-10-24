@@ -1,5 +1,6 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,9 +56,10 @@ internal fun MewMascot(
     modifier: Modifier = Modifier,
     description: String? = "Mew"
 ) {
+    val strings = rememberUiStrings()
     val bitmap = ImageBitmap.imageResource(pose.resource)
     val painter = remember(bitmap, pose) { BitmapPainter(bitmap, pose.offset, pose.size) }
-    Image(painter, description, modifier.semantics { this[MewPoseKey] = pose.name })
+    Image(painter, description?.let(strings::label), modifier.semantics { this[MewPoseKey] = pose.name })
 }
 
 @Composable
@@ -66,20 +68,21 @@ internal fun MewIntro(pose: MewPose, title: String, subtitle: String, modifier: 
         MewMascot(pose, Modifier.size(61.dp), description = null)
         Column(Modifier.weight(1f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(title, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.SemiBold)
-            Text(subtitle, fontSize = 12.sp, lineHeight = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 12.sp, lineHeight = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable
 internal fun MewChatIntro() {
-    MewIntro(MewPose.Thinking, "Mew", "家里的物品，一起记清楚", Modifier.padding(vertical = 12.dp))
+    MewIntro(MewPose.Thinking, "Mew", "", Modifier.padding(vertical = 12.dp))
 }
 
 @Composable
 internal fun MewAddIntro(mode: String) {
+    val strings = rememberUiStrings()
     MewIntro(if (mode == "语音添加") MewPose.Listening else MewPose.Confirming,
-        "记一件家里的小物", "确认后，再放进小账本",
+        strings.get(R.string.ui_add_a_little_thing), strings.get(R.string.ui_review_it__then_save_it),
         Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(14.dp)).padding(13.dp))
 }
 

@@ -1,5 +1,6 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.clickable
@@ -36,7 +37,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,6 +72,7 @@ internal fun AssistantPullLayer(
     conversation: SnapshotStateList<Pair<String, Boolean>>,
     snackbar: SnackbarHostState, notify: (String) -> Unit, content: @Composable (Modifier) -> Unit
 ) {
+    val strings = rememberUiStrings()
     var expanded by rememberSaveable { mutableStateOf(false) }
     var heightPx by remember { mutableIntStateOf(0) }
     var layerTop by remember { mutableFloatStateOf(0f) }
@@ -180,7 +181,7 @@ internal fun AssistantPullLayer(
                     }
                 }.testTag("assistant-curtain").semantics {
                     paneTitle = "AI 助手"
-                    stateDescription = if (expanded && !transition.isRunning) "已展开" else "切换中"
+                    stateDescription = if (expanded && !transition.isRunning) strings.get(R.string.ui_open) else strings.get(R.string.ui_transitioning)
                 }) {
                 Surface(Modifier.fillMaxSize().graphicsLayer {
                     transformOrigin = TransformOrigin(.5f, 1f)
@@ -198,6 +199,7 @@ internal fun AssistantPullLayer(
 
 @Composable
 private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boolean) {
+    val strings = rememberUiStrings()
     val density = LocalDensity.current
     val threshold = with(density) { 72.dp.toPx() }
     val maximum = with(density) { 120.dp.toPx() }
@@ -237,8 +239,8 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boo
         layout(placeable.width, placeable.height) { placeable.place(0, 0) }
     }.testTag("assistant-pull-cord")
         .semantics {
-            contentDescription = "下拉打开 AI 助手"
-            stateDescription = if (ready) "松手展开助手" else "向下拉动"
+            contentDescription = strings.get(R.string.ui_pull_down_to_open_ai_assistant)
+            stateDescription = if (ready) strings.get(R.string.ui_release_to_open_assistant) else strings.get(R.string.ui_pull_down)
             role = Role.Button
             onClick("展开 AI 助手") { latestOpen(); true }
         }
@@ -278,21 +280,20 @@ private fun AssistantCurtainPage(
     store: InventoryStore, conversation: SnapshotStateList<Pair<String, Boolean>>,
     notify: (String) -> Unit, close: () -> Unit
 ) {
+    val strings = rememberUiStrings()
     var initial by rememberSaveable { mutableStateOf("") }
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding()) {
-        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp)) {
+        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 6.dp)) {
             Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-                MewMascot(MewPose.Thinking, Modifier.size(88.dp).testTag("assistant-ip"), "Mew AI 助手")
-                Text(stringResource(R.string.brand_assistant_title), fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
-                Text("看看库存，也一起安排补货", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp))
+                MewMascot(MewPose.Thinking, Modifier.size(64.dp).testTag("assistant-ip"), strings.get(R.string.ui_mew_ai_assistant))
+                Text(strings.get(R.string.brand_assistant_title), fontSize = 21.sp, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold)
             }
-            TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text("收起 ↑") }
+            TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text(strings.get(R.string.ui_close)) }
         }
-        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("查库存" to "家里有什么库存？", "临期提醒" to "哪些快过期了？", "补货建议" to "需要补什么？").forEach { (label, query) ->
                 OutlinedButton(onClick = { initial = query }, modifier = Modifier.weight(1f), shape = CircleShape,
-                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(label, fontSize = 12.sp) }
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(strings.label(label), fontSize = 12.sp) }
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {

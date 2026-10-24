@@ -64,7 +64,9 @@ class LightDesignTest {
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         compose.onNodeWithText("圆环库存测试").assertDoesNotExist()
         compose.onNodeWithText("我的家庭").assertExists()
-        compose.onNodeWithText("库存检测规则").assertExists()
+        compose.onNodeWithText("库存规则").performClick()
+        compose.onNodeWithText("提前提醒天数（0–365）").assertExists()
+        compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("通用设置").performScrollTo().performClick()
         compose.onNodeWithText("外观模式", substring = true).assertExists()
     }
@@ -91,7 +93,19 @@ class LightDesignTest {
         launch()
         compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
         screenshot("shopping-fixture")
-        compose.onNodeWithText("已购买").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("测试纯牛奶的更多操作").performClick()
+        compose.onNodeWithText("调整数量").performClick()
+        compose.onNodeWithText("调整采购数量").assertExists()
+        compose.onNodeWithText("关闭").performClick()
+        compose.runOnIdle { Assert.assertEquals(2.0, store.purchases.single().quantity, 0.0) }
+        compose.onNodeWithContentDescription("测试纯牛奶的更多操作").performClick()
+        compose.onNodeWithText("移除").performClick()
+        compose.runOnIdle {
+            Assert.assertTrue(store.purchases.isEmpty())
+            Assert.assertEquals(1.0, store.items.single().quantity, 0.0)
+            store.plan(milk.id, 2.0)
+        }
+        compose.onNodeWithText("购买入库").performScrollTo().performClick()
         compose.onNodeWithText("确认入库").performClick()
         compose.onNodeWithText("请输入有效正数").assertExists()
         compose.runOnIdle { Assert.assertEquals(1.0, store.items.single().quantity, 0.0) }
@@ -118,7 +132,7 @@ class LightDesignTest {
     @Test fun darkModeKeepsExistingNavigationAndDetailActions() {
         launch(dark = true)
         compose.onNodeWithContentDescription("Mewstow").assertIsDisplayed()
-        compose.onNodeWithText("Mewstow · Mew").assertExists()
+        compose.onNodeWithText("Mew 助手").assertExists()
         screenshot("dark-home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithTag("ring-inventory-page").assertExists()

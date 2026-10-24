@@ -1,5 +1,7 @@
 package com.example.teamapp.ui.ring
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
+import com.example.teamapp.R
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -70,6 +72,7 @@ internal fun StockRingBrowser(
     showAddAction: Boolean = false,
     toolbarEndPadding: Dp = 18.dp
 ) {
+    val strings = rememberUiStrings()
     val light = LocalLightDesign.current
     val scheme = MaterialTheme.colorScheme
     val focus = LocalFocusManager.current
@@ -162,13 +165,13 @@ internal fun StockRingBrowser(
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
                 DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
                 BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
-                    modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = "搜索物品名称" },
-                    decorationBox = { field -> Box { if (query.isEmpty()) Text("搜索物品名称", fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
-                if (query.isNotEmpty()) Text("清空", fontSize = 11.sp, color = scheme.primary,
+                    modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = strings.get(R.string.ui_search_item_names) },
+                    decorationBox = { field -> Box { if (query.isEmpty()) Text(strings.get(R.string.ui_search_items), fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
+                if (query.isNotEmpty()) Text(strings.get(R.string.ui_clear), fontSize = 11.sp, color = scheme.primary,
                     modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
             }
             if (showAddAction) IconButton(onClick = { focus.clearFocus(); onAdd() },
-                modifier = Modifier.size(48.dp).testTag("ring-add").semantics { contentDescription = "添加物品" }) {
+                modifier = Modifier.size(48.dp).testTag("ring-add").semantics { contentDescription = strings.get(R.string.ui_add_items) }) {
                 Box(Modifier.size(30.dp).background(scheme.primaryContainer, CircleShape), contentAlignment = Alignment.Center) {
                     DesignGlyph("plus", Modifier.size(17.dp), scheme.onPrimaryContainer)
                 }
@@ -323,7 +326,7 @@ internal fun StockRingBrowser(
                             IntOffset((labelCenter.x - widthPx * .235f / 2f).roundToInt(), (labelCenter.y - widthPx * .30f / 2f).roundToInt())
                         }
                             .size(boxWidth, boxHeight).testTag("ring-card-${item.id}")
-                            .semantics { contentDescription = "圆环物品：${item.name}"; this.selected = index == currentIndex }
+                            .semantics { contentDescription = strings.get(R.string.ui_ring_item, item.name); this.selected = index == currentIndex }
                             .graphicsLayer {
                                 rotationZ = RingMath.angle(index, displayPosition()) - 180f
                                 scaleX = 1f + .12f * elevation.value; scaleY = scaleX; alpha = resultAlpha.value
@@ -350,11 +353,11 @@ internal fun StockRingBrowser(
                             .background(palette.badge, RoundedCornerShape(2.dp)).padding(vertical = 3.dp), contentAlignment = Alignment.Center) {
                             val status = statuses[index]
                             val badgeText = when {
-                                status.expired -> "已\n过\n期"
-                                status.days == 0L -> "今\n天"
-                                status.days != null && status.days < 100 -> "${status.days}\n天"
-                                status.low -> "需\n补"
-                                else -> "正\n常"
+                                status.expired -> if (strings.english) "E\nX\nP" else "已\n过\n期"
+                                status.days == 0L -> if (strings.english) "T\nO\nD" else "今\n天"
+                                status.days != null && status.days < 100 -> if (strings.english) "${status.days}\nd" else "${status.days}\n天"
+                                status.low -> if (strings.english) "L\nO\nW" else "需\n补"
+                                else -> if (strings.english) "O\nK" else "正\n常"
                             }
                             Text(badgeText, fontSize = 8.sp, lineHeight = 11.sp, color = palette.badgeInk, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
                         }
@@ -374,10 +377,10 @@ internal fun StockRingBrowser(
                     } else {
                         Column(Modifier.fillMaxWidth()
                             .background(palette.detailPanel, RoundedCornerShape(14.dp)).border(1.dp, palette.detailLine, RoundedCornerShape(14.dp)).padding(12.dp)) {
-                            Text(if (items.isEmpty()) "家里的小物，慢慢记好" else "没有找到匹配的物品", fontSize = 13.sp, lineHeight = 19.sp, color = palette.ink)
-                            Text(if (items.isEmpty()) "添加第一件物品，开始整理库存。" else "试试清空搜索或分类筛选。", fontSize = 10.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, modifier = Modifier.padding(top = 5.dp))
+                            Text(if (items.isEmpty()) strings.get(R.string.ui_every_little_thing__remembered_2) else strings.get(R.string.ui_no_matching_items_2), fontSize = 13.sp, lineHeight = 19.sp, color = palette.ink)
+                            Text(if (items.isEmpty()) strings.get(R.string.ui_add_your_first_item_to_start) else strings.get(R.string.ui_try_clearing_the_search_or_category), fontSize = 10.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, modifier = Modifier.padding(top = 5.dp))
                             TextButton(onClick = { if (items.isEmpty()) onAdd() else { query = ""; category = "全部"; attention = false; focus.clearFocus() } },
-                                contentPadding = PaddingValues(0.dp), modifier = Modifier.testTag("ring-empty-action")) { Text(if (items.isEmpty()) "＋ 添加物品" else "清空搜索和筛选", fontSize = 11.sp) }
+                                contentPadding = PaddingValues(0.dp), modifier = Modifier.testTag("ring-empty-action")) { Text(if (items.isEmpty()) strings.get(R.string.ui___add_item) else strings.get(R.string.ui_clear_search_and_filters), fontSize = 11.sp) }
                         }
                     }
                 }
@@ -385,14 +388,14 @@ internal fun StockRingBrowser(
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         RingStepButton("‹", navigationIndex > 0, "ring-previous", palette) { settle(((motionTarget ?: currentIndex) - 1).toFloat()) }
                         Text("${if (currentIndex < 0) 0 else currentIndex + 1} / ${displayed.size}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant,
-                            modifier = Modifier.testTag("ring-position").semantics { contentDescription = "当前位置 ${if (currentIndex < 0) 0 else currentIndex + 1}，结果总数 ${displayed.size}" })
+                            modifier = Modifier.testTag("ring-position").semantics { contentDescription = strings.get(R.string.ui_position_of, if (currentIndex < 0) 0 else currentIndex + 1, displayed.size) })
                         RingStepButton("›", navigationIndex >= 0 && navigationIndex < displayed.lastIndex, "ring-next", palette) { settle(((motionTarget ?: currentIndex) + 1).toFloat()) }
                     }
                     if (displayed.size > 1) {
                         RingSeekSlider(displayPosition, displayed.lastIndex.toFloat(), palette, onValueChange = {
                             motion?.cancel(); motionTarget = null; interacting = true; seeking = true; dragPosition = it; focus.clearFocus()
                         }, onValueChangeFinished = { settle(displayPosition()) })
-                        Text(if (seeking) "定位至：${displayed[currentIndex].name}" else "滑动圆环 · 拖动定位", fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
+                        Text(if (seeking) strings.get(R.string.ui_go_to, displayed[currentIndex].name) else strings.get(R.string.ui_swipe_to_browse___drag_to), fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
                             overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant, modifier = Modifier.testTag("ring-seek-label"))
                     }
                 }
@@ -401,7 +404,7 @@ internal fun StockRingBrowser(
         Row(Modifier.fillMaxWidth().padding(bottom = 3.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             listOf("已过期", "临期", "库存不足", "正常").forEachIndexed { index, label ->
                 Box(Modifier.padding(start = if (index == 0) 0.dp else 10.dp, end = 4.dp).size(5.dp).background(palette.fills[index], androidx.compose.foundation.shape.CircleShape))
-                Text(label, fontSize = 9.sp, lineHeight = 13.sp, color = scheme.onSurfaceVariant)
+                Text(strings.label(label), fontSize = 9.sp, lineHeight = 13.sp, color = scheme.onSurfaceVariant)
             }
         }
     }
@@ -476,23 +479,25 @@ private fun Modifier.ringAccents(palette: RingPalette): Modifier = drawWithCache
 
 @Composable
 private fun RingStepButton(label: String, enabled: Boolean, tag: String, palette: RingPalette, action: () -> Unit) {
+    val strings = rememberUiStrings()
     TextButton(onClick = action, enabled = enabled, contentPadding = PaddingValues(0.dp),
         modifier = Modifier.size(30.dp).testTag(tag),
         colors = ButtonDefaults.textButtonColors(containerColor = palette.panel, contentColor = palette.accent, disabledContainerColor = palette.panel.copy(alpha = .65f)),
-        shape = androidx.compose.foundation.shape.CircleShape) { Text(label, fontSize = 21.sp, lineHeight = 24.sp) }
+        shape = androidx.compose.foundation.shape.CircleShape) { Text(strings.label(label), fontSize = 21.sp, lineHeight = 24.sp) }
 }
 
 @Composable
 private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () -> Unit, palette: RingPalette, modifier: Modifier) {
+    val strings = rememberUiStrings()
     val scheme = MaterialTheme.colorScheme
     val status = item.status(days)
     val statusText = buildString {
-        append(status.label)
-        when { status.expired -> append(" ${-(status.days ?: 0)} 天"); status.soon -> append(" · 剩 ${status.days} 天") }
-        if (status.low) append(" · 缺 ${(item.minimum - item.quantity).display()} ${item.unit}")
+        append(if (status.expired) strings.get(R.string.ui_expired_3) else strings.label(status.label))
+        when { status.expired -> append(" " + strings.days(-(status.days ?: 0))); status.soon -> append(strings.get(R.string.ui___day_s__left, if (strings.english) strings.days(status.days ?: 0) else status.days)) }
+        if (status.low) append(strings.get(R.string.ui___short, (item.minimum - item.quantity).display(), item.unit))
     }
     Card(onClick = open, enabled = enabled,
-        modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = "已选中物品：${item.name}" }, shape = RoundedCornerShape(18.dp),
+        modifier = modifier.testTag("ring-selected-info").semantics { contentDescription = strings.get(R.string.ui_selected_item, item.name) }, shape = RoundedCornerShape(18.dp),
         border = BorderStroke(1.dp, palette.detailLine), colors = CardDefaults.cardColors(
             containerColor = palette.detailPanel, contentColor = palette.ink,
             disabledContainerColor = palette.detailPanel, disabledContentColor = palette.ink)) {
@@ -502,7 +507,7 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
                 val compact = maxWidth < 160.dp
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Column(Modifier.weight(if (compact) .3f else .4f)) {
-                        Text(item.category, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                        Text(strings.label(item.category), fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
                         Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     }
                     Text(item.name, modifier = Modifier.weight(if (compact) .7f else .6f).testTag("ring-info-name"), fontSize = 18.sp, lineHeight = 23.sp,
@@ -514,8 +519,8 @@ private fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: () 
             Text(statusText, fontSize = 12.sp, lineHeight = 17.sp, color = palette.accent, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                    Text("有效期 ${item.expiry.ifBlank { "未设置" }}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
-                    if (item.minimum > 0) Text("最低库存 ${item.minimum.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                    Text(strings.get(R.string.ui_expires, item.expiry.ifBlank { "未设置" }), fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
+                    if (item.minimum > 0) Text(strings.get(R.string.ui_minimum, item.minimum.display(), item.unit), fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant)
                 }
                 RingItemIllustration(item, Modifier.size(44.dp).testTag("ring-info-icon"))
             }
@@ -550,13 +555,14 @@ private fun sector(center: Offset, inner: Float, outer: Float, start: Float, swe
 @Composable
 private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, category: String, select: (String) -> Unit,
     attention: Boolean, toggle: (Boolean) -> Unit, order: RingOrder, sort: (RingOrder) -> Unit, modifier: Modifier, add: () -> Unit, palette: RingPalette) {
+    val strings = rememberUiStrings()
     val colors = MaterialTheme.colorScheme
     var expanded by remember { mutableStateOf(false) }
     val searched = remember(items, query) { items.filter { it.name.contains(query.trim(), true) } }
     Column(modifier.animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing))
         .background(palette.panel, RoundedCornerShape(15.dp)).border(1.dp, palette.line, RoundedCornerShape(15.dp)).padding(9.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text("分类", fontSize = 13.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp, modifier = Modifier.padding(bottom = 3.dp))
+        Text(strings.get(R.string.ui_categories), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp, modifier = Modifier.padding(bottom = 3.dp))
         listOf("全部", "食品", "日用品", "其他").forEach { label ->
             val count = searched.count { (label == "全部" || it.category == label) && (!attention || it.status(days).attention) }
             val background by animateColorAsState(if (category == label) palette.accent else palette.panel,
@@ -568,9 +574,9 @@ private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, cate
             Row(Modifier.fillMaxWidth().height(24.dp).clip(RoundedCornerShape(7.dp))
                 .background(background)
                 .border(1.dp, border, RoundedCornerShape(7.dp))
-                .testTag("ring-category-$label").semantics { selected = category == label; contentDescription = "$label，$count 件" }
+                .testTag("ring-category-$label").semantics { selected = category == label; contentDescription = strings.get(R.string.ui___items, strings.label(label), count) }
                 .motionClickable { select(label) }.padding(horizontal = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(label, fontSize = 10.sp, lineHeight = 14.sp, color = foreground, modifier = Modifier.weight(1f))
+                Text(strings.label(label), fontSize = 10.sp, lineHeight = 14.sp, color = foreground, modifier = Modifier.weight(1f))
                 Text(count.toString(), fontSize = 10.sp, lineHeight = 14.sp, color = foreground)
             }
         }
@@ -578,15 +584,15 @@ private fun CategoryPanel(items: List<StockItem>, days: Int, query: String, cate
         Row(Modifier.fillMaxWidth().height(27.dp).testTag("ring-attention").semantics { toggleableState = if (attention) androidx.compose.ui.state.ToggleableState.On else androidx.compose.ui.state.ToggleableState.Off }
             .motionClickable { toggle(!attention) }, verticalAlignment = Alignment.CenterVertically) {
             Text(if (attention) "☑" else "□", fontSize = 13.sp, color = colors.primary)
-            Text("需关注", fontSize = 10.sp, lineHeight = 14.sp, modifier = Modifier.weight(1f).padding(start = 3.dp))
+            Text(strings.get(R.string.ui_needs_attention), fontSize = 10.sp, lineHeight = 14.sp, modifier = Modifier.weight(1f).padding(start = 3.dp))
             Text(searched.count { (category == "全部" || it.category == category) && it.status(days).attention }.toString(), fontSize = 10.sp, color = colors.onSurfaceVariant)
         }
         Box {
-            Text("${order.title} ⌄", fontSize = 10.sp, lineHeight = 14.sp,
+            Text("${strings.label(order.title)} ⌄", fontSize = 10.sp, lineHeight = 14.sp,
                 modifier = Modifier.fillMaxWidth().height(26.dp).testTag("ring-order").motionClickable { expanded = true }.padding(top = 5.dp))
-            DropdownMenu(expanded, { expanded = false }) { RingOrder.entries.forEach { option -> DropdownMenuItem(text = { Text(option.title) }, onClick = { sort(option); expanded = false }) } }
+            DropdownMenu(expanded, { expanded = false }) { RingOrder.entries.forEach { option -> DropdownMenuItem(text = { Text(strings.label(option.title)) }, onClick = { sort(option); expanded = false }) } }
         }
-        if (items.isEmpty()) Text("＋ 添加物品", fontSize = 10.sp, lineHeight = 17.sp, color = colors.primary,
+        if (items.isEmpty()) Text(strings.get(R.string.ui___add_item), fontSize = 10.sp, lineHeight = 17.sp, color = colors.primary,
             modifier = Modifier.fillMaxWidth().height(28.dp).testTag("ring-add-inside").motionClickable(onClick = add).padding(top = 5.dp))
     }
 }
