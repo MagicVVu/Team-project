@@ -1,5 +1,6 @@
 import re
 import time
+from datetime import timedelta
 from decimal import Decimal
 from p0.domain import DomainError, new_id
 from p1.domain import guard, ground
@@ -10,12 +11,13 @@ from p2.tools import P1ReaderAdapter
 from interaction.policy import extraction_text, review_reason
 from interaction.schemas import receipt
 from v1.manager import Manager as BaseManager, Operation as BaseOperation
-from v1.schemas import ClarificationRequest as OldRequest
+from v1.schemas import ClarificationRequest as OldRequest, Guidance
 from .schemas import (AgentResult, ReferenceContext, ReferenceUse, RuntimeInfo,
-                      POLICY_VERSION)
+                      ProcurementSource, POLICY_VERSION)
 from .engines import PROMPT_VERSION, QUALIFIED_MOVE
 from .chat_text import present, quick_response
 from .supplements import RESET
+from .scoped_queries import READ_INTENTS, FINISH, read_query, literal_query
 
 PRONOUN = re.compile(r"它|这一批|这批|这一个|这个|这件")
 PRONOUN_NAMES = {"它", "这一批", "这批", "这一个", "这个", "这件", "这"}
@@ -42,6 +44,17 @@ def business_fields(parsed):
 
 class LifecycleManager(BaseLifecycleManager):
     async def _resolve(self, context, scope, trace):
+        if context.parsed.intent == "PLAN_ADD" and context.selected_batch_id:
+            batch = await self.reader.get_batch(scope, context.selected_batch_id)
+            check_scope(scope, [batch])
+            if batch.status != "ACTIVE" or batch.quantity <= 0:
+                return self._result(context, "answered", "原采购来源已结束，请重新选择对象并新建采购任务。",
+                                    facts=[batch], error_code="BATCH_TERMINAL")
+            previous = next((b for b in context.candidates if b.id == context.selected_batch_id), None)
+            if previous != batch:
+                context.candidates, context.selected_batch_id = [batch], None
+                return self._clarify(context, ["batch_id"], "采购来源已变化，请重新核对。", "VERSION_CONFLICT")
+            context.parsed.name = batch.name
         fields = business_fields(context.parsed)
         context.parsed.uncertainties = list(dict.fromkeys([*context.parsed.uncertainties, *fields]))
         result = await super()._resolve(context, scope, trace)
@@ -98,13 +111,48 @@ class Operation(BaseOperation):
         value["runtime"] = {**value["runtime"], "release": "V1-P7", "prompt_version": PROMPT_VERSION}
         value["policy_version"] = POLICY_VERSION
         result = AgentResult.model_validate(value)
+        if result.draft and result.draft.action == "CONSUME" and result.quantity_source == "current_batch":
+            result.consume_mode = "all"
+        if result.draft and result.draft.action == "PLAN_ADD" and not result.planning_basis and self.bound_reference:
+            candidates = getattr(self.context, "candidates", [])
+            batch = next((b for b in candidates if b.id == self.bound_reference.batch_id), None)
+            if batch:
+                result.procurement_source = ProcurementSource(batch_id=batch.id, expected_version=batch.version)
+        items = {i.item_key: i for snapshot in self.reader.snapshots.values() for i in snapshot.items}
+        for recommendation in result.recommendations:
+            item = items.get(recommendation.item_key)
+            if item:
+                recommendation.inventory_unit = item.unit
+                recommendation.order_unit = recommendation.unit
+                recommendation.pack_size = item.preferences.pack_size if recommendation.status == "suggested" else None
+                recommendation.pack_size_source = "saved_preferences" if recommendation.pack_size else None
+        platform_fields = {"applicable_reviewed_rule", "label_date_rule", "storage_rule", "after_open_rule", "rule_resolution"}
+        guidance_items = []
+        for guidance in result.guidance:
+            missing_rules = [f for f in guidance.missing_fields if f in platform_fields]
+            facts = [f for f in guidance.missing_fields if f not in platform_fields]
+            if facts:
+                from v1.policy import FACT_LABELS
+                guidance_items.append(Guidance(batch_id=guidance.batch_id, missing_fields=facts,
+                    instructions=["请在物品资料中核对"+FACT_LABELS.get(f,f)+"，保存后重新查询。" for f in facts]))
+            if missing_rules:
+                guidance_items.append(Guidance(batch_id=guidance.batch_id, missing_fields=missing_rules,
+                    instructions=["平台尚缺适用的人工审核规则或审核结论，需由规则负责人核实发布；补录库存资料不能替代规则审核。"],
+                    fact_write_required=False))
+        result.guidance = guidance_items
+        if any("applicable_reviewed_rule" in r.missing_information for r in result.risks):
+            result.data_gaps = sorted(set([*result.data_gaps, "HUMAN_RULE_REVIEW_REQUIRED"]))
+            for recommendation in result.recommendations:
+                if recommendation.status == "needs_review":
+                    recommendation.reason_codes = list(dict.fromkeys([*recommendation.reason_codes, "HUMAN_RULE_REVIEW_REQUIRED"]))
+            result.reply += "\n平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。"
         result.clear_reference = getattr(self, "reset_requested", False)
         if result.error_code != "HOUSEHOLD_FORBIDDEN":
             if self.bound_reference:
                 result.object_source = "trusted_reference"
                 result.reference_used = ReferenceUse(**{k:getattr(self.bound_reference,k)
                     for k in ("source_task_id", "source_revision", "batch_id")})
-                if isinstance(result.clarification, ClarificationContext):
+                if type(result.clarification) is ClarificationContext:
                     inner = result.clarification
                     values = {k:getattr(inner,k) for k in ReferenceContext.model_fields
                               if k not in {"protocol_version", "reference", "delegate", "input_receipt"}}
@@ -162,7 +210,14 @@ class Operation(BaseOperation):
         self.input_receipt = receipt(message, scope)
         if message.reference and message.reference.scope != scope:
             raise DomainError("HOUSEHOLD_FORBIDDEN", "对象引用不属于当前用户或家庭。", 403)
-        if LOCATION_REFERENCE.fullmatch(text):
+        finish = FINISH.fullmatch(text)
+        literal_read = literal_query(text)
+        if finish:
+            from p3.schemas import Parsed as Extracted
+            raw = Extracted(intent="CONSUME")
+        elif literal_read:
+            raw = literal_read
+        elif LOCATION_REFERENCE.fullmatch(text):
             from p3.schemas import Parsed as Extracted
             raw = Extracted(intent="QUERY_LOCATION")
         elif re.fullmatch(r"(?:它|这一批|这批|这个)(?:还有多少|剩多少|的数量)[？?]?", text):
@@ -176,6 +231,26 @@ class Operation(BaseOperation):
         # Explicit new names always start a new task; never bind the old object.
         if raw.name and raw.name.strip() not in PRONOUN_NAMES:
             return await self.delegate_extracted(raw, message, scope)
+        if raw.intent in READ_INTENTS:
+            raw.name = None
+            reference = message.reference
+            batch = None
+            if reference:
+                check_reference(reference, scope, self.owner.now())
+                try:
+                    batch = await self.reader.get_batch(scope, reference.batch_id)
+                except DomainError as error:
+                    if error.code != "BATCH_NOT_FOUND":
+                        raise
+                    result = await read_query(self, raw, message, scope, None)
+                    result.error_code = "REFERENCE_NOT_FOUND"
+                    return result
+                if batch.status != "ACTIVE" or batch.quantity <= 0:
+                    result = await read_query(self, raw, message, scope, None)
+                    result.error_code = "REFERENCE_TERMINAL"
+                    return result
+                self.bound_reference = reference
+            return await read_query(self, raw, message, scope, batch)
         if raw.intent not in set(Intent):
             raw.name = None
             return await self.delegate_extracted(raw, message, scope)
@@ -190,6 +265,8 @@ class Operation(BaseOperation):
         self.context = lifecycle._context(message, scope, new_id("trace"), parsed)
         reference = message.reference
         if not reference:
+            if finish:
+                return await self.prepare_finish(message, scope)
             return lifecycle._clarify(self.context, ["name"], "请明确或重新选择要处理的物品。尚未写入。", "REFERENCE_REQUIRED")
         check_reference(reference, scope, self.owner.now())
         if parsed.intent in {Intent.ADD, Intent.UNSUPPORTED}:
@@ -205,6 +282,8 @@ class Operation(BaseOperation):
         if batch.status != "ACTIVE" or batch.quantity <= 0:
             return lifecycle._clarify(self.context, ["name"], "原批次已结束，请重新选择物品。", "REFERENCE_TERMINAL")
         self.bound_reference = reference
+        if finish:
+            return await self.prepare_finish(message, scope, batch, reference)
         self.context.expires_at = min(self.context.expires_at, reference.expires_at)
         # Bind only identity after grounding user fields. No text substitution.
         self.context.parsed.name = batch.name
@@ -213,6 +292,17 @@ class Operation(BaseOperation):
         self.context.candidates, self.context.selected_batch_id = [base], batch.id
         trace = [TraceStep(step="reference_binding", outcome="trusted_identity_current_read", elapsed_ms=0)]
         return await lifecycle._resolve(self.context, scope, trace)
+
+    async def prepare_finish(self, message, scope, batch=None, reference=None):
+        from v1.schemas import LocalContext
+        now = self.owner.now()
+        self.context = LocalContext(id=new_id("clarify"), revision=1, scope=scope,
+            original_text=message.text, request_id=message.request_id, trace_id=new_id("trace"),
+            household_timezone=message.household_timezone, created_at=now,
+            expires_at=min(now+timedelta(minutes=15), reference.expires_at) if reference else now+timedelta(minutes=15),
+            kind="finish", name=batch.name if batch else None, candidates=[batch] if batch else [],
+            selected_batch_id=batch.id if batch else None, allowed_fields=[], input_receipt=self.input_receipt)
+        return await self.resolve_local(self.context, scope)
 
     async def delegate_extracted(self, raw, message, scope):
         from interaction.policy import ExtractionAdapter
@@ -229,7 +319,7 @@ class Operation(BaseOperation):
             from interaction.schemas import ContinuationContext
             context = request.context
             inner = context.delegate if isinstance(context, ContinuationContext) else context
-            if isinstance(inner, ClarificationContext):
+            if type(inner) is ClarificationContext:
                 if inner.scope == scope:
                     self.context = inner
                     self.input_receipt = getattr(context, "input_receipt", None)
@@ -273,7 +363,7 @@ class Operation(BaseOperation):
         # Only old-domain fields reach the frozen P6 conversion.
         if isinstance(response, AgentResult):
             from v1.schemas import AgentResult as BaseResult
-            value = response.model_dump(exclude={"clear_reference", "object_source", "reference_used"})
+            value = response.model_dump(exclude={"clear_reference", "object_source", "reference_used", "consume_mode", "procurement_source"})
             value["policy_version"] = "v1-completion-1"
             response = BaseResult.model_validate(value)
         result = super().public_result(response)

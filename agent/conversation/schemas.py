@@ -1,10 +1,12 @@
 from datetime import timedelta
+from decimal import Decimal
 from typing import Literal
 from uuid import UUID
 
 from pydantic import AwareDatetime, Field, model_validator
 from p0.schemas import Model, Scope
 from p1.schemas import ClarificationContext, Answers
+from p3.schemas import Recommendation as BaseRecommendation
 from interaction.schemas import Message as BaseMessage
 from interaction.schemas import Receipt
 from v1.schemas import (AgentResult as BaseResult, RuntimeInfo as OldRuntime,
@@ -78,12 +80,26 @@ class ClarificationRequest(Model):
 
 class RuntimeInfo(OldRuntime):
     release: Literal["V1-P7"] = "V1-P7"
+    maintenance_release: Literal["V1-P8.1"] = "V1-P8.1"
 
 
 class ReferenceUse(Model):
     source_task_id: UUID
     source_revision: int = Field(ge=1, strict=True)
     batch_id: str
+
+
+class ProcurementSource(Model):
+    batch_id: str = Field(min_length=1, max_length=100)
+    expected_version: int = Field(ge=1, strict=True)
+
+
+class Recommendation(BaseRecommendation):
+    # Legacy `unit` still describes suggested_quantity only.
+    inventory_unit: str | None = None
+    order_unit: str | None = None
+    pack_size: Decimal | None = Field(default=None, gt=0)
+    pack_size_source: Literal["saved_preferences"] | None = None
 
 
 class AgentResult(BaseResult):
@@ -93,3 +109,6 @@ class AgentResult(BaseResult):
     object_source: Literal["user_input", "trusted_reference"] | None = None
     reference_used: ReferenceUse | None = None
     clear_reference: bool = False
+    recommendations: list[Recommendation] = Field(default_factory=list)
+    consume_mode: Literal["all"] | None = None
+    procurement_source: ProcurementSource | None = None

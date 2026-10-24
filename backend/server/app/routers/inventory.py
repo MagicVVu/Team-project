@@ -1,6 +1,7 @@
 """App inventory with household authorization, version checks and safe retries."""
 import hashlib
 import json
+from typing import Literal
 from datetime import datetime, timezone
 from uuid import UUID
 
@@ -63,13 +64,28 @@ def locked(db, household_id, item_id):
 
 @router.get("", response_model=InventoryPage)
 def list_inventory(household_id: UUID, limit: int = Query(50, ge=1, le=100), offset: int = Query(0, ge=0),
+                   status: Literal["ACTIVE", "FINISHED", "DISCARDED", "REVERSED", "all"] | None = None,
                    identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
-    filters = [InventoryItem.household_id == household_id, InventoryItem.status.in_(["ACTIVE", "FINISHED"])]
+    filters = [InventoryItem.household_id == household_id]
+    if status is None:
+        filters.append(InventoryItem.status.in_(["ACTIVE", "FINISHED"]))
+    elif status != "all":
+        filters.append(InventoryItem.status == status)
     total = db.scalar(select(func.count()).select_from(InventoryItem).where(*filters))
     rows = db.scalars(select(InventoryItem).where(*filters).order_by(InventoryItem.created_at.desc(), InventoryItem.id)
                       .limit(limit).offset(offset)).all()
     return InventoryPage(items=[StockResponse.model_validate(row) for row in rows], total=total, limit=limit, offset=offset)
+
+
+@router.get("/{item_id}", response_model=StockResponse)
+def get_inventory(household_id: UUID, item_id: UUID,
+                  identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    membership_or_404(db, household_id, identity.user.id)
+    item = db.scalar(select(InventoryItem).where(InventoryItem.household_id == household_id, InventoryItem.id == item_id))
+    if item is None:
+        raise HTTPException(404, "Inventory item not found")
+    return StockResponse.model_validate(item)
 
 
 @router.post("", response_model=StockResponse, status_code=201)

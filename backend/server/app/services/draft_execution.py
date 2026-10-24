@@ -33,7 +33,9 @@ def action_enabled(action):
     return action in EDITABLE
 
 
-def editable(action, raw):
+def editable(action, raw, task=None):
+    if action == "CONSUME" and task is not None and (task.result_json or {}).get("consume_mode") == "all":
+        return set()
     if action == "DISCARD" and isinstance(raw, dict) and raw.get("discard_mode") == "all":
         return set()
     return EDITABLE.get(action, set())
@@ -131,7 +133,7 @@ def execution_status(db, identity, draft_id):
     receipt = db.get(DraftOperation, decision.operation_id).receipt_json if decision and decision.operation_id else None
     return {"draft_id": str(draft.id), "task_id": str(task.id), "status": status,
             "draft_revision": draft.revision, "task_revision": task.revision, "action": action,
-            "editable_fields": sorted(editable(action, draft.command_json)), "reason_code": reason,
+            "editable_fields": sorted(editable(action, draft.command_json, task)), "reason_code": reason,
             "expires_at": expiry(task, draft).isoformat(),
             "operation_id": str(decision.operation_id) if decision and decision.operation_id else None,
             "receipt": receipt}
@@ -193,7 +195,7 @@ def command(task, draft, edits):
     action = raw.pop("action", None)
     if not action_enabled(action):
         fail("ACTION_NOT_EXECUTABLE")
-    if not set(edits).issubset(editable(action, draft.command_json)):
+    if not set(edits).issubset(editable(action, draft.command_json, task)):
         fail("PROTECTED_OR_UNKNOWN_FIELD", 422)
     if action == "PLAN_ADD" and automated_plan(task):
         fail("PLANNING_REVALIDATION_UNAVAILABLE")
@@ -324,11 +326,15 @@ def execute(db, identity, draft_id, body):
         quantity = fields.quantity
     elif action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
         item = target_item(db, draft.household_id, target, lock=True)
+        if action == "CONSUME" and (task.result_json or {}).get("consume_mode") == "all":
+            if converted(fields.quantity, fields.unit, item.unit) != item.quantity:
+                fail("CONSUME_ALL_QUANTITY_CONFLICT")
         before = StockResponse.model_validate(item).model_dump(mode="json")
         quantity, changes = stock_changes(action, fields, item, normalized)
         for key, value in changes.items():
             setattr(item, key, value)
     else:
+        source = procurement_source(db, task, normalized, lock=True)
         shared = db.scalar(select(ShoppingList).where(ShoppingList.household_id == draft.household_id).with_for_update())
         if shared is None:
             fail("SHOPPING_LIST_MISSING")
@@ -337,7 +343,7 @@ def execute(db, identity, draft_id, body):
             ShoppingListItem.is_checked.is_(False)).with_for_update()).all()
         shopping = ShoppingListItem(id=uuid5(body.operation_id, "shopping"), shopping_list_id=shared.id,
             added_by_user_id=identity.user.id, name=normalized["name"], quantity=fields.quantity,
-            unit=unit(fields.unit), is_checked=False)
+            unit=unit(fields.unit), is_checked=False, source_inventory_item_id=source.id if source else None)
         quantity = fields.quantity
         db.add(shopping)
     if item is not None:
@@ -374,6 +380,23 @@ def execute(db, identity, draft_id, body):
                          status="committed", operation_id=body.operation_id, decided_at=at))
     db.flush()
     return receipt
+
+
+def procurement_source(db, task, normalized, lock=False):
+    """Only saved AI provenance can link a manual plan, never a commit edit/name match."""
+    source = (task.result_json or {}).get("procurement_source")
+    if source is None:
+        return None
+    try:
+        if set(source) != {"batch_id", "expected_version"} or type(source["expected_version"]) is not int:
+            fail("PROCUREMENT_SOURCE_INVALID", 422)
+        target = Target(name=normalized["name"], batch_id=UUID(source["batch_id"]),
+                        expected_version=source["expected_version"])
+    except (TypeError, ValueError, ValidationError):
+        fail("PROCUREMENT_SOURCE_INVALID", 422)
+    item = target_item(db, task.household_id, target, lock=lock)
+    converted(Decimal(1), normalized["unit"], item.unit)
+    return item
 
 
 def cancel(db, identity, draft_id, body):

@@ -21,6 +21,7 @@ def capabilities(identity: Identity = Depends(get_identity)):
     from app.services.conversation import reference_enabled
     from app.services.planning_facts import business_zone
     return {"protocol_version": "draft-execution-1", "owner": "business_backend",
+            "maintenance_release": "V1-P8.1",
             "actions": {"ADD": True, "MOVE": True, "PLAN_ADD": True, "CONSUME": True,
                         "OPEN": service.action_enabled("OPEN"), "DISCARD": service.action_enabled("DISCARD")},
             "automatic_planning_commit": False, "trusted_reference_messages": reference_enabled(),
@@ -28,6 +29,9 @@ def capabilities(identity: Identity = Depends(get_identity)):
             "planning_context_protocol": "v1-planning-context-1",
             "planning_facts_protocol": "backend-planning-facts-1",
             "execution_preview": True,
+            "consume_all_protected": True, "manual_procurement_source": True,
+            "household_operation_summaries": True, "archived_inventory_reads": True,
+            "post_commit_feedback": True,
             "household_timezone": business_zone().key,
             "manual_plan_only": True, "draft_ttl_seconds": 900,
             "inventory_quantity_decimal_places": 6, "shopping_quantity_decimal_places": 3,
@@ -118,6 +122,8 @@ def consumption_events(household_id: UUID, limit: int = Query(50, ge=1, le=100),
     rows = db.scalars(select(BusinessEvent).where(*filters)
         .order_by(BusinessEvent.occurred_at.desc(), BusinessEvent.id).limit(limit).offset(offset)).all()
     return {"items": [{"id": str(row.id), "operation_id": str(row.operation_id),
+            "actor_user_id": str(row.actor_user_id),
+            "operation_summary_url": f"/api/v1/households/{household_id}/operations/{row.operation_id}/summary",
             "inventory_item_id": str(row.inventory_item_id), "event_type": row.event_type,
             "quantity": format(row.quantity, "f"), "unit": row.unit, "occurred_at": row.occurred_at.isoformat(),
             "before": row.before_json, "after": row.after_json} for row in rows],

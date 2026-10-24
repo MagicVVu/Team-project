@@ -21,6 +21,7 @@ class Profile(BaseProfile):
         "clarification_protocols":[*BaseProfile.health["clarification_protocols"], "p7-reference-continuation-1"],
         "object_reference_protocol":"p7-object-reference-1", "reference_ttl_seconds":900,
         "chat_policy_version":"p8-chat-1", "reply_routing_model_calls":0,
+        "maintenance_release":"V1-P8.1", "repair_policy_version":"p81-chain-repair-1",
         "frontend_integration_verified":False, "execution_capabilities_owner":"business_backend",
         "public_reference_forwarding":"requires_separate_trusted_adapter"}
 

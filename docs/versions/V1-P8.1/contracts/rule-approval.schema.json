@@ -1,0 +1,53 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "rule_id": {
+      "title": "Rule Id",
+      "type": "string"
+    },
+    "rule_version": {
+      "title": "Rule Version",
+      "type": "string"
+    },
+    "rule_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Rule Sha256",
+      "type": "string"
+    },
+    "decision": {
+      "pattern": "^(approved|rejected)$",
+      "title": "Decision",
+      "type": "string"
+    },
+    "reviewed_by": {
+      "maxLength": 120,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Reviewed By",
+      "type": "string"
+    },
+    "reviewed_on": {
+      "format": "date",
+      "title": "Reviewed On",
+      "type": "string"
+    },
+    "evidence": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Evidence",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_id",
+    "rule_version",
+    "rule_sha256",
+    "decision",
+    "reviewed_by",
+    "reviewed_on",
+    "evidence"
+  ],
+  "title": "Approval",
+  "type": "object"
+}

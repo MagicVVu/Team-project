@@ -19,6 +19,7 @@ from app.routers.draft_execution import router as draft_execution_router
 from app.routers.conversation import router as conversation_router
 from app.routers.planning import router as planning_router
 from app.routers.planning_facts import router as planning_facts_router
+from app.routers.assistant_reads import router as assistant_reads_router
 
 logger = logging.getLogger(__name__)
 
@@ -41,11 +42,13 @@ app.include_router(draft_execution_router)
 app.include_router(conversation_router)
 app.include_router(planning_router)
 app.include_router(planning_facts_router)
+app.include_router(assistant_reads_router)
 
 
 @app.get("/api/v1/health", tags=["System"])
 def health_check() -> dict:
     return {"status": "ok", "service": "magicvvu-backend", "version": app.version,
+            "maintenance_release": "V1-P8.1",
             "isolated_test": os.getenv("ISOLATED_APP_TEST") == "yes"}
 
 

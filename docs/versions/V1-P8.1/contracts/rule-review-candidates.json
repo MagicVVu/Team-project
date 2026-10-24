@@ -1,0 +1,152 @@
+{
+  "status": "pending_human_review",
+  "runtime_unchanged": true,
+  "rules": [
+    {
+      "rule": {
+        "id": "food-label-date",
+        "version": "1",
+        "kind": "label_date",
+        "categories": [
+          "food"
+        ],
+        "product_ids": [],
+        "storage_condition": null,
+        "opened": null,
+        "max_days_after_open": null,
+        "source": {
+          "title": "GOV UK Best before and use-by dates",
+          "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+          "kind": "official_guidance",
+          "checked_on": "2026-10-14",
+          "verification_note": "区分安全日期与品质日期；标签适用依赖保存和处理条件。不录入通用食品保存天数。"
+        },
+        "reviewed": false,
+        "review_kind": null,
+        "reviewed_by": null,
+        "reviewed_on": null,
+        "enabled": false
+      },
+      "rule_sha256": "88b9c0b52ab522d3a813fc5d50f400906b86664f2bff5d8a2828a08cec3fc688",
+      "review_status": "pending",
+      "human_approval": null
+    },
+    {
+      "rule": {
+        "id": "medicine-label-date",
+        "version": "1",
+        "kind": "label_date",
+        "categories": [
+          "medicine"
+        ],
+        "product_ids": [],
+        "storage_condition": null,
+        "opened": null,
+        "max_days_after_open": null,
+        "source": {
+          "title": "FDA Dont Be Tempted to Use Expired Medicines",
+          "ref": "https://www.fda.gov/drugs/special-features/dont-be-tempted-use-expired-medicines",
+          "kind": "official_guidance",
+          "checked_on": "2026-10-14",
+          "verification_note": "遵循药品包装有效期与保存要求；不推断或延长药品有效期，不提供剂量建议。"
+        },
+        "reviewed": false,
+        "review_kind": null,
+        "reviewed_by": null,
+        "reviewed_on": null,
+        "enabled": false
+      },
+      "rule_sha256": "a11f291f0a36e92fdf4b42e495650a215c5af04687eb4bad8e2b743cd232cbae",
+      "review_status": "pending",
+      "human_approval": null
+    },
+    {
+      "rule": {
+        "id": "food-label-storage",
+        "version": "1",
+        "kind": "storage",
+        "categories": [
+          "food"
+        ],
+        "product_ids": [],
+        "storage_condition": null,
+        "opened": null,
+        "max_days_after_open": null,
+        "source": {
+          "title": "GOV UK Best before and use-by dates",
+          "ref": "https://www.gov.uk/understanding-food-labelling/best-before-and-use-by-dates",
+          "kind": "official_guidance",
+          "checked_on": "2026-10-14",
+          "verification_note": "比较明确登记的保存条件和包装要求；位置名称不能代替保存条件或温度测量。"
+        },
+        "reviewed": false,
+        "review_kind": null,
+        "reviewed_by": null,
+        "reviewed_on": null,
+        "enabled": false
+      },
+      "rule_sha256": "7f29692611aa3056b755959e2212f612506077d7eda825d0151038486f9d6458",
+      "review_status": "pending",
+      "human_approval": null
+    },
+    {
+      "rule": {
+        "id": "medicine-label-storage",
+        "version": "1",
+        "kind": "storage",
+        "categories": [
+          "medicine"
+        ],
+        "product_ids": [],
+        "storage_condition": null,
+        "opened": null,
+        "max_days_after_open": null,
+        "source": {
+          "title": "FDA Dont Be Tempted to Use Expired Medicines",
+          "ref": "https://www.fda.gov/drugs/special-features/dont-be-tempted-use-expired-medicines",
+          "kind": "official_guidance",
+          "checked_on": "2026-10-14",
+          "verification_note": "只核对包装保存要求与登记条件，未到有效期也不意味着保存一定合规。"
+        },
+        "reviewed": false,
+        "review_kind": null,
+        "reviewed_by": null,
+        "reviewed_on": null,
+        "enabled": false
+      },
+      "rule_sha256": "b85710ac62b33b92a99028efeb6e8da22daa90aded37fdecb42af5d386859677",
+      "review_status": "pending",
+      "human_approval": null
+    },
+    {
+      "rule": {
+        "id": "app-label-reminder",
+        "version": "1",
+        "kind": "near_expiry",
+        "categories": [
+          "food",
+          "medicine"
+        ],
+        "product_ids": [],
+        "storage_condition": null,
+        "opened": null,
+        "max_days_after_open": null,
+        "source": {
+          "title": "V1 P2 reminder preference policy",
+          "ref": "docs/versions/V1-P2/ai-contract.md",
+          "kind": "project_policy",
+          "checked_on": "2026-10-14",
+          "verification_note": "提前提醒天数是用户偏好，默认 3 天；不是食品或药品安全阈值。"
+        },
+        "reviewed": false,
+        "review_kind": null,
+        "reviewed_by": null,
+        "reviewed_on": null,
+        "enabled": false
+      },
+      "rule_sha256": "ec80ec58cd01f8df4358ab77a13a8cc7c13783d7fb2d4a5fc741e7af01baf685",
+      "review_status": "pending",
+      "human_approval": null
+    }
+  ]
+}
