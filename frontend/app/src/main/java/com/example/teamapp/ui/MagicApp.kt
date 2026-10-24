@@ -117,21 +117,28 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                 if (store.storageError != null && !store.cloud.signedIn) {
                     Text(store.storageError!!, color = Red, modifier = Modifier.padding(22.dp))
                     Button(onClick = { panel = "隐私与安全" }, modifier = Modifier.padding(horizontal = 22.dp)) { Text(strings.get(R.string.ui_export___manage_data)) }
-                } else AnimatedContent(tab, Modifier.weight(1f).fillMaxWidth(), transitionSpec = {
-                    val direction = if (targetState > initialState) 1 else -1
-                    (fadeIn(tween(AppMotion.Duration)) + slideInHorizontally(tween(AppMotion.Page, easing = AppMotion.easing)) { direction * pageTravel })
-                        .togetherWith(fadeOut(tween(AppMotion.Quick)) + slideOutHorizontally(tween(AppMotion.Duration, easing = AppMotion.easing)) { -direction * pageTravel / 2 })
-                        .using(null)
-                }, label = "main-page") { page ->
-                    pageStates.SaveableStateProvider(page) {
-                        Box(Modifier.fillMaxSize().motionInput(page == tab)) {
-                            when (page) {
-                                0 -> Home(store, openItem, { selectTab(1) }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
-                                1 -> RingInventoryPage(store, { stockItem, route -> selected = stockItem.id; panel = route },
-                                    { panel = "手动添加" }, notify, active = page == tab,
-                                    onDetailVisibilityChanged = { inventoryDetailVisible = it })
-                                2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                                3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                } else HouseholdPullRefresh(
+                    enabled = store.cloud.signedIn && !store.cloud.expired && panel == null && !inventoryDetailVisible,
+                    busy = store.cloud.busy,
+                    onRefresh = { store.cloud.refresh() },
+                    modifier = Modifier.weight(1f).fillMaxWidth()
+                ) {
+                    AnimatedContent(tab, Modifier.fillMaxSize(), transitionSpec = {
+                        val direction = if (targetState > initialState) 1 else -1
+                        (fadeIn(tween(AppMotion.Duration)) + slideInHorizontally(tween(AppMotion.Page, easing = AppMotion.easing)) { direction * pageTravel })
+                            .togetherWith(fadeOut(tween(AppMotion.Quick)) + slideOutHorizontally(tween(AppMotion.Duration, easing = AppMotion.easing)) { -direction * pageTravel / 2 })
+                            .using(null)
+                    }, label = "main-page") { page ->
+                        pageStates.SaveableStateProvider(page) {
+                            Box(Modifier.fillMaxSize().motionInput(page == tab)) {
+                                when (page) {
+                                    0 -> Home(store, openItem, { selectTab(1) }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
+                                    1 -> RingInventoryPage(store, { stockItem, route -> selected = stockItem.id; panel = route },
+                                        { panel = "手动添加" }, notify, active = page == tab,
+                                        onDetailVisibilityChanged = { inventoryDetailVisible = it })
+                                    2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
+                                    3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                                }
                             }
                         }
                     }

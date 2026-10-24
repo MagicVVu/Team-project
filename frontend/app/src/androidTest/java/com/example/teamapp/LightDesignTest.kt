@@ -80,6 +80,7 @@ class LightDesignTest {
         compose.onNodeWithTag("ring-selected-info").performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
+        compose.onNodeWithTag("ring-search-toggle").performClick()
         compose.onNodeWithTag("ring-search").performTextInput("纯牛奶")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithText("清空").performClick()

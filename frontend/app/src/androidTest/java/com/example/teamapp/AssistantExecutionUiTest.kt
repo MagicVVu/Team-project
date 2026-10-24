@@ -200,6 +200,7 @@ class AssistantExecutionUiTest {
             assertEquals(beforeMove - 1, current.items.single { it.name == "纸巾" }.quantity, 0.0)
             val plan = send("采购清单加两包纸巾。"); confirm(plan)
             compose.onNodeWithTag("assistant-close").performClick()
+            compose.onNodeWithTag("ring-search-toggle").performClick()
             compose.onNodeWithTag("ring-search").performTextInput(name)
             compose.onNodeWithTag("ring-selected-info").assertTextContains(name, substring = true)
             compose.onNodeWithText("清单", useUnmergedTree = true).performClick()

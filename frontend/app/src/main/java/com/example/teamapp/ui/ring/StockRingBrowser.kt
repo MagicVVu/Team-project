@@ -164,23 +164,22 @@ internal fun StockRingBrowser(
     var infoHeightPx by remember { mutableIntStateOf(0) }
     var seekHeightPx by remember { mutableIntStateOf(0) }
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding)
-            .height(if (showAddAction) 48.dp else 28.dp).testTag("ring-toolbar"),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            Row(Modifier.weight(1f).height(28.dp)
-                .background(palette.panel, RoundedCornerShape(18.dp)).border(1.dp, palette.line, RoundedCornerShape(18.dp)).padding(horizontal = 10.dp),
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-                DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
-                BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
-                    modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = strings.get(R.string.ui_search_item_names) },
-                    decorationBox = { field -> Box { if (query.isEmpty()) Text(strings.get(R.string.ui_search_items), fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
-                if (query.isNotEmpty()) Text(strings.get(R.string.ui_clear), fontSize = 11.sp, color = scheme.primary,
-                    modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
-            }
-            if (showAddAction) IconButton(onClick = { focus.clearFocus(); onAdd() },
-                modifier = Modifier.size(48.dp).testTag("ring-add").semantics { contentDescription = strings.get(R.string.ui_add_items) }) {
-                Box(Modifier.size(30.dp).background(scheme.primaryContainer, CircleShape), contentAlignment = Alignment.Center) {
-                    DesignGlyph("plus", Modifier.size(17.dp), scheme.onPrimaryContainer)
+        if (showAddAction) {
+            InventorySearchToolbar(query, { query = it }, onAdd, palette,
+                Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding))
+        } else {
+            Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = toolbarEndPadding)
+                .height(28.dp).testTag("ring-toolbar"),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(Modifier.weight(1f).height(28.dp)
+                    .background(palette.panel, RoundedCornerShape(18.dp)).border(1.dp, palette.line, RoundedCornerShape(18.dp)).padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
+                    DesignGlyph("search", Modifier.size(15.dp), scheme.onSurfaceVariant)
+                    BasicTextField(query, { query = it }, singleLine = true, textStyle = TextStyle(color = scheme.onSurface, fontSize = 12.sp),
+                        modifier = Modifier.weight(1f).testTag("ring-search").semantics { contentDescription = strings.get(R.string.ui_search_item_names) },
+                        decorationBox = { field -> Box { if (query.isEmpty()) Text(strings.get(R.string.ui_search_items), fontSize = 12.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant); field() } })
+                    if (query.isNotEmpty()) Text(strings.get(R.string.ui_clear), fontSize = 11.sp, color = scheme.primary,
+                        modifier = Modifier.motionClickable { query = ""; focus.clearFocus() }.padding(3.dp))
                 }
             }
         }

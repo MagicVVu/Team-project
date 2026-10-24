@@ -65,6 +65,7 @@ class DarkDesignTest {
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试洗衣液")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-category-全部").performClick()
+        compose.onNodeWithTag("ring-search-toggle").performClick()
         compose.onNodeWithTag("ring-search").performTextInput("测试纯牛奶")
         compose.onNodeWithTag("ring-selected-info").performClick()
         compose.onNodeWithText("最低库存：3 盒").assertExists()

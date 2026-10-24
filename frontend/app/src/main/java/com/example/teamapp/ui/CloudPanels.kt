@@ -23,16 +23,8 @@ import java.util.UUID
 internal fun CloudStatus(store: InventoryStore, onLogin: () -> Unit) {
     val strings = rememberUiStrings()
     val cloud = store.cloud
-    val scope = rememberCoroutineScope()
-    if (cloud.signedIn) {
+    if (cloud.signedIn && (cloud.error != null || cloud.expired)) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 4.dp)) {
-            // The existing assistant cord occupies the trailing edge below the app bar.
-            Row(Modifier.fillMaxWidth().padding(end = 84.dp)) {
-                Text(strings.get(R.string.ui_household_cloud, if (cloud.lastSync.isBlank()) strings.get(R.string.ui_not_synced) else strings.get(R.string.ui_synced_at, cloud.lastSync)),
-                    modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelSmall)
-                TextButton(onClick = { scope.launch { runCatching { cloud.refresh() } } }, enabled = !cloud.busy && !cloud.expired) { Text(strings.get(R.string.ui_refresh)) }
-            }
-            if (cloud.busy) LinearProgressIndicator(Modifier.fillMaxWidth())
             cloud.error?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
             if (cloud.expired) TextButton(onClick = onLogin) { Text(strings.get(R.string.ui_log_in_again)) }
         }

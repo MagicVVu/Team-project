@@ -48,7 +48,8 @@ class InventoryV02UiTest {
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.waitForIdle()
         compose.onNodeWithTag("ring-toolbar").assertHeightIsEqualTo(48.dp)
-        val search = compose.onNodeWithTag("ring-search").fetchSemanticsNode().boundsInRoot
+        compose.onNodeWithTag("ring-search").assertDoesNotExist()
+        val search = compose.onNodeWithTag("ring-search-surface").fetchSemanticsNode().boundsInRoot
         val add = compose.onNodeWithTag("ring-add").fetchSemanticsNode().boundsInRoot
         val cat = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot
         val density = context.resources.displayMetrics.density
@@ -82,6 +83,7 @@ class InventoryV02UiTest {
         }
         compose.waitForIdle()
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 3")
+        compose.onNodeWithTag("ring-search-toggle").performClick()
         compose.onNodeWithTag("ring-search").performTextInput("纸巾")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试纸巾")
