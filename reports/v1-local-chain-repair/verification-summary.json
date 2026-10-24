@@ -1,6 +1,6 @@
 {
   "date": "2026-10-24",
-  "scope": "local_only_no_new_product_version",
+  "scope": "V1-P8.1_local_validation",
   "ai_tests": {
     "tests": 875,
     "failures": 0,
@@ -35,34 +35,36 @@
     "model_calls": 0
   },
   "contracts": [
-    "docs/ai-local-chain-repair/contracts/agent-result.schema.json",
-    "docs/ai-local-chain-repair/contracts/ai-openapi.json",
-    "docs/ai-local-chain-repair/contracts/backend-openapi.json",
-    "docs/ai-local-chain-repair/contracts/procurement-source.schema.json",
-    "docs/ai-local-chain-repair/contracts/recommendation.schema.json",
-    "docs/ai-local-chain-repair/contracts/rule-approval.schema.json",
-    "docs/ai-local-chain-repair/contracts/rule-review-candidates.json"
+    "docs/versions/V1-P8.1/contracts/agent-result.schema.json",
+    "docs/versions/V1-P8.1/contracts/ai-openapi.json",
+    "docs/versions/V1-P8.1/contracts/backend-openapi.json",
+    "docs/versions/V1-P8.1/contracts/procurement-source.schema.json",
+    "docs/versions/V1-P8.1/contracts/recommendation.schema.json",
+    "docs/versions/V1-P8.1/contracts/rule-approval.schema.json",
+    "docs/versions/V1-P8.1/contracts/rule-review-candidates.json"
   ],
   "source_sha256": {
-    "agent/conversation/export_repair_contracts.py": "15f219ea46559c54dc448f542e10d85461fdcc37c2fb747d1fbe71e1d293d5d3",
+    "agent/conversation/app.py": "03fc1739e750b0be43981e5935dd8ff76086f5e9af98e3e0baf76e07b991fb96",
+    "agent/conversation/export_repair_contracts.py": "2dc159488346f6bf2465d8206218cb9568c9f4d0bf91a15d586982fe2f4254f5",
+    "agent/conversation/health.py": "c24cc9a3f0b7ae12d1ebbb3549182ffd1300a44502bedd896d5646f88f469ba5",
     "agent/conversation/manager.py": "b341876ec562392092d3bf498a6e890ebf784167c1e8d691959c6dee273eae99",
-    "agent/conversation/schemas.py": "d723f2a6037b432cdcec029d337eb64e8731b7483f294c973e31b59c8a303684",
+    "agent/conversation/schemas.py": "25acb015ded6a58ff8987da079c4f14675ee4983389fe35cfec6be6173e95433",
     "agent/conversation/scoped_queries.py": "fda5a3efb69fe616ea5cddd31f6027935432c10e2d2518278acb190edd639e54",
     "agent/eval/local_chain/__init__.py": "8309a14176f99263623b5342c949bc0658b0bfd609043577409a382fcd97a69d",
     "agent/eval/local_chain/run.py": "ef8737572ced880c287e5b5f352f039e2158546b986c3a16db3fb6b640b0ac98",
     "agent/integration/source_manifest.py": "1e96e72d194fd4e715b7b306a49ca856336bca661ae3dd7f92532e84c660e20e",
     "agent/review/__init__.py": "9385a90bf9df0a4495604131e831b9df3e54f7db99dfb013904a73098f3d8e4a",
     "agent/review/rules.py": "cb6bb9139942844b3c95f16e4c9dab488135157da13abc6fb441db267bf8924a",
-    "agent/tests/test_local_chain_repairs.py": "2c1f88a38a447137c1c1273d9d962a9ec60f381ebb42bf417fb25896786445d2",
+    "agent/tests/test_local_chain_repairs.py": "480abc9ba084401f77c002ecb635bb9c19050849690a965d58333c0bc940b723",
     "agent/tests/test_rule_review_preparation.py": "5cd00f227464b9e154133d375a1afee3db693dcf6901f1c86f00c87231db4bda",
     "backend/server/app/assistant_read_schemas.py": "d2d9878170eb914c038bd0980b2e9d161a522663cf21f3dbe01544dc0e80b483",
-    "backend/server/app/export_assistant_contracts.py": "d712ace266be0610258de0df63b22ddd38433dc3497b70df5c57fe1da5ae86e2",
-    "backend/server/app/main.py": "4d685637459f90b7c284b9efcbba0c54020fc2ef968fff50931912945e04daaa",
+    "backend/server/app/export_assistant_contracts.py": "41b1ddf5787c9868d535de2eb58ce97c7d07e0c8d0b45e14d408b0649fb6f19e",
+    "backend/server/app/main.py": "f1b9b154437207ec4696bd0a613cc57bf76cb6cc6f5a7ae78d51a6e041766156",
     "backend/server/app/routers/assistant_reads.py": "d559704d8f5347330b1acf369d9bfc70773d5b5273978f73d334854bd09e17b1",
-    "backend/server/app/routers/draft_execution.py": "6d1864a8550064683bbbb084fdcab67e89f4ad3eb15d96f0f741d07035f58c4c",
+    "backend/server/app/routers/draft_execution.py": "8001ed9a319e28b10671c80ce9fdeab4ab83c04e4be4757f1f933f2c08473e51",
     "backend/server/app/routers/inventory.py": "8c60e2655b8d4ff739cc00c298916960ecd6b111d4c26938f761e7bc1c3b1587",
     "backend/server/app/services/draft_execution.py": "8f7aab8612039c2c93d26f60c865c5826b587c656080aff909e97669ae8eee8b",
-    "backend/server/tests/test_local_chain_repairs.py": "29c61de4bdfeaaeaf08c50c3df2907c0eae1281a9203984aeb2d618862c33729"
+    "backend/server/tests/test_local_chain_repairs.py": "e201543a324a70d7d0c0ddafb21d236ff2a77d5c9bcc5460f8e6f6fe1d106e59"
   },
   "boundary_checks": {
     "frontend_unchanged": true,
@@ -71,11 +73,27 @@
     "jev_unchanged": true,
     "human_rules_not_enabled": true
   },
-  "server_sync": "not_performed",
-  "production_release": "not_performed",
-  "git_commit_push": "not_performed",
+  "server_sync_in_local_validation": "not_performed",
+  "production_release_in_local_validation": "not_performed",
+  "git_operations_by_this_agent": "none",
   "real_model_evaluation": "not_performed",
   "android_joint_acceptance": "not_performed",
   "postgresql_concurrency_acceptance": "not_performed",
-  "human_rule_approval": "pending"
+  "human_rule_approval": "pending",
+  "p81_backend_release_tests": {
+    "tests": 155,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 17,
+    "passed": 138
+  },
+  "subsequent_production_release": {
+    "maintenance_release": "V1-P8.1",
+    "status": "deployed",
+    "record": "docs/versions/V1-P8.1/正式发布记录.md",
+    "tags": {
+      "agent": "magicvvu/agent:p81-c2047faaa5a3",
+      "backend": "magicvvu/backend:p81-c2047faaa5a3"
+    }
+  }
 }

@@ -1,0 +1,186 @@
+{
+  "stage": "verified",
+  "services": {
+    "agent": {
+      "id": "8df93f651b8abf9ee7d8600e888096dc92f6a2c0d839bac9f8a66b37051b4af6",
+      "image_id": "sha256:6119bdb0291abcc380b219feef79587bbc188e46235414c13a47ce775799953d",
+      "image": "magicvvu/agent:p81-c2047faaa5a3",
+      "started_at": "2026-10-24T13:52:46.047951384Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "654b4d0100319f1ce47e9cb2f5bef90a615c1bc7ebc1ddad4ebfe68896274936"
+    },
+    "backend": {
+      "id": "ab3ac4a5426e93070bf609d96eff7626060c6d499bc690b49d4957d21f7235f3",
+      "image_id": "sha256:57b9ca57055b27c4db2d4d2c366cc36915a702c889b89356500d40c2381714c8",
+      "image": "magicvvu/backend:p81-c2047faaa5a3",
+      "started_at": "2026-10-24T13:52:37.589637948Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "93c0f903b27a00b0b24a029de011e423f63711a7268b411695757cb838b7ee0d"
+    }
+  },
+  "maintenance_release": "V1-P8.1",
+  "agent_synthetic_checks": {
+    "legacy_workflows": {
+      "synthetic_manager_workflows": "passed",
+      "ordinal_target": "b2",
+      "multifield_continuation": "passed",
+      "zero_model_continuation": true,
+      "fixture_inventory_unchanged": true,
+      "real_inventory_accessed": false
+    },
+    "four_scoped_queries": "passed",
+    "finish_all": "passed",
+    "pack_units": "synthetic_arithmetic_passed",
+    "unreviewed_risk_gate": "preserved",
+    "plan_source_continuation": "passed",
+    "fixture_inventory_unchanged": true,
+    "maintenance_release": "V1-P8.1",
+    "real_data_accessed": false
+  },
+  "backend_synthetic_checks": {
+    "new_routes_registered": true,
+    "all_consumption_protected": true,
+    "legacy_quantity_edit_compatible": true,
+    "automatic_planning_commit": false,
+    "maintenance_release": "V1-P8.1",
+    "database_accessed": false
+  },
+  "agent_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "maintenance_release": "V1-P8.1",
+    "repair_policy_version": "p81-chain-repair-1",
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "backend_health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "maintenance_release": "V1-P8.1",
+    "isolated_test": false
+  },
+  "live_http_checks": {
+    "你好": {
+      "status": "answered",
+      "model_calls": 0
+    },
+    "帮助": {
+      "status": "answered",
+      "model_calls": 0
+    },
+    "换个话题": {
+      "status": "answered",
+      "model_calls": 0
+    }
+  },
+  "capabilities": {
+    "protocol_version": "draft-execution-1",
+    "owner": "business_backend",
+    "maintenance_release": "V1-P8.1",
+    "actions": {
+      "ADD": true,
+      "MOVE": true,
+      "PLAN_ADD": true,
+      "CONSUME": true,
+      "OPEN": true,
+      "DISCARD": true
+    },
+    "automatic_planning_commit": false,
+    "trusted_reference_messages": true,
+    "conversation_protocol": "backend-conversation-1",
+    "chat_controls": true,
+    "planning_context_protocol": "v1-planning-context-1",
+    "planning_facts_protocol": "backend-planning-facts-1",
+    "execution_preview": true,
+    "consume_all_protected": true,
+    "manual_procurement_source": true,
+    "household_operation_summaries": true,
+    "archived_inventory_reads": true,
+    "post_commit_feedback": true,
+    "household_timezone": "Asia/Shanghai",
+    "manual_plan_only": true,
+    "draft_ttl_seconds": 900,
+    "inventory_quantity_decimal_places": 6,
+    "shopping_quantity_decimal_places": 3,
+    "location_max_length": 100
+  },
+  "new_route_authentication": "401_without_login",
+  "readiness": {
+    "status": "ready",
+    "database": "ok"
+  },
+  "database_revision": [
+    "20261023_0010"
+  ],
+  "budget_before": {
+    "calls": 253,
+    "conservative_cost_cny": 0.907056
+  },
+  "budget_after": {
+    "calls": 253,
+    "conservative_cost_cny": 0.907056
+  },
+  "business_writes_performed": false,
+  "model_check": "not_performed_in_this_step",
+  "android_joint_acceptance": false,
+  "source_git_revision": "c4fbc5705ccba3274087fbc7ab79de14b68c0606",
+  "source_contract_comparison": {
+    "ai_exact_match": true,
+    "backend_exact_match": false,
+    "backend_match_after_decimal_schema_normalization": true,
+    "backend_decimal_pattern_differences": 26,
+    "local_pydantic": "2.12.5",
+    "runtime_pydantic": "2.14.1",
+    "runtime_dependencies_preserved": true,
+    "quantity_validators_verified": {
+      "shopping_precision": true,
+      "stock_precision": true,
+      "stock_range": true,
+      "shopping_range": true,
+      "shopping_three_places": true,
+      "stock_six_places": true
+    }
+  },
+  "first_attempt": {
+    "automatically_rolled_back": true,
+    "reason": "DNS unset serialized as [] versus null; equivalent settings",
+    "database_or_budget_restored": false
+  },
+  "ai_runtime_files_staged": 82,
+  "backend_patch_files_staged": 6,
+  "source_code_uploaded": true,
+  "source_sha256": "c2047faaa5a321b16ce2e91f9a12db066bbc3aeb2dae63d5a0317da6eac7b5c0"
+}

@@ -1,0 +1,46 @@
+{
+  "maintenance_release": "V1-P8.1",
+  "public_checks": {
+    "https_health": 200,
+    "certificate_sha256": "9e6fb871598e9462eba322e9871ded09e89b08af4f1c761b288641118f5c4d0e",
+    "certificate_matches_previous_release": true,
+    "new_public_routes_require_login": true,
+    "internal_routes_stay_private": true,
+    "real_inventory_read": {
+      "passed": true,
+      "fact_count": 3,
+      "model_calls": 0,
+      "facts_exported": false
+    },
+    "real_planning_read": {
+      "passed": true,
+      "forecast_count": 3,
+      "model_calls": 0,
+      "data_gap_codes": [
+        "HUMAN_RULE_REVIEW_REQUIRED",
+        "STOCK_VERIFICATION_REQUIRED"
+      ],
+      "facts_exported": false
+    }
+  },
+  "synthetic_provider_check": {
+    "passed": true,
+    "requests": 1,
+    "retries": 0,
+    "elapsed_seconds": 1.134,
+    "real_inventory_sent": false,
+    "model": "deepseek-flash"
+  },
+  "budget_before": {
+    "calls": 253,
+    "conservative_cost_cny": 0.907056
+  },
+  "budget_after": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  },
+  "business_database_writes": false,
+  "tasks_or_sessions_created": false,
+  "real_inventory_exported_or_sent_to_model": false,
+  "android_joint_acceptance": false
+}
