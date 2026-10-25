@@ -7,7 +7,6 @@ import android.content.Intent
 import android.speech.RecognizerIntent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -33,14 +32,12 @@ import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
-import java.io.File
 import java.time.LocalDate
 import kotlinx.coroutines.launch
 
 private data class AddReviewStep(
     val version: Int,
     val index: Int,
-    val image: String,
     val draft: VoiceDraft?,
     val total: Int,
     val sourceText: String
@@ -48,11 +45,13 @@ private data class AddReviewStep(
 
 @Composable
 internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Unit, close: () -> Unit) {
+    if (mode == "拍照添加") {
+        PhotoScanFlow(store, notify, close)
+        return
+    }
     val strings = rememberUiStrings()
     val context = LocalContext.current
     val focus = LocalFocusManager.current
-    var image by rememberSaveable { mutableStateOf("") }
-    var cameraUri by rememberSaveable { mutableStateOf("") }
     var transcript by rememberSaveable { mutableStateOf("") }
     var draftSource by rememberSaveable { mutableStateOf("") }
     val drafts = remember(draftSource) { if (draftSource.isBlank()) emptyList() else parseVoice(draftSource) }
@@ -60,16 +59,6 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
     var review by rememberSaveable { mutableStateOf(mode == "手动添加") }
     var reviewVersion by rememberSaveable { mutableIntStateOf(0) }
     var error by rememberSaveable { mutableStateOf("") }
-    val photoPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) {
-            runCatching { context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
-                .onSuccess { image = uri.toString(); review = true; error = "" }
-                .onFailure { error = "无法保留照片访问权限，请重新选图或手动填写。" }
-        }
-    }
-    val camera = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) { image = cameraUri; review = true; error = "" } else error = "拍摄已取消，没有修改库存。"
-    }
     val speech = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             transcript = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull().orEmpty()
@@ -77,13 +66,13 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
         } else error = "语音输入已取消或未识别成功，可重试或手动输入。"
     }
     // Keep each outgoing review bound to its own draft while the next item enters.
-    val reviewStep = if (review) AddReviewStep(reviewVersion, index, image, drafts.getOrNull(index), drafts.size, transcript) else null
+    val reviewStep = if (review) AddReviewStep(reviewVersion, index, drafts.getOrNull(index), drafts.size, transcript) else null
     AppMotionContent(reviewStep, Modifier.fillMaxSize(), label = "add-step") { step ->
     if (step != null) {
         Column(Modifier.fillMaxSize()) {
             if (step.total > 0) Text(strings.get(R.string.ui_review_____each_item_is, step.index + 1, step.total), modifier = Modifier.padding(horizontal = 22.dp))
-            key(step.index, step.image, mode) {
-                Editor(store, initial = null, image = step.image, draft = step.draft, notify = notify, onSaved = {
+            key(step.index, mode) {
+                Editor(store, initial = null, draft = step.draft, notify = notify, onSaved = {
                     focus.clearFocus()
                     if (step.index + 1 < step.total) index = step.index + 1 else close()
                 }, cancel = { focus.clearFocus(); reviewVersion++; review = false; draftSource = ""; index = 0 }, sourceText = step.sourceText)
@@ -92,19 +81,6 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
     } else {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(22.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             MewAddIntro(mode)
-            if (mode == "拍照添加") {
-                Text(strings.get(R.string.ui_record_an_item_with_a_photo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                ModeNotice(strings.get(R.string.ui_use_the_system_camera_to_take))
-                Button(onClick = {
-                    runCatching {
-                        val directory = File(context.filesDir, "photos").apply { mkdirs() }
-                        val file = File.createTempFile("stock_", ".jpg", directory)
-                        val uri = FileProvider.getUriForFile(context, "${context.packageName}.files", file)
-                        cameraUri = uri.toString(); camera.launch(uri)
-                    }.onFailure { error = "设备无法打开相机，请选图或手动填写。" }
-                }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_take_a_photo)) }
-                OutlinedButton(onClick = { runCatching { photoPicker.launch(arrayOf("image/*")) }.onFailure { error = "设备无法打开图库，请手动填写。" } }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_choose_a_photo)) }
-            } else {
                 Text(strings.get(R.string.ui_say_what_you_want_to_add), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 ModeNotice(strings.get(R.string.ui_speak_chinese__for_example____the))
                 Button(onClick = {
@@ -118,9 +94,8 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
                     if (parseVoice(transcript).isEmpty()) error = "请先说出或输入物品信息" else review = true
                 }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_parse_and_review_items)) }
                 Text(strings.get(R.string.ui_only_simple_names__quantities_and_units), style = MaterialTheme.typography.bodySmall)
-            }
             MotionErrorText(error)
-            TextButton(onClick = { focus.clearFocus(); draftSource = ""; image = ""; transcript = ""; review = true }) { Text(strings.get(R.string.ui_enter_manually)) }
+            TextButton(onClick = { focus.clearFocus(); draftSource = ""; transcript = ""; review = true }) { Text(strings.get(R.string.ui_enter_manually)) }
         }
     }
     }

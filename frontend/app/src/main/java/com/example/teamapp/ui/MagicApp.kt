@@ -39,6 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.teamapp.data.*
 import com.example.teamapp.R
 import com.example.teamapp.ui.theme.LocalLightDesign
@@ -146,7 +148,16 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
             }
         }
     }
-    if (panel != null) {
+    if (panel == "拍照添加") {
+        Dialog(onDismissRequest = { panel = null }, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
+            Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Box(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
+                    PhotoScanFlow(store, notify, close = { panel = null })
+                }
+            }
+        }
+    }
+    if (panel != null && panel != "拍照添加") {
         ModalBottomSheet(onDismissRequest = { panel = null }, sheetState = sheetState, modifier = Modifier.appearanceFade(),
             containerColor = if (lightDesign) BottomSheetDefaults.ContainerColor else MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface) {

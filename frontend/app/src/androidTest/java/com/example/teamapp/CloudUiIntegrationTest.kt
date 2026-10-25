@@ -46,8 +46,7 @@ class CloudUiIntegrationTest {
             compose.onNodeWithText("新家庭名称").performScrollTo().performTextInput("UI 家庭 $suffix")
             compose.onNodeWithText("创建家庭").performScrollTo().performClick()
             compose.waitUntil(25_000) { !store.cloud.account?.householdId.isNullOrBlank() && !store.cloud.busy }
-            compose.onNodeWithText("拍照添加").performClick()
-            compose.onNodeWithText("改为手动填写").performClick()
+            compose.onNodeWithText("手动添加").performClick()
             compose.onNodeWithText("物品名称 *").performTextInput("UI 联调牛奶")
             compose.onNodeWithText("数量 *").performTextInput("2")
             compose.onNodeWithText("单位 *（如盒、袋、瓶、个）").performTextInput("盒")

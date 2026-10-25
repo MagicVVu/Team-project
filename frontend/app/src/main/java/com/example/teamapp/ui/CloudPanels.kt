@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -119,7 +120,12 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
         items(entries, key = { it.id }) { entry ->
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(entry.name, style = MaterialTheme.typography.titleMedium)
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        val preview = store.items.firstOrNull { it.id == entry.sourceId }
+                            ?: StockItem(id = "shopping:${entry.id}", name = entry.name, quantity = entry.quantity, unit = entry.unit)
+                        com.example.teamapp.ui.ring.RingItemIllustration(preview, Modifier.size(44.dp))
+                        Text(entry.name, style = MaterialTheme.typography.titleMedium)
+                    }
                     Text("${entry.quantity.display()} ${entry.unit}")
                     Text(if (entry.sourceId.isBlank()) strings.tr("来源：新物品，尚无库存批次关联；AI 待购完整性需核对", "Source: new item without a stock link; AI pending completeness needs review")
                         else strings.tr("关联批次：", "Linked batch: ") + entry.sourceId, style = MaterialTheme.typography.bodySmall)

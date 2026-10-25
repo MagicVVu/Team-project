@@ -81,7 +81,7 @@ class InventoryStore(context: Context) {
             require(duplicate.unit == item.unit) { "计量单位不同，请先在详情中核对并修改。" }
             val quantity = if (duplicateMode == "入库") duplicate.quantity + item.quantity else item.quantity
             require(quantity.isFinite())
-            items = items.map { if (it.id == duplicate.id) it.copy(quantity = quantity, history = (listOf(stamp("$duplicateMode → ${quantity.display()} ${it.unit}")) + it.history).take(30)) else it }
+            items = items.map { if (it.id == duplicate.id) it.copy(quantity = quantity, image = item.image.ifBlank { it.image }, history = (listOf(stamp("$duplicateMode → ${quantity.display()} ${it.unit}")) + it.history).take(30)) else it }
         } else {
             val updated = item.copy(name = item.name.trim(), history = (listOf(stamp(if (old == null) "首次录入 ${item.quantity.display()} ${item.unit}" else "更新记录 → ${item.quantity.display()} ${item.unit}")) + (old?.history ?: emptyList())).take(30))
             items = if (old == null) items + updated else items.map { if (it.id == item.id) updated else it }

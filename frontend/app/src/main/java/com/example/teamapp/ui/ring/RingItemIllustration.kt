@@ -13,10 +13,16 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
 import com.example.teamapp.data.StockItem
 import com.example.teamapp.ui.DesignGlyph
+import com.example.teamapp.ui.StockItemImage
+import androidx.compose.foundation.layout.fillMaxSize
 
 /** Code-drawn illustrations share the existing app's cream, sage and peach palette. */
 @Composable
 internal fun RingItemIllustration(item: StockItem, modifier: Modifier) {
+    if (item.image.isNotBlank()) {
+        StockItemImage(item, modifier) { RingItemIllustration(item.copy(image = ""), Modifier.fillMaxSize()) }
+        return
+    }
     val ink = Color(0xFF667F51)
     val kind = when {
         item.name.contains("奶") -> "milk"

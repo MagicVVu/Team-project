@@ -462,6 +462,10 @@ private fun DesignFact(label: String, value: String, color: Color = DesignInk) {
 /** Small native illustrations remain crisp at different emulator and phone densities. */
 @Composable
 private fun StockIllustration(item: StockItem, modifier: Modifier) {
+    if (item.image.isNotBlank()) {
+        StockItemImage(item, modifier) { StockIllustration(item.copy(image = ""), Modifier.fillMaxSize()) }
+        return
+    }
     val kind = when { item.name.contains("奶") -> "milk"; item.name.contains("面包") -> "bread"; item.name.contains("苹果") -> "apple"; else -> "box" }
     DesignGlyph(kind, modifier)
 }

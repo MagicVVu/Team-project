@@ -409,6 +409,10 @@ internal fun DarkGeneralSettings(store: InventoryStore, notify: (String) -> Unit
 /** Native item illustrations avoid missing emoji glyphs on MuMu's Android font. */
 @Composable
 private fun DarkStockIcon(item: StockItem, modifier: Modifier) {
+    if (item.image.isNotBlank()) {
+        StockItemImage(item, modifier) { DarkStockIcon(item.copy(image = ""), Modifier.fillMaxSize()) }
+        return
+    }
     val kind = when {
         item.name.contains("奶") || item.name.contains("饮") -> "milk"
         item.name.contains("面包") -> "bread"

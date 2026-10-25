@@ -105,10 +105,10 @@ class DarkDesignTest {
         launch()
         compose.onNodeWithText("拍照添加").performScrollTo().performClick()
         screenshot("photo-fixture")
-        compose.onNodeWithText("改为手动填写").performScrollTo().performClick()
+        compose.onNodeWithText("手动填写").performClick()
         screenshot("manual-fixture")
-        compose.onNodeWithText("物品名称 *").performTextInput("取消测试")
-        compose.onNodeWithText("关闭").performClick()
+        compose.onNodeWithTag("photo-name").performTextInput("取消测试")
+        compose.onNodeWithTag("photo-close").performClick()
         compose.runOnIdle { Assert.assertEquals(3, store.items.size) }
     }
 

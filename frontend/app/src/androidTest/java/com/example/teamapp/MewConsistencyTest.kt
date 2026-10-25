@@ -130,7 +130,8 @@ class MewConsistencyTest {
                 compose.onNodeWithText(mode).performScrollTo().performClick()
                 compose.onAllNodes(hasPose(pose), useUnmergedTree = true).assertCountEquals(1)
                 shot("$prefix-${pose.name.lowercase()}")
-                compose.onNodeWithText("关闭").performClick()
+                if (mode == "拍照添加") compose.onNodeWithTag("photo-close").performClick()
+                else compose.onNodeWithText("关闭").performClick()
             }
         }
     }

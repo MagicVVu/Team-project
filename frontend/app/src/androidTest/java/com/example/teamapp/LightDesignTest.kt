@@ -83,7 +83,7 @@ class LightDesignTest {
         compose.onNodeWithTag("ring-search-toggle").performClick()
         compose.onNodeWithTag("ring-search").performTextInput("纯牛奶")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
-        compose.onNodeWithText("清空").performClick()
+        compose.onNodeWithTag("ring-add").performClick()
         compose.onNodeWithTag("ring-category-日用品").performClick()
         compose.onNodeWithText("没有找到匹配的物品").assertIsDisplayed()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }

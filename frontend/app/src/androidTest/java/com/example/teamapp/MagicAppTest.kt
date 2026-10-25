@@ -74,9 +74,9 @@ class MagicAppTest {
     }
     @Test fun cancelledAddDoesNotChangeInventory() {
         compose.onNodeWithText("拍照添加").performClick()
-        compose.onNodeWithText("改为手动填写").performClick()
-        compose.onNodeWithText("物品名称 *").performTextInput("取消测试物品")
-        compose.onNodeWithText("关闭").performClick()
+        compose.onNodeWithText("手动填写").performClick()
+        compose.onNodeWithTag("photo-name").performTextInput("取消测试物品")
+        compose.onNodeWithTag("photo-close").performClick()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
     }
 }
