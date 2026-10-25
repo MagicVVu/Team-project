@@ -33,6 +33,7 @@ SOURCE_PATHS = (
     "conversation/tasks.py", "conversation/health.py",
     "conversation/reply_adapter.py", "conversation/chat_text.py", "conversation/supplements.py",
     "conversation/scoped_queries.py",
+    "conversation/memory.py", "conversation/memory_schemas.py",
     "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 

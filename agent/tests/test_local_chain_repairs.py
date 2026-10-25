@@ -225,6 +225,7 @@ def test_source_finishes_during_supplement_does_not_loop_or_create_plan():
 
 
 def test_exported_local_contracts_match_factory_and_models(monkeypatch):
+    from eval.session_memory.compatibility import assert_legacy_schema
     import json
     from pathlib import Path
     from conversation.app import create_app
@@ -235,10 +236,17 @@ def test_exported_local_contracts_match_factory_and_models(monkeypatch):
     root = Path(__file__).resolve().parents[2]/"docs/versions/V1-P8.1/contracts"
     api = json.loads((root/"ai-openapi.json").read_text(encoding="utf-8"))
     assert api.pop("x-deployment-status") == "local_source_contract"
-    assert api == create_app(reader=object()).openapi()
+    current = create_app(reader=object()).openapi()
+    # P8.1 is a frozen release artifact. Additive session endpoints get a new
+    # contract export, while every published legacy path/schema must stay exact.
+    assert api["info"] == current["info"]
+    for path, value in api["paths"].items():
+        assert current["paths"][path] == value
+    for name, value in api["components"]["schemas"].items():
+        assert_legacy_schema(value, current["components"]["schemas"][name])
     for name, model in [("agent-result", AgentResult), ("procurement-source", ProcurementSource),
                         ("recommendation", Recommendation), ("rule-approval", Approval)]:
-        assert json.loads((root/(name+".schema.json")).read_text(encoding="utf-8")) == model.model_json_schema()
+        assert_legacy_schema(json.loads((root/(name+".schema.json")).read_text(encoding="utf-8")), model.model_json_schema())
 
 
 @pytest.mark.parametrize("kind", ["planning", "risk"])

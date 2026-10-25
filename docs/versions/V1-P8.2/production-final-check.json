@@ -1,0 +1,22 @@
+{
+  "maintenance_release": "V1-P8.2",
+  "checked_at_utc": "2026-10-25T08:58:26.023313+00:00",
+  "services": {
+    "agent": {
+      "container_id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "healthy": true,
+      "restarts": 0
+    },
+    "backend": {
+      "container_id": "5fadb08abcd1924fb9d596e94e3fb6630e0a95f0c704f92f037cd6ec58625f74",
+      "image": "magicvvu/backend:p82-05fa3203a7cb",
+      "healthy": true,
+      "restarts": 0
+    }
+  },
+  "database_container_unchanged": true,
+  "workspace_overlay_matches": true,
+  "configuration_digests_unchanged": true,
+  "rollback_images_available": true
+}

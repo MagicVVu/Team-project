@@ -1,0 +1,93 @@
+{
+  "scope": "local_conversation_memory_increment",
+  "maintenance_release": "V1-P8.2",
+  "version_assigned": true,
+  "ai": {
+    "tests": 908,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 907
+  },
+  "backend": {
+    "tests": 431,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 37,
+    "passed": 394
+  },
+  "backend_final_targeted": {
+    "tests": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 46
+  },
+  "contracts_verified": 10,
+  "legacy_contracts_compatible": true,
+  "documentation_links_verified": true,
+  "offline": {
+    "passed": 150,
+    "total": 150,
+    "paid_model_calls": 0,
+    "human_review_status": "pending"
+  },
+  "provider": {
+    "initial_context_passed": 1,
+    "final_context_passed": 10,
+    "final_context_total": 10,
+    "actual_calls_total": 21,
+    "provider_fixture_flow_p95_ms": 2142.078,
+    "full_intent_acceptance": false,
+    "production_p95_verified": false,
+    "no_automatic_paid_retry": true,
+    "local_actual_calls": 20,
+    "server_synthetic_calls": 1
+  },
+  "delivery": {
+    "ai": "locally_implemented",
+    "backend_adapter": "locally_implemented",
+    "frontend": "pending_owner_integration",
+    "joint_acceptance": "pending",
+    "server_sync": "verified",
+    "production_switch": "verified",
+    "schema_migrations": "none",
+    "git_commit_or_push": "not_performed"
+  },
+  "source_sha256": {
+    "agent/conversation/app.py": "c16735d81ebdf68b1dbeb7e8192b386a973402095f7cb5d99856cfcd6ec9b2cb",
+    "agent/conversation/engines.py": "3fd6f1de37e7ccc0ef70a9c6c1e46d1a9fa7f63717d813df82e413873ca148c7",
+    "agent/conversation/manager.py": "ec6969e96327ed493c496e9add902c3b6380968c879d99e00027ad5ee8ef0c2c",
+    "agent/conversation/health.py": "42a7dd4c45468d68f798dffc5188359eb0766034551f60316f89bb1fbe09d541",
+    "agent/conversation/schemas.py": "9e186763d63472b128152de8eb176ab456a05b58500e827527c7f5b02d1f7540",
+    "agent/conversation/memory.py": "cdf7f8751c4c9391301508fd718827ed327581f029bff1a81af50937327ddbde",
+    "agent/conversation/memory_schemas.py": "39c16464d7df44d30e2942ba8fce2dd0121d74da9964e6345e91f8c42808a29f",
+    "agent/integration/source_manifest.py": "d7fd4ef2b324e671d045f2ddbdceaba280f3ffc4743d23e08dfe3bb60fe46f17",
+    "backend/server/app/main.py": "b7a30087a96ecf458c09b14abc059d771515d76639e2c0c1720e67309771da6c",
+    "backend/server/app/memory_schemas.py": "c3eeae4f7fe235d995fba532d1e4aebcafcf6602b3e0ad1397fb1fbea8a64fce",
+    "backend/server/app/routers/session_memory.py": "6f31e67d9abe3911cbf5735de1de76cc1f6976d3eb3d77744699a326ff56e994",
+    "backend/server/app/services/session_memory.py": "77e3f17864fddb986a707bb8852c100506654c9022e838efb465476f27fd8f98",
+    "backend/server/app/routers/agent_gateway.py": "0b49cd5f0821b48e9ac4047a532ebcbf6c87a1ed3db0c13cb11aecdac908de82",
+    "backend/server/app/routers/draft_execution.py": "c0da27ca6f22e27bff23f53c94c89d69d42745affb8b553fcb96c88d6507a59f"
+  },
+  "backend_release_regression": {
+    "tests": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "passed": 77
+  },
+  "production_contracts_verified": 2,
+  "production": {
+    "images": {
+      "agent": "magicvvu/agent:p82-05fa3203a7cb",
+      "backend": "magicvvu/backend:p82-05fa3203a7cb"
+    },
+    "database_revision": [
+      "20261023_0010"
+    ],
+    "unrelated_code_preserved": true,
+    "configuration_preserved": true,
+    "rollback_available": true
+  }
+}

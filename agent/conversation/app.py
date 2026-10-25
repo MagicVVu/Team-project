@@ -6,7 +6,7 @@ from v1.knowledge import HumanRuleCatalog
 from v1.tools import RemoteReader
 from .schemas import Message, ClarificationRequest, AgentResult, POLICY_VERSION
 from .manager import Manager
-from .engines import RuleEngine, DeepSeekEngine, PROMPT_VERSION
+from .engines import RuleEngine, DeepSeekEngine, PROMPT_VERSION, MEMORY_PROMPT_VERSION
 
 
 class Profile(BaseProfile):
@@ -21,7 +21,10 @@ class Profile(BaseProfile):
         "clarification_protocols":[*BaseProfile.health["clarification_protocols"], "p7-reference-continuation-1"],
         "object_reference_protocol":"p7-object-reference-1", "reference_ttl_seconds":900,
         "chat_policy_version":"p8-chat-1", "reply_routing_model_calls":0,
-        "maintenance_release":"V1-P8.1", "repair_policy_version":"p81-chain-repair-1",
+        "maintenance_release":"V1-P8.2", "repair_policy_version":"p81-chain-repair-1",
+        "conversation_memory_protocol":"conversation-memory-1", "memory_recent_turns":10,
+        "memory_understanding_prompt_version":MEMORY_PROMPT_VERSION,
+        "memory_history_days":30,
         "frontend_integration_verified":False, "execution_capabilities_owner":"business_backend",
         "public_reference_forwarding":"requires_separate_trusted_adapter"}
 
@@ -33,6 +36,8 @@ class Profile(BaseProfile):
     def install_routes(app, manager, scope):
         from .reply_adapter import install
         install(app, scope)
+        from .memory import install as install_memory
+        install_memory(app, manager, scope)
         from fastapi import Depends
         from p0.schemas import Scope
         from p3.schemas import Query

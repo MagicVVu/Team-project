@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "CurrentTask": {
+      "properties": {
+        "task": {
+          "additionalProperties": true,
+          "title": "Task",
+          "type": "object"
+        },
+        "execution": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution"
+        }
+      },
+      "required": [
+        "task"
+      ],
+      "title": "CurrentTask",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "protocol_version": {
+      "const": "conversation-memory-1",
+      "default": "conversation-memory-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "conversation_id": {
+      "format": "uuid",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "conversation_revision": {
+      "title": "Conversation Revision",
+      "type": "integer"
+    },
+    "current_conversation_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Conversation Revision"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "kind": {
+      "title": "Kind",
+      "type": "string"
+    },
+    "task": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task"
+    },
+    "active_task": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CurrentTask"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "filled_fields": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Filled Fields",
+      "type": "object"
+    },
+    "model_calls": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "truncated": {
+      "default": false,
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "inventory_written": {
+      "const": false,
+      "default": false,
+      "title": "Inventory Written",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "conversation_revision",
+    "request_id",
+    "original_text",
+    "reply",
+    "kind",
+    "model_calls"
+  ],
+  "title": "Response",
+  "type": "object"
+}

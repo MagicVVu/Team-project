@@ -239,7 +239,7 @@ async def new_message(body: NewMessage, identity: Identity = Depends(get_identit
     return await run_message(body, identity, db)
 
 
-async def run_message(body, identity, db, *, reference=None, on_saved=None):
+async def run_message(body, identity, db, *, reference=None, on_saved=None, result_provider=None):
     check_membership(db, identity, body.household_id)
     user_id = identity.user.id  # Snapshot before commit expires ORM attributes.
     digest = fingerprint(body)
@@ -282,7 +282,7 @@ async def run_message(body, identity, db, *, reference=None, on_saved=None):
                    "household_timezone": body.household_timezone}
         if reference is not None:
             payload["reference"] = reference
-        result = await _call_ai("/agent/message", user_id, body.household_id, payload)
+        result = (await result_provider()) if result_provider is not None else await _call_ai("/agent/message", user_id, body.household_id, payload)
         if result["original_text"] != body.text:
             raise HTTPException(503, "AI returned inconsistent original text")
         if reference is not None and result["status"] in {"answered", "needs_confirmation"}:

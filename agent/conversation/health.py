@@ -9,7 +9,8 @@ def validate(body, engine):
         and body.get("inventory_writes") is False and body.get("shopping_writes") is False
         and body.get("rule_review_policy") == "human_review_only"
         and body.get("reference_ttl_seconds") == 900
-        and body.get("maintenance_release") == "V1-P8.1"
+        and body.get("maintenance_release") == "V1-P8.2"
+        and body.get("conversation_memory_protocol") == "conversation-memory-1"
         and "p7-reference-continuation-1" in body.get("clarification_protocols", []))
 
 

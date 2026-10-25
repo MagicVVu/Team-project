@@ -1,0 +1,108 @@
+{
+  "stage": "deployed",
+  "maintenance_release": "V1-P8.2",
+  "source_sha256": "05fa3203a7cb8473cbb05b2a536a748a8a7db34f5aae2c275254b4eeab3fcd7d",
+  "tags": {
+    "agent": "magicvvu/agent:p82-05fa3203a7cb",
+    "backend": "magicvvu/backend:p82-05fa3203a7cb"
+  },
+  "services": {
+    "agent": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image_id": "sha256:a6ee9bede537af2aab02f8a2a19a78d824f64ecdfac34f51806bb052a99577b8",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:30.285450299Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "dc18092e8bcdf45ad8c9a4567d6631a6fbc3270937a052dc901d0ccfddc14ccb"
+    },
+    "backend": {
+      "id": "5fadb08abcd1924fb9d596e94e3fb6630e0a95f0c704f92f037cd6ec58625f74",
+      "image_id": "sha256:5b65bad62461ef29e82f941fddfc19acc5e31691fa6011529be3e2b8505f4534",
+      "image": "magicvvu/backend:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:21.569358027Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "0cda83d5ed08b2314fe09470c7bc375074ec0c899ad94884f1a85d425c8c7bf5"
+    }
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p82-20261025-05fa3203a7cb-r2",
+  "compose_changes": [
+    "services.agent.image",
+    "services.backend.image"
+  ],
+  "runtime_configuration_preserved": true,
+  "unrelated_code_preserved": true,
+  "protected_services_unchanged": true,
+  "inflight_before_switch": {
+    "tasks": 0,
+    "conversation_leases": 0
+  },
+  "database_revision": [
+    "20261023_0010"
+  ],
+  "database_migrations_executed": false,
+  "workspace_files_updated": [
+    "conversation/app.py",
+    "conversation/engines.py",
+    "conversation/manager.py",
+    "conversation/schemas.py",
+    "conversation/health.py",
+    "conversation/memory.py",
+    "conversation/memory_schemas.py",
+    "integration/source_manifest.py"
+  ],
+  "agent_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "maintenance_release": "V1-P8.2",
+    "repair_policy_version": "p81-chain-repair-1",
+    "conversation_memory_protocol": "conversation-memory-1",
+    "memory_recent_turns": 10,
+    "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+    "memory_history_days": 30,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "backend_health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "maintenance_release": "V1-P8.2",
+    "isolated_test": false
+  },
+  "budget": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  }
+}

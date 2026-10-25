@@ -1,0 +1,10 @@
+{
+  "agent": {
+    "exact_source_contract_match": true,
+    "match_after_decimal_regex_normalization": true
+  },
+  "backend": {
+    "exact_source_contract_match": false,
+    "match_after_decimal_regex_normalization": true
+  }
+}

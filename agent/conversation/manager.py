@@ -205,7 +205,7 @@ class Operation(BaseOperation):
             self.reset_requested = True
             return result
         if ((message.input and not message.input.user_confirmed) or guard(message.text)
-                or review_reason(message.text) or not PRONOUN.search(text)):
+                or review_reason(message.text) or (not PRONOUN.search(text) and not getattr(self, "allow_implicit_reference", False))):
             return await super().handle(message, scope)
         self.input_receipt = receipt(message, scope)
         if message.reference and message.reference.scope != scope:

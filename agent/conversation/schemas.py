@@ -80,7 +80,7 @@ class ClarificationRequest(Model):
 
 class RuntimeInfo(OldRuntime):
     release: Literal["V1-P7"] = "V1-P7"
-    maintenance_release: Literal["V1-P8.1"] = "V1-P8.1"
+    maintenance_release: Literal["V1-P8.1", "V1-P8.2"] = "V1-P8.2"
 
 
 class ReferenceUse(Model):
