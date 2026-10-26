@@ -376,6 +376,9 @@ internal fun CompactPurchaseCard(
             }
             Box(Modifier.height(48.dp), contentAlignment = Alignment.Center) {
                 Button(onClick = purchase, modifier = Modifier.height(32.dp), shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (light) DesignSoft else Color(0xFF3A4334),
+                        contentColor = if (light) DesignOlive else Color(0xFFD8E3CD)),
                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp)) {
                     Text(strings.get(R.string.ui_receive), fontSize = 11.sp, lineHeight = 16.sp)
                 }
