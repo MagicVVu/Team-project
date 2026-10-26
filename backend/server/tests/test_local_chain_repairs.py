@@ -191,9 +191,10 @@ def test_local_backend_openapi_exports_actual_routes(execution_state):
     import json
     from pathlib import Path
     from app.main import app
-    contract = Path(__file__).resolve().parents[3]/"docs/versions/V1-P8.1/contracts/backend-openapi.json"
+    contract = Path(__file__).resolve().parents[3]/"docs/versions/V1-P9/backend-openapi.json"
     exported = json.loads(contract.read_text(encoding="utf-8"))
-    assert exported.pop("x-deployment-status") == "local_source_contract"
+    assert exported.pop("x-deployment-status") == "local_source_contract_not_deployed"
+    assert exported.pop('x-conversation-memory-protocol') == 'conversation-memory-1'
     current = app.openapi()
     assert exported["info"] == current["info"]
     for path, value in exported["paths"].items():

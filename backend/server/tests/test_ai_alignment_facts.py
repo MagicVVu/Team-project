@@ -77,7 +77,8 @@ def test_capture_projects_to_contract_and_does_not_mutate_stock(planning):
         row = db.get(InventoryItem, ids['batch'])
         assert row.quantity == 5 and row.version == 1 and row.minimum_quantity == 0
         assert db.query(PlanningFactWrite).count() == 1
-        assert db.query(BusinessEvent).count() == db.query(DraftOperation).count() == 0
+        assert db.query(BusinessEvent).filter_by(event_type='Counted').count() == 1
+        assert db.query(DraftOperation).count() == 0
 
 
 @pytest.mark.parametrize('sections,code', [

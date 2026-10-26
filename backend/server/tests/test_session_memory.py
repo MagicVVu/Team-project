@@ -332,7 +332,7 @@ def test_local_memory_backend_contract_matches_factory(execution_state):
     from app.main import app
     from app.memory_schemas import Response
     root = Path(__file__).resolve().parents[3]/"docs/versions/V1-P8.2/contracts"
-    exported = json.loads((root/"backend-openapi.json").read_text(encoding="utf-8"))
+    exported = json.loads((root.parent.parent/'V1-P9/backend-openapi.json').read_text(encoding="utf-8"))
     assert exported.pop("x-deployment-status") == "local_source_contract_not_deployed"
     assert exported.pop("x-conversation-memory-protocol") == "conversation-memory-1"
     assert exported == app.openapi()

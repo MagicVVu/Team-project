@@ -1,0 +1,59 @@
+{
+  "production_database_accessed": false,
+  "data_directory": "D:\\project\\Team_Project_Shared\\Team-project\\.cache\\p72-local-postgres-2ptdgtjj\\data",
+  "host": "127.0.0.1",
+  "port": 52919,
+  "database": "magicvvu_p7_execution_test",
+  "system_service_installed": false,
+  "version": "postgres (PostgreSQL) 17.11",
+  "migration": [
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade  -> 20261014_0001, Create the six initial MagicVVu business tables.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0001 -> 20261014_0002, One shopping list per household; audit who added/purchased; stock once.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0002 -> 20261014_0003, Phone/password accounts, revocable sessions and one-time invitations.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0003 -> 20261014_0004, Expand v0.4 inventory batches for P1 read-only AI tools.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0004 -> 20261014_0005, Persist read-only AI messages, continuation state, and unconfirmed drafts.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0005 -> 20261016_0006, App inventory metadata and shopping source references (additive).\r\nINFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0009 -> 20261023_0010, Persist planning observations and retry receipts; no historical facts inferred.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "20261023_0010",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261026_0011 -> 20261023_0010, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "20261023_0009",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261026_0011 -> 20261023_0010, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0010 -> 20261023_0009, Persist planning observations and retry receipts; no historical facts inferred.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0009 -> 20261023_0010, Persist planning observations and retry receipts; no historical facts inferred.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    }
+  ],
+  "schema_check": "No new upgrade operations detected.",
+  "startup": {
+    "health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P8.2",
+      "isolated_test": true
+    },
+    "ready": {
+      "status": "ready",
+      "database": "ok"
+    }
+  },
+  "http_contract": {
+    "exit_code": 0,
+    "stdout": "P9 six actions, feedback, session recovery and planning passed through real HTTP services\r\n"
+  },
+  "exit_code": 0,
+  "stdout": "........................................................................ [ 15%]\r\n........................................................................ [ 31%]\r\n........................................................................ [ 47%]\r\n...........................................................sssssssssssss [ 62%]\r\nsss..................................................................... [ 78%]\r\n........................................................................ [ 94%]\r\n...........................                                              [100%]\r\n============================== warnings summary ===============================\r\n.venv\\Lib\\site-packages\\starlette\\testclient.py:51\r\n  D:\\project\\Team_Project_Shared\\Team-project\\.venv\\Lib\\site-packages\\starlette\\testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.\r\n    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]\r\n\r\nbackend/server/tests/test_backend_p2_conversation.py: 5 warnings\r\nbackend/server/tests/test_backend_p3_open_discard.py: 7 warnings\r\nbackend/server/tests/test_v04.py: 2 warnings\r\nbackend/server/tests/test_v05_ai_inventory.py: 2 warnings\r\nbackend/server/tests/test_v06_agent_gateway.py: 2 warnings\r\nbackend/server/tests/test_v08_inventory.py: 2 warnings\r\nbackend/server/tests/test_v09_execution.py: 5 warnings\r\n  D:\\project\\Team_Project_Shared\\Team-project\\.venv\\Lib\\site-packages\\alembic\\config.py:598: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.\r\n    util.warn_deprecated(\r\n\r\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\r\n- generated xml file: D:\\project\\Team_Project_Shared\\Team-project\\reports\\backend-ai-p9\\backend-p9-postgres-tests.xml -\r\n443 passed, 16 skipped, 26 warnings in 302.11s (0:05:02)\r\n",
+  "stderr": "",
+  "postgres_stopped": true,
+  "cluster_removed": true
+}

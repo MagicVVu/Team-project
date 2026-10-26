@@ -285,3 +285,4 @@ class AIDraft(Base):
 from app.execution_models import BusinessEvent, DraftDecision, DraftOperation  # noqa: E402,F401
 from app.conversation_models import ConversationBinding, ConversationTurn  # noqa: E402,F401
 from app.planning_fact_models import InventoryPlanningFacts, PlanningFactWrite  # noqa: E402,F401
+from app.product_models import Product, ProductBatch, MutationReceipt  # noqa: E402,F401

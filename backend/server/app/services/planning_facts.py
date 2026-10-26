@@ -15,9 +15,11 @@ from app.planning_fact_models import InventoryPlanningFacts, PlanningFactWrite
 from app.planning_fact_schemas import PlanningFactsResponse
 from app.routers.households import membership_or_404
 from app.services.ai_inventory import UNIT_CANONICAL
+from app.services import ledger
 
 KINDS = {"StockAdded": "Added", "StockMoved": "Moved", "Consumed": "Consumed",
-         "Opened": "Opened", "Discarded": "Discarded"}
+         "Opened": "Opened", "Discarded": "Discarded", 'Created': 'Added', 'Purchased': 'Purchased',
+         'Adjusted': 'Adjusted', 'Edited': 'Adjusted', 'Corrected': 'Adjusted', 'ProductLinked': 'Adjusted', 'Archived': 'Adjusted'}
 
 
 def fail(code, status=409):
@@ -59,7 +61,8 @@ def event_value(event, operation):
     return {"id": str(event.id), "item_key": str(event.inventory_item_id),
             "kind": KINDS[event.event_type], "quantity": str(event.quantity if event.quantity is not None else 0),
             "unit": UNIT_CANONICAL.get(event.unit), "occurred_at": aware(event.occurred_at).isoformat(),
-            "recorded_at": aware(operation.committed_at).isoformat(), "committed": True, "related_event_id": None}
+            "recorded_at": aware(ledger.recorded_at(event, operation)).isoformat(), "committed": True,
+            "related_event_id": str(event.related_event_id) if event.related_event_id else None}
 
 
 def events_for(db, item):
@@ -69,7 +72,7 @@ def events_for(db, item):
         .order_by(BusinessEvent.occurred_at, BusinessEvent.id).limit(20001)).all()
     if len(rows) > 20000:
         fail("PLANNING_INCOMPLETE")
-    if any(op is None or op.household_id != item.household_id for _, op in rows):
+    if any(not ledger.valid_origin(db, e, op, item.household_id) for e, op in rows):
         fail("PLANNING_CONTRACT_INVALID")
     return [event_value(event, op) for event, op in rows if event.event_type in KINDS]
 
@@ -84,6 +87,15 @@ def day_hashes(item, events, days, zone):
     by_day, adjustments, undated = {}, {}, []
     for event in events:
         by_day.setdefault(calendar_day(event["occurred_at"]), []).append(event)
+    originals = {event['id']: event for event in events}
+    for event in events:
+        target = originals.get(event.get('related_event_id'))
+        if target is not None:
+            # Stock corrections invalidate the referenced day's completeness;
+            # they never replace the original consumption quantity.
+            target_day = calendar_day(target['occurred_at'])
+            if target_day != calendar_day(event['occurred_at']):
+                by_day.setdefault(target_day, []).append(event)
     for entry in item.history_json or []:
         if isinstance(entry, dict) and entry.get("kind") in {"adjust", "edit_quantity"}:
             day = calendar_day(entry.get("created_at"))
@@ -143,7 +155,19 @@ def owned_item(db, identity_value, household_id, item_id, *, write=False):
 
 def read(db, identity_value, household_id, item_id):
     item = owned_item(db, identity_value, household_id, item_id)
-    return project(item, db.get(InventoryPlanningFacts, item.id), events_for(db, item))
+    return with_product_identity(db, item, project(item, db.get(InventoryPlanningFacts, item.id), events_for(db, item)))
+
+
+def with_product_identity(db, item, result):
+    from app.product_models import Product, ProductBatch
+    from app.services.products import value
+    link = db.get(ProductBatch, item.id)
+    product = db.get(Product, link.product_id) if link else None
+    if product and product.household_id != item.household_id:
+        fail('PRODUCT_SCOPE_INVALID')
+    result['provenance']['product_identity'] = ({**value(product), 'batch_id': str(item.id),
+        'association_source': link.source} if product else {'product_id': None, 'identity_status': 'unknown'})
+    return result
 
 
 def patch(db, identity_value, household_id, item_id, body):
@@ -201,10 +225,17 @@ def patch(db, identity_value, household_id, item_id, body):
     else:
         stored.version += 1
         stored.facts_json = facts
-    result = project(item, stored, events)
+    result = with_product_identity(db, item, project(item, stored, events))
     db.add(PlanningFactWrite(operation_id=body.operation_id, inventory_item_id=item.id,
         user_id=identity_value.user.id, household_id=household_id, request_hash=request_hash, response_json=result))
     db.flush()
+    if body.stock_verification is not None:
+        from app.shopping_schemas import StockResponse
+        ledger.save(db, body.operation_id, household_id, identity_value.user.id, request_hash,
+            {'inventory_item_id': str(item.id), 'facts_version': stored.version})
+        ledger.append(db, item, identity_value.user.id, 'Counted',
+            StockResponse.model_validate(item).model_dump(mode='json'),
+            request_id=body.operation_id, quantity=item.quantity)
     return result
 
 

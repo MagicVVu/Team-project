@@ -17,11 +17,14 @@ from app.execution_models import BusinessEvent, DraftOperation
 from app.models import InventoryItem, ShoppingListItem, ShoppingList, HouseholdMember, User
 from app.planning_fact_models import InventoryPlanningFacts
 from app.services import planning_facts
+from app.services import ledger, products
+from app.product_models import Product, ProductBatch
 from app.services.ai_inventory import to_p1_batch, IncompatibleInventory, UNIT_CANONICAL
 
 ITEM_LIMIT, EVENT_LIMIT, SHOPPING_LIMIT = 1000, 20000, 10000
 KINDS = {'StockAdded': 'Added', 'StockMoved': 'Moved', 'Consumed': 'Consumed',
-         'Opened': 'Opened', 'Discarded': 'Discarded'}
+         'Opened': 'Opened', 'Discarded': 'Discarded', 'Created': 'Added', 'Purchased': 'Purchased',
+         'Adjusted': 'Adjusted', 'Edited': 'Adjusted', 'Corrected': 'Adjusted', 'ProductLinked': 'Adjusted', 'Archived': 'Adjusted'}
 
 
 def digest(value):
@@ -76,18 +79,29 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
     profiles = {p.inventory_item_id: p for p in db.scalars(select(InventoryPlanningFacts)
         .join(InventoryItem).where(InventoryItem.household_id == household_id)).all()}
     ids = {r.id for r in rows}
+    catalogue = db.scalars(select(Product).where(Product.household_id == household_id).order_by(Product.id).limit(ITEM_LIMIT+1)).all()
+    if len(catalogue) > ITEM_LIMIT:
+        raise HTTPException(409, {'code': 'PLANNING_INCOMPLETE', 'message': 'Product snapshot exceeds complete read limits'})
+    links = db.scalars(select(ProductBatch).join(InventoryItem).where(InventoryItem.household_id == household_id)).all()
+    if any(link.product_id not in {p.id for p in catalogue} for link in links):
+        raise IncompatibleInventory('Product association requires reconciliation')
+    product_ids = {link.inventory_item_id: str(link.product_id) for link in links}
     grouped = {r.id: [] for r in rows}
     event_sources = {}
     for event, operation in event_rows:
-        if (operation is None or operation.household_id != household_id or
+        if (not ledger.valid_origin(db, event, operation, household_id) or
                 (event.inventory_item_id is not None and event.inventory_item_id not in ids)):
             raise IncompatibleInventory('Planning event provenance requires reconciliation')
-        event_sources[str(event.id)] = {'operation_id': str(event.operation_id),
+        event_sources[str(event.id)] = {'operation_id': str(event.operation_id) if event.operation_id else None,
+            'request_id': str(event.request_id) if event.request_id else None,
+            'product_id': str(event.product_id) if event.product_id else None,
             'household_id': str(event.household_id), 'batch_id': str(event.inventory_item_id) if event.inventory_item_id else None,
             'event_type': event.event_type, 'actor_user_id': str(event.actor_user_id),
-            'occurred_at': aware(event.occurred_at).isoformat(), 'recorded_at': aware(operation.committed_at).isoformat(),
+            'occurred_at': aware(event.occurred_at).isoformat(), 'recorded_at': aware(ledger.recorded_at(event, operation)).isoformat(),
             'quantity': str(event.quantity) if event.quantity is not None else None, 'unit': event.unit,
-            'related_event_id': None, 'relation_support': 'not_supported_by_current_business_ledger'}
+            'quantity_delta': ledger.quantity_delta(event),
+            'related_event_id': str(event.related_event_id) if event.related_event_id else None,
+            'relation_support': 'inventory-ledger-1'}
         if event.event_type in KINDS and event.inventory_item_id is not None:
             unit = UNIT_CANONICAL.get(event.unit)
             if unit is None:
@@ -95,10 +109,11 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
             grouped[event.inventory_item_id].append({'id': str(event.id), 'item_key': str(event.inventory_item_id),
                 'kind': KINDS[event.event_type], 'quantity': str(event.quantity if event.quantity is not None else 0),
                 'unit': unit, 'occurred_at': aware(event.occurred_at).isoformat(),
-                'recorded_at': aware(operation.committed_at).isoformat(), 'committed': True, 'related_event_id': None})
+                'recorded_at': aware(ledger.recorded_at(event, operation)).isoformat(), 'committed': True,
+                'related_event_id': str(event.related_event_id) if event.related_event_id else None})
     # Content tokens, NOT monotonically increasing commit sequences.
     watermark = digest([(e.id, e.event_type, e.quantity, e.unit, e.before_json, e.after_json,
-                         e.occurred_at, o.committed_at) for e, o in event_rows])
+                         e.occurred_at, ledger.recorded_at(e, o), e.related_event_id, e.product_id) for e, o in event_rows])
     shopping_hash = digest([(r.id, r.shopping_list_id, r.name, r.source_inventory_item_id,
         r.quantity, r.unit, r.is_checked, r.checked_at, r.purchased_by_user_id) for r in shopping] +
         [('list', r.id) for r in lists])
@@ -106,7 +121,7 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
     items, item_sources = [], {}
     for row in selected:
         category = row.category if row.category in {'food', 'medicine', 'household'} else 'unknown'
-        batch = {**to_p1_batch(row), 'category': category, 'product_id': None, 'label_date_type': 'unknown',
+        batch = {**to_p1_batch(row), 'category': category, 'product_id': product_ids.get(row.id), 'label_date_type': 'unknown',
             'label_context_valid': None, 'storage_condition': None, 'label_storage_condition': None,
             'is_opened': True if row.opened_at is not None else None}
         minimum, pref_source = minimum_fact(row)
@@ -117,7 +132,8 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
                 'lead_days': None, 'order_unit': None, 'pack_size': None},
             'usable_quantity_verified': False, 'stock_verification': None})
         adjustments = [e for e in row.history_json or [] if isinstance(e, dict) and e.get('kind') in {'adjust', 'edit_quantity'}]
-        item_sources[str(row.id)] = {'identity': 'inventory_batch_only', 'product_id': None,
+        item_sources[str(row.id)] = {'identity': 'explicit_product_batch' if row.id in product_ids else 'inventory_batch_only',
+            'product_id': product_ids.get(row.id),
             'raw_category': row.category, 'minimum_preference': pref_source,
             'preference_version_source': 'inventory_items.version_conservative',
             'recording_completeness': 'unknown', 'stock_verification': 'unknown',
@@ -129,6 +145,7 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
             facts = planning_facts.project(row, profiles[row.id], grouped[row.id])
             current, source = items[-1], item_sources[str(row.id)]
             batch.update(planning_facts.risk_fields(row, facts))
+            batch['product_id'] = product_ids.get(row.id)
             current['category'] = batch['category']
             current['preferences']['version'] = row.version + profiles[row.id].version
             current['coverage'] = facts['coverage']
@@ -168,7 +185,9 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
     for row in shopping:
         linked = row.source_inventory_item_id in ids
         key = str(row.source_inventory_item_id) if linked else None
-        valid = linked and row.unit in UNIT_CANONICAL and 0 < row.quantity <= Decimal('1000000000')
+        source = next((r for r in rows if r.id == row.source_inventory_item_id), None)
+        valid = (linked and row.unit in UNIT_CANONICAL and 0 < row.quantity <= Decimal('1000000000')
+                 and products.convert(row.quantity, row.unit, source.unit) is not None)
         shopping_sources.append({'id': str(row.id), 'item_key': key, 'source_inventory_item_id':
             str(row.source_inventory_item_id) if linked else None, 'name': row.name,
             'quantity': str(row.quantity), 'unit': row.unit, 'confirmed': True,
@@ -196,6 +215,16 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
             else 'partial_or_unknown' if any(i['coverage'] for i in items) else 'unknown'),
         'automatic_planning_commit': False,
         'items': item_sources, 'events': event_sources, 'shopping': shopping_sources}
+    pending_count = sum(not row.is_checked for row in shopping)
+    provenance['pending_state'] = ('shopping_list_missing' if len(lists) != 1 else
+        'none' if pending_count == 0 else 'linked_complete' if pending_complete else 'association_unknown')
+    provenance['pending_count'] = pending_count
+    all_projected = {str(r.id): planning_facts.project(r, profiles[r.id], grouped[r.id])
+                     for r in rows if r.id in profiles}
+    provenance['product_aggregates_v1'] = products.aggregate(catalogue, links, rows, profiles,
+        all_projected, datetime.fromisoformat(as_of).astimezone(planning_facts.business_zone()).date())
+    provenance['ledger_coverage'] = 'durable_since_p9_plus_existing_draft_events_no_legacy_crud_backfill'
+    provenance['risk_rules'] = {'review_status': 'unknown', 'version': None, 'source': 'ai_rule_owner_required'}
     # V1 selection compares this token across name and item_key reads. It must
     # identify household facts, independent of selectors or the capture clock;
     # otherwise unchanged selections loop forever. Every request still executes
@@ -203,7 +232,15 @@ def read_snapshot(db, user_id, household_id, name=None, item_key=None, *, with_p
     result['snapshot_id'] = digest({'scope': result['scope'],
         'inventory': [[getattr(row, column.name) for column in InventoryItem.__table__.columns] for row in rows],
         'planning_facts': [(str(key), p.version, p.facts_json) for key, p in sorted(profiles.items())],
-        'events': event_sources, 'event_watermark': watermark, 'shopping_content': shopping_hash})
+        'events': event_sources, 'event_watermark': watermark, 'shopping_content': shopping_hash,
+        'products': provenance['product_aggregates_v1']})
+    provenance['revalidation_basis'] = {'protocol_version': 'planning-revalidation-1',
+        'snapshot_id': result['snapshot_id'], 'event_watermark': watermark,
+        'shopping_version': result['shopping_version'],
+        'inventory_versions': {str(r.id): r.version for r in rows},
+        'facts_versions': {str(r.id): profiles[r.id].version if r.id in profiles else 0 for r in rows},
+        'product_versions': {str(p.id): p.version for p in catalogue},
+        'risk_rules': provenance['risk_rules']}
     return {'data': result, 'provenance': provenance} if with_provenance else result
 
 

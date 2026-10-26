@@ -1,0 +1,52 @@
+{
+  "production_database_accessed": false,
+  "data_directory": "D:\\project\\Team_Project_Shared\\Team-project\\.cache\\p72-local-postgres-7tcnam8o\\data",
+  "host": "127.0.0.1",
+  "port": 55068,
+  "database": "magicvvu_p7_execution_test",
+  "system_service_installed": false,
+  "version": "postgres (PostgreSQL) 17.11",
+  "migration": [
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade  -> 20261014_0001, Create the six initial MagicVVu business tables.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0001 -> 20261014_0002, One shopping list per household; audit who added/purchased; stock once.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0002 -> 20261014_0003, Phone/password accounts, revocable sessions and one-time invitations.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0003 -> 20261014_0004, Expand v0.4 inventory batches for P1 read-only AI tools.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0004 -> 20261014_0005, Persist read-only AI messages, continuation state, and unconfirmed drafts.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0005 -> 20261016_0006, App inventory metadata and shopping source references (additive).\r\nINFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0009 -> 20261023_0010, Persist planning observations and retry receipts; no historical facts inferred.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "20261023_0010",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261026_0011 -> 20261023_0010, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    },
+    {
+      "target": "20261023_0009",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261026_0011 -> 20261023_0010, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0010 -> 20261023_0009, Persist planning observations and retry receipts; no historical facts inferred.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0009 -> 20261023_0010, Persist planning observations and retry receipts; no historical facts inferred.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0010 -> 20261026_0011, P9 additive product identity, permanent CRUD receipts and shared event ledger.\r\n"
+    }
+  ],
+  "schema_check": "No new upgrade operations detected.",
+  "startup": {
+    "health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P8.2",
+      "isolated_test": true
+    },
+    "ready": {
+      "status": "ready",
+      "database": "ok"
+    }
+  },
+  "postgres_stopped": true,
+  "cluster_removed": true
+}

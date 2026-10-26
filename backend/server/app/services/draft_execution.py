@@ -231,6 +231,11 @@ def command(task, draft, edits):
 
 
 def persist_event(db, **values):
+    from app.product_models import ProductBatch
+    if values.get('inventory_item_id'):
+        link = db.get(ProductBatch, values['inventory_item_id'])
+        values['product_id'] = link.product_id if link else None
+    values['created_at'] = now()
     db.add(BusinessEvent(**values))
     db.flush()
 
@@ -310,6 +315,15 @@ def execute(db, identity, draft_id, body):
     pending(task, draft)
     if expiry(task, draft) <= now():
         fail("DRAFT_EXPIRED")
+    if draft.command_json.get('action') == 'PLAN_ADD' and automated_plan(task):
+        basis = (task.result_json or {}).get('planning_basis')
+        if isinstance(basis, dict) and basis.get('protocol_version') == 'planning-revalidation-1':
+            from app.services.planning_revalidation import inspect
+            report = inspect(db, identity, draft_id, body)
+            if report['mismatches']:
+                raise HTTPException(409, {'code': 'PLANNING_BASIS_STALE', 'mismatches': report['mismatches'],
+                                          'regenerate_required': True})
+            raise HTTPException(409, {'code': 'PLANNING_REVALIDATION_UNAVAILABLE', 'blockers': report['blockers']})
     action, target, fields, normalized = command(task, draft, body.edits)
     at = now()
     event_id = uuid5(body.operation_id, "event")

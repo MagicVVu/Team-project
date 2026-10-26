@@ -20,6 +20,7 @@ from app.routers.conversation import router as conversation_router
 from app.routers.planning import router as planning_router
 from app.routers.planning_facts import router as planning_facts_router
 from app.routers.assistant_reads import router as assistant_reads_router
+from app.routers.products import router as products_router
 from app.routers.session_memory import router as session_memory_router
 
 logger = logging.getLogger(__name__)
@@ -44,6 +45,7 @@ app.include_router(conversation_router)
 app.include_router(planning_router)
 app.include_router(planning_facts_router)
 app.include_router(assistant_reads_router)
+app.include_router(products_router)
 app.include_router(session_memory_router)
 
 

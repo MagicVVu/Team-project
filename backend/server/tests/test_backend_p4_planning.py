@@ -200,8 +200,8 @@ def test_events_provenance_and_exclusions(planning, enabled):
     assert adjustment.status_code == 200
     payload = get(planning).json()
     item = parse(payload['data']).items[0]
-    assert len(item.events) == 3 and sum(e.quantity for e in item.events if e.kind == 'Consumed') == 1
-    assert {e.kind for e in item.events} == {'Consumed', 'Opened', 'Discarded'}
+    assert len(item.events) == 4 and sum(e.quantity for e in item.events if e.kind == 'Consumed') == 1
+    assert {e.kind for e in item.events} == {'Consumed', 'Opened', 'Discarded', 'Adjusted'}
     assert next(e.quantity for e in item.events if e.kind == 'Opened') == 0
     provenance = payload['provenance']
     assert len(provenance['items'][item.item_key]['known_quantity_adjustments']) == 1
@@ -209,7 +209,7 @@ def test_events_provenance_and_exclusions(planning, enabled):
     for e in item.events:
         source = provenance['events'][e.id]
         assert source['batch_id'] == item.item_key and source['household_id'] == str(ids['home'])
-        assert source['operation_id'] and source['relation_support'].startswith('not_supported')
+        assert (source['operation_id'] or source['request_id']) and source['relation_support'] == 'inventory-ledger-1'
         assert e.recorded_at <= parse(payload['data']).as_of
     # Historical opening date is separate from registration timestamp.
     opened = next(e for e in item.events if e.kind == 'Opened')
@@ -282,11 +282,11 @@ def test_pending_association_and_unknown_duplicate_risk(planning, link, status, 
     response = get(planning)
     assert response.status_code == 200, response.text
     result = response.json()
-    valid = link == 'explicit' and unit != '件'
+    valid = link == 'explicit' and unit == '盒'
     assert result['data']['pending_complete'] == (status == 'purchased' or valid)
     assert len(result['data']['pending']) == int(valid)
     if valid: assert result['data']['pending'][0]['status'] == status
-    else: assert result['provenance']['shopping'][0]['item_key'] is None or unit == '件'
+    else: assert result['provenance']['shopping'][0]['item_key'] is None or unit in {'件', '瓶'}
     if link == 'foreign':
         assert str(foreign_id) not in json.dumps(result)
 
