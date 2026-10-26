@@ -52,7 +52,7 @@ app.include_router(session_memory_router)
 @app.get("/api/v1/health", tags=["System"])
 def health_check() -> dict:
     return {"status": "ok", "service": "magicvvu-backend", "version": app.version,
-            "maintenance_release": "V1-P8.2",
+            "maintenance_release": "V1-P9",
             "isolated_test": os.getenv("ISOLATED_APP_TEST") == "yes"}
 
 

@@ -1,0 +1,100 @@
+{
+  "services": {
+    "magicvvu-starter-backend-1": {
+      "id": "5fadb08abcd1924fb9d596e94e3fb6630e0a95f0c704f92f037cd6ec58625f74",
+      "image": "magicvvu/backend:p82-05fa3203a7cb",
+      "health": "healthy"
+    },
+    "magicvvu-starter-agent-1": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "health": "healthy"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "health": "healthy"
+    }
+  },
+  "backend_cmd": [
+    "python",
+    "/app/magicvvu_direct.py"
+  ],
+  "backend_entrypoint": null,
+  "backend_user": "appuser",
+  "backup_directory": "/srv/magicvvu/releases/backend-p9-20261026",
+  "data": {
+    "ai_conversation_bindings": {
+      "count": 2,
+      "sha256": "7fdf0bdf6420de0c6858231f29958fd1812abb6b35090178440b91964e0e9e38"
+    },
+    "ai_conversation_turns": {
+      "count": 8,
+      "sha256": "3e091cc5491ea7ecec102b8022128d9a99c592840ab15461da4380bfd8ffb611"
+    },
+    "ai_drafts": {
+      "count": 1,
+      "sha256": "97a8c809b544ac2cb15537307a3e54fc03ddc73cbaf8aa8b2c09f348fd0e87bc"
+    },
+    "ai_tasks": {
+      "count": 10,
+      "sha256": "4c575d2f2312ad077730470a7963a4685ab38aefee69b13e232915a108b8be0a"
+    },
+    "alembic_version": {
+      "count": 1,
+      "sha256": "b4f00a49e3b563aababf167668be351b758704e0824ff8baed4215a3e25536bf"
+    },
+    "auth_sessions": {
+      "count": 20,
+      "sha256": "9ea604fe4a2096f897a064a67aa93033261a767aeb1d6abbf8e04eacea033b8b"
+    },
+    "business_events": {
+      "count": 1,
+      "sha256": "c347544b335ae0312e1aca6e800ecb91e6da401af08e0551506a3d2d5bbc31e5"
+    },
+    "draft_decisions": {
+      "count": 1,
+      "sha256": "756d90a3b612422615733b9a56fdef45e8735422af76790420bb59b6a174710b"
+    },
+    "draft_operations": {
+      "count": 1,
+      "sha256": "9c5e0cf0444853516c61b07a8ce0dcccaa4b0ea8631ba5c0ce905d4ffab6a23a"
+    },
+    "household_invitations": {
+      "count": 2,
+      "sha256": "ec11a7528d0a8cfb99703b91a42d8add9696d92f624c0b15d04a7d8c939cb6bc"
+    },
+    "household_members": {
+      "count": 10,
+      "sha256": "b836ae1fc804f5d4e3322ca5cead548f1976d5004da704e5256299b2c097598b"
+    },
+    "households": {
+      "count": 8,
+      "sha256": "94d0f150f41ab5dedabe4a206374ec5bd0c0b16c421f5bdb4014c98d278f05ec"
+    },
+    "inventory_items": {
+      "count": 13,
+      "sha256": "9a82ecc83573215771d1c50b613ea70c5a12dae76d2df63c75f71e5248f0aade"
+    },
+    "inventory_planning_facts": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "planning_fact_writes": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "shopping_list_items": {
+      "count": 4,
+      "sha256": "8648dc375d38b69df481b66e577ad9f3b4cf2a7f68e691e139cab13c29aedfdc"
+    },
+    "shopping_lists": {
+      "count": 8,
+      "sha256": "50dab4dd121a411ae5ad9986817d61dea5aa8c27ff8f41acd6de41638758040d"
+    },
+    "users": {
+      "count": 10,
+      "sha256": "50c392beeb87f45c906f43af8f76324ef86c6351d6e4e52fd1dffacbca1692ff"
+    }
+  }
+}

@@ -21,7 +21,10 @@ def capabilities(identity: Identity = Depends(get_identity)):
     from app.services.conversation import reference_enabled
     from app.services.planning_facts import business_zone
     return {"protocol_version": "draft-execution-1", "owner": "business_backend",
-            "maintenance_release": "V1-P8.2",
+            "maintenance_release": "V1-P9",
+            "product_identity_protocol": "household-product-1",
+            "inventory_ledger_protocol": "inventory-ledger-1",
+            "planning_revalidation_protocol": "planning-revalidation-1",
             "actions": {"ADD": True, "MOVE": True, "PLAN_ADD": True, "CONSUME": True,
                         "OPEN": service.action_enabled("OPEN"), "DISCARD": service.action_enabled("DISCARD")},
             "automatic_planning_commit": False, "trusted_reference_messages": reference_enabled(),
