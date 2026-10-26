@@ -3,10 +3,11 @@ import hashlib
 import json
 from typing import Literal
 from datetime import datetime, timezone
+from decimal import Decimal
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -16,6 +17,7 @@ from app.inventory_schemas import Adjustment, InventoryCreate, InventoryUpdate, 
 from app.models import InventoryItem
 from app.routers.households import membership_or_404
 from app.shopping_schemas import StockResponse
+from app.services import ledger
 
 router = APIRouter(prefix="/api/v1/households/{household_id}/inventory-items", tags=["Inventory"])
 
@@ -93,6 +95,9 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
                      identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
     digest = fingerprint("create", payload)
+    prior = ledger.replay(db, payload.id, household_id, identity.user.id, digest)
+    if prior is not None:
+        return StockResponse.model_validate(prior)
     existing = db.get(InventoryItem, payload.id)
     if existing is not None:
         if (existing.household_id == household_id and existing.created_by_user_id == identity.user.id
@@ -107,6 +112,8 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
     try:
         db.flush()
         result = StockResponse.model_validate(item)
+        ledger.save(db, payload.id, household_id, identity.user.id, digest, result.model_dump(mode='json'))
+        ledger.append(db, item, identity.user.id, 'Created', {}, request_id=payload.id, quantity=item.quantity)
         db.commit()
         return result
     except IntegrityError:
@@ -121,6 +128,9 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
 def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
     item = locked(db, household_id, item_id)
     digest = fingerprint(kind, payload)
+    prior = ledger.replay(db, payload.operation_id, household_id, actor_user_id, digest)
+    if prior is not None:
+        return prior
     if replay(item, payload.operation_id, digest):
         return item
     if item.status not in ("ACTIVE", "FINISHED"):
@@ -128,12 +138,20 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
     if item.version != payload.expected_version:
         raise HTTPException(409, "Inventory changed on another device; refresh and confirm again")
     before_quantity, before_unit = str(item.quantity), item.unit
+    before = StockResponse.model_validate(item).model_dump(mode='json')
     if kind == "adjust":
         quantity = item.quantity + payload.delta
         if quantity < 0 or quantity > 1_000_000_000:
             raise HTTPException(422, "Resulting quantity is outside the allowed range")
         item.quantity = quantity
         message = f"数量调整 {payload.delta} {item.unit} → {quantity} {item.unit}"
+    elif kind == 'correct':
+        from app.execution_models import BusinessEvent
+        original = db.get(BusinessEvent, payload.related_event_id)
+        if original is None or original.household_id != household_id or original.inventory_item_id != item.id:
+            raise HTTPException(404, {'code': 'RELATED_EVENT_NOT_FOUND'})
+        item.quantity = payload.quantity
+        message = payload.reason
     elif kind == "edit":
         changes = payload.model_dump(exclude_unset=True, exclude={"expected_version", "operation_id"})
         for key, value in changes.items():
@@ -154,10 +172,18 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
         facts.update(minimum_preference(item, payload, actor_user_id))
     record(item, payload.operation_id, digest, message, **facts)
     db.flush()
+    result = StockResponse.model_validate(item).model_dump(mode='json')
+    ledger.save(db, payload.operation_id, household_id, actor_user_id, digest, result)
+    event_type = {'adjust': 'Adjusted', 'correct': 'Corrected', 'edit': 'Edited', 'delete': 'Archived'}[kind]
+    event = ledger.append(db, item, actor_user_id, event_type, before, request_id=payload.operation_id,
+        related_event_id=payload.related_event_id if kind == 'correct' else None)
+    if kind == 'correct':
+        event.after_json = {**event.after_json, 'correction_reason': payload.reason}
     return item
 
 
 @router.patch("/{item_id}", response_model=StockResponse)
+@ledger.retry_conflicts
 def edit_inventory(household_id: UUID, item_id: UUID, payload: InventoryUpdate,
                    identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
@@ -167,18 +193,36 @@ def edit_inventory(household_id: UUID, item_id: UUID, payload: InventoryUpdate,
 
 
 @router.post("/{item_id}/adjustments", response_model=StockResponse)
+@ledger.retry_conflicts
 def adjust_inventory(household_id: UUID, item_id: UUID, payload: Adjustment,
                      identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
-    result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, "adjust"))
+    result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, "adjust", identity.user.id))
     db.commit()
     return result
 
 
 @router.delete("/{item_id}", status_code=204)
+@ledger.retry_conflicts
 def delete_inventory(household_id: UUID, item_id: UUID, payload: Versioned,
                      identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
-    mutate(db, household_id, item_id, payload, "delete")
+    mutate(db, household_id, item_id, payload, "delete", identity.user.id)
     db.commit()
     return Response(status_code=204)
+
+
+class Correction(Versioned):
+    related_event_id: UUID
+    quantity: Decimal = Field(ge=0, le=1_000_000_000, max_digits=16, decimal_places=6)
+    reason: str = Field(min_length=1, max_length=200, pattern=r'\S')
+
+
+@router.post('/{item_id}/corrections', response_model=StockResponse)
+@ledger.retry_conflicts
+def correct_inventory(household_id: UUID, item_id: UUID, payload: Correction,
+                      identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    membership_or_404(db, household_id, identity.user.id)
+    result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, 'correct', identity.user.id))
+    db.commit()
+    return result

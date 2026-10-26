@@ -46,11 +46,15 @@ class BusinessEvent(Base):
     """One durable semantic event per committed action; only Consumed is consumption."""
     __tablename__ = "business_events"
     __table_args__ = (
-        CheckConstraint("event_type IN ('StockAdded','StockMoved','PlanAdded','Consumed','Opened','Discarded')", name="ck_business_event_type"),
-        CheckConstraint("(event_type IN ('StockMoved','Opened') AND quantity IS NULL) OR (event_type NOT IN ('StockMoved','Opened') AND quantity IS NOT NULL AND quantity > 0 AND quantity <= 1000000000)", name="ck_business_event_quantity"),
+        CheckConstraint("event_type IN ('StockAdded','StockMoved','PlanAdded','Consumed','Opened','Discarded','Created','Adjusted','Purchased','Edited','Corrected','ProductLinked','Counted','Archived')", name="ck_business_event_type"),
+        CheckConstraint("(event_type IN ('StockMoved','Opened') AND quantity IS NULL) OR (event_type IN ('StockAdded','PlanAdded','Consumed','Discarded') AND quantity IS NOT NULL AND quantity > 0 AND quantity <= 1000000000) OR (event_type IN ('Created','Adjusted','Purchased','Edited','Corrected','ProductLinked','Counted','Archived') AND (quantity IS NULL OR (quantity >= 0 AND quantity <= 1000000000)))", name="ck_business_event_quantity"),
     )
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid4)
-    operation_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("draft_operations.id", ondelete="RESTRICT"), unique=True, nullable=False)
+    operation_id: Mapped[UUID | None] = mapped_column(Uuid(as_uuid=True), ForeignKey("draft_operations.id", ondelete="RESTRICT"), unique=True, nullable=True)
+    request_id: Mapped[UUID | None] = mapped_column(Uuid(), ForeignKey('mutation_receipts.operation_id', ondelete='RESTRICT'), unique=True)
+    related_event_id: Mapped[UUID | None] = mapped_column(Uuid(), ForeignKey('business_events.id', ondelete='RESTRICT'))
+    product_id: Mapped[UUID | None] = mapped_column(Uuid(), ForeignKey('products.id', ondelete='RESTRICT'))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     household_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("households.id", ondelete="RESTRICT"), nullable=False, index=True)
     actor_user_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("users.id", ondelete="RESTRICT"), nullable=False)
     inventory_item_id: Mapped[UUID | None] = mapped_column(Uuid(as_uuid=True), ForeignKey("inventory_items.id", ondelete="RESTRICT"))

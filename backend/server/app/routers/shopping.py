@@ -10,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.dependencies import Identity, get_db, get_identity
 from app.models import InventoryItem, ShoppingList, ShoppingListItem
+from app.services import ledger
 from app.routers.households import membership_or_404
 from app.services.shopping import (
     PurchaseReconciliationRequired,
@@ -37,7 +38,7 @@ def locked_pending_item(db: Session, shopping_list_id: UUID, item_id: UUID) -> S
     item = db.scalar(select(ShoppingListItem).where(
         ShoppingListItem.shopping_list_id == shopping_list_id,
         ShoppingListItem.id == item_id,
-    ).with_for_update())
+    ).with_for_update().execution_options(populate_existing=True))
     if item is None:
         raise HTTPException(status_code=404, detail="Shopping item not found")
     linked_stock = db.scalar(select(InventoryItem.id).where(
@@ -110,16 +111,41 @@ def create_item(
 
 
 @router.patch("/{household_id}/shopping-list/items/{item_id}", response_model=ShoppingItemResponse)
+@ledger.retry_conflicts
 def update_item(
     household_id: UUID, item_id: UUID, payload: ShoppingItemUpdate,
     identity: Identity = Depends(get_identity), db: Session = Depends(get_db),
 ) -> ShoppingItemResponse:
     shopping_list = shared_list(db, household_id, identity.user.id)
+    fingerprint = ledger.digest(['shopping_patch', str(item_id), payload.model_dump(mode='json', exclude_unset=True)])
+    if payload.operation_id:
+        previous = ledger.replay(db, payload.operation_id, household_id, identity.user.id, fingerprint)
+        if previous is not None:
+            return ShoppingItemResponse.model_validate(previous)
     item = locked_pending_item(db, shopping_list.id, item_id)
-    for key, value in payload.model_dump(exclude_unset=True).items():
+    if payload.operation_id:
+        previous = ledger.replay(db, payload.operation_id, household_id, identity.user.id, fingerprint)
+        if previous is not None:
+            return ShoppingItemResponse.model_validate(previous)
+    if payload.expected_version is not None and payload.expected_version != ShoppingItemResponse.model_validate(item).version:
+        raise HTTPException(409, {'code': 'SHOPPING_VERSION_CONFLICT'})
+    changes = payload.model_dump(exclude_unset=True, exclude={'expected_version', 'operation_id'})
+    source_id = changes.get('source_inventory_item_id', item.source_inventory_item_id)
+    if source_id is not None:
+        source = db.scalar(select(InventoryItem).where(InventoryItem.id == source_id,
+            InventoryItem.household_id == household_id).with_for_update().execution_options(populate_existing=True))
+        if source is None:
+            raise HTTPException(404, {'code': 'SOURCE_INVENTORY_NOT_FOUND'})
+        from app.services.ai_inventory import UNIT_CANONICAL
+        if (source.status not in ('ACTIVE', 'FINISHED') or source.name != changes.get('name', item.name)
+                or UNIT_CANONICAL.get(source.unit, source.unit) != UNIT_CANONICAL.get(changes.get('unit', item.unit), changes.get('unit', item.unit))):
+            raise HTTPException(409, {'code': 'SHOPPING_SOURCE_MISMATCH'})
+    for key, value in changes.items():
         setattr(item, key, value)
     db.flush()
     result = ShoppingItemResponse.model_validate(item)
+    if payload.operation_id:
+        ledger.save(db, payload.operation_id, household_id, identity.user.id, fingerprint, result.model_dump(mode='json'))
     db.commit()
     return result
 

@@ -80,6 +80,13 @@ def execution_preview(draft_id: UUID, body: PreviewRequest, identity: Identity =
     return service.preview(db, identity, draft_id, body)
 
 
+@router.post('/api/v1/drafts/{draft_id}/planning-revalidation')
+def planning_revalidation(draft_id: UUID, body: PreviewRequest, identity: Identity = Depends(get_identity),
+                          db: Session = Depends(get_db)):
+    from app.services.planning_revalidation import inspect
+    return inspect(db, identity, draft_id, body)
+
+
 @router.post("/api/v1/drafts/{draft_id}/cancel")
 def cancel(draft_id: UUID, body: DraftRevision, identity: Identity = Depends(get_identity),
            db: Session = Depends(get_db)):

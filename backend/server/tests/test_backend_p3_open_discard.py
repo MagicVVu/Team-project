@@ -566,13 +566,18 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             getattr(command, direction)(cfg, target)
 
     def snapshot():
-        existing = set(inspect(engine).get_table_names())
+        from sqlalchemy import MetaData
+        legacy = MetaData()
+        legacy.reflect(bind=engine)
         with engine.connect() as db:
             return {table.name: [dict(row) for row in db.execute(select(table).order_by(*table.primary_key.columns)).mappings()]
-                for table in service.AITask.metadata.tables.values() if table.name in existing and table.name != "alembic_version"}
+                for table in legacy.tables.values() if table.name != "alembic_version"}
 
     try:
-        migrate("upgrade", "20261023_0008")
+        # Current application must run only after its schema migration. Create
+        # the compatible legacy CONSUME receipt at head, then verify it survives
+        # a lossless downgrade to the original P3 test baseline.
+        migrate("upgrade", "head")
         with Session.begin() as db:
             db.add(User(id=ids["user"], email="p3-migration@example.invalid", password_hash="fixture", display_name="P3"))
             db.flush()
@@ -591,6 +596,7 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
         request = body()
         old_result = post(client, old_draft, request)
         assert old_result.status_code == 200, old_result.text
+        migrate('downgrade', '20261023_0008' if PG else '20261023_0009')
         with Session.begin() as db:
             db.add(ConversationBinding(user_id=ids["user"], household_id=ids["home"], session_id=session_id,
                 task_id=old_task, reference_json={"fixture": "preserve exactly"}))
@@ -602,10 +608,10 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             # Explicitly prove the local SQLite limitation preserves all data,
             # rather than turning off constraints to claim migration success.
             with pytest.raises(RuntimeError, match="Populated SQLite execution ledger"):
-                migrate("upgrade", "20261023_0009")
+                migrate("downgrade", "20261023_0008")
             assert snapshot() == before
             with engine.connect() as db:
-                assert db.scalar(text("SELECT version_num FROM alembic_version")) == "20261023_0008"
+                assert db.scalar(text("SELECT version_num FROM alembic_version")) == "20261023_0009"
                 assert db.scalar(text("PRAGMA foreign_keys")) == 1
                 assert db.execute(text("PRAGMA foreign_key_check")).all() == []
             evidence("populated_migration", {"database": "sqlite", "result": "guarded_before_DDL",
@@ -615,6 +621,7 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             migrate(direction, target)
             assert snapshot() == before
         assert client.get("/api/v1/operations/" + request["operation_id"], headers=headers()).json() == old_result.json()
+        migrate('upgrade', 'head')
         new_draft, _ = draft(Session, ids, expected_version=2)
         new_result = post(client, new_draft, body())
         assert new_result.status_code == 200, new_result.text
@@ -623,7 +630,7 @@ def test_migration_preserves_ledger_and_p2_and_blocks_unsafe_downgrade(enabled, 
             migrate("downgrade", "20261023_0008")
         assert snapshot() == populated
         with engine.connect() as db:
-            assert db.scalar(text("SELECT version_num FROM alembic_version")) == "20261023_0009"
+            assert db.scalar(text("SELECT version_num FROM alembic_version")) == "20261026_0011"
             assert not db.scalar(text("SELECT COUNT(*) FROM pg_constraint WHERE connamespace = current_schema()::regnamespace AND NOT convalidated"))
         assert "ai_conversation_turns" in inspect(engine).get_table_names()
         evidence("populated_migration", {"database": "postgresql", "p1_receipt_preserved": True,

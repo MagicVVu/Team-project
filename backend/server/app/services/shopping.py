@@ -10,7 +10,7 @@ row are committed together. On failure, the caller's transaction rolls back.
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from decimal import Decimal
-from uuid import UUID
+from uuid import UUID, uuid5
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -103,7 +103,8 @@ def purchase_and_stock(
     now = datetime.now(timezone.utc)
     if actual_quantity is not None:
         item.quantity = actual_quantity
-    source = session.get(InventoryItem, item.source_inventory_item_id) if item.source_inventory_item_id else None
+    source = session.scalar(select(InventoryItem).where(InventoryItem.id == item.source_inventory_item_id)
+        .with_for_update().execution_options(populate_existing=True)) if item.source_inventory_item_id else None
     if source is not None and source.household_id != household_id:
         raise ShoppingItemNotFound("Source inventory is not in this household")
     stock = InventoryItem(
@@ -125,4 +126,16 @@ def purchase_and_stock(
     item.checked_at = now
     item.purchased_by_user_id = actor_user_id
     session.flush()  # Ensure DB constraints are checked before returning.
+    from app.product_models import ProductBatch
+    from app.services import ledger
+    if source is not None:
+        link = session.get(ProductBatch, source.id)
+        if link is not None:
+            session.add(ProductBatch(inventory_item_id=stock.id, product_id=link.product_id,
+                actor_user_id=actor_user_id, source='purchase_from_explicit_source_batch'))
+            session.flush()
+    request_id = uuid5(item.id, 'purchase-and-stock')
+    ledger.save(session, request_id, household_id, actor_user_id,
+        ledger.digest(['purchase', str(item.id)]), {'inventory_item_id': str(stock.id)})
+    ledger.append(session, stock, actor_user_id, 'Purchased', {}, request_id=request_id, quantity=stock.quantity)
     return PurchaseResult(stock.id, newly_stocked=True)

@@ -17,18 +17,21 @@ from sqlalchemy.orm import Session
 from app.dependencies import get_db
 from app.models import HouseholdMember, InventoryItem, User
 from app.planning_fact_models import InventoryPlanningFacts
+from app.product_models import ProductBatch, Product
 from app.services.ai_inventory import IncompatibleInventory, to_p1_batch
 
 router = APIRouter(prefix="/internal/v1/inventory", tags=["Internal AI Inventory"])
 
 
-def with_risk_facts(item, profile):
+def with_risk_facts(item, profile, product_id=None):
     batch = to_p1_batch(item)
     if profile is not None and (profile.facts_json or {}).get("risk_facts"):
         from app.services.planning_facts import identity, risk_fields
         saved = profile.facts_json["risk_facts"]
         if saved["inventory_identity"] == identity(item, "risk_facts"):
             batch.update(risk_fields(item, {"risk_facts": saved["value"]}))
+    if product_id is not None:
+        batch['product_id'] = str(product_id)
     return batch
 
 
@@ -83,7 +86,10 @@ def search_batches(
     try:
         profiles = {p.inventory_item_id: p for p in db.scalars(select(InventoryPlanningFacts)
             .where(InventoryPlanningFacts.inventory_item_id.in_([row.id for row in rows]))).all()}
-        batches = [with_risk_facts(row, profiles.get(row.id)) for row in rows]
+        links = {link.inventory_item_id: link.product_id for link in db.scalars(select(ProductBatch)
+            .join(Product).where(Product.household_id == household_id,
+                ProductBatch.inventory_item_id.in_([row.id for row in rows]))).all()}
+        batches = [with_risk_facts(row, profiles.get(row.id), links.get(row.id)) for row in rows]
     except IncompatibleInventory as error:
         raise HTTPException(status_code=409, detail=str(error)) from None
     return {"data": {"batches": batches}}
@@ -102,7 +108,9 @@ def get_batch(
     if item is None:
         raise HTTPException(status_code=404, detail="Batch not found")
     try:
-        batch = with_risk_facts(item, db.get(InventoryPlanningFacts, item.id))
+        link = db.scalar(select(ProductBatch).join(Product).where(Product.household_id == household_id,
+            ProductBatch.inventory_item_id == item.id))
+        batch = with_risk_facts(item, db.get(InventoryPlanningFacts, item.id), link.product_id if link else None)
     except IncompatibleInventory as error:
         raise HTTPException(status_code=409, detail=str(error)) from None
     return {"data": {"batch": batch}}
