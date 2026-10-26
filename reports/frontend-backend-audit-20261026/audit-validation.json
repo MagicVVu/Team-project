@@ -1,0 +1,219 @@
+{
+  "reference_count": 29,
+  "references": [
+    {
+      "target": "runtime-evidence.json",
+      "valid": true
+    },
+    {
+      "target": "production-openapi.json",
+      "valid": true
+    },
+    {
+      "target": "production-source-hashes.json",
+      "valid": true
+    },
+    {
+      "target": "collect_runtime.py",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt:12",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt:24",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/session_memory.py:12",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/ui/CloudPanels.kt:175",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt:248",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudApi.kt:22",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/shopping.py:113",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt:241",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/ui/ConsumptionEventsPanel.kt:70",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt:184",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/services/draft_execution.py:142",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/assistant_reads.py:43",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/products.py:17",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/inventory.py:214",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudApi.kt:125",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/ui/ConsumptionEventsPanel.kt:38",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt:235",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/assistant_reads.py:63",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt:407",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/assistant_reads.py:22",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/InventoryContract.kt:24",
+      "valid": true
+    },
+    {
+      "target": "../../backend/server/app/routers/inventory.py:67",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt:113",
+      "valid": true
+    },
+    {
+      "target": "../../docs/versions/V1-P9/backend-ai-p9-contract.md",
+      "valid": true
+    },
+    {
+      "target": "../../frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt:391",
+      "valid": true
+    }
+  ],
+  "production_routes": [
+    {
+      "method": "get",
+      "path": "/api/v1/agent/conversation",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/agent/conversation/reset",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/agent/conversation-turns",
+      "present": true
+    },
+    {
+      "method": "get",
+      "path": "/api/v1/agent/conversation-turns/{request_id}",
+      "present": true
+    },
+    {
+      "method": "patch",
+      "path": "/api/v1/households/{household_id}/shopping-list/items/{item_id}",
+      "present": true
+    },
+    {
+      "method": "get",
+      "path": "/api/v1/households/{household_id}/operations/{operation_id}/summary",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/households/{household_id}/products",
+      "present": true
+    },
+    {
+      "method": "put",
+      "path": "/api/v1/households/{household_id}/inventory-items/{item_id}/product",
+      "present": true
+    },
+    {
+      "method": "get",
+      "path": "/api/v1/households/{household_id}/inventory-events",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/households/{household_id}/inventory-items/{item_id}/corrections",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/operations/{operation_id}/feedback",
+      "present": true
+    },
+    {
+      "method": "get",
+      "path": "/api/v1/households/{household_id}/inventory-ai-compatibility",
+      "present": true
+    },
+    {
+      "method": "get",
+      "path": "/api/v1/households/{household_id}/inventory-items",
+      "present": true
+    },
+    {
+      "method": "post",
+      "path": "/api/v1/drafts/{draft_id}/planning-revalidation",
+      "present": true
+    }
+  ],
+  "production_source_matches_local": {
+    "app/routers/products.py": true,
+    "app/routers/shopping.py": true,
+    "app/routers/inventory.py": true,
+    "app/routers/draft_execution.py": true,
+    "app/routers/assistant_reads.py": true,
+    "app/routers/session_memory.py": true,
+    "app/services/draft_execution.py": true
+  },
+  "frontend_missing_route_marker_matches": {
+    "/conversation-turns": [],
+    "/conversation/reset": [],
+    "inventory-events": [],
+    "/corrections": [],
+    "inventory-ai-compatibility": [],
+    "/feedback": [],
+    "/summary": [],
+    "/products": [],
+    "/product": [],
+    "planning-revalidation": []
+  },
+  "missing_markers_are_supporting_evidence_only": true,
+  "p9_preflight_check_count": 16,
+  "business_mutations_performed": false,
+  "model_calls_performed": 0,
+  "passed": true
+}
