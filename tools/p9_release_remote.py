@@ -308,9 +308,23 @@ def deploy():
         raise
 
 
+def acceptance():
+    assert json.loads((ROOT/'verification.json').read_text())['passed']
+    assert not (ROOT/'acceptance-attempt.json').exists(), 'Acceptance already attempted; never repeat the paid request automatically'
+    save('acceptance-attempt.json',{'started_at':time.time(),'authorization':'user explicitly approved synthetic production family and at most one paid model call','max_paid_requests':1})
+    p=run(['docker','exec','-i',BACKEND,'python','-'],data=(ROOT/'acceptance.py').read_bytes(),timeout=180,check=False)
+    if not p.stdout.strip():
+        (ROOT/'acceptance-error.log').write_bytes(p.stderr)
+        result={'passed':False,'error':'No structured result; inspect private log and do not repeat paid request automatically'}
+    else:
+        result=json.loads(p.stdout)
+    save('acceptance-result.json',result)
+    return result
+
+
 if __name__=='__main__':
     assert os.geteuid()==0
     ROOT.mkdir(mode=0o700,parents=True,exist_ok=True);os.chmod(ROOT,0o700);os.umask(0o077)
-    functions={'inspect':inspect_release,'build':build,'rehearse':rehearse,'deploy':deploy,'verify':verify}
+    functions={'inspect':inspect_release,'build':build,'rehearse':rehearse,'deploy':deploy,'verify':verify,'acceptance':acceptance}
     result=functions[sys.argv[1]]()
     print(json.dumps(result,ensure_ascii=False))

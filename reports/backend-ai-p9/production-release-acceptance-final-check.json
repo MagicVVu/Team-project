@@ -1,0 +1,15 @@
+{
+  "synthetic_account_inactive": true,
+  "all_test_sessions_revoked": true,
+  "turn_phase": "completed",
+  "query_fact_count": 2,
+  "query_fact_ids": [
+    "b2e311ee-129b-43e2-acd6-aebbd9f5e6db",
+    "18c123a0-8ac4-4062-af26-dd5705395caf"
+  ],
+  "query_total_quantity": "5.000000",
+  "query_units": [
+    "盒"
+  ],
+  "all_facts_in_test_household": true
+}

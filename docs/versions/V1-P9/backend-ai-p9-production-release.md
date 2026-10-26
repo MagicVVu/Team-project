@@ -19,7 +19,7 @@
 
 若尚无P9新业务证据，可回退P8.2应用镜像、保留新增schema；有P9事件后旧版规划读取器不能理解普通账本事件，因此不能无条件切回旧镜像。脚本发现新回执时禁止自动旧镜像回退，应保留数据并修复/前向发布。整库恢复会覆盖后续新写入，未列入自动回退，不会擅自执行。
 
-自动审批将“新建并操作生产验收家庭”和“最多一次付费DeepSeek调用”判为需要另行明确授权；已单独询问，未获答复前只进行只读生产验收。这个限制不影响已授权的备份、迁移、推送和部署。
+自动审批曾将生产专用家庭、最多一次付费DeepSeek调用及脱敏生产元数据发布判为需要单独明确授权。用户随后逐项明确批准；下述验收在收到授权后执行。密码、Token、私钥、备份内容和真实用户明细均不推送GitHub。
 
 ## 最终发布结果
 
@@ -30,9 +30,30 @@
 - P9只读预检16/16通过；backend/agent/db均healthy。AI和数据库容器ID不变；后端环境、挂载、发布端口、Compose环境文件逐项确认不变。
 - 最终一致备份已保存并计算SHA256；自定义格式dump为76907字节，含角色的完整备份仅在0700发布目录，不提供普通Git下载链接。
 - 发布后日志采样未发现Traceback或FATAL。自动提交仍false、manual_plan_only仍true；AI仍P8.2/DeepSeek，人工规则不伪造或改计数。
-- 未创建生产测试家庭，未调用付费模型；这两项仍等待单独明确授权，不能把只读验收视作真实业务写入验收。
+- 已按后续明确授权创建一个专用生产验收家庭并完成业务验证；共1次真实DeepSeek模型调用，未重试付费请求。详见下一节。
 - 服务器本地同一既有8000→8443 TLS入口验证通过：使用现有公开证书作显式信任锚，开启证书及IP主机名验证；health为P9/200、无认证capabilities为401、内部规划公网路径为404。没有读取私钥或关闭TLS校验。
 - 从本机直接访问公网IP:8000以及经现有系统代理补查均超时；外部公网可达性未确认，不能把服务器本地TLS通过等同外网可达。本轮未改变任何网络规则，未为排查开放新端口。
 - 完整备份保存在同一服务器的受限目录，已完成隔离恢复演练；这不是异地容灾备份。
 
-证据在`reports/backend-ai-p9/production-release-deploy.json`、`production-release-build.json`、`production-release-rehearse.json`、`production-release-final-data.json`、`production-release-verify.json`、`production-release-https.json`和`production-release-public-probe.json`。原五份文档中的开发阶段测试与限制保留；后续生产状态以本文件和production-release-*.json为准。
+## 获准后的生产专用家庭验收
+
+证据：[production-release-acceptance.json](../../../reports/backend-ai-p9/production-release-acceptance.json)与[独立复核](../../../reports/backend-ai-p9/production-release-acceptance-final-check.json)。专用家庭标识`P9_RELEASE_ACCEPTANCE_20261026T044402Z`。
+
+| 项目 | 实际结果 |
+| --- | --- |
+| ADD/MOVE/CONSUME/PLAN_ADD/OPEN/DISCARD | 六类确认执行、重复提交同回执、原操作读取均通过；草稿来自明确标记的验收夹具，并非六次真实模型生成 |
+| AI操作反馈 | 五种库存动作均partial，体现资料/覆盖未知；PLAN_ADD按原库存反馈契约为not_applicable，不伪装采购专用反馈已实现 |
+| 采购来源清空/重新关联/延迟重试 | 均通过，旧回执没有覆盖新关联 |
+| 采购完成及重试 | 新建批次一次，重复购买没有重复入库，继承商品映射 |
+| 商品聚合 | 同商品两批，合计5盒；批次保留 |
+| 调整/更正/消费账本 | 调整和更正不计消费；真实Consumed事件恰好1条、数量1盒 |
+| 自动建议重验 | 未知风险规则继续阻断；确认返回PLANNING_REVALIDATION_UNAVAILABLE，没有新增自动采购 |
+| 真实DeepSeek会话 | 1次请求/1次模型调用成功，查询任务answered；读取两批库存均属于专用家庭，总计5盒 |
+| 会话恢复和重新读取 | 原request_id的GET恢复与会话历史通过，没有再次发起付费请求 |
+| 测试账号收尾 | 已停用，全部测试会话已撤销，账本和固定草稿保留作为审计证据 |
+| 既有业务数据 | 验收前已有100条记录逐条比较，全部未变 |
+| 验收后服务复核 | P9只读预检16/16，正式三容器健康，自动提交仍关闭 |
+
+一次性运行标记与详细结果保存在服务器0700发布目录；脚本拒绝自动重跑，避免重复调用模型或重复创建测试家庭。生产测试没有停机、未修改AI代码或真实家庭库存。
+
+其余发布证据在`reports/backend-ai-p9/production-release-deploy.json`、`production-release-build.json`、`production-release-rehearse.json`、`production-release-final-data.json`、`production-release-verify.json`、`production-release-https.json`和`production-release-public-probe.json`。原五份文档中的开发阶段测试与限制保留；后续生产状态以本文件和production-release-*.json为准。
