@@ -1,6 +1,6 @@
 # V1-P9 后端与 AI 契约
 
-状态：后端候选，未部署。实际路由/字段以 [backend-openapi.json](backend-openapi.json) 为准。AI 服务由 MagicVVu 维护，本轮只读审计，未修改其源码。
+状态：后端P9已生产部署，0011迁移完成，详见[生产发布记录](backend-ai-p9-production-release.md)。实际路由/字段以 [backend-openapi.json](backend-openapi.json) 为准。AI 服务由 MagicVVu 维护，本轮只读审计，未修改其源码；新商品规划和重验basis仍待AI适配。
 
 ## 兼容策略
 

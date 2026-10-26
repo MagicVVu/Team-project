@@ -21,4 +21,18 @@
 
 自动审批将“新建并操作生产验收家庭”和“最多一次付费DeepSeek调用”判为需要另行明确授权；已单独询问，未获答复前只进行只读生产验收。这个限制不影响已授权的备份、迁移、推送和部署。
 
-最终部署结果和只读校验将在操作完成后追加。原五份文档描述开发阶段状态；本文件记录后续发布的实际状态，以本文件和production-release-*.json为准。
+## 最终发布结果
+
+- 已正常推送到origin/dev，生产源码提交`a70266765242d45a6cfd8432b5fa2a158884e10d`。Git直连GitHub失败后，单次命令使用系统已启用的本机代理完成推送，没有修改全局Git或网络配置。
+- 正式后端镜像：`magicvvu/backend:p9-20261026`；镜像ID为`sha256:80cbec534a0cc871385733c6d37ce894547acce2f1dbef4a2499bdcd11943de2`。
+- 后端应用与Alembic源码摘要：`0070a7caeb5a4bd4de3a5f729fd7799b1bab81c965817f6bd4132f4f92e91dbd`；镜像标注了源码提交和摘要。
+- 正式数据库已从0010迁移到`20261026_0011`。迁移前后17张旧业务表的全部旧字段、行数和哈希一致；只增加预期的新表/列与版本变更。
+- P9只读预检16/16通过；backend/agent/db均healthy。AI和数据库容器ID不变；后端环境、挂载、发布端口、Compose环境文件逐项确认不变。
+- 最终一致备份已保存并计算SHA256；自定义格式dump为76907字节，含角色的完整备份仅在0700发布目录，不提供普通Git下载链接。
+- 发布后日志采样未发现Traceback或FATAL。自动提交仍false、manual_plan_only仍true；AI仍P8.2/DeepSeek，人工规则不伪造或改计数。
+- 未创建生产测试家庭，未调用付费模型；这两项仍等待单独明确授权，不能把只读验收视作真实业务写入验收。
+- 服务器本地同一既有8000→8443 TLS入口验证通过：使用现有公开证书作显式信任锚，开启证书及IP主机名验证；health为P9/200、无认证capabilities为401、内部规划公网路径为404。没有读取私钥或关闭TLS校验。
+- 从本机直接访问公网IP:8000以及经现有系统代理补查均超时；外部公网可达性未确认，不能把服务器本地TLS通过等同外网可达。本轮未改变任何网络规则，未为排查开放新端口。
+- 完整备份保存在同一服务器的受限目录，已完成隔离恢复演练；这不是异地容灾备份。
+
+证据在`reports/backend-ai-p9/production-release-deploy.json`、`production-release-build.json`、`production-release-rehearse.json`、`production-release-final-data.json`、`production-release-verify.json`、`production-release-https.json`和`production-release-public-probe.json`。原五份文档中的开发阶段测试与限制保留；后续生产状态以本文件和production-release-*.json为准。

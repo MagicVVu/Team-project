@@ -1,7 +1,9 @@
 {
   "image": "magicvvu/backend:p9-20261026",
-  "image_id": "sha256:3625ca2b7f907058f0f80032fafe649835ed2a64f22deadfbb4750a147eb7698",
+  "image_id": "sha256:80cbec534a0cc871385733c6d37ce894547acce2f1dbef4a2499bdcd11943de2",
   "base_image": "magicvvu/backend:p82-05fa3203a7cb",
   "dependencies_reused": true,
-  "runtime_entrypoint_preserved": true
+  "runtime_entrypoint_preserved": true,
+  "source_sha256": "0070a7caeb5a4bd4de3a5f729fd7799b1bab81c965817f6bd4132f4f92e91dbd",
+  "git_revision": "a70266765242d45a6cfd8432b5fa2a158884e10d"
 }

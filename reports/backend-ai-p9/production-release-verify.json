@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "checks": {
+    "backend_image": true,
+    "all_healthy": true,
+    "agent_unchanged": true,
+    "database_container_unchanged": true,
+    "backend_environment_preserved": true,
+    "mounts_preserved": true,
+    "ports_preserved": true,
+    "secret_file_preserved": true,
+    "p9_preflight": true
+  },
+  "preflight": {
+    "business_data_written": false,
+    "checks": {
+      "ai_p7_health": true,
+      "ai_p7_schema": true,
+      "ai_p8_contract": true,
+      "ai_service_token": true,
+      "ai_service_url": true,
+      "automatic_commit_closed": true,
+      "backend_p7_version": true,
+      "backend_to_ai_auth": true,
+      "backend_tool_token": true,
+      "database_ready": true,
+      "execution_routes": true,
+      "p8_routes": true,
+      "p9_event_columns": true,
+      "p9_metadata": true,
+      "p9_migration": true,
+      "p9_tables": true
+    },
+    "live_acceptance_verified": false,
+    "model_called": false,
+    "preflight_passed": true
+  },
+  "image": "magicvvu/backend:p9-20261026"
+}
