@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-10-26T23:28:52.003934+08:00",
+  "host_edges": {
+    "units": {
+      "magicvvu-direct.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=active\nSubState=exited\nFragmentPath=/etc/systemd/system/magicvvu-direct.service\nUnitFileState=enabled"
+      },
+      "magicvvu-direct-firewall.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=inactive\nSubState=dead\nFragmentPath=/etc/systemd/system/magicvvu-direct-firewall.service\nUnitFileState=masked"
+      },
+      "magicvvu-direct-renew.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=inactive\nSubState=dead\nFragmentPath=/etc/systemd/system/magicvvu-direct-renew.service\nUnitFileState=static"
+      },
+      "magicvvu-direct-renew.timer": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=active\nSubState=waiting\nFragmentPath=/etc/systemd/system/magicvvu-direct-renew.timer\nUnitFileState=enabled"
+      },
+      "magicvvu-public-gateway.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=inactive\nSubState=dead\nFragmentPath=\nUnitFileState="
+      },
+      "nginx.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=inactive\nSubState=dead\nFragmentPath=\nUnitFileState="
+      },
+      "tailscaled.service": {
+        "exit_code": 0,
+        "output": "Result=success\nActiveState=inactive\nSubState=dead\nFragmentPath=\nUnitFileState="
+      }
+    },
+    "public_certificate": {
+      "exit_code": 0,
+      "output": "subject=CN = 8.134.172.165\nissuer=CN = MagicVVu Internal Test CA\nnotBefore=Oct 21 11:12:40 2026 GMT\nnotAfter=Jan 19 11:12:40 2027 GMT\nsha256 Fingerprint=9E:6F:B8:71:59:8E:94:62:EB:A3:22:E9:87:1D:ED:09:E8:9B:08:AF:4F:1C:76:1B:28:86:41:11:8F:5C:4D:0E"
+    },
+    "firewall_summary": {
+      "query_succeeded": true,
+      "rule_count": 0,
+      "source_restricted_rule_count": 0,
+      "related_ports": [],
+      "return_rules": 0,
+      "drop_rules": 0,
+      "raw_addresses_exported": false
+    }
+  },
+  "server_local_tls": {
+    "/api/v1/health": {
+      "curl_exit": 0,
+      "http_status": "200",
+      "body": "{\"status\":\"ok\",\"service\":\"magicvvu-backend\",\"version\":\"0.9.0\",\"maintenance_release\":\"V1-P9\",\"isolated_test\":false}"
+    },
+    "/api/v1/agent/execution-capabilities": {
+      "curl_exit": 0,
+      "http_status": "401",
+      "body": "{\"detail\":\"Invalid or expired login\"}"
+    },
+    "/internal/v1/planning/context": {
+      "curl_exit": 0,
+      "http_status": "404",
+      "body": "{\"detail\":\"Public request rejected\"}"
+    },
+    "/api/v1/ready": {
+      "curl_exit": 0,
+      "http_status": "404",
+      "body": "{\"detail\":\"Public request rejected\"}"
+    },
+    "/openapi.json": {
+      "curl_exit": 0,
+      "http_status": "404",
+      "body": "{\"detail\":\"Public request rejected\"}"
+    }
+  },
+  "workstation_public_tls": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P9",
+      "isolated_test": false
+    }
+  },
+  "backend_packages": {
+    "fastapi": "0.116.1",
+    "pydantic": "2.14.1",
+    "sqlalchemy": "2.0.44",
+    "psycopg": "3.2.12",
+    "alembic": "1.17.0",
+    "uvicorn": "0.35.0"
+  },
+  "actual_unit_definitions": "# /etc/systemd/system/magicvvu-direct.service\n[Unit]\nDescription=MagicVVu existing Compose stack with direct TLS\nRequires=docker.service\nAfter=docker.service network-online.target\nWants=network-online.target\n\n[Service]\nType=oneshot\nWorkingDirectory=/srv/magicvvu/magicvvu-starter/deploy\nExecStart=/usr/bin/docker compose up -d --no-recreate\nExecReload=/usr/bin/docker compose restart backend\nRemainAfterExit=yes\nTimeoutStartSec=120\n\n[Install]\nWantedBy=multi-user.target\n\n# /etc/systemd/system/magicvvu-direct-renew.timer\n[Unit]\nDescription=Daily MagicVVu internal certificate expiry check\n\n[Timer]\nOnCalendar=daily\nRandomizedDelaySec=1800\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n\n# /etc/systemd/system/magicvvu-direct-renew.service\n[Unit]\nDescription=Renew MagicVVu internal IP TLS leaf certificate\nAfter=magicvvu-direct.service\n\n[Service]\nType=oneshot\nExecStart=/usr/bin/python3 /etc/magicvvu/ip-direct/renew.py\nUser=root\n",
+  "renew_source_hashes": {
+    "/etc/magicvvu/ip-direct/renew.py": "f8b94ae178b7e0feece085af4f51b16d33e0f166a43c4748a57cca4b0386480b"
+  },
+  "renew_matches_repository": true
+}
