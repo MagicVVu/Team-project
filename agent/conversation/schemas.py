@@ -80,7 +80,7 @@ class ClarificationRequest(Model):
 
 class RuntimeInfo(OldRuntime):
     release: Literal["V1-P7"] = "V1-P7"
-    maintenance_release: Literal["V1-P8.1", "V1-P8.2"] = "V1-P8.2"
+    maintenance_release: Literal["V1-P8.1", "V1-P8.2", "V1-P8.3"] = "V1-P8.2"
 
 
 class ReferenceUse(Model):
@@ -102,6 +102,10 @@ class Recommendation(BaseRecommendation):
     pack_size_source: Literal["saved_preferences"] | None = None
 
 
+from .planning_schemas import Basis, ProductPlanning, PlanningContext, PlanningReview
+from p3.schemas import PlanningBasis
+
+
 class AgentResult(BaseResult):
     clarification: ReferenceContext | OldContext | None = None
     runtime: RuntimeInfo | OldRuntime | None = None
@@ -112,3 +116,8 @@ class AgentResult(BaseResult):
     recommendations: list[Recommendation] = Field(default_factory=list)
     consume_mode: Literal["all"] | None = None
     procurement_source: ProcurementSource | None = None
+    planning_basis: PlanningBasis | Basis | None = None
+    planning_calculation: PlanningBasis | None = None
+    product_planning: list[ProductPlanning] = Field(default_factory=list)
+    planning_context: PlanningContext | None = None
+    planning_review: PlanningReview | None = None

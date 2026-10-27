@@ -1,0 +1,635 @@
+{
+  "protocol": "p84-dialogue-1",
+  "split": "dev",
+  "count": 12,
+  "success_rate": 1.0,
+  "unnecessary_clarification_rate": 0.0,
+  "p95_ms": 6426.677100011148,
+  "max_model_calls": 2,
+  "model": "deepseek-flash",
+  "synthetic_data_only": true,
+  "production_inventory_accessed": false,
+  "human_review_status": "pending",
+  "app_acceptance": "not_run",
+  "measurements": "AI stages only; excludes business database save and Android latency",
+  "budget_summary": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 5.625262,
+    "calls": 2207,
+    "unknown_usage_calls": 0
+  },
+  "results": [
+    {
+      "id": "p84-01-1",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6024.9493001028895,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "你好呀",
+        "kind": "explain",
+        "reply": "你好呀！我是你的家庭库存小助手，想查东西、记消耗、加待购都可以跟我说～",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "你好呀！我是你的家庭库存小助手，想查东西、记消耗、加待购都可以跟我说～"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "你好呀！我是你的家庭库存小助手，想查东西、记消耗、加待购都可以跟我说～"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-2",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 4698.102799942717,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "早上好，今天辛苦了",
+        "kind": "explain",
+        "reply": "早上好！不辛苦，很高兴能帮到你。有什么需要我帮忙的吗？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "早上好！不辛苦，很高兴能帮到你。有什么需要我帮忙的吗？"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "早上好！不辛苦，很高兴能帮到你。有什么需要我帮忙的吗？"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-3",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 4978.612900013104,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "嗨，你能帮我整理家里吗",
+        "kind": "explain",
+        "reply": "当然可以！你想先从哪里的库存开始整理？比如冰箱、厨房柜子还是储物间，我可以帮你一起理清、记录。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "当然可以！你想先从哪里的库存开始整理？比如冰箱、厨房柜子还是储物间，我可以帮你一起理清、记录。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "当然可以！你想先从哪里的库存开始整理？比如冰箱、厨房柜子还是储物间，我可以帮你一起理清、记录。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-4",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6426.677100011148,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "晚上好呀",
+        "kind": "explain",
+        "reply": "晚上好呀～有什么想记的、想查的，随时跟我说。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "晚上好呀～有什么想记的、想查的，随时跟我说。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "晚上好呀～有什么想记的、想查的，随时跟我说。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-5",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 5002.904299995862,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "你好，我刚回来",
+        "kind": "explain",
+        "reply": "你好，欢迎回来！有需要记的库存或想整理的东西随时说。接下来你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "你好，欢迎回来！有需要记的库存或想整理的东西随时说。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "你好，欢迎回来！有需要记的库存或想整理的东西随时说。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-6",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 5037.531799986027,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "在吗，想聊聊家里的事",
+        "kind": "explain",
+        "reply": "在的，家里的事想聊什么都可以，我在听。你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "在的，家里的事想聊什么都可以，我在听。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "unknown",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "在的，家里的事想聊什么都可以，我在听。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-1",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6057.618499966338,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "周末怎么整理厨房比较轻松",
+        "kind": "explain",
+        "reply": "周末整理厨房可以按“先清空、再分类、最后归位”的顺序，比较轻松：先把台面上和冰箱里过期或明显不用的东西清掉，再把同类物品集中放到一起，最后只把常用物品放在顺手的位置。一次只整理一个区域，别一口气全铺开，会轻松很多。你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "周末整理厨房可以按“先清空、再分类、最后归位”的顺序，比较轻松：先把台面上和冰箱里过期或明显不用的东西清掉，再把同类物品集中放到一起，最后只把常用物品放在顺手的位置。一次只整理一个区域，别一口气全铺开，会轻松很多。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "周末整理厨房可以按“先清空、再分类、最后归位”的顺序，比较轻松：先把台面上和冰箱里过期或明显不用的东西清掉，再把同类物品集中放到一起，最后只把常用物品放在顺手的位置。一次只整理一个区域，别一口气全铺开，会轻松很多。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-2",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6070.53189992439,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "家里的东西总是乱放，有什么整理习惯",
+        "kind": "explain",
+        "reply": "我理解你的意思，先一起核对一下：家里乱通常是因为东西没有固定位置。可以试试：给常用物品定一个固定区域，用完马上放回；按使用频率分类，常用的放在手边，不常用的收起来；每周固定花十分钟做一次小整理；给储物盒贴上标签，家人也更容易维持。先从一个小区域开始，比一次性大整理更容易坚持。你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "家里乱通常是因为东西没有固定位置。可以试试：给常用物品定一个固定区域，用完马上放回；按使用频率分类，常用的放在手边，不常用的收起来；每周固定花十分钟做一次小整理；给储物盒贴上标签，家人也更容易维持。先从一个小区域开始，比一次性大整理更容易坚持。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "家里乱通常是因为东西没有固定位置。可以试试：给常用物品定一个固定区域，用完马上放回；按使用频率分类，常用的放在手边，不常用的收起来；每周固定花十分钟做一次小整理；给储物盒贴上标签，家人也更容易维持。先从一个小区域开始，比一次性大整理更容易坚持。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-3",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 5448.440300067887,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "怎样让家人更愿意记录库存",
+        "kind": "explain",
+        "reply": "好的，可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "discuss",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "想让家人更愿意记录库存，关键是降低门槛、建立回报感：\n\n1. 让记录变简单：固定放在冰箱/储物柜旁的白板、便签或共享表格，只填“名称+数量”两项，避免复杂表单。\n2. 记录动作挂在已有习惯上：开箱时顺手补一行，做饭前顺手减一行，而不是单独“去做库存”。\n3. 让记录立刻有好处：常用调料快没了自动提醒，避免做饭时才发现缺货；家人更容易感受到“记了有用”。\n4. 设小奖励或公开透明：每周看一次谁记多少，全家一起采购决策，成就感比说教有效。\n5. 减少指责：看到漏记时先温和补录，不必当场纠正谁，降低心理压力。\n\n可以从一个高频区域（如冰箱）开始试一周，再扩大到储物柜。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-4",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6114.808299927972,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "采购前可以做哪些准备",
+        "kind": "explain",
+        "reply": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "采购前可以先做这几步：1）清点现有库存，看看哪些快用完、哪些还有富余；2）检查保质期，优先把临期的安排掉，避免重复买；3）按用途列清单，分成日常消耗和临时需要；4）估算用量和家里存放空间，别一次买太多；5）确认预算和采购时间，能顺路一次买齐更省事。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-5",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 5500.317599973641,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "冰箱收纳有什么一般建议",
+        "kind": "explain",
+        "reply": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": true,
+        "plan": {
+          "speech_act": "question",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "冰箱收纳一般建议：生熟分层存放，熟食和即食放上层，生肉水产放底层并用密封盒防滴漏；蔬果按需冷藏，叶菜用透气袋或厨房纸包裹；先到期、已开封的放到显眼或临期区，定期检查；不要塞太满，留出冷气循环空间。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-02-6",
+      "group_id": "family_advice",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 4893.5301000019535,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "想养成少浪费的习惯，怎么开始",
+        "kind": "explain",
+        "reply": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。你想先处理哪一项？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "可以聊聊你的家庭安排。如果要核对库存或登记操作，告诉我物品和想做的事。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "可以从三个小习惯开始：1）每次采购前先看一眼家里已有的库存，按需购买；2）把临期或快用完的东西放在显眼位置，优先消耗；3）定期盘点一次，对即将过期的食材提前安排做菜。先坚持一两周，再慢慢加规则，比一次定太多更容易长期做到。"
+        }
+      },
+      "human_review_status": "pending"
+    }
+  ]
+}

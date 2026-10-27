@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT/'reports/backend-ai-p9'
-DOCS = ROOT/'docs/versions/V1-P9'
+DOCS = ROOT/'docs/versions/V1-P8.3'
 SUITES = {'SQLite': 'backend-sqlite.xml', 'PostgreSQL': 'backend-p9-postgres-tests.xml',
           'AI locked runtime': 'agent-pinned-regression.xml'}
 index, counts = [], {}

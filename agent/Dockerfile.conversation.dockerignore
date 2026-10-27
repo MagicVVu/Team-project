@@ -25,3 +25,7 @@ interaction/export_contract.py
 v1/export_contract.py
 eval/conversation
 conversation/export_contract.py
+conversation/export_memory_contracts.py
+conversation/export_planning_contracts.py
+conversation/export_dialogue_contracts.py
+eval/dialogue

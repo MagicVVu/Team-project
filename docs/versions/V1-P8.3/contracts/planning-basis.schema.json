@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "planning-revalidation-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "minLength": 1,
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "event_watermark": {
+      "minLength": 1,
+      "title": "Event Watermark",
+      "type": "string"
+    },
+    "shopping_version": {
+      "minimum": 1,
+      "title": "Shopping Version",
+      "type": "integer"
+    },
+    "inventory_versions": {
+      "additionalProperties": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "title": "Inventory Versions",
+      "type": "object"
+    },
+    "facts_versions": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Facts Versions",
+      "type": "object"
+    },
+    "product_versions": {
+      "additionalProperties": {
+        "minimum": 1,
+        "type": "integer"
+      },
+      "title": "Product Versions",
+      "type": "object"
+    },
+    "risk_rules": {
+      "additionalProperties": true,
+      "title": "Risk Rules",
+      "type": "object"
+    }
+  },
+  "required": [
+    "protocol_version",
+    "snapshot_id",
+    "event_watermark",
+    "shopping_version",
+    "inventory_versions",
+    "facts_versions",
+    "product_versions",
+    "risk_rules"
+  ],
+  "title": "Basis",
+  "type": "object"
+}

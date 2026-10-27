@@ -1,0 +1,10 @@
+{
+  "count": 240,
+  "dev": 144,
+  "holdout": 96,
+  "groups": 40,
+  "group_isolation": true,
+  "human_review_status": "pending",
+  "source": "synthetic, AI constructed",
+  "sha256": "a1047f2b6906f30bf4949538e1ba3ef0a7fb4748272d0efa86cab216e290c1ec"
+}

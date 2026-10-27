@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "Basis": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "planning-revalidation-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "minLength": 1,
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "event_watermark": {
+          "minLength": 1,
+          "title": "Event Watermark",
+          "type": "string"
+        },
+        "shopping_version": {
+          "minimum": 1,
+          "title": "Shopping Version",
+          "type": "integer"
+        },
+        "inventory_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Inventory Versions",
+          "type": "object"
+        },
+        "facts_versions": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Facts Versions",
+          "type": "object"
+        },
+        "product_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Product Versions",
+          "type": "object"
+        },
+        "risk_rules": {
+          "additionalProperties": true,
+          "title": "Risk Rules",
+          "type": "object"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "snapshot_id",
+        "event_watermark",
+        "shopping_version",
+        "inventory_versions",
+        "facts_versions",
+        "product_versions",
+        "risk_rules"
+      ],
+      "title": "Basis",
+      "type": "object"
+    },
+    "Query": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "item_key": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Item Key"
+        },
+        "household_timezone": {
+          "default": "Asia/Shanghai",
+          "title": "Household Timezone",
+          "type": "string"
+        },
+        "window_days": {
+          "default": 28,
+          "maximum": 28,
+          "minimum": 1,
+          "title": "Window Days",
+          "type": "integer"
+        },
+        "mode": {
+          "default": "suggest",
+          "enum": [
+            "suggest",
+            "draft"
+          ],
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "title": "Query",
+      "type": "object"
+    },
+    "RevalidationDiagnostic": {
+      "additionalProperties": true,
+      "properties": {
+        "protocol_version": {
+          "const": "planning-revalidation-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "stale",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "mismatches": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mismatches",
+          "type": "array"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "current_basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "inventory_written": {
+          "const": false,
+          "title": "Inventory Written",
+          "type": "boolean"
+        },
+        "shopping_written": {
+          "const": false,
+          "title": "Shopping Written",
+          "type": "boolean"
+        },
+        "automatic_planning_commit": {
+          "const": false,
+          "title": "Automatic Planning Commit",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "status",
+        "mismatches",
+        "blockers",
+        "current_basis",
+        "inventory_written",
+        "shopping_written",
+        "automatic_planning_commit"
+      ],
+      "title": "RevalidationDiagnostic",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "original_basis": {
+      "$ref": "#/$defs/Basis"
+    },
+    "query": {
+      "$ref": "#/$defs/Query"
+    },
+    "diagnostic": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RevalidationDiagnostic"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "original_basis",
+    "query"
+  ],
+  "title": "RevalidationRequest",
+  "type": "object"
+}

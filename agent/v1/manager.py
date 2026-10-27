@@ -71,7 +71,7 @@ class Operation:
     def __init__(self, owner):
         self.owner = owner
         self.engine = CountedEngine(owner.engine)
-        self.reader = Reader(owner.reader, owner.now, owner.max_stock_age_hours)
+        self.reader = getattr(owner, "planning_reader_type", Reader)(owner.reader, owner.now, owner.max_stock_age_hours)
         self.delegate = InputManager(self.engine, self.reader, owner.catalog,
             now=owner.now, timeout_seconds=owner.timeout_seconds)
         self.start = time.perf_counter()

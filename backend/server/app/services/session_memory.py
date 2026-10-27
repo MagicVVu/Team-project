@@ -287,6 +287,7 @@ def recover(db, identity, home, request_id):
 
 
 async def send(db, identity, body):
+    from app.services import dialogue
     execution.membership(db, identity.user.id, body.household_id, lock=True)
     digest = routing.digest({"memory_message": body.model_dump(mode="json")})
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
@@ -299,7 +300,7 @@ async def send(db, identity, body):
         if turn.phase == "completed":
             if not in_window(turn): execution.fail("CONVERSATION_TURN_EXPIRED", 410)
             return final_response(db, identity, turn, turn.response_json)
-        if not turn.resolution_json:
+        if not turn.resolution_json and not (turn.binding_json or {}).get(dialogue.KEY, {}).get("plan"):
             execution.fail("AI_OUTCOME_UNKNOWN")
         current = cursor_for_write(db, identity, body.household_id)
     else:
@@ -318,6 +319,8 @@ async def send(db, identity, body):
             request_id=body.request_id, request_hash=digest, original_text=body.text, created_at=gateway.now(),
             binding_json={KEY: info, "payload": payload}, phase="understanding")
         db.add(turn)
+    recovering_dialogue = bool((turn.binding_json or {}).get(dialogue.KEY))
+    use_dialogue = dialogue.enabled() or recovering_dialogue
     nonce = str(uuid4())
     current.processing_nonce = turn.processing_nonce = nonce
     current.lease_until = gateway.now()+timedelta(seconds=30)
@@ -330,7 +333,9 @@ async def send(db, identity, body):
     understood = turn.resolution_json
     db.rollback()
     try:
-        if understood is not None and understood.get("kind") == "task" and understood.get("understanding"):
+        if use_dialogue:
+            understood, saved = await dialogue.run(db, identity, body, turn_id, nonce, saved, recovering=recovering_dialogue)
+        if not use_dialogue and understood is not None and understood.get("kind") == "task" and understood.get("understanding"):
             # Recovery reuses semantic parsing, not stale computed inventory.
             # Replay is internal-only and cannot call a model.
             _, turn = routing.locked_turn(db, identity, turn_id, nonce)
@@ -355,6 +360,11 @@ async def send(db, identity, body):
             db.commit()
         task = None
         kind = understood["kind"]
+        if kind == "edit":
+            dialogue.save_edit(db, identity, body, understood,
+                lambda database, task: complete(database, identity, turn_id, nonce, understood, saved, task))
+            turn = db.get(ConversationTurn, turn_id, populate_existing=True)
+            return final_response(db, identity, turn, turn.response_json)
         if kind == "task":
             result = understood.get("result")
             if not isinstance(result, dict) or result.get("status") not in gateway.AI_STATES or result.get("original_text") != body.text:
@@ -410,13 +420,14 @@ async def send(db, identity, body):
     except HTTPException as error:
         code = error.detail.get("code") if isinstance(error.detail, dict) else None
         if understood is None or code not in {"CANDIDATES_CHANGED", "TASK_REVISION_CONFLICT", "TASK_SNAPSHOT_CHANGED",
-                "REFERENCE_EXPIRED", "REFERENCE_SOURCE_CHANGED", "REFERENCE_TERMINAL", "REFERENCE_NOT_FOUND"}:
+                "REFERENCE_EXPIRED", "REFERENCE_SOURCE_CHANGED", "REFERENCE_TERMINAL", "REFERENCE_NOT_FOUND",
+                "DRAFT_ALREADY_DECIDED", "DRAFT_EXPIRED", "INVENTORY_VERSION_CONFLICT", "PROTECTED_OR_UNKNOWN_FIELD", "INVALID_DRAFT_FIELDS"}:
             raise
         db.rollback()
         # A known stale-read conflict is a completed clarification outcome, not an
         # unknown paid extraction that would permanently block the conversation.
         conflict = dict(kind="needs_input", reply="库存或原任务已经变化，请重新查询并核对；尚未执行。",
-                        model_calls=understood["model_calls"], error_code=code)
+                        model_calls=understood["model_calls"], error_code=code, dialogue=understood.get("dialogue"))
         response = complete(db, identity, turn_id, nonce, conflict, saved)
         db.commit()
         turn = db.get(ConversationTurn, turn_id, populate_existing=True)
@@ -436,7 +447,8 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
     if kind == "clear_reference":
         info.update(active_task_id=None, reference=None, focus_task_id=None)
     elif task is not None:
-        info["active_task_id"] = str(task.id)
+        if not understood.get("preserve_active") or not info.get("active_task_id"):
+            info["active_task_id"] = str(task.id)
         reference = understood.get("reference")
         if kind == "clarify":
             selected = understood["answers"].get("batch_id")
@@ -455,11 +467,13 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
     turn.phase = "completed"
     response = dict(protocol_version=PROTOCOL, conversation_id=info["conversation_id"],
         conversation_revision=info["revision"], request_id=turn.request_id, original_text=turn.original_text,
-        reply=(task.result_json or {}).get("reply", understood["reply"]) if task else understood["reply"],
+        reply=understood["reply"] if understood.get("dialogue") else (task.result_json or {}).get("reply", understood["reply"]) if task else understood["reply"],
         kind=kind, task=gateway.response_for(db, task) if task else None,
         filled_fields=understood.get("filled_fields", {}),
         evidence=understood.get("evidence", []), model_calls=understood["model_calls"],
         truncated=understood.get("truncated", False), error_code=understood.get("error_code"), inventory_written=False)
     turn.response_json = response
+    if understood.get("dialogue"):
+        response["dialogue"] = understood["dialogue"]
     db.flush()
     return response

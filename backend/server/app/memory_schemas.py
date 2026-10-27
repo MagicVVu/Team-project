@@ -46,6 +46,27 @@ class Turn(BaseModel):
     evidence: list[dict[str, Any]] = Field(default_factory=list)
 
 
+class DialogueCalls(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    understanding: int = Field(ge=0,le=1,strict=True)
+    response: int = Field(ge=0,le=1,strict=True)
+    total: int = Field(ge=0,le=2,strict=True)
+
+    @model_validator(mode="after")
+    def count(self):
+        if self.total != self.understanding+self.response: raise ValueError("Invalid stage count")
+        return self
+
+
+class DialogueMetadata(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    protocol_version: Literal["p84-dialogue-1"]
+    calls: DialogueCalls
+    recovery_model_calls: Literal[0] | None = None
+    fallback_used: bool
+    field_sources: dict[str,Any] = Field(default_factory=dict)
+
+
 class Response(BaseModel):
     protocol_version: Literal["conversation-memory-1"] = "conversation-memory-1"
     conversation_id: UUID
@@ -59,10 +80,19 @@ class Response(BaseModel):
     active_task: CurrentTask | None = None
     evidence: list[dict[str, Any]] = Field(default_factory=list)
     filled_fields: dict[str, str] = Field(default_factory=dict)
-    model_calls: int = Field(ge=0, le=1)
+    model_calls: int = Field(ge=0, le=2)
+    dialogue: DialogueMetadata | None = None
     truncated: bool = False
     error_code: str | None = None
     inventory_written: Literal[False] = False
+
+    @model_validator(mode="after")
+    def counts(self):
+        if self.dialogue and self.dialogue.calls.total != self.model_calls:
+            raise ValueError("Stage count mismatch")
+        if not self.dialogue and self.model_calls > 1:
+            raise ValueError("Legacy turns allow at most one call")
+        return self
 
 
 class Page(BaseModel):

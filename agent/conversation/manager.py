@@ -18,6 +18,7 @@ from .engines import PROMPT_VERSION, QUALIFIED_MOVE
 from .chat_text import present, quick_response
 from .supplements import RESET
 from .scoped_queries import READ_INTENTS, FINISH, read_query, literal_query
+from .planning import Reader as PlanningReader, attach_review
 
 PRONOUN = re.compile(r"它|这一批|这批|这一个|这个|这件")
 PRONOUN_NAMES = {"它", "这一批", "这批", "这一个", "这个", "这件", "这"}
@@ -72,12 +73,53 @@ def check_reference(reference, scope, now):
 
 
 class Manager(BaseManager):
+    planning_reader_type = PlanningReader
+
+    async def query(self, query, scope, intent):
+        if query.item_key and query.item_key.startswith("product:"):
+            operation = self.operation()
+            operation.product_intent = intent
+            return await operation.execute("product_query", query, scope)
+        return await super().query(query, scope, intent)
+
+    async def review_planning(self, request, scope):
+        operation = self.operation()
+        operation.review_request = request
+        operation.product_intent = "SUGGEST_PURCHASE"
+        return await operation.execute("review_planning", request.query, scope)
     def operation(self):
         return Operation(self)
 
 
 class Operation(BaseOperation):
     bound_reference = None
+
+    async def execute(self, method, body, scope, intent=None):
+        self.planning_timezone = getattr(body, "household_timezone", getattr(getattr(body, "context", None), "household_timezone", "Asia/Shanghai"))
+        text = getattr(body, "text", "") or getattr(getattr(body, "context", None), "original_text", "")
+        window = re.search(r"(?:过去|最近)(\d+)天", text)
+        self.planning_window = getattr(body, "window_days", int(window[1]) if window else 14 if re.search(r"过去两周|最近两周", text) else 28)
+        self.product_selector = getattr(body, "item_key", None)
+        return await super().execute(method, body, scope, intent)
+
+    async def product_query(self, body, scope):
+        if body.mode != "suggest":
+            raise DomainError("PROCUREMENT_SOURCE_REQUIRED", "商品整体建议不能默认选取某一批次生成采购草稿，请明确来源批次。", 409)
+        snapshot = await self.reader.planning_context(scope, name=body.name, item_key=body.item_key)
+        sources = list(self.reader.backend_snapshots.values())
+        if not sources or not any(p.item_key == body.item_key for p in sources[-1].provenance.product_aggregates_v1):
+            raise DomainError("ITEM_NOT_FOUND", "没有可核验的商品映射，请重新选择。", 409)
+        from v1.schemas import AgentResult as BaseResult
+        return BaseResult(status="answered", intent=self.product_intent, original_text="结构化只读商品规划请求",
+            trace_id=new_id("trace"), reply="已重新读取真实商品与批次资料。",
+            facts=[b for i in snapshot.items for b in i.batches], snapshot_id=snapshot.snapshot_id,
+            evaluated_at=snapshot.as_of)
+
+    async def review_planning(self, body, scope):
+        query = body.model_copy(update={"mode":"suggest"})
+        if query.item_key and query.item_key.startswith("product:"):
+            return await self.product_query(query, scope)
+        return await self.delegate.query(query, scope, "SUGGEST_PURCHASE")
 
     def restrict_move_source(self, text):
         match = QUALIFIED_MOVE.fullmatch(extraction_text(text))
@@ -89,6 +131,7 @@ class Operation(BaseOperation):
             self.reader.search = search
 
     def __init__(self, owner):
+        self.planning_timezone, self.planning_window, self.product_selector = "Asia/Shanghai", 28, None
         super().__init__(owner)
         operation = self
         class ObservedEngine:
@@ -108,7 +151,8 @@ class Operation(BaseOperation):
     def decorate(self, result):
         result = super().decorate(result)
         value = result.model_dump()
-        value["runtime"] = {**value["runtime"], "release": "V1-P7", "prompt_version": PROMPT_VERSION}
+        value["runtime"] = {**value["runtime"], "release": "V1-P7", "prompt_version": PROMPT_VERSION,
+                            "maintenance_release":"V1-P8.3"}
         value["policy_version"] = POLICY_VERSION
         result = AgentResult.model_validate(value)
         if result.draft and result.draft.action == "CONSUME" and result.quantity_source == "current_batch":
@@ -164,6 +208,10 @@ class Operation(BaseOperation):
             result.clarification = None
             result.candidates = result.facts = []
         result.reply = present(result)
+        result = self.reader.enrich(result, timezone=self.planning_timezone, window_days=self.planning_window,
+            product_selector=self.product_selector, collapse=not bool(self.bound_reference))
+        if hasattr(self, "review_request"):
+            result = attach_review(result, self.review_request)
         return result
 
     async def handle(self, message, scope):
@@ -363,7 +411,8 @@ class Operation(BaseOperation):
         # Only old-domain fields reach the frozen P6 conversion.
         if isinstance(response, AgentResult):
             from v1.schemas import AgentResult as BaseResult
-            value = response.model_dump(exclude={"clear_reference", "object_source", "reference_used", "consume_mode", "procurement_source"})
+            value = response.model_dump(exclude={"clear_reference", "object_source", "reference_used", "consume_mode", "procurement_source",
+                "planning_calculation", "product_planning", "planning_context", "planning_review"})
             value["policy_version"] = "v1-completion-1"
             response = BaseResult.model_validate(value)
         result = super().public_result(response)

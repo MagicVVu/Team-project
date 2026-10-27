@@ -1,0 +1,66 @@
+{
+  "stage": "V1-P8.3",
+  "date": "2026-10-26",
+  "timezone": "Asia/Shanghai",
+  "status": "local_implementation_verified_not_deployed",
+  "ai_full_regression": {
+    "tests": 956,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 955,
+    "evidence": "ai-regression-verified.xml"
+  },
+  "new_ai_contract_test_cases": 48,
+  "backend_full_regression": {
+    "tests": 463,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 39,
+    "passed": 424,
+    "evidence": "backend-regression-verified.xml"
+  },
+  "backend_final_http_verification": {
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 4,
+    "evidence": "backend-http-verified.xml"
+  },
+  "counts_overlap_do_not_add": true,
+  "source_fixtures": "synthetic_test_only_and_real_backend_serializer_on_isolated_sqlite",
+  "moved_files_content_preserved": {
+    "backend-ai-p9-baseline.md": true,
+    "backend-ai-p9-contract.md": true,
+    "backend-ai-p9-handoff.md": true,
+    "backend-ai-p9-implementation.md": true,
+    "backend-ai-p9-production-release.md": true,
+    "backend-ai-p9-test-report.md": true,
+    "backend-openapi.json": true
+  },
+  "jev_unchanged": true,
+  "backend_runtime_unchanged": true,
+  "frontend_unchanged": true,
+  "real_provider_calls": 0,
+  "production_database_writes": 0,
+  "server_sync": false,
+  "deployment": false,
+  "git_commit_or_push": false,
+  "real_model_accuracy_verified": false,
+  "real_network_p95_verified": false,
+  "device_joint_acceptance_verified": false,
+  "automatic_planning_commit_enabled": false,
+  "remaining": [
+    "reviewed_rule_registry_and_backend_sync",
+    "product_wide_coverage_preferences_and_usable_quantity",
+    "procurement_specific_feedback_contract",
+    "backend_automatic_procurement_transaction",
+    "frontend_adoption_and_joint_acceptance"
+  ],
+  "notes": [
+    "39 backend skips are retained, including PostgreSQL concurrency and optional gateway checks; SQLite is not PostgreSQL acceptance",
+    "Pydantic Decimal export presentation normalized only for its known generated pattern; numeric bounds and unrelated rules remain checked",
+    "Earlier failing/environment reports retained; final verified suites are the evidence above"
+  ]
+}

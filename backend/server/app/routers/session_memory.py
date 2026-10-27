@@ -26,7 +26,8 @@ def reset(body: Reset, identity: Identity = Depends(get_identity), db: Session =
 @router.post("/api/v1/agent/conversation-turns", response_model=Response)
 async def message(body: Message, identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     try:
-        async with asyncio.timeout(10):
+        from app.services.dialogue import enabled
+        async with asyncio.timeout(20 if enabled() else 10):
             if body.text.strip().rstrip("。！! ") in {"开始新会话", "清空当前会话"}:
                 return service.reset(db, identity, Reset(household_id=body.household_id, request_id=body.request_id,
                     conversation_id=body.conversation_id, conversation_revision=body.conversation_revision), body.text)

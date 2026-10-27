@@ -214,12 +214,14 @@ def test_local_memory_contract_exports_match_current_factory(monkeypatch):
     from conversation.memory_schemas import TurnResult
     monkeypatch.setenv("AI_SERVICE_TOKEN", "synthetic-contract-export")
     monkeypatch.setenv("P3_ENGINE", "rules")
-    root = Path(__file__).resolve().parents[2]/"docs/versions/V1-P8.2/contracts"
+    root = Path(__file__).resolve().parents[2]/"docs/versions/V1-P8.4/contracts"
     exported = json.loads((root/"ai-openapi.json").read_text(encoding="utf-8"))
     assert exported.pop("x-deployment-status") == "local_source_contract_not_deployed"
     assert exported.pop("x-conversation-memory-protocol") == "conversation-memory-1"
+    assert exported.pop("x-conversation-dialogue-protocol") == "p84-dialogue-1"
     assert exported == create_app(reader=object()).openapi()
-    assert json.loads((root/"ai-turn-response.schema.json").read_text(encoding="utf-8")) == TurnResult.model_json_schema()
+    old = root.parent.parent/"V1-P8.3/contracts/ai-turn-response.schema.json"
+    assert json.loads(old.read_text(encoding="utf-8")) == TurnResult.model_json_schema()
 
 
 def test_tool_timeout_preserves_grounded_fields():
