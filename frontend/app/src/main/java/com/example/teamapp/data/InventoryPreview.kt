@@ -23,7 +23,10 @@ internal enum class PreviewSource { EXISTING, RECEIPT }
 internal data class InventoryPreview(
     val baseline: StockItem,
     val individual: Boolean,
-    val records: List<InventoryPreviewRecord>
+    val records: List<InventoryPreviewRecord>,
+    val locallyModified: Boolean = false,
+    // Keep receipt identities even after every record from a receipt has been consumed.
+    val receivedBatchIds: Set<String> = emptySet()
 ) {
     val total: BigDecimal get() = if (individual) records.size.toBigDecimal()
         else records.fold(BigDecimal.ZERO) { sum, record -> sum + record.quantity }
@@ -48,9 +51,9 @@ internal class InventoryPreviewStore {
     fun preview(scope: String, item: StockItem): InventoryPreview {
         val key = Key(scope, item.id)
         val previous = previews[key]
-        // Before any prototype receipt, ordinary edits/consumption can safely refresh the snapshot.
-        // After a receipt, freeze it and disclose the difference: never guess consumed piece IDs.
-        if (previous != null && (previous.hasReceipts || !previous.originalChanged(item))) return previous
+        // Before any preview mutation, ordinary saved-stock changes can refresh the snapshot.
+        // Once locally modified, retain it and disclose differences; never guess piece allocation.
+        if (previous != null && (previous.locallyModified || previous.hasReceipts || !previous.originalChanged(item))) return previous
         return initialize(item).also { previews[key] = it }
     }
 
@@ -66,13 +69,50 @@ internal class InventoryPreviewStore {
     fun receive(scope: String, item: StockItem, input: String, expiry: LocalDate?, batchId: String): Boolean {
         if (!item.activeBatch) return false
         val current = preview(scope, item)
-        if (current.records.any { it.batchId == batchId }) return false
+        if (batchId in current.receivedBatchIds || current.records.any { it.batchId == batchId }) return false
         val amount = amount(item, input, current) ?: return false
         val records = List(if (current.individual) amount.intValueExact() else 1) {
             InventoryPreviewRecord(UUID.randomUUID().toString(), item.id, item.location, expiry?.toString(),
                 null, batchId, PreviewSource.RECEIPT, if (current.individual) BigDecimal.ONE else amount)
         }
-        previews[Key(scope, item.id)] = current.copy(records = current.records + records)
+        previews[Key(scope, item.id)] = current.copy(records = current.records + records, locallyModified = true,
+            receivedBatchIds = current.receivedBatchIds + batchId)
+        return true
+    }
+
+    /** Only these three fields are editable; unchanged legacy dates can be retained verbatim. */
+    fun updateRecord(scope: String, itemId: String, recordId: String, location: String,
+        expiryDate: String?, openedAt: String?): Boolean = changeRecord(scope, itemId, recordId) { record ->
+        val expiry = expiryDate?.takeIf { it.isNotBlank() }
+        val opened = openedAt?.takeIf { it.isNotBlank() }
+        fun valid(value: String?, old: String?) = value == null || value == old || runCatching { LocalDate.parse(value) }.isSuccess
+        if (location.isBlank() || !valid(expiry, record.expiryDate) || !valid(opened, record.openedAt)) null
+        else record.copy(location = location.trim(), expiryDate = expiry, openedAt = opened)
+    }
+
+    fun markOpened(scope: String, itemId: String, recordId: String, today: LocalDate = LocalDate.now()): Boolean =
+        changeRecord(scope, itemId, recordId) { record ->
+            if (record.openedAt != null) null else record.copy(openedAt = today.toString())
+        }
+
+    /** Called only after the UI exit transition completes. Never maps to cloud consumption. */
+    fun consumeRecord(scope: String, itemId: String, recordId: String): Boolean {
+        val key = Key(scope, itemId)
+        val current = previews[key] ?: return false
+        if (!current.individual || current.records.none { it.id == recordId && it.itemId == itemId && it.quantity == BigDecimal.ONE }) return false
+        previews[key] = current.copy(records = current.records.filterNot { it.id == recordId }, locallyModified = true)
+        return true
+    }
+
+    private fun changeRecord(scope: String, itemId: String, recordId: String,
+        change: (InventoryPreviewRecord) -> InventoryPreviewRecord?): Boolean {
+        val key = Key(scope, itemId)
+        val current = previews[key] ?: return false
+        if (!current.individual) return false
+        val record = current.records.firstOrNull { it.id == recordId && it.itemId == itemId && it.quantity == BigDecimal.ONE } ?: return false
+        val updated = change(record) ?: return false
+        if (updated != record) previews[key] = current.copy(
+            records = current.records.map { if (it.id == recordId) updated else it }, locallyModified = true)
         return true
     }
 

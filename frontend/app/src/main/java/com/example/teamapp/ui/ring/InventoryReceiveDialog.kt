@@ -86,15 +86,15 @@ internal fun InventoryReceiveDialog(store: InventoryStore, item: StockItem, dism
 
 /** Uses the existing CoverageDateDialog calendar style, with optional unrestricted expiry. */
 @Composable
-private fun InventoryExpiryDateDialog(current: String?, dismiss: () -> Unit, selected: (LocalDate) -> Unit) {
+internal fun InventoryExpiryDateDialog(current: String?, dismiss: () -> Unit, fieldLabel: String? = null, selected: (LocalDate) -> Unit) {
     val s = rememberUiStrings()
-    val initial = remember(current) { current?.let(LocalDate::parse) }
+    val initial = remember(current) { current?.let { runCatching { LocalDate.parse(it) }.getOrNull() } }
     var month by remember { mutableStateOf(java.time.YearMonth.from(initial ?: LocalDate.now())) }
     // Viewing today's calendar never assigns today's expiry.
     var selection by remember { mutableStateOf(initial) }
     val colors = MaterialTheme.colorScheme
     AlertDialog(onDismissRequest = dismiss,
-        title = { Text(s.get(R.string.ui_preview_choose_date)) },
+        title = { Text(fieldLabel ?: s.get(R.string.ui_preview_choose_date)) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -127,7 +127,7 @@ private fun InventoryExpiryDateDialog(current: String?, dismiss: () -> Unit, sel
                         }
                     }
                 }
-                Text(s.get(R.string.ui_preview_expiry, selection?.toString() ?: s.get(R.string.ui_not_set)), style = MaterialTheme.typography.bodySmall)
+                Text(selection?.toString() ?: s.get(R.string.ui_not_set), style = MaterialTheme.typography.bodySmall)
             }
         },
         confirmButton = { TextButton(onClick = { selection?.let(selected) }, enabled = selection != null,

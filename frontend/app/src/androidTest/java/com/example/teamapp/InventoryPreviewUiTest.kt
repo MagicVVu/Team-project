@@ -56,7 +56,7 @@ class InventoryPreviewUiTest {
     }
     private fun top() { compose.onNodeWithTag("inventory-detail-content").performScrollToIndex(0) }
     private fun openReceipt() {
-        top()
+        scrollTo("inventory-detail-receive")
         compose.onNodeWithTag("inventory-detail-receive").performClick()
     }
     private fun enter(value: String) {
@@ -73,7 +73,8 @@ class InventoryPreviewUiTest {
         compose.onNodeWithTag("inventory-receive-date-confirm").performClick()
     }
     private fun recordContains(index: Int, text: String) {
-        val tag = "inventory-preview-record-$index"
+        val record = store.inventoryPreviews.preview(store.inventoryPreviewScope, store.items.first { it.id == melon.id }).records[index - 1]
+        val tag = "inventory-preview-record-${record.id}"
         scrollTo(tag)
         compose.onNode(hasText(text) and hasAnyAncestor(hasTestTag(tag))).assertExists()
     }
@@ -138,6 +139,7 @@ class InventoryPreviewUiTest {
         }
         enter("3")
         compose.onNodeWithTag("inventory-receive-cancel").performClick()
+        top()
         compose.onNodeWithTag("inventory-detail-quantity").assertTextEquals("2 个")
         openReceipt(); enter("1")
         compose.onNodeWithTag("inventory-receive-confirm").performClick()
@@ -150,7 +152,7 @@ class InventoryPreviewUiTest {
         show()
         scrollTo("inventory-detail-empty-receive")
         compose.onNodeWithText("暂无单件库存记录").assertExists()
-        compose.onNodeWithTag("inventory-preview-record-1").assertDoesNotExist()
+        compose.onNodeWithTag("inventory-preview-record-existing:preview-melon:0").assertDoesNotExist()
         compose.onNodeWithTag("inventory-detail-empty-receive").performClick()
         compose.onNodeWithTag("inventory-receive-dialog").assertExists()
     }
@@ -202,11 +204,14 @@ class InventoryPreviewUiTest {
         scrollTo("inventory-detail-edit")
         compose.onNodeWithTag("inventory-detail-edit").performClick()
         Assert.assertEquals("编辑物品", route)
-        scrollTo("inventory-detail-consume")
-        compose.onNodeWithTag("inventory-detail-consume").performClick()
-        Assert.assertEquals("消耗库存", route)
-        scrollTo("inventory-detail-history")
-        compose.onNodeWithTag("inventory-detail-history").performClick()
+        scrollTo("inventory-detail-shopping")
+        compose.onNodeWithTag("inventory-detail-shopping").assertTextEquals("加入购买清单").performClick()
+        Assert.assertEquals("加入采购清单", route)
+        compose.runOnIdle { store.plan(melon.id, 2.0) }
+        compose.onNodeWithTag("inventory-detail-shopping").performClick()
+        Assert.assertEquals("调整采购数量", route)
+        compose.onNodeWithTag("inventory-detail-consume").assertDoesNotExist()
+        compose.onNodeWithTag("inventory-detail-history").assertDoesNotExist()
         scrollTo("inventory-detail-delete")
         compose.onNodeWithTag("inventory-detail-delete").performClick()
         Assert.assertTrue(deleting)
@@ -221,7 +226,8 @@ class InventoryPreviewUiTest {
                 InventoryDetailContent(store, store.items.single(), {}, {}, { Modifier })
             }
         } } }
-        compose.onNodeWithTag("inventory-detail-receive").assertTextEquals("Stock +").performClick()
+        scrollTo("inventory-detail-receive")
+        compose.onNodeWithTag("inventory-detail-receive").assertTextEquals("Add").performClick()
         compose.onNodeWithTag("inventory-receive-confirm").assertIsDisplayed().assertIsNotEnabled()
         enter("3")
         compose.onNodeWithTag("inventory-receive-confirm").assertIsEnabled()
