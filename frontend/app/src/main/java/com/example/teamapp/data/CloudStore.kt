@@ -18,6 +18,7 @@ import java.util.UUID
 class CloudStore(context: Context, private val apiFactory: (String, String) -> CloudApi = { address, token -> CloudApi(address, token) }) {
     private val credentials = CloudCredentials(context)
     private val cache = context.getSharedPreferences("magicvvu_cloud_cache", Context.MODE_PRIVATE)
+    private val groupingOutbox = context.getSharedPreferences("mewstow_inventory_grouping_outbox_v1", Context.MODE_PRIVATE)
     private val mutex = Mutex()
     // Upgrades can retain an old tunnel session. Never forward its token to a new
     // origin or delete its encrypted envelope/cache; ask the user to log in again.
@@ -27,6 +28,9 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     var households by mutableStateOf<List<CloudHousehold>>(emptyList()); private set
     var items by mutableStateOf<List<StockItem>>(emptyList()); private set
     var shopping by mutableStateOf<List<CloudShoppingItem>>(emptyList()); private set
+    var products by mutableStateOf<List<CloudProduct>>(emptyList()); private set
+    var productError by mutableStateOf<String?>(null); private set
+    val unlinkedItems get() = items.filter { item -> products.none { p -> p.batches.any { it.id == item.id } } }
     var busy by mutableStateOf(false); private set
     var expired by mutableStateOf(false); private set
     var error by mutableStateOf<String?>(null); private set
@@ -46,14 +50,20 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
 
     init { loadCache() }
     private fun cacheKey(a: CloudAccount) = "${a.address}|${a.userId}|${a.householdId}"
+    private fun productWithPhotos(json: JSONObject, a: CloudAccount): CloudProduct = json.toCloudProduct().let { product ->
+        product.copy(batches = product.batches.map { item ->
+            item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty())
+        })
+    }
     private fun loadCache() {
-        items = emptyList(); shopping = emptyList(); lastSync = ""
+        items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
         val a = account ?: return
         runCatching {
             cache.getString(cacheKey(a), null)?.let { saved ->
                 val json = JSONObject(saved)
                 items = json.getJSONArray("inventory").objects().map { it.toStock().let { item -> item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty()) } }
                 shopping = json.getJSONArray("shopping").objects().map { it.toShopping() }
+                products = json.optJSONArray("products")?.objects()?.map { productWithPhotos(it, a) }.orEmpty()
                 lastSync = json.optString("lastSync")
                 households = listOf(CloudHousehold(a.householdId, json.optString("householdName", "云端家庭"), "member"))
             }
@@ -85,7 +95,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         credentials.save(next)
         account = next
         households = homes
-        items = emptyList(); shopping = emptyList(); lastSync = ""; expired = false
+        items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""; expired = false
         // Authentication succeeds independently of a subsequent inventory refresh.
         if (next.householdId.isNotBlank()) runCatching { refreshData() }.onFailure { error = "登录成功，家庭数据暂未同步：${it.message.orEmpty()}" }
     }
@@ -99,7 +109,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
             val homes = api.households()
             val selected = homes.firstOrNull { it.id == current.householdId } ?: homes.firstOrNull()
             val next = current.copy(displayName = user.getString("display_name"), householdId = selected?.id.orEmpty())
-            if (current.householdId != next.householdId) { items = emptyList(); shopping = emptyList(); lastSync = "" }
+            if (current.householdId != next.householdId) { items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = "" }
             credentials.save(next)
             account = next; households = homes
             if (selected != null) refreshData()
@@ -114,11 +124,18 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val shoppingJson = api.pages("$root/shopping-list/items?status=all")
         val stock = stockJson.map { it.toStock().let { item -> item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty()) } }
         val plans = shoppingJson.map { it.toShopping() }
+        val productJson = try { api.pages("$root/inventory-products").also { productError = null } }
+        catch (cancelled: CancellationException) { throw cancelled }
+        catch (failure: Exception) { productError = failure.message ?: "商品加载失败"; null }
+        val catalogue = productJson?.map { productWithPhotos(it, a) }
         val synced = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss"))
         val json = JSONObject().put("inventory", JSONArray(stockJson)).put("shopping", JSONArray(shoppingJson))
             .put("lastSync", synced).put("householdName", household?.name ?: "云端家庭")
+        if (productJson != null) json.put("products", JSONArray(productJson))
+        else cache.getString(cacheKey(a), null)?.let { previous -> JSONObject(previous).optJSONArray("products")?.let { json.put("products", it) } }
         check(cache.edit().putString(cacheKey(a), json.toString()).commit()) { "服务器已读取，但设备无法保存缓存，请检查存储空间" }
         items = stock; shopping = plans; lastSync = synced
+        if (catalogue != null) products = catalogue
     }
 
     private suspend fun mutate(action: suspend (CloudApi) -> Unit) {
@@ -150,7 +167,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val homes = apiFactory(a.address, a.token).households()
         val next = a.copy(householdId = created.getString("id"))
         credentials.save(next); account = next; households = homes
-        items = emptyList(); shopping = emptyList(); lastSync = ""
+        items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
         refreshData()
     }
     suspend fun joinHousehold(code: String) = guarded {
@@ -159,7 +176,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val next = a.copy(householdId = joined.getString("id"))
         val homes = apiFactory(a.address, a.token).households()
         credentials.save(next); account = next; households = homes
-        items = emptyList(); shopping = emptyList(); lastSync = ""
+        items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
         refreshData()
     }
     suspend fun invitation(): String {
@@ -180,6 +197,66 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val result = apiFactory(a.address, a.token).request("GET", "$root/$path")
         check(scope == scopeKey && !expired) { "家庭已切换，请重新读取" }
         return result
+    }
+    suspend fun reviewProductGrouping(item: StockItem): ProductGroupingReview {
+        val expectedScope = scopeKey
+        require(expectedScope.isNotBlank() && signedIn && !expired) { "请登录并选择家庭" }
+        val name = java.net.URLEncoder.encode(item.name, "UTF-8")
+        val rows = mutableListOf<JSONObject>()
+        var offset = 0
+        do {
+            val result = readHousehold("inventory-product-matches?name=$name&limit=200&offset=$offset")
+            check(expectedScope == scopeKey && !expired) { "账号或家庭已切换，请重新核对物品归类" }
+            check(result.getString("protocol_version") == "inventory-product-matches-1") { "服务器尚未提供物品归类功能" }
+            val page = result.getJSONArray("items").objects()
+            rows.addAll(page)
+            offset += page.size
+            check(page.isNotEmpty() || rows.size == result.getInt("total")) { "相似物品列表不完整，请刷新后重新核对" }
+        } while (offset < result.getInt("total"))
+        val matches = rows.map { it.toProductGroupingMatch() }
+        check(matches.map { it.inventoryItemId }.distinct().size == matches.size) { "相似物品返回重复记录，请重新核对" }
+        return ProductGroupingReview(expectedScope, item, matches)
+    }
+    fun pendingProductGrouping(): ProductGroupingWrite? {
+        if (scopeKey.isBlank()) return null
+        val saved = groupingOutbox.getString(scopeKey, null) ?: return null
+        // Invalid data is not discarded: it must continue to block another create.
+        val json = JSONObject(saved)
+        return ProductGroupingWrite(scopeKey, json.getString("body"), json.optString("image"))
+    }
+    suspend fun createGroupedInventory(review: ProductGroupingReview, match: ProductGroupingMatch?) {
+        require(review.scope == scopeKey && signedIn && !expired) { "账号或家庭已切换，请重新核对物品归类" }
+        require(match == null || match in review.candidates) { "请选择本次核对过的库存物品" }
+        check(pendingProductGrouping() == null) { "上次保存结果尚未核实，请先用原请求重试" }
+        val body = groupedInventoryBody(review.item, match).toString()
+        val pending = ProductGroupingWrite(review.scope, body, review.item.image)
+        check(groupingOutbox.edit().putString(review.scope, JSONObject().put("body", body).put("image", pending.image).toString()).commit()) {
+            "设备未能保存原请求，尚未提交，请检查存储空间"
+        }
+        replayGroupedInventory(pending)
+    }
+    suspend fun replayGroupedInventory(pending: ProductGroupingWrite) {
+        require(pending.scope == scopeKey && signedIn && !expired) { "账号或家庭已切换，请回到原家庭核实保存结果" }
+        check(pendingProductGrouping() == pending) { "原请求已改变，请重新打开保存结果核实" }
+        mutate { api ->
+            require(pending.scope == scopeKey && !expired) { "账号或家庭已切换，请回到原家庭核实保存结果" }
+            try {
+                val receipt = api.request("POST", "$root/inventory-items", JSONObject(pending.body))
+                check(receipt.getString("id") == pending.itemId) { "服务器返回的批次与原请求不一致，请保留原请求核实" }
+            } catch (failure: CloudFailure) {
+                if (failure.status in setOf(400, 409, 422) && !failure.errorCode.contains("OPERATION_ID_CONFLICT")) {
+                    // Auth/access errors cannot rule out an earlier successful, timed-out request.
+                    // Network/5xx and operation-ID conflicts also retain the original body.
+                    check(groupingOutbox.edit().remove(pending.scope).commit()) { "请求被拒绝，但设备未能更新核实状态，请保留原请求" }
+                }
+                throw failure
+            }
+            if (pending.image.isNotBlank()) check(cache.edit()
+                .putString("photo|${cacheKey(requireNotNull(account))}|${pending.itemId}", pending.image).commit()) {
+                "物品已保存，照片引用保存失败，请用原请求核实"
+            }
+            check(groupingOutbox.edit().remove(pending.scope).commit()) { "物品已保存，设备未能更新状态，请用原请求核实" }
+        }
     }
     suspend fun operationReceipt(id: String): JSONObject {
         val a = requireNotNull(account); val scope = scopeKey
@@ -203,7 +280,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
             if (action in setOf("leave", "dissolve")) {
                 households = households.filterNot { it.id == a.householdId }
                 val next = a.copy(householdId = "")
-                credentials.save(next); account = next; items = emptyList(); shopping = emptyList(); lastSync = ""
+                credentials.save(next); account = next; items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
                 assistant.bind(); planningFacts.bind()
             }
             try {
@@ -220,7 +297,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val a = account
         assistant.clearAccount(a)
         // Remove local access first even if the server is unreachable; never restore another user's cache.
-        credentials.save(null); account = null; households = emptyList(); items = emptyList(); shopping = emptyList(); lastSync = ""; expired = false
+        credentials.save(null); account = null; households = emptyList(); items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""; expired = false
         if (a != null) runCatching { apiFactory(a.address, a.token).request("POST", "/api/v1/auth/logout") }
     }
     suspend fun saveItem(item: StockItem, initial: StockItem?) = mutate { api ->

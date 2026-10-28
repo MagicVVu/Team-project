@@ -134,6 +134,8 @@ def purchase_and_stock(
             session.add(ProductBatch(inventory_item_id=stock.id, product_id=link.product_id,
                 actor_user_id=actor_user_id, source='purchase_from_explicit_source_batch'))
             session.flush()
+    from app.services.product_grouping import refresh_linked_name
+    refresh_linked_name(session, stock, actor_user_id)
     request_id = uuid5(item.id, 'purchase-and-stock')
     ledger.save(session, request_id, household_id, actor_user_id,
         ledger.digest(['purchase', str(item.id)]), {'inventory_item_id': str(stock.id)})

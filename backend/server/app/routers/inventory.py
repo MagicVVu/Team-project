@@ -30,7 +30,11 @@ class InventoryPage(BaseModel):
 
 
 def fingerprint(kind, payload):
-    return hashlib.sha256((kind + json.dumps(payload.model_dump(mode="json"), sort_keys=True)).encode()).hexdigest()
+    values = payload.model_dump(mode="json")
+    # Preserve old request hashes for clients retrying a pre-classification create.
+    if values.get('product_grouping') is None:
+        values.pop('product_grouping', None)
+    return hashlib.sha256((kind + json.dumps(values, sort_keys=True)).encode()).hexdigest()
 
 
 def record(item, operation_id, digest, message, **facts):
@@ -105,12 +109,15 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
             return StockResponse.model_validate(existing)
         raise HTTPException(409, "Item ID is already in use; refresh inventory")
     item = InventoryItem(household_id=household_id, created_by_user_id=identity.user.id,
-                         status="ACTIVE" if payload.quantity > 0 else "FINISHED", **payload.model_dump())
+                         status="ACTIVE" if payload.quantity > 0 else "FINISHED",
+                         **payload.model_dump(exclude={'product_grouping'}))
     record(item, payload.id, digest, f"首次录入 {payload.quantity} {payload.unit}", kind="create",
            **minimum_preference(item, payload, identity.user.id))
     db.add(item)
     try:
         db.flush()
+        from app.services.product_grouping import classify_new
+        classify_new(db, item, payload.product_grouping, identity.user.id)
         result = StockResponse.model_validate(item)
         ledger.save(db, payload.id, household_id, identity.user.id, digest, result.model_dump(mode='json'))
         ledger.append(db, item, identity.user.id, 'Created', {}, request_id=payload.id, quantity=item.quantity)
@@ -172,6 +179,9 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
         facts.update(minimum_preference(item, payload, actor_user_id))
     record(item, payload.operation_id, digest, message, **facts)
     db.flush()
+    if kind == 'edit' and 'name' in payload.model_fields_set:
+        from app.services.product_grouping import refresh_linked_name
+        refresh_linked_name(db, item, actor_user_id, create_if_missing=False)
     result = StockResponse.model_validate(item).model_dump(mode='json')
     ledger.save(db, payload.operation_id, household_id, actor_user_id, digest, result)
     event_type = {'adjust': 'Adjusted', 'correct': 'Corrected', 'edit': 'Edited', 'delete': 'Archived'}[kind]

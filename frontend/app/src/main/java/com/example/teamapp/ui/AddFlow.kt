@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import java.time.LocalDate
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CancellationException
 
 private data class AddReviewStep(
     val version: Int,
@@ -118,10 +120,12 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     var duplicate by remember { mutableStateOf<StockItem?>(null) }
     var pending by remember { mutableStateOf<StockItem?>(null) }
     var generalError by remember { mutableStateOf("") }
+    var groupingInput by remember { mutableStateOf<ProductGroupingInput?>(null) }
     fun save(item: StockItem, mode: String = "新建") {
         if (!submitting) scope.launch {
             submitting = true
             try { store.saveItemSynced(item, initial, mode); notify(strings.get(R.string.ui_saved)); onSaved() }
+            catch (cancelled: CancellationException) { throw cancelled }
             catch (failure: Exception) { generalError = failure.message ?: "保存失败" }
             finally { submitting = false }
         }
@@ -133,15 +137,15 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         if (store.cloud.signedIn) Text(strings.get(R.string.ui_save_to_the_current_household__items), style = MaterialTheme.typography.bodySmall)
         else if (LocalLightDesign.current) Text(strings.get(R.string.ui___required__inventory_changes_only_after), style = MaterialTheme.typography.bodySmall)
         else DarkNotice(strings.get(R.string.ui___required__inventory_changes_only_after))
-        Field(strings.get(R.string.ui_item_name), name, { name = it }, errors["name"])
-        Field(strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true)
-        Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"])
+        Field(strings.get(R.string.ui_item_name), name, { name = it }, errors["name"], enabled = !submitting)
+        Field(strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true, enabled = !submitting)
+        Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"], enabled = !submitting)
         Text(strings.get(R.string.ui_category), style = MaterialTheme.typography.labelLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "药品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(if (c == "药品") strings.tr("药品", "Medicine") else strings.label(c)) }) } }
-        Choice(strings.get(R.string.ui_location), store.locations, location) { location = it }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "药品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, enabled = !submitting, label = { Text(if (c == "药品") strings.tr("药品", "Medicine") else strings.label(c)) }) } }
+        Choice(strings.get(R.string.ui_location), store.locations, location, enabled = !submitting) { location = it }
         MotionErrorText(errors["location"])
-        Field(strings.get(R.string.ui_minimum_stock__optional__default_0), minimum, { minimum = it }, errors["minimum"], numeric = true)
-        Field(strings.get(R.string.ui_expiry_date__optional__yyyy_mm_dd), expiry, { expiry = it }, errors["expiry"])
+        Field(strings.get(R.string.ui_minimum_stock__optional__default_0), minimum, { minimum = it }, errors["minimum"], numeric = true, enabled = !submitting)
+        Field(strings.get(R.string.ui_expiry_date__optional__yyyy_mm_dd), expiry, { expiry = it }, errors["expiry"], enabled = !submitting)
         MotionErrorText(generalError)
         Button(onClick = {
             val q = if (initial == null) positiveNumber(quantity) else nonNegativeNumber(quantity)
@@ -162,10 +166,13 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
                 val existing = store.items.firstOrNull { it.id != itemId && it.name.equals(item.name, true) }
                 if (existing != null && !store.cloud.signedIn) {
                     if (initial != null) generalError = "已有同名物品，请使用不同名称；合并入库请从添加入口操作。" else { duplicate = existing; pending = item }
+                } else if (initial == null && store.cloud.signedIn) {
+                    generalError = ""; submitting = true
+                    groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)
                 } else save(item)
             }
-        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth()) { Text(if (submitting) strings.get(R.string.ui_saving) else if (initial == null) strings.get(R.string.ui_confirm_add) else strings.get(R.string.ui_save_changes)) }
-        cancel?.let { TextButton(onClick = it) { Text(strings.get(R.string.ui_back___discard_unconfirmed_items)) } }
+        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth().testTag("inventory-editor-confirm")) { Text(if (submitting) strings.get(R.string.ui_saving) else if (initial == null) strings.get(R.string.ui_confirm_add) else strings.get(R.string.ui_save_changes)) }
+        cancel?.let { TextButton(onClick = it, enabled = !submitting) { Text(strings.get(R.string.ui_back___discard_unconfirmed_items)) } }
         Spacer(Modifier.height(16.dp))
     }
     duplicate?.let { old ->
@@ -173,28 +180,33 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
             Column { TextButton(onClick = { pending?.let { save(it, "入库") }; duplicate = null }) { Text(strings.get(R.string.ui_add_to_stock)) }; TextButton(onClick = { pending?.let { save(it, "盘点") }; duplicate = null }) { Text(strings.get(R.string.ui_update_stocktake)) } }
         })
     }
+    ProductGroupingFlow(store.cloud, groupingInput, clear = { groupingInput = null }, busy = { if (initial == null) submitting = it },
+        error = { generalError = it }, saved = { savedId ->
+            notify(strings.tr("已加入库存", "Added to inventory"))
+            if (savedId == itemId) onSaved() else generalError = strings.tr("上次物品已保存，请再次确认当前物品。", "The previous item is saved. Confirm the current item again.")
+        })
 }
 
 @Composable
-internal fun Field(label: String, value: String, change: (String) -> Unit, error: String? = null, numeric: Boolean = false) {
+internal fun Field(label: String, value: String, change: (String) -> Unit, error: String? = null, numeric: Boolean = false, enabled: Boolean = true) {
     OutlinedTextField(value, change, label = { Text(label) }, singleLine = true,
         modifier = Modifier.fillMaxWidth().animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing)),
-        isError = error != null, supportingText = { MotionErrorText(error) },
+        isError = error != null, enabled = enabled, supportingText = { MotionErrorText(error) },
         keyboardOptions = KeyboardOptions(keyboardType = if (numeric) KeyboardType.Decimal else KeyboardType.Text))
 }
 
 @Composable
-internal fun Choice(label: String, options: List<String>, selected: String, translateOptions: Boolean = false, change: (String) -> Unit) {
+internal fun Choice(label: String, options: List<String>, selected: String, translateOptions: Boolean = false, enabled: Boolean = true, change: (String) -> Unit) {
     val strings = rememberUiStrings()
     var expanded by remember { mutableStateOf(false) }
     val arrowRotation by animateFloatAsState(if (expanded) 180f else 0f,
         tween(AppMotion.Quick, easing = AppMotion.easing), label = "choice-arrow")
     Box {
-        OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) {
+        OutlinedButton(onClick = { expanded = true }, enabled = enabled, modifier = Modifier.fillMaxWidth()) {
             AppMotionContent(selected, label = "choice-value") { value -> Text(strings.get(R.string.ui_choice_value, label, if (value.isBlank()) strings.get(R.string.ui_select) else if (translateOptions) strings.label(value) else value)) }
             Text("▾", Modifier.padding(start = 8.dp).rotate(arrowRotation))
         }
-        DropdownMenu(expanded, { expanded = false }) {
+        DropdownMenu(expanded && enabled, { expanded = false }) {
             options.forEach { option -> DropdownMenuItem(text = { Text(if (translateOptions) strings.label(option) else option) }, onClick = { change(option); expanded = false }) }
         }
     }

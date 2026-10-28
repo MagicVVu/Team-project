@@ -278,6 +278,7 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
     var completed by remember { mutableStateOf(false) }
     var duplicate by remember { mutableStateOf<StockItem?>(null) }
     var pending by remember { mutableStateOf<StockItem?>(null) }
+    var groupingInput by remember { mutableStateOf<ProductGroupingInput?>(null) }
     LaunchedEffect(dateVersion) { if (dateVersion > 0) expiry = dateUpdate }
     DisposableEffect(saving) { onSaving(saving); onDispose { onSaving(false) } }
     val voice = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { response ->
@@ -348,9 +349,9 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                 if (draft != null && draft.quantity.isNotBlank() && InventoryContract.unit(draft.unit) != null) { quantity = draft.quantity; unit = InventoryContract.unit(draft.unit)!! }
                 error = strings.tr("已应用明确的数量和位置，请核对。", "Applied explicit quantity and location. Please review.")
             }, enabled = !saving) { Text(strings.tr("应用补充信息", "Apply note"), fontSize = 12.sp) }
-            TextButton(onClick = { expanded = !expanded }) { Text(strings.tr(if(expanded) "收起更多设置" else "更多设置", if(expanded) "Less" else "More settings"), fontSize = 12.sp) }
+            TextButton(onClick = { expanded = !expanded }, enabled = !saving) { Text(strings.tr(if(expanded) "收起更多设置" else "更多设置", if(expanded) "Less" else "More settings"), fontSize = 12.sp) }
             if (expanded) {
-                Field(strings.tr("最低库存", "Minimum stock"), minimum, { minimum = it }, numeric = true)
+                Field(strings.tr("最低库存", "Minimum stock"), minimum, { minimum = it }, numeric = true, enabled = !saving)
                 if (result.rawText.isNotBlank()) Text(result.rawText, fontSize = 11.sp, color = scheme.onSurfaceVariant)
             }
         }
@@ -375,7 +376,11 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                         val item = StockItem(id = id, name = name.trim(), quantity = amount!!.toDouble(), unit = InventoryContract.unit(unit)!!,
                             category = category, location = location, minimum = min!!.toDouble(), expiry = expiry, image = result.displayUri, quantityExact = quantity.trim())
                         val old = if(store.cloud.signedIn) null else store.items.firstOrNull { it.id != id && it.name.equals(item.name, true) }
-                        if(old != null) { duplicate = old; pending = item } else save(item)
+                        if(old != null) { duplicate = old; pending = item }
+                        else if (store.cloud.signedIn) {
+                            saving = true; error = ""
+                            groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)
+                        } else save(item)
                     }
                 }, enabled = !saving && !completed && !store.cloud.busy && !store.cloud.expired && store.storageError == null,
                     modifier = Modifier.fillMaxWidth().padding(top = 7.dp).heightIn(min = 48.dp).testTag("photo-confirm")) {
@@ -394,6 +399,12 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
             dismissButton = { TextButton(onClick = { duplicate = null }) { Text(strings.tr("返回核对", "Review")) } },
             confirmButton = { if(compatible) TextButton(onClick = { duplicate = null; item?.let { save(it, "入库") } }) { Text(strings.tr("增加库存", "Add stock")) } })
     }
+    ProductGroupingFlow(store.cloud, groupingInput, clear = { groupingInput = null }, busy = { saving = it },
+        error = { error = it }, saved = { savedId ->
+            notify(strings.tr("已加入库存", "Added to inventory"))
+            if (savedId == id) { completed = true; saved() }
+            else error = strings.tr("上次物品已保存，请再次确认当前物品。", "The previous item is saved. Confirm the current item again.")
+        })
 }
 
 @Composable

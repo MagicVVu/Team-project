@@ -1,6 +1,6 @@
 from datetime import date
 from decimal import Decimal
-from typing import Annotated
+from typing import Annotated, Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -10,6 +10,23 @@ Amount = Annotated[Decimal, Field(ge=0, le=1_000_000_000, max_digits=16, decimal
 
 class Input(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+
+class ProductGrouping(Input):
+    mode: Literal['separate', 'existing']
+    candidate_inventory_item_id: UUID | None = None
+    expected_inventory_version: int | None = Field(default=None, ge=1, strict=True)
+    expected_product_version: int | None = Field(default=None, ge=1, strict=True)
+
+    @model_validator(mode='after')
+    def explicit_choice(self):
+        if self.mode == 'existing':
+            if self.candidate_inventory_item_id is None or self.expected_inventory_version is None:
+                raise ValueError('Existing grouping requires a candidate and its inventory version')
+        elif any(v is not None for v in (self.candidate_inventory_item_id,
+                                        self.expected_inventory_version, self.expected_product_version)):
+            raise ValueError('Separate grouping cannot contain an existing candidate')
+        return self
 
 
 class InventoryCreate(Input):
@@ -22,6 +39,7 @@ class InventoryCreate(Input):
     minimum_quantity: Amount = Decimal(0)
     expires_on: date | None = None
     purchased_on: date | None = None
+    product_grouping: ProductGrouping | None = None
 
 
 class Versioned(Input):

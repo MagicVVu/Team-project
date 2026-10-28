@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.lerp
 import com.example.teamapp.R
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.data.StockItem
+import com.example.teamapp.data.CloudProduct
 import com.example.teamapp.ui.AppMotion
 import com.example.teamapp.ui.AssistantMascotWidth
 import com.example.teamapp.ui.Detail
@@ -73,11 +74,15 @@ internal fun RingInventoryPage(
     var compactPreview by remember { mutableStateOf(false) }
     var hostBounds by remember { mutableStateOf(Rect.Zero) }
     var pendingAction by remember { mutableStateOf<String?>(null) }
+    var actionBatch by remember { mutableStateOf<StockItem?>(null) }
+    val products = store.cloud.products
+    val ringItems = if (store.cloud.signedIn) products.map { it.ringItem(strings.english) } else store.items
+    val product = products.firstOrNull { "product:${it.id}" == detailId }
     val expansion = remember { Animatable(0f) }
     val ringFocus = remember { Animatable(0f) }
     val groups = remember { List(4) { Animatable(0f) } }
     val currentAction by rememberUpdatedState(onItemAction)
-    val item = store.items.firstOrNull { it.id == detailId }
+    val item = ringItems.firstOrNull { it.id == detailId }
     val showing = phase != InventoryDetailPhase.Idle && active && item != null
     val visibilityCallback by rememberUpdatedState(onDetailVisibilityChanged)
     DisposableEffect(showing) {
@@ -93,7 +98,7 @@ internal fun RingInventoryPage(
     }
 
     // Cancellation on tab changes, family changes/deletion and composition disposal is automatic.
-    LaunchedEffect(active, detailId, item != null, phase) {
+    LaunchedEffect(active, detailId, item != null, phase, store.cloud.scopeKey) {
         if (!active || (detailId != null && item == null)) {
             expansion.snapTo(0f)
             ringFocus.snapTo(0f)
@@ -128,9 +133,10 @@ internal fun RingInventoryPage(
                     launch { ringFocus.animateTo(0f, tween(180, easing = AppMotion.easing)) }
                 }
                 val action = pendingAction
-                val actionItem = store.items.firstOrNull { it.id == detailId }
+                val actionItem = actionBatch ?: store.items.firstOrNull { it.id == detailId }
                 detailId = null
                 pendingAction = null
+                actionBatch = null
                 phase = InventoryDetailPhase.Idle
                 if (action != null && actionItem != null && active) currentAction(actionItem, action)
             }
@@ -141,17 +147,30 @@ internal fun RingInventoryPage(
     BoxWithConstraints(Modifier.fillMaxSize().clipToBounds().testTag("ring-inventory-page")
         .onGloballyPositioned { hostBounds = it.boundsInRoot() }
         .semantics { stateDescription = phase.name }) {
-        StockRingBrowser(store.items, store.reminderDays, onOpenItem = { selected ->
+        Column(Modifier.fillMaxSize()) {
+        if (store.cloud.signedIn) {
+            store.cloud.productError?.let {
+                Text(if (strings.english) "Product sync failed. Pull down to retry. $it" else "商品同步失败，请下拉刷新重试。$it",
+                    color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(horizontal = 18.dp))
+            }
+            if (store.cloud.productError == null && store.cloud.unlinkedItems.isNotEmpty()) {
+                Text(if (strings.english) "${store.cloud.unlinkedItems.size} batches have no product link; they are excluded from the ring."
+                    else "${store.cloud.unlinkedItems.size} 条库存尚未关联商品，暂不计入商品圆环。",
+                    style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 18.dp))
+            }
+        }
+        StockRingBrowser(ringItems, store.reminderDays, onOpenItem = { selected ->
             if (phase == InventoryDetailPhase.Idle && active && previewBounds.width > 0 && previewBounds.height > 0) {
                 focus.clearFocus()
                 detailId = selected.id
                 phase = InventoryDetailPhase.Expanding
             }
         }, onAdd = onAdd,
-            modifier = Modifier.motionInput(!showing),
+            modifier = Modifier.weight(1f).motionInput(!showing),
             showAddAction = true, toolbarEndPadding = AssistantMascotWidth + 32.dp,
             detailFocus = { ringFocus.value }, hidePreview = showing,
             onPreviewBounds = { bounds, compact -> previewBounds = bounds; compactPreview = compact })
+        }
 
         if (showing) {
             val start = previewBounds.translate(-hostBounds.topLeft)
@@ -195,13 +214,17 @@ internal fun RingInventoryPage(
                     .graphicsLayer { alpha = ((expansion.value - .5f) / .18f).coerceIn(0f, 1f) }) {
                     Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = 6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
-                        Text(strings.label("详情"), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                        Text(strings.label("详情"), color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                         TextButton(onClick = { close() }, modifier = Modifier.testTag("inventory-detail-close")) {
                             Text(strings.get(R.string.ui_close_2))
                         }
                     }
                     Box(Modifier.weight(1f).fillMaxWidth().motionInput(phase == InventoryDetailPhase.Expanded)) {
-                        Detail(store, item, { close(it) }, notify, { close() },
+                        if (product != null) ProductInventoryDetail(product) { batch, action ->
+                            actionBatch = batch
+                            close(action)
+                        } else Detail(store, item, { close(it) }, notify, { close() },
                             reveal = { index ->
                                 Modifier.graphicsLayer {
                                     alpha = groups[index].value

@@ -19,11 +19,12 @@ data class StockItem(
     val version: Int = 1,
     val openedAt: String = "",
     val lifecycleStatus: String = "ACTIVE",
-    val quantityExact: String = ""
+    val quantityExact: String = "",
+    val displayQuantity: String? = null
 )
 
 val StockItem.activeBatch get() = lifecycleStatus.uppercase() == "ACTIVE"
-val StockItem.quantityText get() = quantityExact.takeIf { it.toDoubleOrNull() == quantity } ?: quantity.display()
+val StockItem.quantityText get() = displayQuantity ?: quantityExact.takeIf { it.toDoubleOrNull() == quantity } ?: quantity.display()
 
 data class Purchase(val itemId: String, val quantity: Double)
 data class StockStatus(val low: Boolean, val days: Long?, val soon: Boolean, val expired: Boolean, val terminal: Boolean = false) {

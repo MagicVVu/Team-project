@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 from app.dependencies import Identity, get_db, get_identity
 from app.models import InventoryItem
@@ -12,6 +12,39 @@ from app.shopping_schemas import StockResponse
 from app.execution_models import BusinessEvent
 
 router = APIRouter(prefix='/api/v1/households/{household_id}', tags=['Product identity and inventory ledger'])
+
+
+@router.get('/inventory-product-matches')
+def inventory_product_matches(household_id: UUID, response: Response,
+                              name: str = Query(min_length=1, max_length=200, pattern=r'\S'),
+                              limit: int = Query(200, ge=1, le=200), offset: int = Query(0, ge=0),
+                              identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    membership_or_404(db, household_id, identity.user.id)
+    from app.services.product_grouping import candidates
+    response.headers['Cache-Control'] = 'no-store'
+    return candidates(db, household_id, name, limit, offset)
+
+
+@router.get('/inventory-products')
+def inventory_products(household_id: UUID, response: Response,
+                       limit: int = Query(50, ge=1, le=100), offset: int = Query(0, ge=0),
+                       identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
+    """Product identities and ALL linked batches, never inferred from equal names."""
+    membership_or_404(db, household_id, identity.user.id)
+    total = db.scalar(select(func.count()).select_from(Product).where(Product.household_id == household_id))
+    rows = db.scalars(select(Product).where(Product.household_id == household_id)
+                      .order_by(Product.name, Product.id).limit(limit).offset(offset)).all()
+    batches = db.execute(select(ProductBatch.product_id, InventoryItem).join(
+        InventoryItem, InventoryItem.id == ProductBatch.inventory_item_id).where(
+        ProductBatch.product_id.in_([p.id for p in rows]), InventoryItem.household_id == household_id)
+        .order_by(InventoryItem.created_at, InventoryItem.id)).all() if rows else []
+    grouped = {p.id: [] for p in rows}
+    for product_id, batch in batches:
+        grouped[product_id].append(StockResponse.model_validate(batch).model_dump(mode='json'))
+    response.headers['Cache-Control'] = 'no-store'
+    return {'protocol_version': 'inventory-products-1', 'items': [
+        {**products.value(p), 'inventory_items': grouped[p.id]} for p in rows],
+        'total': total, 'limit': limit, 'offset': offset}
 
 
 @router.post('/products', status_code=201)

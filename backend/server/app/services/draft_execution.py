@@ -364,6 +364,9 @@ def execute(db, identity, draft_id, body):
         item.history_json = ([{"id": str(body.operation_id), "event_id": str(event_id),
                               "kind": event_type, "created_at": at.isoformat()}] + (item.history_json or []))[:30]
     db.flush()
+    if action == 'ADD':
+        from app.services.product_grouping import singleton
+        singleton(db, item, identity.user.id, 'confirmed_draft_inventory_singleton')
     after = (StockResponse.model_validate(item) if item is not None else ShoppingItemResponse.model_validate(shopping)).model_dump(mode="json")
     if item is not None:
         batch_versions[str(item.id)] = item.version
