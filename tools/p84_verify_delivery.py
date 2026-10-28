@@ -24,11 +24,18 @@ assert all("/agent/dialogue/"+stage in api["paths"] for stage in ("understand","
 files=[*list((ROOT/"agent/conversation").glob("dialogue*.py")),ROOT/"backend/server/app/services/dialogue.py"]
 for path in files:ast.parse(path.read_text(encoding="utf-8"))
 out=ROOT/"reports/p84-dialogue"
-summary=dict(stage="V1-P8.4",local_only=True,server_synchronized=False,server_version_replaced=False,
+published=(out/"production-verify.json").is_file()
+verification=json.loads((out/"production-verify.json").read_text(encoding="utf-8")) if published else {}
+if published:
+    assert verification["agent_health"]["maintenance_release"]=="V1-P8.4"
+    assert verification["capabilities"]["conversation_dialogue_protocol"]=="p84-dialogue-1"
+    assert verification["protected_services_unchanged"] and verification["unrelated_code_preserved"]
+summary=dict(stage="V1-P8.4",local_only=not published,server_synchronized=published,server_version_replaced=published,
     android_modified=False,new_tables=False,migrations=False,git_committed=False,git_pushed=False,
     markdown_links_verified=True,json_contract_count=len(list(contracts.glob("*.json"))),
     protocol="p84-dialogue-1",source_manifest=manifest(),
     backend_adapter_sha256=hashlib.sha256((ROOT/"backend/server/app/services/dialogue.py").read_bytes()).hexdigest(),
-    evaluation="evaluation-summary.json",human_naturalness_review="pending",app_joint_acceptance="not_run")
-(out/"delivery-summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    evaluation="evaluation-summary.json",human_naturalness_review="pending",app_joint_acceptance="not_run",
+    backend_adapter_deployed=published,backend_business_release="V1-P9" if published else None)
+(out/("production-delivery-summary.json" if published else "delivery-summary.json")).write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 print(json.dumps({k:v for k,v in summary.items() if k not in {"source_manifest","backend_adapter_sha256"}},ensure_ascii=False))

@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "CurrentTask": {
+      "properties": {
+        "task": {
+          "additionalProperties": true,
+          "title": "Task",
+          "type": "object"
+        },
+        "execution": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution"
+        }
+      },
+      "required": [
+        "task"
+      ],
+      "title": "CurrentTask",
+      "type": "object"
+    },
+    "Turn": {
+      "properties": {
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "phase": {
+          "title": "Phase",
+          "type": "string"
+        },
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        },
+        "historical_status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Historical Status"
+        },
+        "evidence": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "request_id",
+        "original_text",
+        "created_at",
+        "phase",
+        "reply"
+      ],
+      "title": "Turn",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "protocol_version": {
+      "const": "conversation-memory-1",
+      "default": "conversation-memory-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "conversation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Conversation Id"
+    },
+    "conversation_revision": {
+      "title": "Conversation Revision",
+      "type": "integer"
+    },
+    "household_id": {
+      "format": "uuid",
+      "title": "Household Id",
+      "type": "string"
+    },
+    "messages": {
+      "items": {
+        "$ref": "#/$defs/Turn"
+      },
+      "title": "Messages",
+      "type": "array"
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Cursor"
+    },
+    "active_task": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CurrentTask"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "retention_days": {
+      "const": 30,
+      "default": 30,
+      "title": "Retention Days",
+      "type": "integer"
+    },
+    "requires_reset": {
+      "default": false,
+      "title": "Requires Reset",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "conversation_revision",
+    "household_id",
+    "messages"
+  ],
+  "title": "Page",
+  "type": "object"
+}

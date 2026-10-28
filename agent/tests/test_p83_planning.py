@@ -99,7 +99,7 @@ def test_complete_explicit_product_keeps_batches_and_does_not_claim_usable_stock
     assert row.recorded_consumption_quantity == 7 and len(row.recorded_consumption_event_ids) == 7
     assert {b.batch_id for b in row.product.batches} == {BATCH, SECOND}
     assert row.product.platform_rule_review_status == "unknown"
-    assert result.runtime.maintenance_release == "V1-P8.3"
+    assert result.runtime.maintenance_release == "V1-P8.4"
     assert not result.inventory_writes and not result.shopping_writes and engine.calls == 0
     assert reader.reads == 1 and reader.value == before
 

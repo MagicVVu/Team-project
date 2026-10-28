@@ -1,0 +1,292 @@
+{
+  "notice": "Synthetic clock 2026-10-15; not a live server request; caller must refresh permissions, time, revisions and original references",
+  "understand_request": {
+    "text": "回到最开始查过的那个，现在还有多少",
+    "request_id": "synthetic-example",
+    "household_timezone": "Asia/Shanghai",
+    "context": {
+      "protocol_version": "conversation-memory-1",
+      "scope": {
+        "user_id": "33333333-3333-4333-8333-333333333333",
+        "household_id": "22222222-2222-4222-8222-222222222222"
+      },
+      "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "revision": 2,
+      "trusted_now": "2026-10-15T02:00:30Z",
+      "history": [],
+      "active": null,
+      "reference": null,
+      "reference_error": null,
+      "choices": [],
+      "tasks": [],
+      "truncated": false
+    },
+    "current_task_plan": null,
+    "remaining_seconds": 18.0,
+    "archive": {
+      "protocol_version": "conversation-episodes-1",
+      "scope": {
+        "user_id": "33333333-3333-4333-8333-333333333333",
+        "household_id": "22222222-2222-4222-8222-222222222222"
+      },
+      "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "revision": 2,
+      "episodes": [
+        {
+          "memory_id": "mem_9e180a72283e72e039d00eab9d640fae",
+          "request_id": "p85-01-0-0",
+          "text": "查一下牛奶的数量和位置",
+          "reply": "牛奶：登记数量 4 盒，状态 ACTIVE。\n牛奶：位置 冰箱。",
+          "created_at": "2026-10-15T02:00:00Z",
+          "subjects": [
+            {
+              "name": "牛奶",
+              "quote": "牛奶"
+            }
+          ],
+          "reference": {
+            "protocol_version": "p7-object-reference-1",
+            "scope": {
+              "user_id": "33333333-3333-4333-8333-333333333333",
+              "household_id": "22222222-2222-4222-8222-222222222222"
+            },
+            "source_task_id": "11111111-1111-4111-8111-111111111111",
+            "source_revision": 1,
+            "batch_id": "b1",
+            "issued_at": "2026-10-15T02:00:00Z",
+            "expires_at": "2026-10-15T02:15:00Z"
+          }
+        }
+      ],
+      "has_more": false
+    }
+  },
+  "resolve_request": {
+    "text": "回到最开始查过的那个，现在还有多少",
+    "request_id": "synthetic-example",
+    "household_timezone": "Asia/Shanghai",
+    "context": {
+      "protocol_version": "conversation-memory-1",
+      "scope": {
+        "user_id": "33333333-3333-4333-8333-333333333333",
+        "household_id": "22222222-2222-4222-8222-222222222222"
+      },
+      "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "revision": 2,
+      "trusted_now": "2026-10-15T02:00:30Z",
+      "history": [],
+      "active": null,
+      "reference": null,
+      "reference_error": null,
+      "choices": [],
+      "tasks": [],
+      "truncated": false
+    },
+    "current_task_plan": null,
+    "remaining_seconds": 18.0,
+    "archive": {
+      "protocol_version": "conversation-episodes-1",
+      "scope": {
+        "user_id": "33333333-3333-4333-8333-333333333333",
+        "household_id": "22222222-2222-4222-8222-222222222222"
+      },
+      "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      "revision": 2,
+      "episodes": [
+        {
+          "memory_id": "mem_9e180a72283e72e039d00eab9d640fae",
+          "request_id": "p85-01-0-0",
+          "text": "查一下牛奶的数量和位置",
+          "reply": "牛奶：登记数量 4 盒，状态 ACTIVE。\n牛奶：位置 冰箱。",
+          "created_at": "2026-10-15T02:00:00Z",
+          "subjects": [
+            {
+              "name": "牛奶",
+              "quote": "牛奶"
+            }
+          ],
+          "reference": {
+            "protocol_version": "p7-object-reference-1",
+            "scope": {
+              "user_id": "33333333-3333-4333-8333-333333333333",
+              "household_id": "22222222-2222-4222-8222-222222222222"
+            },
+            "source_task_id": "11111111-1111-4111-8111-111111111111",
+            "source_revision": 1,
+            "batch_id": "b1",
+            "issued_at": "2026-10-15T02:00:00Z",
+            "expires_at": "2026-10-15T02:15:00Z"
+          }
+        }
+      ],
+      "has_more": false
+    },
+    "plan": {
+      "speech_act": "question",
+      "selector": {
+        "name": null,
+        "location": null,
+        "choice_index": null,
+        "use_reference": false
+      },
+      "reads": [
+        {
+          "kind": "quantity"
+        }
+      ],
+      "action": null,
+      "fields": {},
+      "amount_mode": "literal",
+      "write_count": 0,
+      "task_index": null,
+      "preserve_active": true,
+      "social_reply": null,
+      "memory_id": "mem_9e180a72283e72e039d00eab9d640fae"
+    },
+    "plan_context_revision": 2
+  },
+  "respond_request": {
+    "text": "查一下牛奶的数量和位置",
+    "resolved": {
+      "protocol_version": "p85-dialogue-1",
+      "original_text": "查一下牛奶的数量和位置",
+      "kind": "task",
+      "reply": "牛奶：登记数量 4 盒，状态 ACTIVE。\n牛奶：位置 冰箱。",
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_INVENTORY",
+        "reply": "牛奶：登记数量 4 盒，状态 ACTIVE。\n牛奶：位置 冰箱。",
+        "trace_id": "trace_eadcc02625ad4e2cbd238c824c63ae7c",
+        "original_text": "查一下牛奶的数量和位置",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "22222222-2222-4222-8222-222222222222",
+            "name": "牛奶",
+            "quantity": "4",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": null,
+        "input_review": null,
+        "request_id": null,
+        "runtime": null,
+        "decisions": [],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": null,
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": null,
+        "reference_used": null,
+        "clear_reference": false,
+        "consume_mode": null,
+        "procurement_source": null,
+        "planning_calculation": null,
+        "product_planning": [],
+        "planning_context": null,
+        "planning_review": null
+      },
+      "answers": {},
+      "task_revision": null,
+      "reference": null,
+      "preserve_active": true,
+      "evidence": [
+        {
+          "kind": "inventory_read",
+          "batch_id": "b1",
+          "version": 4,
+          "checked_at": "2026-10-15T02:00:00+00:00"
+        }
+      ],
+      "field_sources": {},
+      "filled_fields": {},
+      "facts": {
+        "f0": "牛奶：登记数量 4 盒，状态 ACTIVE。",
+        "f1": "牛奶：位置 冰箱。"
+      },
+      "edit": null,
+      "error_code": null,
+      "truncated": false,
+      "model_calls": 0,
+      "memory": {
+        "selected_ids": [],
+        "omitted_episodes": 0,
+        "truncated": false,
+        "archive_available": true,
+        "summary": {
+          "active_task": null,
+          "task_states": [],
+          "recent_object_available": true,
+          "history_is_not_current_inventory": true,
+          "retrieval_strategy": "lexical_then_recent",
+          "plan_normalizations": []
+        }
+      },
+      "memory_delta": {
+        "protocol_version": "conversation-episode-delta-1",
+        "scope": {
+          "user_id": "33333333-3333-4333-8333-333333333333",
+          "household_id": "22222222-2222-4222-8222-222222222222"
+        },
+        "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "expected_revision": 0,
+        "episode": {
+          "memory_id": "mem_9e180a72283e72e039d00eab9d640fae",
+          "request_id": "p85-01-0-0",
+          "text": "查一下牛奶的数量和位置",
+          "reply": "牛奶：登记数量 4 盒，状态 ACTIVE。\n牛奶：位置 冰箱。",
+          "created_at": "2026-10-15T02:00:00Z",
+          "subjects": [
+            {
+              "name": "牛奶",
+              "quote": "牛奶"
+            }
+          ],
+          "reference": null
+        },
+        "source_text_sha256": "487981d25fd86e806a2e113c1c8164de3232b3fea4038b37a21806f912dee989"
+      },
+      "expression_required": true
+    },
+    "remaining_seconds": 8.0
+  }
+}
