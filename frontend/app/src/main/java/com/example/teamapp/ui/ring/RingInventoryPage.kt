@@ -156,10 +156,11 @@ internal fun RingInventoryPage(
         if (showing) {
             val start = previewBounds.translate(-hostBounds.topLeft)
             val horizontalMargin = 16.dp
+            val verticalMargin = 12.dp
             val targetWidth = (maxWidth - horizontalMargin * 2).coerceAtLeast(1.dp)
-            val targetHeight = (maxHeight * .8f).coerceAtLeast(1.dp)
+            val targetHeight = (maxHeight - verticalMargin * 2).coerceAtLeast(1.dp)
             val target = with(density) {
-                val top = 12.dp.toPx().coerceAtMost((maxHeight - targetHeight).toPx())
+                val top = ((maxHeight - targetHeight) / 2).coerceAtLeast(0.dp).toPx()
                 Rect(horizontalMargin.toPx(), top, (horizontalMargin + targetWidth).toPx(), top + targetHeight.toPx())
             }
             val scrimColor = MaterialTheme.colorScheme.scrim

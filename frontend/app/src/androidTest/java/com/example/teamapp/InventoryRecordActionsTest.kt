@@ -269,6 +269,9 @@ class InventoryRecordActionsTest {
         compose.onNodeWithText("加入采购清单").assertExists()
         compose.onNodeWithText("确认保存").performClick()
         compose.waitUntil(5_000) { store.purchases.any { it.itemId == item.id } }
+        // The taller detail reaches the snackbar area; wait before tapping its bottom actions.
+        compose.waitUntil(5_000) { compose.onAllNodesWithText("采购计划已保存").fetchSemanticsNodes().isNotEmpty() }
+        compose.waitUntil(8_000) { compose.onAllNodesWithText("采购计划已保存").fetchSemanticsNodes().isEmpty() }
         compose.onNodeWithTag("ring-selected-info").performClick()
         scrollTo("inventory-detail-shopping"); compose.onNodeWithTag("inventory-detail-shopping").performClick()
         compose.onNodeWithText("调整采购数量").assertExists()
