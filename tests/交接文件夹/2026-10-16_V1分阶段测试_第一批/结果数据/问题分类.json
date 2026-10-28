@@ -1,0 +1,74 @@
+[
+  {
+    "id": "G-F01",
+    "status": "FAIL",
+    "classification": "测试程序问题",
+    "owner": "MagicVVu",
+    "summary": "P5整段JSON搜索99会被随机UUID误触发；首轮实际失败，后续随机复跑通过不代表测试已修好",
+    "evidence": [
+      "evidence/ai-source/junit.xml",
+      "evidence/p5-uuid-diagnostic.json"
+    ],
+    "next": "由AI负责人改为断言最终text及禁止raw_transcript字段，并使用固定含99的ID验证；本轮不改队友文件"
+  },
+  {
+    "id": "G-E01",
+    "status": "PASS",
+    "classification": "环境问题 已修复",
+    "summary": "隔离副本原漏deploy/compose.p2.override.yaml，已补齐同源原文件，未修改预期",
+    "evidence": [
+      "evidence/ai-source/junit.xml",
+      "evidence/ai-source-corrected/junit.xml",
+      "baseline.json"
+    ]
+  },
+  {
+    "id": "G-C01",
+    "status": "FAIL",
+    "classification": "版本契约差异或接口限制",
+    "summary": "旧P1保留19FAIL，旧Android快照网关保留18FAIL；逐条记录见旧用例失败清单；不得合并算成新程序失败，也不得转PASS",
+    "evidence": [
+      "results/旧用例失败清单.jsonl"
+    ]
+  },
+  {
+    "id": "G-C02",
+    "status": "FAIL",
+    "classification": "版本契约差异",
+    "summary": "旧84次程序问题中81条原断言PASS，另3条仍FAIL：P1 p0-41-2终止批次状态，Android ext-013/ext-015未注册采购品",
+    "evidence": [
+      "results/历史84次程序问题对照.json"
+    ]
+  },
+  {
+    "id": "G-M01",
+    "status": "FAIL",
+    "classification": "历史模型程序问题 本轮未复测",
+    "owner": "MagicVVu",
+    "summary": "历史p5-42-1模型失败保留；本轮规则通过不能消除历史模型FAIL",
+    "evidence": [
+      ".snapshot/docs/versions/V1-P5/delivery-and-validation.md"
+    ],
+    "next": "完成费用说明后另开真实模型轮次"
+  },
+  {
+    "id": "G-R01",
+    "status": "REVIEW",
+    "classification": "样本标注问题",
+    "summary": "原150条人工复核未代签；位置漏标与创可贴快用完了意图歧义继续待确认，旧目标各18REVIEW不跨目标去重相加",
+    "evidence": [
+      "results/旧用例非通过清单.jsonl"
+    ]
+  },
+  {
+    "id": "G-E02",
+    "status": "BLOCKED",
+    "classification": "环境问题",
+    "owner": "Garin 与 inHuman",
+    "summary": "离线缓存缺少Compose desktop 1.7.0/1.3.0依赖，lintAnalyzeDebug未完成；不能登记Lint通过或无告警",
+    "evidence": [
+      "evidence/android-build.log"
+    ],
+    "next": "在隔离构建环境补齐依赖后单独重跑Lint；本轮未联网下载，不修改依赖版本"
+  }
+]

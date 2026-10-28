@@ -221,7 +221,8 @@ def test_local_memory_contract_exports_match_current_factory(monkeypatch):
     assert exported.pop("x-conversation-dialogue-protocol") == "p84-dialogue-1"
     assert exported == create_app(reader=object()).openapi()
     old = root.parent.parent/"V1-P8.3/contracts/ai-turn-response.schema.json"
-    assert json.loads(old.read_text(encoding="utf-8")) == TurnResult.model_json_schema()
+    from eval.session_memory.compatibility import assert_legacy_schema
+    assert_legacy_schema(json.loads(old.read_text(encoding="utf-8")), TurnResult.model_json_schema())
 
 
 def test_tool_timeout_preserves_grounded_fields():

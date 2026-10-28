@@ -1,0 +1,10 @@
+{
+  "document": "Garin V1分阶段测试工作记录.docx",
+  "page_count": 4,
+  "method": "Microsoft Word read-only PDF export then bundled Poppler rasterization; all 4 page PNGs inspected",
+  "packaged_renderer": "render_docx.py failed: bundled LibreOffice unavailable on Windows; diagnostic captured in work session",
+  "all_pages_reviewed": true,
+  "human_signoff": false,
+  "final_docx_sha256": "aacab40bba2b92985f09cacead188928a8ac4a9e39214dc88238b29d33be2ea1",
+  "qa_intermediates_delivered": false
+}

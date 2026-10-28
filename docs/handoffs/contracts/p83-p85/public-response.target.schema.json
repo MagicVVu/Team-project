@@ -1,0 +1,387 @@
+{
+  "$defs": {
+    "CurrentTask": {
+      "properties": {
+        "task": {
+          "additionalProperties": true,
+          "title": "Task",
+          "type": "object"
+        },
+        "execution": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution"
+        }
+      },
+      "required": [
+        "task"
+      ],
+      "title": "CurrentTask",
+      "type": "object"
+    },
+    "DialogueCalls": {
+      "additionalProperties": false,
+      "properties": {
+        "understanding": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Understanding",
+          "type": "integer"
+        },
+        "response": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Response",
+          "type": "integer"
+        },
+        "total": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "understanding",
+        "response",
+        "total"
+      ],
+      "title": "DialogueCalls",
+      "type": "object",
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "understanding": {
+                  "const": 0
+                },
+                "response": {
+                  "const": 0
+                },
+                "total": {
+                  "const": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "understanding": {
+                  "const": 0
+                },
+                "response": {
+                  "const": 1
+                },
+                "total": {
+                  "const": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "understanding": {
+                  "const": 1
+                },
+                "response": {
+                  "const": 0
+                },
+                "total": {
+                  "const": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "understanding": {
+                  "const": 1
+                },
+                "response": {
+                  "const": 1
+                },
+                "total": {
+                  "const": 2
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "DialogueMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "title": "Protocol Version",
+          "type": "string",
+          "enum": [
+            "p84-dialogue-1",
+            "p85-dialogue-1"
+          ]
+        },
+        "calls": {
+          "$ref": "#/$defs/DialogueCalls"
+        },
+        "recovery_model_calls": {
+          "anyOf": [
+            {
+              "const": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recovery Model Calls"
+        },
+        "fallback_used": {
+          "title": "Fallback Used",
+          "type": "boolean"
+        },
+        "field_sources": {
+          "additionalProperties": true,
+          "title": "Field Sources",
+          "type": "object"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "calls",
+        "fallback_used"
+      ],
+      "title": "DialogueMetadata",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "protocol_version": {
+      "const": "conversation-memory-1",
+      "default": "conversation-memory-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "conversation_id": {
+      "format": "uuid",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "conversation_revision": {
+      "title": "Conversation Revision",
+      "type": "integer"
+    },
+    "current_conversation_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Conversation Revision"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "kind": {
+      "title": "Kind",
+      "type": "string"
+    },
+    "task": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task"
+    },
+    "active_task": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CurrentTask"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "filled_fields": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Filled Fields",
+      "type": "object"
+    },
+    "model_calls": {
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "dialogue": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DialogueMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "truncated": {
+      "default": false,
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "inventory_written": {
+      "const": false,
+      "default": false,
+      "title": "Inventory Written",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "conversation_revision",
+    "request_id",
+    "original_text",
+    "reply",
+    "kind",
+    "model_calls"
+  ],
+  "title": "P83P85UnifiedConversationResponseTarget",
+  "type": "object",
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "dialogue"
+        ],
+        "properties": {
+          "dialogue": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "model_calls": {
+                "const": 0
+              },
+              "dialogue": {
+                "properties": {
+                  "calls": {
+                    "properties": {
+                      "total": {
+                        "const": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "model_calls": {
+                "const": 1
+              },
+              "dialogue": {
+                "properties": {
+                  "calls": {
+                    "properties": {
+                      "total": {
+                        "const": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "model_calls": {
+                "const": 2
+              },
+              "dialogue": {
+                "properties": {
+                  "calls": {
+                    "properties": {
+                      "total": {
+                        "const": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "else": {
+        "properties": {
+          "model_calls": {
+            "maximum": 1
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-contract-status": "proposed_joint_integration_target_not_implemented_or_deployed",
+  "x-notes": [
+    "Public request fields unchanged",
+    "Top-level protocol remains conversation-memory-1",
+    "Raw archive and memory_delta stay internal",
+    "No backend source change performed by this artifact"
+  ],
+  "x-source-repo-path": "docs/versions/V1-P8.5/contracts/public-response.schema.json"
+}

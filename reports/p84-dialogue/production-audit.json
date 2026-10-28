@@ -1,0 +1,69 @@
+{
+  "stage": "audited",
+  "services": {
+    "agent": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image_id": "sha256:a6ee9bede537af2aab02f8a2a19a78d824f64ecdfac34f51806bb052a99577b8",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:30.285450299Z",
+      "health": "healthy",
+      "config_sha256": "dc18092e8bcdf45ad8c9a4567d6631a6fbc3270937a052dc901d0ccfddc14ccb"
+    },
+    "backend": {
+      "id": "717f993562a9b274d5d0c9068e3a42b83e6401028a60ae9f71bc129dc775224a",
+      "image_id": "sha256:80cbec534a0cc871385733c6d37ce894547acce2f1dbef4a2499bdcd11943de2",
+      "image": "magicvvu/backend:p9-20261026",
+      "started_at": "2026-10-26T04:24:06.143103157Z",
+      "health": "healthy",
+      "config_sha256": "d1ae54525633c52918aae05de8f6d19837c86e2ba2291b35b8486782f2aa5eab"
+    }
+  },
+  "protected_services": {
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "health": "healthy",
+      "config_sha256": "b40898d052719d44e3ae17f6d5c408aa8da0cfe13cfdb497213cbe372c351876"
+    }
+  },
+  "schema_revision": [
+    "20261026_0011"
+  ],
+  "backend_merge": {
+    "app/memory_schemas.py": {
+      "live_sha256": "c4da9f4ba36b3406d32fe74d90d2194cf24c9012c99f915b80b6e717080f991f",
+      "merged_sha256": "eb3de389ad40c4709e7158ccc4f51efef5f3fd9e47b59d60f8712fe63cf51f76",
+      "three_way_merge_clean": true,
+      "identical_to_local": true
+    },
+    "app/routers/session_memory.py": {
+      "live_sha256": "db4e743abfe7100877cc392b41928e6c2d9819ad2c9222726ebf1dba43d54a58",
+      "merged_sha256": "2b03502d434dbcb7634819934d85d93708295f7b34bfff15e44ebc7ddaaccbfd",
+      "three_way_merge_clean": true,
+      "identical_to_local": true
+    },
+    "app/services/session_memory.py": {
+      "live_sha256": "bb6c163071590f6495c671145e338a90471dc4d82239b2b766e2124b15f9af8c",
+      "merged_sha256": "dcab9009fcfbea6acfec036373f6bcbf7e844e868135f67adfc5420e43d91903",
+      "three_way_merge_clean": true,
+      "identical_to_local": true
+    },
+    "app/routers/draft_execution.py": {
+      "live_sha256": "0757262440596f71495c72982aee2391372ae6d2e55ae0b1b420daca8f9498db",
+      "merged_sha256": "c6bb2c794c341e04cac8c4a69e5eee877c769a260348bcee45dcd6bd2b394d06",
+      "three_way_merge_clean": true,
+      "identical_to_local": true
+    },
+    "app/services/dialogue.py": {
+      "live_sha256": null,
+      "merged_sha256": "6740c9220dacff750a2417a7270bba650f666e35329fafffd5efd2a3fcd49c14",
+      "three_way_merge_clean": true,
+      "identical_to_local": true
+    }
+  },
+  "ai_files": 89,
+  "backend_adapter_files": 5,
+  "formal_runtime_switched": false
+}

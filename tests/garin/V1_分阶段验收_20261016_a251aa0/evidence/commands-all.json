@@ -1,0 +1,203 @@
+[
+  {
+    "label": "ai-source",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "ai",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\ai-source"
+    ],
+    "started_at": "2026-10-16T13:25:02.568645+00:00",
+    "exit_code": 1,
+    "evidence": "ai-source"
+  },
+  {
+    "label": "p4-history",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "legacy",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p4-history"
+    ],
+    "started_at": "2026-10-16T13:25:06.720351+00:00",
+    "exit_code": 0,
+    "evidence": "p4-history"
+  },
+  {
+    "label": "p1-dev",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p1",
+      "--split",
+      "dev",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p1-dev"
+    ],
+    "started_at": "2026-10-16T13:25:10.472673+00:00",
+    "exit_code": 0,
+    "evidence": "p1-dev"
+  },
+  {
+    "label": "p1-test",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p1",
+      "--split",
+      "test",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p1-test"
+    ],
+    "started_at": "2026-10-16T13:25:10.829285+00:00",
+    "exit_code": 0,
+    "evidence": "p1-test"
+  },
+  {
+    "label": "p2-dev",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p2",
+      "--split",
+      "dev",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p2-dev"
+    ],
+    "started_at": "2026-10-16T13:25:11.154223+00:00",
+    "exit_code": 0,
+    "evidence": "p2-dev"
+  },
+  {
+    "label": "p2-test",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p2",
+      "--split",
+      "test",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p2-test"
+    ],
+    "started_at": "2026-10-16T13:25:11.583637+00:00",
+    "exit_code": 0,
+    "evidence": "p2-test"
+  },
+  {
+    "label": "p3-dev",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p3",
+      "--split",
+      "dev",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p3-dev"
+    ],
+    "started_at": "2026-10-16T13:25:12.003226+00:00",
+    "exit_code": 0,
+    "evidence": "p3-dev"
+  },
+  {
+    "label": "p3-test",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p3",
+      "--split",
+      "test",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p3-test"
+    ],
+    "started_at": "2026-10-16T13:25:12.487870+00:00",
+    "exit_code": 0,
+    "evidence": "p3-test"
+  },
+  {
+    "label": "p5-dev",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p5",
+      "--split",
+      "dev",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p5-dev"
+    ],
+    "started_at": "2026-10-16T13:25:12.906591+00:00",
+    "exit_code": 0,
+    "evidence": "p5-dev"
+  },
+  {
+    "label": "p5-test",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "native",
+      "--phase",
+      "p5",
+      "--split",
+      "test",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\p5-test"
+    ],
+    "started_at": "2026-10-16T13:25:13.379198+00:00",
+    "exit_code": 0,
+    "evidence": "p5-test"
+  },
+  {
+    "label": "backend-local",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\backend\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "backend",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\backend-local"
+    ],
+    "started_at": "2026-10-16T13:25:13.831776+00:00",
+    "exit_code": 0,
+    "evidence": "backend-local"
+  },
+  {
+    "label": "backend-reference-flow",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\backend\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "backend-special",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\backend-reference-flow"
+    ],
+    "started_at": "2026-10-16T13:25:18.668464+00:00",
+    "exit_code": 0,
+    "evidence": "backend-reference-flow"
+  },
+  {
+    "label": "garin-special",
+    "command": [
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\.runtime\\ai\\Scripts\\python.exe",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\worker.py",
+      "supplemental",
+      "--out",
+      "D:\\Team_Project\\Team-project\\tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\garin-special"
+    ],
+    "started_at": "2026-10-16T13:25:20.052900+00:00",
+    "exit_code": 0,
+    "evidence": "garin-special"
+  }
+]

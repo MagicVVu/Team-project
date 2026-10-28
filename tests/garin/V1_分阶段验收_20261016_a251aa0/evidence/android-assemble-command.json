@@ -1,0 +1,20 @@
+{
+  "working_directory": "V:\\.snapshot\\frontend",
+  "java_home": "E:\\Development\\SDKs\\Java\\jdk-21.0.12+8",
+  "android_home": "E:\\Development\\SDKs\\Android",
+  "gradle_user_home": "V:\\.runtime\\gradle-home",
+  "arguments": [
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--stacktrace",
+    "-Dorg.gradle.java.installations.auto-download=false",
+    "-Dorg.gradle.java.installations.paths=E:\\Development\\SDKs\\Java\\jdk-21.0.12+8",
+    "-Pandroid.builder.sdkDownload=false",
+    "-Pandroid.overridePathCheck=true",
+    "-PmagicvvuApiUrl=http://10.0.2.2:18081",
+    "assembleDebug"
+  ],
+  "installs_apk": false,
+  "connects_service": false
+}

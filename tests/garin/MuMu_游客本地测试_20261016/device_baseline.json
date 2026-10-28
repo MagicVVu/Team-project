@@ -1,0 +1,27 @@
+{
+  "captured_at": "2026-10-16T14:06:06.386609+00:00",
+  "app": "com.example.teamapp",
+  "serial": "127.0.0.1:16416",
+  "cloud_session_present": false,
+  "initial_item_count": 15,
+  "initial_purchase_count": 0,
+  "initial_item_hashes": {
+    "sample-milk": "e8a37ed1975f5f3d377b90dd052c21aad1bb62f81129d7a15a3faffafcb94e7c",
+    "sample-bread": "6847c1a83d778cb5d2d193977a9fcd6eac75d012be0c0da3fb9f1864fb767f1f",
+    "sample-apple": "fc436805990d1a6223be0a460c8b45a7302d67a381da40883f97cb7f762ea4fe",
+    "sample-banana": "d8e47f6a7650dce4e8b958724569fb5aa98468784f21a2e6eb4a677ecbeeda84",
+    "sample-egg": "fb44cde0403eea131d63ea9e5fb68e394091f4469299624e2b56adb98f832cb7",
+    "sample-tissue": "03def627a3f5c674418d3b958bb1aa0a0148d9afb710b0a31c6070efd559ec8d",
+    "sample-laundry": "f72ad51ccc61c08fae338d9ba40368e1d691f9226d451008e923ad822da3eaec",
+    "sample-shampoo": "83baa8d0c3cfa4ce75c276982910c6baebc6235e21c27fea36d846f168a289c3",
+    "sample-toothpaste": "d36bb3c73cb53f65622098a4001bb97ab240d54e7f984498990e66bd07b5d060",
+    "sample-dish-soap": "7766a6a1c10b9f20ab13f00cf253f843c3e495da4c974e093943b368a9066e77",
+    "sample-battery": "a6f3f2f60c1a9e2adb98a2a006a2697217d3723c03d40c2b0ce266b3d1903071",
+    "sample-tape": "c5475ed776b3a4f96032985fa2afec0f340e56b7a7ca8c636e3bda20dc3cc7f5",
+    "sample-notebook": "7d67c904ff8992291d643c0d66680ac6389fdff2083fc7935ab83d6e3c855286",
+    "sample-bulb": "7e28efdba5c57494cfc3043ba4361160dc05bf5dc2c8772ac2692aa00e978549",
+    "sample-storage-box": "76ad9b5b27b92116b806fa1149b865c4a83e1453ac267adfa2bc411d1c5f9610"
+  },
+  "initial_nonitem_hash": "cceef9f850d0eac409b00a7fcdafad6e398d37c1b09d5454aa7b9c41d00183b8",
+  "existing_test_names": []
+}

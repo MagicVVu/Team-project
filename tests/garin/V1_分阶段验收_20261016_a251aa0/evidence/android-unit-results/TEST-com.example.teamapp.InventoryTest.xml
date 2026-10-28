@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.teamapp.InventoryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-16T13:37:25.132Z" hostname="DESKTOP-VS4JBTJ" time="0.02">
+  <properties/>
+  <testcase name="unsetExpiryIsNeverConsideredExpired" classname="com.example.teamapp.InventoryTest" time="0.004"/>
+  <testcase name="thresholdEqualityIsNotLow" classname="com.example.teamapp.InventoryTest" time="0.0"/>
+  <testcase name="voiceParsesAllItemsAndLeavesMissingInformationEmpty" classname="com.example.teamapp.InventoryTest" time="0.004"/>
+  <testcase name="numericInputsRejectNonFiniteOrNonPositiveValues" classname="com.example.teamapp.InventoryTest" time="0.0"/>
+  <testcase name="expiryDateInclusiveAndExpiredPrioritized" classname="com.example.teamapp.InventoryTest" time="0.001"/>
+  <testcase name="overlappingStatusesAreIndependent" classname="com.example.teamapp.InventoryTest" time="0.0"/>
+  <testcase name="assistantUsesCurrentFactsAndDoesNotGuess" classname="com.example.teamapp.InventoryTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

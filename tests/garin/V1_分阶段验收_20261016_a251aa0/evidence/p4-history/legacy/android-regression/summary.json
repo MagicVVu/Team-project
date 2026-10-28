@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "PASS": 210,
+    "FAIL": 18,
+    "REVIEW": 18,
+    "BLOCKED": 32
+  },
+  "legacy_required_pass": false
+}

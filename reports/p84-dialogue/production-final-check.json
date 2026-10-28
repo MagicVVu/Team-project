@@ -1,0 +1,23 @@
+{
+  "rollback_images": {
+    "agent": {
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "image_id": "sha256:a6ee9bede537af2aab02f8a2a19a78d824f64ecdfac34f51806bb052a99577b8",
+      "available": true
+    },
+    "backend": {
+      "image": "magicvvu/backend:p9-20261026",
+      "image_id": "sha256:80cbec534a0cc871385733c6d37ce894547acce2f1dbef4a2499bdcd11943de2",
+      "available": true
+    }
+  },
+  "legacy_message_verified": true,
+  "legacy_memory_verified": true,
+  "legacy_model_calls": 0,
+  "production_business_writes": false,
+  "production_tasks_or_sessions_created": false,
+  "ai_runtime_and_workspace_match": true,
+  "ai_file_count": 89,
+  "database_container_unchanged": true,
+  "services_healthy": true
+}

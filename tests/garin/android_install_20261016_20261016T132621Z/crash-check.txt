@@ -1,0 +1,3 @@
+Target: com.example.teamapp
+Observed app PID: 2914
+App crash in current crash buffer: False

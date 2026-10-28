@@ -1,0 +1,313 @@
+{
+  "$defs": {
+    "FieldSource": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "maxLength": 120,
+          "title": "Value",
+          "type": "string"
+        },
+        "source": {
+          "default": "current_text",
+          "enum": [
+            "current_text",
+            "current_task"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "quote": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "FieldSource",
+      "type": "object"
+    },
+    "P85MemoryUse": {
+      "additionalProperties": false,
+      "properties": {
+        "selected_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Selected Ids",
+          "type": "array"
+        },
+        "omitted_episodes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Omitted Episodes",
+          "type": "integer"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "archive_available": {
+          "default": false,
+          "title": "Archive Available",
+          "type": "boolean"
+        },
+        "summary": {
+          "additionalProperties": true,
+          "title": "Summary",
+          "type": "object"
+        }
+      },
+      "title": "P85MemoryUse",
+      "type": "object"
+    },
+    "P85Plan": {
+      "additionalProperties": false,
+      "properties": {
+        "speech_act": {
+          "enum": [
+            "request",
+            "discuss",
+            "hypothesis",
+            "negation",
+            "correction",
+            "supplement",
+            "question",
+            "social",
+            "status",
+            "basis",
+            "recall",
+            "new_task"
+          ],
+          "title": "Speech Act",
+          "type": "string"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "reads": {
+          "items": {
+            "$ref": "#/$defs/Read"
+          },
+          "maxItems": 4,
+          "title": "Reads",
+          "type": "array"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "enum": [
+                "ADD",
+                "CONSUME",
+                "OPEN",
+                "MOVE",
+                "DISCARD",
+                "PLAN_ADD"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FieldSource"
+          },
+          "maxProperties": 8,
+          "title": "Fields",
+          "type": "object"
+        },
+        "amount_mode": {
+          "default": "literal",
+          "enum": [
+            "literal",
+            "half",
+            "all",
+            "unknown"
+          ],
+          "title": "Amount Mode",
+          "type": "string"
+        },
+        "write_count": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Write Count",
+          "type": "integer"
+        },
+        "task_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Index"
+        },
+        "preserve_active": {
+          "default": true,
+          "title": "Preserve Active",
+          "type": "boolean"
+        },
+        "social_reply": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Social Reply"
+        },
+        "memory_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Memory Id"
+        }
+      },
+      "required": [
+        "speech_act"
+      ],
+      "title": "P85Plan",
+      "type": "object"
+    },
+    "Read": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "quantity",
+            "location",
+            "dates",
+            "risk",
+            "consumption",
+            "forecast",
+            "purchase"
+          ],
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Read",
+      "type": "object"
+    },
+    "Selector": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "choice_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice Index"
+        },
+        "use_reference": {
+          "default": false,
+          "title": "Use Reference",
+          "type": "boolean"
+        }
+      },
+      "title": "Selector",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "p85-dialogue-1",
+      "default": "p85-dialogue-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "plan": {
+      "$ref": "#/$defs/P85Plan"
+    },
+    "context_revision": {
+      "minimum": 0,
+      "title": "Context Revision",
+      "type": "integer"
+    },
+    "understanding_calls": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Understanding Calls",
+      "type": "integer"
+    },
+    "memory": {
+      "$ref": "#/$defs/P85MemoryUse"
+    }
+  },
+  "required": [
+    "original_text",
+    "plan",
+    "context_revision",
+    "understanding_calls",
+    "memory"
+  ],
+  "title": "P85Understood",
+  "type": "object"
+}

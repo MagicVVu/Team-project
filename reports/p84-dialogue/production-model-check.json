@@ -1,0 +1,26 @@
+{
+  "maintenance_release": "V1-P8.4",
+  "protocol": "p84-dialogue-1",
+  "model": "deepseek-flash",
+  "synthetic_provider_verified": true,
+  "understanding_calls": 1,
+  "response_calls": 1,
+  "total_calls": 2,
+  "response_fallback": false,
+  "latency_ms": 2615.6443890649825,
+  "real_inventory_read": false,
+  "business_database_writes": false,
+  "tasks_or_sessions_created": false,
+  "key_printed_or_uploaded": false,
+  "budget_before": {
+    "calls": 262,
+    "measured_calls": 261,
+    "conservative_cost_cny": 0.94043
+  },
+  "budget_after": {
+    "calls": 264,
+    "measured_calls": 263,
+    "conservative_cost_cny": 0.94368
+  },
+  "app_joint_acceptance": false
+}

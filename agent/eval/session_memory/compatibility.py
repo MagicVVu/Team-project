@@ -7,9 +7,12 @@ P83_DEFS = {"Basis", "ProductPlanning", "PlanningContext", "PlanningReview", "Pr
 def assert_legacy_schema(old, new):
     if old == new:
         return
+    if old == ["V1-P8.1", "V1-P8.2", "V1-P8.3"]:
+        assert new == ["V1-P8.1", "V1-P8.2", "V1-P8.3", "V1-P8.4"]
+        return
     if isinstance(old, dict) and old.get("const") == "V1-P8.1" and old.get("default") == "V1-P8.1":
         expected = {key:value for key,value in old.items() if key not in {"const", "default"}}
-        expected.update(enum=["V1-P8.1", "V1-P8.2", "V1-P8.3"], default="V1-P8.2")
+        expected.update(enum=["V1-P8.1", "V1-P8.2", "V1-P8.3", "V1-P8.4"], default="V1-P8.2")
         assert new == expected, "Unexpected maintenance-release schema change"
         return
     if isinstance(old, dict) and isinstance(new, dict):

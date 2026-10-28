@@ -1,0 +1,10 @@
+{
+  "ai": {
+    "path": "docs/versions/V1-P8.4/contracts/production-ai-openapi.json",
+    "route_count": 17
+  },
+  "backend": {
+    "path": "docs/versions/V1-P8.4/contracts/production-backend-openapi.json",
+    "route_count": 52
+  }
+}

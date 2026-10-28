@@ -152,7 +152,7 @@ class Operation(BaseOperation):
         result = super().decorate(result)
         value = result.model_dump()
         value["runtime"] = {**value["runtime"], "release": "V1-P7", "prompt_version": PROMPT_VERSION,
-                            "maintenance_release":"V1-P8.3"}
+                            "maintenance_release":"V1-P8.4"}
         value["policy_version"] = POLICY_VERSION
         result = AgentResult.model_validate(value)
         if result.draft and result.draft.action == "CONSUME" and result.quantity_source == "current_batch":

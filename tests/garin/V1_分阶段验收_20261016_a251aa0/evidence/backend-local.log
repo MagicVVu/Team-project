@@ -1,0 +1,20 @@
+........................................                                 [100%]
+============================== warnings summary ===============================
+..\..\..\.runtime\backend\Lib\site-packages\starlette\testclient.py:51
+  D:\Team_Project\Team-project\tests\garin\V1_分阶段验收_20261016_a251aa0\.runtime\backend\Lib\site-packages\starlette\testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_v04.py::test_migrated_phone_auth
+tests/test_v04.py::test_migrated_phone_auth
+tests/test_v05_ai_inventory.py::test_v04_to_v05_migration_preserves_rows
+tests/test_v05_ai_inventory.py::test_v04_to_v05_migration_preserves_rows
+tests/test_v06_agent_gateway.py::test_migration_from_0004_to_0005
+tests/test_v06_agent_gateway.py::test_migration_from_0004_to_0005
+tests/test_v08_inventory.py::test_migration_0006_preserves_existing_inventory
+tests/test_v08_inventory.py::test_migration_0006_preserves_existing_inventory
+  D:\Team_Project\Team-project\tests\garin\V1_分阶段验收_20261016_a251aa0\.runtime\backend\Lib\site-packages\alembic\config.py:598: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: D:\Team_Project\Team-project\tests\garin\V1_分阶段验收_20261016_a251aa0\evidence\backend-local\junit.xml -
+40 passed, 9 warnings in 3.75s

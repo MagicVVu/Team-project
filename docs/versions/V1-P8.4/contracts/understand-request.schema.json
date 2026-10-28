@@ -3416,7 +3416,8 @@
           "enum": [
             "V1-P8.1",
             "V1-P8.2",
-            "V1-P8.3"
+            "V1-P8.3",
+            "V1-P8.4"
           ],
           "title": "Maintenance Release",
           "type": "string"

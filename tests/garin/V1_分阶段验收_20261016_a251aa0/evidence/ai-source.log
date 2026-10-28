@@ -1,0 +1,27 @@
+........................................................................ [ 15%]
+.....................F.................................................. [ 31%]
+........................................................................ [ 46%]
+.............................F.......................................... [ 62%]
+........................................................................ [ 77%]
+........................................................................ [ 93%]
+................................                                         [100%]
+================================== FAILURES ===================================
+____________ test_asr_edit_state_never_uploads_original_transcript ____________
+agent\tests\test_interaction.py:311: in test_asr_edit_state_never_uploads_original_transcript
+    assert "99" not in json.dumps(session.public_message(state),ensure_ascii=False)
+E   assert '99' not in '{"household...a/Shanghai"}'
+E     
+E     '99' is contained here:
+E       25eca8945e99b893ccf2df51d66", "household_timezone": "Asia/Shanghai"}
+E     ?           ++
+__ test_handoff_package_contains_only_allowlisted_runtime_and_contract_files __
+agent\tests\test_p2_integration.py:272: in test_handoff_package_contains_only_allowlisted_runtime_and_contract_files
+    result = package(tmp_path / "p2.tar.gz")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+agent\integration\package.py:27: in package
+    raise ValueError("handoff member missing or outside repository")
+E   ValueError: handoff member missing or outside repository
+=========================== short test summary info ===========================
+FAILED agent\tests\test_interaction.py::test_asr_edit_state_never_uploads_original_transcript
+FAILED agent\tests\test_p2_integration.py::test_handoff_package_contains_only_allowlisted_runtime_and_contract_files
+2 failed, 462 passed in 3.45s

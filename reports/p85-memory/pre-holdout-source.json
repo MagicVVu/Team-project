@@ -1,0 +1,14 @@
+{
+  "phase": "pre_holdout",
+  "protocol": "p85-dialogue-1",
+  "files": {
+    "agent/conversation/p85/__init__.py": "131c161917ddbb713d4b2ebb067da79114712fbb74a7352a9e0e795d96a50ccc",
+    "agent/conversation/p85/app.py": "4e4153ae4ef6475ab305bc992a01ab7bd7fd159a6baa640f20068d0781068c30",
+    "agent/conversation/p85/archive.py": "2c59b1f5bb491561314dac1413b88b3abb1a86867a3d027bf282f800113bbf0e",
+    "agent/conversation/p85/engine.py": "57c9eea3197646031932c77cf4abd87832d0d66d976316ff2341223b86013c91",
+    "agent/conversation/p85/flow.py": "677df52f23f4df2d35538fb66bfb75f5f3a048833616181f56786e4c7b241163",
+    "agent/conversation/p85/memory.py": "e8bd2a8996e3af27c71e647dbe1dfe96bb8231e86831dd7ba43445cec972c6a5",
+    "agent/conversation/p85/render.py": "5a56ed3f103d048c3f89bdf5d71ce580c0de71437864029f9b2d8dcb2d9f67f6",
+    "agent/conversation/p85/schemas.py": "0b7c3d222cfe5c6a5e1d67e9fc4212dce2e4a83ed33898672ff29806967c8713"
+  }
+}

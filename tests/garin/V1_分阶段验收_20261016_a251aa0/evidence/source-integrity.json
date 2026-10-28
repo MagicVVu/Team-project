@@ -1,0 +1,20 @@
+{
+  "teammate_files": {
+    "checked": 684,
+    "changed": []
+  },
+  "historical_garin": {
+    "checked": 78,
+    "changed": []
+  },
+  "snapshot_inputs": {
+    "checked": 410,
+    "changed": []
+  },
+  "commit_before": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "commit_after": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "status_after": "M frontend/app初代框架开发文档.md\n?? tests/garin/V1_分阶段验收_20261016_a251aa0/\n?? tests/garin/android_install_20261016_20261016T132621Z/",
+  "checked_at_utc": "2026-10-16T13:44:07.395730+00:00",
+  "source_unchanged": true,
+  "final_checked_at_utc": "2026-10-16T13:45:11.127465+00:00"
+}

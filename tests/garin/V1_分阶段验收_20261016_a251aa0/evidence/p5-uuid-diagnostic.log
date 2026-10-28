@@ -1,0 +1,32 @@
+[
+  {
+    "identifier_variant": "no_99_identifier",
+    "original_test_passed": true,
+    "public_body": {
+      "household_id": "00000000-0000-4000-8000-000000000001",
+      "text": "添加2盒牛奶",
+      "request_id": "message-aaaaaaaaaaaa4aaa8aaaaaaaaaaaaaaa",
+      "household_timezone": "Asia/Shanghai"
+    },
+    "final_text": "添加2盒牛奶",
+    "raw_transcript_field_in_public": false,
+    "raw_transcript_field_in_ai_message": false,
+    "user_edited": true,
+    "raw_transcript_uploaded": false
+  },
+  {
+    "identifier_variant": "contains_99_identifier",
+    "original_test_passed": false,
+    "public_body": {
+      "household_id": "00000000-0000-4000-8000-000000000001",
+      "text": "添加2盒牛奶",
+      "request_id": "message-99999999999949998999999999999999",
+      "household_timezone": "Asia/Shanghai"
+    },
+    "final_text": "添加2盒牛奶",
+    "raw_transcript_field_in_public": false,
+    "raw_transcript_field_in_ai_message": false,
+    "user_edited": true,
+    "raw_transcript_uploaded": false
+  }
+]

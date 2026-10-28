@@ -1,0 +1,10 @@
+{
+  "phase": "p2",
+  "split": "test",
+  "count": 60,
+  "pass": 60,
+  "fail": 0,
+  "all_checks_pass": true,
+  "engine": "rules",
+  "formal_acceptance": false
+}

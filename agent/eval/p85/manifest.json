@@ -1,0 +1,14 @@
+{
+  "scenario_count": 40,
+  "measured_turns": 240,
+  "dev_scenarios": 24,
+  "holdout_scenarios": 16,
+  "dev_turns": 144,
+  "holdout_turns": 96,
+  "group_isolation": "semantic family, not utterance variants",
+  "human_review_status": "pending",
+  "source": "Original synthetic project scenarios inspired by memory evaluation categories, no upstream dataset copied",
+  "seeded_history": "Ten non-model background turns are inserted after turn 2 to move the first topic out of the recent-ten window",
+  "workflow_vs_model": "Fixture run measures workflow correctness; only --real measures provider understanding",
+  "p84_data": "Unchanged; optional --baseline uses released P8.4 on identical scenarios"
+}

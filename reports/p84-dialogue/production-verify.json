@@ -1,0 +1,157 @@
+{
+  "stage": "verified",
+  "maintenance_release": "V1-P8.4",
+  "services": {
+    "agent": {
+      "id": "8217dafe20909339562c7ec92294ce319ec12e1ca67dd187dd2ce9708be82255",
+      "image_id": "sha256:fd4706b032d83b7e2217e187571365076d69f9c083208937e4f950fa2929612d",
+      "image": "magicvvu/agent:p84-d7a8d00758bf",
+      "started_at": "2026-10-27T01:18:55.811348776Z",
+      "health": "healthy",
+      "config_sha256": "e93bb59c39e205f90dffad1bc8845d594fe3cb69141ff6bd233dfc114fafec9f"
+    },
+    "backend": {
+      "id": "09d41c7cd508b52426e2a5330159fc266487033f03a055011402d8f39d66116b",
+      "image_id": "sha256:f73124394fa198fdd21ba1217e34b4ca44ab106e140263d65838cc0e5edbf2f6",
+      "image": "magicvvu/backend:p84-d7a8d00758bf",
+      "started_at": "2026-10-27T01:19:13.612141736Z",
+      "health": "healthy",
+      "config_sha256": "c4a79d6023ce7b44b1f30f6e09e80378e2157dc4a5b0a15f9f90a72851a9c150"
+    }
+  },
+  "agent_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "maintenance_release": "V1-P8.4",
+    "repair_policy_version": "p81-chain-repair-1",
+    "planning_adapter_protocol": "p83-planning-adapter-1",
+    "planning_revalidation_protocol": "planning-revalidation-1",
+    "conversation_memory_protocol": "conversation-memory-1",
+    "memory_recent_turns": 10,
+    "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+    "memory_history_days": 30,
+    "conversation_dialogue_protocol": "p84-dialogue-1",
+    "dialogue_deadline_seconds": 20,
+    "dialogue_max_model_calls": 2,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "backend_health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "maintenance_release": "V1-P9",
+    "isolated_test": false
+  },
+  "capabilities": {
+    "protocol_version": "draft-execution-1",
+    "owner": "business_backend",
+    "maintenance_release": "V1-P9",
+    "product_identity_protocol": "household-product-1",
+    "inventory_ledger_protocol": "inventory-ledger-1",
+    "planning_revalidation_protocol": "planning-revalidation-1",
+    "actions": {
+      "ADD": true,
+      "MOVE": true,
+      "PLAN_ADD": true,
+      "CONSUME": true,
+      "OPEN": true,
+      "DISCARD": true
+    },
+    "automatic_planning_commit": false,
+    "trusted_reference_messages": true,
+    "conversation_protocol": "backend-conversation-1",
+    "chat_controls": true,
+    "conversation_memory_protocol": "conversation-memory-1",
+    "conversation_retention_days": 30,
+    "conversation_dialogue_protocol": "p84-dialogue-1",
+    "planning_context_protocol": "v1-planning-context-1",
+    "planning_facts_protocol": "backend-planning-facts-1",
+    "execution_preview": true,
+    "consume_all_protected": true,
+    "manual_procurement_source": true,
+    "household_operation_summaries": true,
+    "archived_inventory_reads": true,
+    "post_commit_feedback": true,
+    "household_timezone": "Asia/Shanghai",
+    "manual_plan_only": true,
+    "draft_ttl_seconds": 900,
+    "inventory_quantity_decimal_places": 6,
+    "shopping_quantity_decimal_places": 3,
+    "location_max_length": 100
+  },
+  "candidate_checks": {
+    "agent": {
+      "source_files_verified": 89,
+      "python_compilation": true,
+      "old_routes_preserved": true,
+      "new_stage_routes": [
+        "/agent/dialogue/understand",
+        "/agent/dialogue/resolve",
+        "/agent/dialogue/respond"
+      ],
+      "authentication_verified": true,
+      "deterministic_reference_verified": true,
+      "fresh_half_draft_verified": true,
+      "model_calls": 0,
+      "inventory_writes": 0,
+      "shopping_writes": 0,
+      "production_backend_contacted": false
+    },
+    "backend": {
+      "backend_base_release": "V1-P9",
+      "dialogue_protocol": "p84-dialogue-1",
+      "real_database_accessed": false,
+      "authentication_verified": true,
+      "stage_persistence_verified": true,
+      "idempotent_recovery_verified": true,
+      "inventory_mutations": 0,
+      "model_calls": 0,
+      "automatic_planning_commit": false
+    }
+  },
+  "readiness": {
+    "status": "ready",
+    "database": "ok"
+  },
+  "database_revision": [
+    "20261026_0011"
+  ],
+  "database_migrations_executed": false,
+  "business_writes_performed": false,
+  "unrelated_code_preserved": true,
+  "configuration_preserved_except_dialogue_flag": true,
+  "protected_services_unchanged": true,
+  "android_joint_acceptance": false,
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p84-20261027-d7a8d00758bf-r2"
+}
