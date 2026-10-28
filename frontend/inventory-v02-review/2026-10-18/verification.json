@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-18",
+  "build": "passed",
+  "unitTests": 24,
+  "interfaceTests360x640": 15,
+  "compactLayoutTests320x640": 2,
+  "referenceSampleComparison": {
+    "sampledPixelsPerMode": 13860,
+    "identicalPixelsPerMode": 13860,
+    "statusBarTimeExcluded": true
+  },
+  "mascotSourceAndAssetsUnchanged": true,
+  "inventoryBusinessSourceUnchanged": true,
+  "realUserPreferenceFilesUnchanged": true,
+  "restoredDeviceSize": "Physical size: 1080x1920",
+  "screenshotsUseIsolatedTestInventory": true,
+  "productionHostUnchanged": true,
+  "additionalVisualChange": "Give the item name 70% of the detail-card header width only when inner width is below 160dp; normal widths retain 60%.",
+  "referenceItemTitleFitsOneLineOnBothScreenSizes": true
+}

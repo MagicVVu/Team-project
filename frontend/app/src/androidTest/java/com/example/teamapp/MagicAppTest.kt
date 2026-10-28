@@ -52,17 +52,17 @@ class MagicAppTest {
         listOf("首页", "库存", "清单", "我的").forEach { compose.onNodeWithText(it).assertExists() }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithText("我的库存").assertIsDisplayed()
-        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-selected-info").performClick()
         compose.onNodeWithText("最低库存：3 盒", substring = true).assertExists()
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         compose.onNodeWithText("我的家庭").assertExists()
-        compose.onNodeWithText("库存检测规则").assertExists()
+        compose.onNodeWithText("库存规则").assertExists()
     }
     @Test fun purchaseRequiresActualQuantityAndUpdatesAllViews() {
         compose.runOnIdle { store.plan(milk.id, 2.0) }
         compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
-        compose.onNodeWithText("已购买").performClick()
+        compose.onNodeWithText("购买入库").performClick()
         compose.onNodeWithText("确认入库").performClick()
         compose.onNodeWithText("请输入有效正数").assertExists()
         compose.runOnIdle { Assert.assertEquals(1.0, store.items.single().quantity, 0.0) }
@@ -74,9 +74,9 @@ class MagicAppTest {
     }
     @Test fun cancelledAddDoesNotChangeInventory() {
         compose.onNodeWithText("拍照添加").performClick()
-        compose.onNodeWithText("改为手动填写").performClick()
-        compose.onNodeWithText("物品名称 *").performTextInput("取消测试物品")
-        compose.onNodeWithText("关闭").performClick()
+        compose.onNodeWithText("手动填写").performClick()
+        compose.onNodeWithTag("photo-name").performTextInput("取消测试物品")
+        compose.onNodeWithTag("photo-close").performClick()
         compose.runOnIdle { Assert.assertEquals(1, store.items.size) }
     }
 }

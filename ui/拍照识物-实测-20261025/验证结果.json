@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-25",
+  "unit": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0
+  },
+  "device": {
+    "photo_tests": 9,
+    "regression_tests": 22,
+    "passed_unique_tests": 31,
+    "test_application_id": "com.example.teamapp.pullcheck",
+    "production_data_cleared": false
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 47
+  },
+  "build": "assembleDebug, testDebugUnitTest, lintDebug PASS",
+  "apk": {
+    "name": "Mewstow-拍照识物-debug.apk",
+    "sha256": "ae9a9dd4c106883f022765699bbe035eefc3dc82eccc441998ebd32c22e0f340"
+  },
+  "limits": [
+    "Local packaging text recognition, not a cloud multimodal product service",
+    "Subject segmentation requires Google Play services; MuMu has none and keeps the original photo",
+    "Photo references are local to this device, not household cloud media sync",
+    "Existing batch/FEFO logic is not rewritten by the scanner UI change"
+  ],
+  "harness_notes": [
+    "Updated legacy photo navigation selectors for the full-screen scan flow",
+    "Updated pre-existing ring close/search/minimum-label selectors to the current UI without changing their data assertions",
+    "One isolated test run was stopped after a device/test activity transition stalled; permission setup was changed to skip already-granted requests and consume shell output. Final scan and regression runs passed separately."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "vantage": "existing_local_system_proxy",
+  "certificate_and_hostname_validation": true,
+  "passed": false,
+  "status": "BLOCKED",
+  "error_type": "URLError",
+  "reason": "_ssl.c:983: The handshake operation timed out"
+}

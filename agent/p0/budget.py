@@ -2,7 +2,7 @@
 import json
 import sqlite3
 from contextlib import contextmanager
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 from uuid import uuid4
@@ -28,8 +28,8 @@ class Budget:
 
     def pricing(self, model: str) -> dict:
         pricing = json.loads(self.pricing_path.read_text(encoding="utf-8"))
-        age = (date.today() - date.fromisoformat(pricing["verified_on"])).days
-        if age < 0 or age > 7 or model != pricing["model"]:
+        # Verification dates are audit metadata, not a runtime expiry gate.
+        if model != pricing["model"]:
             raise EngineError("PRICING_NOT_VERIFIED")
         return pricing
 

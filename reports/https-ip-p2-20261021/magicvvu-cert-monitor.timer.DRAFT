@@ -1,0 +1,12 @@
+# DRAFT P2 ONLY. Local status is NOT a remote alert delivery mechanism.
+[Unit]
+Description=Hourly MagicVVu certificate monitoring
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=5m
+Persistent=true
+Unit=magicvvu-cert-monitor.service
+
+[Install]
+WantedBy=timers.target

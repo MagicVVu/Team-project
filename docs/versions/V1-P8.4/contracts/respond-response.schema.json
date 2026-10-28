@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "p84-dialogue-1",
+      "default": "p84-dialogue-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "response_calls": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Response Calls",
+      "type": "integer"
+    },
+    "fallback_used": {
+      "default": false,
+      "title": "Fallback Used",
+      "type": "boolean"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    }
+  },
+  "required": [
+    "reply",
+    "response_calls"
+  ],
+  "title": "Responded",
+  "type": "object"
+}

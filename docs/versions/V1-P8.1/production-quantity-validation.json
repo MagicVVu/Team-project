@@ -1,0 +1,13 @@
+{
+  "fastapi": "0.116.1",
+  "pydantic": "2.14.1",
+  "validation_checks": {
+    "shopping_precision": true,
+    "stock_precision": true,
+    "stock_range": true,
+    "shopping_range": true,
+    "shopping_three_places": true,
+    "stock_six_places": true
+  },
+  "database_accessed": false
+}

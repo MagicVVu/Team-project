@@ -1,0 +1,18 @@
+[
+  {
+    "dataset": "p1",
+    "expected_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+    "working_tree_sha256": "f3f223bc0c3ba46749d4db916170c5e2c6d6408c7523d50ab7324179060796eb",
+    "git_blob_sha256": "fe68789aef995b6b1dc3f7a6beab7ba416fe18992e5cac70e73b20e93a7aa960",
+    "working_tree_matches": true,
+    "git_blob_matches": false
+  },
+  {
+    "dataset": "p2",
+    "expected_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+    "working_tree_sha256": "d47647da867ca1838fb57d72832579d59e369c447f4a6b271684dc362e258bae",
+    "git_blob_sha256": "305801600139be80c25bb4609ca9ada93440b00144ac93caae39eaaafa4aee30",
+    "working_tree_matches": true,
+    "git_blob_matches": false
+  }
+]

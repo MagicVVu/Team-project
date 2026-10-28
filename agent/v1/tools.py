@@ -46,6 +46,9 @@ class Reader:
         self.snapshots = {}
         self.inventory_cache = {}
 
+    async def read_planning_snapshot(self, scope, **selectors):
+        return await self.delegate.planning_context(scope, **selectors)
+
     async def search(self, scope, name):
         key = (scope.user_id, scope.household_id, name)
         if key not in self.inventory_cache:
@@ -65,7 +68,7 @@ class Reader:
     async def planning_context(self, scope, *, name=None, item_key=None):
         key = (scope.user_id, scope.household_id, name, item_key)
         if key not in self.snapshots:
-            try: raw = await self.delegate.planning_context(scope, name=name, item_key=item_key)
+            try: raw = await self.read_planning_snapshot(scope, name=name, item_key=item_key)
             except AttributeError:
                 raise DomainError("PLANNING_CONTEXT_UNAVAILABLE", "后端尚未提供规划读取接口。", 503) from None
             try: snapshot = PlanningSnapshot.model_validate(raw.model_dump() if hasattr(raw,"model_dump") else raw)

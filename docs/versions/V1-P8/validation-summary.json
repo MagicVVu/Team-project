@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-23",
+  "scope": "V1-P8 chat optimization; local validation; not production acceptance",
+  "ai": {
+    "tests": 818,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 817
+  },
+  "backend": {
+    "tests": 301,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 35,
+    "passed": 266
+  },
+  "android": {
+    "assembleDebug": "passed",
+    "lintDebug": "passed",
+    "directJUnit": 32,
+    "gradleTestTask": "failed: test class loading",
+    "connected_device_test": "not performed",
+    "lint_issues_by_severity": {
+      "Warning": 30
+    },
+    "apk_sha256": "409c457791cdc831ba86bcf024ee9552a1cd35e618e9e8c66513d640da33fea5",
+    "apk_installed_or_published": false,
+    "directJUnit_log": "android-direct-junit.txt"
+  },
+  "postgres_concurrency": "not performed in this stage; local database regression used SQLite",
+  "human_sample_review": "pending",
+  "app_p95_le_10_seconds": "not verified; offline timing and provider-only timing are separate",
+  "production_deployment": {
+    "status": "AI-only deployed and verified",
+    "image": "magicvvu/agent:p8-0175b52f054c",
+    "evidence": "production-deployment.json",
+    "verification": "production-verification.json",
+    "backend_database_changed": false
+  },
+  "source_sync": {
+    "candidate_path": "/home/magicvvu_ai/workspace/agent/candidates/v1-p8",
+    "file_count": 81,
+    "ast_checked": 69,
+    "formal_runtime_unchanged": true,
+    "services_built_or_restarted": false,
+    "database_migrations_executed": false,
+    "note": "Historical candidate-source synchronization check before separately authorized production switch."
+  },
+  "offline_eval": {
+    "dev": 90,
+    "test": 60
+  },
+  "deepseek_synthetic": {
+    "extraction_requests": 6,
+    "retries": 0,
+    "local_replay_passed": 6,
+    "real_inventory_read_or_sent": false
+  },
+  "cleaned_legacy_p8_p81_artifacts": 11,
+  "backend_controls_final": {
+    "tests": 23,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "overlaps_full_regression": true,
+    "includes_one_new_case_after_full_regression": true
+  }
+}

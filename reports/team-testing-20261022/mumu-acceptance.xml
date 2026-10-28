@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="2" failures="0" errors="0" skipped="0" time="9.699" timestamp="2026-10-22T07:39:55" hostname="localhost">
+  <testsuite name="com.example.teamapp.SharedCloudAcceptanceTest" tests="2" failures="0" errors="0" skipped="0" time="8.544" timestamp="2026-10-22T07:39:55" hostname="localhost">
+    <properties>
+      <property name="device" value="SM-S9210 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="registerLoginInventoryShoppingAndRemoteAgent" classname="com.example.teamapp.SharedCloudAcceptanceTest" time="7.609" />
+    <testcase name="oldTunnelSessionRequiresLoginWithoutDeletingItsEnvelope" classname="com.example.teamapp.SharedCloudAcceptanceTest" time="0.935" />
+  </testsuite>
+</testsuites>

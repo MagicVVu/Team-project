@@ -1,0 +1,6 @@
+{
+  "apk": "frontend\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "sha256": "1d67b2a7aab3bb397b9694b739f56d9e58485ef8ed476043478cd43ff2114c58",
+  "bytes": 15219728,
+  "release_excludes_test_ca": true
+}

@@ -1,0 +1,12 @@
+{
+  "revision": 2,
+  "count": 150,
+  "dev": 90,
+  "holdout": 60,
+  "groups": 15,
+  "group_isolation": true,
+  "human_review_status": "pending",
+  "dataset_sha256": "051961862d77c6bd3a44f478674426ec167a1dec90d84815a1b4110691b150df",
+  "revision_reason": "Diversified the ten context understanding expressions before provider measurement; holdout is an evaluated regression set, not an unseen future acceptance set",
+  "type": "synthetic offline regression, not provider accuracy acceptance"
+}

@@ -10,27 +10,50 @@ import java.math.BigDecimal
 import java.net.HttpURLConnection
 import java.net.URI
 import java.util.UUID
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import java.security.MessageDigest
 
-data class CloudAccount(val address: String, val token: String, val userId: String, val displayName: String, val householdId: String = "")
+data class CloudAccount(val address: String, val token: String, val userId: String, val displayName: String, val householdId: String = "") {
+    override fun toString() = "CloudAccount(session=[REDACTED])"
+}
 data class CloudHousehold(val id: String, val name: String, val role: String)
+data class CloudMember(val userId: String, val name: String, val role: String, val joinedAt: String)
 data class CloudShoppingItem(val id: String, val sourceId: String, val name: String, val quantity: Double, val unit: String,
     val purchased: Boolean, val addedBy: String, val purchasedBy: String)
-class CloudFailure(val status: Int, message: String) : IOException(message)
+class CloudFailure(val status: Int, message: String, val errorCode: String = "", val taskIdHint: String = "") : IOException(message)
 
 /** No automatic mutation retries: callers keep IDs stable when retrying a confirmed operation. */
-class CloudApi(val address: String, private val token: String = "") {
+open class CloudApi(val address: String, private val token: String = "") {
     companion object {
+        private val targetChecks = TargetCheckCache()
+        private val discovery = Mutex()
         fun validateAddress(value: String) {
-            val uri = runCatching { URI(value.trim()) }.getOrElse { error("请输入正确的服务器地址") }
-            require(uri.host != null && uri.userInfo == null && uri.query == null && uri.fragment == null && uri.path.orEmpty() in setOf("", "/")) { "请输入服务器根地址" }
-            val privateDebugHost = uri.host == "localhost" || uri.host == "127.0.0.1" || uri.host == "10.0.2.2"
-            require(uri.scheme == "https" || (BuildConfig.DEBUG && uri.scheme == "http" && privateDebugHost)) { "服务器需要 HTTPS；调试 HTTP 仅支持电脑隧道地址" }
+            TargetPolicy.address(value, BuildConfig.CLOUD_EXPECT_ISOLATED, BuildConfig.CLOUD_API_URL)
         }
     }
+    private val targetKey get() = address + ":" + MessageDigest.getInstance("SHA-256").digest(token.toByteArray()).joinToString("") { "%02x".format(it) }
+    open suspend fun verifiedCapabilities(): JSONObject = discovery.withLock {
+        val now = System.nanoTime() / 1_000_000
+        targetChecks.get(targetKey, now)?.let { return@withLock JSONObject(it) }
+        val health = request("GET", "/api/v1/health")
+        TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+        val caps = request("GET", "/api/v1/agent/execution-capabilities")
+        TargetPolicy.capabilities(caps.optString("protocol_version"), caps.optString("owner"))
+        targetChecks.put(targetKey, System.nanoTime() / 1_000_000, caps.toString())
+        caps
+    }
 
-    suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
+    open suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
         validateAddress(address)
         require(!token.contains('\r') && !token.contains('\n'))
+        if (method !in setOf("GET", "HEAD")) {
+            if (!path.startsWith("/api/v1/auth/")) verifiedCapabilities()
+            else {
+                val health = request("GET", "/api/v1/health")
+                TargetPolicy.health(BuildConfig.CLOUD_EXPECT_ISOLATED, health.optString("service"), health.optString("version"), health.getBoolean("isolated_test"))
+            }
+        }
         val connection = URI(address.trim().trimEnd('/') + path).toURL().openConnection() as HttpURLConnection
         try {
             connection.requestMethod = method
@@ -57,7 +80,10 @@ class CloudApi(val address: String, private val token: String = "") {
                     503 -> "服务器暂时不可用，请稍后重试"
                     else -> "请求失败（$status），请刷新核对后重试"
                 }
-                throw CloudFailure(status, message)
+                val code = runCatching { JSONObject(text).optJSONObject("detail")?.optString("code").orEmpty() }.getOrDefault("")
+                if (status in setOf(401, 403, 503)) targetChecks.invalidate(targetKey)
+                val hint = runCatching { JSONObject(text).optJSONObject("detail")?.optString("task_id").orEmpty() }.getOrDefault("")
+                throw CloudFailure(status, ChatMessages.reason(code, message), code, hint)
             }
             when {
                 text.isBlank() -> JSONObject()
@@ -65,7 +91,7 @@ class CloudApi(val address: String, private val token: String = "") {
                 else -> JSONObject(text)
             }
         } catch (failure: CloudFailure) { throw failure }
-        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络或 SSH 隧道；如刚提交操作，请先刷新核对结果。", failure) }
+        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络、服务器地址、证书及测试 IP 放行状态；如刚提交操作，请先刷新核对结果。", failure) }
         finally { connection.disconnect() }
     }
 
@@ -98,15 +124,16 @@ internal fun JSONArray.objects(): List<JSONObject> = (0 until length()).map { ge
 internal fun JSONObject.stringOrEmpty(key: String): String = if (isNull(key)) "" else optString(key)
 internal fun JSONObject.toStock(): StockItem = StockItem(
     id = getString("id"), name = getString("name"), quantity = getString("quantity").toDouble(), unit = getString("unit"),
-    category = stringOrEmpty("category").ifBlank { "其他" }, location = stringOrEmpty("storage_location").ifBlank { "待定位" },
+    category = InventoryContract.categoryLabel(stringOrEmpty("category").ifBlank { "unknown" }), location = stringOrEmpty("storage_location").ifBlank { "待定位" },
     minimum = optString("minimum_quantity", "0").toDouble(), expiry = stringOrEmpty("expires_on"), purchasedAt = stringOrEmpty("purchased_on"),
-    history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.getString("message") }.orEmpty(),
-    version = getInt("version")
+    history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.stringOrEmpty("message").ifBlank { it.stringOrEmpty("kind") } }.orEmpty(),
+    version = getInt("version"), openedAt = stringOrEmpty("opened_at"), lifecycleStatus = stringOrEmpty("status").ifBlank { "ACTIVE" },
+    quantityExact = getString("quantity")
 )
 internal fun JSONObject.toShopping(): CloudShoppingItem = CloudShoppingItem(getString("id"), stringOrEmpty("source_inventory_item_id"),
     getString("name"), getString("quantity").toDouble(), getString("unit"), getBoolean("is_checked"), stringOrEmpty("added_by_user_id"), stringOrEmpty("purchased_by_user_id"))
 internal fun StockItem.toCloudJson() = JSONObject().put("id", id).put("name", name).put("quantity", BigDecimal.valueOf(quantity).toPlainString())
-    .put("unit", unit).put("category", category).put("storage_location", location).put("minimum_quantity", BigDecimal.valueOf(minimum).toPlainString())
+    .put("unit", InventoryContract.unit(unit) ?: unit).put("category", InventoryContract.category(category)).put("storage_location", location).put("minimum_quantity", BigDecimal.valueOf(minimum).toPlainString())
     .put("expires_on", expiry.ifBlank { null } ?: JSONObject.NULL).put("purchased_on", purchasedAt.ifBlank { null } ?: JSONObject.NULL)
 internal fun versionBody(item: StockItem, operationId: String = UUID.randomUUID().toString()) =
     JSONObject().put("expected_version", item.version).put("operation_id", operationId)

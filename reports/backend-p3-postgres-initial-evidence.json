@@ -1,0 +1,63 @@
+{
+  "production_database_accessed": false,
+  "data_directory": "D:\\project\\Team_Project_Shared\\Team-project\\.cache\\p72-local-postgres-zrysii2y\\data",
+  "host": "127.0.0.1",
+  "port": 58764,
+  "database": "magicvvu_p7_execution_test",
+  "system_service_installed": false,
+  "version": "postgres (PostgreSQL) 17.11",
+  "migration": [
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade  -> 20261014_0001, Create the six initial MagicVVu business tables.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0001 -> 20261014_0002, One shopping list per household; audit who added/purchased; stock once.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0002 -> 20261014_0003, Phone/password accounts, revocable sessions and one-time invitations.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0003 -> 20261014_0004, Expand v0.4 inventory batches for P1 read-only AI tools.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0004 -> 20261014_0005, Persist read-only AI messages, continuation state, and unconfirmed drafts.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261014_0005 -> 20261016_0006, App inventory metadata and shopping source references (additive).\r\nINFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\n"
+    },
+    {
+      "target": "20261023_0008",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\n"
+    },
+    {
+      "target": "20261017_0007",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0008 -> 20261017_0007, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\n"
+    },
+    {
+      "target": "20261016_0006",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261023_0008 -> 20261017_0007, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running downgrade 20261017_0007 -> 20261016_0006, Add durable draft decisions, operation receipts and semantic business events.\r\n"
+    },
+    {
+      "target": "head",
+      "exit_code": 0,
+      "log": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\r\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.\r\nINFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.\r\n"
+    }
+  ],
+  "startup": {
+    "health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "isolated_test": true
+    },
+    "ready": {
+      "status": "ready",
+      "database": "ok"
+    }
+  },
+  "exit_code": 1,
+  "stdout": "........................................................................ [ 25%]\r\n.......................................FFF.............................. [ 51%]\r\nssssssssssssssss........................................................ [ 77%]\r\n..............................................................           [100%]\r\n================================== FAILURES ===================================\r\n_____ test_inventory_constraint_failure_rolls_back_whole_operation[OPEN] ______\r\nbackend\\server\\tests\\test_backend_p3_open_discard.py:367: in test_inventory_constraint_failure_rolls_back_whole_operation\r\n    assert post(client, draft_id, request).status_code == 500\r\nE   AssertionError: assert 409 == 500\r\nE    +  where 409 = <Response [409 Conflict]>.status_code\r\nE    +    where <Response [409 Conflict]> = post(<starlette.testclient.TestClient object at 0x00000231C62D3BF0>, UUID('29a0e6ea-ae36-47c3-8a8a-dd3460f5cc99'), {'draft_revision': 1, 'edits': {}, 'operation_id': '75bf4ef9-aef2-451c-9990-c68b5f37a766', 'task_revision': 1})\r\n____ test_inventory_constraint_failure_rolls_back_whole_operation[partial] ____\r\nbackend\\server\\tests\\test_backend_p3_open_discard.py:367: in test_inventory_constraint_failure_rolls_back_whole_operation\r\n    assert post(client, draft_id, request).status_code == 500\r\nE   AssertionError: assert 409 == 500\r\nE    +  where 409 = <Response [409 Conflict]>.status_code\r\nE    +    where <Response [409 Conflict]> = post(<starlette.testclient.TestClient object at 0x00000231C7755460>, UUID('d893bfef-a32b-4636-8226-d29872c243da'), {'draft_revision': 1, 'edits': {}, 'operation_id': '6277fbc7-bf63-4cdf-b6bc-45e009f63188', 'task_revision': 1})\r\n______ test_inventory_constraint_failure_rolls_back_whole_operation[all] ______\r\nbackend\\server\\tests\\test_backend_p3_open_discard.py:367: in test_inventory_constraint_failure_rolls_back_whole_operation\r\n    assert post(client, draft_id, request).status_code == 500\r\nE   AssertionError: assert 409 == 500\r\nE    +  where 409 = <Response [409 Conflict]>.status_code\r\nE    +    where <Response [409 Conflict]> = post(<starlette.testclient.TestClient object at 0x00000231C7FC89E0>, UUID('94cc3f0c-fe72-4d83-b6bd-9ed650bfb195'), {'draft_revision': 1, 'edits': {}, 'operation_id': '399a42be-84c8-47dc-b93c-cf6dc0f5b93e', 'task_revision': 1})\r\n============================== warnings summary ===============================\r\n.venv\\Lib\\site-packages\\starlette\\testclient.py:51\r\n  D:\\project\\Team_Project_Shared\\Team-project\\.venv\\Lib\\site-packages\\starlette\\testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.\r\n    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]\r\n\r\nbackend/server/tests/test_backend_p2_conversation.py: 5 warnings\r\nbackend/server/tests/test_backend_p3_open_discard.py: 5 warnings\r\nbackend/server/tests/test_v04.py: 2 warnings\r\nbackend/server/tests/test_v05_ai_inventory.py: 2 warnings\r\nbackend/server/tests/test_v06_agent_gateway.py: 2 warnings\r\nbackend/server/tests/test_v08_inventory.py: 2 warnings\r\nbackend/server/tests/test_v09_execution.py: 5 warnings\r\n  D:\\project\\Team_Project_Shared\\Team-project\\.venv\\Lib\\site-packages\\alembic\\config.py:598: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.\r\n    util.warn_deprecated(\r\n\r\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\r\n- generated xml file: D:\\project\\Team_Project_Shared\\Team-project\\reports\\backend-p3-postgres-tests.xml -\r\n=========================== short test summary info ===========================\r\nFAILED backend/server/tests/test_backend_p3_open_discard.py::test_inventory_constraint_failure_rolls_back_whole_operation[OPEN]\r\nFAILED backend/server/tests/test_backend_p3_open_discard.py::test_inventory_constraint_failure_rolls_back_whole_operation[partial]\r\nFAILED backend/server/tests/test_backend_p3_open_discard.py::test_inventory_constraint_failure_rolls_back_whole_operation[all]\r\n3 failed, 259 passed, 16 skipped, 24 warnings in 137.69s (0:02:17)\r\n",
+  "stderr": "",
+  "postgres_stopped": true,
+  "cluster_removed": true
+}

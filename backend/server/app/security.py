@@ -15,6 +15,9 @@ from argon2.exceptions import VerifyMismatchError, VerificationError
 
 PHONE_E164 = re.compile(r"^\+[1-9][0-9]{7,14}$")
 _password_hasher = PasswordHasher(time_cost=2, memory_cost=19456, parallelism=1)
+# The same Argon2 cost for unknown/disabled accounts closes the fast-miss oracle.
+# Random dummy material is not a credential and is never stored in the database.
+_dummy_password_hash = _password_hasher.hash(secrets.token_urlsafe(32))
 
 
 def normalize_phone(raw: str) -> str:
@@ -36,6 +39,11 @@ def verify_password(stored_hash: str, candidate: str) -> bool:
         return _password_hasher.verify(stored_hash, candidate)
     except (VerifyMismatchError, VerificationError, ValueError):
         return False
+
+
+def verify_login_password(stored_hash: str | None, candidate: str) -> bool:
+    valid = verify_password(stored_hash or _dummy_password_hash, candidate)
+    return stored_hash is not None and valid
 
 
 def make_token() -> tuple[str, str]:

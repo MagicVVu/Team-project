@@ -1,0 +1,4089 @@
+{
+  "method": "Conjunctive field/state checks over immutable saved real-model outputs; failures never converted to passes",
+  "holdout_policy": "First P8.4 holdout run retained; state routing fixes then regression on consumed holdout, not independent blind acceptance",
+  "reports": [
+    {
+      "source_report": "deepseek-p83-baseline.json",
+      "count": 240,
+      "passed": 149,
+      "success_rate": 0.6208333333333333,
+      "p95_ms": 5421.793100074865,
+      "unnecessary_clarification_rate": 0.1717171717171717,
+      "max_model_calls": 1,
+      "human_review_status": "pending",
+      "results": [
+        {
+          "id": "p84-01-1",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_MODEL_OUTPUT"
+        },
+        {
+          "id": "p84-01-2",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-3",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-4",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-5",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-6",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-1",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-2",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-3",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-4",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-5",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-6",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-1",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-2",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-3",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-4",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-5",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-6",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-1",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-04-2",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-04-3",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-4",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-5",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-6",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-1",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-2",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-05-3",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-4",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-05-5",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-05-6",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-1",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-2",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-3",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-4",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-5",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-6",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-1",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-2",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-3",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-4",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-5",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-6",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-1",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-2",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-3",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-4",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-5",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-6",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-1",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-2",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-09-3",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-4",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-5",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-6",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-1",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-2",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-3",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-4",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-5",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-6",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-1",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-2",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-3",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-4",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-5",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-6",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-1",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-2",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-3",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-4",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-5",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-6",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-1",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-2",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-3",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-4",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-5",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-6",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-1",
+          "group_id": "add",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-2",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-3",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-4",
+          "group_id": "add",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-5",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-6",
+          "group_id": "add",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-1",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-2",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-3",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-4",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-5",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-6",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-1",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-2",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-3",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-4",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-5",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-6",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-1",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-2",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-3",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-4",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-5",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-6",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-1",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-2",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-3",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-4",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-5",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-6",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-1",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-2",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-3",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-4",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-5",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-6",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-1",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-20-2",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-3",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-4",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-5",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-6",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-1",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-2",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-3",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-4",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-5",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-6",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-1",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-2",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-3",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-4",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-5",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-6",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-1",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-23-2",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-3",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-23-4",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-5",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-6",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-24-1",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-2",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-24-3",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-4",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-24-5",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-6",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-1",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-2",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-3",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-4",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-5",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-6",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-1",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-2",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-3",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-4",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-5",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-6",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-1",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-2",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-3",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-4",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-5",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-6",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-1",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-2",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-3",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-4",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-5",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-6",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-29-1",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-2",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-3",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-4",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-5",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-6",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-30-1",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-2",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-3",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-4",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-5",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-6",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-1",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-2",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-3",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-4",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-5",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-6",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-1",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-32-2",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-32-3",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-4",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-32-5",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "TASK_REFERENCE_REQUIRED"
+        },
+        {
+          "id": "p84-32-6",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-33-1",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-2",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-3",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-4",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-5",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-6",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-34-1",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-2",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-3",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-4",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-5",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-6",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-35-1",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-2",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-3",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-4",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-5",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-6",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-1",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-2",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-3",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-4",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-5",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-6",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-1",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-2",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-3",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-4",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-5",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-6",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-1",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-38-2",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-3",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-4",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-38-5",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-6",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-39-1",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-2",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-3",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-4",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-5",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-6",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-1",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-2",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-3",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-4",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-5",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-6",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source_report": "deepseek-dev-final.json",
+      "count": 144,
+      "passed": 141,
+      "success_rate": 0.9791666666666666,
+      "p95_ms": 8404.1515000863,
+      "unnecessary_clarification_rate": 0.007575757575757576,
+      "max_model_calls": 2,
+      "human_review_status": "pending",
+      "results": [
+        {
+          "id": "p84-01-1",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-2",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-3",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-4",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-5",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-01-6",
+          "group_id": "greeting",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-1",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-2",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-3",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-4",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-5",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-02-6",
+          "group_id": "family_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-1",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-2",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-3",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-4",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-5",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-03-6",
+          "group_id": "complaint",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-1",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-2",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-3",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-4",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-5",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-04-6",
+          "group_id": "hypothesis",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-1",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-2",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-3",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-4",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-5",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-05-6",
+          "group_id": "negation",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-1",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-2",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-3",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": false,
+          "error_code": "UNGROUNDED_FIELD"
+        },
+        {
+          "id": "p84-06-4",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-5",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-06-6",
+          "group_id": "half_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-1",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-2",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-3",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-4",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-5",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-07-6",
+          "group_id": "all_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-1",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-2",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-3",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-4",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-5",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-08-6",
+          "group_id": "literal_consume",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-1",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-2",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-3",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-4",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-5",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-09-6",
+          "group_id": "vague_amount",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-1",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-2",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-3",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-4",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-5",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-10-6",
+          "group_id": "whole_move",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-1",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-2",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-3",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-4",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-5",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-11-6",
+          "group_id": "opening",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-1",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-2",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-3",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-4",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-5",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-12-6",
+          "group_id": "discard_partial",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-1",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-2",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-3",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-4",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-5",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-13-6",
+          "group_id": "discard_all",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-1",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-2",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-3",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-4",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-5",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-14-6",
+          "group_id": "add",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-1",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-2",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-3",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-4",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-5",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-15-6",
+          "group_id": "manual_plan",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-1",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-2",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-3",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-4",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-5",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-16-6",
+          "group_id": "quantity_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-1",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-2",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-3",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-4",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-5",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-17-6",
+          "group_id": "dates_query",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-1",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-2",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-3",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-4",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-5",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-18-6",
+          "group_id": "risk",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-1",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-2",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-3",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-4",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-5",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-19-6",
+          "group_id": "consumption_stats",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-1",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-2",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-3",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-4",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-5",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-20-6",
+          "group_id": "forecast",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-1",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-2",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-3",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-4",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-5",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-21-6",
+          "group_id": "purchase_advice",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-22-1",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-22-2",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-22-3",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-22-4",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-22-5",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-22-6",
+          "group_id": "multiple_writes",
+          "split": "dev",
+          "passed": true,
+          "error_code": "MULTIPLE_WRITES"
+        },
+        {
+          "id": "p84-23-1",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-2",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-3",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-4",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-5",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-23-6",
+          "group_id": "correction_quantity",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-1",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-2",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-3",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-4",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-5",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-24-6",
+          "group_id": "correction_location",
+          "split": "dev",
+          "passed": true,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source_report": "deepseek-holdout.json",
+      "count": 96,
+      "passed": 90,
+      "success_rate": 0.9375,
+      "p95_ms": 8866.88939994201,
+      "unnecessary_clarification_rate": 0.09090909090909091,
+      "max_model_calls": 2,
+      "human_review_status": "pending",
+      "results": [
+        {
+          "id": "p84-25-1",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-2",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-3",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-4",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-5",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-6",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-1",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-2",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-3",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-4",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-5",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-6",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-1",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-2",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-3",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-4",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-5",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-6",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-1",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-2",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-3",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-4",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-5",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-6",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-29-1",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-2",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-3",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-4",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-5",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-6",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-30-1",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-2",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-3",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-4",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-5",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-6",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-1",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-2",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-3",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-4",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-5",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-6",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-1",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-2",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-3",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-4",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-5",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-6",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-1",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-2",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-3",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-4",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-5",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-6",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-34-1",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-2",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-3",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-4",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-5",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-6",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-35-1",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": false,
+          "error_code": "DIALOGUE_PLAN_INVALID:fields.unit.value"
+        },
+        {
+          "id": "p84-35-2",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-3",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-4",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-5",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-6",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-1",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-2",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-3",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-4",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-5",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-6",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-1",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-2",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-3",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-4",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-5",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-6",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-1",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-2",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-3",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-4",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-5",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "UNGROUNDED_SELECTOR"
+        },
+        {
+          "id": "p84-38-6",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-39-1",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-2",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-3",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-4",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-5",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-6",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-1",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-2",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-3",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-4",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-5",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-6",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source_report": "deepseek-holdout-regression.json",
+      "count": 96,
+      "passed": 95,
+      "success_rate": 0.9895833333333334,
+      "p95_ms": 7218.174000037834,
+      "unnecessary_clarification_rate": 0.09090909090909091,
+      "max_model_calls": 2,
+      "human_review_status": "pending",
+      "results": [
+        {
+          "id": "p84-25-1",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-2",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-3",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-4",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-5",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-25-6",
+          "group_id": "pending_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-1",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-2",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-3",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-4",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-5",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-26-6",
+          "group_id": "committed_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-1",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-2",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-3",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-4",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-5",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-27-6",
+          "group_id": "cancelled_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-1",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-2",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-3",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-4",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-5",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-28-6",
+          "group_id": "unknown_status",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-29-1",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-2",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-3",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-4",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-5",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-29-6",
+          "group_id": "expired_reference",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "REFERENCE_EXPIRED"
+        },
+        {
+          "id": "p84-30-1",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-2",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-3",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-4",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-5",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-30-6",
+          "group_id": "ordinal_query",
+          "split": "holdout",
+          "passed": false,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-1",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-2",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-3",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-4",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-5",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-31-6",
+          "group_id": "pronoun_query",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-1",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-2",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-3",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-4",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-5",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-32-6",
+          "group_id": "reported_speech",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-1",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-2",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-3",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-4",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-5",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-33-6",
+          "group_id": "new_task",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-34-1",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-2",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-3",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-4",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-5",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-34-6",
+          "group_id": "injection",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "INVALID_CONVERSATION_INPUT"
+        },
+        {
+          "id": "p84-35-1",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-2",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-3",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "UNGROUNDED_FIELD"
+        },
+        {
+          "id": "p84-35-4",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-5",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-35-6",
+          "group_id": "missing_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-1",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-2",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-3",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "UNGROUNDED_AMOUNT_MODE"
+        },
+        {
+          "id": "p84-36-4",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-5",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-36-6",
+          "group_id": "excess",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-1",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-2",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-3",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-4",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-5",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-37-6",
+          "group_id": "incompatible_unit",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-38-1",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-2",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-3",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-4",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-5",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-38-6",
+          "group_id": "stale_draft",
+          "split": "holdout",
+          "passed": true,
+          "error_code": "DRAFT_NOT_EDITABLE"
+        },
+        {
+          "id": "p84-39-1",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-2",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-3",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-4",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-5",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-39-6",
+          "group_id": "recall",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-1",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-2",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-3",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-4",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-5",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        },
+        {
+          "id": "p84-40-6",
+          "group_id": "basis",
+          "split": "holdout",
+          "passed": true,
+          "error_code": null
+        }
+      ]
+    }
+  ],
+  "human_naturalness_review": "pending",
+  "app_joint_acceptance": "not_run",
+  "production_database_p95": "not_measured"
+}

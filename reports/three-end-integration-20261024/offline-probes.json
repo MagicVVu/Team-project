@@ -1,0 +1,170 @@
+[
+  {
+    "case": "finish",
+    "text": "这批已经全部用完",
+    "status": "needs_clarification",
+    "intent": "CONSUME",
+    "missing_fields": [
+      "quantity",
+      "unit"
+    ],
+    "error_code": null,
+    "reference_used": {
+      "source_task_id": "11111111-1111-4111-8111-111111111111",
+      "source_revision": 1,
+      "batch_id": "b1"
+    },
+    "draft": null,
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "forecast",
+    "text": "这批还能用多久？",
+    "status": "needs_clarification",
+    "intent": "QUERY_FORECAST",
+    "missing_fields": [
+      "name"
+    ],
+    "error_code": null,
+    "reference_used": null,
+    "draft": null,
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "consumption",
+    "text": "查看它最近28天的消费统计",
+    "status": "answered",
+    "intent": "QUERY_CONSUMPTION",
+    "missing_fields": [],
+    "error_code": null,
+    "reference_used": null,
+    "draft": null,
+    "fact_batch_ids": [
+      "b1",
+      "b2"
+    ],
+    "planning_selectors": [
+      {
+        "name": null,
+        "item_key": null
+      }
+    ]
+  },
+  {
+    "case": "risk",
+    "text": "评估这批的风险和缺少的标签储存资料",
+    "status": "needs_clarification",
+    "intent": "QUERY_RISK",
+    "missing_fields": [
+      "name"
+    ],
+    "error_code": null,
+    "reference_used": null,
+    "draft": null,
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "restock",
+    "text": "根据记录计算这批的补货建议，只展示建议，不提交采购",
+    "status": "needs_clarification",
+    "intent": "SUGGEST_PURCHASE",
+    "missing_fields": [
+      "name"
+    ],
+    "error_code": null,
+    "reference_used": null,
+    "draft": null,
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "consume_control",
+    "text": "消耗它 1 盒",
+    "status": "needs_confirmation",
+    "intent": "CONSUME",
+    "missing_fields": [],
+    "error_code": null,
+    "reference_used": {
+      "source_task_id": "11111111-1111-4111-8111-111111111111",
+      "source_revision": 1,
+      "batch_id": "b1"
+    },
+    "draft": {
+      "name": "牛奶",
+      "batch_id": "b1",
+      "expected_version": 4,
+      "action": "CONSUME",
+      "quantity": "1",
+      "unit": "盒"
+    },
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "discard_control",
+    "text": "把这批全部余量丢弃",
+    "status": "needs_confirmation",
+    "intent": "DISCARD",
+    "missing_fields": [],
+    "error_code": null,
+    "reference_used": {
+      "source_task_id": "11111111-1111-4111-8111-111111111111",
+      "source_revision": 1,
+      "batch_id": "b1"
+    },
+    "draft": {
+      "name": "牛奶",
+      "batch_id": "b1",
+      "expected_version": 4,
+      "action": "DISCARD",
+      "discard_mode": "all",
+      "quantity": "2",
+      "unit": "盒"
+    },
+    "fact_batch_ids": [],
+    "planning_selectors": []
+  },
+  {
+    "case": "pack_units",
+    "inventory_unit": "盒",
+    "recommendation": {
+      "item_key": "milk",
+      "name": "牛奶",
+      "status": "suggested",
+      "source": "recorded_history",
+      "current_stock": "2",
+      "pending_quantity": "1",
+      "target_stock": "20",
+      "suggested_quantity": "3",
+      "unit": "包",
+      "reason_codes": [
+        "RECORDED_TARGET_SHORTFALL"
+      ]
+    },
+    "frontend_labels": {
+      "current_stock": "2 包",
+      "pending_quantity": "1 包",
+      "target_stock": "20 包",
+      "suggested_quantity": "3 包"
+    }
+  },
+  {
+    "case": "no_human_rules",
+    "active_rules": 0,
+    "risk_levels": [
+      "unknown"
+    ],
+    "missing": [
+      [
+        "applicable_reviewed_rule"
+      ]
+    ],
+    "recommendation_status": "needs_review",
+    "reason_codes": [
+      "USABLE_STOCK_REQUIRES_REVIEW"
+    ]
+  }
+]

@@ -6,8 +6,9 @@ are added. Never infer ownership of a phone from these account records.
 
 import os
 from uuid import UUID
+from time import monotonic, sleep
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -16,7 +17,7 @@ from app.dependencies import Identity, get_db, get_identity
 from app.models import AuthSession, User
 from app.schemas import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 from app.schemas import ProfileUpdateRequest
-from app.security import hash_password, make_token, now_utc, token_expiry, verify_password
+from app.security import hash_password, make_token, now_utc, token_expiry, verify_login_password
 
 router = APIRouter(prefix="/api/v1", tags=["Authentication"])
 
@@ -54,14 +55,25 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserRes
 
 
 @router.post("/auth/login", response_model=TokenResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
-    user = db.scalar(select(User).where(User.phone == payload.phone, User.is_active.is_(True)))
-    if user is None or not verify_password(user.password_hash, payload.password):
-        raise HTTPException(status_code=401, detail="Invalid phone or password")
-    token, token_hash = make_token()
-    db.add(AuthSession(user_id=user.id, token_hash=token_hash, expires_at=token_expiry()))
-    db.commit()
-    return TokenResponse(access_token=token)
+def login(payload: LoginRequest, request: Request, response: Response,
+          db: Session = Depends(get_db)) -> TokenResponse:
+    # Uvicorn must run with --no-proxy-headers, even behind Funnel. HTTP headers
+    # cannot prove the caller's IP. The PROXY-protocol edge has its own IP limit.
+    peer = request.client.host if request.client else "unknown-peer"
+    with request.app.state.login_guard.attempt(peer, payload.phone):
+        started = monotonic()
+        user = db.scalar(select(User).where(User.phone == payload.phone, User.is_active.is_(True)))
+        if not verify_login_password(user.password_hash if user else None, payload.password):
+            # A small bounded floor, identical for missing/disabled/wrong-password.
+            # Admission control bounds sleeping threads and expensive Argon2 work.
+            sleep(max(0, 0.25 - (monotonic() - started)))
+            raise HTTPException(status_code=401, detail="Invalid phone or password",
+                                headers={"Cache-Control": "no-store"})
+        token, token_hash = make_token()
+        db.add(AuthSession(user_id=user.id, token_hash=token_hash, expires_at=token_expiry()))
+        db.commit()
+        response.headers["Cache-Control"] = "no-store"
+        return TokenResponse(access_token=token)
 
 
 @router.get("/users/me", response_model=UserResponse)

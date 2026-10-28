@@ -1,0 +1,1610 @@
+{
+  "git_head": "630b0145c85adf7f32726ad2fe9a68ab02691573",
+  "groups": {
+    "ai_runtime": {
+      "files": 73,
+      "lines": 6196
+    },
+    "backend_runtime": {
+      "files": 43,
+      "lines": 4823
+    },
+    "frontend_runtime": {
+      "files": 51,
+      "lines": 7691
+    }
+  },
+  "files": [
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/__init__.py",
+      "lines": 1,
+      "sha256": "d977afc9b61dfde2e77a9498c574ff60cca877de042f71d475b69312b3fba96c"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/app.py",
+      "lines": 58,
+      "sha256": "a63c171212a310d6d4c2180c6211563a4f62d0fdf3f612dc287f3128b625927f"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/chat_text.py",
+      "lines": 43,
+      "sha256": "b011f1d1859a90663eed39bda7fe9edc3035cff07d584c58851f32531d0ab734"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/engines.py",
+      "lines": 26,
+      "sha256": "b549ffd7f1a0bbc3889534a2c9fed726f6879b6d803471db26829cfde5e41f24"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/export_contract.py",
+      "lines": 28,
+      "sha256": "eab10ebb3f7a1ce87ba513911b1419e82a1b3c495a94fbc69ea81585df5f5036"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/health.py",
+      "lines": 22,
+      "sha256": "39b3976a4dce5afa7d15245a1e719b57bec1c4c069b72fb66544924291322db6"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/manager.py",
+      "lines": 297,
+      "sha256": "c1af3785825526bae5b68ff85bd52e6afeb283f2fe4db8015a2b5d4e43884b85"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/replies.py",
+      "lines": 192,
+      "sha256": "beca1d9c06e60078390754b9eb276d841042a1a6db0ea7a19fe3fae594963abe"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/reply_adapter.py",
+      "lines": 25,
+      "sha256": "da6421a3ef2302e106f9e473ca2b033a457710611b0d3594047d5a2e65491900"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/schemas.py",
+      "lines": 95,
+      "sha256": "6d93bb97960af16f8aaf28ada3c9b70c7b76b7c9b339d830682f9368395ba45a"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/supplements.py",
+      "lines": 56,
+      "sha256": "b7a25e40386150791f4960ee761deb8315ca74eae03302f0e77cdd29d3d9ba01"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/conversation/tasks.py",
+      "lines": 19,
+      "sha256": "e7ab3f8fb9aa72120aa7f2f8b1b54f3f472f45d6a5d2f72611b0913f5ddf20b7"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/__init__.py",
+      "lines": 1,
+      "sha256": "69758fa25bed258b361d2b6fa188fda4b35b5ea06a1c3eb3a0a201c9ff0eceb9"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/app.py",
+      "lines": 28,
+      "sha256": "22a004731a14400074088805c2922d33c9938e25b9612202e54e15be2d071dc6"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/engines.py",
+      "lines": 19,
+      "sha256": "aef4a8b359fcd43ad238f3e60954722dde0a813fca2361d6497cad358beadc14"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/export_contract.py",
+      "lines": 23,
+      "sha256": "f876a1ae0d1867685fa256daff12ba862c96071a20c02d11dad4ad3c979340c9"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/health.py",
+      "lines": 22,
+      "sha256": "e1f551fdd92e5cdcc6bb5f53b67db600f6b4381487e748e62087d264b8dde31d"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/manager.py",
+      "lines": 105,
+      "sha256": "bdbca7227901310d7b79b3dd82fa5ee5c6fb27d20d5d27d422321f8dd39f8745"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/policy.py",
+      "lines": 36,
+      "sha256": "424505737def8c6a5a2aa28be8424af64a8eb9380c4daa23a9b9b306c129bfa2"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/schemas.py",
+      "lines": 119,
+      "sha256": "adf25e55f3e32cb84768013d4a5e91cf6e78a36c4b141b5aacc6b62fab9225e8"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/session.py",
+      "lines": 162,
+      "sha256": "159075f412ec77525ead9f20dd6022b049f2cdb93ad070623bfd1fdc9096a665"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/interaction/tasks.py",
+      "lines": 165,
+      "sha256": "28e1b171c16bb26feee14f77c5ec2e8c1faf1a5eafdf32b4f12bb8bc5dc5f5bb"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/__init__.py",
+      "lines": 1,
+      "sha256": "fbaf018cc587f44c262ce9f04dd3a537469a998df720ac875571ca6ccb27b0a1"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/app.py",
+      "lines": 170,
+      "sha256": "edd78e9760aff68c390b09587c0b15993c7a0022b04fe4c7c5cfed759d9a33dd"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/budget.py",
+      "lines": 62,
+      "sha256": "ff781afb956cc5b8916a067a2a3ce28e6a08d081edd88fa31e51a2329943bbb0"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/deepseek.py",
+      "lines": 58,
+      "sha256": "e1ff05fd0d337da41fb1c9566915a0749d081ba6536758a73fa05bd07d65d103"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/domain.py",
+      "lines": 52,
+      "sha256": "b213d20b735acbea866d54f2f2014fd27eb92c855b19a326e2bed031a480bce4"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/engines.py",
+      "lines": 85,
+      "sha256": "0ec4718887ef1b2f55aa88e986df143fd3a501b747c276a31e7d538c5f2df54b"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/manager.py",
+      "lines": 110,
+      "sha256": "0c65e5c73f09e74d081d8e94a3b64b326fe3b5087bfde2ad0f130d0b63d41b5f"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/mock.py",
+      "lines": 225,
+      "sha256": "73a14ebe087302454f6b615492712469406970d68ddb0c46b8b5b553966869eb"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/schemas.py",
+      "lines": 174,
+      "sha256": "e63ecf34feafbe5344e0092ab0f5879c63fd2bd8c2cfa158862eada281be7c11"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/text.py",
+      "lines": 151,
+      "sha256": "15ef81d80e86da41e160db48a9d82979f52cc09ce90611c617caeaa477e2d18b"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p0/tools.py",
+      "lines": 36,
+      "sha256": "f48117220aa8c6072e155f2422b50df3d65f2bab250152896e09b74ea2c15744"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/__init__.py",
+      "lines": 1,
+      "sha256": "1885d4fa24080e2a91ae414dfe5f06a5c7c090dd09152dd6b9efc3f2461f0e68"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/app.py",
+      "lines": 64,
+      "sha256": "403153f0c0ffc2166e605a0bfab5e3706b107df37919ec6debcb11ccdd0a3fdb"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/domain.py",
+      "lines": 172,
+      "sha256": "6bc9faf7bf7c8e080c201adbb829a8e0822693f6857ebf9458b261cc460c0451"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/engines.py",
+      "lines": 80,
+      "sha256": "eaecaa9c495c5edaa3e05f53528dc9d3c146eeb5a5036720857f34d80d588f35"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/export_contract.py",
+      "lines": 20,
+      "sha256": "daaa40aab4241288f24ba0f5411f0fef17a89370b062787d8eee8ea19b60eb09"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/manager.py",
+      "lines": 180,
+      "sha256": "d75cd19e852d4ad4f8cff870ea9b903808bd584134120efd9d78e873842f6de2"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/schemas.py",
+      "lines": 225,
+      "sha256": "0ce8d5ef3bd53edd9edceeb8786d658e0f5c4e180d7dc62bd6ac06b1a138c63c"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p1/tools.py",
+      "lines": 63,
+      "sha256": "ac69ee7894e54283dbd67b5c069806b3fc92d792e8d5aecf164596d165af4813"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/__init__.py",
+      "lines": 1,
+      "sha256": "6244c599b53425d729f9514363d73a71fc75eaaa88160dbda46c938ea8eda374"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/app.py",
+      "lines": 79,
+      "sha256": "e7b95baff4df6598139aa22378ae01818cd79af8f09e7e64feede23d86a55ef9"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/engines.py",
+      "lines": 62,
+      "sha256": "d416be219a7771c53452fe5a7429258b6e3b4c518ec89adbb2ffc9396d3d416b"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/export_contract.py",
+      "lines": 19,
+      "sha256": "b5015f01391eb67c449135d2f39c737b303eb90fda559900fa78e2e9ed58bb0e"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/knowledge.py",
+      "lines": 38,
+      "sha256": "3d0f6366796b39d9b79c66a58e4deffe9343089a621cd26d15452e0b2dc7ba75"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/manager.py",
+      "lines": 184,
+      "sha256": "f332054a31a371656923e33cc9419a2cbcd97e6c6fa4df906b06e751e397dcfa"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/risk.py",
+      "lines": 146,
+      "sha256": "8c5a6859025b4f4e5884a649fee138020067cef5cbde88bb2eff88c3244935c4"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/schemas.py",
+      "lines": 173,
+      "sha256": "867718c4e3f49403ef9853e0feb762bb426de7ebf357f59eb15767551689e942"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p2/tools.py",
+      "lines": 68,
+      "sha256": "3a2b7af2868a7bfb64fd8ba5f9e79623b23987761f30b6b7f18b5b1dd095fa9e"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/__init__.py",
+      "lines": 1,
+      "sha256": "c811e40355da4b2e4c5ecf32b25b0a104780fb6522645659e6f5ab92e7cf8596"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/app.py",
+      "lines": 104,
+      "sha256": "6111266d456e44bbb7e39a2d6d5e66c9b8efee2439cb2f95362f8ae5f82935b0"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/engines.py",
+      "lines": 77,
+      "sha256": "83e739ce858c1423c8814cca717177d5d06143776ec82ca199e392802e948a31"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/export_contract.py",
+      "lines": 19,
+      "sha256": "1bf7ee540b146bc5486f8d9bedadfe28f0d0c987786ebf43ae09a70876328310"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/forecast.py",
+      "lines": 69,
+      "sha256": "dc6b235631a4556336267023148c437ece50f2d3f5191efb75b87f8667363f56"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/health.py",
+      "lines": 22,
+      "sha256": "5142f0544b20db001e429f3a2a47bb6efb195e51ccbffc2df5b80e0a33eb42f5"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/history.py",
+      "lines": 98,
+      "sha256": "64dea2b9fa3c686313970810939245722eac657f18defa23940c0ee10ae41300"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/manager.py",
+      "lines": 209,
+      "sha256": "20a6d40400b28039887c00ef4a87ccaa6831f10c6c70034579d85b34ce50f119"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/procurement.py",
+      "lines": 74,
+      "sha256": "6a59003ce43fbbfc4ccfdabf35851e2bde903fa560b435b8e94e40b05cead267"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/schemas.py",
+      "lines": 250,
+      "sha256": "35e8b7d57d6e8d22a164fe87b4964d6dfd5b4fa2f9bbba83365adfa8ca1d4772"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/p3/tools.py",
+      "lines": 41,
+      "sha256": "c60b23be4014d2168e240d1a98fbb152ccf68298d7ba0dee6db82b7bd34834bc"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/__init__.py",
+      "lines": 1,
+      "sha256": "a33d2454fa985aea654e06767bf6b1b969bb08f95e3c93a4719f3cc58c34059e"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/app.py",
+      "lines": 54,
+      "sha256": "bff6121fb62cc6d2845425274f6f1bc800ccd8e4391a6488e2357e6ef0c9f96a"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/engines.py",
+      "lines": 52,
+      "sha256": "a86e26c8b1850acb4d749dc74797b29aeb41ef78bc0d1feb5ab0f8a2b56ee17b"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/export_contract.py",
+      "lines": 48,
+      "sha256": "9e3afcbe75ec662e66c18cc095f7ede47f1d07ddbe6d28fa67f427792273b99a"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/health.py",
+      "lines": 19,
+      "sha256": "04283781ce8382973252800da0eb3492860ba12dc4de1703a1c540de0f2d15ac"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/knowledge.py",
+      "lines": 13,
+      "sha256": "151dafcab17ddda4d15df251873878d6e8a4be31e914ae061c345492d64f9a11"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/manager.py",
+      "lines": 406,
+      "sha256": "e85c984c9964b81fa956aa1f92dc653b17e8bf39a7905d2d0725127256287cc4"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/policy.py",
+      "lines": 32,
+      "sha256": "11dc0cb9242900813a3f6d36ad06e3eff79a8a7516583817b4ef90a8af537109"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/render.py",
+      "lines": 48,
+      "sha256": "aed66e72ee8ce1e03862572e2f205c13e333ad6f9c7981fda06afbc904e95e65"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/schemas.py",
+      "lines": 190,
+      "sha256": "eb216b13e2aa3273f52230130f17723cbafa747df20e8dad7bca35ddd6d66fb6"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/tasks.py",
+      "lines": 16,
+      "sha256": "ac8d771a90950422594327809afb7e7f2fa61f470910a091501a75f562e9adbe"
+    },
+    {
+      "group": "ai_runtime",
+      "path": "agent/v1/tools.py",
+      "lines": 112,
+      "sha256": "4dd8b68c2d51a4481465334dc3a1e41faaa597791b054441c4d3d37bec98f6e6"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/__init__.py",
+      "lines": 1,
+      "sha256": "7ddfdd3955061c7698037126ead49f6675820130dd22308ac7b568105eaaa65a"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/ai_agent_smoke.py",
+      "lines": 44,
+      "sha256": "9abf772404b16b36da5aa5f4b57340a3c55ed25fcc97a32ce1e3b22b3a651f34"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/ai_inventory_audit.py",
+      "lines": 34,
+      "sha256": "9e5970f5f27bb34629cbac17076bcd9642003f19157f3a9f06d281ffb29cb6a9"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/ai_inventory_smoke.py",
+      "lines": 68,
+      "sha256": "0f16c28f3729285e1e288365c024ac5b1d8e710e987db84393723093b5e6f6bd"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/conversation_models.py",
+      "lines": 37,
+      "sha256": "62a18c7c626b5f5224eea8084f2d4802c2f721410cb74265b2e93d6b8dd05497"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/conversation_schemas.py",
+      "lines": 41,
+      "sha256": "d3bd549098e19a2e6b537887e5ae23d7382287adce012c4e523280640e16e82b"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/database.py",
+      "lines": 37,
+      "sha256": "04abaa99aaafc5dfcabc43bc6bf21cf34a8715ff0ef96c082cb6ae5e050cbce2"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/dependencies.py",
+      "lines": 48,
+      "sha256": "3c759f94318148fa12fa313f3f86c3cd0f08d09c9d8b24e89d890add0e196bc2"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/execution_models.py",
+      "lines": 63,
+      "sha256": "09b01438a10f12cf8240fd903c0a9b6c81221e42cb43e1da3adf6086a885dcee"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/execution_schemas.py",
+      "lines": 152,
+      "sha256": "2c610eb220110877d99ca31ac8f8cc23d2ef6d9d9a256f455148f03365786ea0"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/inventory_schemas.py",
+      "lines": 60,
+      "sha256": "f68f9556db52a2e5142f9b4162c87dc0bff751d52c1228f8674a6ba4d7950d78"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/login_guard.py",
+      "lines": 72,
+      "sha256": "007189c2e4086e8c38680f3393d7441d633a25254fed733f5ab0363ff1458451"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/main.py",
+      "lines": 60,
+      "sha256": "e27641cd825cc32c34c64d20759b999a3d12de893be0e0759a8767e8db9d1fe2"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/models.py",
+      "lines": 287,
+      "sha256": "fcbfeb7b1be738c79a33a8a7fb7a9aece441e5690651885dab81313f3000902b"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/p7_preflight.py",
+      "lines": 129,
+      "sha256": "bde41f765910e34a48d653ce5c89291d88710f2a48542fe9b24194b1a3afeacb"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/p8_preflight.py",
+      "lines": 62,
+      "sha256": "4bdbed6e072b3010992e3cefd12e3115c5e76e19fa1342de0f0536b028bf1206"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/planning_fact_models.py",
+      "lines": 29,
+      "sha256": "381ba9e79402878999775e705d01e016a83e591c80e97f626331a2cff574b729"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/planning_fact_schemas.py",
+      "lines": 119,
+      "sha256": "11269e7cf945e9c06c2e54aaaa23aa8804499c69493bdd4121f286616804b5ce"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/planning_schemas.py",
+      "lines": 141,
+      "sha256": "5a6a1707b082acf0d808959fb980c9ba18882be48eb850592b1a5f03cd740554"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/provision_debug_account.py",
+      "lines": 34,
+      "sha256": "081785b24df770498ce4b2050818a9b0f926c8a26679ff1bfe991022da5c2968"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/__init__.py",
+      "lines": 1,
+      "sha256": "886d448f8e7ade0e55b03eb5f39b3fb4d84c8ee1082b2be1aa20d79c6e9b9483"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/agent_gateway.py",
+      "lines": 371,
+      "sha256": "bd2ccbc5bcf68d1215687e82ebaa008e7447822f12c481d97e785140c1347abc"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/ai_inventory.py",
+      "lines": 108,
+      "sha256": "6184530ba910fa878a37ff51aedd0714eee837202f229d1f32ed08c95d3e2734"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/auth.py",
+      "lines": 100,
+      "sha256": "14898bd776ec555bade85e058cece2fb1669338c0f0446e495ac490caff3dcfc"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/conversation.py",
+      "lines": 28,
+      "sha256": "8cdf2bfdd6fd4d3eecf34c33dcf01bad10c8c89505d57696cfe9001434de9c0a"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/draft_execution.py",
+      "lines": 125,
+      "sha256": "954831d0c1f740d4b0ddab467e540cbe7497c83efa6de73fab02ca7c119a2187"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/households.py",
+      "lines": 297,
+      "sha256": "e6d97a14466986ffba84dfcadde4bbc920f7043e589b4ef308c7994c6d9c8361"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/inventory.py",
+      "lines": 168,
+      "sha256": "f4ee13000d2cb2414c9dd82b982af3878f3bbb5804e189ab36bc80943cd9ddef"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/planning.py",
+      "lines": 33,
+      "sha256": "e802140d194aaaf1da236bdb37d39f79d3445105424d5e70ad698350bf0f2e1c"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/planning_facts.py",
+      "lines": 43,
+      "sha256": "32c427c18fc3d07f57c8144147c03f3d52a8633ab9fa1bd05f25e8779d80d31d"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/routers/shopping.py",
+      "lines": 162,
+      "sha256": "b1bc4875d6870354ef9db1b9178f5366b3b9dacb017fcaaef532c41a3a9f4eb8"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/schema_smoke.py",
+      "lines": 124,
+      "sha256": "c4e658d57911f3d1af62aec140c8b65709457c2b5f599382a91197d451f7445a"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/schemas.py",
+      "lines": 103,
+      "sha256": "758db4a1a7ff61fc5ef8e39685de41e2e549dff88e224f75bf942a93d0e738e9"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/security.py",
+      "lines": 70,
+      "sha256": "5752e79d8a424f4592fc772912ca020986274505dc64cc8cb2a7c5fb44325f90"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/__init__.py",
+      "lines": 1,
+      "sha256": "cded567e280fb0a68ee40ce034d3927971118b9f3237f08e38dca1ea844f080c"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/ai_inventory.py",
+      "lines": 54,
+      "sha256": "030cab6d2c5377db4f6939d6304fb6bd242aa0d9f1a3770cf36aed7fc69f2652"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/chat_controls.py",
+      "lines": 113,
+      "sha256": "c4175037c4f6873785110c7640e2c53f663deabe3d59dd3edd8ae01af4ccde72"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/conversation.py",
+      "lines": 338,
+      "sha256": "8c892366a16ca7c0e83764eda79edb4dd22c51349368d833f005bebab1bea5c3"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/draft_execution.py",
+      "lines": 391,
+      "sha256": "a00650ddcd442eff813b3bc0d244af0671517724512c5bf42a3f68427e600864"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/planning_context.py",
+      "lines": 227,
+      "sha256": "c28b79cf45698f04930ea7ed3aeaeb350cb12bfdf303b0d143bde7852e696936"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/planning_facts.py",
+      "lines": 220,
+      "sha256": "dde07eb2afec1584c42423ffb30f1fc5cc6518a12cf5952488bf7d89cd6cb2d5"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/services/shopping.py",
+      "lines": 128,
+      "sha256": "3370a3576fde10b87b76591a282e1cbfb4b790362e33ff28f94b19848f4df8ba"
+    },
+    {
+      "group": "backend_runtime",
+      "path": "backend/server/app/shopping_schemas.py",
+      "lines": 100,
+      "sha256": "104058907b8d50e372de3b51c210306bfefa295c4489279bafdc455a9406a9b3"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "lines": 25,
+      "sha256": "9883285242dbd73fbfd2ae40e8d7118b24e81d8344d0decd18ab6a5ce5fd21fb"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AgentDraft.kt",
+      "lines": 67,
+      "sha256": "1877ada1448b81d49f4c20041ea2bfc026c28096352e85e3c96183ab250c66af"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AgentExecutionPolicy.kt",
+      "lines": 34,
+      "sha256": "54b4bb887dbf1b3afa7b0206679118b13d9726f246266f9e37353f5a79de33be"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AssistantModels.kt",
+      "lines": 63,
+      "sha256": "55c22dddf934a758a51b5a79d68054456b7ff811ade193d6d5e2be1d075ce1fd"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "lines": 531,
+      "sha256": "790d0b184e9e9b55e56e6bed5ead721ee01966c1ea6b7811ecacc63e94a2d1ea"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/AuthForm.kt",
+      "lines": 19,
+      "sha256": "bf4093302026ec3c795d992be44fad8cb23fa8a409b92f7b5809a1c28345e181"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/ChatMessages.kt",
+      "lines": 35,
+      "sha256": "2c17c811863b597374ec873d04d377777aea21ec066841d434dada272021f1a4"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/ClarificationReplies.kt",
+      "lines": 31,
+      "sha256": "8ebbbcdfb86e6d5b91c362cf14a5bc2f591febac9828de3645df60c52425da5b"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/CloudApi.kt",
+      "lines": 139,
+      "sha256": "e6e04e640370af2b2580fe28c6dbd12bf04fc4750915cdd9608ae1afdb1b0568"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/CloudCredentials.kt",
+      "lines": 46,
+      "sha256": "abf2258fa1ce8fdc5601c7421206bf0c47ab8652743b636f87e8b594671e2e75"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "lines": 287,
+      "sha256": "58ff5ad200897589c1139691030bd4541e08894259387a5e69699d43f556dfad"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/Inventory.kt",
+      "lines": 80,
+      "sha256": "7fea8575c925c6b6918ecba3aefea9802b3e07a349b929749b581e8012c947bf"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/InventoryContract.kt",
+      "lines": 25,
+      "sha256": "42b90e1eaf33b6ef5312625ead3c2adfcc2cd691165676497206e40a6e6ea24c"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/InventoryStore.kt",
+      "lines": 171,
+      "sha256": "974f835e6e1c24a771355ad5ecd945ae4c42d526605ed62a294c348c278bacfe"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/PlanningFactsStore.kt",
+      "lines": 114,
+      "sha256": "fb7a382bc578fc65cd92c348a846100d68b68dab45a8b480fa81a151f525bada"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/SampleInventory.kt",
+      "lines": 30,
+      "sha256": "d2caf7a0de6a4eeccc49a25cbde78c3e8adc1167e6d890aadc9c1c3e1e517329"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/TargetCheckCache.kt",
+      "lines": 13,
+      "sha256": "b777a1293db8682a3cbf44b5e9a3f0633fd6c40fda80c7b59e5469edb4458de5"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/data/TargetPolicy.kt",
+      "lines": 29,
+      "sha256": "a491a17449368d25bb519d6b06b9ede508175cacf06988c521af31651af1da00"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/MainActivity.kt",
+      "lines": 35,
+      "sha256": "ad2a2a16abde6dab4952dbb040668802220f757e4b49f9fe9b77e73fdad15809"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AddFlow.kt",
+      "lines": 241,
+      "sha256": "0f3a2c68142021e26a33585c15132c4e8f8ec9ba99062fdf4e830a2d0397b747"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AgentResultCards.kt",
+      "lines": 105,
+      "sha256": "435323aba5168788de4d82bc150aec575d8ac9ea5debb1bc2c7b7bacdedc2349"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AlignmentUi.kt",
+      "lines": 47,
+      "sha256": "729f0200329f3ebb4ec2868389e7d86595a574a04fe99d6f8f49cb6a00a24130"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AppBrand.kt",
+      "lines": 61,
+      "sha256": "081fdaa71f37efcf69bee9a3874b5165dd572509cc5e15073980b4b2c69f2b9c"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AppHeader.kt",
+      "lines": 71,
+      "sha256": "b24eb7040481354dce96c589027457642072d73d297eaca1e70fd068068d15b4"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AppMotion.kt",
+      "lines": 85,
+      "sha256": "df1be8834bbbf300388f70feabeb211523b7878907b287a8dea91c0735cc4a81"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AssistantPullLayer.kt",
+      "lines": 303,
+      "sha256": "12f1bba2e39d3a30b648b525a662f436e0af7343b1fb5c98042b2d837f8b11dc"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AssistantPullMascot.kt",
+      "lines": 92,
+      "sha256": "60bfcd9872ebfbc91963eec0606968ce0cd69a2a3e3450e2f2741c81c1b40125"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/AuthScreen.kt",
+      "lines": 237,
+      "sha256": "7869774b91cc3e3882079f190cdcdcd0f377ef57a3b0b14e0ee63d4a724ae0e6"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/BatchOperationsPanel.kt",
+      "lines": 84,
+      "sha256": "2677ca31f8f7d1acfc1fbf3e980165ea276839b7a9186ae851927fee8d4bc6c9"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/CloudAssistant.kt",
+      "lines": 264,
+      "sha256": "6800d8f81e5fbfcd82998151bba5ef320ed79df61cb73f4ae372345236142f32"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/CloudPanels.kt",
+      "lines": 213,
+      "sha256": "61c7ec4a3596f44c0ce9b7eac609cd843af6d972849911a013a7dc3e628002fe"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ConsumptionEventsPanel.kt",
+      "lines": 80,
+      "sha256": "4b9f079fdf005d94f2cdf9840b002568552ba3aed75db4f12174e01ad9088cc5"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/CoverageDateDialog.kt",
+      "lines": 66,
+      "sha256": "0faac716edeb0132728893bcdfb6a1ed86225691b1fc5c950948886d2e372de3"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/DarkDesign.kt",
+      "lines": 492,
+      "sha256": "3ffa18664be16db6a75bad670a8ea8042b41083399a17598b4b4d041371ad746"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/FamilyManagement.kt",
+      "lines": 77,
+      "sha256": "7ab72c730940c3c59842c0845a9dd1d73009f5bda618d0771b0cfb4285d14798"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/i18n/AppLanguage.kt",
+      "lines": 80,
+      "sha256": "659edc46d72edd9931cfea8ea75925dc0c5b084ffc7ca5f6d270fac64a63a68d"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/i18n/UiTextIds.kt",
+      "lines": 482,
+      "sha256": "21976e7b938214691f80346eecf76215e6119f500858c09ec096dc6f538bac95"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/LightDesign.kt",
+      "lines": 530,
+      "sha256": "569a05d12fc134b9f6ba5286d506c80eab2cd847b37b5d9026e1af6f764c0b9d"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/MagicApp.kt",
+      "lines": 386,
+      "sha256": "4f797d5c332903f27c3bcf812c70dce9cc3fd6c51bd82bbb427f941457c5781d"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/MewMascot.kt",
+      "lines": 98,
+      "sha256": "1fb31c7e1b33ff6576e277f601294cf83ce50a5aa9de1f4c99e9a62ab386de4d"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/PlanningFactsPanel.kt",
+      "lines": 229,
+      "sha256": "cdf3ce5270ef0ec80a9239ab5a15aa9023595cbf04f22624888e7ff5764e8635"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/InventoryDetailContent.kt",
+      "lines": 84,
+      "sha256": "634a6daba974cf080f1e3fd7acc672cb88c58a747455df3c6338d00cb945e8e0"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/RingInventoryPage.kt",
+      "lines": 215,
+      "sha256": "1688926ad7cf5974638080233f598f95185c34b28e160ba3395839cf98a35015"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/RingInventoryTestPage.kt",
+      "lines": 201,
+      "sha256": "2c5a868ffcbf4fcff71ff8c8c6bf7094a4f27d0a218d707bfe7625ae3c8cd76b"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/RingItemIllustration.kt",
+      "lines": 85,
+      "sha256": "fe8a37dedac9ec217ee3a7d0a3a2811aa79ce3de1a45978abf289a9613bb393a"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/RingModel.kt",
+      "lines": 53,
+      "sha256": "0ac0291c341042caa738fc72dfae67111afd523b4c1d89e0c045ca64adec711c"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/ring/StockRingBrowser.kt",
+      "lines": 665,
+      "sha256": "21299f29d03d24fd5d1e3e31bca68948b627c7ff504d0efe6b2764925a9f2473"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/SettingsPanel.kt",
+      "lines": 143,
+      "sha256": "b7981026021643181f1c4feb139bf5208d99fa18912ca97ecf1f76f9dddb095b"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/theme/Color.kt",
+      "lines": 11,
+      "sha256": "36387bc022ebe6fff1507d2641e75b919c76ae8df628d061403cb8d36215505b"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/theme/Theme.kt",
+      "lines": 103,
+      "sha256": "5ed663b001eeda739f2a31fceb9a59b658383bb65cb3a86743d1f60f2f7bf389"
+    },
+    {
+      "group": "frontend_runtime",
+      "path": "frontend/app/src/main/java/com/example/teamapp/ui/theme/Type.kt",
+      "lines": 34,
+      "sha256": "10bcaee8b072636ba150e06ffb0e33973b5e033773800e1227ad9338704e67f7"
+    }
+  ],
+  "frontend_api_calls": [
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 12,
+      "code": "open suspend fun conversation(body: JSONObject) = api.request(\"POST\", \"/api/v1/agent/conversation-messages\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 13,
+      "code": "open suspend fun referenceMessage(body: JSONObject) = api.request(\"POST\", \"/api/v1/agent/reference-messages\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 14,
+      "code": "open suspend fun control(id: String, body: JSONObject) = api.request(\"POST\", \"/api/v1/agent/tasks/${uuid(id)}/chat-control\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 15,
+      "code": "open suspend fun preview(id: String, body: JSONObject) = api.request(\"POST\", \"/api/v1/drafts/${uuid(id)}/execution-preview\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 16,
+      "code": "open suspend fun message(body: JSONObject) = api.request(\"POST\", \"/api/v1/agent/messages\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 17,
+      "code": "open suspend fun task(id: String) = api.request(\"GET\", \"/api/v1/agent/tasks/${uuid(id)}\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 18,
+      "code": "suspend fun clarify(id: String, body: JSONObject) = api.request(\"POST\", \"/api/v1/agent/clarifications/${uuid(id)}\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 19,
+      "code": "open suspend fun draft(id: String) = api.request(\"GET\", \"/api/v1/drafts/${uuid(id)}\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 20,
+      "code": "open suspend fun execution(id: String) = api.request(\"GET\", \"/api/v1/drafts/${uuid(id)}/execution\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 21,
+      "code": "open suspend fun commit(id: String, body: JSONObject) = api.request(\"POST\", \"/api/v1/drafts/${uuid(id)}/commit\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 22,
+      "code": "open suspend fun cancel(id: String, body: JSONObject) = api.request(\"POST\", \"/api/v1/drafts/${uuid(id)}/cancel\", body)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt",
+      "line": 23,
+      "code": "suspend fun operation(id: String) = api.request(\"GET\", \"/api/v1/operations/${uuid(id)}\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 204,
+      "code": "} else acceptTask(scope, api, id, api.message(JSONObject(old.requestBody)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 213,
+      "code": "acceptTask(scope, api, id, api.message(JSONObject(entry(id).requestBody)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 226,
+      "code": "val control = api.control(envelope.getString(\"task_id\"), envelope.getJSONObject(\"request\")); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 244,
+      "code": "val response = if (old.transportMode == \"reference\") api.referenceMessage(JSONObject(old.conversationBody)) else api.conversation(JSONObject(old.conversationBody))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 274,
+      "code": "val result = api.control(old.taskId, request)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 281,
+      "code": "val result = api.preview(old.draftId, request); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 362,
+      "code": "val draft = api.draft(draftId); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 366,
+      "code": "acceptExecution(scope, id, api.execution(draftId))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 420,
+      "code": "val receipt = api.operation(old.operationId); acceptReceipt(scope, id, receipt)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 463,
+      "code": "acceptTask(scope, api, id, api.clarify(old.taskId, JSONObject(body)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 471,
+      "code": "if (entry(id).clarificationBody.isNotBlank()) acceptTask(scope, api, id, api.clarify(old.taskId, JSONObject(old.clarificationBody)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 477,
+      "code": "val latest = api.execution(old.draftId); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 487,
+      "code": "acceptReceipt(scope, id, api.commit(old.draftId, JSONObject(body)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 496,
+      "code": "acceptReceipt(scope, id, api.commit(old.draftId, JSONObject(old.commitBody)))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 504,
+      "code": "val latest = api.execution(old.draftId); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 509,
+      "code": "val result = api.cancel(old.draftId, JSONObject(body)); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt",
+      "line": 524,
+      "code": "val response = api.conversation(JSONObject(body)); verifyScope(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudApi.kt",
+      "line": 101,
+      "code": "val user = CloudApi(address, secret).request(\"GET\", \"/api/v1/users/me\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 98,
+      "code": "val user = api.request(\"GET\", \"/api/v1/users/me\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 149,
+      "code": "val created = apiFactory(a.address, a.token).request(\"POST\", \"/api/v1/households\", JSONObject().put(\"name\", name.trim()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 158,
+      "code": "val joined = apiFactory(a.address, a.token).request(\"POST\", \"/api/v1/households/join\", JSONObject().put(\"invite_code\", code.trim()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 167,
+      "code": "mutate { code = it.request(\"POST\", \"$root/invitations\").getString(\"invite_code\") }"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 172,
+      "code": "return apiFactory(a.address, a.token).request(\"GET\", \"$root/members\").getJSONArray(\"items\").objects().map {"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 180,
+      "code": "val result = apiFactory(a.address, a.token).request(\"GET\", \"$root/$path\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 186,
+      "code": "val receipt = apiFactory(a.address, a.token).request(\"GET\", \"/api/v1/operations/${UUID.fromString(id)}\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 196,
+      "code": "\"leave\" -> api.request(\"POST\", \"$root/leave\")"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 197,
+      "code": "\"remove\" -> api.request(\"DELETE\", memberPath)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 198,
+      "code": "\"admin\", \"member\" -> api.request(\"PATCH\", memberPath, JSONObject().put(\"role\", action))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 199,
+      "code": "\"transfer\" -> api.request(\"POST\", \"$root/transfer-ownership\", JSONObject().put(\"new_owner_user_id\", memberId))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 200,
+      "code": "\"dissolve\" -> api.request(\"DELETE\", root, JSONObject().put(\"confirmation_name\", confirmation))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 224,
+      "code": "if (a != null) runCatching { apiFactory(a.address, a.token).request(\"POST\", \"/api/v1/auth/logout\") }"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 228,
+      "code": "if (initial == null) api.request(\"POST\", \"$root/inventory-items\", item.toCloudJson())"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 231,
+      "code": "api.request(\"PATCH\", \"$root/inventory-items/${item.id}\", json)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 236,
+      "code": "it.request(\"POST\", \"$root/inventory-items/${item.id}/adjustments\", versionBody(item, operationId).put(\"delta\", BigDecimal.valueOf(delta).toPlainString()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 239,
+      "code": "it.request(\"DELETE\", \"$root/inventory-items/${item.id}\", versionBody(item, operationId))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 244,
+      "code": "if (existing != null) api.request(\"PATCH\", \"$root/shopping-list/items/${existing.id}\", JSONObject().put(\"quantity\", BigDecimal.valueOf(quantity).toPlainString()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 245,
+      "code": "else api.request(\"POST\", \"$root/shopping-list/items\", JSONObject().put(\"id\", requestId).put(\"source_inventory_item_id\", item.id)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 256,
+      "code": "it.request(if (creating) \"POST\" else \"PATCH\", \"$root/shopping-list/items\" + if (creating) \"\" else \"/$id\", json)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 258,
+      "code": "suspend fun removeShopping(id: String) = mutate { it.request(\"DELETE\", \"$root/shopping-list/items/$id\") }"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 260,
+      "code": "it.request(\"POST\", \"$root/shopping-list/items/$id/purchase\", JSONObject().put(\"actual_quantity\", BigDecimal.valueOf(quantity).toPlainString())"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 267,
+      "code": "val user = api.request(\"PATCH\", \"/api/v1/users/me\", JSONObject().put(\"display_name\", name.trim()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 272,
+      "code": "api.request(\"PATCH\", root, JSONObject().put(\"name\", home.trim()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/CloudStore.kt",
+      "line": 279,
+      "code": "api.request(\"PATCH\", \"$root/inventory-items/${item.id}\", versionBody(item).put(\"minimum_quantity\", BigDecimal.valueOf(values.getValue(item.id)).toPlainString()))"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/PlanningFactsStore.kt",
+      "line": 65,
+      "code": "val result = api.request(\"GET\", \"$root/$id/planning-facts\"); verify(scope)"
+    },
+    {
+      "file": "frontend/app/src/main/java/com/example/teamapp/data/PlanningFactsStore.kt",
+      "line": 96,
+      "code": "val result = api.request(\"PATCH\", \"$root/$id/planning-facts\", body); verify(scope)"
+    }
+  ],
+  "backend_routes": [
+    {
+      "file": "backend/server/app/main.py",
+      "line": 47,
+      "method": "get",
+      "path": "'/api/v1/health'"
+    },
+    {
+      "file": "backend/server/app/main.py",
+      "line": 53,
+      "method": "get",
+      "path": "'/api/v1/ready'"
+    },
+    {
+      "file": "backend/server/app/routers/agent_gateway.py",
+      "line": 237,
+      "method": "post",
+      "path": "'/api/v1/agent/messages'"
+    },
+    {
+      "file": "backend/server/app/routers/agent_gateway.py",
+      "line": 307,
+      "method": "post",
+      "path": "'/api/v1/agent/clarifications/{task_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/agent_gateway.py",
+      "line": 357,
+      "method": "get",
+      "path": "'/api/v1/agent/tasks/{task_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/agent_gateway.py",
+      "line": 363,
+      "method": "get",
+      "path": "'/api/v1/drafts/{draft_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/ai_inventory.py",
+      "line": 67,
+      "method": "get",
+      "path": "'/search'"
+    },
+    {
+      "file": "backend/server/app/routers/ai_inventory.py",
+      "line": 93,
+      "method": "get",
+      "path": "'/batches/{batch_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/auth.py",
+      "line": 34,
+      "method": "post",
+      "path": "'/auth/register'"
+    },
+    {
+      "file": "backend/server/app/routers/auth.py",
+      "line": 58,
+      "method": "post",
+      "path": "'/auth/login'"
+    },
+    {
+      "file": "backend/server/app/routers/auth.py",
+      "line": 80,
+      "method": "get",
+      "path": "'/users/me'"
+    },
+    {
+      "file": "backend/server/app/routers/auth.py",
+      "line": 85,
+      "method": "post",
+      "path": "'/auth/logout'"
+    },
+    {
+      "file": "backend/server/app/routers/auth.py",
+      "line": 96,
+      "method": "patch",
+      "path": "'/users/me'"
+    },
+    {
+      "file": "backend/server/app/routers/conversation.py",
+      "line": 14,
+      "method": "post",
+      "path": "'/api/v1/agent/conversation-messages'"
+    },
+    {
+      "file": "backend/server/app/routers/conversation.py",
+      "line": 20,
+      "method": "post",
+      "path": "'/api/v1/agent/tasks/{task_id}/chat-control'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 20,
+      "method": "get",
+      "path": "'/api/v1/agent/execution-capabilities'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 38,
+      "method": "post",
+      "path": "'/api/v1/agent/reference-messages'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 45,
+      "method": "get",
+      "path": "'/api/v1/drafts/{draft_id}/execution'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 50,
+      "method": "post",
+      "path": "'/api/v1/drafts/{draft_id}/commit'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 72,
+      "method": "post",
+      "path": "'/api/v1/drafts/{draft_id}/execution-preview'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 79,
+      "method": "post",
+      "path": "'/api/v1/drafts/{draft_id}/cancel'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 91,
+      "method": "get",
+      "path": "'/api/v1/operations/{operation_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 96,
+      "method": "get",
+      "path": "'/internal/v1/operations/{operation_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/draft_execution.py",
+      "line": 112,
+      "method": "get",
+      "path": "'/api/v1/households/{household_id}/consumption-events'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 27,
+      "method": "patch",
+      "path": "'/{household_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 94,
+      "method": "post",
+      "path": "'/{household_id}/leave'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 106,
+      "method": "delete",
+      "path": "'/{household_id}/members/{user_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 125,
+      "method": "patch",
+      "path": "'/{household_id}/members/{user_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 145,
+      "method": "post",
+      "path": "'/{household_id}/transfer-ownership'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 165,
+      "method": "delete",
+      "path": "'/{household_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 196,
+      "method": "post",
+      "path": "''"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 214,
+      "method": "get",
+      "path": "''"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 227,
+      "method": "get",
+      "path": "'/{household_id}/members'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 246,
+      "method": "post",
+      "path": "'/{household_id}/invitations'"
+    },
+    {
+      "file": "backend/server/app/routers/households.py",
+      "line": 266,
+      "method": "post",
+      "path": "'/join'"
+    },
+    {
+      "file": "backend/server/app/routers/inventory.py",
+      "line": 65,
+      "method": "get",
+      "path": "''"
+    },
+    {
+      "file": "backend/server/app/routers/inventory.py",
+      "line": 76,
+      "method": "post",
+      "path": "''"
+    },
+    {
+      "file": "backend/server/app/routers/inventory.py",
+      "line": 145,
+      "method": "patch",
+      "path": "'/{item_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/inventory.py",
+      "line": 154,
+      "method": "post",
+      "path": "'/{item_id}/adjustments'"
+    },
+    {
+      "file": "backend/server/app/routers/inventory.py",
+      "line": 163,
+      "method": "delete",
+      "path": "'/{item_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/planning.py",
+      "line": 16,
+      "method": "get",
+      "path": "'/internal/v1/planning/context'"
+    },
+    {
+      "file": "backend/server/app/routers/planning.py",
+      "line": 16,
+      "method": "get",
+      "path": "'/internal/v1/ai/planning-context'"
+    },
+    {
+      "file": "backend/server/app/routers/planning_facts.py",
+      "line": 16,
+      "method": "get",
+      "path": "'/planning-facts'"
+    },
+    {
+      "file": "backend/server/app/routers/planning_facts.py",
+      "line": 23,
+      "method": "patch",
+      "path": "'/planning-facts'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 52,
+      "method": "get",
+      "path": "'/{household_id}/shopping-list'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 59,
+      "method": "get",
+      "path": "'/{household_id}/shopping-list/items'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 79,
+      "method": "post",
+      "path": "'/{household_id}/shopping-list/items'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 113,
+      "method": "patch",
+      "path": "'/{household_id}/shopping-list/items/{item_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 128,
+      "method": "delete",
+      "path": "'/{household_id}/shopping-list/items/{item_id}'"
+    },
+    {
+      "file": "backend/server/app/routers/shopping.py",
+      "line": 140,
+      "method": "post",
+      "path": "'/{household_id}/shopping-list/items/{item_id}/purchase'"
+    }
+  ]
+}

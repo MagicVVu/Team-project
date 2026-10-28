@@ -1,0 +1,68 @@
+{
+  "checks": {
+    "source_files_verified": 89,
+    "python_compilation": true,
+    "old_routes_preserved": true,
+    "new_stage_routes": [
+      "/agent/dialogue/understand",
+      "/agent/dialogue/resolve",
+      "/agent/dialogue/respond"
+    ],
+    "authentication_verified": true,
+    "deterministic_reference_verified": true,
+    "fresh_half_draft_verified": true,
+    "model_calls": 0,
+    "inventory_writes": 0,
+    "shopping_writes": 0,
+    "production_backend_contacted": false
+  },
+  "services_before": {
+    "magicvvu-starter-agent-1": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:30.285450299Z",
+      "running": true,
+      "health": "healthy"
+    },
+    "magicvvu-starter-backend-1": {
+      "id": "717f993562a9b274d5d0c9068e3a42b83e6401028a60ae9f71bc129dc775224a",
+      "image": "magicvvu/backend:p9-20261026",
+      "started_at": "2026-10-26T04:24:06.143103157Z",
+      "running": true,
+      "health": "healthy"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "running": true,
+      "health": "healthy"
+    }
+  },
+  "services_after": {
+    "magicvvu-starter-agent-1": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:30.285450299Z",
+      "running": true,
+      "health": "healthy"
+    },
+    "magicvvu-starter-backend-1": {
+      "id": "717f993562a9b274d5d0c9068e3a42b83e6401028a60ae9f71bc129dc775224a",
+      "image": "magicvvu/backend:p9-20261026",
+      "started_at": "2026-10-26T04:24:06.143103157Z",
+      "running": true,
+      "health": "healthy"
+    },
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "running": true,
+      "health": "healthy"
+    }
+  },
+  "production_services_unchanged": true,
+  "server_version_replaced": false,
+  "ephemeral_container_removed": true
+}

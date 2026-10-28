@@ -1,0 +1,176 @@
+{
+  "stage": "verified",
+  "services": {
+    "agent": {
+      "id": "dfe3337dd5fdf0414e603bad839e4d5c310c8d8c60d5d1dcb4b09d4818611c3b",
+      "image_id": "sha256:a6ee9bede537af2aab02f8a2a19a78d824f64ecdfac34f51806bb052a99577b8",
+      "image": "magicvvu/agent:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:30.285450299Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "dc18092e8bcdf45ad8c9a4567d6631a6fbc3270937a052dc901d0ccfddc14ccb"
+    },
+    "backend": {
+      "id": "5fadb08abcd1924fb9d596e94e3fb6630e0a95f0c704f92f037cd6ec58625f74",
+      "image_id": "sha256:5b65bad62461ef29e82f941fddfc19acc5e31691fa6011529be3e2b8505f4534",
+      "image": "magicvvu/backend:p82-05fa3203a7cb",
+      "started_at": "2026-10-25T08:51:21.569358027Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "0cda83d5ed08b2314fe09470c7bc375074ec0c899ad94884f1a85d425c8c7bf5"
+    }
+  },
+  "maintenance_release": "V1-P8.2",
+  "agent_synthetic_checks": {
+    "legacy_workflows": {
+      "synthetic_manager_workflows": "passed",
+      "ordinal_target": "b2",
+      "multifield_continuation": "passed",
+      "zero_model_continuation": true,
+      "fixture_inventory_unchanged": true,
+      "real_inventory_accessed": false
+    },
+    "four_scoped_queries": "passed",
+    "finish_all": "passed",
+    "pack_units": "synthetic_arithmetic_passed",
+    "unreviewed_risk_gate": "preserved",
+    "plan_source_continuation": "passed",
+    "fixture_inventory_unchanged": true,
+    "maintenance_release": "V1-P8.2",
+    "real_data_accessed": false,
+    "session_memory": {
+      "memory_query": "passed",
+      "saved_understanding_replay": "passed",
+      "fresh_read": "passed",
+      "zero_model_reads": true,
+      "persisted_p81_runtime_compatible": true
+    }
+  },
+  "backend_synthetic_checks": {
+    "new_routes_registered": true,
+    "all_consumption_protected": true,
+    "legacy_quantity_edit_compatible": true,
+    "automatic_planning_commit": false,
+    "maintenance_release": "V1-P8.2",
+    "database_accessed": false
+  },
+  "agent_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "maintenance_release": "V1-P8.2",
+    "repair_policy_version": "p81-chain-repair-1",
+    "conversation_memory_protocol": "conversation-memory-1",
+    "memory_recent_turns": 10,
+    "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+    "memory_history_days": 30,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "active_human_rule_count": 0
+  },
+  "backend_health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "maintenance_release": "V1-P8.2",
+    "isolated_test": false
+  },
+  "live_http_checks": {
+    "你好": {
+      "status": "answered",
+      "model_calls": 0
+    },
+    "帮助": {
+      "status": "answered",
+      "model_calls": 0
+    },
+    "换个话题": {
+      "status": "answered",
+      "model_calls": 0
+    },
+    "conversation_turn_http": {
+      "kind": "explain",
+      "model_calls": 0
+    }
+  },
+  "capabilities": {
+    "protocol_version": "draft-execution-1",
+    "owner": "business_backend",
+    "maintenance_release": "V1-P8.2",
+    "actions": {
+      "ADD": true,
+      "MOVE": true,
+      "PLAN_ADD": true,
+      "CONSUME": true,
+      "OPEN": true,
+      "DISCARD": true
+    },
+    "automatic_planning_commit": false,
+    "trusted_reference_messages": true,
+    "conversation_protocol": "backend-conversation-1",
+    "chat_controls": true,
+    "conversation_memory_protocol": "conversation-memory-1",
+    "conversation_retention_days": 30,
+    "planning_context_protocol": "v1-planning-context-1",
+    "planning_facts_protocol": "backend-planning-facts-1",
+    "execution_preview": true,
+    "consume_all_protected": true,
+    "manual_procurement_source": true,
+    "household_operation_summaries": true,
+    "archived_inventory_reads": true,
+    "post_commit_feedback": true,
+    "household_timezone": "Asia/Shanghai",
+    "manual_plan_only": true,
+    "draft_ttl_seconds": 900,
+    "inventory_quantity_decimal_places": 6,
+    "shopping_quantity_decimal_places": 3,
+    "location_max_length": 100
+  },
+  "new_route_authentication": "401_without_login",
+  "readiness": {
+    "status": "ready",
+    "database": "ok"
+  },
+  "database_revision": [
+    "20261023_0010"
+  ],
+  "budget_before": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  },
+  "budget_after": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  },
+  "business_writes_performed": false,
+  "model_check": "not_performed_in_this_step",
+  "android_joint_acceptance": false
+}

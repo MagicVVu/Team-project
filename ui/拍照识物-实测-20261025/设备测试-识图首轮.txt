@@ -1,0 +1,8 @@
+
+com.example.teamapp.PhotoScanFlowTest:........
+
+Time: 12.958
+
+OK (8 tests)
+
+

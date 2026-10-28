@@ -1,0 +1,10 @@
+# Preferred after the narrowly scoped VPC DNS reply exception is approved,
+# applied and verified. Do NOT install alongside the public-DNS candidate.
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4-overrides:
+        use-dns: false
+      nameservers:
+        addresses: [100.100.2.136, 100.100.2.138]

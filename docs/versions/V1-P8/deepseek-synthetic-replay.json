@@ -1,0 +1,986 @@
+{
+  "provider_calls_during_replay": 0,
+  "inventory_source": "synthetic fixture only",
+  "rows": [
+    {
+      "id": "add",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "draft_identity": true,
+        "draft_fields": true
+      },
+      "provider_extraction_seconds": 1.2450208740192465,
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_2f18e0d9850b48038f15c01f6098469b",
+        "original_text": "买了两盒牛奶，放在冰箱上层",
+        "draft": {
+          "action": "ADD",
+          "name": "牛奶",
+          "quantity": "2",
+          "unit": "盒",
+          "location": "冰箱上层",
+          "purchased_at": null,
+          "label_expiry": null
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": {
+            "quantity": "2",
+            "unit": "盒",
+            "location": "冰箱上层",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Added",
+          "quantity_delta": "2",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "ADD",
+            "elapsed_ms": 0.02340000355616212
+          },
+          {
+            "step": "extraction",
+            "outcome": "ADD",
+            "elapsed_ms": 0.006799993570894003
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.7113000028766692
+          },
+          {
+            "step": "p2_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.9553999989293516
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 9.434500010684133
+          },
+          {
+            "step": "v1_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 13.166199991246685
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "519de13726c56bb43b500617754dae852530997d76d00474fd64f2db3866a426",
+          "request_fingerprint": "be94ddab61ea0a2a8efcb4e17c39fe3a4d08c35b854c53bbb25f85b1991708b5",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-add",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "ADD",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "Added",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "CONFIRM",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": "user_input",
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    },
+    {
+      "id": "move",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "draft_identity": true,
+        "draft_fields": true
+      },
+      "provider_extraction_seconds": 0.9906142289983109,
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "MOVE",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_16132aa3186a42dc90829e0dd8ad153a",
+        "original_text": "麻烦把牛奶整批挪到储物柜",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 4,
+          "action": "MOVE",
+          "to_location": "储物柜"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "22222222-2222-4222-8222-222222222222",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "餐边柜",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4
+          },
+          "after": {
+            "quantity": "2",
+            "unit": "盒",
+            "location": "储物柜",
+            "opened_at": null,
+            "status": "ACTIVE"
+          },
+          "event_type": "Moved",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.015900004655122757
+          },
+          {
+            "step": "extraction",
+            "outcome": "MOVE",
+            "elapsed_ms": 0.009499985026195645
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.08070000330917537
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 2.9998999962117523
+          },
+          {
+            "step": "p2_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 3.109000012045726
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 3.7240000092424452
+          },
+          {
+            "step": "v1_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 3.9209999958984554
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "f97ded6c3fb85be2149faac652c233283e84279e9e3c168fa8e2039cd837127a",
+          "request_fingerprint": "173d22eb97245540558b2c7e7a6027ed854b96faf6b8e97027e3e2629e500f93",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-move",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "MOVE",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "Moved",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "CONFIRM",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": null,
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    },
+    {
+      "id": "open",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "draft_identity": true,
+        "draft_fields": true
+      },
+      "provider_extraction_seconds": 1.1457806479884312,
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "OPEN",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_58664f01542e4703b349e7f798274418",
+        "original_text": "牛奶昨天开封了",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 4,
+          "action": "OPEN",
+          "opened_at": "2026-10-14"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "22222222-2222-4222-8222-222222222222",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "餐边柜",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4
+          },
+          "after": {
+            "quantity": "2",
+            "unit": "盒",
+            "location": "餐边柜",
+            "opened_at": "2026-10-14",
+            "status": "ACTIVE"
+          },
+          "event_type": "Opened",
+          "quantity_delta": "0",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.010199990356341004
+          },
+          {
+            "step": "extraction",
+            "outcome": "OPEN",
+            "elapsed_ms": 0.005400012014433742
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.06330001633614302
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.23669999791309237
+          },
+          {
+            "step": "p2_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.32049999572336674
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.579200015636161
+          },
+          {
+            "step": "v1_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.7476000173483044
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "601c021f437216195285c94205459ff1758edf1119194a66632223a434c2f874",
+          "request_fingerprint": "c8dcb6b136a88858849ee1a0cac0200d7b9b8f8f0fddb483dda4f040aa790300",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-open",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "OPEN",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "Opened",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "CONFIRM",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": null,
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    },
+    {
+      "id": "discard",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "draft_identity": true,
+        "draft_fields": true
+      },
+      "provider_extraction_seconds": 1.1814072370179929,
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "DISCARD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_e5f6f30df6244e2e8483463225e2f707",
+        "original_text": "这批牛奶坏了，全部丢弃",
+        "draft": {
+          "name": "牛奶",
+          "batch_id": "b1",
+          "expected_version": 4,
+          "action": "DISCARD",
+          "discard_mode": "all",
+          "quantity": "2",
+          "unit": "盒"
+        },
+        "preview": {
+          "batch_id": "b1",
+          "before": {
+            "id": "b1",
+            "household_id": "22222222-2222-4222-8222-222222222222",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "餐边柜",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4
+          },
+          "after": {
+            "quantity": "0",
+            "unit": "盒",
+            "location": "餐边柜",
+            "opened_at": null,
+            "status": "DISCARDED"
+          },
+          "event_type": "Discarded",
+          "quantity_delta": "-2",
+          "inventory_changes": true,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.009499985026195645
+          },
+          {
+            "step": "extraction",
+            "outcome": "DISCARD",
+            "elapsed_ms": 0.0046000059228390455
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.05709999823011458
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.24530000519007444
+          },
+          {
+            "step": "p2_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.3373999788891524
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.5210000090301037
+          },
+          {
+            "step": "v1_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 1.1697000009007752
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "635cfcdb78e4fc7da558ac31affc581e2253433ec9f2c05001ec6ffcb0932350",
+          "request_fingerprint": "284748ca9b23bdfb916a1ff30fee7d0ff3327f0a8e3d47ebe459f38121e4e071",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-discard",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "DISCARD",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "Discarded",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "CONFIRM",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": "current_batch",
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    },
+    {
+      "id": "plan",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "draft_identity": true,
+        "draft_fields": true
+      },
+      "provider_extraction_seconds": 1.0194624889991246,
+      "result": {
+        "status": "needs_confirmation",
+        "intent": "PLAN_ADD",
+        "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+        "trace_id": "trace_9ed18e3686b7464588c149c23143c812",
+        "original_text": "帮我把2包纸巾加到采购清单",
+        "draft": {
+          "action": "PLAN_ADD",
+          "name": "纸巾",
+          "quantity": "2",
+          "unit": "包"
+        },
+        "preview": {
+          "batch_id": null,
+          "before": null,
+          "after": null,
+          "event_type": null,
+          "quantity_delta": "0",
+          "inventory_changes": false,
+          "prospective": true
+        },
+        "candidates": [],
+        "facts": [],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "PLAN_ADD",
+            "elapsed_ms": 0.009700015652924776
+          },
+          {
+            "step": "extraction",
+            "outcome": "PLAN_ADD",
+            "elapsed_ms": 0.0048000074457377195
+          },
+          {
+            "step": "validation",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.0
+          },
+          {
+            "step": "total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.15639999764971435
+          },
+          {
+            "step": "p2_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.22680000984109938
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.4940000071655959
+          },
+          {
+            "step": "v1_total",
+            "outcome": "needs_confirmation",
+            "elapsed_ms": 0.6569999968633056
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "5904ddbadba1815792677b45461954862daaa675932f5024540dc8dcc54bbf90",
+          "request_fingerprint": "85a066d35c8a79d8469dc920bb5054492e8cb07e86aa6a28e951082f94087694",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-plan",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "PLAN_ADD",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "none",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "CONFIRM",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": "user_input",
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    },
+    {
+      "id": "location",
+      "passed": true,
+      "checks": {
+        "intent": true,
+        "status": true,
+        "original_text": true,
+        "at_most_once": true,
+        "zero_writes": true,
+        "fresh_fixture_fact": true
+      },
+      "provider_extraction_seconds": 1.1149631870212033,
+      "result": {
+        "status": "answered",
+        "intent": "QUERY_LOCATION",
+        "reply": "牛奶：2 盒，位置 餐边柜，开封 未知，状态 ACTIVE（批次 b1）",
+        "trace_id": "trace_27057cfc966c47518bae6b043de3050e",
+        "original_text": "麻烦告诉我牛奶放在哪个位置",
+        "draft": null,
+        "preview": null,
+        "candidates": [],
+        "facts": [
+          {
+            "id": "b1",
+            "household_id": "22222222-2222-4222-8222-222222222222",
+            "name": "牛奶",
+            "quantity": "2",
+            "unit": "盒",
+            "location": "餐边柜",
+            "purchased_at": null,
+            "label_expiry": "2026-11-20",
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 4,
+            "category": "food",
+            "product_id": "sku-milk",
+            "label_date_type": "use_by",
+            "label_context_valid": true,
+            "storage_condition": "refrigerated",
+            "label_storage_condition": "refrigerated",
+            "is_opened": false
+          }
+        ],
+        "missing_fields": [],
+        "clarification": null,
+        "error_code": null,
+        "retryable": false,
+        "manual_entry": false,
+        "trace": [
+          {
+            "step": "routing",
+            "outcome": "QUERY_LOCATION",
+            "elapsed_ms": 0.008800008799880743
+          },
+          {
+            "step": "extraction",
+            "outcome": "QUERY_LOCATION",
+            "elapsed_ms": 0.0048000074457377195
+          },
+          {
+            "step": "inventory_read",
+            "outcome": "ok",
+            "elapsed_ms": 0.05569998756982386
+          },
+          {
+            "step": "total",
+            "outcome": "answered",
+            "elapsed_ms": 0.3236000193282962
+          },
+          {
+            "step": "p2_total",
+            "outcome": "answered",
+            "elapsed_ms": 0.3873000096064061
+          },
+          {
+            "step": "p5_input_total",
+            "outcome": "answered",
+            "elapsed_ms": 0.5940999835729599
+          },
+          {
+            "step": "v1_total",
+            "outcome": "answered",
+            "elapsed_ms": 0.7399999885819852
+          }
+        ],
+        "risks": [],
+        "evaluated_count": 0,
+        "item_candidates": [],
+        "consumption_summary": [],
+        "forecast": [],
+        "recommendations": [],
+        "planning_basis": null,
+        "snapshot_id": null,
+        "evaluated_at": null,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "input_receipt": {
+          "policy_version": "p5-reviewed-text-1",
+          "source": "text",
+          "provenance": null,
+          "review_attestation_received": false,
+          "final_text_sha256": "969b9c106938a88f2abec992b8191a402cff7e9d74a8e8847a47e2f8a6fc37ba",
+          "request_fingerprint": "59d68c5eb3137bd08107327df4569fc860aa3ea7a5144ee8bb91a5424f709d2f",
+          "deduplication_owner": "business_backend"
+        },
+        "input_review": null,
+        "request_id": "p8-recorded-location",
+        "runtime": {
+          "release": "V1-P7",
+          "prompt_version": "p7-extract-1",
+          "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+          "model": null,
+          "model_calls": 1
+        },
+        "decisions": [
+          {
+            "node": "intent_router",
+            "source": "literal_rules",
+            "outcome": "QUERY_LOCATION",
+            "reason_codes": []
+          },
+          {
+            "node": "event_classifier",
+            "source": "deterministic",
+            "outcome": "none",
+            "reason_codes": []
+          },
+          {
+            "node": "clarification_gate",
+            "source": "deterministic",
+            "outcome": "PASS",
+            "reason_codes": []
+          },
+          {
+            "node": "action_gate",
+            "source": "deterministic",
+            "outcome": "READ",
+            "reason_codes": []
+          }
+        ],
+        "guidance": [],
+        "sections": [],
+        "location_options": [],
+        "data_gaps": [],
+        "feedback": null,
+        "truncated": false,
+        "total_count": null,
+        "quantity_source": null,
+        "policy_version": "p7-limited-context-1",
+        "jev_status": "deferred_by_user",
+        "object_source": "user_input",
+        "reference_used": null,
+        "clear_reference": false
+      }
+    }
+  ],
+  "passed": 6,
+  "total": 6
+}

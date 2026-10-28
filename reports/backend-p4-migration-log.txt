@@ -1,0 +1,54 @@
+head
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 20261014_0001, Create the six initial MagicVVu business tables.
+INFO  [alembic.runtime.migration] Running upgrade 20261014_0001 -> 20261014_0002, One shopping list per household; audit who added/purchased; stock once.
+INFO  [alembic.runtime.migration] Running upgrade 20261014_0002 -> 20261014_0003, Phone/password accounts, revocable sessions and one-time invitations.
+INFO  [alembic.runtime.migration] Running upgrade 20261014_0003 -> 20261014_0004, Expand v0.4 inventory batches for P1 read-only AI tools.
+INFO  [alembic.runtime.migration] Running upgrade 20261014_0004 -> 20261014_0005, Persist read-only AI messages, continuation state, and unconfirmed drafts.
+INFO  [alembic.runtime.migration] Running upgrade 20261014_0005 -> 20261016_0006, App inventory metadata and shopping source references (additive).
+INFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.
+INFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.
+INFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+
+
+20261023_0008
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+
+
+head
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+
+
+20261017_0007
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+INFO  [alembic.runtime.migration] Running downgrade 20261023_0008 -> 20261017_0007, Add conversation cursor and idempotent input receipts; retain existing tasks.
+
+
+head
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.
+INFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+
+
+20261016_0006
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade 20261023_0009 -> 20261023_0008, Extend execution checks for the existing OPEN/DISCARD inventory semantics.
+INFO  [alembic.runtime.migration] Running downgrade 20261023_0008 -> 20261017_0007, Add conversation cursor and idempotent input receipts; retain existing tasks.
+INFO  [alembic.runtime.migration] Running downgrade 20261017_0007 -> 20261016_0006, Add durable draft decisions, operation receipts and semantic business events.
+
+
+head
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 20261016_0006 -> 20261017_0007, Add durable draft decisions, operation receipts and semantic business events.
+INFO  [alembic.runtime.migration] Running upgrade 20261017_0007 -> 20261023_0008, Add conversation cursor and idempotent input receipts; retain existing tasks.
+INFO  [alembic.runtime.migration] Running upgrade 20261023_0008 -> 20261023_0009, Extend execution checks for the existing OPEN/DISCARD inventory semantics.

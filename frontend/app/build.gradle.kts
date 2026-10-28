@@ -5,6 +5,15 @@ plugins {
 
 android {
     namespace = "com.example.teamapp"
+    // Explicit live acceptance writes only dedicated test accounts/families.
+    // The ordinary instrumentation suite remains unchanged unless opted in.
+    if (providers.gradleProperty("magicvvuSharedCloudTest").orNull == "true") {
+        sourceSets.getByName("androidTest").apply {
+            java.directories.clear()
+            kotlin.directories.clear()
+            kotlin.directories.add("src/sharedCloudTest/java")
+        }
+    }
     compileSdk {
         version = release(37) {
             minorApiLevel = 1
@@ -15,18 +24,26 @@ android {
         applicationId = "com.example.teamapp"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.2.0-test"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "CLOUD_API_URL", "\"${providers.gradleProperty("magicvvuApiUrl").orElse("http://10.0.2.2:18080").get()}\"")
+            val isolated = providers.gradleProperty("magicvvuIsolatedTest").orNull == "true"
+            val testUrl = providers.gradleProperty("magicvvuApiUrl")
+                .orElse(if (isolated) "http://10.0.2.2:18081" else "https://8.134.172.165:8000").get()
+            require(!testUrl.contains('"') && !testUrl.contains('\\') && !testUrl.contains('\n') && !testUrl.contains('\r')) { "Invalid test API origin" }
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", isolated.toString())
+            buildConfigField("String", "CLOUD_API_URL", "\"$testUrl\"")
         }
         release {
-            buildConfigField("String", "CLOUD_API_URL", "\"\"")
+            buildConfigField("boolean", "CLOUD_EXPECT_ISOLATED", "false")
+            val releaseUrl = providers.gradleProperty("mewstowReleaseApiUrl").orElse("").get()
+            require(releaseUrl.isEmpty() || (releaseUrl.startsWith("https://") && !releaseUrl.contains('"') && !releaseUrl.contains('\\') && !releaseUrl.contains('\n') && !releaseUrl.contains('\r'))) { "Release API must be a configured HTTPS origin" }
+            buildConfigField("String", "CLOUD_API_URL", "\"$releaseUrl\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -56,6 +73,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.camera:camera-camera2:1.6.2")
+    implementation("androidx.camera:camera-lifecycle:1.6.2")
+    implementation("androidx.camera:camera-view:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
+    implementation("androidx.exifinterface:exifinterface:1.4.2")
+    // Bundled Chinese OCR works without Play services or a cloud account.
+    implementation("com.google.mlkit:text-recognition-chinese:16.0.1")
+    implementation("com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

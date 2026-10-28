@@ -1,0 +1,59 @@
+{
+  "stage": "V1-P7.1",
+  "date": "2026-10-19",
+  "protocol_version": "0.7.0",
+  "tests": {
+    "tests": 672,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 671
+  },
+  "rule_evaluations": {
+    "dev": {
+      "report": "agent/eval/conversation/results/rules-dev-20261019T062223470534.json",
+      "metrics": {
+        "count": 90,
+        "all_checks_passed": 90,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 42,
+        "p95_seconds": 0.0075533000053837895
+      },
+      "synthetic_facts": true,
+      "human_reviewed": false,
+      "real_model_verified": false
+    },
+    "test": {
+      "report": "agent/eval/conversation/results/rules-test-20261019T062224389572.json",
+      "metrics": {
+        "count": 60,
+        "all_checks_passed": 60,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 27,
+        "p95_seconds": 0.012899400026071817
+      },
+      "synthetic_facts": true,
+      "human_reviewed": false,
+      "real_model_verified": false
+    }
+  },
+  "ai_code_completed": true,
+  "server_source_synced": true,
+  "production_service_changed": false,
+  "paid_model_run_in_this_stage": false,
+  "frontend_or_backend_code_modified": false,
+  "production_acceptance_passed": false,
+  "remaining": [
+    "deployment_environment_internal_tokens",
+    "deployment_selection_of_p7",
+    "online_model_and_joint_acceptance",
+    "preexisting_P1_P2_git_blob_vs_frozen_digest_release_gate"
+  ],
+  "status_scope": "original_P7.1_delivery_snapshot",
+  "followup_stage": "V1-P7.2",
+  "followup_record": "../V1-P7.2/README.md"
+}

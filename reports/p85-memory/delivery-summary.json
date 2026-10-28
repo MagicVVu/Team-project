@@ -1,0 +1,34 @@
+{
+  "stage": "V1-P8.5",
+  "local_only": true,
+  "server_synchronized": false,
+  "server_version_replaced": false,
+  "frontend_source_changed": false,
+  "backend_source_changed": false,
+  "new_tables": false,
+  "new_dependencies": false,
+  "git_committed": false,
+  "git_pushed": false,
+  "tests": {
+    "ai-tests": {
+      "tests": 1083,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "backend-compat-tests": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "runtime_allowlist_files": 99,
+  "json_contracts": 17,
+  "schema_refs_and_examples_checked": true,
+  "model_initial_holdout_acceptance": "below_target_not_erased",
+  "postfix_samples": "regression_not_blind",
+  "human_naturalness_review": "pending",
+  "backend_p85_adapter": "not_implemented",
+  "app_acceptance": "not_run"
+}

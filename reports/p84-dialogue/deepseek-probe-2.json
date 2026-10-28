@@ -1,0 +1,176 @@
+{
+  "protocol": "p84-dialogue-1",
+  "split": "dev",
+  "count": 3,
+  "success_rate": 1.0,
+  "unnecessary_clarification_rate": 0.0,
+  "p95_ms": 7207.9959999537095,
+  "max_model_calls": 2,
+  "model": "deepseek-flash",
+  "synthetic_data_only": true,
+  "production_inventory_accessed": false,
+  "human_review_status": "pending",
+  "app_acceptance": "not_run",
+  "measurements": "AI stages only; excludes business database save and Android latency",
+  "budget_summary": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 3.293886,
+    "calls": 1185,
+    "unknown_usage_calls": 0
+  },
+  "results": [
+    {
+      "id": "p84-01-1",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 7207.9959999537095,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "你好呀",
+        "kind": "explain",
+        "reply": "你好呀！我是你的家庭库存小助手，家里有什么东西要记的、想查的，或者想聊聊怎么整理，都可以跟我说～",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "你好呀！我是你的家庭库存小助手，家里有什么东西要记的、想查的，或者想聊聊怎么整理，都可以跟我说～"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": true,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "unknown",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "你好呀！我是你的家庭库存小助手，家里有什么东西要记的、想查的，或者想聊聊怎么整理，都可以跟我说～"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-2",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 6090.08889994584,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "早上好，今天辛苦了",
+        "kind": "explain",
+        "reply": "早上好！早上好！也谢谢你，辛苦了。有什么想让我帮你记的库存或家务，随时说。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "早上好！也谢谢你，辛苦了。有什么想让我帮你记的库存或家务，随时说。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "literal",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "早上好！也谢谢你，辛苦了。有什么想让我帮你记的库存或家务，随时说。"
+        }
+      },
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-3",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 5737.8762000007555,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "嗨，你能帮我整理家里吗",
+        "kind": "explain",
+        "reply": "当然可以帮你整理家里的库存。请告诉我你想从哪类物品开始，比如食品、日用品或药品，我也可以按名称、数量、位置、保质期等帮你登记和整理。",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "当然可以帮你整理家里的库存。请告诉我你想从哪类物品开始，比如食品、日用品或药品，我也可以按名称、数量、位置、保质期等帮你登记和整理。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": true,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "unknown",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "当然可以帮你整理家里的库存。请告诉我你想从哪类物品开始，比如食品、日用品或药品，我也可以按名称、数量、位置、保质期等帮你登记和整理。"
+        }
+      },
+      "human_review_status": "pending"
+    }
+  ]
+}

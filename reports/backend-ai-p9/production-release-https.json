@@ -1,0 +1,25 @@
+{
+  "certificate_and_hostname_validation": true,
+  "certificate_sha256": "9e6fb871598e9462eba322e9871ded09e89b08af4f1c761b288641118f5c4d0e",
+  "paths": {
+    "/api/v1/health": {
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "service": "magicvvu-backend",
+        "version": "0.9.0",
+        "maintenance_release": "V1-P9",
+        "isolated_test": false
+      }
+    },
+    "/api/v1/agent/execution-capabilities": {
+      "status": 401
+    },
+    "/internal/v1/planning/context": {
+      "status": 404
+    }
+  },
+  "passed": true,
+  "vantage": "server_loopback_existing_TLS_host_port_8000",
+  "external_direct_probe": "BLOCKED_local_network_timeout"
+}

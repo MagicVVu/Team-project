@@ -13,6 +13,7 @@ UNIT_CANONICAL = {
     "毫升": "ml", "ml": "ml", "mL": "ml", "升": "L", "l": "L", "L": "L",
     "克": "g", "g": "g", "千克": "kg", "公斤": "kg", "kg": "kg",
     "盒": "盒", "瓶": "瓶", "包": "包", "袋": "袋", "个": "个", "卷": "卷", "片": "片",
+    "吨": "吨", "台": "台",
 }
 ALLOWED_STATUS = {"ACTIVE", "FINISHED", "DISCARDED", "REVERSED"}
 MAX_QUANTITY = Decimal("1000000000")

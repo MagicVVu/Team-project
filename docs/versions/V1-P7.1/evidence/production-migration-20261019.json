@@ -1,0 +1,278 @@
+{
+  "stage": "V1-P7.1",
+  "kind": "production_migration",
+  "checked_at": "2026-10-19T14:14:27.900791+00:00",
+  "stages": {
+    "prepare": {
+      "stage": "prepare",
+      "checked_at": "2026-10-19T13:55:27.946296+00:00",
+      "images": {
+        "backend": "magicvvu/backend@sha256:abd576f9b98a45f2484184b39324033976ee19a39654529b0861a13bd696c687",
+        "agent": "magicvvu/agent@sha256:6f650a872f18fc368e1d93bffb96c2fb6d9b9928fc0b7e70a783cc7142bd42c8"
+      },
+      "provider_configured": true,
+      "original_database_volume": "magicvvu-starter_postgres_data",
+      "production_isolated_test": false,
+      "compose_valid": true,
+      "secrets_disclosed": false
+    },
+    "backup": {
+      "stage": "backup",
+      "checked_at": "2026-10-19T13:55:37.677140+00:00",
+      "database_dump_bytes": 33922,
+      "sha256": "d738087828fd9603d214758b807ad0d0763abd90bc3417769285f6dab0a7d4a1",
+      "old_table_count": 11,
+      "old_row_count": 9,
+      "database_volume_preserved": true,
+      "applications_paused": true,
+      "private_backup_directory": "/var/backups/magicvvu/20261019-p71-production-r3"
+    },
+    "restore": {
+      "stage": "restore",
+      "checked_at": "2026-10-19T13:55:49.810206+00:00",
+      "independent_pg17_restore_verified": true,
+      "all_old_table_counts_and_digests_match": true,
+      "restore_network": "none",
+      "production_volume_mounted": false,
+      "restored_tables": 11
+    },
+    "migrate": {
+      "stage": "migrate",
+      "checked_at": "2026-10-19T13:56:04.639203+00:00",
+      "revision": "20261017_0007",
+      "old_business_data_preserved": true,
+      "new_tables": [
+        "business_events",
+        "draft_decisions",
+        "draft_operations"
+      ],
+      "database_volume_preserved": true
+    },
+    "dns-fix": {
+      "stage": "dns-fix",
+      "checked_at": "2026-10-19T14:07:14.809323+00:00",
+      "agent_dns": [
+        "223.5.5.5",
+        "223.6.6.6"
+      ],
+      "global_dns_changed": false,
+      "other_services_changed": false,
+      "anonymous_dns_tls_probe_passed": true,
+      "second_database_backup_sha256": "a59f295766b4aafa3b1343d63868119d938760c9aeba42c450d78183edc6878e"
+    },
+    "switch": {
+      "stage": "switch",
+      "checked_at": "2026-10-19T14:07:30.180944+00:00",
+      "services_selected": [
+        "backend",
+        "agent"
+      ],
+      "database_service_recreated": false,
+      "budget": {
+        "calls": 237,
+        "conservative_cost_cny": 0.84954,
+        "historical_model_calls_imported": 0,
+        "limit_cny": 20,
+        "ledger_reset": false
+      },
+      "provider_secret_source": "/home/magicvvu_ai/workspace/agent/.env.runtime",
+      "budget_source": "/home/magicvvu_ai/workspace/agent/.cache/p0/budget.sqlite"
+    },
+    "verify": {
+      "stage": "verify",
+      "checked_at": "2026-10-19T14:07:49.148583+00:00",
+      "backend": {
+        "status": "ok",
+        "service": "magicvvu-backend",
+        "version": "0.9.0",
+        "isolated_test": false
+      },
+      "database_ready": true,
+      "wiring": {
+        "checks": {
+          "ai_cache_mounted": true,
+          "ai_no_database_password": true,
+          "ai_no_host_ports": true,
+          "ai_read_only": true,
+          "ai_service_token_matches": true,
+          "ai_service_url": true,
+          "backend_base_url": true,
+          "backend_tool_token_matches": true,
+          "explicit_p7_engine": true,
+          "p7_entrypoint": true,
+          "priced_model_selected": true,
+          "provider_key_present": true,
+          "shared_network": true
+        },
+        "configuration_changed": false,
+        "live_acceptance_verified": false,
+        "model_called": false,
+        "token_values_disclosed": false,
+        "wiring_passed": true
+      },
+      "preflight": {
+        "business_data_written": false,
+        "checks": {
+          "ai_p7_health": true,
+          "ai_p7_schema": true,
+          "ai_service_token": true,
+          "ai_service_url": true,
+          "backend_p7_version": true,
+          "backend_to_ai_auth": true,
+          "backend_tool_token": true,
+          "database_ready": true,
+          "execution_migration": true,
+          "execution_routes": true,
+          "execution_tables": true
+        },
+        "live_acceptance_verified": false,
+        "model_called": false,
+        "preflight_passed": true
+      },
+      "protected_containers_unchanged": {
+        "magicvvu-p7-execution-20261017-agent-1": true,
+        "magicvvu-p7-execution-20261017-backend-1": true,
+        "magicvvu-p7-execution-20261017-db-1": true,
+        "magicvvu-p7-test-20261017-agent-model-1": true,
+        "magicvvu-p7-test-20261017-agent-1": true,
+        "magicvvu-p7-test-20261017-backend-model-1": true,
+        "magicvvu-p7-test-20261017-backend-1": true,
+        "magicvvu-p7-test-20261017-db-1": true,
+        "magicvvu-starter-db-1": true
+      },
+      "budget": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 0.84954,
+        "calls": 237,
+        "unknown_usage_calls": 1
+      },
+      "model_called": false,
+      "new_images": {
+        "backend": "sha256:abd576f9b98a45f2484184b39324033976ee19a39654529b0861a13bd696c687",
+        "agent": "sha256:6f650a872f18fc368e1d93bffb96c2fb6d9b9928fc0b7e70a783cc7142bd42c8"
+      }
+    },
+    "model-smoke": {
+      "stage": "model-smoke",
+      "checked_at": "2026-10-19T14:07:55.454037+00:00",
+      "passed": true,
+      "intent": "QUERY_INVENTORY",
+      "name_matches": true,
+      "actual_model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1451,
+        "completion_tokens": 91,
+        "total_tokens": 1542,
+        "prompt_tokens_details": {
+          "cached_tokens": 1280
+        },
+        "prompt_cache_hit_tokens": 1280,
+        "prompt_cache_miss_tokens": 171
+      },
+      "before": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 0.84954,
+        "calls": 237,
+        "unknown_usage_calls": 1
+      },
+      "after": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 0.85317,
+        "calls": 238,
+        "unknown_usage_calls": 1
+      },
+      "inventory_written": false,
+      "automatic_paid_retry": false
+    },
+    "finalize": {
+      "stage": "finalize",
+      "checked_at": "2026-10-19T14:12:40.352391+00:00",
+      "production_upgrade_completed": true,
+      "backend_version": "0.9.0",
+      "ai_version": "0.7.0",
+      "ai_release": "V1-P7",
+      "engine": "deepseek",
+      "real_inventory_read": {
+        "available_scope": true,
+        "business_data_written": false,
+        "status": "error",
+        "facts_count": 0,
+        "model_calls": 0,
+        "inventory_writes": false,
+        "shopping_writes": false,
+        "error_code": "TOOL_DATA_CONFLICT",
+        "legacy_inventory_compatibility": {
+          "compatible": 1,
+          "unsupported_unit": 2
+        },
+        "manual_unit_reconciliation_required": true,
+        "compatible_batch_read_verified": true,
+        "compatible_ai_query": {
+          "status": "answered",
+          "error_code": null,
+          "model_calls": 0,
+          "facts_count": 1
+        }
+      },
+      "all_post_migration_data_preserved": true,
+      "original_database_container_preserved": true,
+      "service_health": {
+        "magicvvu-starter-backend-1": {
+          "running": true,
+          "health": "healthy",
+          "oom_killed": false
+        },
+        "magicvvu-starter-agent-1": {
+          "running": true,
+          "health": "healthy",
+          "oom_killed": false
+        },
+        "magicvvu-starter-db-1": {
+          "running": true,
+          "health": "healthy",
+          "oom_killed": false
+        }
+      },
+      "pricing_verified_on": "2026-10-14",
+      "pricing_last_valid_day": "2026-10-21",
+      "android_release_performed": false,
+      "full_android_business_acceptance": false,
+      "private_backup_directory": "/var/backups/magicvvu/20261019-p71-production-r3"
+    }
+  },
+  "attempts_preserved": {
+    "first_restore_initialization_failure": true,
+    "first_model_call": {
+      "passed": false,
+      "error_code": "MODEL_UNAVAILABLE",
+      "before": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 0.829072,
+        "calls": 236,
+        "unknown_usage_calls": 0
+      },
+      "after": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 0.84954,
+        "calls": 237,
+        "unknown_usage_calls": 1
+      }
+    },
+    "first_application_rollback": {
+      "stage": "rollback",
+      "checked_at": "2026-10-19T13:57:12.256296+00:00",
+      "application_configuration_restored": true,
+      "database_downgrade_performed": false,
+      "budget_reset": false
+    }
+  },
+  "application_inventory_mutations": 0,
+  "client_release_performed": false,
+  "git_committed_or_pushed": false,
+  "temporary_restore_copies_removed": [
+    "magicvvu-p71-production-restore-20261019",
+    "magicvvu-p71-production-restore-20261019-r3"
+  ],
+  "backup_dumps_retained_privately": true,
+  "final_resource_summary": "               total        used        free      shared  buff/cache   available\nMem:            1613        1340         111         161         481         272\nSwap:           2047           0        2047\n"
+}

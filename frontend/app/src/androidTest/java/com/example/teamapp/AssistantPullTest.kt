@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -63,6 +64,8 @@ class AssistantPullTest {
         compose.onNodeWithContentDescription("个人中心").assertDoesNotExist()
         val homeNotification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
         val homeTitle = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
+        compose.onNodeWithTag("app-top-bar-icon").assertDoesNotExist()
+        var pageTitleLeft: Float? = null
         shot("${if (dark) "dark" else "light"}-home-header")
         compose.onNodeWithTag("assistant-pull-cord").assertDoesNotExist()
         for (tab in listOf("库存", "清单", "我的")) {
@@ -74,7 +77,9 @@ class AssistantPullTest {
             val notification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
             val title = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
             Assert.assertEquals(homeNotification, notification)
-            Assert.assertEquals(homeTitle.left, title.left, 1f)
+            Assert.assertTrue("Home wordmark starts before the other pages' icon/title pairs", title.left > homeTitle.left)
+            pageTitleLeft?.let { Assert.assertEquals(it, title.left, 1f) }
+            pageTitleLeft = title.left
             compose.onNodeWithContentDescription("库存提醒").performClick()
             compose.onNodeWithText("关闭").performClick()
             val cord = compose.onNodeWithTag("assistant-pull-cord").fetchSemanticsNode().boundsInRoot
@@ -104,7 +109,7 @@ class AssistantPullTest {
 
     @Test fun lightPullThresholdAndCoverageWorkAcrossAllThreeTabs() { checkTabs(false) }
     @Test fun darkPullThresholdAndCoverageWorkAcrossAllThreeTabs() { checkTabs(true) }
-    @Test fun activationRetainsCordRecoilAndPaperLandsWithSmallBounce() {
+    @Test fun activationRetainsCordRecoilAndPaperHasOneDampedImpact() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         val restHeight = compose.onNodeWithTag("assistant-cord-recoil").fetchSemanticsNode().boundsInRoot.height
@@ -117,25 +122,54 @@ class AssistantPullTest {
         }
         var minimumCordHeight = restHeight
         val edges = mutableListOf<Float>()
+        val surfaceHeights = mutableListOf<Float>()
         repeat(75) { frame ->
             compose.mainClock.advanceTimeBy(16)
             edges += compose.onNodeWithTag("assistant-curtain").fetchSemanticsNode().boundsInRoot.bottom
-            if (frame < 24) {
+            surfaceHeights += compose.onNodeWithTag("assistant-impact-surface").fetchSemanticsNode().boundsInRoot.height
+            if (frame < 20) {
                 minimumCordHeight = minOf(minimumCordHeight,
                     compose.onNodeWithTag("assistant-cord-recoil").fetchSemanticsNode().boundsInRoot.height)
             }
         }
         Assert.assertTrue("Activated cord stays mounted through its overshoot", minimumCordHeight < restHeight - 1f)
-        Assert.assertTrue("Paper waits briefly for the recoil", edges[5] < fullHeight * .01f)
-        Assert.assertTrue("Full-screen travel is slower than the old 320ms entrance", edges[24] < fullHeight * .85f)
-        Assert.assertTrue("Descent accelerates after release", edges[24] - edges[14] > edges[14] - edges[4])
-        Assert.assertTrue("Descent slows before landing", edges[44] - edges[34] < edges[34] - edges[24])
-        val bounce = fullHeight - edges.subList(51, 58).min()
-        Assert.assertTrue("Paper lifts slightly after landing", bounce > 2f * pixelsPerDp)
-        Assert.assertTrue("Landing bounce remains subtle", bounce <= 8f * pixelsPerDp)
+        Assert.assertTrue("Paper descends while the cord starts recoiling", edges[5] > fullHeight * .01f)
+        val firstLanding = edges.indexOfFirst { it > fullHeight - pixelsPerDp }
+        Assert.assertTrue("Gravity fall lands around 472ms plus startup frames", firstLanding in 28..32)
+        Assert.assertTrue("Descent accelerates after release", edges[14] - edges[7] > edges[7] - edges[0])
+        Assert.assertTrue("Descent keeps accelerating toward landing", edges[22] - edges[17] > edges[17] - edges[12])
+        val lifts = edges.drop(firstLanding).map { fullHeight - it }
+        Assert.assertTrue("Impact rebounds only a few physical pixels", lifts.max() in 6f..11f)
+        val rising = lifts.zipWithNext().count { (previous, next) -> previous <= 1f && next > 1f }
+        Assert.assertEquals("One rebound without sustained oscillation", 1, rising)
+        Assert.assertTrue("Collision briefly compresses the sheet",
+            surfaceHeights.subList(firstLanding, firstLanding + 4).min() < fullHeight * .998f)
+        // During descent bounds are clipped by the screen; inspect deformation only after contact.
+        Assert.assertTrue("Collision deformation stays below one percent",
+            surfaceHeights.drop(firstLanding).min() >= fullHeight * .99f)
+        Assert.assertEquals("Paper settles within 740ms including startup", fullHeight, edges[45], 1f)
+        Assert.assertEquals("Compression fully recovers", fullHeight, surfaceHeights.last(), 1f)
         Assert.assertEquals("Paper settles with full coverage", fullHeight, edges.last(), 1f)
         compose.onNodeWithTag("assistant-cord-recoil").assertDoesNotExist()
         compose.mainClock.autoAdvance = true
+    }
+    @Test fun fallingCurtainCanBeDismissedAndOpenedAgain() {
+        launch()
+        compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
+        compose.waitForIdle()
+        repeat(3) {
+            compose.mainClock.autoAdvance = false
+            compose.onNodeWithTag("assistant-pull-cord").performSemanticsAction(SemanticsActions.OnClick) { it() }
+            compose.mainClock.advanceTimeBy(160)
+            Espresso.pressBack()
+            compose.mainClock.autoAdvance = true
+            compose.waitForIdle()
+            compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
+            compose.onNodeWithTag("assistant-pull-cord").assertIsDisplayed()
+        }
+        pull(2f)
+        compose.onNodeWithTag("assistant-close").performClick()
+        compose.onNodeWithTag("assistant-curtain").assertDoesNotExist()
     }
     @Test fun recoilOvershootsAndScalesWithDistanceAndReleaseSpeed() {
         launch()
@@ -239,7 +273,7 @@ class AssistantPullTest {
         compose.onNodeWithText("补货建议").performClick()
         compose.onNodeWithText("测试纯牛奶：", substring = true).assertExists()
         compose.runOnIdle { Assert.assertTrue(store.purchases.isEmpty()) }
-        compose.onNodeWithText("核对并加入补货清单").performClick()
+        compose.onNodeWithText("核对补货").performClick()
         compose.onNodeWithText("确认补货建议").assertIsDisplayed()
         compose.runOnIdle { Assert.assertTrue(store.purchases.isEmpty()) }
         compose.onNodeWithText("确认").performClick()

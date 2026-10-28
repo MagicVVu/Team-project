@@ -1,0 +1,412 @@
+{
+  "$defs": {
+    "AggregateBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "base_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Quantity"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Location"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opened At"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "expired": {
+          "title": "Expired",
+          "type": "boolean"
+        },
+        "expiry_known": {
+          "title": "Expiry Known",
+          "type": "boolean"
+        },
+        "facts_version": {
+          "minimum": 0,
+          "title": "Facts Version",
+          "type": "integer"
+        },
+        "stock_verification": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Stock Verification"
+        },
+        "mapping_status": {
+          "const": "household_attested",
+          "title": "Mapping Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "batch_id",
+        "version",
+        "quantity",
+        "unit",
+        "base_quantity",
+        "location",
+        "label_expiry",
+        "opened_at",
+        "status",
+        "expired",
+        "expiry_known",
+        "facts_version",
+        "stock_verification",
+        "mapping_status"
+      ],
+      "title": "AggregateBatch",
+      "type": "object"
+    },
+    "Basis": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "planning-revalidation-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "minLength": 1,
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "event_watermark": {
+          "minLength": 1,
+          "title": "Event Watermark",
+          "type": "string"
+        },
+        "shopping_version": {
+          "minimum": 1,
+          "title": "Shopping Version",
+          "type": "integer"
+        },
+        "inventory_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Inventory Versions",
+          "type": "object"
+        },
+        "facts_versions": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Facts Versions",
+          "type": "object"
+        },
+        "product_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Product Versions",
+          "type": "object"
+        },
+        "risk_rules": {
+          "additionalProperties": true,
+          "title": "Risk Rules",
+          "type": "object"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "snapshot_id",
+        "event_watermark",
+        "shopping_version",
+        "inventory_versions",
+        "facts_versions",
+        "product_versions",
+        "risk_rules"
+      ],
+      "title": "Basis",
+      "type": "object"
+    },
+    "Product": {
+      "additionalProperties": true,
+      "properties": {
+        "product_id": {
+          "title": "Product Id",
+          "type": "string"
+        },
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "specification": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Specification"
+        },
+        "base_unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Base Unit",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "identity_status": {
+          "const": "household_attested",
+          "title": "Identity Status",
+          "type": "string"
+        },
+        "tag_source": {
+          "const": "household_attested",
+          "title": "Tag Source",
+          "type": "string"
+        },
+        "platform_rule_review_status": {
+          "title": "Platform Rule Review Status",
+          "type": "string"
+        },
+        "batches": {
+          "items": {
+            "$ref": "#/$defs/AggregateBatch"
+          },
+          "maxItems": 1000,
+          "title": "Batches",
+          "type": "array"
+        },
+        "quantity_complete": {
+          "title": "Quantity Complete",
+          "type": "boolean"
+        },
+        "total_quantity": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Quantity"
+        },
+        "nonexpired_active_quantity": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Nonexpired Active Quantity"
+        },
+        "usable_quantity": {
+          "title": "Usable Quantity",
+          "type": "null"
+        },
+        "consumption_coverage_days": {
+          "title": "Consumption Coverage Days",
+          "type": "null"
+        },
+        "version_token": {
+          "minLength": 1,
+          "title": "Version Token",
+          "type": "string"
+        }
+      },
+      "required": [
+        "product_id",
+        "item_key",
+        "name",
+        "specification",
+        "base_unit",
+        "category",
+        "version",
+        "identity_status",
+        "tag_source",
+        "platform_rule_review_status",
+        "batches",
+        "quantity_complete",
+        "total_quantity",
+        "nonexpired_active_quantity",
+        "usable_quantity",
+        "consumption_coverage_days",
+        "version_token"
+      ],
+      "title": "Product",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": "backend-planning-provenance-1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "pending_state": {
+      "enum": [
+        "none",
+        "association_unknown",
+        "linked_complete",
+        "shopping_list_missing"
+      ],
+      "title": "Pending State",
+      "type": "string"
+    },
+    "pending_count": {
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Pending Count",
+      "type": "integer"
+    },
+    "product_aggregates_v1": {
+      "items": {
+        "$ref": "#/$defs/Product"
+      },
+      "maxItems": 1000,
+      "title": "Product Aggregates V1",
+      "type": "array"
+    },
+    "revalidation_basis": {
+      "$ref": "#/$defs/Basis"
+    },
+    "events": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "maxProperties": 20000,
+      "title": "Events",
+      "type": "object"
+    },
+    "ledger_coverage": {
+      "title": "Ledger Coverage",
+      "type": "string"
+    },
+    "risk_rules": {
+      "additionalProperties": true,
+      "title": "Risk Rules",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "pending_state",
+    "pending_count",
+    "product_aggregates_v1",
+    "revalidation_basis",
+    "events",
+    "ledger_coverage",
+    "risk_rules"
+  ],
+  "title": "Provenance",
+  "type": "object"
+}

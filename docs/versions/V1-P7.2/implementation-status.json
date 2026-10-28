@@ -1,0 +1,71 @@
+{
+  "stage": "V1-P7.2",
+  "date": "2026-10-19",
+  "work": "production migration and DeepSeek integration",
+  "production_upgrade_completed": true,
+  "production_runtime": {
+    "backend": "0.9.0",
+    "ai_release": "V1-P7",
+    "ai_openapi": "0.7.0",
+    "engine": "deepseek",
+    "isolated_test": false
+  },
+  "database_revision": "20261017_0007",
+  "production_preflight_checks_passed": 24,
+  "independent_restore_verified": true,
+  "old_business_data_preserved": true,
+  "original_database_container_preserved": true,
+  "real_model_verified": true,
+  "compatible_batch_query_verified": true,
+  "inventory_mutations": 0,
+  "full_product_acceptance_passed": false,
+  "android_release_performed": false,
+  "prior_test_evidence_stage": "V1-P7.1",
+  "new_full_regression_run_in_this_stage": false,
+  "evidence": "evidence/production-migration-20261019.json",
+  "evidence_original_stage": "V1-P7.1",
+  "evidence_sha256": "d21f44e267bf4f34e1d5524210841813d7dc4eb769f06a1fbeaaef59d0eada2b",
+  "remaining": [
+    "pricing_metadata_refresh_before_2026-10-22",
+    "https_android_signing_device_and_full_business_acceptance",
+    "P1_P2_frozen_dataset_digest_gate"
+  ],
+  "unit_compatibility_fix": {
+    "completed": true,
+    "units": [
+      "吨",
+      "台"
+    ],
+    "all_current_inventory_query_verified": true,
+    "inventory_facts": 3,
+    "database_content_unchanged": true,
+    "model_calls": 0,
+    "test_results": {
+      "ai": {
+        "tests": 686,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1,
+        "passed": 685
+      },
+      "backend": {
+        "tests": 91,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 5,
+        "passed": 86
+      }
+    },
+    "evidence": "evidence/unit-compatibility-fix-20261019.json",
+    "images": {
+      "agent": {
+        "tag": "magicvvu/agent:p72-units-755c1561abc8",
+        "id": "sha256:47d49783ecbc13d17bebffb04f744c5bd14fc055c58c11eaad1dc0dced94a031"
+      },
+      "backend": {
+        "tag": "magicvvu/backend:p72-units-736c2299edda",
+        "id": "sha256:ebdad8c041baa72fd4ae938b009ae1721960025b6ff1493ad7b54010ae114a4f"
+      }
+    }
+  }
+}

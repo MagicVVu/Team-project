@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "timezone": "Asia/Shanghai",
+  "deployment_tests": {
+    "network": "none",
+    "passed": 4,
+    "image": "magicvvu/backend:p72-units-736c2299edda"
+  },
+  "android": {
+    "release_signed": false,
+    "internal_apk_sha256": "1acae99ec4c29dc05c619bdf0c514d6ed41327b55a52fb8f4da8dbb25dca7a37",
+    "internal_ca_in_release": false,
+    "internal_lint_warnings": 27,
+    "internal_lint_errors": 0,
+    "internal_apk": "app-internal.apk",
+    "connected_adb_devices": 0,
+    "unit_failures": 0,
+    "unit_tests_passed": 27,
+    "release_built": true
+  },
+  "recovery": {
+    "docker_restarted_at": "2026-10-21T19:17:51+08:00",
+    "existing_agent_and_db_containers_retained": true,
+    "backend_healthy_after_exit": true,
+    "backend_host_sigkill_observed_restart_count": 1,
+    "host_reboot_tested": false
+  },
+  "cleanup": {
+    "bytes_saved": 0,
+    "proxy_files_deleted": [],
+    "retained_shared_apache_config_bytes": 127,
+    "proxy_services_stopped": []
+  },
+  "manual_pending": [
+    "Physical Android login and inventory/shopping/Agent round trip",
+    "Mobile data, campus network and teammate Wi-Fi after /32 allowlisting",
+    "Host reboot and external health verification",
+    "Future natural certificate renewal and alerting",
+    "Cloud rule inventory independent readback"
+  ]
+}

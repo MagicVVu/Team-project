@@ -1,8 +1,8 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -36,7 +37,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,6 +51,20 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+// One bounded impact, rather than an oscillating spring. Distances are physical pixels.
+private object AssistantLandingMotion {
+    const val Duration = 680
+    const val FallEnd = 472
+    const val CompressionPeak = 495
+    const val ReboundStart = 518
+    const val ReboundPeak = 586
+    const val ReboundEnd = 654
+    const val LiftPx = 10f
+    const val CompressedScale = .994f
+    val gravity = Easing { fraction -> fraction * fraction }
+    val upward = Easing { fraction -> 1f - (1f - fraction) * (1f - fraction) }
+}
+
 /** A full-screen curtain sits above the entire scaffold, including its navigation bar. */
 @Composable
 internal fun AssistantPullLayer(
@@ -58,6 +72,7 @@ internal fun AssistantPullLayer(
     conversation: SnapshotStateList<Pair<String, Boolean>>,
     snackbar: SnackbarHostState, notify: (String) -> Unit, content: @Composable (Modifier) -> Unit
 ) {
+    val strings = rememberUiStrings()
     var expanded by rememberSaveable { mutableStateOf(false) }
     var heightPx by remember { mutableIntStateOf(0) }
     var layerTop by remember { mutableFloatStateOf(0f) }
@@ -68,23 +83,34 @@ internal fun AssistantPullLayer(
         .onGloballyPositioned { headerBottom = it.boundsInWindow().bottom }
     val focus = LocalFocusManager.current
     fun dismiss() { focus.clearFocus(); expanded = false }
-    // Keep the landing lift the same small physical distance on phones and tablets.
-    val landingLiftPx = with(LocalDensity.current) { 7.dp.toPx() }
-    val landingReveal = 1f - landingLiftPx / heightPx.coerceAtLeast(landingLiftPx.roundToInt())
+    val reboundReveal = 1f - AssistantLandingMotion.LiftPx.coerceAtMost(heightPx * .01f) / heightPx.coerceAtLeast(1)
     val transition = updateTransition(expanded, label = "assistant-curtain")
     val reveal = transition.animateFloat(
         transitionSpec = {
             if (targetState) keyframes {
-                durationMillis = 1020
-                // Let the cord recoil visibly before the paper starts covering it.
-                0f at 160 using CubicBezierEasing(.4f, 0f, .2f, 1f)
-                1f at 740 using CubicBezierEasing(.2f, 0f, .4f, 1f)
-                landingReveal at 860 using CubicBezierEasing(.2f, 0f, .3f, 1f)
-                1f at 1020
+                durationMillis = AssistantLandingMotion.Duration
+                // Normalized displacement follows s = 1/2 g t² over the measured height.
+                0f at 0 using AssistantLandingMotion.gravity
+                1f at AssistantLandingMotion.FallEnd using LinearEasing
+                1f at AssistantLandingMotion.ReboundStart using AssistantLandingMotion.upward
+                reboundReveal at AssistantLandingMotion.ReboundPeak using AssistantLandingMotion.gravity
+                1f at AssistantLandingMotion.ReboundEnd
+                1f at AssistantLandingMotion.Duration
             } else tween(380, easing = AppMotion.easing)
         },
         label = "reveal"
     ) { if (it) 1f else 0f }
+    // Both resting states have full scale; opening keyframes supply the brief compression.
+    @Suppress("UnusedTransitionTargetStateParameter")
+    val impactScale = transition.animateFloat(transitionSpec = {
+        if (targetState) keyframes {
+            durationMillis = AssistantLandingMotion.Duration
+            1f at AssistantLandingMotion.FallEnd using FastOutSlowInEasing
+            AssistantLandingMotion.CompressedScale at AssistantLandingMotion.CompressionPeak using FastOutSlowInEasing
+            1f at AssistantLandingMotion.ReboundStart
+            1f at AssistantLandingMotion.Duration
+        } else tween(100)
+    }, label = "impact-compression") { 1f }
     val visible = transition.currentState || transition.targetState || transition.isRunning
     val cordRequested = tab in 1..3 && available && !visible && headerBottom != null
     val cordState = remember { MutableTransitionState(false) }
@@ -129,6 +155,7 @@ internal fun AssistantPullLayer(
             // This surface also blocks touches to the lower page while the curtain is moving.
             val scrim = MaterialTheme.colorScheme.scrim
             val light = LocalLightDesign.current
+            val paper = MaterialTheme.colorScheme.background
             Box(Modifier.fillMaxSize().drawBehind { drawRect(scrim.copy(alpha = .14f * reveal.value.coerceIn(0f, 1f))) }
                 .clickable(remember { MutableInteractionSource() }, indication = null) {}.clearAndSetSemantics {})
             Box(Modifier.fillMaxSize().graphicsLayer { translationY = (reveal.value - 1f) * heightPx }
@@ -146,12 +173,21 @@ internal fun AssistantPullLayer(
                         listOf(Color.Black.copy(alpha = if (light) .12f else .24f), Color.Transparent),
                         startY = size.height, endY = size.height + contact)
                     onDrawBehind {
+                        // Extend the paper color below its moving edge: a small hop must not
+                        // uncover a blank strip. This also backs the bottom-anchored compression.
+                        drawRect(paper, size = Size(size.width, size.height + AssistantLandingMotion.LiftPx + 1f))
                         drawRect(softShadow, Offset(0f, size.height), Size(size.width, spread))
                         drawRect(edgeShadow, Offset(0f, size.height), Size(size.width, contact))
                     }
-                }.testTag("assistant-curtain").semantics { paneTitle = "AI 助手" }) {
-                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Box(Modifier.fillMaxSize().motionInput(expanded)) {
+                }.testTag("assistant-curtain").semantics {
+                    paneTitle = "AI 助手"
+                    stateDescription = if (expanded && !transition.isRunning) strings.get(R.string.ui_open) else strings.get(R.string.ui_transitioning)
+                }) {
+                Surface(Modifier.fillMaxSize().graphicsLayer {
+                    transformOrigin = TransformOrigin(.5f, 1f)
+                    scaleY = impactScale.value
+                }.testTag("assistant-impact-surface"), color = paper) {
+                    Box(Modifier.fillMaxSize().motionInput(expanded && !transition.isRunning)) {
                         AssistantCurtainPage(store, conversation, notify) { dismiss() }
                         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).navigationBarsPadding())
                     }
@@ -163,6 +199,7 @@ internal fun AssistantPullLayer(
 
 @Composable
 private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boolean) {
+    val strings = rememberUiStrings()
     val density = LocalDensity.current
     val threshold = with(density) { 72.dp.toPx() }
     val maximum = with(density) { 120.dp.toPx() }
@@ -202,8 +239,8 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boo
         layout(placeable.width, placeable.height) { placeable.place(0, 0) }
     }.testTag("assistant-pull-cord")
         .semantics {
-            contentDescription = "下拉打开 AI 助手"
-            stateDescription = if (ready) "松手展开助手" else "向下拉动"
+            contentDescription = strings.get(R.string.ui_pull_down_to_open_ai_assistant)
+            stateDescription = if (ready) strings.get(R.string.ui_release_to_open_assistant) else strings.get(R.string.ui_pull_down)
             role = Role.Button
             onClick("展开 AI 助手") { latestOpen(); true }
         }
@@ -233,7 +270,7 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boo
                 onDragCancel = { release(false, 0f) {} }
             )
         }, contentAlignment = Alignment.BottomCenter) {
-        // Opening stays true throughout the curtain entrance, including its recoil lead-in.
+        // Keep the smile throughout the curtain entrance and simultaneous cord recoil.
         AssistantPullMascot(dragging = dragging, smiling = ready || opening)
     }
 }
@@ -243,24 +280,20 @@ private fun AssistantCurtainPage(
     store: InventoryStore, conversation: SnapshotStateList<Pair<String, Boolean>>,
     notify: (String) -> Unit, close: () -> Unit
 ) {
+    val strings = rememberUiStrings()
     var initial by rememberSaveable { mutableStateOf("") }
-    val light = LocalLightDesign.current
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding()) {
-        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp)) {
+        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 6.dp)) {
             Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-                if (light) Image(painterResource(R.drawable.maoyou_welcome),
-                    "猫又 AI 助手", Modifier.size(88.dp).testTag("assistant-ip"))
-                else DarkMaoYou("thinking", Modifier.size(88.dp).testTag("assistant-ip"), "猫又 AI 助手")
-                Text("猫又 · AI 助手", fontSize = 21.sp, fontWeight = FontWeight.SemiBold)
-                Text("看看库存，也一起安排补货", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp))
+                MewMascot(MewPose.Thinking, Modifier.size(64.dp).testTag("assistant-ip"), strings.get(R.string.ui_mew_ai_assistant))
+                Text(strings.get(R.string.brand_assistant_title), fontSize = 21.sp, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold)
             }
-            TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text("收起 ↑") }
+            TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text(strings.get(R.string.ui_close)) }
         }
-        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("查库存" to "家里有什么库存？", "临期提醒" to "哪些快过期了？", "补货建议" to "需要补什么？").forEach { (label, query) ->
                 OutlinedButton(onClick = { initial = query }, modifier = Modifier.weight(1f), shape = CircleShape,
-                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(label, fontSize = 12.sp) }
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(strings.label(label), fontSize = 12.sp) }
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth()) {

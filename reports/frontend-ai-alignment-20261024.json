@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-24",
+  "scope": "Source/API audit; no APK installed; no production mutation or paid model call",
+  "frontend_version": "1.2.0-test (versionCode 4)",
+  "frontend_kotlin_files": 41,
+  "frontend_kotlin_lines": 6250,
+  "keyword_index": {
+    "planning-facts": [],
+    "consumption-events": [],
+    "reference-messages": [],
+    "planning_facts_protocol": [],
+    "execution_preview": [],
+    "stock_verification": [],
+    "consumption_summary": [],
+    "data_gaps": [],
+    "recommendations": [
+      {
+        "file": "frontend/app/src/main/java/com/example/teamapp/ui/DarkDesign.kt",
+        "line": 265
+      },
+      {
+        "file": "frontend/app/src/main/java/com/example/teamapp/ui/DarkDesign.kt",
+        "line": 267
+      },
+      {
+        "file": "frontend/app/src/main/java/com/example/teamapp/ui/LightDesign.kt",
+        "line": 339
+      },
+      {
+        "file": "frontend/app/src/main/java/com/example/teamapp/ui/LightDesign.kt",
+        "line": 343
+      }
+    ],
+    "forecast": [],
+    "risks": [],
+    "guidance": [],
+    "sections": []
+  },
+  "runtime": {
+    "backend_image": "magicvvu/backend:p8-771374b-20261024",
+    "agent_image": "magicvvu/agent:p8-0175b52f054c",
+    "migration": "20261023_0010",
+    "conversation_protocol": "backend-conversation-1",
+    "chat_controls": true,
+    "execution_preview": true,
+    "planning_facts_protocol": "backend-planning-facts-1",
+    "trusted_reference_messages": true,
+    "automatic_planning_commit": false,
+    "active_human_rule_count": 0
+  },
+  "interpretation": "Keyword absence is supporting evidence only; findings also follow UI/store/API code paths. Existing automatic conversation reference does not require a separate reference-messages call."
+}

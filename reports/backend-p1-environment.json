@@ -1,0 +1,16 @@
+{
+  "python": "3.12.8",
+  "packages": {
+    "fastapi": "0.116.1",
+    "uvicorn": "0.35.0",
+    "SQLAlchemy": "2.0.44",
+    "psycopg": "3.2.12",
+    "alembic": "1.17.0",
+    "argon2-cffi": "25.1.0",
+    "httpx": "0.28.1",
+    "pytest": "8.4.2",
+    "pydantic": "2.14.1",
+    "starlette": "0.47.3",
+    "anyio": "4.15.1"
+  }
+}

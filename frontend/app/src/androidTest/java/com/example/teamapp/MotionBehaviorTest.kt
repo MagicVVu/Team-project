@@ -84,9 +84,10 @@ class MotionBehaviorTest {
     @Test fun rapidTabChangesKeepInventorySearchAndFilters() {
         launch()
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithTag("ring-search").performScrollTo().performTextInput("动画测试")
-        compose.onNodeWithTag("ring-category-食品").performScrollTo().performClick()
-        compose.onNodeWithTag("ring-attention").performScrollTo().performClick()
+        compose.onNodeWithTag("ring-search-toggle").performClick()
+        compose.onNodeWithTag("ring-search").performTextInput("动画测试")
+        compose.onNodeWithTag("ring-category-食品").performClick()
+        compose.onNodeWithTag("ring-attention").performClick()
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
 
         compose.mainClock.autoAdvance = false

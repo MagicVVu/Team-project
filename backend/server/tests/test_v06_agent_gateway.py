@@ -62,6 +62,32 @@ def auth(state):
     return {'Authorization': 'Bearer ' + state['token']}
 
 
+def test_gateway_releases_database_connection_during_ai_tool_callback(env, monkeypatch):
+    client, Session, state = env
+    calls = []
+    expiry = (datetime.now(timezone.utc) + timedelta(minutes=15)).isoformat()
+    async def agent(path, user, home, payload):
+        # Two simultaneous public requests must leave capacity for internal reads.
+        assert Session.kw['bind'].pool.checkedout() == 0
+        calls.append(path)
+        if path == '/agent/message':
+            return {'status': 'needs_clarification', 'trace_id': 'pool-check',
+                'original_text': payload['text'], 'reply': '请选择',
+                'clarification': {'id': 'pool-check', 'revision': 1,
+                    'scope': {'user_id': str(user), 'household_id': str(home)},
+                    'allowed_fields': ['location'], 'expires_at': expiry, 'original_text': payload['text']}}
+        return {'status': 'answered', 'trace_id': 'pool-check',
+            'original_text': payload['context']['original_text'], 'reply': '已读取', 'facts': []}
+    monkeypatch.setattr(agent_gateway, '_call_ai', agent)
+    r = client.post('/api/v1/agent/messages', headers=auth(state), json={
+        'household_id': str(state['home']), 'text': '库存查询', 'request_id': 'pool-check'})
+    assert r.status_code == 200
+    r = client.post('/api/v1/agent/clarifications/' + r.json()['task_id'], headers=auth(state),
+        json={'revision': 1, 'answers': {'location': '冰箱'}})
+    assert r.status_code == 200 and r.json()['status'] == 'answered'
+    assert calls == ['/agent/message', '/agent/clarification']
+
+
 def test_no_bearer_or_household_cross_access(env, monkeypatch):
     client, _, state = env
     payload = {'household_id': str(state['home']), 'text': '还有牛奶吗', 'request_id': 'x1'}

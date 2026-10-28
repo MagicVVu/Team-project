@@ -1,0 +1,11 @@
+{
+  "count": 150,
+  "dev": 90,
+  "test": 60,
+  "group_count": 50,
+  "group_isolation": true,
+  "dataset_sha256": "dd44ff55298d1f8647f7adf9c9d966476c454ffe177af6a6529c059605d2d384",
+  "human_reviewed": false,
+  "source": "AI constructed; synthetic fixture facts",
+  "real_audio": false
+}

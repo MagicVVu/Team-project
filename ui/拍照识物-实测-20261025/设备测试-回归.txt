@@ -1,0 +1,75 @@
+
+com.example.teamapp.MewConsistencyTest:...
+com.example.teamapp.MagicAppTest:...
+com.example.teamapp.DarkDesignTest:.
+Error in cancelledPhotoAndManualEntryDoNotChangeStock(com.example.teamapp.DarkDesignTest):
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.DarkDesignTest.cancelledPhotoAndManualEntryDoNotChangeStock(DarkDesignTest.kt:108)
+..
+com.example.teamapp.LightDesignTest:....
+Error in ringUsesRealInventoryAndSearchFiltersWithoutChangingData(com.example.teamapp.LightDesignTest):
+java.lang.AssertionError: Failed to inject touch input.
+Reason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains '清空' (ignoreCase: false))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:402)
+	at androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)
+	at androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)
+	at com.example.teamapp.LightDesignTest.ringUsesRealInventoryAndSearchFiltersWithoutChangingData(LightDesignTest.kt:86)
+
+com.example.teamapp.InventoryV02UiTest:..
+com.example.teamapp.AppLanguageTest:
+Error in darkSwitchesImmediatelyAndPersistsWithoutChangingRecords(com.example.teamapp.AppLanguageTest):
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.AppLanguageTest.switchAndCheck(AppLanguageTest.kt:51)
+	at com.example.teamapp.AppLanguageTest.darkSwitchesImmediatelyAndPersistsWithoutChangingRecords(AppLanguageTest.kt:83)
+...
+Error in lightSwitchesImmediatelyAndPersistsWithoutChangingRecords(com.example.teamapp.AppLanguageTest):
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.AppLanguageTest.switchAndCheck(AppLanguageTest.kt:51)
+	at com.example.teamapp.AppLanguageTest.lightSwitchesImmediatelyAndPersistsWithoutChangingRecords(AppLanguageTest.kt:82)
+
+
+Time: 53.755
+There were 4 failures:
+1) cancelledPhotoAndManualEntryDoNotChangeStock(com.example.teamapp.DarkDesignTest)
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.DarkDesignTest.cancelledPhotoAndManualEntryDoNotChangeStock(DarkDesignTest.kt:108)
+2) ringUsesRealInventoryAndSearchFiltersWithoutChangingData(com.example.teamapp.LightDesignTest)
+java.lang.AssertionError: Failed to inject touch input.
+Reason: Expected exactly '1' node but could not find any node that satisfies: (Text + InputText + EditableText contains '清空' (ignoreCase: false))
+
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow(SemanticsNodeInteraction.kt:178)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchOneOrThrow$default(SemanticsNodeInteraction.kt:150)
+	at androidx.compose.ui.test.SemanticsNodeInteraction.fetchSemanticsNode(SemanticsNodeInteraction.kt:84)
+	at androidx.compose.ui.test.ActionsKt.performTouchInput(Actions.kt:402)
+	at androidx.compose.ui.test.AndroidActions.performClickImpl(Actions.android.kt:23)
+	at androidx.compose.ui.test.ActionsKt.performClick(Actions.kt:60)
+	at com.example.teamapp.LightDesignTest.ringUsesRealInventoryAndSearchFiltersWithoutChangingData(LightDesignTest.kt:86)
+3) darkSwitchesImmediatelyAndPersistsWithoutChangingRecords(com.example.teamapp.AppLanguageTest)
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.AppLanguageTest.switchAndCheck(AppLanguageTest.kt:51)
+	at com.example.teamapp.AppLanguageTest.darkSwitchesImmediatelyAndPersistsWithoutChangingRecords(AppLanguageTest.kt:83)
+4) lightSwitchesImmediatelyAndPersistsWithoutChangingRecords(com.example.teamapp.AppLanguageTest)
+java.lang.AssertionError: Semantic Node has no parent layout with a Scroll SemanticsAction
+	at androidx.compose.ui.test.ActionsKt.scrollToNode(Actions.kt:97)
+	at androidx.compose.ui.test.ActionsKt.performScrollTo(Actions.kt:82)
+	at com.example.teamapp.AppLanguageTest.switchAndCheck(AppLanguageTest.kt:51)
+	at com.example.teamapp.AppLanguageTest.lightSwitchesImmediatelyAndPersistsWithoutChangingRecords(AppLanguageTest.kt:82)
+
+FAILURES!!!
+Tests run: 22,  Failures: 4
+
+

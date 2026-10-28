@@ -1,0 +1,236 @@
+{
+  "ssh_user": "admin",
+  "host": "iZ7xvftxzwe1mwbso1ovyyZ",
+  "deployment_path": "/srv/magicvvu/magicvvu-starter",
+  "deployment_git_present": false,
+  "compose": [
+    {
+      "Name": "magicvvu-starter-agent-1",
+      "Image": "magicvvu/agent:p82-05fa3203a7cb",
+      "Health": "healthy",
+      "State": "running",
+      "Ports": "8767/tcp"
+    },
+    {
+      "Name": "magicvvu-starter-backend-1",
+      "Image": "magicvvu/backend:p82-05fa3203a7cb",
+      "Health": "healthy",
+      "State": "running",
+      "Ports": "127.0.0.1:8001->8000/tcp, 0.0.0.0:8000->8443/tcp"
+    },
+    {
+      "Name": "magicvvu-starter-db-1",
+      "Image": "public.ecr.aws/docker/library/postgres:17",
+      "Health": "healthy",
+      "State": "running",
+      "Ports": "5432/tcp"
+    }
+  ],
+  "preflight": {
+    "business_data_written": false,
+    "checks": {
+      "ai_p7_health": true,
+      "ai_p7_schema": true,
+      "ai_p8_contract": true,
+      "ai_service_token": true,
+      "ai_service_url": true,
+      "backend_p7_version": true,
+      "backend_to_ai_auth": true,
+      "backend_tool_token": true,
+      "database_ready": true,
+      "execution_routes": true,
+      "p8_migration": true,
+      "p8_routes": true,
+      "p8_tables": true
+    },
+    "live_acceptance_verified": false,
+    "model_called": false,
+    "preflight_passed": true
+  },
+  "runtime": {
+    "migration": [
+      "20261023_0010"
+    ],
+    "backend_health": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P8.2",
+      "isolated_test": false
+    },
+    "capabilities": {
+      "protocol_version": "draft-execution-1",
+      "owner": "business_backend",
+      "maintenance_release": "V1-P8.2",
+      "actions": {
+        "ADD": true,
+        "MOVE": true,
+        "PLAN_ADD": true,
+        "CONSUME": true,
+        "OPEN": true,
+        "DISCARD": true
+      },
+      "automatic_planning_commit": false,
+      "trusted_reference_messages": true,
+      "conversation_protocol": "backend-conversation-1",
+      "chat_controls": true,
+      "conversation_memory_protocol": "conversation-memory-1",
+      "conversation_retention_days": 30,
+      "planning_context_protocol": "v1-planning-context-1",
+      "planning_facts_protocol": "backend-planning-facts-1",
+      "execution_preview": true,
+      "consume_all_protected": true,
+      "manual_procurement_source": true,
+      "household_operation_summaries": true,
+      "archived_inventory_reads": true,
+      "post_commit_feedback": true,
+      "household_timezone": "Asia/Shanghai",
+      "manual_plan_only": true,
+      "draft_ttl_seconds": 900,
+      "inventory_quantity_decimal_places": 6,
+      "shopping_quantity_decimal_places": 3,
+      "location_max_length": 100
+    },
+    "shopping_update": {
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 200,
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0.0
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 30,
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "title": "ShoppingItemUpdate"
+    },
+    "backend_paths": [
+      "/api/v1/auth/register",
+      "/api/v1/auth/login",
+      "/api/v1/users/me",
+      "/api/v1/auth/logout",
+      "/api/v1/households/{household_id}",
+      "/api/v1/households/{household_id}/leave",
+      "/api/v1/households/{household_id}/members/{user_id}",
+      "/api/v1/households/{household_id}/transfer-ownership",
+      "/api/v1/households",
+      "/api/v1/households/{household_id}/members",
+      "/api/v1/households/{household_id}/invitations",
+      "/api/v1/households/join",
+      "/internal/v1/inventory/search",
+      "/internal/v1/inventory/batches/{batch_id}",
+      "/api/v1/agent/messages",
+      "/api/v1/agent/clarifications/{task_id}",
+      "/api/v1/agent/tasks/{task_id}",
+      "/api/v1/drafts/{draft_id}",
+      "/api/v1/households/{household_id}/shopping-list",
+      "/api/v1/households/{household_id}/shopping-list/items",
+      "/api/v1/households/{household_id}/shopping-list/items/{item_id}",
+      "/api/v1/households/{household_id}/shopping-list/items/{item_id}/purchase",
+      "/api/v1/households/{household_id}/inventory-items",
+      "/api/v1/households/{household_id}/inventory-items/{item_id}",
+      "/api/v1/households/{household_id}/inventory-items/{item_id}/adjustments",
+      "/api/v1/agent/execution-capabilities",
+      "/api/v1/agent/reference-messages",
+      "/api/v1/drafts/{draft_id}/execution",
+      "/api/v1/drafts/{draft_id}/commit",
+      "/api/v1/drafts/{draft_id}/execution-preview",
+      "/api/v1/drafts/{draft_id}/cancel",
+      "/api/v1/operations/{operation_id}",
+      "/internal/v1/operations/{operation_id}",
+      "/api/v1/households/{household_id}/consumption-events",
+      "/api/v1/agent/conversation-messages",
+      "/api/v1/agent/tasks/{task_id}/chat-control",
+      "/internal/v1/planning/context",
+      "/api/v1/households/{household_id}/inventory-items/{item_id}/planning-facts",
+      "/api/v1/households/{household_id}/inventory-ai-compatibility",
+      "/api/v1/households/{household_id}/operations/{operation_id}/summary",
+      "/api/v1/operations/{operation_id}/feedback",
+      "/api/v1/agent/conversation",
+      "/api/v1/agent/conversation/reset",
+      "/api/v1/agent/conversation-turns",
+      "/api/v1/agent/conversation-turns/{request_id}",
+      "/api/v1/health",
+      "/api/v1/ready"
+    ],
+    "ai": {
+      "health": {
+        "status": "ok",
+        "engine": "deepseek",
+        "maintenance_release": "V1-P8.2",
+        "conversation_memory_protocol": "conversation-memory-1",
+        "active_human_rule_count": 0
+      },
+      "paths": [
+        "/health",
+        "/agent/message",
+        "/agent/clarification",
+        "/consumption/query",
+        "/forecast/evaluate",
+        "/procurement/suggest",
+        "/risk/evaluate",
+        "/knowledge/rules",
+        "/agent/reply-resolution",
+        "/agent/conversation-turn",
+        "/overview/query",
+        "/feedback/after-commit",
+        "/capabilities/check"
+      ]
+    }
+  },
+  "logs": {
+    "magicvvu-starter-backend-1": {
+      "sampled_lines": 0,
+      "traceback_lines": 0,
+      "fatal_lines": 0,
+      "raw_logs_exported": false
+    },
+    "magicvvu-starter-agent-1": {
+      "sampled_lines": 73,
+      "traceback_lines": 0,
+      "fatal_lines": 0,
+      "raw_logs_exported": false
+    },
+    "magicvvu-starter-db-1": {
+      "sampled_lines": 0,
+      "traceback_lines": 0,
+      "fatal_lines": 0,
+      "raw_logs_exported": false
+    }
+  }
+}

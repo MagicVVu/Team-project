@@ -22,12 +22,15 @@ class CloudUiIntegrationTest {
     @Test fun phoneLoginCreateHomeAddPlanAndPurchaseThroughRealScreens() {
         val url = InstrumentationRegistry.getArguments().getString("cloudTestUrl").orEmpty()
         assumeTrue("Requires isolated test service", url.isNotBlank())
+        assertEquals("Build the APK with the isolated fixture URL", url.trimEnd('/'), BuildConfig.CLOUD_API_URL.trimEnd('/'))
         val suffix = System.currentTimeMillis().toString().takeLast(9)
-        val phone = "+1998${suffix}1"
-        val password = UUID.randomUUID().toString()
+        val fixture = InstrumentationRegistry.getArguments()
+        val preseeded = !fixture.getString("legacyUiPhone").isNullOrBlank()
+        val phone = fixture.getString("legacyUiPhone") ?: "+1998${suffix}1"
+        val password = if (preseeded) fixture.getString("fixturePassword")!! else "T7" + UUID.randomUUID().toString().replace("-", "").take(14)
         runBlocking {
             assertTrue(CloudApi(url).request("GET", "/api/v1/health").getBoolean("isolated_test"))
-            CloudApi(url).register(phone, password, "UI 联调")
+            if (!preseeded) CloudApi(url).register(phone, password, "UI 联调")
         }
         val target = InstrumentationRegistry.getInstrumentation().targetContext
         val context = object : ContextWrapper(target) {
@@ -37,16 +40,13 @@ class CloudUiIntegrationTest {
         try {
             compose.setContent { TeamAppTheme(darkTheme=false) { AppEntry(store) } }
             compose.onNodeWithTag("auth-phone").performScrollTo().performTextInput(phone)
-            compose.onNodeWithTag("auth-server").performScrollTo().performTextClearance()
-            compose.onNodeWithTag("auth-server").performTextInput(url)
             compose.onNodeWithTag("auth-password").performScrollTo().performTextInput(password)
             compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
             compose.waitUntil(25_000) { store.cloud.signedIn && !store.cloud.busy }
             compose.onNodeWithText("新家庭名称").performScrollTo().performTextInput("UI 家庭 $suffix")
             compose.onNodeWithText("创建家庭").performScrollTo().performClick()
             compose.waitUntil(25_000) { !store.cloud.account?.householdId.isNullOrBlank() && !store.cloud.busy }
-            compose.onNodeWithText("拍照添加").performClick()
-            compose.onNodeWithText("改为手动填写").performClick()
+            compose.onNodeWithText("手动添加").performClick()
             compose.onNodeWithText("物品名称 *").performTextInput("UI 联调牛奶")
             compose.onNodeWithText("数量 *").performTextInput("2")
             compose.onNodeWithText("单位 *（如盒、袋、瓶、个）").performTextInput("盒")
@@ -55,12 +55,13 @@ class CloudUiIntegrationTest {
             compose.onNodeWithText("确认添加").performScrollTo().performClick()
             compose.waitUntil(25_000) { store.items.size == 1 && !store.cloud.busy }
             compose.onNodeWithText("库存", useUnmergedTree=true).performClick()
-            compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
-            compose.onNodeWithText("加入采购清单 / 调整计划").performScrollTo().performClick()
+            compose.onNodeWithTag("ring-selected-info").performClick()
+            compose.onNodeWithTag("inventory-detail-content").performScrollToNode(hasTestTag("inventory-detail-shopping"))
+            compose.onNodeWithTag("inventory-detail-shopping").performClick()
             compose.onNodeWithText("确认保存").performClick()
             compose.waitUntil(25_000) { store.purchases.size == 1 && !store.cloud.busy }
             compose.onNodeWithText("清单", useUnmergedTree=true).performClick()
-            compose.onNodeWithText("已购买").performClick()
+            compose.onNodeWithText("购买入库").performClick()
             compose.onNodeWithText("实际数量（盒）").performTextClearance()
             compose.onNodeWithText("实际数量（盒）").performTextInput("3")
             compose.onNodeWithText("确认购买并入库").performClick()

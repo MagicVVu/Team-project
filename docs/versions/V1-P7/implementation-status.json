@@ -1,0 +1,185 @@
+{
+  "release": "V1-P7",
+  "ai_version": "0.7.0",
+  "date": "2026-10-17",
+  "timezone": "Asia/Shanghai",
+  "base_commit": "8814128c0d72d85d70137baa87db41d0cb5efe72",
+  "ai_implementation_complete": true,
+  "local_automated_validation_complete": true,
+  "model_workflow_validation_complete": true,
+  "frontend_p7_integrated": false,
+  "backend_trusted_reference_adapter_integrated": false,
+  "unified_draft_confirmation_integrated": false,
+  "joint_acceptance_complete": false,
+  "formal_ai_acceptance_complete": false,
+  "full_v1_product_complete": false,
+  "database_gateway_modified": false,
+  "frontend_modified": false,
+  "backend_product_code_modified": false,
+  "inventory_or_shopping_writes": false,
+  "new_mock_service": false,
+  "git_commit_or_push": false,
+  "production_ai_switched": false,
+  "jev": "deferred_by_user",
+  "regression": {
+    "ai": {
+      "tests": 657,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 656,
+      "time_seconds": 5.805,
+      "report": "ai-tests.xml",
+      "p7_tests": 86
+    },
+    "legacy_gateway": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4,
+      "time_seconds": 0.407,
+      "report": "legacy-gateway-tests.xml"
+    },
+    "business_backend": {
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 40,
+      "time_seconds": 6.82,
+      "report": "business-backend-tests.xml"
+    }
+  },
+  "dataset": {
+    "revision": 2,
+    "count": 150,
+    "dev": 90,
+    "test": 60,
+    "group_count": 50,
+    "group_isolation": true,
+    "dataset_sha256": "5fae2ce95ad957e4c0443e6d3675575bc7acf00b095f6fb52bda09a6a2072c07",
+    "human_reviewed": false,
+    "source": "AI constructed; synthetic fixture facts",
+    "real_audio": false,
+    "previous_dataset": "archive/v1/samples.jsonl",
+    "holdout_groups": "51-70, previously unused",
+    "revision_reason": "Independent unit checks found supplement injection and deadline field-loss; new holdout after runtime fix"
+  },
+  "evaluation": {
+    "rules_dev": {
+      "report": "agent/eval/conversation/results/rules-dev-20261017T052010521660.json",
+      "metrics": {
+        "count": 90,
+        "all_checks_passed": 90,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 42,
+        "p95_seconds": 0.00462330000300426
+      },
+      "synthetic_workflow_passed": true,
+      "runtime_unchanged": true,
+      "human_reviewed": false,
+      "budget_before": null,
+      "budget_after": null
+    },
+    "rules_test": {
+      "report": "agent/eval/conversation/results/rules-test-20261017T052014228515.json",
+      "metrics": {
+        "count": 60,
+        "all_checks_passed": 60,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 27,
+        "p95_seconds": 0.014567000005627051
+      },
+      "synthetic_workflow_passed": true,
+      "runtime_unchanged": true,
+      "human_reviewed": false,
+      "budget_before": null,
+      "budget_after": null
+    },
+    "deepseek-ssh_dev": {
+      "report": "agent/eval/conversation/results/deepseek-ssh-dev-20261017T052219288974.json",
+      "metrics": {
+        "count": 90,
+        "all_checks_passed": 90,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 42,
+        "p95_seconds": 2.680742199998349
+      },
+      "synthetic_workflow_passed": true,
+      "runtime_unchanged": true,
+      "human_reviewed": false,
+      "budget_before": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 2.904266,
+        "calls": 1071,
+        "unknown_usage_calls": 0
+      },
+      "budget_after": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 3.083992,
+        "calls": 1122,
+        "unknown_usage_calls": 0
+      }
+    },
+    "deepseek-ssh_test": {
+      "report": "agent/eval/conversation/results/deepseek-ssh-test-20261017T052427215925.json",
+      "metrics": {
+        "count": 60,
+        "all_checks_passed": 60,
+        "intent_accuracy": 1.0,
+        "clarification_recall": 1.0,
+        "draft_field_accuracy": 1.0,
+        "draft_count": 27,
+        "p95_seconds": 2.7777130999893416
+      },
+      "synthetic_workflow_passed": true,
+      "runtime_unchanged": true,
+      "human_reviewed": false,
+      "budget_before": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 3.083992,
+        "calls": 1122,
+        "unknown_usage_calls": 0
+      },
+      "budget_after": {
+        "limit_cny": 20.0,
+        "conservative_cost_cny": 3.199912,
+        "calls": 1155,
+        "unknown_usage_calls": 0
+      }
+    }
+  },
+  "runtime_sync": {
+    "file_count": 68,
+    "hashes_verified": true,
+    "remote_imports_verified": true,
+    "app_version": "0.7.0",
+    "backend_health": {
+      "reachable": true,
+      "version": "0.8.0"
+    },
+    "remote_root": "/home/magicvvu_ai/workspace/agent",
+    "documents_uploaded": false,
+    "tests_uploaded": false,
+    "credentials_uploaded": false,
+    "services_started": false
+  },
+  "limitations": [
+    "Synthetic facts and unreviewed constructed samples; not Android/production DB end-to-end",
+    "Internal reference forwarding requires a separate trusted business adapter; public gateway unchanged",
+    "Consume semantic events, OPEN and DISCARD confirmation require backend capabilities",
+    "P7 Docker image not built or deployed; P6 entry and operator launcher preserved"
+  ],
+  "previous_evidence": {
+    "dataset": "agent/eval/conversation/archive/v1/samples.jsonl",
+    "reports_preserved": true,
+    "reason": "Independent unit tests prompted boundary fixes and a new holdout; no holdout-driven tuning"
+  }
+}

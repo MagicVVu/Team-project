@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "household_id": {
+      "format": "uuid",
+      "title": "Household Id",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:-]+$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "format": "uuid",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "conversation_revision": {
+      "minimum": 0,
+      "title": "Conversation Revision",
+      "type": "integer"
+    },
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Text",
+      "type": "string"
+    },
+    "task_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task Id"
+    },
+    "revision": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Revision"
+    }
+  },
+  "required": [
+    "household_id",
+    "request_id",
+    "conversation_id",
+    "conversation_revision",
+    "text"
+  ],
+  "title": "Message",
+  "type": "object"
+}

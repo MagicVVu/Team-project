@@ -1,0 +1,340 @@
+{
+  "/openapi.json": {
+    "http": 200,
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/register",
+        "security": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "security": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/users/me",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/users/me",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/logout",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/households/{household_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households/{household_id}/members",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/{household_id}/invitations",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/join",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/internal/v1/inventory/search",
+        "security": []
+      },
+      {
+        "method": "GET",
+        "path": "/internal/v1/inventory/batches/{batch_id}",
+        "security": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/agent/messages",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/agent/clarifications/{task_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/agent/tasks/{task_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts/{draft_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households/{household_id}/shopping-list",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households/{household_id}/shopping-list/items",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/{household_id}/shopping-list/items",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/households/{household_id}/shopping-list/items/{item_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/households/{household_id}/shopping-list/items/{item_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/{household_id}/shopping-list/items/{item_id}/purchase",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households/{household_id}/inventory-items",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/{household_id}/inventory-items",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/v1/households/{household_id}/inventory-items/{item_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/households/{household_id}/inventory-items/{item_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/households/{household_id}/inventory-items/{item_id}/adjustments",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/agent/execution-capabilities",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/agent/reference-messages",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/drafts/{draft_id}/execution",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/{draft_id}/commit",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/drafts/{draft_id}/cancel",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/operations/{operation_id}",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/internal/v1/operations/{operation_id}",
+        "security": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/households/{household_id}/consumption-events",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/health",
+        "security": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/ready",
+        "security": []
+      }
+    ]
+  },
+  "/docs": {
+    "http": 200
+  },
+  "/redoc": {
+    "http": 200
+  },
+  "/docs/oauth2-redirect": {
+    "http": 200
+  },
+  "/api/v1/users/me": {
+    "http": 401
+  },
+  "agent_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "inventory_writes": false,
+    "shopping_writes": false
+  }
+}

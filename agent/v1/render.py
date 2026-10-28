@@ -1,6 +1,6 @@
 """Evidence-only Chinese summaries; numbers come from deterministic results."""
 STATUS = {"complete":"记录完整", "insufficient_data":"记录不足", "needs_review":"需要核对",
-    "no_recorded_consumption":"完整窗口内没有有效消耗", "current_zero":"当前登记库存为零",
+    "no_recorded_consumption":"完整窗口内没有已登记的有效消耗", "current_zero":"当前登记库存为零",
     "covered":"库存与已确认待购已覆盖目标", "excluded":"不纳入自动采购"}
 REASONS = {
     "STOCK_VERIFICATION_REQUIRED":"请先核对实际库存并登记核对时间",
@@ -17,15 +17,30 @@ REASONS = {
     "EXPLICIT_PURCHASE_PREFERENCES_REQUIRED":"请在业务设置中明确最低库存或采购周期",
     "MEDICINE_PROCUREMENT_OUT_OF_SCOPE":"药品不自动补货，请核对需求并咨询专业人员",
     "NO_RECORDED_CONSUMPTION":"窗口内没有已登记的有效消耗",
+    "BUSINESS_PURCHASE_QUANTITY_INVALID":"建议数量不符合采购最多三位小数及范围限制，请核对偏好或明确包装容量，不会自动舍入",
+    "RECORDED_TARGET_SHORTFALL":"登记库存及已确认待购尚未覆盖明确目标",
 }
 def reasons(codes):
     return "；".join(REASONS.get(code,"请核对相关事实或事件记录") for code in dict.fromkeys(codes))
+
+
+def consumption_text(summary):
+    prefix = summary.name + "："
+    if summary.status == "complete" and summary.observed_days > 0:
+        prefix += f"{summary.observed_days}个完整观察日，"
+        prefix += (f"登记有效消耗{summary.effective_quantity} {summary.unit}；" if summary.effective_quantity > 0
+                   else "未登记到有效消费，不代表实际没有消耗；")
+    else:
+        prefix += "无法确认完整消费量；"
+        if summary.effective_quantity > 0:
+            prefix += f"可核验窗口内记录小计{summary.effective_quantity} {summary.unit}，不代表完整消费；"
+    return prefix + STATUS.get(summary.status, summary.status) + "。" + reasons(summary.reason_codes)
 
 def reply(result):
     if result.status not in {"answered","needs_confirmation"}:
         return result.reply
     if result.intent=="QUERY_CONSUMPTION" and result.consumption_summary:
-        return "\n".join(f"{s.name}：{s.observed_days}个完整观察日，登记有效消耗{s.effective_quantity} {s.unit}；{STATUS.get(s.status,s.status)}。"+reasons(s.reason_codes) for s in result.consumption_summary)+"\n排除丢弃及已撤销消耗；没有记录不代表没有实际消耗。本次未写入。"
+        return "\n".join(consumption_text(s) for s in result.consumption_summary)+"\n排除丢弃及已撤销消耗；没有记录不代表没有实际消耗。本次未写入。"
     if result.intent=="QUERY_FORECAST" and result.forecast and result.feedback is None:
         return "\n".join(f.name+"："+(f"参考剩余{f.remaining_days}天，参考日期{f.reference_date}。"+f.conditions if f.status=="estimated" else STATUS.get(f.status,"需要核对")+"，不提供未来耗尽日期。"+reasons(f.reason_codes)) for f in result.forecast)+"\n依据登记事实，本次未写入。"
     if result.intent=="SUGGEST_PURCHASE" and result.recommendations and result.draft is None:

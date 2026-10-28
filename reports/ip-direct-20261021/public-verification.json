@@ -1,0 +1,76 @@
+{
+  "utc": "2026-10-21T11:28:59.288467+00:00",
+  "origin": "https://8.134.172.165:8000",
+  "checks": [
+    {
+      "method": "GET",
+      "path": "/health",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "health": {
+        "status": "ok",
+        "service": "magicvvu-backend",
+        "version": "0.9.0",
+        "isolated_test": false
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/health",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "health": {
+        "status": "ok",
+        "service": "magicvvu-backend",
+        "version": "0.9.0",
+        "isolated_test": false
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/users/me",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/messages",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "path": "/internal/v1/inventory/search",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/ready",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "path": "/docs",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "path": "/openapi.json",
+      "status": 404,
+      "expected": 404,
+      "passed": true
+    }
+  ],
+  "private_ca_not_globally_trusted": true,
+  "passed": true
+}

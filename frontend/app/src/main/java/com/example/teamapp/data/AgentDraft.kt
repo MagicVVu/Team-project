@@ -3,6 +3,7 @@ package com.example.teamapp.data
 import java.math.BigDecimal
 import java.time.LocalDate
 
+/** Legacy local demo model. Cloud drafts are server-owned AssistantEntry payloads. */
 data class AgentCommand(
     val action: String,
     val name: String,
@@ -30,6 +31,7 @@ private fun converted(value: BigDecimal, from: String, to: String): BigDecimal {
 }
 
 /** All checks also run on the device immediately before the confirmed write. */
+@Deprecated("仅供本地演示；云端草稿必须通过 AssistantStore 和后端事务确认")
 fun applyAgentCommand(items: List<StockItem>, purchases: List<Purchase>, command: AgentCommand): AgentMutation {
     val name = command.name.trim()
     require(name.isNotEmpty() && name.length <= 80) { "请填写有效的物品名称" }

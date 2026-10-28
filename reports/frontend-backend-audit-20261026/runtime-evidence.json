@@ -1,0 +1,137 @@
+{
+  "checked_at_utc": "2026-10-26T06:47:26.536498+00:00",
+  "business_mutations_performed": false,
+  "model_calls_performed": 0,
+  "backend_health_http": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P9",
+      "isolated_test": false
+    }
+  },
+  "capabilities_without_auth_http": {
+    "status": 401,
+    "body": {
+      "detail": "Invalid or expired login"
+    }
+  },
+  "capabilities_from_deployed_function": {
+    "protocol_version": "draft-execution-1",
+    "owner": "business_backend",
+    "maintenance_release": "V1-P9",
+    "product_identity_protocol": "household-product-1",
+    "inventory_ledger_protocol": "inventory-ledger-1",
+    "planning_revalidation_protocol": "planning-revalidation-1",
+    "actions": {
+      "ADD": true,
+      "MOVE": true,
+      "PLAN_ADD": true,
+      "CONSUME": true,
+      "OPEN": true,
+      "DISCARD": true
+    },
+    "automatic_planning_commit": false,
+    "trusted_reference_messages": true,
+    "conversation_protocol": "backend-conversation-1",
+    "chat_controls": true,
+    "conversation_memory_protocol": "conversation-memory-1",
+    "conversation_retention_days": 30,
+    "planning_context_protocol": "v1-planning-context-1",
+    "planning_facts_protocol": "backend-planning-facts-1",
+    "execution_preview": true,
+    "consume_all_protected": true,
+    "manual_procurement_source": true,
+    "household_operation_summaries": true,
+    "archived_inventory_reads": true,
+    "post_commit_feedback": true,
+    "household_timezone": "Asia/Shanghai",
+    "manual_plan_only": true,
+    "draft_ttl_seconds": 900,
+    "inventory_quantity_decimal_places": 6,
+    "shopping_quantity_decimal_places": 3,
+    "location_max_length": 100
+  },
+  "capabilities_method": "Direct invocation of the deployed read-only function; not an authenticated HTTP acceptance test",
+  "agent_health_http": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "release_version": "V1-P7",
+      "engine": "deepseek",
+      "policy_version": "p3-policy-1",
+      "ruleset_version": "p2-rules-1",
+      "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+      "clarification_protocols": [
+        "v1-local-1",
+        "v1-batch-selection-1",
+        "p5-continuation-1",
+        "p5-text-review-1",
+        "p7-reference-continuation-1"
+      ],
+      "planning_contract": "v1-planning-context-1",
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "production_chain_verified": false,
+      "input_policy_version": "p7-limited-context-1",
+      "extraction_prompt_version": "p7-extract-1",
+      "public_gateway_contract": "v0.8-compatible",
+      "operation_contract": "v1-operation-receipt-1",
+      "rule_review_policy": "human_review_only",
+      "stock_max_age_hours": 168,
+      "jev_status": "deferred_by_user",
+      "device_asr_verified": false,
+      "audio_upload_supported": false,
+      "object_reference_protocol": "p7-object-reference-1",
+      "reference_ttl_seconds": 900,
+      "chat_policy_version": "p8-chat-1",
+      "reply_routing_model_calls": 0,
+      "maintenance_release": "V1-P8.2",
+      "repair_policy_version": "p81-chain-repair-1",
+      "conversation_memory_protocol": "conversation-memory-1",
+      "memory_recent_turns": 10,
+      "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+      "memory_history_days": 30,
+      "frontend_integration_verified": false,
+      "execution_capabilities_owner": "business_backend",
+      "public_reference_forwarding": "requires_separate_trusted_adapter",
+      "active_human_rule_count": 0
+    }
+  },
+  "p9_read_only_preflight": {
+    "business_data_written": false,
+    "checks": {
+      "ai_p7_health": true,
+      "ai_p7_schema": true,
+      "ai_p8_contract": true,
+      "ai_service_token": true,
+      "ai_service_url": true,
+      "automatic_commit_closed": true,
+      "backend_p7_version": true,
+      "backend_to_ai_auth": true,
+      "backend_tool_token": true,
+      "database_ready": true,
+      "execution_routes": true,
+      "p8_routes": true,
+      "p9_event_columns": true,
+      "p9_metadata": true,
+      "p9_migration": true,
+      "p9_tables": true
+    },
+    "live_acceptance_verified": false,
+    "model_called": false,
+    "preflight_passed": true
+  },
+  "production_source_sha256": {
+    "app/routers/products.py": "04fc09564935b26a1c7765dc681c2e760b6d757b0650ee0390dc8514fd1e2d04",
+    "app/routers/shopping.py": "6d2428bd4ac6decc71cbfd5ec6c0ff09c36d728b4f1b7799e45bfa99c138fd5b",
+    "app/routers/inventory.py": "190040df3055f1269bc0568e818e6bdc06fb89632b5a54984444eb665bb0db2d",
+    "app/routers/draft_execution.py": "0757262440596f71495c72982aee2391372ae6d2e55ae0b1b420daca8f9498db",
+    "app/routers/assistant_reads.py": "9b9e25a85fb9d4514a290d6054d73f1cd00ae3bb7b5c44d365d2579185fbbbf2",
+    "app/routers/session_memory.py": "db4e743abfe7100877cc392b41928e6c2d9819ad2c9222726ebf1dba43d54a58",
+    "app/services/draft_execution.py": "423596d8e06dbd7fce9ccd019246117302ccf886a3e310c896bb861447240079"
+  },
+  "openapi_path_count": 52
+}

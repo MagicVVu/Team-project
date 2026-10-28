@@ -1,0 +1,650 @@
+{
+  "$defs": {
+    "Batch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "household_id",
+        "name",
+        "quantity",
+        "unit",
+        "version"
+      ],
+      "title": "Batch",
+      "type": "object"
+    },
+    "ClarificationContext": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "original_text": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Original Text",
+          "type": "string"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "household_timezone": {
+          "title": "Household Timezone",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        },
+        "parsed": {
+          "$ref": "#/$defs/Parsed"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/Batch"
+          },
+          "maxItems": 1000,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "selected_batch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Batch Id"
+        },
+        "allowed_fields": {
+          "items": {
+            "enum": [
+              "name",
+              "quantity",
+              "unit",
+              "location",
+              "purchased_at",
+              "label_expiry",
+              "opened_at",
+              "to_location",
+              "batch_id"
+            ],
+            "type": "string"
+          },
+          "title": "Allowed Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "scope",
+        "original_text",
+        "request_id",
+        "trace_id",
+        "household_timezone",
+        "created_at",
+        "expires_at",
+        "parsed"
+      ],
+      "title": "ClarificationContext",
+      "type": "object"
+    },
+    "InputProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "text",
+            "voice",
+            "manual_fallback"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "input_session_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:-]+$",
+          "title": "Input Session Id",
+          "type": "string"
+        },
+        "transcript_revision": {
+          "minimum": 1,
+          "title": "Transcript Revision",
+          "type": "integer"
+        },
+        "user_confirmed": {
+          "title": "User Confirmed",
+          "type": "boolean"
+        },
+        "user_edited": {
+          "default": false,
+          "title": "User Edited",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source",
+        "input_session_id",
+        "transcript_revision",
+        "user_confirmed"
+      ],
+      "title": "InputProvenance",
+      "type": "object"
+    },
+    "Intent": {
+      "enum": [
+        "ADD",
+        "CONSUME",
+        "QUERY_INVENTORY",
+        "QUERY_LOCATION",
+        "PLAN_ADD",
+        "OPEN",
+        "MOVE",
+        "DISCARD",
+        "UNSUPPORTED"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "ObjectReference": {
+      "additionalProperties": false,
+      "description": "Attestation from an authenticated business caller, never a phone fact.",
+      "properties": {
+        "protocol_version": {
+          "const": "p7-object-reference-1",
+          "default": "p7-object-reference-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "source_task_id": {
+          "format": "uuid",
+          "title": "Source Task Id",
+          "type": "string"
+        },
+        "source_revision": {
+          "minimum": 1,
+          "title": "Source Revision",
+          "type": "integer"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "title": "Issued At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "source_task_id",
+        "source_revision",
+        "batch_id",
+        "issued_at",
+        "expires_at"
+      ],
+      "title": "ObjectReference",
+      "type": "object"
+    },
+    "Parsed": {
+      "additionalProperties": false,
+      "properties": {
+        "intent": {
+          "$ref": "#/$defs/Intent"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quantity"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "maxLength": 20,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "maxLength": 40,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "maxLength": 40,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "maxLength": 40,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "to_location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "To Location"
+        },
+        "discard_mode": {
+          "default": "partial",
+          "enum": [
+            "partial",
+            "all"
+          ],
+          "title": "Discard Mode",
+          "type": "string"
+        },
+        "partial_batch": {
+          "default": false,
+          "title": "Partial Batch",
+          "type": "boolean"
+        },
+        "multiple_items": {
+          "default": false,
+          "title": "Multiple Items",
+          "type": "boolean"
+        },
+        "multiple_actions": {
+          "default": false,
+          "title": "Multiple Actions",
+          "type": "boolean"
+        },
+        "uncertainties": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Uncertainties",
+          "type": "array"
+        }
+      },
+      "required": [
+        "intent"
+      ],
+      "title": "Parsed",
+      "type": "object"
+    },
+    "Receipt": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "const": "p5-reviewed-text-1",
+          "default": "p5-reviewed-text-1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "text",
+            "voice",
+            "manual_fallback"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputProvenance"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "review_attestation_received": {
+          "title": "Review Attestation Received",
+          "type": "boolean"
+        },
+        "final_text_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Final Text Sha256",
+          "type": "string"
+        },
+        "request_fingerprint": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Request Fingerprint",
+          "type": "string"
+        },
+        "deduplication_owner": {
+          "const": "business_backend",
+          "default": "business_backend",
+          "title": "Deduplication Owner",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "review_attestation_received",
+        "final_text_sha256",
+        "request_fingerprint"
+      ],
+      "title": "Receipt",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "p7-reference-continuation-1",
+      "default": "p7-reference-continuation-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "trace_id": {
+      "title": "Trace Id",
+      "type": "string"
+    },
+    "household_timezone": {
+      "title": "Household Timezone",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "allowed_fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Fields",
+      "type": "array"
+    },
+    "reference": {
+      "$ref": "#/$defs/ObjectReference"
+    },
+    "delegate": {
+      "$ref": "#/$defs/ClarificationContext"
+    },
+    "input_receipt": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Receipt"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "revision",
+    "scope",
+    "original_text",
+    "request_id",
+    "trace_id",
+    "household_timezone",
+    "created_at",
+    "expires_at",
+    "allowed_fields",
+    "reference",
+    "delegate"
+  ],
+  "title": "ReferenceContext",
+  "type": "object"
+}

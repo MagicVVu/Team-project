@@ -1,0 +1,152 @@
+{
+  "regression": {
+    "tests": 44,
+    "failures": 0,
+    "errors": 0
+  },
+  "unit": [
+    {
+      "name": "com.example.teamapp.AgentExecutionPolicyTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.AuthFormTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ChatOptimizationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ClarificationRepliesTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.ExampleUnitTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.InventoryContractTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.InventoryTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.RingModelTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.SampleInventoryTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "com.example.teamapp.TargetPolicyTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "focused": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0
+  },
+  "focused_cases": [
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "explicitClearDoesNotClearOmittedSectionsAndConflictsNeverAutoRetry"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "independentPreviewRunsOnlyOnceAndEditsInvalidateIt"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "factsPageUsesRealVersionsAndLeavesCoverageUnknownUntilExplicitInput"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "changingOnePreferencePreservesTheOtherFieldsInItsReplacementBlock"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "absentBatchNeverFabricatesAReferenceSource"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "ledgerShowsOnlyConsumedEventsAndOriginalReceipt"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "unknownWriteReplaysTheSameOperationAfterStoreRecreation"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "structuredCardsKeepNullForecastUnknownAndSeparatePartialSections"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "familyActionsAreGatedByRoleAndRequireNameConfirmation"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "cancellationStaysCancelledWhileReferenceResetReplaysItsOriginalBody"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "lifecycleDtosRetainExactQuantityAndWireCategory"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "concurrentLedgerPagingDeduplicatesEventsAndShowsTheReadGap"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "openingFormDoesNotRequestQuantityAndTerminalBatchesCannotPrepare"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "unreadableOutboxIsPreservedAndBlocksNewWrites"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "batchRequestBindsOnlyARealSourceTaskAndTheExactBatch"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "englishDarkFactsKeepProtocolValuesAndRenderConsistently"
+    },
+    {
+      "class": "com.example.teamapp.FrontendAlignmentTest",
+      "name": "outboxesRemainIsolatedWhenTheHouseholdChanges"
+    }
+  ],
+  "lint": {
+    "errors": 0,
+    "warnings": 35
+  },
+  "apk": {
+    "path": "frontend\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "sha256": "b32d0f9e44593eb10e85682b8c0a1c0a0d55c9db7d2b7e33902ed703b5d98d26"
+  }
+}

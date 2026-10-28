@@ -1,0 +1,8 @@
+[Unit]
+Description=Renew MagicVVu internal IP TLS leaf certificate
+After=magicvvu-direct.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /etc/magicvvu/ip-direct/renew.py
+User=root

@@ -47,7 +47,7 @@ internal fun ringResults(items: List<StockItem>, days: Int, search: String, cate
     val matching = items.filter { it.name.contains(search.trim(), true) && (category == "全部" || it.category == category) && (!attention || it.status(days).attention) }
     return when (order) {
         RingOrder.STATUS -> matching.sortedBy { it.status(days).priority }
-        RingOrder.CATEGORY -> matching.sortedWith(compareBy<StockItem> { listOf("食品", "日用品", "其他").indexOf(it.category) }.thenBy { it.status(days).priority })
+        RingOrder.CATEGORY -> matching.sortedWith(compareBy<StockItem> { listOf("食品", "日用品", "药品", "其他").indexOf(it.category) }.thenBy { it.status(days).priority })
         RingOrder.NAME -> matching.sortedBy { it.name }
     }
 }

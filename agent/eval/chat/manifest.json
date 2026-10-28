@@ -1,0 +1,11 @@
+{
+  "count": 150,
+  "dev": 90,
+  "test": 60,
+  "group_count": 30,
+  "scenario_groups_isolated": true,
+  "human_reviewed": false,
+  "source": "AI-constructed synthetic chat and binding fixtures",
+  "dataset_sha256": "843447c1048c6957bda533f67affca7785a8fbe428997e4af9a55b3433398810",
+  "limitations": "Offline rule and contract acceptance; no user study, no live model or App latency measurement."
+}

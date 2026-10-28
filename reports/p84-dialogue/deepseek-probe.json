@@ -1,0 +1,100 @@
+{
+  "protocol": "p84-dialogue-1",
+  "split": "dev",
+  "count": 3,
+  "success_rate": 0.3333333333333333,
+  "unnecessary_clarification_rate": 0.0,
+  "p95_ms": 3958.189000026323,
+  "max_model_calls": 2,
+  "model": "deepseek-flash",
+  "synthetic_data_only": true,
+  "production_inventory_accessed": false,
+  "human_review_status": "pending",
+  "app_acceptance": "not_run",
+  "measurements": "AI stages only; excludes business database save and Android latency",
+  "budget_summary": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 3.285286,
+    "calls": 1179,
+    "unknown_usage_calls": 0
+  },
+  "results": [
+    {
+      "id": "p84-01-1",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": false,
+      "latency_ms": 3958.189000026323,
+      "calls": {
+        "understanding": 1,
+        "response": 0
+      },
+      "error_code": "INVALID_MODEL_OUTPUT",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-2",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": false,
+      "latency_ms": 1991.0776999313384,
+      "calls": {
+        "understanding": 1,
+        "response": 0
+      },
+      "error_code": "INVALID_MODEL_OUTPUT",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "p84-01-3",
+      "group_id": "greeting",
+      "split": "dev",
+      "passed": true,
+      "latency_ms": 3725.129200029187,
+      "calls": {
+        "understanding": 1,
+        "response": 1
+      },
+      "frame": {
+        "protocol_version": "p84-dialogue-1",
+        "original_text": "嗨，你能帮我整理家里吗",
+        "kind": "explain",
+        "reply": "当然可以，我来帮你整理家里的库存。你可以直接告诉我买了什么、放在哪儿、什么时候到期，或者吃了/用掉了什么，我会帮你记下来。 你先说说看，想从哪个房间或哪类东西开始？",
+        "result": null,
+        "answers": {},
+        "task_revision": null,
+        "reference": null,
+        "preserve_active": true,
+        "evidence": [],
+        "field_sources": {},
+        "filled_fields": {},
+        "facts": {
+          "f0": "当然可以，我来帮你整理家里的库存。你可以直接告诉我买了什么、放在哪儿、什么时候到期，或者吃了/用掉了什么，我会帮你记下来。"
+        },
+        "edit": null,
+        "error_code": null,
+        "truncated": false,
+        "model_calls": 0,
+        "fallback_used": false,
+        "plan": {
+          "speech_act": "social",
+          "selector": {
+            "name": null,
+            "location": null,
+            "choice_index": null,
+            "use_reference": false
+          },
+          "reads": [],
+          "action": null,
+          "fields": {},
+          "amount_mode": "unknown",
+          "write_count": 0,
+          "task_index": null,
+          "preserve_active": true,
+          "social_reply": "当然可以，我来帮你整理家里的库存。你可以直接告诉我买了什么、放在哪儿、什么时候到期，或者吃了/用掉了什么，我会帮你记下来。"
+        }
+      },
+      "human_review_status": "pending"
+    }
+  ]
+}

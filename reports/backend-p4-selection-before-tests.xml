@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="2.976" timestamp="2026-10-23T12:27:54.492594+08:00" hostname="Bee"><testcase classname="backend.server.tests.test_backend_p4_planning" name="test_snapshot_identity_stable_across_fresh_reads_and_selectors" time="0.242"><failure message="AssertionError: assert 'e9a2f0294783...937816d7ce1c9' == '2d47adc1103d...e330f1a5a38ac'&#10;  &#10;  - 2d47adc1103d6a13fb7256d21766127624b8cb08373929d1cd3e330f1a5a38ac&#10;  + e9a2f029478329ebb5d9513b42c89597bfccf8ef4442c3ec89d937816d7ce1c9">backend\server\tests\test_backend_p4_planning.py:450: in test_snapshot_identity_stable_across_fresh_reads_and_selectors
+    assert first['snapshot_id'] == selected['snapshot_id']
+E   AssertionError: assert 'e9a2f0294783...937816d7ce1c9' == '2d47adc1103d...e330f1a5a38ac'
+E     
+E     - 2d47adc1103d6a13fb7256d21766127624b8cb08373929d1cd3e330f1a5a38ac
+E     + e9a2f029478329ebb5d9513b42c89597bfccf8ef4442c3ec89d937816d7ce1c9</failure></testcase><testcase classname="backend.server.tests.test_backend_p4_planning" name="test_real_agent_planning_selection_completes_without_snapshot_loop" time="0.878"><failure message="AssertionError: {'draft_id': None, 'expires_at': '2026-10-23T04:42:57.305311+00:00', 'household_id': '9b526c69-8417-4887-beaa-5094c1cf3ddf', 'inventory_written': False, ...}&#10;assert 'needs_clarification' == 'answered'&#10;  &#10;  - answered&#10;  + needs_clarification">backend\server\tests\test_backend_p4_planning.py:467: in test_real_agent_planning_selection_completes_without_snapshot_loop
+    assert value['status'] == 'answered', value
+E   AssertionError: {'draft_id': None, 'expires_at': '2026-10-23T04:42:57.305311+00:00', 'household_id': '9b526c69-8417-4887-beaa-5094c1cf3ddf', 'inventory_written': False, ...}
+E   assert 'needs_clarification' == 'answered'
+E     
+E     - answered
+E     + needs_clarification</failure></testcase></testsuite></testsuites>

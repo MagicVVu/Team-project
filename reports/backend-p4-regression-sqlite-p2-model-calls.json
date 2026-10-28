@@ -1,0 +1,73 @@
+{
+  "engine": "counted project RuleEngine",
+  "configured_mode": "deepseek",
+  "paid_provider_calls": 0,
+  "phases": [
+    {
+      "phase": "initial",
+      "extractions": 0
+    },
+    {
+      "phase": "new_named_query",
+      "extractions": 1
+    },
+    {
+      "phase": "trusted_location_reference",
+      "extractions": 1
+    },
+    {
+      "phase": "reset",
+      "extractions": 1
+    },
+    {
+      "phase": "new_add_request",
+      "extractions": 2
+    },
+    {
+      "phase": "structured_amount",
+      "extractions": 2
+    }
+  ],
+  "http_calls": [
+    [
+      "agent",
+      "/agent/message"
+    ],
+    [
+      "backend",
+      "/internal/v1/inventory/search"
+    ],
+    [
+      "agent",
+      "/agent/reply-resolution"
+    ],
+    [
+      "agent",
+      "/agent/message"
+    ],
+    [
+      "backend",
+      "/internal/v1/inventory/batches/a6bd11f3-0264-4589-b42c-c3e1a45a58c0"
+    ],
+    [
+      "backend",
+      "/internal/v1/inventory/batches/a6bd11f3-0264-4589-b42c-c3e1a45a58c0"
+    ],
+    [
+      "agent",
+      "/agent/reply-resolution"
+    ],
+    [
+      "agent",
+      "/agent/message"
+    ],
+    [
+      "agent",
+      "/agent/reply-resolution"
+    ],
+    [
+      "agent",
+      "/agent/clarification"
+    ]
+  ]
+}

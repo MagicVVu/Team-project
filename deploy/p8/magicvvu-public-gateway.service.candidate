@@ -1,0 +1,25 @@
+# Review/install only after approval; host nginx binary must be verified.
+[Unit]
+Description=MagicVVu loopback public API gateway
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/lib/magicvvu-public-gateway
+ExecStartPre=/usr/sbin/nginx -p /var/lib/magicvvu-public-gateway/ -c /etc/nginx/magicvvu-public.conf -t
+ExecStart=/usr/sbin/nginx -p /var/lib/magicvvu-public-gateway/ -c /etc/nginx/magicvvu-public.conf -g "daemon off;"
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillSignal=SIGQUIT
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/magicvvu-public-gateway
+
+[Install]
+WantedBy=multi-user.target

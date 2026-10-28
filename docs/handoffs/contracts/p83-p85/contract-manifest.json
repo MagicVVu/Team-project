@@ -1,0 +1,149 @@
+{
+  "scope": "V1-P8.3_P8.4_P8.5_consolidated_handoff",
+  "date": "2026-10-28",
+  "status": "documentation_and_target_schemas_only",
+  "runtime_modified": false,
+  "server_accessed": false,
+  "path_base": "repository_root",
+  "new_message_protocol": "p85-dialogue-1",
+  "files": [
+    {
+      "role": "AI OpenAPI",
+      "repo_path": "docs/versions/V1-P8.5/contracts/ai-openapi.json",
+      "status": "ai_local_candidate",
+      "sha256": "119ddf5f18d3867400aec32e966427b162e06ae8cc1e013322604ad5d93b649a"
+    },
+    {
+      "role": "Backend OpenAPI",
+      "repo_path": "docs/versions/V1-P8.5/contracts/backend-openapi.json",
+      "status": "current_local_backend_p84_not_p85",
+      "sha256": "5d2a669dd7b999cb9b83aa5dafde88ccd0eb8002222460c9a868cbd9d2a06119"
+    },
+    {
+      "role": "Public message",
+      "repo_path": "docs/versions/V1-P8.5/contracts/public-message.schema.json",
+      "status": "reuse_unchanged",
+      "sha256": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e"
+    },
+    {
+      "role": "History page",
+      "repo_path": "docs/versions/V1-P8.5/contracts/conversation-page.schema.json",
+      "status": "reuse_structure",
+      "sha256": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9"
+    },
+    {
+      "role": "Current recovery",
+      "repo_path": "docs/versions/V1-P8.5/contracts/recovery.schema.json",
+      "status": "historical_p84_embedded_response",
+      "sha256": "6fb2371e67fb11d5f3fcfd1ceaa342128ac4fe4ce2c503ebb31189921584dfa1"
+    },
+    {
+      "role": "Target response",
+      "repo_path": "docs/handoffs/contracts/p83-p85/public-response.target.schema.json",
+      "status": "proposed_not_implemented",
+      "sha256": "e7b8b5b532838ba98c0453214728ab5eff12b8c95892cd371af642013c4cf8fc"
+    },
+    {
+      "role": "Target recovery",
+      "repo_path": "docs/handoffs/contracts/p83-p85/recovery.target.schema.json",
+      "status": "proposed_not_implemented",
+      "sha256": "83da3e09854c8106bc8c7c46b2508d850c3fcfe2f2178541266016ed6eb2198c"
+    },
+    {
+      "role": "understand-request",
+      "repo_path": "docs/versions/V1-P8.5/contracts/understand-request.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "e30e8cfd5399642937b810f60beb8c59926efb270d7243d1948dfa1ffd0d3715"
+    },
+    {
+      "role": "understand-response",
+      "repo_path": "docs/versions/V1-P8.5/contracts/understand-response.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "c2a89af7f27e6162ba3dc09bbfd04d8bd56d02ffaa8d51c0bc8f58026eec211a"
+    },
+    {
+      "role": "resolve-request",
+      "repo_path": "docs/versions/V1-P8.5/contracts/resolve-request.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "62acf10aab546ab65fe0ca63621d66d045ec1453c94826ca1a14bac870852999"
+    },
+    {
+      "role": "resolve-response",
+      "repo_path": "docs/versions/V1-P8.5/contracts/resolve-response.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "1a7dcc349b1c69298c9718251ff12f156ed4462c6e5ac88c6e794fb512dc8bef"
+    },
+    {
+      "role": "respond-request",
+      "repo_path": "docs/versions/V1-P8.5/contracts/respond-request.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "0935e1e7edc6f19f55eb82d6438edb3fd260e7cb5c14e541d39e5b07ccf445ba"
+    },
+    {
+      "role": "respond-response",
+      "repo_path": "docs/versions/V1-P8.5/contracts/respond-response.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "843bb719a02f4a8ed80108967fd628629d3ed92ccb2695c9f334460e7f3a6d54"
+    },
+    {
+      "role": "context",
+      "repo_path": "docs/versions/V1-P8.5/contracts/context.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "10e15d51d56c0ef5ffc3ff9376b18ca49133bf9a6df07e65eeb86baff03c5165"
+    },
+    {
+      "role": "archive",
+      "repo_path": "docs/versions/V1-P8.5/contracts/archive.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "9e532ba854aff7bcdb927abae190671996ef7d4818d816ba0e0f26db87eb4f87"
+    },
+    {
+      "role": "stored-turn",
+      "repo_path": "docs/versions/V1-P8.5/contracts/stored-turn.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "b6ea8ad69538e0a5289dd3ca8b9b6b620eb73b624917c5234665daaf8bd34495"
+    },
+    {
+      "role": "memory-delta",
+      "repo_path": "docs/versions/V1-P8.5/contracts/memory-delta.schema.json",
+      "status": "ai_p85_internal_candidate",
+      "sha256": "57f1658c3654f5d04c69bf3337bab1ce5f0fd593eec45c706b3ee45a5a181534"
+    },
+    {
+      "role": "agent-result",
+      "repo_path": "docs/versions/V1-P8.3/contracts/agent-result.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "cd0bb464bc225c5bfac564b2fcd7e0848f0bce4b4623f9c565b680dadbfc0380"
+    },
+    {
+      "role": "product-planning",
+      "repo_path": "docs/versions/V1-P8.3/contracts/product-planning.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "2b7430f15445d17b3132b1e03d5eb1a6b4c879768151268f2ad6854e98227caf"
+    },
+    {
+      "role": "backend-snapshot",
+      "repo_path": "docs/versions/V1-P8.3/contracts/backend-snapshot.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "d19b7d1e8c262cabb82782962bffa5e41ae95bcd61a26527fa348a6241711963"
+    },
+    {
+      "role": "planning-provenance",
+      "repo_path": "docs/versions/V1-P8.3/contracts/planning-provenance.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "0b293b84252ac72363787916a74050efde6005d0182e2c8677e4c599c005a576"
+    },
+    {
+      "role": "planning-basis",
+      "repo_path": "docs/versions/V1-P8.3/contracts/planning-basis.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "2d019f3181e46f931f64c0d35ef9896353136acf9d21c7f5f23b952b15202509"
+    },
+    {
+      "role": "revalidation-request",
+      "repo_path": "docs/versions/V1-P8.3/contracts/revalidation-request.schema.json",
+      "status": "p83_planning_contract",
+      "sha256": "b80cfe0719989a24e932709f09bd01c08808704c0202a345ded5d88f33298223"
+    }
+  ]
+}

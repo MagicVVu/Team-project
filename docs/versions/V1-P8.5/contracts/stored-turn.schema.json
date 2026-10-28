@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "ObjectReference": {
+      "additionalProperties": false,
+      "description": "Attestation from an authenticated business caller, never a phone fact.",
+      "properties": {
+        "protocol_version": {
+          "const": "p7-object-reference-1",
+          "default": "p7-object-reference-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "source_task_id": {
+          "format": "uuid",
+          "title": "Source Task Id",
+          "type": "string"
+        },
+        "source_revision": {
+          "minimum": 1,
+          "title": "Source Revision",
+          "type": "integer"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "title": "Issued At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "source_task_id",
+        "source_revision",
+        "batch_id",
+        "issued_at",
+        "expires_at"
+      ],
+      "title": "ObjectReference",
+      "type": "object"
+    },
+    "P85Subject": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quote"
+      ],
+      "title": "P85Subject",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "conversation_id": {
+      "format": "uuid",
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 0,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "reply": {
+      "maxLength": 8000,
+      "title": "Reply",
+      "type": "string"
+    },
+    "completed_at": {
+      "format": "date-time",
+      "title": "Completed At",
+      "type": "string"
+    },
+    "completed": {
+      "default": true,
+      "title": "Completed",
+      "type": "boolean"
+    },
+    "subjects": {
+      "items": {
+        "$ref": "#/$defs/P85Subject"
+      },
+      "maxItems": 4,
+      "title": "Subjects",
+      "type": "array"
+    },
+    "reference": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ObjectReference"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "scope",
+    "conversation_id",
+    "revision",
+    "request_id",
+    "text",
+    "reply",
+    "completed_at"
+  ],
+  "title": "P85StoredTurn",
+  "type": "object"
+}

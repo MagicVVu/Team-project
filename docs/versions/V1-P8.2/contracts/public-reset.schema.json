@@ -1,0 +1,42 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "household_id": {
+      "format": "uuid",
+      "title": "Household Id",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:-]+$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "conversation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conversation Id"
+    },
+    "conversation_revision": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Conversation Revision",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "household_id",
+    "request_id"
+  ],
+  "title": "Reset",
+  "type": "object"
+}

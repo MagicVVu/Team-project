@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "test_family_marker": "P9_RELEASE_ACCEPTANCE_20261026T044402Z",
+  "household_id": "6e68528e-5d28-425a-bad8-96eee8ff4fba",
+  "user_id": "3a68f23b-7bf3-4962-a781-96d392d25cc9",
+  "paid_requests_attempted": 1,
+  "checks": {
+    "ADD": {
+      "passed": true,
+      "operation_id": "38e9c169-4756-4f5b-b74f-35a321fcd036",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "partial"
+    },
+    "MOVE": {
+      "passed": true,
+      "operation_id": "d5783873-97c4-4407-87a2-677c4f7e78aa",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "partial"
+    },
+    "CONSUME": {
+      "passed": true,
+      "operation_id": "4fccf230-6a20-4a8b-8225-21cc19044204",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "partial"
+    },
+    "PLAN_ADD": {
+      "passed": true,
+      "operation_id": "efc3a3c2-f7f6-4840-bbb3-ca82be783b57",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "not_applicable"
+    },
+    "OPEN": {
+      "passed": true,
+      "operation_id": "2c787208-7dff-4923-969e-e24d59c06eb8",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "partial"
+    },
+    "DISCARD": {
+      "passed": true,
+      "operation_id": "94ae15e1-229d-4253-a40f-944f7abd8447",
+      "draft_generated_by": "explicit_release_fixture",
+      "feedback_status": "partial"
+    },
+    "source_patch_purchase_retries": {
+      "passed": true,
+      "new_batch_id": "18c123a0-8ac4-4062-af26-dd5705395caf"
+    },
+    "ledger_product_aggregation": {
+      "passed": true,
+      "consumption_events": 1,
+      "aggregate_quantity": "5"
+    },
+    "automatic_commit_closed": {
+      "passed": true,
+      "code": "PLANNING_REVALIDATION_UNAVAILABLE"
+    },
+    "deepseek_memory_recovery": {
+      "passed": true,
+      "model_calls": 1,
+      "request_id": "f9c151e65e2b423b83a2b1f25aa4b0e5",
+      "task_status": "answered"
+    }
+  },
+  "raw_credentials_exported": false,
+  "model_response": {
+    "kind": "task",
+    "model_calls": 1,
+    "error_code": null,
+    "task_status": "answered"
+  },
+  "synthetic_account_disabled": true,
+  "test_ledger_retained": true,
+  "existing_rows_audit": {
+    "unchanged": true,
+    "rows_compared": 100,
+    "changed_rows_per_table": {
+      "alembic_version": 0,
+      "inventory_planning_facts": 0,
+      "inventory_items": 0,
+      "households": 0,
+      "users": 0,
+      "household_members": 0,
+      "shopping_list_items": 0,
+      "shopping_lists": 0,
+      "planning_fact_writes": 0,
+      "business_events": 0,
+      "auth_sessions": 0,
+      "household_invitations": 0,
+      "products": 0,
+      "product_batches": 0,
+      "mutation_receipts": 0,
+      "ai_tasks": 0,
+      "draft_decisions": 0,
+      "ai_drafts": 0,
+      "draft_operations": 0,
+      "ai_conversation_bindings": 0,
+      "ai_conversation_turns": 0
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "maintenance_release": "V1-P8.1",
+  "services": {
+    "agent": {
+      "id": "8df93f651b8abf9ee7d8600e888096dc92f6a2c0d839bac9f8a66b37051b4af6",
+      "image_id": "sha256:6119bdb0291abcc380b219feef79587bbc188e46235414c13a47ce775799953d",
+      "image": "magicvvu/agent:p81-c2047faaa5a3",
+      "started_at": "2026-10-24T13:52:46.047951384Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "654b4d0100319f1ce47e9cb2f5bef90a615c1bc7ebc1ddad4ebfe68896274936"
+    },
+    "backend": {
+      "id": "ab3ac4a5426e93070bf609d96eff7626060c6d499bc690b49d4957d21f7235f3",
+      "image_id": "sha256:57b9ca57055b27c4db2d4d2c366cc36915a702c889b89356500d40c2381714c8",
+      "image": "magicvvu/backend:p81-c2047faaa5a3",
+      "started_at": "2026-10-24T13:52:37.589637948Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "93c0f903b27a00b0b24a029de011e423f63711a7268b411695757cb838b7ee0d"
+    }
+  },
+  "protected": {
+    "magicvvu-starter-db-1": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "restarts": 0,
+      "health": "healthy",
+      "config_sha256": "b40898d052719d44e3ae17f6d5c408aa8da0cfe13cfdb497213cbe372c351876"
+    }
+  },
+  "database_revision": [
+    "20261023_0010"
+  ],
+  "budget": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  },
+  "runtime_configuration_preserved": true,
+  "unrelated_source_preserved": true
+}

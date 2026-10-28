@@ -1,0 +1,591 @@
+{
+  "read_only": true,
+  "containers": [
+    {
+      "id": "535e6b1aeba3c8469c07c3af26cf041fe8c65efb2d99f0c3ae379406d15917e9",
+      "name": "magicvvu-starter-agent-1",
+      "image": "magicvvu/agent:p72-units-755c1561abc8",
+      "image_id": "sha256:47d49783ecbc13d17bebffb04f744c5bd14fc055c58c11eaad1dc0dced94a031",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-starter",
+      "service": "agent",
+      "config_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "networks": [
+        "magicvvu-starter_ai_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-starter_agent_cache",
+          "source": "/var/lib/docker/volumes/magicvvu-starter_agent_cache/_data",
+          "destination": "/app/agent/.cache",
+          "rw": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/magicvvu_ai/workspace/agent/.cache/p0",
+          "destination": "/app/agent/.cache/p0",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {},
+      "isolated_test": null,
+      "dependencies": {
+        "BACKEND_BASE_URL": "backend"
+      }
+    },
+    {
+      "id": "83c47a487cea858b8a483fd220121fc471f465cc70f7a5652b0c6a91424337d8",
+      "name": "magicvvu-starter-backend-1",
+      "image": "magicvvu/backend:p72-units-736c2299edda",
+      "image_id": "sha256:ebdad8c041baa72fd4ae938b009ae1721960025b6ff1493ad7b54010ae114a4f",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-starter",
+      "service": "backend",
+      "config_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "networks": [
+        "magicvvu-starter_ai_net",
+        "magicvvu-starter_default"
+      ],
+      "mounts": [],
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8000"
+          }
+        ]
+      },
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu"
+      },
+      "isolated_test": "false",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "02e4ea9b60150efe27dc765bcf5bcddbae2bedbc1a432db1c871fa9516c739cc",
+      "name": "magicvvu-p52-rehearsal-080-859e1ea2",
+      "image": "magicvvu/backend:app-v0.8",
+      "image_id": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "status": "exited",
+      "health": null,
+      "project": null,
+      "service": null,
+      "config_files": null,
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_rc_28b5bb7b"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "d951624e01e3164da005363378547380aa71b825aa55dbafcfa33632f53c60f8",
+      "name": "magicvvu-p52-rehearsal-090-8e0a9c3c",
+      "image": "magicvvu/backend:p52-843c6855920c",
+      "image_id": "sha256:abd576f9b98a45f2484184b39324033976ee19a39654529b0861a13bd696c687",
+      "status": "exited",
+      "health": null,
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "backend",
+      "config_files": null,
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_rc_28b5bb7b"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "2115d72aa6da3fb97af796b1b4f6b58bd869ec851e41780fef2d2032c5d0bc0b",
+      "name": "magicvvu-p7-execution-20261017-agent-1",
+      "image": "magicvvu/agent:p52-843c6855920c",
+      "image_id": "sha256:6f650a872f18fc368e1d93bffb96c2fb6d9b9928fc0b7e70a783cc7142bd42c8",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "agent",
+      "config_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json,/home/admin/magicvvu-p7-p52-final-20261018/candidate.override.json",
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-p7-execution-20261017_execution_ai_cache",
+          "source": "/var/lib/docker/volumes/magicvvu-p7-execution-20261017_execution_ai_cache/_data",
+          "destination": "/app/agent/.cache",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {},
+      "isolated_test": null,
+      "dependencies": {
+        "BACKEND_BASE_URL": "backend"
+      }
+    },
+    {
+      "id": "7a5c3a6048bc7603304d93c434dea0d912053c171a89033bcd335ae7867ddd28",
+      "name": "magicvvu-p7-execution-20261017-backend-1",
+      "image": "magicvvu/backend:p52-843c6855920c",
+      "image_id": "sha256:abd576f9b98a45f2484184b39324033976ee19a39654529b0861a13bd696c687",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "backend",
+      "config_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json,/home/admin/magicvvu-p7-p52-final-20261018/candidate.override.json",
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_execution_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "96f3a05b9564b2c57c032928e51216c366c39c791261055504c67381b95aaa7a",
+      "name": "magicvvu-p52-validation-postgres-1792288534",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "image_id": "sha256:37476379f54c45c78d802d9eb87d11a073b49aa2b7df378919ac705eb54bf0c5",
+      "status": "exited",
+      "health": null,
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "unit-tests",
+      "config_files": null,
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-final-20261018/evidence",
+          "destination": "/evidence",
+          "rw": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-final-20261018/source",
+          "destination": "/repo",
+          "rw": false
+        }
+      ],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_execution_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "9e5918d36307abfd6064ead5c3f61a504f7de4b53df8143f533b00b4c20c5107",
+      "name": "magicvvu-p52-validation-postgres-1792287440",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "image_id": "sha256:37476379f54c45c78d802d9eb87d11a073b49aa2b7df378919ac705eb54bf0c5",
+      "status": "exited",
+      "health": null,
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "unit-tests",
+      "config_files": null,
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-20261018/evidence",
+          "destination": "/evidence",
+          "rw": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-20261018/source",
+          "destination": "/repo",
+          "rw": false
+        }
+      ],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_execution_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "e453ecd7d78ec20869583b6708fb1c033e0ac8bd872cd35117c3becaf79eb8fb",
+      "name": "magicvvu-p52-validation-postgres",
+      "image": "magicvvu/backend:p7-rc-tests-04f930a",
+      "image_id": "sha256:37476379f54c45c78d802d9eb87d11a073b49aa2b7df378919ac705eb54bf0c5",
+      "status": "exited",
+      "health": null,
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "unit-tests",
+      "config_files": null,
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-20261018/evidence",
+          "destination": "/evidence",
+          "rw": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-p52-20261018/source",
+          "destination": "/repo",
+          "rw": false
+        }
+      ],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_execution_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "4205cd6f91c52a15b2ddf3d56f457b25368c0a84c3573d6c3e0e9914c75e0b49",
+      "name": "magicvvu-p7-execution-20261017-db-1",
+      "image": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-execution-20261017",
+      "service": "db",
+      "config_files": "/home/admin/magicvvu-p7-execution-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-execution-20261017_test_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-p7-execution-20261017_execution_db",
+          "source": "/var/lib/docker/volumes/magicvvu-p7-execution-20261017_execution_db/_data",
+          "destination": "/var/lib/postgresql/data",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {
+        "POSTGRES_DB": "magicvvu_p7_execution_test"
+      },
+      "isolated_test": null,
+      "dependencies": {}
+    },
+    {
+      "id": "f533cd5ce7c8e5a9e22bb25bff7e395f37d386abcbae184299b1a1d91c060560",
+      "name": "magicvvu-p7-test-20261017-agent-model-1",
+      "image": "magicvvu/agent:p7-test-db55fda",
+      "image_id": "sha256:60602e7c07ad195892884f7d7077e982b3b3fedd5cebf10628078e13ad0f059d",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-test-20261017",
+      "service": "agent-model",
+      "config_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-test-20261017_model_egress",
+        "magicvvu-p7-test-20261017_model_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-p7-test-20261017_p7_model_cache",
+          "source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_model_cache/_data",
+          "destination": "/app/agent/.cache",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {},
+      "isolated_test": null,
+      "dependencies": {
+        "BACKEND_BASE_URL": "backend"
+      }
+    },
+    {
+      "id": "41c7931cb310a5a37b73fd0da3bee8dcd371af09ca6a76c23ca81d49f70ac378",
+      "name": "magicvvu-p7-test-20261017-agent-1",
+      "image": "magicvvu/agent:p7-test-db55fda",
+      "image_id": "sha256:60602e7c07ad195892884f7d7077e982b3b3fedd5cebf10628078e13ad0f059d",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-test-20261017",
+      "service": "agent",
+      "config_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-p7-test-20261017_p7_rules_cache",
+          "source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_rules_cache/_data",
+          "destination": "/app/agent/.cache",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {},
+      "isolated_test": null,
+      "dependencies": {
+        "BACKEND_BASE_URL": "backend"
+      }
+    },
+    {
+      "id": "e28ed5689798d93fe2ea0221be13dc566abc5015b771a839844f64ee7a0c8c38",
+      "name": "magicvvu-p7-test-20261017-backend-model-1",
+      "image": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "image_id": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-test-20261017",
+      "service": "backend-model",
+      "config_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-test-20261017_model_net"
+      ],
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-test-20261017/source/backend/server",
+          "destination": "/app",
+          "rw": false
+        }
+      ],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "cfd8fc517f93f1d9a1038c494e9fe29ae3218e79301a1386b67fc57c916614bf",
+      "name": "magicvvu-p7-test-20261017-backend-1",
+      "image": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "image_id": "sha256:7e939417c61de5d84fa10af60a1138b44aa77bcfc029e6ed4a9ca71c0d80c819",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-test-20261017",
+      "service": "backend",
+      "config_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "source": "/home/admin/magicvvu-p7-test-20261017/source/backend/server",
+          "destination": "/app",
+          "rw": false
+        }
+      ],
+      "ports": {},
+      "database": {
+        "DB_HOST": "db",
+        "DB_PORT": "5432",
+        "DB_NAME": "magicvvu_p7_test"
+      },
+      "isolated_test": "yes",
+      "dependencies": {
+        "AI_SERVICE_URL": "agent"
+      }
+    },
+    {
+      "id": "e1697c117a53829dcdd79923b7eace3aedcb1af334edeabebedc294b7f63c214",
+      "name": "magicvvu-p7-test-20261017-db-1",
+      "image": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-p7-test-20261017",
+      "service": "db",
+      "config_files": "/home/admin/magicvvu-p7-test-20261017/compose.json",
+      "networks": [
+        "magicvvu-p7-test-20261017_model_net",
+        "magicvvu-p7-test-20261017_rules_net"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-p7-test-20261017_p7_db",
+          "source": "/var/lib/docker/volumes/magicvvu-p7-test-20261017_p7_db/_data",
+          "destination": "/var/lib/postgresql/data",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {
+        "POSTGRES_DB": "magicvvu_p7_test"
+      },
+      "isolated_test": null,
+      "dependencies": {}
+    },
+    {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "name": "magicvvu-starter-db-1",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "status": "running",
+      "health": "healthy",
+      "project": "magicvvu-starter",
+      "service": "db",
+      "config_files": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml",
+      "networks": [
+        "magicvvu-starter_default"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "magicvvu-starter_postgres_data",
+          "source": "/var/lib/docker/volumes/magicvvu-starter_postgres_data/_data",
+          "destination": "/var/lib/postgresql/data",
+          "rw": true
+        }
+      ],
+      "ports": {},
+      "database": {
+        "POSTGRES_DB": "magicvvu"
+      },
+      "isolated_test": null,
+      "dependencies": {}
+    }
+  ],
+  "compose": [
+    {
+      "Name": "magicvvu-p7-execution-20261017",
+      "Status": "running(3)",
+      "ConfigFiles": "/home/admin/magicvvu-p7-execution-20261017/compose.json,/home/admin/magicvvu-p7-p52-final-20261018/candidate.override.json"
+    },
+    {
+      "Name": "magicvvu-p7-test-20261017",
+      "Status": "running(5)",
+      "ConfigFiles": "/home/admin/magicvvu-p7-test-20261017/compose.json"
+    },
+    {
+      "Name": "magicvvu-starter",
+      "Status": "running(3)",
+      "ConfigFiles": "/srv/magicvvu/magicvvu-starter/deploy/compose.yaml"
+    }
+  ],
+  "volumes": [
+    "magicvvu-p7-execution-20261017_execution_ai_cache",
+    "magicvvu-p7-execution-20261017_execution_db",
+    "magicvvu-p7-execution-20261017_pg_results",
+    "magicvvu-p7-execution-20261017_unit_results",
+    "magicvvu-p7-rc-20261017_ai_tests",
+    "magicvvu-p7-test-20261017_p7_db",
+    "magicvvu-p7-test-20261017_p7_model_cache",
+    "magicvvu-p7-test-20261017_p7_rules_cache",
+    "magicvvu-p7-test-20261017_p7_unit_cache",
+    "magicvvu-starter_agent_cache",
+    "magicvvu-starter_postgres_data"
+  ],
+  "networks": [
+    "f8b393f8d63a|bridge",
+    "b48f1dc2a2dc|host",
+    "4daab1962855|magicvvu-p7-execution-20261017_test_net",
+    "6fcd5d29145d|magicvvu-p7-test-20261017_model_egress",
+    "9e5426879f71|magicvvu-p7-test-20261017_model_net",
+    "74e9d1d58d3a|magicvvu-p7-test-20261017_rules_net",
+    "3d1bcbcebe8d|magicvvu-starter_ai_net",
+    "886ccc83e1da|magicvvu-starter_default",
+    "2165144022c6|none"
+  ],
+  "disk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/vda3        40G  7.7G   30G  21% /\n",
+  "docker_disk": "TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE\nImages          26        8         1.244GB   326MB (26%)\nContainers      16        11        151.6kB   57.34kB (37%)\nLocal Volumes   11        7         301.4MB   1.984MB (0%)\nBuild Cache     115       0         755MB     190.1MB\n",
+  "funnel": {
+    "TCP": {
+      "443": {
+        "HTTPS": true
+      }
+    },
+    "Web": {
+      "iz7xvftxzwe1mwbso1ovyyz.tail0abb88.ts.net:443": {
+        "Handlers": {
+          "/": {
+            "Proxy": "http://127.0.0.1:8000"
+          }
+        }
+      }
+    },
+    "AllowFunnel": {
+      "iz7xvftxzwe1mwbso1ovyyz.tail0abb88.ts.net:443": true
+    }
+  },
+  "/api/v1/health": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "isolated_test": false
+    }
+  },
+  "/api/v1/ready": {
+    "status": 200,
+    "body": {
+      "status": "ready",
+      "database": "ok"
+    }
+  },
+  "migration": "20261017_0007 (head)\n",
+  "backup_file_metadata": "/srv/magicvvu/backups/v07_20261016_041444_GgbEHx/postgres_before_v07.dump|31799 bytes|2026-10-16\n/srv/magicvvu/backups/v06_20261014_220137/postgres_before_v06.dump|24948 bytes|2026-10-14\n/srv/magicvvu/backups/v05_20261014_210325/postgres_before_v05.dump|24397 bytes|2026-10-14\n/srv/magicvvu/backups/shared_v03_20261014_152711/postgres_before_shared_v03.dump|899 bytes|2026-10-14\n/srv/magicvvu/backups/v04_20261014_182855/postgres_before_v04.dump|18055 bytes|2026-10-14\n/srv/magicvvu/backups/v08_20261016_045235_zry2Et/postgres_before_v08.dump|31799 bytes|2026-10-16\n/srv/magicvvu/backups/v05_20261014_205531/postgres_before_v05.dump|24397 bytes|2026-10-14\n/home/admin/magicvvu-p7-rc-20261017/magicvvu_p7_rc_f8b946b1.dump|33797 bytes|2026-10-17\n/home/admin/magicvvu-p7-execution-20261017/execution-test-backup.dump|59064 bytes|2026-10-17\n/home/admin/magicvvu-p7-p52-20261018/magicvvu_p7_rc_441d23e5.dump|33795 bytes|2026-10-18\n/home/admin/magicvvu-p7-p52-final-20261018/magicvvu_p7_rc_28b5bb7b.dump|33789 bytes|2026-10-18\n"
+}

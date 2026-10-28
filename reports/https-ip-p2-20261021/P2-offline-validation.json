@@ -1,0 +1,16 @@
+{
+  "kind": "offline_static_checks_only",
+  "runtime_source_operations": 38,
+  "allowed_operations": 30,
+  "withheld_or_internal": 8,
+  "denied_cases": 28,
+  "passed": true,
+  "not_performed": [
+    "nginx -t",
+    "nginx runtime proxy/normalization tests",
+    "TLS handshake",
+    "ACME issuance",
+    "Android device tests",
+    "server backup/restore execution"
+  ]
+}

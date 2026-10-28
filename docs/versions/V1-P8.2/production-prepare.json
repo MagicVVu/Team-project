@@ -1,0 +1,80 @@
+{
+  "stage": "prepared",
+  "maintenance_release": "V1-P8.2",
+  "source_sha256": "05fa3203a7cb8473cbb05b2a536a748a8a7db34f5aae2c275254b4eeab3fcd7d",
+  "tags": {
+    "agent": "magicvvu/agent:p82-05fa3203a7cb",
+    "backend": "magicvvu/backend:p82-05fa3203a7cb"
+  },
+  "base_image_ids": {
+    "agent": "sha256:6119bdb0291abcc380b219feef79587bbc188e46235414c13a47ce775799953d",
+    "backend": "sha256:57b9ca57055b27c4db2d4d2c366cc36915a702c889b89356500d40c2381714c8"
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p82-20261025-05fa3203a7cb-r2",
+  "candidate_paths": {
+    "agent": "/home/magicvvu_ai/workspace/agent/candidates/v1-p8.2-05fa3203a7cb",
+    "backend": "/home/magicvvu_ai/workspace/agent/backend_patches/v1-p8.2-05fa3203a7cb"
+  },
+  "ai_runtime_file_count": 84,
+  "overlay_files": {
+    "agent": {
+      "conversation/app.py": "c16735d81ebdf68b1dbeb7e8192b386a973402095f7cb5d99856cfcd6ec9b2cb",
+      "conversation/engines.py": "3fd6f1de37e7ccc0ef70a9c6c1e46d1a9fa7f63717d813df82e413873ca148c7",
+      "conversation/manager.py": "ec6969e96327ed493c496e9add902c3b6380968c879d99e00027ad5ee8ef0c2c",
+      "conversation/schemas.py": "9e186763d63472b128152de8eb176ab456a05b58500e827527c7f5b02d1f7540",
+      "conversation/health.py": "42a7dd4c45468d68f798dffc5188359eb0766034551f60316f89bb1fbe09d541",
+      "conversation/memory.py": "cdf7f8751c4c9391301508fd718827ed327581f029bff1a81af50937327ddbde",
+      "conversation/memory_schemas.py": "39c16464d7df44d30e2942ba8fce2dd0121d74da9964e6345e91f8c42808a29f",
+      "integration/source_manifest.py": "d7fd4ef2b324e671d045f2ddbdceaba280f3ffc4743d23e08dfe3bb60fe46f17"
+    },
+    "backend": {
+      "app/main.py": "b7a30087a96ecf458c09b14abc059d771515d76639e2c0c1720e67309771da6c",
+      "app/routers/agent_gateway.py": "0b49cd5f0821b48e9ac4047a532ebcbf6c87a1ed3db0c13cb11aecdac908de82",
+      "app/routers/draft_execution.py": "c0da27ca6f22e27bff23f53c94c89d69d42745affb8b553fcb96c88d6507a59f",
+      "app/memory_schemas.py": "c3eeae4f7fe235d995fba532d1e4aebcafcf6602b3e0ad1397fb1fbea8a64fce",
+      "app/routers/session_memory.py": "6f31e67d9abe3911cbf5735de1de76cc1f6976d3eb3d77744699a326ff56e994",
+      "app/services/session_memory.py": "77e3f17864fddb986a707bb8852c100506654c9022e838efb465476f27fd8f98"
+    }
+  },
+  "candidate_smoke": {
+    "agent": {
+      "legacy_workflows": {
+        "synthetic_manager_workflows": "passed",
+        "ordinal_target": "b2",
+        "multifield_continuation": "passed",
+        "zero_model_continuation": true,
+        "fixture_inventory_unchanged": true,
+        "real_inventory_accessed": false
+      },
+      "four_scoped_queries": "passed",
+      "finish_all": "passed",
+      "pack_units": "synthetic_arithmetic_passed",
+      "unreviewed_risk_gate": "preserved",
+      "plan_source_continuation": "passed",
+      "fixture_inventory_unchanged": true,
+      "maintenance_release": "V1-P8.2",
+      "real_data_accessed": false,
+      "session_memory": {
+        "memory_query": "passed",
+        "saved_understanding_replay": "passed",
+        "fresh_read": "passed",
+        "zero_model_reads": true,
+        "persisted_p81_runtime_compatible": true
+      }
+    },
+    "backend": {
+      "new_routes_registered": true,
+      "all_consumption_protected": true,
+      "legacy_quantity_edit_compatible": true,
+      "automatic_planning_commit": false,
+      "maintenance_release": "V1-P8.2",
+      "database_accessed": false
+    }
+  },
+  "formal_runtime_switched": false,
+  "database_migrations_executed": false,
+  "budget_before": {
+    "calls": 254,
+    "conservative_cost_cny": 0.91066
+  }
+}

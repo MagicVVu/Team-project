@@ -1,0 +1,14 @@
+{
+  "python": "3.12.8",
+  "packages": {
+    "fastapi": "0.116.1",
+    "starlette": "0.47.3",
+    "pydantic": "2.14.1",
+    "httpx": "0.28.1",
+    "SQLAlchemy": "2.0.44",
+    "psycopg": "3.2.12",
+    "alembic": "1.17.0",
+    "pytest": "8.4.2",
+    "tzdata": "2026.5"
+  }
+}

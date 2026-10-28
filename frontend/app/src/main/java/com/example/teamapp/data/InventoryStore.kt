@@ -12,6 +12,9 @@ import java.time.format.DateTimeFormatter
 
 class InventoryStore(context: Context) {
     val cloud = CloudStore(context)
+    // Deliberately excluded from preferences, export and all cloud requests.
+    internal val inventoryPreviews = InventoryPreviewStore()
+    internal val inventoryPreviewScope get() = cloud.scopeKey.ifBlank { "local" }
     private val preferences = context.getSharedPreferences("magicvvu_v1", Context.MODE_PRIVATE)
     private var readFailed = false
     private var localItems by mutableStateOf<List<StockItem>>(emptyList())
@@ -33,6 +36,7 @@ class InventoryStore(context: Context) {
     var locations by mutableStateOf(listOf("冰箱", "厨房", "储物柜", "阳台")); private set
     var reminderDays by mutableIntStateOf(3); private set
     var appearance by mutableStateOf("跟随系统"); private set
+    var language by mutableStateOf(preferences.getString("ui_language", "zh-CN").let { if (it == "en") "en" else "zh-CN" }); private set
     var notifications by mutableStateOf(listOf(true, true, true)); private set
     var storageError by mutableStateOf<String?>(null); private set
 
@@ -43,7 +47,7 @@ class InventoryStore(context: Context) {
                 val array = json.getJSONArray("items")
                 items = (0 until array.length()).map { i ->
                     val o = array.getJSONObject(i)
-                    StockItem(o.getString("id"), o.getString("name"), o.getDouble("quantity"), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"))
+                    StockItem(o.getString("id"), o.getString("name"), o.getDouble("quantity"), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"), openedAt = o.optString("openedAt"), lifecycleStatus = o.optString("lifecycleStatus", "ACTIVE"), quantityExact = o.optString("quantityExact"))
                 }
                 val tasks = json.getJSONArray("purchases")
                 purchases = (0 until tasks.length()).map { i -> tasks.getJSONObject(i).let { Purchase(it.getString("itemId"), it.getDouble("quantity")) } }.filter { p -> localItems.any { it.id == p.itemId } }
@@ -80,7 +84,7 @@ class InventoryStore(context: Context) {
             require(duplicate.unit == item.unit) { "计量单位不同，请先在详情中核对并修改。" }
             val quantity = if (duplicateMode == "入库") duplicate.quantity + item.quantity else item.quantity
             require(quantity.isFinite())
-            items = items.map { if (it.id == duplicate.id) it.copy(quantity = quantity, history = (listOf(stamp("$duplicateMode → ${quantity.display()} ${it.unit}")) + it.history).take(30)) else it }
+            items = items.map { if (it.id == duplicate.id) it.copy(quantity = quantity, image = item.image.ifBlank { it.image }, history = (listOf(stamp("$duplicateMode → ${quantity.display()} ${it.unit}")) + it.history).take(30)) else it }
         } else {
             val updated = item.copy(name = item.name.trim(), history = (listOf(stamp(if (old == null) "首次录入 ${item.quantity.display()} ${item.unit}" else "更新记录 → ${item.quantity.display()} ${item.unit}")) + (old?.history ?: emptyList())).take(30))
             items = if (old == null) items + updated else items.map { if (it.id == item.id) updated else it }
@@ -124,6 +128,12 @@ class InventoryStore(context: Context) {
         reminderDays = days; items = items.map { it.copy(minimum = minimums[it.id] ?: it.minimum) }; persist()
     }
     fun updateAppearance(value: String) { appearance = value; persist() }
+    fun updateLanguage(value: String): Boolean {
+        require(value in setOf("zh-CN", "en"))
+        val saved = preferences.edit().putString("ui_language", value).commit()
+        if (saved) language = value
+        return saved
+    }
     fun setNotification(index: Int, value: Boolean) { notifications = notifications.mapIndexed { i, old -> if (i == index) value else old }; persist() }
     fun clear() { require(!cloud.signedIn) { "云端家庭不支持批量清空，请逐项核对后删除" }; items = emptyList(); purchases = emptyList(); storageError = null; readFailed = false; persist() }
     fun export(): String = if (cloud.signedIn) JSONObject().put("mode", "cloud").put("householdId", cloud.account?.householdId)
@@ -153,7 +163,7 @@ class InventoryStore(context: Context) {
     }
     private fun json() = JSONObject().apply {
         put("version", 1); put("nickname", localNickname); put("family", localFamily); put("locations", JSONArray(locations)); put("reminderDays", reminderDays); put("appearance", appearance); put("notifications", JSONArray(notifications))
-        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("quantity", i.quantity); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("history", JSONArray(i.history)) }) } })
+        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("quantity", i.quantity); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("openedAt", i.openedAt); put("lifecycleStatus", i.lifecycleStatus); put("quantityExact", i.quantityExact); put("history", JSONArray(i.history)) }) } })
         put("purchases", JSONArray().apply { localPurchases.forEach { put(JSONObject().put("itemId", it.itemId).put("quantity", it.quantity)) } })
     }
     private fun persist() {

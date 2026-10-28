@@ -1,0 +1,16 @@
+[Unit]
+Description=MagicVVu existing Compose stack with direct TLS
+Requires=docker.service magicvvu-direct-firewall.service
+After=docker.service magicvvu-direct-firewall.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/magicvvu/magicvvu-starter/deploy
+ExecStart=/usr/bin/docker compose up -d --no-recreate
+ExecReload=/usr/bin/docker compose restart backend
+RemainAfterExit=yes
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target

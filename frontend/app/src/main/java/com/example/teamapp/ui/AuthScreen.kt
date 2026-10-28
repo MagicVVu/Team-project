@@ -1,5 +1,7 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
+import com.example.teamapp.R
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -43,10 +45,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.teamapp.data.validateAuthForm
 import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
+import com.example.teamapp.ui.i18n.AppLanguageProvider
 
 /** Guest navigation is separate from authentication; no credentials are stored on this device. */
 @Composable
 fun AppEntry(store: InventoryStore) {
+    AppLanguageProvider(store.language) { AppEntryContent(store) }
+}
+
+@Composable
+private fun AppEntryContent(store: InventoryStore) {
     var showAuth by rememberSaveable { mutableStateOf(!store.cloud.signedIn) }
     var entryVersion by rememberSaveable { mutableIntStateOf(0) }
     val owner = LocalContext.current as? LifecycleOwner
@@ -71,13 +79,13 @@ fun AppEntry(store: InventoryStore) {
 
 @Composable
 internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
+    val strings = rememberUiStrings()
     var registering by rememberSaveable { mutableStateOf(false) }
     var formVersion by rememberSaveable { mutableIntStateOf(0) }
     var information by remember { mutableStateOf<String?>(null) }
     val focus = LocalFocusManager.current
     val scope = rememberCoroutineScope()
     val continueAsGuest = { focus.clearFocus(); scope.launch { store?.cloud?.logout(); onContinue() }; Unit }
-    val light = LocalLightDesign.current
     val colors = MaterialTheme.colorScheme
     BackHandler(registering) { focus.clearFocus(); formVersion++; registering = false }
 
@@ -88,26 +96,22 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                DesignGlyph("leaf", Modifier.size(25.dp), colors.primary)
-                Text("拾物", fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp))
+                MewstowWordmark(Modifier.width(176.dp).height(40.dp))
                 Spacer(Modifier.weight(1f))
-                TextButton(onClick = continueAsGuest) { Text("先逛逛 ›") }
+                TextButton(onClick = continueAsGuest) { Text(strings.get(R.string.ui_explore)) }
             }
             Spacer(Modifier.height(18.dp))
             Box(
                 Modifier.size(112.dp).background(colors.primaryContainer, RoundedCornerShape(36.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                if (light) AppMotionContent(registering, label = "auth-mascot") { creatingAccount ->
-                    MaoYou(if (creatingAccount) 8 else 3, Modifier.size(100.dp), "猫又陪你记录生活")
-                }
-                else DarkMaoYou(modifier = Modifier.size(100.dp, 86.dp), description = "猫又陪你记录生活")
+                MewMascot(MewPose.Welcome, Modifier.size(100.dp), "Mew 陪你记录生活")
             }
             AppMotionContent(registering, label = "auth-heading") { creatingAccount ->
-                Text(if (creatingAccount) "一起，把家照顾好" else "你好，欢迎回家", fontSize = 27.sp,
+                Text(if (creatingAccount) strings.get(R.string.ui_make_yourself_at_home) else strings.get(R.string.ui_welcome_home), fontSize = 27.sp,
                     fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 18.dp))
             }
-            Text("家的小物，慢慢记好。", color = colors.onSurfaceVariant, fontSize = 13.sp,
+            Text(strings.get(R.string.ui_every_little_thing__remembered), color = colors.onSurfaceVariant, fontSize = 13.sp,
                 modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
 
             Card(
@@ -120,11 +124,11 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
                     val creatingAccount = mode.first
                     Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            Text(if (creatingAccount) "创建账号" else "登录拾物", style = MaterialTheme.typography.titleLarge,
+                            Text(if (creatingAccount) strings.get(R.string.ui_create_account) else strings.get(R.string.ui_log_in_to_mewstow), style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                            Text("${if (creatingAccount) "新的开始" else "好久不见"} 🌿", fontSize = 11.sp, color = colors.onSurfaceVariant)
+                            Text(if (creatingAccount) strings.get(R.string.ui_new_start) else strings.get(R.string.ui_welcome_back), fontSize = 11.sp, color = colors.onSurfaceVariant)
                         }
-                        Text(if (creatingAccount) "给生活中的每一件小物，留一个位置。" else "让猫又陪你，记好家里的每一件小物。",
+                        Text(if (creatingAccount) strings.get(R.string.ui_a_place_for_every_little_thing) else strings.get(R.string.ui_let_mew_help_you_remember_what),
                             fontSize = 12.sp, color = colors.onSurfaceVariant)
                         // Changing modes discards passwords; process recreation never restores them.
                         key(creatingAccount) {
@@ -132,33 +136,34 @@ internal fun AuthScreen(store: InventoryStore? = null, onContinue: () -> Unit) {
                         }
                         HorizontalDivider(color = colors.outlineVariant)
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                            Text(if (creatingAccount) "已经有账号？" else "还没有账号？", fontSize = 13.sp, color = colors.onSurfaceVariant)
+                            Text(if (creatingAccount) strings.get(R.string.ui_already_have_an_account) else strings.get(R.string.ui_new_to_mewstow), fontSize = 13.sp, color = colors.onSurfaceVariant)
                             TextButton(onClick = { focus.clearFocus(); formVersion++; registering = !creatingAccount }) {
-                                Text(if (creatingAccount) "去登录" else "去注册", fontWeight = FontWeight.SemiBold)
+                                Text(if (creatingAccount) strings.get(R.string.ui_log_in) else strings.get(R.string.ui_sign_up), fontWeight = FontWeight.SemiBold)
                             }
                         }
                     }
                 }
             }
-            TextButton(onClick = continueAsGuest, modifier = Modifier.padding(top = 12.dp)) { Text("以游客身份体验", fontSize = 13.sp) }
-            Text("登录后连接家庭云端数据 · 游客使用独立本机空间", fontSize = 11.sp, color = colors.onSurfaceVariant,
+            TextButton(onClick = continueAsGuest, modifier = Modifier.padding(top = 12.dp)) { Text(strings.get(R.string.ui_continue_as_guest), fontSize = 13.sp) }
+            Text(strings.get(R.string.ui_log_in_for_household_cloud_data), fontSize = 11.sp, color = colors.onSurfaceVariant,
                 textAlign = TextAlign.Center, modifier = Modifier.padding(top = 4.dp))
-            TextButton(onClick = { information = "登录时手机号与密码发送至你配置的服务器，密码不会保存在设备上；登录令牌由 Android Keystore 加密保存。登录后库存、采购和家庭资料由服务器保存，并在家庭成员间共享；游客记录独立保留，不会自动上传。照片仍保留在当前设备。" }) {
-                Text("数据与隐私说明", fontSize = 11.sp)
+            TextButton(onClick = { information = "登录时手机号与密码发送至应用配置的服务器，密码不会保存在设备上；登录令牌由 Android Keystore 加密保存。登录后库存、采购和家庭资料由服务器保存，并在家庭成员间共享；游客记录独立保留，不会自动上传。照片仍保留在当前设备。" }) {
+                Text(strings.get(R.string.ui_data_and_privacy), fontSize = 11.sp)
             }
         }
     }
     information?.let { message ->
-        AlertDialog(onDismissRequest = { information = null }, modifier = Modifier.appearanceFade(), title = { Text(if (message.startsWith("密码找回")) "找回密码" else "数据与隐私说明") },
-            text = { Text(message) }, confirmButton = { TextButton(onClick = { information = null }) { Text("知道了") } })
+        AlertDialog(onDismissRequest = { information = null }, modifier = Modifier.appearanceFade(), title = { Text(if (message.startsWith("密码找回")) strings.get(R.string.ui_reset_password) else strings.get(R.string.ui_data_and_privacy)) },
+            text = { Text(strings.label(message)) }, confirmButton = { TextButton(onClick = { information = null }) { Text(strings.get(R.string.ui_got_it)) } })
     }
 }
 
 @Composable
 private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticated: () -> Unit, onInformation: (String) -> Unit) {
+    val strings = rememberUiStrings()
     var nickname by rememberSaveable { mutableStateOf("") }
     var phone by rememberSaveable { mutableStateOf("") }
-    var address by rememberSaveable { mutableStateOf(store?.cloud?.account?.address ?: BuildConfig.CLOUD_API_URL) }
+    val address = BuildConfig.CLOUD_API_URL
     var password by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
     var errors by remember { mutableStateOf(emptyMap<String, String>()) }
@@ -186,14 +191,14 @@ private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticat
     }
     if (registering) AuthField("nickname", "昵称", nickname, { nickname = it; changed("nickname") }, errors["nickname"])
     AuthField("phone", "手机号", phone, { phone = it; changed("phone") }, errors["phone"], keyboardType = KeyboardType.Phone)
-    AuthField("server", "服务器地址", address, { address = it; serviceNotice = null }, null, keyboardType = KeyboardType.Uri)
+    if (address.isBlank()) Text(strings.get(R.string.ui_account_service_is_not_configured__please), color = MaterialTheme.colorScheme.error)
     AuthField("password", "密码", password, { password = it; changed("password"); errors = errors - "confirmation" }, errors["password"],
-        password = true, hint = if (registering) "10–128 位；服务器可能暂未开放注册" else null,
+        password = true, hint = if (registering) "8–16 位英文字母和数字的组合，需同时包含两者" else null,
         done = !registering, onDone = submit)
     if (registering) AuthField("confirmation", "确认密码", confirmation, { confirmation = it; changed("confirmation") }, errors["confirmation"],
         password = true, done = true, onDone = submit)
     else Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        TextButton(onClick = { onInformation("密码找回暂未开放。请联系服务器管理员处理；手机号当前仅作为登录标识，尚未验证号码所有权。") }) { Text("忘记密码？", fontSize = 12.sp) }
+        TextButton(onClick = { onInformation("密码找回暂未开放。请联系服务器管理员处理；手机号当前仅作为登录标识，尚未验证号码所有权。") }) { Text(strings.get(R.string.ui_forgot_password), fontSize = 12.sp) }
     }
     AnimatedVisibility(
         serviceNotice != null,
@@ -201,12 +206,12 @@ private fun AuthForm(registering: Boolean, store: InventoryStore?, onAuthenticat
         exit = fadeOut(tween(AppMotion.Quick)) + shrinkVertically(tween(AppMotion.Duration, easing = AppMotion.easing))
     ) {
         Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(12.dp)) {
-            Text(serviceNotice.orEmpty(),
+            Text(strings.label(serviceNotice.orEmpty()),
                 fontSize = 12.sp, modifier = Modifier.padding(14.dp).testTag("auth-service-notice"))
         }
     }
     Button(onClick = submit, enabled = !submitting, modifier = Modifier.fillMaxWidth().height(50.dp).testTag("auth-submit"), shape = RoundedCornerShape(14.dp)) {
-        Text(if (submitting) "正在连接…" else if (registering) "注册并登录" else "登录", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+        Text(if (submitting) strings.get(R.string.ui_connecting) else if (registering) strings.get(R.string.ui_sign_up_and_log_in) else strings.get(R.string.ui_log_in_2), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
     }
 }
 
@@ -216,16 +221,17 @@ private fun AuthField(
     password: Boolean = false, hint: String? = null, keyboardType: KeyboardType = KeyboardType.Text,
     done: Boolean = false, onDone: () -> Unit = {}
 ) {
+    val strings = rememberUiStrings()
     var visible by remember { mutableStateOf(false) }
     OutlinedTextField(
         value, onChange, modifier = Modifier.fillMaxWidth()
             .animateContentSize(tween(AppMotion.Duration, easing = AppMotion.easing)).testTag("auth-$tag"),
-        label = { Text(label) }, singleLine = true, shape = RoundedCornerShape(12.dp), isError = error != null,
-        supportingText = if (error != null || hint != null) ({ Text(error ?: hint.orEmpty()) }) else null,
+        label = { Text(strings.label(label)) }, singleLine = true, shape = RoundedCornerShape(12.dp), isError = error != null,
+        supportingText = if (error != null || hint != null) ({ Text(strings.label(error ?: hint.orEmpty())) }) else null,
         visualTransformation = if (password && !visible) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = if (password) KeyboardType.Password else keyboardType,
             imeAction = if (done) ImeAction.Done else ImeAction.Next),
         keyboardActions = KeyboardActions(onDone = { onDone() }),
-        trailingIcon = if (password) ({ TextButton(onClick = { visible = !visible }) { Text(if (visible) "隐藏" else "显示", fontSize = 11.sp) } }) else null
+        trailingIcon = if (password) ({ TextButton(onClick = { visible = !visible }) { Text(if (visible) strings.get(R.string.ui_hide) else strings.get(R.string.ui_show), fontSize = 11.sp) } }) else null
     )
 }

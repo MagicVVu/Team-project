@@ -7,7 +7,7 @@ import re
 from decimal import Decimal, InvalidOperation
 
 NUMBER_PATTERN = r"-?\d+(?:\.\d+)?|[零一二两三四五六七八九十]+"
-UNIT_PATTERN = r"毫升|千克|公斤|ml|mL|kg|升|克|L|g|盒|瓶|包|袋|个|卷|片"
+UNIT_PATTERN = r"毫升|千克|公斤|ml|mL|kg|升|克|L|g|盒|瓶|包|袋|个|卷|片|吨|台"
 AMOUNT_PATTERN = rf"({NUMBER_PATTERN})\s*({UNIT_PATTERN})"
 DATE_PATTERN = r"\d{4}-\d{1,2}-\d{1,2}"
 RELATIVE_PATTERN = r"今天|昨天|明天|前天|上周|上个月|前几天|最近"

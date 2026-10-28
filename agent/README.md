@@ -1,4 +1,4 @@
-当前V1 AI收尾配置为 [v1模块](v1/README.md)（V1-P6，AI0.6.0），支持原有草稿/风险/预测及按位置反查、明确用完、关注摘要和提交后只读反馈。[交付与接入说明](../docs/versions/V1-P6/README.md)区分AI完成与正式发布；现有数据库网关不改，Jev暂缓。以下保留P0及各阶段原有使用说明。
+最新接入准备配置为 [conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0），新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；[V1-P7.1 收尾](../docs/versions/V1-P7.1/README.md)补齐 `check --profile p7` 配置预检、显式启动选择及服务器源码同步，后续权限与接入复核、0.9.0＋P7＋DeepSeek 正式服务迁移独立归入 [V1-P7.2](../docs/versions/V1-P7.2/README.md)，未修改 Android 或数据库网关；旧库存单位限制及客户端验收见该阶段记录。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
 
 # V1-P0 AI 开发包
 
@@ -35,14 +35,14 @@ Set-Location 'D:\软件\大三\cs353团队项目\Team-project\agent'
 & 'D:\python\python3.13.5\python.exe' -m pytest -q
 & 'D:\python\python3.13.5\python.exe' export_contract.py
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine rules --split test
-# 以下真实调用需要已有密钥、可用网络和七天内核实的费率：
+# 以下真实调用需要已有密钥、可用网络和与模型匹配的费率配置：
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine deepseek --split dev --limit 3
 & 'D:\python\python3.13.5\python.exe' -m eval.run --engine deepseek --split test
 ```
 
 评测逐条结果保存在 `eval/results/`。150 条 AI 构造样本分为 90 开发 / 60 保留测试；标注尚需人工复核。冻结后不修改保留集或据其失败案例调 Prompt。更改解析逻辑后应使用新版本的保留集进行独立复测，不把旧结果当成新版本结果。
 
-模型采用 JSON 输出、非思考模式、最多 768 输出 tokens；无 SDK 自动重试，模型请求总时限 10 秒。预算 SQLite 保存于 `.cache/p0/budget.sqlite`，调用前按输入字节上界与输出上限预留费用，未知用量保留预留费用。累计上限 20 元，Mock 重置不会清空预算。`eval/pricing.json` 使用 2026-10-08 核实的高峰、缓存未命中费率；超过七天或切换模型后，程序拒绝付费调用，需要重新核实更新费率。
+模型采用 JSON 输出、非思考模式、最多 768 输出 tokens；无 SDK 自动重试，模型请求总时限 10 秒。预算 SQLite 保存于 `.cache/p0/budget.sqlite`，调用前按输入字节上界与输出上限预留费用，未知用量保留预留费用。累计上限 20 元，Mock 重置不会清空预算。`eval/pricing.json` 使用配置的缓存未命中费率估算费用；核实日期仅作记录，没有七天有效期，不再按日期阻止调用。切换模型时仍须提供匹配的费率配置，费用估算不代表供应商最终账单。
 
 ## 正式服务接入
 

@@ -1,5 +1,6 @@
 package com.example.teamapp.ui
 
+import com.example.teamapp.ui.i18n.rememberUiStrings
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,17 +27,15 @@ internal val AssistantMascotRestHeight = 32.dp * PullMascotScale + AssistantMasc
 /** All facial PNGs share the body's 600 x 768 canvas and its rope attachment point. */
 @Composable
 internal fun AssistantPullMascot(dragging: Boolean, smiling: Boolean, modifier: Modifier = Modifier) {
-    val resources = LocalContext.current.resources
-    val images = remember(resources) {
-        listOf(
+    val strings = rememberUiStrings()
+    val images = listOf(
             R.drawable.maoyou_pull_rope,
             R.drawable.maoyou_pull_body,
             R.drawable.maoyou_pull_eyes_open,
             R.drawable.maoyou_pull_eyes_closed,
             R.drawable.maoyou_pull_mouth_idle,
             R.drawable.maoyou_pull_mouth_smile
-        ).map { ImageBitmap.imageResource(resources, it) }
-    }
+        ).map { ImageBitmap.imageResource(it) }
     val expression = animateFloatAsState(if (smiling) 1f else 0f, tween(80), label = "pull-cat-smile")
     val lean = animateFloatAsState(
         if (dragging) -1.5f else 0f,
@@ -63,7 +62,7 @@ internal fun AssistantPullMascot(dragging: Boolean, smiling: Boolean, modifier: 
     }), label = "pull-cat-sway")
 
     Canvas(modifier.fillMaxSize().testTag("assistant-pull-mascot").semantics {
-        stateDescription = if (smiling) "闭眼微笑" else "睁眼待机"
+        stateDescription = if (smiling) strings.get(R.string.ui_smiling_with_eyes_closed) else strings.get(R.string.ui_waiting_with_eyes_open)
     }) {
         val imageScale = size.width / 600f
         val ropeLength = ((size.height - 768f * imageScale) / imageScale).coerceAtLeast(0f)

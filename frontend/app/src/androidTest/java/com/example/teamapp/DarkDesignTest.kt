@@ -57,7 +57,7 @@ class DarkDesignTest {
 
     @Test fun tabsSearchFilterDetailAndRemindersUseRealRecords() {
         launch()
-        compose.onNodeWithContentDescription("绿白猫又库存管家").assertExists()
+        compose.onNodeWithContentDescription("Mew 库存管家").assertExists()
         screenshot("home-fixture")
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         screenshot("inventory-fixture")
@@ -65,10 +65,10 @@ class DarkDesignTest {
         compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试洗衣液")
         compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
         compose.onNodeWithTag("ring-category-全部").performClick()
+        compose.onNodeWithTag("ring-search-toggle").performClick()
         compose.onNodeWithTag("ring-search").performTextInput("测试纯牛奶")
-        compose.onNodeWithTag("ring-selected-info").performScrollTo().performClick()
-        compose.onNodeWithText("最低库存").assertExists()
-        compose.onNodeWithText("3 盒").assertExists()
+        compose.onNodeWithTag("ring-selected-info").performClick()
+        compose.onNodeWithText("最低库存：3 盒").assertExists()
         screenshot("detail-fixture")
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithContentDescription("库存提醒").performClick()
@@ -76,8 +76,10 @@ class DarkDesignTest {
         compose.onNodeWithText("关闭").performClick()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         screenshot("profile-fixture")
-        compose.onNodeWithText("关于拾物").performScrollTo().performClick()
-        compose.onNodeWithText("✦ 拾物").assertExists()
+        compose.onNodeWithText("关于 Mewstow").performScrollTo().performClick()
+        compose.onNodeWithContentDescription("Mewstow").assertIsDisplayed()
+        compose.onNodeWithText("猫又 Nekomata · 昵称 Mew").assertExists()
+        screenshot("about-mewstow")
         compose.runOnIdle { Assert.assertEquals(3, store.items.size) }
     }
 
@@ -86,7 +88,7 @@ class DarkDesignTest {
         launch()
         compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
         screenshot("shopping-fixture")
-        compose.onNodeWithText("已购买").performScrollTo().performClick()
+        compose.onNodeWithText("购买入库").performScrollTo().performClick()
         screenshot("purchase-fixture")
         compose.onNodeWithText("确认入库").performClick()
         compose.onNodeWithText("请输入有效正数").assertExists()
@@ -103,10 +105,10 @@ class DarkDesignTest {
         launch()
         compose.onNodeWithText("拍照添加").performScrollTo().performClick()
         screenshot("photo-fixture")
-        compose.onNodeWithText("改为手动填写").performScrollTo().performClick()
+        compose.onNodeWithText("手动填写").performClick()
         screenshot("manual-fixture")
-        compose.onNodeWithText("物品名称 *").performTextInput("取消测试")
-        compose.onNodeWithText("关闭").performClick()
+        compose.onNodeWithTag("photo-name").performTextInput("取消测试")
+        compose.onNodeWithTag("photo-close").performClick()
         compose.runOnIdle { Assert.assertEquals(3, store.items.size) }
     }
 

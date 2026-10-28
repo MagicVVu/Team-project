@@ -1,0 +1,21 @@
+FROM public.ecr.aws/docker/library/python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 P3_ENGINE=rules
+WORKDIR /app/agent
+COPY requirements.p2.runtime.txt ./
+RUN pip install --no-cache-dir --index-url https://mirrors.aliyun.com/pypi/simple/ -r requirements.p2.runtime.txt \
+    && python -c "from zoneinfo import ZoneInfo; ZoneInfo('Asia/Shanghai')" \
+    && mkdir -p /app/agent/.cache/p0 \
+    && chown -R 10002:10002 /app/agent/.cache
+COPY p0/ ./p0/
+COPY p1/ ./p1/
+COPY p2/ ./p2/
+COPY p3/ ./p3/
+COPY interaction/ ./interaction/
+COPY v1/ ./v1/
+COPY conversation/ ./conversation/
+COPY eval/pricing.json ./eval/pricing.json
+USER 10002:10002
+EXPOSE 8767
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD ["python", "-m", "conversation.health"]
+CMD ["python", "-m", "uvicorn", "conversation.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8767"]

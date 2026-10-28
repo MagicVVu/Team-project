@@ -1,0 +1,17 @@
+{
+  "purpose": "P3 REVIEW ONLY; hashes do not authorize execution; draft gates must be reviewed before deploying copies",
+  "files": {
+    "backup.DRAFT.py": "764a4446bbac50cb0dd9b85943bc5f9e638ee88614a4a237b8335349288eddff",
+    "cert-monitor.DRAFT.py": "c7cfea65928427896cd2e72c9fbac33837b98c2ebeef74db9b01d1094fe82e6b",
+    "logrotate-magicvvu-api.conf": "1bd0ea376ce0e638e5718eb00d80dd6f131d3e840e7e088c6a01122a59f5225a",
+    "magicvvu-cert-monitor.service.DRAFT": "2975cdfd8ed63417920c467d707290c5cfa6112088108abb4068dacbb881a8a8",
+    "magicvvu-cert-monitor.timer.DRAFT": "ce2f08ef2df625eeb6293ff7584ed79af4bfc288cca56ebadbc91906a04bd8a9",
+    "nginx-http-common.conf": "91781fe726051c213238abd032432f632bea3f30d8546f4c067079433d4fa9b6",
+    "nginx-http01-server.conf": "0f6aca161162cc3b69f7be03fd9a1ea75365866eb7dbd3316b9ee6d3d17915ff",
+    "nginx-magicvvu-api.conf": "923dd11496adcd91b674ae038e5723f8e38cadd7c07c649c527737188755b72b",
+    "nginx-magicvvu-http-only.conf": "ff2e2a0dd0d1b08d11e3e01a074375b251ccfdae0727caf60925a620178a07f3",
+    "nginx-proxy-common.conf": "60b43dc5f3f755adab948a782e20477651ae9287ba473e572433a537bd60b6e2",
+    "nginx-route-map.conf": "c011e85e5be924f7eba256db67b252373a8ff430247a073574b550dee6081d37",
+    "renewal-deploy-hook.DRAFT.sh": "5d26bcd2872e2155074624b5f0423eaa19d870f807552974e00eb8eccc54cdb9"
+  }
+}

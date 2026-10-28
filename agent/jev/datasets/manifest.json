@@ -1,0 +1,15 @@
+{
+  "version": "jev-synthetic-1",
+  "count": 300,
+  "groups": 100,
+  "dev": 180,
+  "calibration": 60,
+  "test": 60,
+  "categories": 20,
+  "source": "AI-authored synthetic expressions and fixture facts",
+  "human_reviewed": false,
+  "real_audio": false,
+  "split_rule": "expression families 1-3 dev, 4 calibration, 5 test; variants never cross splits",
+  "limitations": "Same product and shared vocabulary; template generalization is limited. Not representative production accuracy.",
+  "sha256": "6957c39a1410dca598f0218cd5c54dfa2a23a352e35690fe2c990020d974a871"
+}

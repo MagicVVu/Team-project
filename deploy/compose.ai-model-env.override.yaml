@@ -1,0 +1,9 @@
+# Configuration-only example for the existing AI service; not a standalone deployment.
+# The deployment owner merges this with the actual Compose configuration.
+# Keep existing service/tool tokens, backend address, networks and cache volume.
+services:
+  agent:
+    env_file:
+      - /home/magicvvu_ai/workspace/agent/.env.runtime
+    environment:
+      P3_ENGINE: deepseek

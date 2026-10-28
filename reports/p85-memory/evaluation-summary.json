@@ -1,0 +1,63 @@
+{
+  "p84-baseline-dev": {
+    "mode": "real_deepseek",
+    "scenario_count": 24,
+    "turn_count": 144,
+    "scenario_success_rate": 0.5416666666666666,
+    "turn_success_rate": 0.9097222222222222,
+    "p95_ms": 6584.895799984224,
+    "max_model_calls": 2,
+    "passed_turns": 131,
+    "structured_clarification_turns": 0,
+    "provider_error_turns": 0
+  },
+  "deepseek-dev-initial": {
+    "mode": "real_deepseek",
+    "scenario_count": 24,
+    "turn_count": 144,
+    "scenario_success_rate": 0.9583333333333334,
+    "turn_success_rate": 0.9930555555555556,
+    "p95_ms": 8282.853899989277,
+    "max_model_calls": 2,
+    "passed_turns": 143,
+    "structured_clarification_turns": 0,
+    "provider_error_turns": 1
+  },
+  "deepseek-holdout-first": {
+    "mode": "real_deepseek",
+    "scenario_count": 16,
+    "turn_count": 96,
+    "scenario_success_rate": 0.5,
+    "turn_success_rate": 0.8854166666666666,
+    "p95_ms": 7201.92479994148,
+    "max_model_calls": 2,
+    "passed_turns": 85,
+    "structured_clarification_turns": 5,
+    "provider_error_turns": 2
+  },
+  "deepseek-postfix-regression": {
+    "mode": "real_deepseek",
+    "scenario_count": 40,
+    "turn_count": 240,
+    "scenario_success_rate": 1.0,
+    "turn_success_rate": 1.0,
+    "p95_ms": 9814.981700037606,
+    "max_model_calls": 2,
+    "passed_turns": 240,
+    "structured_clarification_turns": 0,
+    "provider_error_turns": 0
+  },
+  "final-saved-plans-replay": {
+    "mode": "saved_real_plans_replayed_without_model",
+    "scenario_count": 40,
+    "turn_count": 240,
+    "scenario_success_rate": 1.0,
+    "turn_success_rate": 1.0,
+    "p95_ms": 2.0384000381454825,
+    "max_model_calls": 0,
+    "passed_turns": 240,
+    "structured_clarification_turns": 0,
+    "provider_error_turns": 0
+  },
+  "interpretation": "First holdout failed; post-fix evaluation reuses consumed samples; human review pending; latency excludes business DB and App"
+}

@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "Resolved": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "p84-dialogue-1",
+          "default": "p84-dialogue-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "task",
+            "clarify",
+            "edit",
+            "explain",
+            "needs_input",
+            "clear_reference"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result"
+        },
+        "answers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Answers",
+          "type": "object"
+        },
+        "task_revision": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Revision"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        },
+        "preserve_active": {
+          "default": true,
+          "title": "Preserve Active",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "field_sources": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Field Sources",
+          "type": "object"
+        },
+        "filled_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Filled Fields",
+          "type": "object"
+        },
+        "facts": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Facts",
+          "type": "object"
+        },
+        "edit": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Edit"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "original_text",
+        "kind",
+        "reply"
+      ],
+      "title": "Resolved",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "resolved": {
+      "$ref": "#/$defs/Resolved"
+    },
+    "remaining_seconds": {
+      "default": 8,
+      "exclusiveMinimum": 0,
+      "maximum": 18,
+      "title": "Remaining Seconds",
+      "type": "number"
+    }
+  },
+  "required": [
+    "text",
+    "resolved"
+  ],
+  "title": "RespondRequest",
+  "type": "object"
+}

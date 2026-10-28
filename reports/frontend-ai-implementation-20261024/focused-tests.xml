@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="17" failures="0" errors="0" skipped="0" time="16.475" timestamp="2026-10-24T04:57:22" hostname="localhost">
+  <testsuite name="com.example.teamapp.FrontendAlignmentTest" tests="17" failures="0" errors="0" skipped="0" time="15.159" timestamp="2026-10-24T04:57:22" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5554 - 12" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="explicitClearDoesNotClearOmittedSectionsAndConflictsNeverAutoRetry" classname="com.example.teamapp.FrontendAlignmentTest" time="0.425" />
+    <testcase name="independentPreviewRunsOnlyOnceAndEditsInvalidateIt" classname="com.example.teamapp.FrontendAlignmentTest" time="0.983" />
+    <testcase name="factsPageUsesRealVersionsAndLeavesCoverageUnknownUntilExplicitInput" classname="com.example.teamapp.FrontendAlignmentTest" time="2.033" />
+    <testcase name="changingOnePreferencePreservesTheOtherFieldsInItsReplacementBlock" classname="com.example.teamapp.FrontendAlignmentTest" time="1.169" />
+    <testcase name="absentBatchNeverFabricatesAReferenceSource" classname="com.example.teamapp.FrontendAlignmentTest" time="0.939" />
+    <testcase name="ledgerShowsOnlyConsumedEventsAndOriginalReceipt" classname="com.example.teamapp.FrontendAlignmentTest" time="1.544" />
+    <testcase name="unknownWriteReplaysTheSameOperationAfterStoreRecreation" classname="com.example.teamapp.FrontendAlignmentTest" time="0.831" />
+    <testcase name="structuredCardsKeepNullForecastUnknownAndSeparatePartialSections" classname="com.example.teamapp.FrontendAlignmentTest" time="0.371" />
+    <testcase name="familyActionsAreGatedByRoleAndRequireNameConfirmation" classname="com.example.teamapp.FrontendAlignmentTest" time="1.14" />
+    <testcase name="cancellationStaysCancelledWhileReferenceResetReplaysItsOriginalBody" classname="com.example.teamapp.FrontendAlignmentTest" time="0.98" />
+    <testcase name="lifecycleDtosRetainExactQuantityAndWireCategory" classname="com.example.teamapp.FrontendAlignmentTest" time="0.239" />
+    <testcase name="concurrentLedgerPagingDeduplicatesEventsAndShowsTheReadGap" classname="com.example.teamapp.FrontendAlignmentTest" time="1.089" />
+    <testcase name="openingFormDoesNotRequestQuantityAndTerminalBatchesCannotPrepare" classname="com.example.teamapp.FrontendAlignmentTest" time="0.724" />
+    <testcase name="unreadableOutboxIsPreservedAndBlocksNewWrites" classname="com.example.teamapp.FrontendAlignmentTest" time="0.213" />
+    <testcase name="batchRequestBindsOnlyARealSourceTaskAndTheExactBatch" classname="com.example.teamapp.FrontendAlignmentTest" time="0.238" />
+    <testcase name="englishDarkFactsKeepProtocolValuesAndRenderConsistently" classname="com.example.teamapp.FrontendAlignmentTest" time="1.408" />
+    <testcase name="outboxesRemainIsolatedWhenTheHouseholdChanges" classname="com.example.teamapp.FrontendAlignmentTest" time="0.833" />
+  </testsuite>
+</testsuites>

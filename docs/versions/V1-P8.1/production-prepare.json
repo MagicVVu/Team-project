@@ -1,0 +1,71 @@
+{
+  "stage": "prepared",
+  "maintenance_release": "V1-P8.1",
+  "source_sha256": "c2047faaa5a321b16ce2e91f9a12db066bbc3aeb2dae63d5a0317da6eac7b5c0",
+  "tags": {
+    "agent": "magicvvu/agent:p81-c2047faaa5a3",
+    "backend": "magicvvu/backend:p81-c2047faaa5a3"
+  },
+  "base_image_ids": {
+    "agent": "sha256:15e072c4ddd548509f8796b8277b16ab715be132f7ddf28c84c23a1b0010d2d1",
+    "backend": "sha256:3d9663bb770e06a4c662973c607362d192d02ab8f30090d7e7b9d30170dd32de"
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p81-20261024-c2047faaa5a3-r2",
+  "candidate_paths": {
+    "agent": "/home/magicvvu_ai/workspace/agent/candidates/v1-p8.1-c2047faaa5a3",
+    "backend": "/home/magicvvu_ai/workspace/agent/backend_patches/v1-p8.1-c2047faaa5a3"
+  },
+  "ai_runtime_file_count": 82,
+  "overlay_files": {
+    "agent": {
+      "conversation/app.py": "03fc1739e750b0be43981e5935dd8ff76086f5e9af98e3e0baf76e07b991fb96",
+      "conversation/health.py": "c24cc9a3f0b7ae12d1ebbb3549182ffd1300a44502bedd896d5646f88f469ba5",
+      "conversation/manager.py": "b341876ec562392092d3bf498a6e890ebf784167c1e8d691959c6dee273eae99",
+      "conversation/schemas.py": "25acb015ded6a58ff8987da079c4f14675ee4983389fe35cfec6be6173e95433",
+      "conversation/scoped_queries.py": "fda5a3efb69fe616ea5cddd31f6027935432c10e2d2518278acb190edd639e54",
+      "integration/source_manifest.py": "1e96e72d194fd4e715b7b306a49ca856336bca661ae3dd7f92532e84c660e20e"
+    },
+    "backend": {
+      "app/main.py": "f1b9b154437207ec4696bd0a613cc57bf76cb6cc6f5a7ae78d51a6e041766156",
+      "app/routers/draft_execution.py": "8001ed9a319e28b10671c80ce9fdeab4ab83c04e4be4757f1f933f2c08473e51",
+      "app/routers/inventory.py": "8c60e2655b8d4ff739cc00c298916960ecd6b111d4c26938f761e7bc1c3b1587",
+      "app/services/draft_execution.py": "8f7aab8612039c2c93d26f60c865c5826b587c656080aff909e97669ae8eee8b",
+      "app/assistant_read_schemas.py": "d2d9878170eb914c038bd0980b2e9d161a522663cf21f3dbe01544dc0e80b483",
+      "app/routers/assistant_reads.py": "d559704d8f5347330b1acf369d9bfc70773d5b5273978f73d334854bd09e17b1"
+    }
+  },
+  "candidate_smoke": {
+    "agent": {
+      "legacy_workflows": {
+        "synthetic_manager_workflows": "passed",
+        "ordinal_target": "b2",
+        "multifield_continuation": "passed",
+        "zero_model_continuation": true,
+        "fixture_inventory_unchanged": true,
+        "real_inventory_accessed": false
+      },
+      "four_scoped_queries": "passed",
+      "finish_all": "passed",
+      "pack_units": "synthetic_arithmetic_passed",
+      "unreviewed_risk_gate": "preserved",
+      "plan_source_continuation": "passed",
+      "fixture_inventory_unchanged": true,
+      "maintenance_release": "V1-P8.1",
+      "real_data_accessed": false
+    },
+    "backend": {
+      "new_routes_registered": true,
+      "all_consumption_protected": true,
+      "legacy_quantity_edit_compatible": true,
+      "automatic_planning_commit": false,
+      "maintenance_release": "V1-P8.1",
+      "database_accessed": false
+    }
+  },
+  "formal_runtime_switched": false,
+  "database_migrations_executed": false,
+  "budget_before": {
+    "calls": 253,
+    "conservative_cost_cny": 0.907056
+  }
+}
