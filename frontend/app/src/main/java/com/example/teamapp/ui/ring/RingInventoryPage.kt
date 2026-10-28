@@ -200,7 +200,7 @@ internal fun RingInventoryPage(
                         }
                     }
                     Box(Modifier.weight(1f).fillMaxWidth().motionInput(phase == InventoryDetailPhase.Expanded)) {
-                        Detail(store, item, { close(it) }, notify, { close() }, cardPresentation = true,
+                        Detail(store, item, { close(it) }, notify, { close() },
                             reveal = { index ->
                                 Modifier.graphicsLayer {
                                     alpha = groups[index].value

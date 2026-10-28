@@ -259,26 +259,12 @@ internal fun reasons(item: StockItem, days: Int, concise: Boolean = false, strin
 
 @Composable
 internal fun Detail(store: InventoryStore, item: StockItem, open: (String) -> Unit, notify: (String) -> Unit, close: () -> Unit,
-    cardPresentation: Boolean = false, reveal: (Int) -> Modifier = { Modifier }) {
+    reveal: (Int) -> Modifier = { Modifier }) {
     val strings = rememberUiStrings()
     var deleting by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val operationId = rememberSaveable(item.id) { java.util.UUID.randomUUID().toString() }
-    if (cardPresentation || store.cloud.signedIn) InventoryDetailContent(store, item, open, { deleting = true }, reveal)
-    else if (!LocalLightDesign.current) DarkDetail(store, item, open) { deleting = true } else {
-    Column(Modifier.verticalScroll(rememberScrollState()).padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Photo(item.image)
-        Text("${emoji(item)} ${item.name}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text("${item.quantity.display()} ${item.unit}", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
-        Text(strings.get(R.string.ui___minimum__expires, strings.label(item.category), item.location, item.minimum.display(), item.unit, item.expiry.ifBlank { "未设置" }))
-        Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) { Text(reasons(item, store.reminderDays, concise = true, strings = strings), modifier = Modifier.fillMaxWidth().padding(12.dp)) }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { OutlinedButton(onClick = { open("编辑物品") }) { Text(strings.get(R.string.ui_edit)) }; OutlinedButton(onClick = { open("增加库存") }) { Text(strings.get(R.string.ui_add_stock)) }; OutlinedButton(onClick = { open("消耗库存") }) { Text(strings.get(R.string.ui_use_stock)) } }
-        Button(onClick = { open(if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }, modifier = Modifier.fillMaxWidth()) { Text(strings.get(R.string.ui_add_to_list___adjust)) }
-        Text(strings.get(R.string.ui_quantity_history), fontWeight = FontWeight.Bold)
-        item.history.forEach { Text(it, style = MaterialTheme.typography.bodySmall) }
-        TextButton(onClick = { deleting = true }) { Text(strings.get(R.string.ui_delete_item), color = Red) }
-    }
-    }
+    InventoryDetailContent(store, item, open, { deleting = true }, reveal)
     if (deleting) Confirm(strings.get(R.string.ui_delete, item.name), if (store.cloud.signedIn) strings.get(R.string.ui_remove_this_batch_from_inventory__the) else strings.get(R.string.ui_the_stock_record__quantity_history_and), { deleting = false }) {
         scope.launch { runCatching { store.deleteItemSynced(item, operationId) }.onSuccess { notify(strings.get(R.string.ui_deleted, item.name)); close() }.onFailure { notify(it.message ?: strings.get(R.string.ui_could_not_delete)) }; deleting = false }
     }

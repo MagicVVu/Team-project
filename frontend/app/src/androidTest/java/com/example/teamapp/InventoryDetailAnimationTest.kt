@@ -137,7 +137,8 @@ class InventoryDetailAnimationTest {
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
         compose.onNodeWithTag("inventory-detail-card").assertDoesNotExist()
         compose.onNodeWithTag("ring-selected-info").performClick()
-        compose.onNodeWithTag("inventory-detail-edit").performScrollTo().performClick()
+        compose.onNodeWithTag("inventory-detail-content").performScrollToNode(hasTestTag("inventory-detail-edit"))
+        compose.onNodeWithTag("inventory-detail-edit").performClick()
         compose.onNodeWithTag("inventory-detail-card").assertDoesNotExist()
         compose.onNodeWithText("物品名称 *").assertExists()
     }

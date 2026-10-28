@@ -12,6 +12,9 @@ import java.time.format.DateTimeFormatter
 
 class InventoryStore(context: Context) {
     val cloud = CloudStore(context)
+    // Deliberately excluded from preferences, export and all cloud requests.
+    internal val inventoryPreviews = InventoryPreviewStore()
+    internal val inventoryPreviewScope get() = cloud.scopeKey.ifBlank { "local" }
     private val preferences = context.getSharedPreferences("magicvvu_v1", Context.MODE_PRIVATE)
     private var readFailed = false
     private var localItems by mutableStateOf<List<StockItem>>(emptyList())
