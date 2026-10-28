@@ -1,5 +1,7 @@
 # MagicVVu 云端后端 v0.9（P8）
 
+2026-10-28：团队共享 API 密钥已接入。请求须携带 `X-MagicVVu-App-Key`，用户 Bearer 登录与家庭权限继续独立校验；本地后端须设置 `MAGICVVU_APP_API_KEY`。详见[接入及部署说明](../../reports/team-api-access-20261028/README.md)。
+
 2026-10-24 已正式部署 P8 后端与数据库 0010，可信引用、开封和丢弃已开放，详见 [正式部署记录](../../reports/backend-ai-alignment/deployment-20261024.md)。
 
 2026-10-24：P8 会话、草稿控制、执行预览、开封/丢弃及规划资料接入见 [后端与 AI 对齐说明](../../reports/backend-ai-alignment/README.md)。新增资料录入、持久化和失效校验；迁移 head 为 `20261023_0010`。当前文档区分本地候选与正式部署，不能仅凭 `0.9.0` 判断功能已上线。

@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.database import engine
 from app.login_guard import LoginGuard
+from app.app_access import AppKeyMiddleware
 from app.routers.auth import router as auth_router
 from app.routers.households import router as household_router
 from app.routers.ai_inventory import router as ai_inventory_router
@@ -34,6 +35,7 @@ app = FastAPI(
     openapi_url="/openapi.json" if os.getenv("MAGICVVU_ENABLE_DOCS", "false").lower() == "true" else None,
 )
 app.state.login_guard = LoginGuard()
+app.add_middleware(AppKeyMiddleware)
 app.include_router(auth_router)
 app.include_router(household_router)
 app.include_router(ai_inventory_router)

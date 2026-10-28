@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "image": "magicvvu/backend:app-key-20261028t140429z",
+  "backup": "/srv/magicvvu/releases/app-key-20261028T140429Z",
+  "tls_fingerprint": "9e6fb871598e9462eba322e9871ded09e89b08af4f1c761b288641118f5c4d0e",
+  "candidate_passed": true,
+  "missing_wrong_key": 403,
+  "key_without_login": 401,
+  "login_register_validation": 422,
+  "private_routes": 404,
+  "agent_database_unchanged": true,
+  "firewall_unchanged": true,
+  "existing_env_unchanged": true,
+  "public_probe_from_workstation": "URLError; network restrictions retained",
+  "android_unit_tests": 60,
+  "android_failures": 0,
+  "backend_and_edge_regression": {
+    "passed": 467,
+    "skipped": 39
+  },
+  "edge_recheck_passed": 5
+}

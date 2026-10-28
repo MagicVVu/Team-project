@@ -1,5 +1,7 @@
 # Mewstow Android：本机与家庭云端
 
+2026-10-28：团队共享 API 密钥已接入。请求须携带 `X-MagicVVu-App-Key`，用户 Bearer 登录与家庭权限继续独立校验；本地后端须设置 `MAGICVVU_APP_API_KEY`。详见[接入及部署说明](../reports/team-api-access-20261028/README.md)。
+
 本目录是 Kotlin / Jetpack Compose 原生 Android App，支持 Android 7.0（API 24）及以上。已接入 v0.8 云端后端，完整连接与体验说明见 [云端联调指南](云端联调指南.md)。
 
 当前测试版：**v1.2.0-test · 中英文界面切换**（2026-10-24，versionCode 4）。详见 [更新说明](CHANGELOG.md) 与 [中英文界面说明](中英文界面说明.md)。

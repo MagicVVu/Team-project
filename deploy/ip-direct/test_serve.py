@@ -1,9 +1,19 @@
 import unittest
+import os
+import sys
+from pathlib import Path
+from unittest.mock import patch
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "backend/server"))
 from serve import PublicAPI
 
 
 class PublicAPITest(unittest.IsolatedAsyncioTestCase):
-    async def request(self, path, *, app=None, body=b"", peer="192.0.2.1", headers=None):
+    def setUp(self):
+        env = patch.dict(os.environ, MAGICVVU_APP_API_KEY="synthetic-team-key")
+        env.start()
+        self.addCleanup(env.stop)
+
+    async def request(self, path, *, app=None, body=b"", peer="192.0.2.1", headers=None, key=True):
         seen = []
         async def business(scope, receive, send):
             seen.append((scope["path"], await receive()))
@@ -15,8 +25,15 @@ class PublicAPITest(unittest.IsolatedAsyncioTestCase):
             return {"type": "http.request", "body": body, "more_body": False}
         async def send(message):
             output.append(message)
-        await app({"type": "http", "path": path, "client": (peer, 123), "headers": headers or []}, receive, send)
+        access = [(b"x-magicvvu-app-key", b"synthetic-team-key")] if key else []
+        await app({"type": "http", "path": path, "client": (peer, 123), "headers": access + (headers or [])}, receive, send)
         return output[0]["status"], seen
+
+    async def test_public_health_and_business_require_key(self):
+        for path in ("/health", "/api/v1/health", "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/users/me"):
+            status, seen = await self.request(path, key=False)
+            self.assertEqual(status, 403)
+            self.assertEqual(seen, [])
 
     async def test_internal_and_admin_routes_never_reach_business(self):
         for path in ("/internal/v1/inventory/search", "/api/v1/ready", "/docs", "/openapi.json", "/admin", "/"):

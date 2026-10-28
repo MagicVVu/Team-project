@@ -61,6 +61,7 @@ open class CloudApi(val address: String, private val token: String = "") {
             connection.readTimeout = 20000
             connection.instanceFollowRedirects = false
             connection.setRequestProperty("Accept", "application/json")
+            connection.setRequestProperty(TeamApiAccess.HEADER, TeamApiAccess.KEY)
             if (token.isNotEmpty()) connection.setRequestProperty("Authorization", "Bearer $token")
             if (body != null) {
                 connection.doOutput = true
@@ -91,7 +92,7 @@ open class CloudApi(val address: String, private val token: String = "") {
                 else -> JSONObject(text)
             }
         } catch (failure: CloudFailure) { throw failure }
-        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络、服务器地址、证书及测试 IP 放行状态；如刚提交操作，请先刷新核对结果。", failure) }
+        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络、服务器地址、证书及服务器访问策略；如刚提交操作，请先刷新核对结果。", failure) }
         finally { connection.disconnect() }
     }
 

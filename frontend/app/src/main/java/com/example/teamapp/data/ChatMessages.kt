@@ -2,6 +2,8 @@ package com.example.teamapp.data
 
 object ChatMessages {
     fun reason(code: String, fallback: String = "请核对当前任务后继续"): String = when (code) {
+        "APP_KEY_INVALID" -> "团队 API 访问密钥无效，请同步最新 App，或联系服务器维护者。"
+        "APP_KEY_NOT_CONFIGURED" -> "服务器尚未配置团队 API 访问密钥，请联系服务器维护者。"
         "STOCK_COUNT_MISMATCH" -> "盘点数量与当前库存不同，请先盘点修正、刷新，再由你重新确认盘点。"
         "PLANNING_FACTS_VERSION_CONFLICT" -> "资料已被更新，输入仍保留。请读取最新版本并复核，不会自动覆盖。"
         "COVERAGE_DAY_OUT_OF_RANGE" -> "只能核对家庭时区中已经结束的日期，今天与未来不能提交。"

@@ -47,6 +47,13 @@ class PublicAPI:
                         "headers": [(b"content-type", b"application/json"), (b"cache-control", b"no-store")]})
             await send({"type": "http.response.body", "body": b'{"detail":"Public request rejected"}'})
             return
+        # Validate before reading a body, including public health probes.
+        # Imported lazily so the standalone edge tests can supply the backend path.
+        from app.app_access import app_key_error
+        error = app_key_error(scope)
+        if error is not None:
+            await error(scope, receive, send)
+            return
         # Bound request memory before handing a complete body to the existing app.
         body = bytearray()
         while True:
