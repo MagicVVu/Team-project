@@ -53,6 +53,6 @@ http {
         proxy_set_header Tailscale-User-Name "";
         proxy_set_header Tailscale-User-Profile-Pic "";
         proxy_connect_timeout 3s;
-        proxy_read_timeout 60s;
+        proxy_read_timeout 85s;
     }
 }

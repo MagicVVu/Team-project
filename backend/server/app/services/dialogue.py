@@ -99,7 +99,7 @@ class P85Request(p85.Wire):
     context: dict
     archive: p85.Archive | None = None
     current_task_plan: dict | None = None
-    remaining_seconds: float = Field(gt=0, le=18)
+    remaining_seconds: float = Field(gt=0, le=60)
 
 
 class P85ResolveRequest(P85Request):
@@ -110,7 +110,7 @@ class P85ResolveRequest(P85Request):
 class P85RespondRequest(p85.Wire):
     text: str = Field(min_length=1, max_length=1000)
     resolved: P85Resolution
-    remaining_seconds: float = Field(gt=0, le=18)
+    remaining_seconds: float = Field(gt=0, le=60)
 
 
 def validated(model, value):
@@ -125,7 +125,14 @@ async def call(identity, home, stage, payload, seconds):
     async with httpx.AsyncClient(timeout=seconds, trust_env=False, follow_redirects=False) as client:
         response = await client.post(url+"/agent/dialogue/"+stage, json=payload, headers={
             "Authorization":"Bearer "+token, "X-User-Id":str(identity.user.id), "X-Household-Id":str(home)})
-    if response.status_code != 200: execution.fail("DIALOGUE_AI_UNAVAILABLE", 503)
+    if response.status_code != 200:
+        try:
+            error_body = response.json()
+            detail = error_body.get("error") or error_body.get("detail", {})
+            code = detail.get("code", "") if isinstance(detail, dict) else ""
+        except (ValueError, AttributeError):
+            code = ""
+        execution.fail("DIALOGUE_AI_TIMEOUT" if "TIMEOUT" in code else "DIALOGUE_AI_UNAVAILABLE", 503)
     try: data = response.json()
     except ValueError: execution.fail("DIALOGUE_AI_INVALID", 503)
     expected = P85_PROTOCOL if stage.startswith("p85/") else PROTOCOL
@@ -157,11 +164,17 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
         if is_p85:
             validated({"understand": P85Request, "resolve": P85ResolveRequest,
                        "respond": P85RespondRequest}[stage], value)
-        return await call(identity, body.household_id, ("p85/" if is_p85 else "")+stage,
-                          value, remaining())
+        try:
+            return await call(identity, body.household_id, ("p85/" if is_p85 else "")+stage,
+                              value, remaining())
+        except (TimeoutError, httpx.HTTPError, HTTPException) as error:
+            code = error.detail.get("code", "") if isinstance(error, HTTPException) and isinstance(error.detail, dict) else ""
+            state["stop_reason"] = "timeout" if isinstance(error, (TimeoutError, httpx.TimeoutException)) or "TIMEOUT" in code else "ai_unavailable"
+            save("interrupted")
+            raise
     original = dict(saved["payload"])
     def remaining():
-        value = 18-(time.monotonic()-start)
+        value = (60 if is_p85 else 18)-(time.monotonic()-start)
         if value <= 0: raise TimeoutError()
         return value
     payload = {**original, "context":memory.context_for(db,identity,body.household_id,db.get(ConversationTurn,turn_id))}
@@ -221,6 +234,7 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
     state.update(resolved=deepcopy(frame))
     saved = save("resolved")
     response_calls, fallback = 0, recovering or frame.get("expression_required", True)
+    stop_reason = state.get("stop_reason") if state.get("response_started") else None
     # Structured continuation/status and recovery are deliberately zero-model.
     paid_understanding = state.get("understanding_calls",0)
     if not recovering and paid_understanding and frame["kind"] != "clarify" and frame.get("expression_required", True):
@@ -239,14 +253,22 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
             response_calls = response.response_calls
             frame["reply"] = response.reply
             fallback = response.fallback_used
-        except (TimeoutError,httpx.HTTPError,HTTPException):
-            pass  # Verified frame is already durable. No paid retry.
+            if fallback:
+                stop_reason = "timeout" if response.error_code and "TIMEOUT" in response.error_code else "ai_unavailable"
+        except (TimeoutError, httpx.TimeoutException):
+            stop_reason = "timeout"  # Keep the verified, durable frame; never retry a paid call.
+        except (httpx.HTTPError, HTTPException):
+            stop_reason = state.get("stop_reason", "ai_unavailable")
+    state["stop_reason"] = stop_reason
     state.update(response_calls=response_calls if not recovering else state.get("response_calls", int(state.get("response_started",False))),
                  fallback_used=fallback)
     counts = {"understanding":paid_understanding,"response":state["response_calls"]}
     counts["total"] = sum(counts.values())
     frame.update(model_calls=counts["total"], dialogue={"protocol_version":protocol,"calls":counts,
-        "recovery_model_calls":0 if recovering else None,"fallback_used":fallback,"field_sources":frame["field_sources"]})
+        "recovery_model_calls":0 if recovering else None,"fallback_used":fallback,"field_sources":frame["field_sources"],
+        "status": "stopped" if stop_reason else "needs_input" if frame["kind"] == "needs_input" else
+                  "needs_confirmation" if (frame.get("result") or {}).get("status") == "needs_confirmation" else "completed",
+        "stop_reason": stop_reason or ("insufficient_data" if frame["kind"] == "needs_input" else None)})
     saved = save("prepared")
     _, turn = routing.locked_turn(db,identity,turn_id,nonce)
     turn.resolution_json = frame

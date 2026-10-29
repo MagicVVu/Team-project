@@ -42,6 +42,65 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
         if (codes != null && codes.length() > 0) Text(s.tr("原因：", "Reasons: ") + (0 until codes.length()).joinToString { alignmentReason(codes.getString(it), s.english) }, style = MaterialTheme.typography.bodySmall)
     }
     Column(Modifier.fillMaxWidth().testTag("ai-structured-results"), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        val groupedBatches = rows("product_planning").flatMap { it.optJSONObject("product")?.optJSONArray("batches")?.objects().orEmpty() }
+            .map { it.stringOrEmpty("batch_id") }.toSet()
+        rows("facts").filter { it.stringOrEmpty("id") !in groupedBatches }.forEach { row ->
+            AlignmentCard(s.tr("批次资料 · ", "Batch · ") + row.stringOrEmpty("name")) {
+                Text(s.tr("登记数量：", "Recorded quantity: ") + missing(row.stringOrEmpty("quantity")) + " " + row.stringOrEmpty("unit"))
+                Text(s.tr("存放位置：", "Location: ") + missing(row.stringOrEmpty("location").ifBlank { row.stringOrEmpty("storage_location") }))
+                Text(s.tr("标示到期日：", "Label expiry: ") + missing(row.stringOrEmpty("label_expiry")))
+                Text(s.tr("开封日期：", "Opened: ") + missing(row.stringOrEmpty("opened_at")))
+                Text(s.tr("批次：", "Batch: ") + row.stringOrEmpty("id") + " · v" + row.stringOrEmpty("version"), style = MaterialTheme.typography.labelSmall)
+            }
+        }
+        rows("product_planning").forEach { row ->
+            val product = row.optJSONObject("product") ?: JSONObject()
+            AlignmentCard(s.tr("商品汇总 · ", "Product · ") + product.stringOrEmpty("name")) {
+                product.stringOrEmpty("specification").takeIf { it.isNotBlank() }?.let { Text(it) }
+                Text(s.tr("登记总量：", "Total recorded: ") + missing(product.stringOrEmpty("total_quantity")) + " " + product.stringOrEmpty("base_unit"))
+                Text(s.tr("未过标示日期的活动量：", "Active quantity within label date: ") + missing(product.stringOrEmpty("nonexpired_active_quantity")))
+                Text(s.tr("可用量：", "Usable quantity: ") + missing(product.stringOrEmpty("usable_quantity")))
+                Text(s.tr("这不是可安全食用的保证；商品汇总与批次数量不可重复相加。", "This does not establish food safety. Do not add the product aggregate to its batches."), style = MaterialTheme.typography.bodySmall)
+                Text(s.tr("已登记消费小计：", "Recorded consumption subtotal: ") + missing(row.stringOrEmpty("recorded_consumption_quantity")) + " " + product.stringOrEmpty("base_unit"))
+                Text(s.tr("统计范围：", "Recorded window: ") + "${missing(row.stringOrEmpty("window_start"))} → ${missing(row.stringOrEmpty("window_end_exclusive"))} " + s.tr("（不含结束日）", "(end exclusive)"))
+                Text(s.tr("记录小计不代表完整实际消费，没有记录不能解释为零消费。", "Recorded events do not establish complete consumption; no records does not mean zero consumption."), style = MaterialTheme.typography.bodySmall)
+                Text(s.tr("关联待购量：", "Linked pending quantity: ") + missing(row.stringOrEmpty("pending_quantity")))
+                Text(s.tr("预计还能用：", "Reference days remaining: ") + missing(row.stringOrEmpty("remaining_days")))
+                Text(s.tr("建议补货量：", "Suggested quantity: ") + missing(row.stringOrEmpty("suggested_quantity")))
+                reasons(row)
+                product.optJSONArray("batches")?.objects()?.forEach { batch ->
+                    HorizontalDivider()
+                    val batchState = when (batch.stringOrEmpty("status")) {
+                        "ACTIVE" -> s.tr("库存中", "Active stock")
+                        "FINISHED" -> s.tr("已用完", "Finished")
+                        "DISCARDED" -> s.tr("已丢弃", "Discarded")
+                        else -> missing(batch.stringOrEmpty("status"))
+                    }
+                    Text("${missing(batch.stringOrEmpty("quantity"))} ${batch.stringOrEmpty("unit")} · ${missing(batch.stringOrEmpty("location"))} · $batchState")
+                    Text(s.tr("标示到期日：", "Label expiry: ") + missing(batch.stringOrEmpty("label_expiry")) +
+                        if (batch.optBoolean("expired")) s.tr("（已过标示日期）", " (past label date)") else "")
+                    Text(s.tr("批次：", "Batch: ") + batch.stringOrEmpty("batch_id") + " · v" + batch.stringOrEmpty("version"), style = MaterialTheme.typography.labelSmall)
+                    TextButton(onClick = { facts(batch.stringOrEmpty("batch_id"), "coverage") }) { Text(s.tr("核对这批资料", "Review batch facts")) }
+                }
+            }
+        }
+        result.optJSONObject("planning_context")?.let { context -> AlignmentCard(s.tr("待购与资料状态", "Pending purchases & facts")) {
+            Text(when (context.stringOrEmpty("pending_state")) {
+                "none" -> s.tr("没有登记的待购条目", "No recorded pending items")
+                "linked_complete" -> s.tr("待购来源已完整关联", "Pending sources are fully linked")
+                "shopping_list_missing" -> s.tr("缺少采购清单，待购量未知", "Shopping list missing; pending quantity unknown")
+                else -> s.tr("待购来源尚未核对完整，不能当成零待购", "Pending sources are incomplete; do not assume zero")
+            })
+            Text(s.tr("待购条目数：", "Pending entries: ") + missing(context.stringOrEmpty("pending_count")))
+            Text(s.tr("自动补货提交尚未开放，请核对后手动添加采购。", "Automatic restock submission is unavailable; review and add purchases manually."), style = MaterialTheme.typography.bodySmall)
+        } }
+        result.optJSONObject("planning_review")?.let { review -> AlignmentCard(s.tr("建议依据核对", "Suggestion review")) {
+            Text(if (review.stringOrEmpty("status") == "stale") s.tr("原建议依据已变化，请重新查询并核对", "Suggestion basis changed; query and review again")
+                else s.tr("仍缺少必要资料，暂不能自动提交", "Required facts are missing; automatic submission remains unavailable"))
+            listOf("mismatches", "blockers").forEach { field -> review.optJSONArray(field)?.let { values ->
+                repeat(values.length()) { Text(alignmentReason(values.getString(it), s.english), style = MaterialTheme.typography.bodySmall) }
+            } }
+        } }
         rows("sections").forEach { row -> AlignmentCard(if (row.optString("name") == "risk") s.tr("风险资料分区", "Risk section") else s.tr("规划资料分区", "Planning section")) {
             Text(status(row.optString("status")))
             Text(s.tr("读取时间：", "As of: ") + missing(row.stringOrEmpty("evaluated_at")), style = MaterialTheme.typography.bodySmall)
@@ -98,7 +157,10 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
             TextButton(onClick = { facts(row.stringOrEmpty("batch_id"), sectionFor(fields)) }) { Text(s.tr("选择批次并补录", "Select batch & review facts")) }
         } }
         result.optJSONArray("data_gaps")?.takeIf { it.length() > 0 }?.let { gaps ->
-            AlignmentCard(s.tr("资料缺口", "Data gaps")) { repeat(gaps.length()) { Text(gaps.getString(it)) } }
+            AlignmentCard(s.tr("资料缺口", "Data gaps")) {
+                repeat(gaps.length()) { Text(alignmentReason(gaps.getString(it), s.english)) }
+                TextButton(onClick = { facts("", sectionFor((0 until gaps.length()).map { gaps.getString(it) })) }) { Text(s.tr("补充缺失资料", "Review missing facts")) }
+            }
         }
         if (result.optBoolean("truncated")) Text(s.tr("仅展示部分结果；符合条件总数：", "Partial results only; total matching: ") + result.stringOrEmpty("total_count").ifBlank { s.tr("未知", "unknown") }, color = MaterialTheme.colorScheme.primary)
     }

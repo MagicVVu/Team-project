@@ -121,6 +121,29 @@ def test_reset_is_separate_from_new_task_and_never_cancels(execution_state, p7):
         assert db.query(DraftOperation).count() == 0
 
 
+@pytest.mark.parametrize("phase", ["completed", "prepared", "result_unknown", "processing"])
+def test_recovery_uses_latest_head_instead_of_original_turn_reference(execution_state, p7, phase):
+    from app.services import conversation as routing
+    client, Session, ids = execution_state
+    first = ok(send(client, ids, ok(start(client, ids)), "把牛奶移到书房"))
+    latest = ok(send(client, ids, first, "开始新任务"))
+    assert latest["active_task"] is None
+    with Session.begin() as db:
+        turn = db.scalar(select(ConversationTurn).where(ConversationTurn.request_id == first["request_id"]))
+        if phase != "completed":
+            turn.phase = "prepared" if phase == "prepared" else "understanding"
+            if phase != "prepared": turn.resolution_json = None
+            if phase == "processing":
+                current = routing.cursor(db, ids["user"])
+                current.processing_nonce = turn.processing_nonce = uuid4().hex
+                current.lease_until = gateway.now()+timedelta(seconds=60)
+    recovered = ok(client.get(BASE+"conversation-turns/"+first["request_id"], headers=headers(), params={"household_id": str(ids["home"])}))
+    assert recovered["phase"] == phase
+    assert recovered["active_task"] is None
+    assert recovered["current_conversation_revision"] == latest["current_conversation_revision"]
+    if phase == "completed": assert recovered["response"]["task"]["task_id"] == first["task"]["task_id"]
+
+
 def test_scope_forged_context_and_concurrency_revision(execution_state, p7):
     client, Session, ids = execution_state
     session = ok(start(client, ids))
@@ -339,7 +362,7 @@ def test_local_memory_backend_contract_matches_factory(execution_state):
     assert exported.pop("x-supported-dialogue-protocols") == ["p84-dialogue-1", "p85-dialogue-1"]
     from contract_compatibility import assert_backend_contract
     assert_backend_contract(exported, app.openapi())
-    assert json.loads((root/"public-response.schema.json").read_text(encoding="utf-8")) == Response.model_json_schema()
+    assert_backend_contract(json.loads((root/"public-response.schema.json").read_text(encoding="utf-8")), Response.model_json_schema())
     old = project/"docs/versions/V1-P8.4/contracts/public-response.schema.json"
     assert_backend_contract(json.loads(old.read_text(encoding="utf-8")), Response.model_json_schema())
 

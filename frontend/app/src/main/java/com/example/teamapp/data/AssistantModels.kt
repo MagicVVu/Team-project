@@ -20,12 +20,25 @@ data class AssistantEntry(
     val conversationSession: String = "", val controlBody: String = "",
     val conversationReply: String = "", val checkedPreview: String = "", val transportMode: String = "legacy",
     val referenceClearBody: String = "", val referenceCleared: Boolean = false,
-    val conversationResponse: String = "", val historical: Boolean = false, val conversationScopeId: String = ""
+    val conversationResponse: String = "", val historical: Boolean = false, val conversationScopeId: String = "",
+    val planningReview: String = "",
+    val messageRejected: Boolean = false,
+    val conversationRecovery: String = ""
 ) {
     val taskJson get() = JSONObject(task)
     val draftJson get() = JSONObject(draft)
     val executionJson get() = JSONObject(execution)
     val result get() = taskJson.optJSONObject("result") ?: JSONObject()
+    val structuredResults get() = AssistantResults.collect(result, conversationResponse)
+    val dialogueNotice get() = ConversationFeedback.dialogue(conversationResponse)
+    val recoveryNotice get(): String {
+        if (conversationRecovery.isBlank()) return ""
+        val recovery = JSONObject(conversationRecovery)
+        if (conversationResolved && recovery.optString("phase") != "completed") return ""
+        return ConversationFeedback.recovery(recovery.stringOrEmpty("phase"), recovery.stringOrEmpty("recovery_hint"))
+    }
+    val automaticPlan get() = result.optJSONObject("planning_basis") != null ||
+        result.stringOrEmpty("quantity_source") == "planning_calculation" || result.stringOrEmpty("intent") == "SUGGEST_PURCHASE"
     val command get() = if (checkedPreview.isNotBlank()) JSONObject(checkedPreview).getJSONObject("command") else draftJson.optJSONObject("draft") ?: result.optJSONObject("draft") ?: JSONObject()
     val taskId get() = taskJson.stringOrEmpty("task_id")
     val draftId get() = taskJson.stringOrEmpty("draft_id").ifBlank { executionJson.stringOrEmpty("draft_id") }
@@ -33,6 +46,9 @@ data class AssistantEntry(
     val taskRevision get() = taskJson.optInt("revision")
     val draftRevision get() = draftJson.optInt("revision")
     val taskStatus get() = taskJson.stringOrEmpty("status")
+    val clarificationExpired get() = taskStatus == "needs_clarification" && runCatching {
+        !java.time.OffsetDateTime.parse(taskJson.getString("expires_at")).toInstant().isAfter(java.time.Instant.now())
+    }.getOrDefault(true)
     val executionStatus get() = executionJson.stringOrEmpty("status")
     val errorCode get() = failureCode.ifBlank { executionJson.stringOrEmpty("reason_code").ifBlank { result.stringOrEmpty("error_code") } }
     val action get() = command.stringOrEmpty("action")
@@ -54,6 +70,8 @@ data class AssistantEntry(
         .put("reference_clear_body", referenceClearBody).put("reference_cleared", referenceCleared)
         .put("conversation_response", conversationResponse).put("historical", historical)
         .put("conversation_scope_id", conversationScopeId)
+        .put("planning_review", planningReview)
+        .put("message_rejected", messageRejected).put("conversation_recovery", conversationRecovery)
     companion object {
         fun fromJson(j: JSONObject) = AssistantEntry(j.getString("request_id"), j.getString("request_body"), j.getString("task"),
             j.getString("draft"), j.getString("execution"), j.optString("commit_body"), j.optString("clarification_body"), j.optString("cancel_body"),
@@ -62,6 +80,7 @@ data class AssistantEntry(
             j.optString("conversation_body"), j.optBoolean("conversation_resolved"), j.optString("conversation_session"), j.optString("control_body"),
             j.optString("conversation_reply"), j.optString("checked_preview"), j.optString("transport_mode", "legacy"),
             j.optString("reference_clear_body"), j.optBoolean("reference_cleared"),
-            j.optString("conversation_response"), j.optBoolean("historical"), j.optString("conversation_scope_id"))
+            j.optString("conversation_response"), j.optBoolean("historical"), j.optString("conversation_scope_id"), j.optString("planning_review"),
+            j.optBoolean("message_rejected"), j.optString("conversation_recovery"))
     }
 }

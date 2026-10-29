@@ -19,6 +19,7 @@ class Profile(PreviousProfile):
     version = "0.8.5"
     health = {**PreviousProfile.health, "maintenance_release": "V1-P8.5",
               "conversation_dialogue_protocol": "p85-dialogue-1",
+              "dialogue_deadline_seconds": 60,
               "conversation_episode_protocol": "conversation-episodes-1",
               "memory_archive_max_episodes": 100, "memory_retrieved_episodes": 8,
               "memory_persistence_owner": "business_backend", "frontend_integration_verified": False}

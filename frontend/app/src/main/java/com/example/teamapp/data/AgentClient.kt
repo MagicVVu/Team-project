@@ -27,8 +27,9 @@ open class AgentClient(address: String, token: String) {
     suspend fun clarify(id: String, body: JSONObject) = api.request("POST", "/api/v1/agent/clarifications/${uuid(id)}", body)
     open suspend fun draft(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}")
     open suspend fun execution(id: String) = api.request("GET", "/api/v1/drafts/${uuid(id)}/execution")
+    open suspend fun planningRevalidation(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/planning-revalidation", body)
     open suspend fun commit(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/commit", body)
     open suspend fun cancel(id: String, body: JSONObject) = api.request("POST", "/api/v1/drafts/${uuid(id)}/cancel", body)
-    suspend fun operation(id: String) = api.request("GET", "/api/v1/operations/${uuid(id)}")
+    open suspend fun operation(id: String) = api.request("GET", "/api/v1/operations/${uuid(id)}")
     private fun uuid(value: String) = java.util.UUID.fromString(value).toString()
 }

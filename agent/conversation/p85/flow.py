@@ -3,6 +3,7 @@ import asyncio
 import copy
 import re
 from decimal import Decimal
+from pydantic import Field
 
 from p0.domain import DomainError, normalize_unit
 from p0.engines import EngineError
@@ -60,6 +61,11 @@ def literal_plan(body):
             return P85Plan(speech_act="correction", fields=fields)
     plan = previous.literal_plan(body)
     return P85Plan(**plan.model_dump()) if plan else None
+
+
+class P85ReadRequest(ResolveRequest):
+    """Reuse deterministic business resolution with the P8.5 deadline only."""
+    remaining_seconds: float = Field(default=60, gt=0, le=60)
 
 
 async def understand(owner, body, scope):
@@ -191,7 +197,7 @@ async def resolve(owner, body, scope):
             owner = copy.copy(owner)
             owner.reader = BoundReader()
             binding = True
-    legacy = ResolveRequest(text=body.text, request_id=body.request_id,
+    legacy = P85ReadRequest(text=body.text, request_id=body.request_id,
         household_timezone=body.household_timezone, context=ctx,
         current_task_plan=body.current_task_plan, remaining_seconds=body.remaining_seconds,
         plan=Plan.model_validate(plan.model_dump(exclude={"memory_id"})))
@@ -243,6 +249,6 @@ async def respond(owner, body):
             value = await method(body.text, body.resolved) if method else await engine.respond(owner, body, render.vocabulary())
             reply = render.render(value, body.resolved)
         return P85Responded(reply=reply, response_calls=1)
-    except (EngineError, ValueError, TypeError, KeyError, TimeoutError):
+    except (EngineError, ValueError, TypeError, KeyError, TimeoutError) as error:
         return P85Responded(reply=body.resolved.reply, response_calls=1, fallback_used=True,
-                            error_code="P85_RESPONSE_FALLBACK")
+                            error_code="P85_RESPONSE_TIMEOUT" if isinstance(error, TimeoutError) or "TIMEOUT" in getattr(error, "code", "") else "P85_RESPONSE_FALLBACK")

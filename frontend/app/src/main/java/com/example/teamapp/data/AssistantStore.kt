@@ -36,6 +36,7 @@ class AssistantStore(
     var conversationRevision by mutableStateOf(0); private set
     var historyCursor by mutableStateOf(""); private set
     val activeEntry get() = entries.firstOrNull { it.requestId == activeRequestId }
+    fun hasConfirmation(item: AssistantEntry) = item.draftId.isNotBlank() && entries.any { it.draftId == item.draftId && it.commitBody.isNotBlank() }
     val visibleEntries get() = entries.filter { it.conversationScopeId.isBlank() || it.conversationScopeId == conversationId }
     val memoryEnabled get() = JSONObject(capabilities).optString("conversation_memory_protocol") == "conversation-memory-1"
     val conversationEnabled get() = memoryEnabled || JSONObject(capabilities).optString("conversation_protocol") == "backend-conversation-1"
@@ -76,15 +77,22 @@ class AssistantStore(
     }
     private fun save(scope: String, next: List<AssistantEntry>) {
         verifyScope(scope)
-        check(prefs.edit().putString(scope, JSONArray(next.map { it.toJson() }).toString())
+        val shared = DraftConfirmations.share(next)
+        check(prefs.edit().putString(scope, JSONArray(shared.map { it.toJson() }).toString())
             .putString("$scope|conversation", JSONObject().put("id", conversationId).put("revision", conversationRevision).toString())
             .putString("$scope|active", activeRequestId).putString("$scope|session", currentSession).commit()) {
             "无法持久保存操作请求，已停止发送。请检查设备空间"
         }
-        entries = next
+        entries = shared
     }
     private fun entry(id: String) = entries.single { it.requestId == id }
     private fun update(scope: String, item: AssistantEntry) = save(scope, entries.map { if (it.requestId == item.requestId) item else it })
+    private fun updateConfirmation(scope: String, item: AssistantEntry) = save(scope, entries.map {
+        if (it.requestId == item.requestId) item
+        else if (DraftConfirmations.sameVersion(it, item) && (it.commitBody.isBlank() || it.commitBody == item.commitBody)) it.copy(commitBody = item.commitBody, receipt = item.receipt,
+            state = item.state, notice = item.notice, failureCode = item.failureCode, refreshNeeded = item.refreshNeeded)
+        else it
+    })
 
     private suspend fun session(id: String? = null, block: suspend (String, AgentClient) -> Unit) = mutex.withLock {
         bind(); val scope = boundScope
@@ -115,7 +123,8 @@ class AssistantStore(
                     if (definitiveRejection && old.conversationBody.isNotBlank()) {
                         val selector = JSONObject(old.conversationBody).optString("task_id")
                         val bound = activeEntry?.takeIf { it.taskId == selector }
-                        old = old.copy(conversationResolved = true, task = if (old.controlBody.isBlank() && old.taskId.isBlank() && bound != null) bound.task else old.task)
+                        old = old.copy(conversationResolved = true, messageRejected = true,
+                            task = if (old.controlBody.isBlank() && old.taskId.isBlank() && bound != null) bound.task else old.task)
                     }
                     val state = when {
                         code == "AI_OUTCOME_UNKNOWN" -> AssistantStatus.UNKNOWN
@@ -128,7 +137,10 @@ class AssistantStore(
                         old.commitBody.isNotBlank() || old.cancelBody.isNotBlank() || old.clarificationBody.isNotBlank() -> AssistantStatus.UNKNOWN
                         else -> AssistantStatus.UNKNOWN
                     }
-                    runCatching { update(scope, old.copy(state = state, notice = error, failureCode = code.ifBlank { old.failureCode })) }
+                    runCatching {
+                        val failed = old.copy(state = state, notice = error, failureCode = code.ifBlank { old.failureCode })
+                        if (failed.commitBody.isNotBlank()) updateConfirmation(scope, failed) else update(scope, failed)
+                    }
                     if (state == AssistantStatus.CONFLICT) runCatching { cloud.refresh() }
                 }
             }
@@ -396,9 +408,9 @@ class AssistantStore(
         val response = try { api.conversationTurn(body) }
         catch (failure: java.io.IOException) {
             verifyScope(scope)
-            if (failure is CloudFailure && failure.status in setOf(400, 404, 409, 410, 422) &&
+            if (failure is CloudFailure && failure.status in setOf(400, 401, 403, 404, 409, 410, 422) &&
                 failure.errorCode !in setOf("AI_OUTCOME_UNKNOWN", "CONVERSATION_PROCESSING", "CONCURRENT_DUPLICATE_REQUEST", "TASK_PROCESSING")) {
-                update(scope, entry(id).copy(conversationResolved = true,
+                update(scope, entry(id).copy(conversationResolved = true, messageRejected = true,
                     state = if (failure.status == 409) AssistantStatus.CONFLICT else AssistantStatus.FAILED,
                     failureCode = failure.errorCode, notice = failure.message.orEmpty()))
                 if (failure.errorCode in setOf("CONVERSATION_REVISION_CONFLICT", "CONVERSATION_SUPERSEDED")) restoreConversation(scope, api)
@@ -423,18 +435,33 @@ class AssistantStore(
         }
         verifyScope(scope)
         require(recovered.getString("request_id") == id && recovered.getString("original_text") == JSONObject(old.conversationBody).getString("text"))
-        when (recovered.getString("phase")) {
-            "completed" -> acceptMemoryResponse(scope, api, id, recovered.getJSONObject("response"))
-            "prepared" -> if (allowResume) sendMemory(scope, api, id) else update(scope, old.copy(state = AssistantStatus.UNKNOWN,
-                notice = "理解已保存；点击核实恢复可按原请求继续，不重新理解"))
-            "processing" -> update(scope, old.copy(state = AssistantStatus.UNKNOWN, notice = "原消息仍在处理中，请稍后查询"))
-            "result_unknown" -> update(scope, old.copy(state = AssistantStatus.UNKNOWN, notice = "理解结果尚未核实，不会自动再次调用模型"))
-            else -> throw IllegalStateException("未知的会话恢复状态")
+        val recoveredPhase = recovered.getString("phase")
+        val hint = recovered.stringOrEmpty("recovery_hint")
+        // Persist the envelope before optional task/draft reads. It never replaces this turn's result.
+        update(scope, entry(id).copy(conversationRecovery = recovered.toString(),
+            state = if (recoveredPhase == "completed") entry(id).state else AssistantStatus.UNKNOWN,
+            notice = ConversationFeedback.recovery(recoveredPhase, hint)))
+        if (recovered.has("conversation_id")) require(recovered.getString("conversation_id") == conversationId)
+        if (recovered.has("current_conversation_revision")) {
+            conversationRevision = maxOf(conversationRevision, recovered.getInt("current_conversation_revision"))
+            save(scope, entries)
         }
+        if (recoveredPhase == "completed") {
+            val response = JSONObject(recovered.getJSONObject("response").toString())
+            if (recovered.has("active_task")) response.put("active_task", recovered.get("active_task"))
+            if (recovered.has("current_conversation_revision")) response.put("current_conversation_revision", recovered.getInt("current_conversation_revision"))
+            acceptMemoryResponse(scope, api, id, response)
+            if (hint.isNotBlank()) update(scope, entry(id).copy(notice = listOf(entry(id).notice, hint).filter { it.isNotBlank() }.joinToString("；")))
+            return
+        }
+        // Explicit null clears the reference; absent fields preserve compatibility with older servers.
+        if (recovered.has("active_task")) syncActiveTask(scope, api, recovered.optJSONObject("active_task"))
+        if (recoveredPhase == "prepared" && allowResume) sendMemory(scope, api, id)
     }
 
     suspend fun validateDraft(id: String) = session(id) { scope, api ->
         val old = entry(id)
+        require(!hasConfirmation(old)) { "这份草稿已有确认记录，请先核实原回执" }
         if (JSONObject(capabilities).optBoolean("chat_controls")) {
             phase = "正在核对修改后的草稿"
             val request = JSONObject().put("text", "校验草稿").put("task_revision", old.taskRevision)
@@ -540,8 +567,10 @@ class AssistantStore(
         if (draftId.isNotBlank()) {
             val draft = api.draft(draftId); verifyScope(scope)
             val current = entry(id)
-            val unchanged = current.draftRevision == draft.optInt("revision")
-            update(scope, current.copy(draft = draft.toString(), edits = if (unchanged) current.edits else emptyMap(), checkedPreview = if (unchanged) current.checkedPreview else ""))
+            val unchanged = current.draftRevision == draft.optInt("revision") &&
+                (old.taskId.isBlank() || old.taskRevision == task.getInt("revision"))
+            update(scope, current.copy(draft = draft.toString(), edits = if (unchanged) current.edits else emptyMap(), checkedPreview = if (unchanged) current.checkedPreview else "",
+                planningReview = if (unchanged) current.planningReview else ""))
             acceptExecution(scope, id, api.execution(draftId))
         }
     }
@@ -549,7 +578,7 @@ class AssistantStore(
         verifyScope(scope)
         val old = entry(id)
         require(execution.getString("draft_id") == old.draftId && execution.getString("task_id") == old.taskId) { "执行对象不匹配" }
-        val state = when (execution.getString("status")) {
+        val state = if (old.receipt.isNotBlank()) AssistantStatus.COMMITTED else when (execution.getString("status")) {
             "committed" -> AssistantStatus.UNKNOWN // Only a validated formal receipt establishes success.
             "cancelled" -> AssistantStatus.CANCELLED
             "expired" -> AssistantStatus.EXPIRED
@@ -567,7 +596,7 @@ class AssistantStore(
         // A pending decision is insufficient evidence to clear an uncertain original POST.
         val item = entry(id)
         val caps = JSONObject(capabilities)
-        val automatic = item.result.optJSONObject("planning_basis") != null || item.result.stringOrEmpty("quantity_source") == "planning_calculation" || item.result.stringOrEmpty("intent") == "SUGGEST_PURCHASE"
+        val automatic = item.automaticPlan
         if (item.state == AssistantStatus.PENDING && (!caps.optJSONObject("actions")!!.optBoolean(item.action) || automatic)) {
             update(scope, item.copy(state = AssistantStatus.UNSUPPORTED, notice = "当前版本暂不支持自动执行；可在库存或清单页面手动核对"))
         }
@@ -575,25 +604,35 @@ class AssistantStore(
     private fun acceptReceipt(scope: String, id: String, receipt: JSONObject) {
         verifyScope(scope)
         val old = entry(id); val owner = receipt.getJSONObject("scope"); val account = requireNotNull(cloud.account)
+        val original = old.commitBody.takeIf { it.isNotBlank() }?.let(::JSONObject)
         require(receipt.getString("status") == "committed" && receipt.getString("protocol_version") == "draft-operation-receipt-1" &&
             receipt.getString("draft_id") == old.draftId && receipt.getString("task_id") == old.taskId &&
-            receipt.getString("action") == old.action && receipt.getInt("draft_revision") == old.draftRevision &&
-            receipt.getInt("task_revision") == old.taskRevision &&
+            receipt.getString("action") == old.action && receipt.getInt("draft_revision") == (original?.getInt("draft_revision") ?: old.draftRevision) &&
+            receipt.getInt("task_revision") == (original?.getInt("task_revision") ?: old.taskRevision) &&
             owner.getString("user_id") == account.userId && owner.getString("household_id") == account.householdId &&
             (old.operationId.isBlank() || receipt.getString("operation_id") == old.operationId)) { "回执身份或操作不匹配，需核实" }
-        update(scope, old.copy(receipt = receipt.toString(), state = AssistantStatus.COMMITTED, notice = "", refreshNeeded = true, failureCode = ""))
+        updateConfirmation(scope, old.copy(receipt = receipt.toString(), state = AssistantStatus.COMMITTED, notice = "", refreshNeeded = true, failureCode = ""))
     }
     private suspend fun refreshReceipt(scope: String, id: String) {
         try {
             refreshHousehold(); verifyScope(scope)
-            update(scope, entry(id).copy(refreshNeeded = false, notice = ""))
+            updateConfirmation(scope, entry(id).copy(refreshNeeded = false, notice = ""))
         } catch (_: Exception) {
             verifyScope(scope)
-            update(scope, entry(id).copy(state = AssistantStatus.COMMITTED, refreshNeeded = true, notice = "操作已执行；库存或清单刷新失败，请重新刷新"))
+            updateConfirmation(scope, entry(id).copy(state = AssistantStatus.COMMITTED, refreshNeeded = true, notice = "操作已执行；库存或清单刷新失败，请重新刷新"))
         }
     }
     private suspend fun recoverEntry(scope: String, api: AgentClient, id: String) {
         var old = entry(id)
+        // Existing legacy envelopes remain independently GET-recoverable even if they conflict.
+        val owner = if (old.operationId.isBlank()) DraftConfirmations.owner(entries, old) else null
+        if (owner != null) {
+            recoverEntry(scope, api, owner.requestId)
+            val result = entry(owner.requestId)
+            update(scope, entry(id).copy(state = if (result.receipt.isNotBlank()) AssistantStatus.CONFLICT else AssistantStatus.UNKNOWN,
+                notice = if (result.receipt.isNotBlank()) "原确认已完成，这张旧草稿不能再次提交，请查看执行记录" else "这份草稿有原确认待核实，不能重新提交"))
+            return
+        }
         if (old.operationId.isNotBlank()) {
             try {
                 val receipt = api.operation(old.operationId); acceptReceipt(scope, id, receipt)
@@ -611,14 +650,15 @@ class AssistantStore(
         try {
             bind(); verifyScope(boundScope)
             val old = entry(id)
-            check(!busy && old.state == AssistantStatus.PENDING && old.commitBody.isBlank() && field in old.editableFields)
-            update(boundScope, old.copy(edits = old.edits + (field to value), checkedPreview = "", conversationReply = "修改尚未重新校验，请点击核对后查看预览。"))
+            check(!busy && old.state == AssistantStatus.PENDING && !hasConfirmation(old) && field in old.editableFields)
+            update(boundScope, old.copy(edits = old.edits + (field to value), checkedPreview = "", planningReview = "", conversationReply = "修改尚未重新校验，请点击核对后查看预览。"))
         } catch (failure: Exception) { error = failure.message ?: "任务已变化，请重新选择" }
     }
     suspend fun clarify(id: String, answers: Map<String, String>) {
         if (conversationEnabled) {
             val old = entry(id)
-            require(old.taskId == activeEntry?.taskId && answers.keys.all { it in old.allowedFields }) { "请先选择当前活动任务" }
+            require(!old.historical && !old.clarificationExpired && old.taskId == activeEntry?.taskId &&
+                old.taskRevision == activeEntry?.taskRevision && answers.keys.all { it in old.allowedFields }) { "候选已变化或过期，请先恢复当前任务后重新选择" }
             val text = if (answers.containsKey("batch_id")) {
                 val index = old.candidates.indexOfFirst { it.stringOrEmpty("id").ifBlank { it.stringOrEmpty("batch_id") } == answers.getValue("batch_id") }
                 require(index >= 0); "选择第${index+1}个"
@@ -652,6 +692,8 @@ class AssistantStore(
     suspend fun confirm(id: String) = session(id) { scope, api ->
         phase = "正在提交，请等待服务器回执"
         val old = entry(id)
+        val owner = DraftConfirmations.owner(entries, old)
+        if (owner != null) { recoverEntry(scope, api, owner.requestId); return@session }
         require(old.state == AssistantStatus.PENDING && old.commitBody.isBlank() && old.cancelBody.isBlank()) { "请先核实原操作结果" }
         val latest = api.execution(old.draftId); verifyScope(scope)
         acceptExecution(scope, id, latest)
@@ -662,23 +704,53 @@ class AssistantStore(
         val edits = draftEdits(values)
         val body = JSONObject().put("operation_id", UUID.randomUUID().toString()).put("draft_revision", old.draftRevision)
             .put("task_revision", old.taskRevision).put("edits", edits).toString()
-        update(scope, entry(id).copy(commitBody = body, state = AssistantStatus.SUBMITTING, notice = ""))
-        acceptReceipt(scope, id, api.commit(old.draftId, JSONObject(body)))
+        updateConfirmation(scope, entry(id).copy(commitBody = body, state = AssistantStatus.SUBMITTING, notice = ""))
+        submitConfirmation(scope, api, id, body)
+    }
+    private suspend fun submitConfirmation(scope: String, api: AgentClient, id: String, body: String) {
+        val receipt = try { api.commit(entry(id).draftId, JSONObject(body)) }
+        catch (failure: java.io.IOException) {
+            if (failure is CloudFailure && failure.status in 400..499) throw failure
+            verifyScope(scope)
+            updateConfirmation(scope, entry(id).copy(state = AssistantStatus.UNKNOWN,
+                notice = "确认响应未收到，正在查询原执行记录；不会重复扣减"))
+            recoverEntry(scope, api, id)
+            return
+        }
+        acceptReceipt(scope, id, receipt)
         refreshReceipt(scope, id)
+    }
+
+    suspend fun revalidatePlanning(id: String) = session(id) { scope, api ->
+        val old = entry(id)
+        require(old.automaticPlan && old.draftId.isNotBlank() && !hasConfirmation(old)) { "请先核对原建议草稿" }
+        val latest = api.execution(old.draftId); verifyScope(scope)
+        require(latest.getInt("task_revision") == old.taskRevision && latest.getInt("draft_revision") == old.draftRevision) { "草稿已变化，请恢复任务后重新核对" }
+        val response = api.planningRevalidation(old.draftId, JSONObject().put("task_revision", old.taskRevision)
+            .put("draft_revision", old.draftRevision).put("edits", draftEdits(old.edits)))
+        verifyScope(scope)
+        require(response.getString("protocol_version") == "planning-revalidation-1" && response.getString("draft_id") == old.draftId &&
+            response.getString("status") in setOf("stale", "blocked") && !response.getBoolean("inventory_written") &&
+            !response.getBoolean("shopping_written") && !response.getBoolean("automatic_planning_commit")) { "建议核对结果不匹配" }
+        update(scope, entry(id).copy(planningReview = response.toString(),
+            notice = if (response.getString("status") == "stale") "原建议依据已变化，请重新查询后核对；尚未执行" else "建议仍缺少必要资料，自动提交未开放"))
     }
     suspend fun retryCommit(id: String) = session(id) { scope, api ->
         phase = "正在核实原操作，避免重复执行"
-        val old = entry(id); require(old.commitBody.isNotBlank())
-        recoverEntry(scope, api, id)
-        if (entry(id).state == AssistantStatus.UNKNOWN) {
-            update(scope, entry(id).copy(state = AssistantStatus.SUBMITTING))
-            acceptReceipt(scope, id, api.commit(old.draftId, JSONObject(old.commitBody)))
-            refreshReceipt(scope, id)
+        val original = DraftConfirmations.owner(entries, entry(id)) ?: throw IllegalStateException("缺少原确认记录")
+        recoverEntry(scope, api, original.requestId)
+        val old = entry(original.requestId)
+        if (old.state == AssistantStatus.UNKNOWN) {
+            val body = JSONObject(original.commitBody)
+            require(old.taskRevision == body.getInt("task_revision") && old.draftRevision == body.getInt("draft_revision")) { "草稿已变化，请先核实原确认，不能替换版本重交" }
+            updateConfirmation(scope, old.copy(state = AssistantStatus.SUBMITTING))
+            submitConfirmation(scope, api, original.requestId, original.commitBody)
         }
     }
     suspend fun cancel(id: String) = session(id) { scope, api ->
         phase = "正在取消草稿，库存不变"
         val old = entry(id)
+        require(!hasConfirmation(old)) { "这份草稿已有确认记录，请先核实执行结果" }
         require(old.commitBody.isBlank() && old.state in setOf(AssistantStatus.PENDING, AssistantStatus.UNSUPPORTED, AssistantStatus.UNKNOWN, AssistantStatus.CANCELLED))
         val latest = api.execution(old.draftId); verifyScope(scope)
         if (latest.getString("status") == "cancelled") { acceptExecution(scope, id, latest); clearCancelledReference(scope, api, id); return@session }

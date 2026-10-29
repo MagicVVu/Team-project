@@ -252,6 +252,21 @@ def test_expression_keeps_facts_and_reduces_whitelist_fallback():
     assert reply.fallback_used and reply.reply == frame.reply
 
 
+def test_expression_timeout_retains_verified_facts_and_identifies_reason():
+    owner, _, _ = service()
+    req = request("它在哪", ctx=context(reference=reference()), episodes=[])
+    parsed = run(flow.understand(owner, req, SCOPE))
+    frame = run(flow.resolve(owner, resolve_request(req, parsed.plan), SCOPE))
+    class TimeoutEngine:
+        async def p85_respond(self, *args):
+            raise TimeoutError("synthetic timeout")
+    owner.engine = TimeoutEngine()
+    reply = run(flow.respond(owner, P85RespondRequest(text=req.text, resolved=frame, remaining_seconds=59)))
+    assert reply.fallback_used and reply.reply == frame.reply
+    assert reply.error_code == "P85_RESPONSE_TIMEOUT"
+    assert reply.response_calls == 1
+
+
 def test_http_factory_opt_in_and_internal_auth(monkeypatch):
     from fastapi.testclient import TestClient
     from conversation.p85.app import create_app

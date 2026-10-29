@@ -194,5 +194,33 @@ def test_optional_delta_and_untrusted_response_boundaries(execution_state, p85, 
         assert value["task"]["status"] == "needs_confirmation"
         if change == "expression_lost":
             assert value["dialogue"]["fallback_used"] and value["model_calls"] == 2
+            assert value["dialogue"]["status"] == "stopped"
+            assert value["dialogue"]["stop_reason"] == "timeout"
+            recovered = ok(client.get(BASE+"conversation-turns/"+value["request_id"], headers=headers(), params={"household_id": str(ids["home"])}))
+            assert recovered["response"]["task"] == value["task"]
+            assert recovered["response"]["dialogue"]["stop_reason"] == "timeout"
     with Session() as db:
         assert db.query(DraftOperation).count() == 0
+
+
+@pytest.mark.parametrize("source", ["transport", "ai"])
+def test_p85_sixty_second_stage_budget_and_timeout_recovery_hint(execution_state, p85, monkeypatch, source):
+    client, Session, ids = execution_state
+    async def timeout(identity, home, stage, payload, seconds):
+        assert stage == "p85/understand"
+        assert 18 < payload["remaining_seconds"] <= 60
+        assert 18 < seconds <= 60
+        raise httpx.ReadTimeout("synthetic long request timeout")
+    if source == "transport":
+        monkeypatch.setattr(dialogue, "call", timeout)
+    else:
+        async def ai_timeout(*args): raise TimeoutError("synthetic AI deadline")
+        monkeypatch.setattr(p85[0], "p85_understand", ai_timeout)
+    session = ok(start(client, ids)); request_id = uuid4().hex
+    result = send(client, ids, session, "牛奶在哪里", request_id=request_id)
+    assert result.status_code >= 500
+    recovered = ok(client.get(BASE+"conversation-turns/"+request_id, headers=headers(), params={"household_id": str(ids["home"])}))
+    assert recovered["phase"] == "result_unknown"
+    assert "超时" in recovered["recovery_hint"]
+    assert recovered["conversation_id"] == session["conversation_id"]
+    assert send(client, ids, session, "牛奶在哪里", request_id=request_id).status_code == 409

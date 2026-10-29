@@ -273,19 +273,24 @@ def recover(db, identity, home, request_id):
         execution.fail("CONVERSATION_TURN_NOT_FOUND", 404)
     if meta(head(db, identity, home)).get("conversation_id") != meta(turn).get("conversation_id"):
         execution.fail("CONVERSATION_SUPERSEDED")
+    latest = head(db, identity, home)
+    snapshot = dict(conversation_id=meta(latest)["conversation_id"],
+                    current_conversation_revision=meta(latest)["revision"],
+                    active_task=live_task(db, identity, home, meta(latest).get("active_task_id")))
     if turn.phase == "completed":
         return dict(phase="completed", request_id=request_id, original_text=turn.original_text,
-                    response=final_response(db, identity, turn, turn.response_json))
-    task = db.scalar(select(AITask).where(AITask.user_id == identity.user.id,
-        AITask.household_id == home, AITask.request_id == request_id))
-    active = live_task(db, identity, home, str(task.id) if task else meta(turn).get("active_task_id"))
+                    response=final_response(db, identity, turn, turn.response_json), **snapshot)
     current = routing.cursor(db, identity.user.id)
     processing = bool(current and current.processing_nonce == turn.processing_nonce and current.processing_nonce
                       and current.lease_until and gateway.as_aware(current.lease_until) > gateway.now())
     prepared = bool(turn.resolution_json) or dialogue.has_plan(turn.binding_json or {})
+    protocol = dialogue.saved_protocol(turn.binding_json or {})
+    state = (turn.binding_json or {}).get(dialogue.PROTOCOL_KEYS[protocol], {}) if protocol else {}
+    reason = {"timeout": "本轮处理超时，已经查到的结果仍保留。",
+              "ai_unavailable": "AI 服务暂时不可用，已经查到的结果仍保留。"}.get(state.get("stop_reason"), "")
     return dict(phase="processing" if processing else "prepared" if prepared else "result_unknown", request_id=request_id,
-                original_text=turn.original_text, active_task=active,
-                recovery_hint="以原请求ID和原请求体恢复；理解结果未知时不会再次调用模型。")
+                original_text=turn.original_text, **snapshot,
+                recovery_hint=reason+"以原请求ID和原请求体恢复；理解结果未知时不会再次调用模型。")
 
 
 async def send(db, identity, body):
@@ -327,7 +332,7 @@ async def send(db, identity, body):
     use_dialogue = recovering_dialogue or (new_turn and dialogue.enabled())
     nonce = str(uuid4())
     current.processing_nonce = turn.processing_nonce = nonce
-    current.lease_until = gateway.now()+timedelta(seconds=30)
+    current.lease_until = gateway.now()+timedelta(seconds=90 if use_dialogue else 30)
     try:
         db.commit()
     except IntegrityError:

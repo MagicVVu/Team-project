@@ -65,6 +65,8 @@ class DialogueMetadata(BaseModel):
     recovery_model_calls: Literal[0] | None = None
     fallback_used: bool
     field_sources: dict[str,Any] = Field(default_factory=dict)
+    status: Literal["completed", "needs_input", "needs_confirmation", "stopped"] = "completed"
+    stop_reason: str | None = None
 
 
 class Response(BaseModel):
@@ -108,6 +110,8 @@ class Page(BaseModel):
 
 
 class Recovery(BaseModel):
+    conversation_id: UUID | None = None
+    current_conversation_revision: int | None = None
     phase: Literal["completed", "processing", "result_unknown", "prepared"]
     request_id: str
     original_text: str

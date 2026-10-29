@@ -50,6 +50,7 @@ class P85Plan(Plan):
 
 
 class P85Request(Request):
+    remaining_seconds: float = Field(default=60, gt=0, le=60)
     archive: P85Archive | None = None
 
     @model_validator(mode="after")
@@ -114,6 +115,7 @@ class P85Resolved(Resolved):
 
 
 class P85RespondRequest(RespondRequest):
+    remaining_seconds: float = Field(default=8, gt=0, le=60)
     resolved: P85Resolved
 
 

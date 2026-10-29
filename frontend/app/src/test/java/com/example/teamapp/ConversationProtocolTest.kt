@@ -5,10 +5,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ConversationProtocolTest {
-    @Test fun conversationAndRecoveryHaveThirtySecondReadBudget() {
+    @Test fun conversationAndRecoveryHaveNinetySecondReadBudget() {
         listOf("/api/v1/agent/conversation?household_id=one&limit=20", "/api/v1/agent/conversation/reset",
             "/api/v1/agent/conversation-turns", "/api/v1/agent/conversation-turns/original-id?household_id=one",
-            "/api/v1/agent/conversation-messages").forEach { assertEquals(30_000, ConversationProtocol.readTimeoutMillis(it)) }
+            "/api/v1/agent/conversation-messages").forEach { assertEquals(90_000, ConversationProtocol.readTimeoutMillis(it)) }
     }
     @Test fun ordinaryBusinessRequestsKeepExistingReadBudget() {
         listOf("/api/v1/agent/tasks/one", "/api/v1/drafts/one/commit", "/api/v1/auth/login",

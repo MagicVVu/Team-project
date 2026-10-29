@@ -344,6 +344,7 @@ private class FixtureApi : CloudApi(BuildConfig.CLOUD_API_URL) {
         }
         if (method == "GET" && path.contains("inventory-items?")) return JSONObject().put("total", 1).put("items", if (path.contains("offset=0")) JSONArray().put(stock()) else JSONArray())
         if (method == "GET" && path.contains("shopping-list/items")) return JSONObject().put("total", 0).put("items", JSONArray())
+        if (method == "GET" && path.contains("inventory-products?")) return JSONObject().put("total", 0).put("items", JSONArray())
         if (method == "GET" && path.endsWith("members")) return JSONObject().put("items", JSONArray())
         management += "$method $path"
         return JSONObject()

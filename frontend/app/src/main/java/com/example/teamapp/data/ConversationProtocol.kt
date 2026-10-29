@@ -1,6 +1,6 @@
 package com.example.teamapp.data
 
-/** Request identities and the 20s server budget belong to a single durable turn. */
+/** Long conversation requests allow the server to return a durable outcome. */
 internal object ConversationProtocol {
     fun readTimeoutMillis(path: String): Int {
         val route = path.substringBefore('?')
@@ -8,6 +8,6 @@ internal object ConversationProtocol {
             route == "/api/v1/agent/conversation/reset" ||
             route == "/api/v1/agent/conversation-messages" ||
             route == "/api/v1/agent/conversation-turns" ||
-            route.startsWith("/api/v1/agent/conversation-turns/")) 30_000 else 20_000
+            route.startsWith("/api/v1/agent/conversation-turns/")) 90_000 else 20_000
     }
 }

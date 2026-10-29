@@ -55,7 +55,7 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
         assistant.launch {
             val previousIds = entries.map { it.requestId }.toSet()
             this.send(text)
-            if (input == text && entries.any { it.requestId !in previousIds && JSONObject(it.requestBody).optString("text") == text }) input = ""
+            if (input == text && entries.any { it.requestId !in previousIds && !it.messageRejected && JSONObject(it.requestBody).optString("text") == text }) input = ""
         }
     }
     LaunchedEffect(initial) {
@@ -79,6 +79,17 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
         Text(strings.get(R.string.ui_household_ai___actions_require_confirmation), style = MaterialTheme.typography.labelLarge)
         Text(if (assistant.conversationEnabled) strings.get(R.string.ui_continue_the_current_task_directly__edited) else strings.get(R.string.ui_this_service_handles_separate_tasks__candidate), style = MaterialTheme.typography.bodySmall)
         assistant.activeEntry?.let { Text(strings.get(R.string.ui_current_task, JSONObject(it.requestBody).optString("text").take(50)), style = MaterialTheme.typography.labelMedium) }
+        assistant.activeEntry?.takeIf { it.draftId.isNotBlank() }?.let { active ->
+            Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth().testTag("ai-active-draft")) {
+                Column(Modifier.padding(12.dp)) {
+                    Text(strings.tr("当前草稿 · ", "Current draft · ") + strings.label(active.state.label), fontWeight = FontWeight.SemiBold)
+                    Text(strings.label(actionLabel(active.action)) + " · " + active.command.stringOrEmpty("name"))
+                    Text(if (active.receipt.isNotBlank()) strings.tr("已收到服务器成功记录；刷新失败不会再次执行。", "The server confirmed success; a refresh failure will not repeat the operation.")
+                        else if (assistant.hasConfirmation(active)) strings.tr("已有确认记录，请核实执行结果，勿重复提交。", "A confirmation exists. Check its result before submitting again.")
+                        else strings.tr("聊天和预览不会执行；核对下方当前草稿后再确认。", "Chat and previews do not execute changes. Review the current draft below before confirming."), style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
         if (assistant.referenceLabel.isNotBlank()) Text(assistant.referenceLabel, style = MaterialTheme.typography.bodySmall)
         if (assistant.referenceLabel.isNotBlank()) {
             val active = assistant.activeEntry
@@ -170,24 +181,42 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                 if (entry.state in setOf(AssistantStatus.COMMITTED, AssistantStatus.CANCELLED)) Text(strings.get(R.string.ui_ai_reply_when_generated__history), style = MaterialTheme.typography.labelSmall)
                 Text(entry.reply)
             }
-            AgentResultCards(entry.result, facts = { batch, section -> factsTarget = batch; factsSection = section }, events = { eventTarget = it })
-            if (entry.notice.isNotBlank()) Text(entry.notice, style = MaterialTheme.typography.bodySmall)
+            if (entry.dialogueNotice.isNotBlank()) Text(entry.dialogueNotice,
+                style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("ai-dialogue-$id"))
+            entry.structuredResults.forEach { result ->
+                AgentResultCards(result, facts = { batch, section -> factsTarget = batch; factsSection = section }, events = { eventTarget = it })
+            }
+            if (entry.planningReview.isNotBlank()) AgentResultCards(JSONObject().put("planning_review", JSONObject(entry.planningReview)),
+                facts = { batch, section -> factsTarget = batch; factsSection = section }, events = { eventTarget = it })
+            if (entry.conversationResponse.isNotBlank() && JSONObject(entry.conversationResponse).optBoolean("truncated"))
+                Text(strings.tr("本轮只读取了部分资料，未展示的内容仍需核对。", "Only part of the available context was read; review missing information."), style = MaterialTheme.typography.bodySmall)
+            listOf(entry.notice, entry.recoveryNotice).filter { it.isNotBlank() }.distinct().forEach {
+                Text(it, style = MaterialTheme.typography.bodySmall)
+            }
             if (entry.state == AssistantStatus.CANCELLED && entry.referenceClearBody.isNotBlank() && !entry.referenceCleared) {
                 TextButton(onClick = { assistant.launch { cancel(id) } }, enabled = !disabled) { Text(strings.tr("核实会话解绑", "Recover conversation reset")) }
             }
             if (entry.errorCode.isNotBlank() && !entry.notice.contains(entry.errorCode)) Text(ChatMessages.reason(entry.errorCode, entry.notice.ifBlank { strings.get(R.string.ui_review_the_current_task_before_continuing) }), style = MaterialTheme.typography.bodySmall)
             if (!historical && entry.state == AssistantStatus.CLARIFICATION) {
+                Text(if (entry.clarificationExpired) strings.tr("候选已过期，请恢复任务或重新查询。", "Candidates expired. Recover the task or query again.")
+                    else strings.tr("请从本次候选中选择；旧消息里的选择不再生效。", "Choose from the current candidates; older selections are inactive."), style = MaterialTheme.typography.bodySmall)
+                if (entry.clarificationExpired) TextButton(onClick = { assistant.launch { recover(id) } }, enabled = !disabled) {
+                    Text(strings.tr("核实当前任务", "Check current task"))
+                }
                 if ("batch_id" in entry.allowedFields) entry.candidates.forEachIndexed { index, c ->
-                    OutlinedButton(onClick = { assistant.launch { clarify(id, mapOf("batch_id" to c.batchId())) } }, enabled = !disabled,
+                    OutlinedButton(onClick = { assistant.launch { clarify(id, mapOf("batch_id" to c.batchId())) } }, enabled = !disabled && !entry.clarificationExpired,
                         modifier = Modifier.fillMaxWidth().testTag("ai-candidate-$id-$index")) {
+                        Column {
                         Text(strings.get(R.string.ui_______purchased___expires, index + 1, c.stringOrEmpty("name"), c.stringOrEmpty("quantity"), c.stringOrEmpty("unit"), c.stringOrEmpty("location").ifBlank { c.stringOrEmpty("storage_location") }, c.stringOrEmpty("purchased_at").ifBlank { strings.get(R.string.ui_unknown) }, c.stringOrEmpty("label_expiry").ifBlank { strings.get(R.string.ui_unknown) }))
+                        Text("v${c.stringOrEmpty("version")} · ${c.batchId().take(8)}", style = MaterialTheme.typography.labelSmall)
+                        }
                     }
                 }
                 entry.allowedFields.filter { it != "batch_id" && it in fieldLabels }.forEach { field ->
                     OutlinedTextField(if (selectedField == field) answers else "", { selectedField = field; answers = it }, label = { Text(strings.label(fieldLabels[field] ?: field)) },
-                        enabled = !disabled && entry.clarificationBody.isBlank(), modifier = Modifier.fillMaxWidth().testTag("ai-clarify-$field-$id"))
+                        enabled = !disabled && !entry.clarificationExpired && entry.clarificationBody.isBlank(), modifier = Modifier.fillMaxWidth().testTag("ai-clarify-$field-$id"))
                 }
-                if (selectedField.isNotBlank()) TextButton(onClick = { assistant.launch { clarify(id, mapOf(selectedField to answers)) } }, enabled = !disabled && answers.isNotBlank()) { Text(strings.get(R.string.ui_continue_clarification)) }
+                if (selectedField.isNotBlank()) TextButton(onClick = { assistant.launch { clarify(id, mapOf(selectedField to answers)) } }, enabled = !disabled && !entry.clarificationExpired && answers.isNotBlank()) { Text(strings.get(R.string.ui_continue_clarification)) }
             }
             if (!historical && entry.draftId.isNotBlank()) {
                 val command = entry.command
@@ -218,7 +247,7 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                     before?.let { Text(strings.tr("原开封 / 生命周期：", "Before opened / lifecycle: ") + "${it.stringOrEmpty("opened_at")} · ${it.stringOrEmpty("status")}", style = MaterialTheme.typography.bodySmall) }
                     after?.let { Text(strings.tr("预计开封 / 生命周期：", "Expected opened / lifecycle: ") + "${it.stringOrEmpty("opened_at")} · ${it.stringOrEmpty("status")}", style = MaterialTheme.typography.bodySmall) }
                 }
-                if (entry.state == AssistantStatus.PENDING && entry.commitBody.isBlank()) {
+                if (entry.state == AssistantStatus.PENDING && !assistant.hasConfirmation(entry)) {
                     entry.editableFields.forEach { field ->
                         OutlinedTextField(entry.edits[field] ?: command.stringOrEmpty(field),
                             { value -> assistant.edit(id, field, value) }, label = { Text(strings.label(fieldLabels[field] ?: field)) }, enabled = !disabled,
@@ -232,7 +261,9 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                 } else if (entry.state == AssistantStatus.UNSUPPORTED && entry.commitBody.isBlank()) {
                     Text(strings.get(R.string.ui_draft_quantity____location, command.stringOrEmpty("quantity"), command.stringOrEmpty("unit"), command.stringOrEmpty("location").ifBlank { command.stringOrEmpty("to_location") }))
                     Text(strings.get(R.string.ui_automatic_execution_is_not_supported_here))
-                    TextButton(onClick = { assistant.launch { cancel(id) } }, enabled = !disabled) { Text(strings.get(R.string.ui_cancel_draft)) }
+                    if (entry.automaticPlan) TextButton(onClick = { assistant.launch { revalidatePlanning(id) } }, enabled = !disabled && !assistant.hasConfirmation(entry),
+                        modifier = Modifier.testTag("ai-revalidate-$id")) { Text(strings.tr("重新核对建议依据", "Recheck suggestion basis")) }
+                    TextButton(onClick = { assistant.launch { cancel(id) } }, enabled = !disabled && !assistant.hasConfirmation(entry)) { Text(strings.get(R.string.ui_cancel_draft)) }
                 }
             }
             if (entry.receipt.isNotBlank()) {
@@ -244,7 +275,11 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
                 Text(strings.get(R.string.ui_receipt, receipt.getString("operation_id"), receipt.getString("committed_at")), style = MaterialTheme.typography.labelSmall)
             }
             if (!historical && entry.state == AssistantStatus.CONFLICT) Text(strings.get(R.string.ui_inventory_or_draft_versions_changed__refresh))
-            if (!historical && (entry.state in listOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.FAILED, AssistantStatus.CONFLICT) || entry.refreshNeeded)) {
+            if (!historical && assistant.hasConfirmation(entry) && entry.commitBody.isBlank()) {
+                Text(strings.tr("这份草稿已有原确认，请先查询，不能再提交一次。", "This draft already has a confirmation. Check its result before another submission."))
+                TextButton(onClick = { assistant.launch { recover(id) } }, enabled = !disabled) { Text(strings.tr("查询原确认结果", "Check original confirmation")) }
+            }
+            if (!historical && (entry.state in listOf(AssistantStatus.UNKNOWN, AssistantStatus.PROCESSING, AssistantStatus.FAILED, AssistantStatus.CONFLICT, AssistantStatus.EXPIRED) || entry.refreshNeeded)) {
                 TextButton(onClick = { assistant.launch { if (entry.taskId.isBlank() && entry.conversationBody.isBlank()) retryMessage(id) else recover(id) } }, enabled = !disabled, modifier = Modifier.testTag("ai-recover-$id")) { Text(if (entry.refreshNeeded) strings.get(R.string.ui_refresh_inventory) else strings.get(R.string.ui_check_and_recover)) }
                 if (entry.state == AssistantStatus.UNKNOWN && entry.commitBody.isNotBlank()) TextButton(onClick = { assistant.launch { retryCommit(id) } }, enabled = !disabled) { Text(strings.get(R.string.ui_recover_the_original_confirmation)) }
                 if (entry.state == AssistantStatus.UNKNOWN && entry.clarificationBody.isNotBlank()) TextButton(onClick = { assistant.launch { retryClarification(id) } }, enabled = !disabled) { Text(strings.get(R.string.ui_recover_clarification)) }

@@ -116,6 +116,58 @@ class ConversationFlowTest {
         assertEquals(AssistantStatus.PENDING, store.activeEntry!!.state)
     }
 
+    @Test fun everyRecoveryPhaseAdoptsOuterTaskAndHintWithoutChangingOriginalRequest() = runBlocking {
+        for (phase in listOf("processing", "prepared", "result_unknown", "completed")) {
+            remote.recoveryPhase = "processing"; remote.loseReply = true; remote.active = false
+            store.connectAndRecover(); store.send("恢复同步-$phase")
+            val body = remote.posts.last(); val id = JSONObject(body).getString("request_id")
+            remote.outerActive = true; remote.recoveryPhase = phase
+            store.recover(id)
+            assertEquals(TASK, store.activeEntry!!.taskId)
+            assertTrue(store.entries.single { it.requestId == id }.notice.contains("服务器恢复提示"))
+            assertEquals(body, store.entries.single { it.requestId == id }.conversationBody)
+            // Finish the same request before testing the next phase.
+            remote.recoveryPhase = "completed"; remote.loseReply = false
+            store.recover(id); remote.outerActive = null
+        }
+    }
+
+    @Test fun nullOuterTaskClearsReferenceAndUnknownPhaseNeverResends() = runBlocking {
+        remote.active = true; remote.loseReply = true; remote.recoveryPhase = "processing"
+        store.connectAndRecover(); store.send("保留原文")
+        val id = JSONObject(remote.posts.single()).getString("request_id")
+        remote.outerActive = false; remote.recoveryPhase = "future-phase"
+        store.recover(id)
+        assertNull(store.activeEntry)
+        assertEquals(1, remote.posts.size)
+        assertEquals(AssistantStatus.UNKNOWN, store.entries.single { it.requestId == id }.state)
+    }
+
+    @Test fun rejectedMessageIsDurablyMarkedForComposerAndNeverAutomaticallyResent() = runBlocking {
+        store.connectAndRecover(); remote.rejectStatus = 409
+        store.send("这段输入需要保留")
+        val rejected = store.entries.last { it.messageRejected }
+        assertTrue(rejected.conversationResolved)
+        assertEquals("这段输入需要保留", JSONObject(rejected.requestBody).getString("text"))
+        assertTrue(AssistantEntry.fromJson(rejected.toJson()).messageRejected)
+        store.connectAndRecover()
+        assertEquals(1, remote.posts.size)
+    }
+
+    @Test fun stoppedAndUnknownDialogueKeepReplyResultsAndSurvivePersistence() {
+        for (reason in listOf("timeout", "insufficient_data", "future-reason")) {
+            val result = JSONObject().put("summary", "已核实结果")
+            val response = JSONObject().put("dialogue", JSONObject().put("status", "stopped").put("stop_reason", reason))
+                .put("result", result)
+            val entry = AssistantEntry("stopped", JSONObject().put("text", "查询").toString(), conversationReply = "已查到牛奶",
+                conversationResponse = response.toString(), state = AssistantStatus.ANSWERED, conversationResolved = true)
+            val restored = AssistantEntry.fromJson(entry.toJson())
+            assertTrue(restored.dialogueNotice.contains("已停止"))
+            assertEquals("已查到牛奶", restored.reply)
+            assertEquals(response.toString(), restored.conversationResponse)
+        }
+    }
+
     @Test fun aNewLoginCanGetRecoverTheSameUserAndHouseholdOutbox() = runBlocking {
         remote.loseReply = true; remote.recoveryPhase = "processing"
         store.connectAndRecover(); store.send("登录后继续查询原请求")
@@ -145,6 +197,7 @@ class ConversationFlowTest {
         val calls = mutableListOf<String>(); val posts = mutableListOf<String>()
         var missing = false; var earlier = false; var active = false; var loseReply = false
         var recoveryPhase = "completed"; private var revision = 7
+        var outerActive: Boolean? = null; var rejectStatus: Int? = null
         private val responses = mutableMapOf<String, JSONObject>()
         override suspend fun capabilities() = JSONObject().put("conversation_memory_protocol", "conversation-memory-1")
             .put("conversation_dialogue_protocol", "p85-dialogue-1").put("actions", JSONObject().put("MOVE", true))
@@ -174,6 +227,7 @@ class ConversationFlowTest {
         }
         override suspend fun conversationTurn(body: JSONObject): JSONObject {
             calls += "POST turn"; posts += body.toString()
+            rejectStatus?.let { throw CloudFailure(it, "会话已更新", "CONVERSATION_REVISION_CONFLICT") }
             val id = body.getString("request_id")
             val response = responses.getOrPut(id) {
                 revision++
@@ -189,8 +243,11 @@ class ConversationFlowTest {
         override suspend fun recoverConversation(requestId: String, householdId: String): JSONObject {
             calls += "GET recovery $requestId"
             val response = responses.getValue(requestId)
-            return JSONObject().put("request_id", requestId).put("original_text", response.getString("original_text"))
+            val envelope = JSONObject().put("request_id", requestId).put("original_text", response.getString("original_text"))
                 .put("phase", recoveryPhase).put("response", if (recoveryPhase == "completed") response else JSONObject.NULL)
+                .put("recovery_hint", "服务器恢复提示")
+            outerActive?.let { envelope.put("active_task", if (it) JSONObject().put("task", taskPayload()) else JSONObject.NULL) }
+            return envelope
         }
         override suspend fun conversation(body: JSONObject): JSONObject = throw AssertionError("New turns must not use the old chat endpoint")
         override suspend fun control(id: String, body: JSONObject): JSONObject = throw AssertionError("Chat must use one conversation turn")

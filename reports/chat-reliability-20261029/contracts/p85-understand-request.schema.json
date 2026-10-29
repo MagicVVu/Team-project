@@ -1,0 +1,4097 @@
+{
+  "$defs": {
+    "AddCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "ADD",
+          "default": "ADD",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        }
+      },
+      "required": [
+        "name",
+        "quantity",
+        "unit"
+      ],
+      "title": "AddCommand",
+      "type": "object"
+    },
+    "AggregateBatch": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "base_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Quantity"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Location"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Opened At"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "expired": {
+          "title": "Expired",
+          "type": "boolean"
+        },
+        "expiry_known": {
+          "title": "Expiry Known",
+          "type": "boolean"
+        },
+        "facts_version": {
+          "minimum": 0,
+          "title": "Facts Version",
+          "type": "integer"
+        },
+        "stock_verification": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Stock Verification"
+        },
+        "mapping_status": {
+          "const": "household_attested",
+          "title": "Mapping Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "batch_id",
+        "version",
+        "quantity",
+        "unit",
+        "base_quantity",
+        "location",
+        "label_expiry",
+        "opened_at",
+        "status",
+        "expired",
+        "expiry_known",
+        "facts_version",
+        "stock_verification",
+        "mapping_status"
+      ],
+      "title": "AggregateBatch",
+      "type": "object"
+    },
+    "Basis": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "planning-revalidation-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "minLength": 1,
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "event_watermark": {
+          "minLength": 1,
+          "title": "Event Watermark",
+          "type": "string"
+        },
+        "shopping_version": {
+          "minimum": 1,
+          "title": "Shopping Version",
+          "type": "integer"
+        },
+        "inventory_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Inventory Versions",
+          "type": "object"
+        },
+        "facts_versions": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Facts Versions",
+          "type": "object"
+        },
+        "product_versions": {
+          "additionalProperties": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Product Versions",
+          "type": "object"
+        },
+        "risk_rules": {
+          "additionalProperties": true,
+          "title": "Risk Rules",
+          "type": "object"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "snapshot_id",
+        "event_watermark",
+        "shopping_version",
+        "inventory_versions",
+        "facts_versions",
+        "product_versions",
+        "risk_rules"
+      ],
+      "title": "Basis",
+      "type": "object"
+    },
+    "BoundTask": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "task": {
+          "$ref": "#/$defs/Task"
+        },
+        "household_timezone": {
+          "default": "Asia/Shanghai",
+          "title": "Household Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "task"
+      ],
+      "title": "BoundTask",
+      "type": "object"
+    },
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "integer"
+        },
+        "batches": {
+          "items": {
+            "$ref": "#/$defs/p2__schemas__Batch"
+          },
+          "title": "Batches",
+          "type": "array"
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "unit",
+        "version",
+        "batches"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "ChangePreview": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Batch Id"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/p1__schemas__Batch"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProposedState"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "event_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "Added",
+                "Consumed",
+                "Opened",
+                "Moved",
+                "Discarded"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Type"
+        },
+        "quantity_delta": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "0",
+          "title": "Quantity Delta"
+        },
+        "inventory_changes": {
+          "default": true,
+          "title": "Inventory Changes",
+          "type": "boolean"
+        },
+        "prospective": {
+          "const": true,
+          "default": true,
+          "title": "Prospective",
+          "type": "boolean"
+        }
+      },
+      "title": "ChangePreview",
+      "type": "object"
+    },
+    "ConsumeCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "CONSUME",
+          "default": "CONSUME",
+          "title": "Action",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "quantity",
+        "unit"
+      ],
+      "title": "ConsumeCommand",
+      "type": "object"
+    },
+    "ConsumptionSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "window_start": {
+          "format": "date",
+          "title": "Window Start",
+          "type": "string"
+        },
+        "window_end_exclusive": {
+          "format": "date",
+          "title": "Window End Exclusive",
+          "type": "string"
+        },
+        "observed_days": {
+          "title": "Observed Days",
+          "type": "integer"
+        },
+        "effective_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Effective Quantity"
+        },
+        "effective_events": {
+          "title": "Effective Events",
+          "type": "integer"
+        },
+        "consumption_dates": {
+          "title": "Consumption Dates",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "insufficient_data",
+            "needs_review"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "excluded_events": {
+          "default": 0,
+          "title": "Excluded Events",
+          "type": "integer"
+        },
+        "event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "unit",
+        "window_start",
+        "window_end_exclusive",
+        "observed_days",
+        "effective_quantity",
+        "effective_events",
+        "consumption_dates",
+        "status",
+        "reason_codes"
+      ],
+      "title": "ConsumptionSummary",
+      "type": "object"
+    },
+    "Decision": {
+      "additionalProperties": false,
+      "properties": {
+        "node": {
+          "enum": [
+            "intent_router",
+            "event_classifier",
+            "clarification_gate",
+            "action_gate"
+          ],
+          "title": "Node",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "literal_rules",
+            "llm",
+            "deterministic",
+            "input_guard"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "node",
+        "source",
+        "outcome"
+      ],
+      "title": "Decision",
+      "type": "object"
+    },
+    "DiscardCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "DISCARD",
+          "default": "DISCARD",
+          "title": "Action",
+          "type": "string"
+        },
+        "discard_mode": {
+          "enum": [
+            "partial",
+            "all"
+          ],
+          "title": "Discard Mode",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "discard_mode",
+        "quantity",
+        "unit"
+      ],
+      "title": "DiscardCommand",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "facts": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Facts",
+          "type": "object"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "rule_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Version"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "reason_code",
+        "explanation"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Feedback": {
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "business_committed": {
+          "const": true,
+          "default": true,
+          "title": "Business Committed",
+          "type": "boolean"
+        },
+        "committed_trace_id": {
+          "title": "Committed Trace Id",
+          "type": "string"
+        },
+        "committed_at": {
+          "format": "date-time",
+          "title": "Committed At",
+          "type": "string"
+        },
+        "later_changes": {
+          "default": false,
+          "title": "Later Changes",
+          "type": "boolean"
+        },
+        "refresh_required": {
+          "default": false,
+          "title": "Refresh Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "operation_id",
+        "committed_trace_id",
+        "committed_at"
+      ],
+      "title": "Feedback",
+      "type": "object"
+    },
+    "FieldSource": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "maxLength": 120,
+          "title": "Value",
+          "type": "string"
+        },
+        "source": {
+          "default": "current_text",
+          "enum": [
+            "current_text",
+            "current_task"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "quote": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "FieldSource",
+      "type": "object"
+    },
+    "Forecast": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "estimated",
+            "insufficient_data",
+            "no_recorded_consumption",
+            "needs_review",
+            "current_zero"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "current_stock": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Stock"
+        },
+        "daily_recorded_consumption": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Recorded Consumption"
+        },
+        "remaining_days": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remaining Days"
+        },
+        "reference_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Date"
+        },
+        "summary": {
+          "$ref": "#/$defs/ConsumptionSummary"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "policy_version": {
+          "default": "p3-policy-1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "conditions": {
+          "default": "未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。",
+          "title": "Conditions",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "unit",
+        "status",
+        "summary",
+        "reason_codes"
+      ],
+      "title": "Forecast",
+      "type": "object"
+    },
+    "Guidance": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "missing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fields",
+          "type": "array"
+        },
+        "instructions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Instructions",
+          "type": "array"
+        },
+        "fact_write_required": {
+          "default": true,
+          "title": "Fact Write Required",
+          "type": "boolean"
+        },
+        "inventory_written": {
+          "const": false,
+          "default": false,
+          "title": "Inventory Written",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "batch_id",
+        "missing_fields",
+        "instructions"
+      ],
+      "title": "Guidance",
+      "type": "object"
+    },
+    "HistoryTurn": {
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Request Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1000,
+          "title": "Text",
+          "type": "string"
+        },
+        "reply": {
+          "maxLength": 8000,
+          "title": "Reply",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Id"
+        }
+      },
+      "required": [
+        "request_id",
+        "text",
+        "reply",
+        "created_at"
+      ],
+      "title": "HistoryTurn",
+      "type": "object"
+    },
+    "InputProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "text",
+            "voice",
+            "manual_fallback"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "input_session_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:-]+$",
+          "title": "Input Session Id",
+          "type": "string"
+        },
+        "transcript_revision": {
+          "minimum": 1,
+          "title": "Transcript Revision",
+          "type": "integer"
+        },
+        "user_confirmed": {
+          "title": "User Confirmed",
+          "type": "boolean"
+        },
+        "user_edited": {
+          "default": false,
+          "title": "User Edited",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source",
+        "input_session_id",
+        "transcript_revision",
+        "user_confirmed"
+      ],
+      "title": "InputProvenance",
+      "type": "object"
+    },
+    "Intent": {
+      "enum": [
+        "ADD",
+        "CONSUME",
+        "QUERY_INVENTORY",
+        "QUERY_LOCATION",
+        "PLAN_ADD",
+        "OPEN",
+        "MOVE",
+        "DISCARD",
+        "QUERY_RISK",
+        "QUERY_CONSUMPTION",
+        "QUERY_FORECAST",
+        "SUGGEST_PURCHASE",
+        "UNSUPPORTED"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "MemoryContext": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "conversation-memory-1",
+          "default": "conversation-memory-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "trusted_now": {
+          "format": "date-time",
+          "title": "Trusted Now",
+          "type": "string"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/HistoryTurn"
+          },
+          "maxItems": 10,
+          "title": "History",
+          "type": "array"
+        },
+        "active": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BoundTask"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reference_error": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Error"
+        },
+        "choices": {
+          "items": {
+            "$ref": "#/$defs/ObjectReference"
+          },
+          "maxItems": 1000,
+          "title": "Choices",
+          "type": "array"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/TaskEvidence"
+          },
+          "maxItems": 20,
+          "title": "Tasks",
+          "type": "array"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scope",
+        "conversation_id",
+        "revision",
+        "trusted_now"
+      ],
+      "title": "MemoryContext",
+      "type": "object"
+    },
+    "MoveCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "MOVE",
+          "default": "MOVE",
+          "title": "Action",
+          "type": "string"
+        },
+        "to_location": {
+          "maxLength": 120,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "To Location",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "to_location"
+      ],
+      "title": "MoveCommand",
+      "type": "object"
+    },
+    "ObjectReference": {
+      "additionalProperties": false,
+      "description": "Attestation from an authenticated business caller, never a phone fact.",
+      "properties": {
+        "protocol_version": {
+          "const": "p7-object-reference-1",
+          "default": "p7-object-reference-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "source_task_id": {
+          "format": "uuid",
+          "title": "Source Task Id",
+          "type": "string"
+        },
+        "source_revision": {
+          "minimum": 1,
+          "title": "Source Revision",
+          "type": "integer"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "title": "Issued At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "source_task_id",
+        "source_revision",
+        "batch_id",
+        "issued_at",
+        "expires_at"
+      ],
+      "title": "ObjectReference",
+      "type": "object"
+    },
+    "OpenCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        },
+        "action": {
+          "const": "OPEN",
+          "default": "OPEN",
+          "title": "Action",
+          "type": "string"
+        },
+        "opened_at": {
+          "format": "date",
+          "title": "Opened At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "batch_id",
+        "expected_version",
+        "opened_at"
+      ],
+      "title": "OpenCommand",
+      "type": "object"
+    },
+    "P85Archive": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "conversation-episodes-1",
+          "default": "conversation-episodes-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "episodes": {
+          "items": {
+            "$ref": "#/$defs/P85Episode"
+          },
+          "maxItems": 100,
+          "title": "Episodes",
+          "type": "array"
+        },
+        "has_more": {
+          "default": false,
+          "title": "Has More",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scope",
+        "conversation_id",
+        "revision"
+      ],
+      "title": "P85Archive",
+      "type": "object"
+    },
+    "P85Episode": {
+      "additionalProperties": false,
+      "properties": {
+        "memory_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Memory Id",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Request Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "reply": {
+          "default": "",
+          "maxLength": 8000,
+          "title": "Reply",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "subjects": {
+          "items": {
+            "$ref": "#/$defs/P85Subject"
+          },
+          "maxItems": 4,
+          "title": "Subjects",
+          "type": "array"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "memory_id",
+        "request_id",
+        "text",
+        "created_at"
+      ],
+      "title": "P85Episode",
+      "type": "object"
+    },
+    "P85Subject": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quote"
+      ],
+      "title": "P85Subject",
+      "type": "object"
+    },
+    "Plan": {
+      "additionalProperties": false,
+      "properties": {
+        "speech_act": {
+          "enum": [
+            "request",
+            "discuss",
+            "hypothesis",
+            "negation",
+            "correction",
+            "supplement",
+            "question",
+            "social",
+            "status",
+            "basis",
+            "recall",
+            "new_task"
+          ],
+          "title": "Speech Act",
+          "type": "string"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "reads": {
+          "items": {
+            "$ref": "#/$defs/Read"
+          },
+          "maxItems": 4,
+          "title": "Reads",
+          "type": "array"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "enum": [
+                "ADD",
+                "CONSUME",
+                "OPEN",
+                "MOVE",
+                "DISCARD",
+                "PLAN_ADD"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FieldSource"
+          },
+          "maxProperties": 8,
+          "title": "Fields",
+          "type": "object"
+        },
+        "amount_mode": {
+          "default": "literal",
+          "enum": [
+            "literal",
+            "half",
+            "all",
+            "unknown"
+          ],
+          "title": "Amount Mode",
+          "type": "string"
+        },
+        "write_count": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Write Count",
+          "type": "integer"
+        },
+        "task_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Index"
+        },
+        "preserve_active": {
+          "default": true,
+          "title": "Preserve Active",
+          "type": "boolean"
+        },
+        "social_reply": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Social Reply"
+        }
+      },
+      "required": [
+        "speech_act"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "PlanCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "const": "PLAN_ADD",
+          "default": "PLAN_ADD",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quantity",
+        "unit"
+      ],
+      "title": "PlanCommand",
+      "type": "object"
+    },
+    "PlanningBasis": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "p3-planning-basis-1",
+          "default": "p3-planning-basis-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "item_version": {
+          "title": "Item Version",
+          "type": "integer"
+        },
+        "batch_versions": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Batch Versions",
+          "type": "object"
+        },
+        "shopping_version": {
+          "title": "Shopping Version",
+          "type": "integer"
+        },
+        "event_watermark": {
+          "title": "Event Watermark",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "title": "Snapshot Id",
+          "type": "string"
+        },
+        "as_of": {
+          "format": "date-time",
+          "title": "As Of",
+          "type": "string"
+        },
+        "preference_version": {
+          "title": "Preference Version",
+          "type": "integer"
+        },
+        "policy_version": {
+          "default": "p3-policy-1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "calculation": {
+          "$ref": "#/$defs/p3__schemas__Recommendation"
+        },
+        "original_suggested_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Original Suggested Quantity"
+        },
+        "human_modified": {
+          "const": false,
+          "default": false,
+          "title": "Human Modified",
+          "type": "boolean"
+        },
+        "confirmation_revalidation_required": {
+          "const": true,
+          "default": true,
+          "title": "Confirmation Revalidation Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "item_key",
+        "item_version",
+        "batch_versions",
+        "shopping_version",
+        "event_watermark",
+        "snapshot_id",
+        "as_of",
+        "preference_version",
+        "calculation",
+        "original_suggested_quantity"
+      ],
+      "title": "PlanningBasis",
+      "type": "object"
+    },
+    "PlanningContext": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "p83-planning-adapter-1",
+          "default": "p83-planning-adapter-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "pending_state": {
+          "enum": [
+            "none",
+            "association_unknown",
+            "linked_complete",
+            "shopping_list_missing"
+          ],
+          "title": "Pending State",
+          "type": "string"
+        },
+        "pending_count": {
+          "title": "Pending Count",
+          "type": "integer"
+        },
+        "pending_complete": {
+          "title": "Pending Complete",
+          "type": "boolean"
+        },
+        "ledger_coverage": {
+          "title": "Ledger Coverage",
+          "type": "string"
+        },
+        "history_complete_means": {
+          "const": "stored_events_only_not_daily_coverage",
+          "default": "stored_events_only_not_daily_coverage",
+          "title": "History Complete Means",
+          "type": "string"
+        },
+        "automatic_planning_commit": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Planning Commit",
+          "type": "boolean"
+        },
+        "manual_plan_only": {
+          "const": true,
+          "default": true,
+          "title": "Manual Plan Only",
+          "type": "boolean"
+        },
+        "revalidation_basis": {
+          "$ref": "#/$defs/Basis"
+        }
+      },
+      "required": [
+        "pending_state",
+        "pending_count",
+        "pending_complete",
+        "ledger_coverage",
+        "revalidation_basis"
+      ],
+      "title": "PlanningContext",
+      "type": "object"
+    },
+    "PlanningReview": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "stale",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "mismatches": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mismatches",
+          "type": "array"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "original_basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "current_basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "regenerated": {
+          "const": true,
+          "default": true,
+          "title": "Regenerated",
+          "type": "boolean"
+        },
+        "automatic_planning_commit": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Planning Commit",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "mismatches",
+        "blockers",
+        "original_basis",
+        "current_basis"
+      ],
+      "title": "PlanningReview",
+      "type": "object"
+    },
+    "ProcurementSource": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "expected_version": {
+          "minimum": 1,
+          "title": "Expected Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "batch_id",
+        "expected_version"
+      ],
+      "title": "ProcurementSource",
+      "type": "object"
+    },
+    "Product": {
+      "additionalProperties": true,
+      "properties": {
+        "product_id": {
+          "title": "Product Id",
+          "type": "string"
+        },
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "specification": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Specification"
+        },
+        "base_unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Base Unit",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "identity_status": {
+          "const": "household_attested",
+          "title": "Identity Status",
+          "type": "string"
+        },
+        "tag_source": {
+          "const": "household_attested",
+          "title": "Tag Source",
+          "type": "string"
+        },
+        "platform_rule_review_status": {
+          "title": "Platform Rule Review Status",
+          "type": "string"
+        },
+        "batches": {
+          "items": {
+            "$ref": "#/$defs/AggregateBatch"
+          },
+          "maxItems": 1000,
+          "title": "Batches",
+          "type": "array"
+        },
+        "quantity_complete": {
+          "title": "Quantity Complete",
+          "type": "boolean"
+        },
+        "total_quantity": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Quantity"
+        },
+        "nonexpired_active_quantity": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Nonexpired Active Quantity"
+        },
+        "usable_quantity": {
+          "title": "Usable Quantity",
+          "type": "null"
+        },
+        "consumption_coverage_days": {
+          "title": "Consumption Coverage Days",
+          "type": "null"
+        },
+        "version_token": {
+          "minLength": 1,
+          "title": "Version Token",
+          "type": "string"
+        }
+      },
+      "required": [
+        "product_id",
+        "item_key",
+        "name",
+        "specification",
+        "base_unit",
+        "category",
+        "version",
+        "identity_status",
+        "tag_source",
+        "platform_rule_review_status",
+        "batches",
+        "quantity_complete",
+        "total_quantity",
+        "nonexpired_active_quantity",
+        "usable_quantity",
+        "consumption_coverage_days",
+        "version_token"
+      ],
+      "title": "Product",
+      "type": "object"
+    },
+    "ProductPlanning": {
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "$ref": "#/$defs/Product"
+        },
+        "as_of": {
+          "format": "date-time",
+          "title": "As Of",
+          "type": "string"
+        },
+        "window_start": {
+          "format": "date",
+          "title": "Window Start",
+          "type": "string"
+        },
+        "window_end_exclusive": {
+          "format": "date",
+          "title": "Window End Exclusive",
+          "type": "string"
+        },
+        "recorded_consumption_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Recorded Consumption Quantity"
+        },
+        "recorded_consumption_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Recorded Consumption Event Ids",
+          "type": "array"
+        },
+        "pending_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Pending Quantity"
+        },
+        "forecast_status": {
+          "const": "unavailable",
+          "default": "unavailable",
+          "title": "Forecast Status",
+          "type": "string"
+        },
+        "remaining_days": {
+          "default": null,
+          "title": "Remaining Days",
+          "type": "null"
+        },
+        "reference_date": {
+          "default": null,
+          "title": "Reference Date",
+          "type": "null"
+        },
+        "suggested_quantity": {
+          "default": null,
+          "title": "Suggested Quantity",
+          "type": "null"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "product",
+        "as_of",
+        "window_start",
+        "window_end_exclusive",
+        "recorded_consumption_quantity",
+        "recorded_consumption_event_ids",
+        "pending_quantity",
+        "reason_codes"
+      ],
+      "title": "ProductPlanning",
+      "type": "object"
+    },
+    "ProposedState": {
+      "additionalProperties": false,
+      "properties": {
+        "quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quantity",
+        "unit",
+        "status"
+      ],
+      "title": "ProposedState",
+      "type": "object"
+    },
+    "PublicClarification": {
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "allowed_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Fields",
+          "type": "array"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        }
+      },
+      "required": [
+        "revision",
+        "allowed_fields",
+        "expires_at"
+      ],
+      "title": "PublicClarification",
+      "type": "object"
+    },
+    "PublicResult": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "needs_clarification",
+            "needs_confirmation",
+            "answered",
+            "unsupported",
+            "error"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "intent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Intent"
+            },
+            {
+              "enum": [
+                "QUERY_LOCATION_ITEMS",
+                "QUERY_OVERVIEW"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Intent"
+        },
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        },
+        "trace_id": {
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "draft": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "ADD": "#/$defs/AddCommand",
+                  "CONSUME": "#/$defs/ConsumeCommand",
+                  "DISCARD": "#/$defs/DiscardCommand",
+                  "MOVE": "#/$defs/MoveCommand",
+                  "OPEN": "#/$defs/OpenCommand",
+                  "PLAN_ADD": "#/$defs/PlanCommand"
+                },
+                "propertyName": "action"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/AddCommand"
+                },
+                {
+                  "$ref": "#/$defs/PlanCommand"
+                },
+                {
+                  "$ref": "#/$defs/ConsumeCommand"
+                },
+                {
+                  "$ref": "#/$defs/OpenCommand"
+                },
+                {
+                  "$ref": "#/$defs/MoveCommand"
+                },
+                {
+                  "$ref": "#/$defs/DiscardCommand"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Draft"
+        },
+        "preview": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ChangePreview"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/p1__schemas__Batch"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "facts": {
+          "items": {
+            "$ref": "#/$defs/p2__schemas__Batch"
+          },
+          "title": "Facts",
+          "type": "array"
+        },
+        "missing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Fields",
+          "type": "array"
+        },
+        "clarification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PublicClarification"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "manual_entry": {
+          "default": false,
+          "title": "Manual Entry",
+          "type": "boolean"
+        },
+        "trace": {
+          "items": {
+            "$ref": "#/$defs/TraceStep"
+          },
+          "title": "Trace",
+          "type": "array"
+        },
+        "risks": {
+          "items": {
+            "$ref": "#/$defs/RiskResult"
+          },
+          "title": "Risks",
+          "type": "array"
+        },
+        "evaluated_count": {
+          "default": 0,
+          "title": "Evaluated Count",
+          "type": "integer"
+        },
+        "item_candidates": {
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          },
+          "title": "Item Candidates",
+          "type": "array"
+        },
+        "consumption_summary": {
+          "items": {
+            "$ref": "#/$defs/ConsumptionSummary"
+          },
+          "title": "Consumption Summary",
+          "type": "array"
+        },
+        "forecast": {
+          "items": {
+            "$ref": "#/$defs/Forecast"
+          },
+          "title": "Forecast",
+          "type": "array"
+        },
+        "recommendations": {
+          "items": {
+            "$ref": "#/$defs/conversation__schemas__Recommendation"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        },
+        "planning_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlanningBasis"
+            },
+            {
+              "$ref": "#/$defs/Basis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planning Basis"
+        },
+        "snapshot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot Id"
+        },
+        "evaluated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated At"
+        },
+        "inventory_writes": {
+          "const": false,
+          "default": false,
+          "title": "Inventory Writes",
+          "type": "boolean"
+        },
+        "shopping_writes": {
+          "const": false,
+          "default": false,
+          "title": "Shopping Writes",
+          "type": "boolean"
+        },
+        "input_receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Receipt"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "input_review": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReviewAdvice"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "runtime": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/conversation__schemas__RuntimeInfo"
+            },
+            {
+              "$ref": "#/$defs/v1__schemas__RuntimeInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Runtime"
+        },
+        "decisions": {
+          "items": {
+            "$ref": "#/$defs/Decision"
+          },
+          "title": "Decisions",
+          "type": "array"
+        },
+        "guidance": {
+          "items": {
+            "$ref": "#/$defs/Guidance"
+          },
+          "title": "Guidance",
+          "type": "array"
+        },
+        "sections": {
+          "items": {
+            "$ref": "#/$defs/Section"
+          },
+          "title": "Sections",
+          "type": "array"
+        },
+        "location_options": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Location Options",
+          "type": "array"
+        },
+        "data_gaps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Data Gaps",
+          "type": "array"
+        },
+        "feedback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Feedback"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "total_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Count"
+        },
+        "quantity_source": {
+          "anyOf": [
+            {
+              "enum": [
+                "user_input",
+                "current_batch",
+                "planning_calculation"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quantity Source"
+        },
+        "policy_version": {
+          "default": "p7-limited-context-1",
+          "enum": [
+            "p7-limited-context-1",
+            "v1-completion-1"
+          ],
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "jev_status": {
+          "const": "deferred_by_user",
+          "default": "deferred_by_user",
+          "title": "Jev Status",
+          "type": "string"
+        },
+        "object_source": {
+          "anyOf": [
+            {
+              "enum": [
+                "user_input",
+                "trusted_reference"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Object Source"
+        },
+        "reference_used": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReferenceUse"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "clear_reference": {
+          "default": false,
+          "title": "Clear Reference",
+          "type": "boolean"
+        },
+        "consume_mode": {
+          "anyOf": [
+            {
+              "const": "all",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Consume Mode"
+        },
+        "procurement_source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProcurementSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "planning_calculation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlanningBasis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "product_planning": {
+          "items": {
+            "$ref": "#/$defs/ProductPlanning"
+          },
+          "title": "Product Planning",
+          "type": "array"
+        },
+        "planning_context": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlanningContext"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "planning_review": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlanningReview"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "status",
+        "reply",
+        "trace_id",
+        "original_text"
+      ],
+      "title": "PublicResult",
+      "type": "object"
+    },
+    "Read": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "quantity",
+            "location",
+            "dates",
+            "risk",
+            "consumption",
+            "forecast",
+            "purchase"
+          ],
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Read",
+      "type": "object"
+    },
+    "Receipt": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "const": "p5-reviewed-text-1",
+          "default": "p5-reviewed-text-1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "text",
+            "voice",
+            "manual_fallback"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InputProvenance"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "review_attestation_received": {
+          "title": "Review Attestation Received",
+          "type": "boolean"
+        },
+        "final_text_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Final Text Sha256",
+          "type": "string"
+        },
+        "request_fingerprint": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Request Fingerprint",
+          "type": "string"
+        },
+        "deduplication_owner": {
+          "const": "business_backend",
+          "default": "business_backend",
+          "title": "Deduplication Owner",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "review_attestation_received",
+        "final_text_sha256",
+        "request_fingerprint"
+      ],
+      "title": "Receipt",
+      "type": "object"
+    },
+    "ReferenceUse": {
+      "additionalProperties": false,
+      "properties": {
+        "source_task_id": {
+          "format": "uuid",
+          "title": "Source Task Id",
+          "type": "string"
+        },
+        "source_revision": {
+          "minimum": 1,
+          "title": "Source Revision",
+          "type": "integer"
+        },
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_task_id",
+        "source_revision",
+        "batch_id"
+      ],
+      "title": "ReferenceUse",
+      "type": "object"
+    },
+    "ReviewAdvice": {
+      "additionalProperties": false,
+      "properties": {
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "resubmit_required": {
+          "const": true,
+          "default": true,
+          "title": "Resubmit Required",
+          "type": "boolean"
+        },
+        "replacement_request_id_required": {
+          "const": true,
+          "default": true,
+          "title": "Replacement Request Id Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reason_code"
+      ],
+      "title": "ReviewAdvice",
+      "type": "object"
+    },
+    "RiskResult": {
+      "additionalProperties": false,
+      "properties": {
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "batch_version": {
+          "title": "Batch Version",
+          "type": "integer"
+        },
+        "level": {
+          "enum": [
+            "green",
+            "yellow",
+            "orange",
+            "red",
+            "unknown"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "attention": {
+          "title": "Attention",
+          "type": "boolean"
+        },
+        "excluded": {
+          "default": false,
+          "title": "Excluded",
+          "type": "boolean"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "recommended_action": {
+          "title": "Recommended Action",
+          "type": "string"
+        },
+        "evaluated_at": {
+          "format": "date-time",
+          "title": "Evaluated At",
+          "type": "string"
+        },
+        "household_timezone": {
+          "title": "Household Timezone",
+          "type": "string"
+        },
+        "ruleset_version": {
+          "title": "Ruleset Version",
+          "type": "string"
+        },
+        "rule_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Rule Versions",
+          "type": "object"
+        },
+        "source_human_reviewed": {
+          "title": "Source Human Reviewed",
+          "type": "boolean"
+        },
+        "safety_guaranteed": {
+          "const": false,
+          "default": false,
+          "title": "Safety Guaranteed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "batch_id",
+        "name",
+        "batch_version",
+        "level",
+        "attention",
+        "reason_codes",
+        "evidence",
+        "missing_information",
+        "recommended_action",
+        "evaluated_at",
+        "household_timezone",
+        "ruleset_version",
+        "rule_versions",
+        "source_human_reviewed"
+      ],
+      "title": "RiskResult",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    },
+    "Section": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "enum": [
+            "risk",
+            "planning"
+          ],
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "partial",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "snapshot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot Id"
+        },
+        "evaluated_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evaluated At"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "status"
+      ],
+      "title": "Section",
+      "type": "object"
+    },
+    "Selector": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "choice_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice Index"
+        },
+        "use_reference": {
+          "default": false,
+          "title": "Use Reference",
+          "type": "boolean"
+        }
+      },
+      "title": "Selector",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "ref": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Ref",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "official_guidance",
+            "manufacturer_label",
+            "project_policy"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "checked_on": {
+          "format": "date",
+          "title": "Checked On",
+          "type": "string"
+        },
+        "verification_note": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Verification Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "ref",
+        "kind",
+        "checked_on",
+        "verification_note"
+      ],
+      "title": "Source",
+      "type": "object"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "format": "uuid",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "household_id": {
+          "format": "uuid",
+          "title": "Household Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "processing",
+            "answered",
+            "needs_clarification",
+            "needs_confirmation",
+            "unsupported",
+            "error"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "draft_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Draft Id"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PublicResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inventory_written": {
+          "const": false,
+          "title": "Inventory Written",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "task_id",
+        "household_id",
+        "status",
+        "revision",
+        "expires_at",
+        "draft_id",
+        "result",
+        "inventory_written"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "TaskEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "format": "uuid",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "status": {
+          "maxLength": 50,
+          "title": "Status",
+          "type": "string"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "maxLength": 30,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "missing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 9,
+          "title": "Missing Fields",
+          "type": "array"
+        },
+        "draft_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Draft Id"
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operation Id"
+        },
+        "execution_status": {
+          "anyOf": [
+            {
+              "maxLength": 50,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution Status"
+        },
+        "receipt_verified": {
+          "default": false,
+          "title": "Receipt Verified",
+          "type": "boolean"
+        },
+        "basis": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Basis",
+          "type": "array"
+        },
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "revision",
+        "status",
+        "checked_at"
+      ],
+      "title": "TaskEvidence",
+      "type": "object"
+    },
+    "TraceStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "title": "Step",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "elapsed_ms": {
+          "title": "Elapsed Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "step",
+        "outcome",
+        "elapsed_ms"
+      ],
+      "title": "TraceStep",
+      "type": "object"
+    },
+    "conversation__schemas__Recommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "suggested",
+            "covered",
+            "insufficient_data",
+            "needs_review",
+            "excluded"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "enum": [
+                "minimum_stock",
+                "recorded_history"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "current_stock": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Stock"
+        },
+        "pending_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pending Quantity"
+        },
+        "target_stock": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Stock"
+        },
+        "suggested_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggested Quantity"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "inventory_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Inventory Unit"
+        },
+        "order_unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Order Unit"
+        },
+        "pack_size": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pack Size"
+        },
+        "pack_size_source": {
+          "anyOf": [
+            {
+              "const": "saved_preferences",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pack Size Source"
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "status",
+        "unit",
+        "reason_codes"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "conversation__schemas__RuntimeInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "release": {
+          "const": "V1-P7",
+          "default": "V1-P7",
+          "title": "Release",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "ruleset_sha256": {
+          "title": "Ruleset Sha256",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "model_calls": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "maintenance_release": {
+          "default": "V1-P8.2",
+          "enum": [
+            "V1-P8.1",
+            "V1-P8.2",
+            "V1-P8.3",
+            "V1-P8.4"
+          ],
+          "title": "Maintenance Release",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prompt_version",
+        "ruleset_sha256",
+        "model_calls"
+      ],
+      "title": "RuntimeInfo",
+      "type": "object"
+    },
+    "p1__schemas__Batch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "household_id",
+        "name",
+        "quantity",
+        "unit",
+        "version"
+      ],
+      "title": "Batch",
+      "type": "object"
+    },
+    "p2__schemas__Batch": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "anyOf": [
+            {
+              "maximum": 1000000000.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Quantity"
+        },
+        "unit": {
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "purchased_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purchased At"
+        },
+        "label_expiry": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Expiry"
+        },
+        "opened_at": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Opened At"
+        },
+        "status": {
+          "default": "ACTIVE",
+          "enum": [
+            "ACTIVE",
+            "FINISHED",
+            "REVERSED",
+            "DISCARDED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "category": {
+          "default": "unknown",
+          "enum": [
+            "food",
+            "medicine",
+            "household",
+            "unknown"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "product_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Id"
+        },
+        "label_date_type": {
+          "default": "unknown",
+          "enum": [
+            "use_by",
+            "best_before",
+            "expiry",
+            "unknown"
+          ],
+          "title": "Label Date Type",
+          "type": "string"
+        },
+        "label_context_valid": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Context Valid"
+        },
+        "storage_condition": {
+          "anyOf": [
+            {
+              "enum": [
+                "ambient",
+                "refrigerated",
+                "frozen"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Storage Condition"
+        },
+        "label_storage_condition": {
+          "anyOf": [
+            {
+              "enum": [
+                "ambient",
+                "refrigerated",
+                "frozen"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label Storage Condition"
+        },
+        "is_opened": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Opened"
+        }
+      },
+      "required": [
+        "id",
+        "household_id",
+        "name",
+        "quantity",
+        "unit",
+        "version"
+      ],
+      "title": "Batch",
+      "type": "object"
+    },
+    "p3__schemas__Recommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "item_key": {
+          "title": "Item Key",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "suggested",
+            "covered",
+            "insufficient_data",
+            "needs_review",
+            "excluded"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "enum": [
+                "minimum_stock",
+                "recorded_history"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "current_stock": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Stock"
+        },
+        "pending_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pending Quantity"
+        },
+        "target_stock": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Stock"
+        },
+        "suggested_quantity": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Suggested Quantity"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "item_key",
+        "name",
+        "status",
+        "unit",
+        "reason_codes"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "v1__schemas__RuntimeInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "release": {
+          "const": "V1-P6",
+          "default": "V1-P6",
+          "title": "Release",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "ruleset_sha256": {
+          "title": "Ruleset Sha256",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "model_calls": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prompt_version",
+        "ruleset_sha256",
+        "model_calls"
+      ],
+      "title": "RuntimeInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Text",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "household_timezone": {
+      "default": "Asia/Shanghai",
+      "title": "Household Timezone",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/MemoryContext"
+    },
+    "current_task_plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Plan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "remaining_seconds": {
+      "default": 60,
+      "exclusiveMinimum": 0,
+      "maximum": 60,
+      "title": "Remaining Seconds",
+      "type": "number"
+    },
+    "archive": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/P85Archive"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "text",
+    "request_id",
+    "context"
+  ],
+  "title": "P85Request",
+  "type": "object"
+}

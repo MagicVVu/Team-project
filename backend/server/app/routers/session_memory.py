@@ -1,4 +1,5 @@
 import asyncio
+import httpx
 from uuid import UUID
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
@@ -32,12 +33,12 @@ async def message(body: Message, identity: Identity = Depends(get_identity), db:
         prior = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
             ConversationTurn.household_id == body.household_id, ConversationTurn.request_id == body.request_id))
         staged = saved_protocol(prior.binding_json or {}) is not None if prior else enabled()
-        async with asyncio.timeout(20 if staged else 10):
+        async with asyncio.timeout(75 if staged else 10):
             if body.text.strip().rstrip("。！! ") in {"开始新会话", "清空当前会话"}:
                 return service.reset(db, identity, Reset(household_id=body.household_id, request_id=body.request_id,
                     conversation_id=body.conversation_id, conversation_revision=body.conversation_revision), body.text)
             return await service.send(db, identity, body)
-    except TimeoutError:
+    except (TimeoutError, httpx.TimeoutException):
         raise HTTPException(504, detail={"code": "CONVERSATION_TIMEOUT", "request_id": body.request_id,
                                        "original_text": body.text, "recovery": "GET conversation-turns/{request_id}"}) from None
 

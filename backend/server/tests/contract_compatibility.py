@@ -29,10 +29,18 @@ def assert_backend_contract(old, current):
         if not isinstance(value, dict): return value
         value = deepcopy(value)
         if value.get("title") == "DialogueMetadata":
+            # Optional output feedback added after P8.5; historical business bounds stay exact.
+            for name in ("status", "stop_reason"):
+                assert name not in value.get("required", [])
+                value.get("properties", {}).pop(name, None)
             field = value.get("properties", {}).get("protocol_version", {})
             if field.get("const") == "p84-dialogue-1":
                 field.pop("const")
                 field["enum"] = ["p84-dialogue-1", "p85-dialogue-1"]
+        if value.get("title") == "Recovery":
+            for name in ("conversation_id", "current_conversation_revision"):
+                assert name not in value.get("required", [])
+                value.get("properties", {}).pop(name, None)
         return {k: dialogue_protocols(v) for k, v in value.items()}
     # P8.5 adds a protocol choice; all other historical bounds remain exact.
-    assert decimal_schema_projection(dialogue_protocols(old)) == decimal_schema_projection(current)
+    assert decimal_schema_projection(dialogue_protocols(old)) == decimal_schema_projection(dialogue_protocols(current))

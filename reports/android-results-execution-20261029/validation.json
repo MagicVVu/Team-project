@@ -1,0 +1,264 @@
+{
+  "checked_at_utc": "2026-10-29T05:46:05.298910+00:00",
+  "build_success": true,
+  "jvm": {
+    "tests": 67,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "device": {
+    "android": 36,
+    "tests": 42,
+    "failures": 0,
+    "classes": {
+      "com.example.teamapp.AssistantResultsExecutionTest": 13,
+      "com.example.teamapp.AssistantResultsUiTest": 4,
+      "com.example.teamapp.ConversationFlowTest": 8,
+      "com.example.teamapp.FrontendAlignmentTest": 17
+    },
+    "cases": [
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "tenTurnsKeepConversationRevisionAndDiscardEditsAfterDraftChanges",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "sameDraftAcrossMessagesAndRecreationSharesOneOriginalConfirmation",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "readOnlyPlanningEvidenceDoesNotChangeManualDraftExecutionPolicy",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "expiredCandidateCannotBeSentAsAnotherSelection",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "successfulReceiptRemainsSuccessfulWhenStockRefreshFails",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "concurrentConfirmationClicksOnDifferentMessagesDeductOnlyOnce",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "suggestionRevalidationShowsStaleAndNeverCommits",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "lostCommitResponseIsRecoveredByReceiptWithoutAnotherCommit",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "forgedRevalidationWriteClaimIsRejected",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "legacyConflictingEnvelopesCanRecoverReceiptsWithoutReplacingEitherOriginal",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "receiptFromAnotherHouseholdCannotBecomeSuccess",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "changedDraftCannotReplaceOriginalUncertainConfirmation",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsExecutionTest",
+        "test": "verifiedResultsIncludeEvidenceAndDeduplicateWithoutReadingActiveDraft",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsUiTest",
+        "test": "blockedPlanningReviewNeverOffersAutomaticCommit",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsUiTest",
+        "test": "evidenceOnlyResultIsShownOnceWithoutATask",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsUiTest",
+        "test": "expiredChoicesAreVisibleButNotClickable",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.AssistantResultsUiTest",
+        "test": "productUnknownsAndMissingPendingSourcesRemainUnknown",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "openingRestoresCloudHistoryAndPagesWithoutResetting",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "newConversationResetsOnlyWhenServerRequiresIt",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "lostReplyQueriesOriginalIdAndNeverPostsTwice",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "aNewLoginCanGetRecoverTheSameUserAndHouseholdOutbox",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "sendPersistsOriginalTextAndSelectorsThenAdoptsNewestRevision",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "unknownUnderstandingNeverRepostsEvenWhenRecoverIsPressed",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "currentTaskStaysIndependentFromAnUnrelatedReadOnlyTurn",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.ConversationFlowTest",
+        "test": "savedPlanSurvivesStoreRecreationAndOnlyExplicitRecoveryResumesExactBody",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "explicitClearDoesNotClearOmittedSectionsAndConflictsNeverAutoRetry",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "independentPreviewRunsOnlyOnceAndEditsInvalidateIt",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "factsPageUsesRealVersionsAndLeavesCoverageUnknownUntilExplicitInput",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "changingOnePreferencePreservesTheOtherFieldsInItsReplacementBlock",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "absentBatchNeverFabricatesAReferenceSource",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "ledgerShowsOnlyConsumedEventsAndOriginalReceipt",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "unknownWriteReplaysTheSameOperationAfterStoreRecreation",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "structuredCardsKeepNullForecastUnknownAndSeparatePartialSections",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "familyActionsAreGatedByRoleAndRequireNameConfirmation",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "cancellationStaysCancelledWhileReferenceResetReplaysItsOriginalBody",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "lifecycleDtosRetainExactQuantityAndWireCategory",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "concurrentLedgerPagingDeduplicatesEventsAndShowsTheReadGap",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "openingFormDoesNotRequestQuantityAndTerminalBatchesCannotPrepare",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "unreadableOutboxIsPreservedAndBlocksNewWrites",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "batchRequestBindsOnlyARealSourceTaskAndTheExactBatch",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "englishDarkFactsKeepProtocolValuesAndRenderConsistently",
+        "passed": true
+      },
+      {
+        "class": "com.example.teamapp.FrontendAlignmentTest",
+        "test": "outboxesRemainIsolatedWhenTheHouseholdChanges",
+        "passed": true
+      }
+    ]
+  },
+  "apk": {
+    "path": "D:\\project\\Team_Project_Shared\\Team-project\\frontend\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "bytes": 65506204,
+    "sha256": "a822fd4794f654f9a42461e84fe45a10a8b84997ff28fdc2af0f1ce89fe48620"
+  },
+  "production_accounts_used": false,
+  "production_writes": false,
+  "paid_model_calls": false,
+  "production_end_to_end_verified": false,
+  "backend_deployment_modified": false,
+  "source_sha256": {
+    "frontend/app/src/main/java/com/example/teamapp/data/AgentClient.kt": "30df9724e9df720692c2de251d3d181fd3a2911b1dfae1d92df8720c933a42d7",
+    "frontend/app/src/main/java/com/example/teamapp/data/AssistantModels.kt": "c632f26742925472850982085205d127ad5bcc35f46c603eb001b8d9acf5d193",
+    "frontend/app/src/main/java/com/example/teamapp/data/AssistantStore.kt": "aaeab6459257f88118157032a7b0b6a4e630ef68a7fac3f869fe7fb7cdaf0979",
+    "frontend/app/src/main/java/com/example/teamapp/data/AssistantResults.kt": "6da34ae9941bd029770aaf97eabd687c9aef458a7dc1d459608547e4b38d9840",
+    "frontend/app/src/main/java/com/example/teamapp/data/DraftConfirmations.kt": "630dca3423338c47dfe3b7ea7908de30eee7f07fead632c48941e63a5fa4e7a7",
+    "frontend/app/src/main/java/com/example/teamapp/ui/AgentResultCards.kt": "0c27bfaca35303b247edb071f9dab5286e2626c6c33b53afbc2a77d6c1b2930a",
+    "frontend/app/src/main/java/com/example/teamapp/ui/AlignmentUi.kt": "64876d99a8e989c89f5cd1d1c18d33c9ed1c03872d2bf9ddcfdba4eb274eb6c7",
+    "frontend/app/src/main/java/com/example/teamapp/ui/CloudAssistant.kt": "1830f75dba486d541db79cf22f7192d8efebad10bd8a265c78e144b274193ff2",
+    "frontend/app/src/androidTest/java/com/example/teamapp/AssistantResultsExecutionTest.kt": "fc83fa4190ac74caaf35aba7c6b2a02371687a9faff7f7d1ff0da7b495693686",
+    "frontend/app/src/androidTest/java/com/example/teamapp/AssistantResultsUiTest.kt": "4803bff42fc93017a5476114f6d7b68e6fcfd3763f2a6968266332e631096be9",
+    "frontend/app/src/androidTest/java/com/example/teamapp/FrontendAlignmentTest.kt": "c0629a529e87fe0b66f1248c7a7b2be59d65d34f65cbba6b149ee07fa5e156b1",
+    "frontend/app/src/androidTest/java/com/example/teamapp/ConversationFlowTest.kt": "f8d799a2ec9783fadbeb8b291c3ebc275576288765cebe7d9ac23610c1c9cbae"
+  },
+  "evidence_sha256": {
+    "build.log": "274d3e76c4e2934d06190321fa9419c15c52b7b421ea84c886dc5e5851e6f43a",
+    "instrumentation.log": "66d739af293d3c0db24d25c865565daf42491e96fcbeccb9226ca8762c67bb55",
+    "screenshots/evidence-dark-en.png": "c2f0a8aea40f2f494f2dc36fd19ed297024815423582f2560ee9ebd2518cc97a",
+    "screenshots/planning-gaps-light-zh.png": "f5b372791a295b5ef2181e2c66b06f9be2db928a38dea94df665df71947f3d2b",
+    "screenshots/product-light-zh.png": "cafa3779b10953a5f6284fb5eb843149754434fff5e27c40c6762ebd18ecccb1"
+  }
+}

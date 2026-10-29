@@ -1,0 +1,43 @@
+{
+  "local_date": "2026-10-29",
+  "timezone": "Asia/Shanghai",
+  "deployed": false,
+  "autonomous_protocol_deferred": true,
+  "jvm": {
+    "tests": 67,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android_device": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "backend_base": {
+    "tests": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "backend_latest_task": {
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "backend_timeout_sources": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "agent": {
+    "tests": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "apk_sha256": "8c815a8d506e354131d53a4f7763347e99c07fe49e84c97a895fde3a5962d9d9"
+}
