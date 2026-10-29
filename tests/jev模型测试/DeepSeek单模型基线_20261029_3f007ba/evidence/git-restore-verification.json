@@ -1,0 +1,5 @@
+{
+  "checked": 301,
+  "exact_restorable": true,
+  "newline_policy": "try Git original LF and original Windows CRLF, require exact frozen sha256"
+}

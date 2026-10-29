@@ -1,0 +1,4807 @@
+{
+  "run": "formal-20261029T004149",
+  "completion": {
+    "command": "formal",
+    "complete": true,
+    "stopped_reason": null,
+    "executed_turns": 1200,
+    "pass": 1122,
+    "fail": 66,
+    "review": 12,
+    "actual_http_attempts": 1945,
+    "budget_before": {
+      "limit_cny": 5.0,
+      "conservative_cost_cny": 0.054898,
+      "calls": 20,
+      "unknown_usage_calls": 0
+    },
+    "budget_after": {
+      "limit_cny": 5.0,
+      "conservative_cost_cny": 4.534698,
+      "calls": 1965,
+      "unknown_usage_calls": 0
+    },
+    "infrastructure_ok": true,
+    "provenance": "live_deepseek",
+    "human_review_status": "pending",
+    "production_database_accessed": false,
+    "app_acceptance": "NOT_RUN"
+  },
+  "batches": {
+    "p84-regression": {
+      "counts": {
+        "PASS": 237,
+        "FAIL": 3
+      },
+      "evaluated_denominator": 240,
+      "turn_accuracy": 0.9875,
+      "conservative_all_executed_pass_fraction": 0.9875,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 40,
+        "low": 0.9708333333333333,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 102,
+        "pass": 82,
+        "original_pass_but_extra_failed": 19,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 240,
+      "complete_scenario_pass": 237,
+      "ai_turn_latency_ms": {
+        "n": 240,
+        "mean": 1865.5765641703813,
+        "p50": 2148.8747000694275,
+        "p90": 2740.2957000304013,
+        "p95": 2918.2987000094727,
+        "max": 4299.618399934843,
+        "min": 0.9413999505341053,
+        "stddev": 980.1044876481241
+      },
+      "wire_latency_ms": {
+        "n": 388,
+        "mean": 997.8607997439859,
+        "p50": 964.8834000108764,
+        "p90": 1318.4632000047714,
+        "p95": 1495.744000072591,
+        "max": 2917.4289000220597,
+        "min": 383.22850002441555,
+        "stddev": 301.350032727937
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 240,
+          "mean": 1037.6319508354452,
+          "p50": 1147.6223000790924,
+          "p90": 1553.6184000084177,
+          "p95": 1748.1943999882787,
+          "max": 3065.746699925512,
+          "min": 0.08699996396899223,
+          "stddev": 580.1477146761729
+        },
+        "resolve": {
+          "n": 240,
+          "mean": 0.6318570822865391,
+          "p50": 0.31750008929520845,
+          "p90": 0.6628000410273671,
+          "p95": 1.5846999594941735,
+          "max": 11.989799910224974,
+          "min": 0.09059999138116837,
+          "stddev": 1.308810150038155
+        },
+        "response": {
+          "n": 194,
+          "mean": 1021.6996108269386,
+          "p50": 1002.6352000422776,
+          "p90": 1249.527300009504,
+          "p95": 1464.2356999684125,
+          "max": 1843.5829000081867,
+          "min": 541.8026999104768,
+          "stddev": 216.90681279339606
+        }
+      },
+      "actual_http_attempts": 388,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 388
+      },
+      "raw_action_only_accuracy": {
+        "pass": 0,
+        "n": 0,
+        "rate": null,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.6166666666666667,
+      "zero_wire_turns": 46,
+      "fallback_turns": 15,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 40,
+        "denominator": 42,
+        "rate": 0.9523809523809523
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 6,
+        "denominator": 198,
+        "rate": 0.030303030303030304,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "legacy_oracle": {
+          "pass": 237,
+          "n": 240,
+          "rate": 0.9875
+        },
+        "inventory_unchanged": {
+          "pass": 240,
+          "n": 240,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "问候": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2178.7421833335734,
+            "p50": 2116.3880999665707,
+            "p90": 2653.055500006303,
+            "p95": 2653.055500006303,
+            "max": 2653.055500006303,
+            "min": 1832.3918000096455,
+            "stddev": 250.00112557245834
+          },
+          "actual_http_attempts": 12
+        },
+        "家务建议": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 3142.052616652412,
+            "p50": 2881.7895000102,
+            "p90": 4299.618399934843,
+            "p95": 4299.618399934843,
+            "max": 4299.618399934843,
+            "min": 2634.9446999374777,
+            "stddev": 546.9455960335046
+          },
+          "actual_http_attempts": 12
+        },
+        "用户反馈": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2046.5839499956928,
+            "p50": 2149.17649992276,
+            "p90": 2471.4909000322223,
+            "p95": 2471.4909000322223,
+            "max": 2471.4909000322223,
+            "min": 1416.6619000025094,
+            "stddev": 379.73552545963526
+          },
+          "actual_http_attempts": 12
+        },
+        "假设讨论": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2268.7796333339065,
+            "p50": 2241.5788000216708,
+            "p90": 2538.0123000359163,
+            "p95": 2538.0123000359163,
+            "max": 2538.0123000359163,
+            "min": 1997.2579000750557,
+            "stddev": 167.32375030672412
+          },
+          "actual_http_attempts": 12
+        },
+        "否定表达": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2251.6077333129942,
+            "p50": 2149.959299946204,
+            "p90": 2540.404099971056,
+            "p95": 2540.404099971056,
+            "max": 2540.404099971056,
+            "min": 1945.6135999644175,
+            "stddev": 206.35348433942102
+          },
+          "actual_http_attempts": 12
+        },
+        "半数消耗": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2422.535050000685,
+            "p50": 2096.243800013326,
+            "p90": 3992.9947999771684,
+            "p95": 3992.9947999771684,
+            "max": 3992.9947999771684,
+            "min": 1857.2144000791013,
+            "stddev": 719.8473413453385
+          },
+          "actual_http_attempts": 12
+        },
+        "全部消耗": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2154.670233333794,
+            "p50": 2079.244799911976,
+            "p90": 2556.213299976662,
+            "p95": 2556.213299976662,
+            "max": 2556.213299976662,
+            "min": 1887.4019000213593,
+            "stddev": 221.8329241039304
+          },
+          "actual_http_attempts": 12
+        },
+        "定量消耗": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2076.91909999509,
+            "p50": 2048.7224000971764,
+            "p90": 2190.5768000287935,
+            "p95": 2190.5768000287935,
+            "max": 2190.5768000287935,
+            "min": 2000.971999950707,
+            "stddev": 71.91407107158047
+          },
+          "actual_http_attempts": 12
+        },
+        "模糊数量": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1977.3534333216958,
+            "p50": 1935.0926999468356,
+            "p90": 2195.521999965422,
+            "p95": 2195.521999965422,
+            "max": 2195.521999965422,
+            "min": 1711.1622999655083,
+            "stddev": 170.47602446360833
+          },
+          "actual_http_attempts": 12
+        },
+        "整批移动": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2576.1814500244022,
+            "p50": 2359.1186000267044,
+            "p90": 3305.6474000914022,
+            "p95": 3305.6474000914022,
+            "max": 3305.6474000914022,
+            "min": 2309.0790000278503,
+            "stddev": 346.45115756997194
+          },
+          "actual_http_attempts": 12
+        },
+        "开封": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2292.1516333008185,
+            "p50": 2131.8527000257745,
+            "p90": 2792.7562999539077,
+            "p95": 2792.7562999539077,
+            "max": 2792.7562999539077,
+            "min": 1622.150299954228,
+            "stddev": 388.07256246634006
+          },
+          "actual_http_attempts": 12
+        },
+        "部分丢弃": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2532.09943335969,
+            "p50": 2562.0656999526545,
+            "p90": 2797.5398000562564,
+            "p95": 2797.5398000562564,
+            "max": 2797.5398000562564,
+            "min": 2121.6739000519738,
+            "stddev": 217.92180021374924
+          },
+          "actual_http_attempts": 12
+        },
+        "全部丢弃": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2362.8534666689425,
+            "p50": 2314.3494999967515,
+            "p90": 3109.7990999696776,
+            "p95": 3109.7990999696776,
+            "max": 3109.7990999696776,
+            "min": 1771.0095000220463,
+            "stddev": 430.2059077761186
+          },
+          "actual_http_attempts": 12
+        },
+        "新增": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2688.3326999959536,
+            "p50": 2581.051899935119,
+            "p90": 3276.909700012766,
+            "p95": 3276.909700012766,
+            "max": 3276.909700012766,
+            "min": 2228.2706999685615,
+            "stddev": 328.45462377801977
+          },
+          "actual_http_attempts": 12
+        },
+        "采购草稿": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2622.167800029274,
+            "p50": 2418.6097000492737,
+            "p90": 3581.741700065322,
+            "p95": 3581.741700065322,
+            "max": 3581.741700065322,
+            "min": 1920.914499904029,
+            "stddev": 515.772452152032
+          },
+          "actual_http_attempts": 12
+        },
+        "数量位置": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2189.7421166844047,
+            "p50": 2257.645200006664,
+            "p90": 2505.9845000505447,
+            "p95": 2505.9845000505447,
+            "max": 2505.9845000505447,
+            "min": 1745.0085999444127,
+            "stddev": 271.0736367220238
+          },
+          "actual_http_attempts": 12
+        },
+        "日期查询": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2319.9369500313574,
+            "p50": 2149.9979000072926,
+            "p90": 2740.2957000304013,
+            "p95": 2740.2957000304013,
+            "max": 2740.2957000304013,
+            "min": 1967.449999996461,
+            "stddev": 280.6049930273372
+          },
+          "actual_http_attempts": 12
+        },
+        "风险": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2371.538400029143,
+            "p50": 2202.0989001030102,
+            "p90": 2825.43190009892,
+            "p95": 2825.43190009892,
+            "max": 2825.43190009892,
+            "min": 2062.6174999633804,
+            "stddev": 298.95107974849145
+          },
+          "actual_http_attempts": 12
+        },
+        "消费统计": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2131.7300833179615,
+            "p50": 2113.5045000119135,
+            "p90": 2369.5144000230357,
+            "p95": 2369.5144000230357,
+            "max": 2369.5144000230357,
+            "min": 1852.9731999151409,
+            "stddev": 159.80448806297338
+          },
+          "actual_http_attempts": 12
+        },
+        "耗尽预测": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2021.9867500127293,
+            "p50": 1999.4909999659285,
+            "p90": 2484.4014999689534,
+            "p95": 2484.4014999689534,
+            "max": 2484.4014999689534,
+            "min": 1631.2394000124186,
+            "stddev": 292.83263274737646
+          },
+          "actual_http_attempts": 12
+        },
+        "补货建议": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2227.823250015111,
+            "p50": 1988.9233000576496,
+            "p90": 2984.1842999449,
+            "p95": 2984.1842999449,
+            "max": 2984.1842999449,
+            "min": 1817.549500032328,
+            "stddev": 401.87370580192476
+          },
+          "actual_http_attempts": 12
+        },
+        "多操作": {
+          "counts": {
+            "FAIL": 1,
+            "PASS": 5
+          },
+          "n": 6,
+          "accuracy": 0.8333333333333334,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2385.979333349193,
+            "p50": 2329.319900018163,
+            "p90": 2764.7099000168964,
+            "p95": 2764.7099000168964,
+            "max": 2764.7099000168964,
+            "min": 2061.195700080134,
+            "stddev": 226.7761499719267
+          },
+          "actual_http_attempts": 12
+        },
+        "数量改口": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2464.8745500210985,
+            "p50": 2206.931099994108,
+            "p90": 3108.9889999711886,
+            "p95": 3108.9889999711886,
+            "max": 3108.9889999711886,
+            "min": 1951.0266000870615,
+            "stddev": 399.1142010892198
+          },
+          "actual_http_attempts": 12
+        },
+        "位置改口": {
+          "counts": {
+            "PASS": 5,
+            "FAIL": 1
+          },
+          "n": 6,
+          "accuracy": 0.8333333333333334,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2129.38533333363,
+            "p50": 2035.6366999913007,
+            "p90": 2548.053800011985,
+            "p95": 2548.053800011985,
+            "max": 2548.053800011985,
+            "min": 1838.3048999821767,
+            "stddev": 221.15723391944525
+          },
+          "actual_http_attempts": 12
+        },
+        "待确认状态": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 606.1453666770831,
+            "p50": 1.5352999325841665,
+            "p90": 1947.1323000034317,
+            "p95": 1947.1323000034317,
+            "max": 1947.1323000034317,
+            "min": 1.526299980469048,
+            "stddev": 856.1589001742914
+          },
+          "actual_http_attempts": 4
+        },
+        "已执行状态": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1.4274333176823955,
+            "p50": 1.4076000079512596,
+            "p90": 1.5237999614328146,
+            "p95": 1.5237999614328146,
+            "max": 1.5237999614328146,
+            "min": 1.392600010149181,
+            "stddev": 0.04425782040832477
+          },
+          "actual_http_attempts": 0
+        },
+        "已取消状态": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 712.5776166600796,
+            "p50": 1.4519999967887998,
+            "p90": 2225.26380000636,
+            "p95": 2225.26380000636,
+            "max": 2225.26380000636,
+            "min": 1.412699930369854,
+            "stddev": 1006.9735856725283
+          },
+          "actual_http_attempts": 4
+        },
+        "结果未知": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 772.8849166887812,
+            "p50": 1.5046000480651855,
+            "p90": 2686.388300033286,
+            "p95": 2686.388300033286,
+            "max": 2686.388300033286,
+            "min": 1.398000051267445,
+            "stddev": 1111.7345629620302
+          },
+          "actual_http_attempts": 4
+        },
+        "过期引用": {
+          "counts": {
+            "PASS": 5,
+            "FAIL": 1
+          },
+          "n": 6,
+          "accuracy": 0.8333333333333334,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1045.6976166848715,
+            "p50": 1.1868999572470784,
+            "p90": 2384.014500072226,
+            "p95": 2384.014500072226,
+            "max": 2384.014500072226,
+            "min": 1.039199996739626,
+            "stddev": 1056.5292859267106
+          },
+          "actual_http_attempts": 6
+        },
+        "候选选择": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 961.842166686741,
+            "p50": 1.44620006904006,
+            "p90": 2297.091000014916,
+            "p95": 2297.091000014916,
+            "max": 2297.091000014916,
+            "min": 1.3216000515967607,
+            "stddev": 983.6436083533656
+          },
+          "actual_http_attempts": 6
+        },
+        "指代查询": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1159.4734999816865,
+            "p50": 1.3478000182658434,
+            "p90": 2456.001300015487,
+            "p95": 2456.001300015487,
+            "max": 2456.001300015487,
+            "min": 1.1567999608814716,
+            "stddev": 1166.1317974052663
+          },
+          "actual_http_attempts": 6
+        },
+        "转述": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2533.9414833191163,
+            "p50": 2402.517699985765,
+            "p90": 2918.2987000094727,
+            "p95": 2918.2987000094727,
+            "max": 2918.2987000094727,
+            "min": 2204.1147999698296,
+            "stddev": 255.4868683424893
+          },
+          "actual_http_attempts": 12
+        },
+        "新任务": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1.3559333553227286,
+            "p50": 1.3252000790089369,
+            "p90": 1.471000025048852,
+            "p95": 1.471000025048852,
+            "max": 1.471000025048852,
+            "min": 1.3198000378906727,
+            "stddev": 0.05295374689699423
+          },
+          "actual_http_attempts": 0
+        },
+        "提示注入": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 0.9569833249164125,
+            "p50": 0.9535000426694751,
+            "p90": 0.977099989540875,
+            "p95": 0.977099989540875,
+            "max": 0.977099989540875,
+            "min": 0.9413999505341053,
+            "stddev": 0.011007645202345403
+          },
+          "actual_http_attempts": 0
+        },
+        "缺少单位": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2252.3683499894105,
+            "p50": 2301.2624999973923,
+            "p90": 2519.252299913205,
+            "p95": 2519.252299913205,
+            "max": 2519.252299913205,
+            "min": 1712.7886000089347,
+            "stddev": 269.85003082002606
+          },
+          "actual_http_attempts": 12
+        },
+        "超出库存": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2341.3147999866246,
+            "p50": 2302.509699948132,
+            "p90": 2507.0805000141263,
+            "p95": 2507.0805000141263,
+            "max": 2507.0805000141263,
+            "min": 2140.3558999300003,
+            "stddev": 139.42316139293789
+          },
+          "actual_http_attempts": 12
+        },
+        "单位冲突": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2353.0678166813836,
+            "p50": 2223.854999989271,
+            "p90": 3324.306800030172,
+            "p95": 3324.306800030172,
+            "max": 3324.306800030172,
+            "min": 2019.1752000246197,
+            "stddev": 442.86998199379366
+          },
+          "actual_http_attempts": 12
+        },
+        "陈旧草稿": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 2217.4579999991693,
+            "p50": 1917.307800031267,
+            "p90": 3274.22070002649,
+            "p95": 3274.22070002649,
+            "max": 3274.22070002649,
+            "min": 1764.8700999561697,
+            "stddev": 541.7017482209916
+          },
+          "actual_http_attempts": 12
+        },
+        "历史回顾": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1824.9868833227083,
+            "p50": 2094.4072999991477,
+            "p90": 2368.6637999489903,
+            "p95": 2368.6637999489903,
+            "max": 2368.6637999489903,
+            "min": 1.110799959860742,
+            "stddev": 832.130631020925
+          },
+          "actual_http_attempts": 10
+        },
+        "建议依据": {
+          "counts": {
+            "PASS": 6
+          },
+          "n": 6,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 6,
+            "mean": 1.536516686125348,
+            "p50": 1.4602000592276454,
+            "p90": 1.699000014923513,
+            "p95": 1.699000014923513,
+            "max": 1.699000014923513,
+            "min": 1.437900005839765,
+            "stddev": 0.10356558006161312
+          },
+          "actual_http_attempts": 0
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 388
+      },
+      "finish_reasons": {
+        "stop": 388
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 388,
+          "wire_latency_ms": {
+            "n": 388,
+            "mean": 997.8607997439859,
+            "p50": 964.8834000108764,
+            "p90": 1318.4632000047714,
+            "p95": 1495.744000072591,
+            "max": 2917.4289000220597,
+            "min": 383.22850002441555,
+            "stddev": 301.350032727937
+          }
+        },
+        "2k_to_8k": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 194108,
+      "measured_cache_miss_tokens": 83507,
+      "cache_hit_fraction": 0.6991985303387785,
+      "measured_prompt_tokens": 277615,
+      "measured_completion_tokens": 21903,
+      "known_calculated_cost_cny": "0.17500116",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0007384015189873417721518987342",
+      "cost_per_correct_complete_scenario_cny": "0.0007384015189873417721518987342",
+      "http_per_correct_complete_scenario": 1.6371308016877637,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "p85-regression": {
+      "counts": {
+        "PASS": 238,
+        "FAIL": 2
+      },
+      "evaluated_denominator": 240,
+      "turn_accuracy": 0.9916666666666667,
+      "conservative_all_executed_pass_fraction": 0.9916666666666667,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 10,
+        "low": 0.975,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 40,
+      "complete_scenario_pass": 39,
+      "ai_turn_latency_ms": {
+        "n": 240,
+        "mean": 1528.8011670825654,
+        "p50": 1852.8965000296012,
+        "p90": 2724.835200002417,
+        "p95": 3093.582300003618,
+        "max": 3880.168900010176,
+        "min": 2.2670000325888395,
+        "stddev": 1119.7644724566367
+      },
+      "wire_latency_ms": {
+        "n": 280,
+        "mean": 1154.8432017817893,
+        "p50": 1079.6471000649035,
+        "p90": 1626.7063000705093,
+        "p95": 1799.1173999616876,
+        "max": 2315.4292999533936,
+        "min": 517.7998000290245,
+        "stddev": 344.85422128365946
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 240,
+          "mean": 979.665215415298,
+          "p50": 1189.5594999659806,
+          "p90": 1776.4971000142395,
+          "p95": 1937.3067000415176,
+          "max": 2466.8252000119537,
+          "min": 0.3192999865859747,
+          "stddev": 712.7626341541072
+        },
+        "resolve": {
+          "n": 240,
+          "mean": 1.119540002158222,
+          "p50": 0.7594999624416232,
+          "p90": 1.0894999140873551,
+          "p95": 1.1898999800905585,
+          "max": 10.654999990947545,
+          "min": 0.39679999463260174,
+          "stddev": 1.8968247052187337
+        },
+        "response": {
+          "n": 115,
+          "mean": 1140.8721139097747,
+          "p50": 1109.216200071387,
+          "p90": 1431.9748000707477,
+          "p95": 1737.9987000022084,
+          "max": 2418.622100027278,
+          "min": 681.3632999546826,
+          "stddev": 302.57388537679657
+        }
+      },
+      "actual_http_attempts": 280,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 280
+      },
+      "raw_action_only_accuracy": {
+        "pass": 0,
+        "n": 0,
+        "rate": null,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.1666666666666667,
+      "zero_wire_turns": 75,
+      "fallback_turns": 1,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "legacy_p85_oracle": {
+          "pass": 238,
+          "n": 240,
+          "rate": 0.9916666666666667
+        },
+        "inventory_unchanged": {
+          "pass": 240,
+          "n": 240,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "P8.5六轮记忆": {
+          "counts": {
+            "PASS": 238,
+            "FAIL": 2
+          },
+          "n": 240,
+          "accuracy": 0.9916666666666667,
+          "ai_latency_ms": {
+            "n": 240,
+            "mean": 1528.8011670825654,
+            "p50": 1852.8965000296012,
+            "p90": 2724.835200002417,
+            "p95": 3093.582300003618,
+            "max": 3880.168900010176,
+            "min": 2.2670000325888395,
+            "stddev": 1119.7644724566367
+          },
+          "actual_http_attempts": 280
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 280
+      },
+      "finish_reasons": {
+        "stop": 280
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 195,
+          "wire_latency_ms": {
+            "n": 195,
+            "mean": 1143.3818810237333,
+            "p50": 1040.6119999242947,
+            "p90": 1667.4934000475332,
+            "p95": 1877.0775999873877,
+            "max": 2315.4292999533936,
+            "min": 517.7998000290245,
+            "stddev": 369.72378859900476
+          }
+        },
+        "2k_to_8k": {
+          "requests": 85,
+          "wire_latency_ms": {
+            "n": 85,
+            "mean": 1181.1368199914475,
+            "p50": 1114.1044999239966,
+            "p90": 1603.6692999769002,
+            "p95": 1689.990899991244,
+            "max": 2036.4478999981657,
+            "min": 613.5684999171644,
+            "stddev": 277.78119287269
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 340736,
+      "measured_cache_miss_tokens": 74039,
+      "cache_hit_fraction": 0.8214959918027847,
+      "measured_prompt_tokens": 414775,
+      "measured_completion_tokens": 19029,
+      "known_calculated_cost_cny": "0.15696972",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0006595366386554621848739495798",
+      "cost_per_correct_complete_scenario_cny": "0.004024864615384615384615384615",
+      "http_per_correct_complete_scenario": 7.17948717948718,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-single-r1": {
+      "counts": {
+        "PASS": 100,
+        "FAIL": 16,
+        "REVIEW": 4
+      },
+      "evaluated_denominator": 116,
+      "turn_accuracy": 0.8620689655172413,
+      "conservative_all_executed_pass_fraction": 0.8333333333333334,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 24,
+        "low": 0.7083333333333334,
+        "high": 0.9913793103448276
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 120,
+      "complete_scenario_pass": 100,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2233.914353330814,
+        "p50": 2350.79759999644,
+        "p90": 2678.665600018576,
+        "p95": 2864.678699988872,
+        "max": 3029.3448000447825,
+        "min": 1.0168999433517456,
+        "stddev": 610.8905052223397
+      },
+      "wire_latency_ms": {
+        "n": 226,
+        "mean": 1018.6643292025078,
+        "p50": 1011.4208000013605,
+        "p90": 1280.2696999860927,
+        "p95": 1381.6050000023097,
+        "max": 1878.0572999967262,
+        "min": 469.66729999985546,
+        "stddev": 220.45684241179848
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1208.3052466701095,
+          "p50": 1250.6528000812978,
+          "p90": 1534.2985999304801,
+          "p95": 1586.4844999741763,
+          "max": 1891.8407999444753,
+          "min": 0.09109999518841505,
+          "stddev": 353.6801358726392
+        },
+        "resolve": {
+          "n": 120,
+          "mean": 0.9345716602789859,
+          "p50": 0.4773000255227089,
+          "p90": 1.8839000258594751,
+          "p95": 3.913799999281764,
+          "max": 11.234799982048571,
+          "min": 0.09600003249943256,
+          "stddev": 1.642990208230321
+        },
+        "response": {
+          "n": 113,
+          "mean": 1086.5349831889935,
+          "p50": 1124.1159999044612,
+          "p90": 1328.341900021769,
+          "p95": 1351.0559999849647,
+          "max": 2073.509000008926,
+          "min": 622.4030000157654,
+          "stddev": 201.9032004962239
+        }
+      },
+      "actual_http_attempts": 226,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 226
+      },
+      "raw_action_only_accuracy": {
+        "pass": 50,
+        "n": 50,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.8833333333333333,
+      "zero_wire_turns": 7,
+      "fallback_turns": 11,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 20,
+        "denominator": 20,
+        "rate": 1.0
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 11,
+        "denominator": 100,
+        "rate": 0.11,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "draft_exists": {
+          "pass": 50,
+          "n": 50,
+          "rate": 1.0
+        },
+        "draft.action": {
+          "pass": 50,
+          "n": 50,
+          "rate": 1.0
+        },
+        "draft.name": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.quantity": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.unit": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.location": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 50,
+          "n": 50,
+          "rate": 1.0
+        },
+        "draft.batch_id": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.expected_version": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.to_location": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "absent.quantity": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "draft.discard_mode": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 70,
+          "n": 70,
+          "rate": 1.0
+        },
+        "target_batch": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "fact.登记数量 10 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "read_routing": {
+          "pass": 28,
+          "n": 30,
+          "rate": 0.9333333333333333
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.开封日期 未知": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "fact.2026-11-20": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "risk_evidence": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation_present": {
+          "pass": 0,
+          "n": 15,
+          "rate": 0.0
+        },
+        "calculation.observed_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_events": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.status": {
+          "pass": 0,
+          "n": 10,
+          "rate": 0.0
+        },
+        "calculation.daily_recorded_consumption": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.remaining_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.current_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.suggested_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.pending_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.target_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "clarification": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "error_code": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "kind": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "preserve_active": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "fact.厨房": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "新增": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2647.0862000249326,
+            "p50": 2762.5095000257716,
+            "p90": 2964.200000045821,
+            "p95": 2964.200000045821,
+            "max": 2964.200000045821,
+            "min": 2301.5914000570774,
+            "stddev": 274.3451009673259
+          },
+          "actual_http_attempts": 10
+        },
+        "定量消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2399.0713000064716,
+            "p50": 2558.3709999918938,
+            "p90": 2733.4265999961644,
+            "p95": 2733.4265999961644,
+            "max": 2733.4265999961644,
+            "min": 2030.1220000255853,
+            "stddev": 287.3639680787731
+          },
+          "actual_http_attempts": 10
+        },
+        "一半消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2226.6860200325027,
+            "p50": 2210.521300090477,
+            "p90": 2408.6439999518916,
+            "p95": 2408.6439999518916,
+            "max": 2408.6439999518916,
+            "min": 2032.926700077951,
+            "stddev": 134.89504234953202
+          },
+          "actual_http_attempts": 10
+        },
+        "全部消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2183.614159980789,
+            "p50": 2114.134999923408,
+            "p90": 2658.8065000250936,
+            "p95": 2658.8065000250936,
+            "max": 2658.8065000250936,
+            "min": 1911.7289999267086,
+            "stddev": 263.20526291968
+          },
+          "actual_http_attempts": 10
+        },
+        "整批移动": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2333.930979995057,
+            "p50": 2318.511900026351,
+            "p90": 2493.647799943574,
+            "p95": 2493.647799943574,
+            "max": 2493.647799943574,
+            "min": 2217.350900056772,
+            "stddev": 91.43628598488365
+          },
+          "actual_http_attempts": 10
+        },
+        "开封日期": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2613.8054799987003,
+            "p50": 2601.286599994637,
+            "p90": 2864.678699988872,
+            "p95": 2864.678699988872,
+            "max": 2864.678699988872,
+            "min": 2347.8216999210417,
+            "stddev": 165.23429022682217
+          },
+          "actual_http_attempts": 10
+        },
+        "部分丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2510.8576000202447,
+            "p50": 2523.292100057006,
+            "p90": 2559.6293000271544,
+            "p95": 2559.6293000271544,
+            "max": 2559.6293000271544,
+            "min": 2456.267499946989,
+            "stddev": 46.2555775849331
+          },
+          "actual_http_attempts": 10
+        },
+        "全部丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2435.650199977681,
+            "p50": 2454.4439999153838,
+            "p90": 2557.2815999621525,
+            "p95": 2557.2815999621525,
+            "max": 2557.2815999621525,
+            "min": 2265.749100013636,
+            "stddev": 94.36759907749763
+          },
+          "actual_http_attempts": 10
+        },
+        "采购草稿": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2538.776099961251,
+            "p50": 2492.3074999824166,
+            "p90": 2753.691599937156,
+            "p95": 2753.691599937156,
+            "max": 2753.691599937156,
+            "min": 2353.1036999775097,
+            "stddev": 176.48602030051848
+          },
+          "actual_http_attempts": 10
+        },
+        "数量位置查询": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2334.0770800132304,
+            "p50": 2359.731600037776,
+            "p90": 2496.486600022763,
+            "p95": 2496.486600022763,
+            "max": 2496.486600022763,
+            "min": 2120.0912999920547,
+            "stddev": 129.15587949461508
+          },
+          "actual_http_attempts": 10
+        },
+        "日期查询": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2541.220959974453,
+            "p50": 2557.94510000851,
+            "p90": 2968.039400060661,
+            "p95": 2968.039400060661,
+            "max": 2968.039400060661,
+            "min": 2262.3539998894557,
+            "stddev": 245.63580700247482
+          },
+          "actual_http_attempts": 10
+        },
+        "风险查询": {
+          "counts": {
+            "FAIL": 1,
+            "REVIEW": 4
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2376.1565999826416,
+            "p50": 2354.7661000629887,
+            "p90": 2653.196199913509,
+            "p95": 2653.196199913509,
+            "max": 2653.196199913509,
+            "min": 2231.4832999836653,
+            "stddev": 146.56705833638452
+          },
+          "actual_http_attempts": 10
+        },
+        "消费统计": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2319.612680003047,
+            "p50": 2302.542299963534,
+            "p90": 2414.954499923624,
+            "p95": 2414.954499923624,
+            "max": 2414.954499923624,
+            "min": 2210.440000053495,
+            "stddev": 69.13493712937209
+          },
+          "actual_http_attempts": 10
+        },
+        "耗尽预测": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2578.351900004782,
+            "p50": 2610.6302000116557,
+            "p90": 3029.3448000447825,
+            "p95": 3029.3448000447825,
+            "max": 3029.3448000447825,
+            "min": 2196.8588000163436,
+            "stddev": 275.4787243317724
+          },
+          "actual_http_attempts": 10
+        },
+        "补货建议": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2219.913599989377,
+            "p50": 2309.6329999389127,
+            "p90": 2460.5076999869198,
+            "p95": 2460.5076999869198,
+            "max": 2460.5076999869198,
+            "min": 1945.6249999348074,
+            "stddev": 216.38856427898418
+          },
+          "actual_http_attempts": 10
+        },
+        "缺少单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2133.8490599999204,
+            "p50": 2065.0382000021636,
+            "p90": 2514.5326999481767,
+            "p95": 2514.5326999481767,
+            "max": 2514.5326999481767,
+            "min": 1873.9029000280425,
+            "stddev": 236.74236995708816
+          },
+          "actual_http_attempts": 10
+        },
+        "模糊数量": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2162.059499975294,
+            "p50": 2139.90189996548,
+            "p90": 2352.799899992533,
+            "p95": 2352.799899992533,
+            "max": 2352.799899992533,
+            "min": 1877.123499987647,
+            "stddev": 178.28237584204362
+          },
+          "actual_http_attempts": 10
+        },
+        "超库存": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2190.4989999951795,
+            "p50": 2231.688200030476,
+            "p90": 2506.3853999599814,
+            "p95": 2506.3853999599814,
+            "max": 2506.3853999599814,
+            "min": 1758.8295999448746,
+            "stddev": 245.9240775052469
+          },
+          "actual_http_attempts": 10
+        },
+        "不兼容单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2227.6871599955484,
+            "p50": 2229.693299974315,
+            "p90": 2536.2582000670955,
+            "p95": 2536.2582000670955,
+            "max": 2536.2582000670955,
+            "min": 2007.257799967192,
+            "stddev": 184.4535162186646
+          },
+          "actual_http_attempts": 10
+        },
+        "多操作": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2478.4085200401023,
+            "p50": 2510.605000075884,
+            "p90": 2697.6183000952005,
+            "p95": 2697.6183000952005,
+            "max": 2697.6183000952005,
+            "min": 2119.7989999782294,
+            "stddev": 194.51825289588095
+          },
+          "actual_http_attempts": 10
+        },
+        "改口数量": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2315.598819986917,
+            "p50": 2171.6940000187606,
+            "p90": 2678.665600018576,
+            "p95": 2678.665600018576,
+            "max": 2678.665600018576,
+            "min": 2027.8429999016225,
+            "stddev": 291.62873632913
+          },
+          "actual_http_attempts": 10
+        },
+        "否定假设": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2293.380319979042,
+            "p50": 2084.4533999916166,
+            "p90": 2866.600799956359,
+            "p95": 2866.600799956359,
+            "max": 2866.600799956359,
+            "min": 2050.2123000333086,
+            "stddev": 317.2523024354011
+          },
+          "actual_http_attempts": 10
+        },
+        "提示注入": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1.0711600072681904,
+            "p50": 1.0458000469952822,
+            "p90": 1.2094000121578574,
+            "p95": 1.2094000121578574,
+            "max": 1.2094000121578574,
+            "min": 1.0168999433517456,
+            "stddev": 0.07071630379777007
+          },
+          "actual_http_attempts": 0
+        },
+        "多批次选择": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1552.5800799950957,
+            "p50": 2355.5971999885514,
+            "p90": 2967.697799904272,
+            "p95": 2967.697799904272,
+            "max": 2967.697799904272,
+            "min": 1.3092999579384923,
+            "stddev": 1283.9253039370758
+          },
+          "actual_http_attempts": 6
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 226
+      },
+      "finish_reasons": {
+        "stop": 226
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 226,
+          "wire_latency_ms": {
+            "n": 226,
+            "mean": 1018.6643292025078,
+            "p50": 1011.4208000013605,
+            "p90": 1280.2696999860927,
+            "p95": 1381.6050000023097,
+            "max": 1878.0572999967262,
+            "min": 469.66729999985546,
+            "stddev": 220.45684241179848
+          }
+        },
+        "2k_to_8k": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 68992,
+      "measured_cache_miss_tokens": 82283,
+      "cache_hit_fraction": 0.45607007106263425,
+      "measured_prompt_tokens": 151275,
+      "measured_completion_tokens": 13396,
+      "known_calculated_cost_cny": "0.13724684",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0013724684",
+      "cost_per_correct_complete_scenario_cny": "0.0013724684",
+      "http_per_correct_complete_scenario": 2.26,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-multi-r1": {
+      "counts": {
+        "PASS": 117,
+        "FAIL": 3
+      },
+      "evaluated_denominator": 120,
+      "turn_accuracy": 0.975,
+      "conservative_all_executed_pass_fraction": 0.975,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 10,
+        "low": 0.9416666666666667,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 20,
+      "complete_scenario_pass": 18,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2112.2414399908544,
+        "p50": 2350.477200001478,
+        "p90": 3021.183399949223,
+        "p95": 3274.7760000638664,
+        "max": 3686.051300028339,
+        "min": 1.7025000415742397,
+        "stddev": 1020.9851335451217
+      },
+      "wire_latency_ms": {
+        "n": 200,
+        "mean": 1100.396819494781,
+        "p50": 1058.6081999354064,
+        "p90": 1566.3231000071391,
+        "p95": 1735.2113000815734,
+        "max": 2497.9108000406995,
+        "min": 531.6428999649361,
+        "stddev": 337.49115396056993
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1195.9832725018107,
+          "p50": 1297.9057000484318,
+          "p90": 1876.7579999985173,
+          "p95": 2094.1810000222176,
+          "max": 2660.189799964428,
+          "min": 0.3005999606102705,
+          "stddev": 623.0223398974143
+        },
+        "resolve": {
+          "n": 120,
+          "mean": 0.7555041704714919,
+          "p50": 0.3749999450519681,
+          "p90": 0.6127000087872148,
+          "p95": 0.7230000337585807,
+          "max": 12.246300000697374,
+          "min": 0.1895000459626317,
+          "stddev": 1.8636464962383261
+        },
+        "response": {
+          "n": 100,
+          "mean": 1096.7943120002747,
+          "p50": 1074.0657999413088,
+          "p90": 1337.394200032577,
+          "p95": 1420.24740006309,
+          "max": 1899.9970000004396,
+          "min": 698.1458000373095,
+          "stddev": 218.2788435545698
+        }
+      },
+      "actual_http_attempts": 200,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 200
+      },
+      "raw_action_only_accuracy": {
+        "pass": 40,
+        "n": 40,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.6666666666666667,
+      "zero_wire_turns": 20,
+      "fallback_turns": 14,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 1,
+        "denominator": 120,
+        "rate": 0.008333333333333333,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 80,
+          "n": 80,
+          "rate": 1.0
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft_exists": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.action": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.batch_id": {
+          "pass": 31,
+          "n": 32,
+          "rate": 0.96875
+        },
+        "draft.expected_version": {
+          "pass": 31,
+          "n": 32,
+          "rate": 0.96875
+        },
+        "draft.quantity": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "draft.unit": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "kind": {
+          "pass": 19,
+          "n": 20,
+          "rate": 0.95
+        },
+        "same_draft": {
+          "pass": 19,
+          "n": 20,
+          "rate": 0.95
+        },
+        "preserve_active": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.尚未执行": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.to_location": {
+          "pass": 7,
+          "n": 8,
+          "rate": 0.875
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.discard_mode": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 20 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 22 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 24 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 26 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 28 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 30 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 32 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 34 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "CONSUME多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2072.831899994829,
+            "p50": 2419.3773000733927,
+            "p90": 2991.396199911833,
+            "p95": 3042.003700044006,
+            "max": 3659.3075999990106,
+            "min": 1.828600070439279,
+            "stddev": 1011.1154192878033
+          },
+          "actual_http_attempts": 40
+        },
+        "MOVE多轮": {
+          "counts": {
+            "PASS": 21,
+            "FAIL": 3
+          },
+          "n": 24,
+          "accuracy": 0.875,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2189.7047291568015,
+            "p50": 2403.5572999855503,
+            "p90": 3035.8031999785453,
+            "p95": 3513.420999981463,
+            "max": 3686.051300028339,
+            "min": 1.733899931423366,
+            "stddev": 1054.1496881599007
+          },
+          "actual_http_attempts": 40
+        },
+        "OPEN多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2082.725599980525,
+            "p50": 2313.1252999883145,
+            "p90": 2972.46019996237,
+            "p95": 3217.2054999973625,
+            "max": 3638.583799940534,
+            "min": 1.7987999599426985,
+            "stddev": 1010.1922035961081
+          },
+          "actual_http_attempts": 40
+        },
+        "DISCARD多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2065.475533318628,
+            "p50": 2277.8670000843704,
+            "p90": 2909.4149000011384,
+            "p95": 3021.183399949223,
+            "max": 3274.7760000638664,
+            "min": 1.8223000224679708,
+            "stddev": 987.0981042808082
+          },
+          "actual_http_attempts": 40
+        },
+        "PLAN_ADD多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2150.4694375034887,
+            "p50": 2339.572499971837,
+            "p90": 3245.0154999969527,
+            "p95": 3284.877600031905,
+            "max": 3482.3574000038207,
+            "min": 1.7025000415742397,
+            "stddev": 1035.1536190861411
+          },
+          "actual_http_attempts": 40
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 200
+      },
+      "finish_reasons": {
+        "stop": 200
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 145,
+          "wire_latency_ms": {
+            "n": 145,
+            "mean": 997.5693986132934,
+            "p50": 977.478799992241,
+            "p90": 1273.2021000701934,
+            "p95": 1349.3499000323936,
+            "max": 1735.2113000815734,
+            "min": 531.6428999649361,
+            "stddev": 234.1265905961667
+          }
+        },
+        "2k_to_8k": {
+          "requests": 55,
+          "wire_latency_ms": {
+            "n": 55,
+            "mean": 1371.487292727794,
+            "p50": 1201.5014999778941,
+            "p90": 2007.318500080146,
+            "p95": 2193.982099997811,
+            "max": 2497.9108000406995,
+            "min": 758.7986000580713,
+            "stddev": 410.24906406634244
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 77696,
+      "measured_cache_miss_tokens": 125757,
+      "cache_hit_fraction": 0.38188672568111554,
+      "measured_prompt_tokens": 203453,
+      "measured_completion_tokens": 13003,
+      "known_calculated_cost_cny": "0.17932292",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.001532674529914529914529914530",
+      "cost_per_correct_complete_scenario_cny": "0.009962384444444444444444444444",
+      "http_per_correct_complete_scenario": 11.11111111111111,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-single-r2": {
+      "counts": {
+        "PASS": 96,
+        "FAIL": 20,
+        "REVIEW": 4
+      },
+      "evaluated_denominator": 116,
+      "turn_accuracy": 0.8275862068965517,
+      "conservative_all_executed_pass_fraction": 0.8,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 24,
+        "low": 0.675,
+        "high": 0.9482758620689655
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 120,
+      "complete_scenario_pass": 96,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2266.255744167332,
+        "p50": 2352.9601000482216,
+        "p90": 2781.314800027758,
+        "p95": 3048.7913000397384,
+        "max": 3479.0668999776244,
+        "min": 1.2227999977767467,
+        "stddev": 647.880269862106
+      },
+      "wire_latency_ms": {
+        "n": 226,
+        "mean": 1019.455405313262,
+        "p50": 1015.8609000500292,
+        "p90": 1338.8773000333458,
+        "p95": 1380.4894000058994,
+        "max": 1969.3155999993905,
+        "min": 465.6874999636784,
+        "stddev": 242.23979038475335
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1242.1459333379364,
+          "p50": 1296.1923000402749,
+          "p90": 1536.147900042124,
+          "p95": 1638.7462000129744,
+          "max": 2149.881500052288,
+          "min": 0.11040002573281527,
+          "stddev": 374.82017775623234
+        },
+        "resolve": {
+          "n": 120,
+          "mean": 1.164054165322644,
+          "p50": 0.5098999245092273,
+          "p90": 1.8854000372812152,
+          "p95": 6.517400033771992,
+          "max": 12.040700064972043,
+          "min": 0.11500006075948477,
+          "stddev": 2.1732643386975052
+        },
+        "response": {
+          "n": 113,
+          "mean": 1084.6282407142783,
+          "p50": 1067.8077000193298,
+          "p90": 1327.2011000663042,
+          "p95": 1433.4054000210017,
+          "max": 1837.6691000303254,
+          "min": 650.0001000240445,
+          "stddev": 206.7802236952338
+        }
+      },
+      "actual_http_attempts": 226,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 226
+      },
+      "raw_action_only_accuracy": {
+        "pass": 50,
+        "n": 50,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.8833333333333333,
+      "zero_wire_turns": 7,
+      "fallback_turns": 15,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 20,
+        "denominator": 20,
+        "rate": 1.0
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 15,
+        "denominator": 100,
+        "rate": 0.15,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "draft_exists": {
+          "pass": 47,
+          "n": 50,
+          "rate": 0.94
+        },
+        "draft.action": {
+          "pass": 47,
+          "n": 50,
+          "rate": 0.94
+        },
+        "draft.name": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.quantity": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.unit": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.location": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 47,
+          "n": 50,
+          "rate": 0.94
+        },
+        "draft.batch_id": {
+          "pass": 37,
+          "n": 40,
+          "rate": 0.925
+        },
+        "draft.expected_version": {
+          "pass": 37,
+          "n": 40,
+          "rate": 0.925
+        },
+        "draft.to_location": {
+          "pass": 4,
+          "n": 5,
+          "rate": 0.8
+        },
+        "absent.quantity": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 3,
+          "n": 5,
+          "rate": 0.6
+        },
+        "draft.discard_mode": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 70,
+          "n": 70,
+          "rate": 1.0
+        },
+        "target_batch": {
+          "pass": 9,
+          "n": 10,
+          "rate": 0.9
+        },
+        "fact.登记数量 10 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "read_routing": {
+          "pass": 26,
+          "n": 30,
+          "rate": 0.8666666666666667
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.开封日期 未知": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "fact.2026-11-20": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "risk_evidence": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation_present": {
+          "pass": 0,
+          "n": 15,
+          "rate": 0.0
+        },
+        "calculation.observed_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_events": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.status": {
+          "pass": 0,
+          "n": 10,
+          "rate": 0.0
+        },
+        "calculation.daily_recorded_consumption": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.remaining_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.current_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.suggested_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.pending_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.target_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "clarification": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "error_code": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "kind": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "preserve_active": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "fact.厨房": {
+          "pass": 2,
+          "n": 3,
+          "rate": 0.6666666666666666
+        }
+      },
+      "by_function": {
+        "新增": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2643.756980006583,
+            "p50": 2781.314800027758,
+            "p90": 2822.616000077687,
+            "p95": 2822.616000077687,
+            "max": 2822.616000077687,
+            "min": 2280.747899902053,
+            "stddev": 211.21430928281822
+          },
+          "actual_http_attempts": 10
+        },
+        "定量消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2432.539499993436,
+            "p50": 2557.9999999608845,
+            "p90": 2765.309300040826,
+            "p95": 2765.309300040826,
+            "max": 2765.309300040826,
+            "min": 2008.3773999940604,
+            "stddev": 268.8354441756646
+          },
+          "actual_http_attempts": 10
+        },
+        "一半消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2415.192040032707,
+            "p50": 2464.4846000010148,
+            "p90": 2660.851199994795,
+            "p95": 2660.851199994795,
+            "max": 2660.851199994795,
+            "min": 1876.6912000719458,
+            "stddev": 287.34522706052496
+          },
+          "actual_http_attempts": 10
+        },
+        "全部消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2415.2533599874005,
+            "p50": 2455.5094999959692,
+            "p90": 2867.90439998731,
+            "p95": 2867.90439998731,
+            "max": 2867.90439998731,
+            "min": 1974.499800009653,
+            "stddev": 322.48918625086935
+          },
+          "actual_http_attempts": 10
+        },
+        "整批移动": {
+          "counts": {
+            "PASS": 4,
+            "FAIL": 1
+          },
+          "n": 5,
+          "accuracy": 0.8,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2341.175760002807,
+            "p50": 2167.585000046529,
+            "p90": 3048.7913000397384,
+            "p95": 3048.7913000397384,
+            "max": 3048.7913000397384,
+            "min": 2093.1023999582976,
+            "stddev": 357.06808598879746
+          },
+          "actual_http_attempts": 10
+        },
+        "开封日期": {
+          "counts": {
+            "PASS": 3,
+            "FAIL": 2
+          },
+          "n": 5,
+          "accuracy": 0.6,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2307.6246000127867,
+            "p50": 2329.324800055474,
+            "p90": 2397.626499994658,
+            "p95": 2397.626499994658,
+            "max": 2397.626499994658,
+            "min": 2164.1037000808865,
+            "stddev": 81.86685004632612
+          },
+          "actual_http_attempts": 10
+        },
+        "部分丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2611.096700001508,
+            "p50": 2352.920899982564,
+            "p90": 3479.0668999776244,
+            "p95": 3479.0668999776244,
+            "max": 3479.0668999776244,
+            "min": 2138.9446000102907,
+            "stddev": 479.91805956624586
+          },
+          "actual_http_attempts": 10
+        },
+        "全部丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2504.0593199664727,
+            "p50": 2549.079299904406,
+            "p90": 2793.873199960217,
+            "p95": 2793.873199960217,
+            "max": 2793.873199960217,
+            "min": 2262.913699960336,
+            "stddev": 183.60435577595615
+          },
+          "actual_http_attempts": 10
+        },
+        "采购草稿": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2796.4512600097805,
+            "p50": 2762.5597999431193,
+            "p90": 3275.167700019665,
+            "p95": 3275.167700019665,
+            "max": 3275.167700019665,
+            "min": 2356.6688999999315,
+            "stddev": 377.3656510787844
+          },
+          "actual_http_attempts": 10
+        },
+        "数量位置查询": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2380.499799991958,
+            "p50": 2092.9189999587834,
+            "p90": 3055.7622000342235,
+            "p95": 3055.7622000342235,
+            "max": 3055.7622000342235,
+            "min": 1949.9632000224665,
+            "stddev": 443.8659520383654
+          },
+          "actual_http_attempts": 10
+        },
+        "日期查询": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2202.4886399740353,
+            "p50": 2127.665300038643,
+            "p90": 2465.548099949956,
+            "p95": 2465.548099949956,
+            "max": 2465.548099949956,
+            "min": 1876.7179000424221,
+            "stddev": 223.41891988267008
+          },
+          "actual_http_attempts": 10
+        },
+        "风险查询": {
+          "counts": {
+            "REVIEW": 4,
+            "FAIL": 1
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2240.990720014088,
+            "p50": 2219.3020000122488,
+            "p90": 2370.2631999040022,
+            "p95": 2370.2631999040022,
+            "max": 2370.2631999040022,
+            "min": 2099.305900046602,
+            "stddev": 91.23086745771003
+          },
+          "actual_http_attempts": 10
+        },
+        "消费统计": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2562.40969998762,
+            "p50": 2542.944599990733,
+            "p90": 3193.602600018494,
+            "p95": 3193.602600018494,
+            "max": 3193.602600018494,
+            "min": 1978.6451000254601,
+            "stddev": 384.7433662861943
+          },
+          "actual_http_attempts": 10
+        },
+        "耗尽预测": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2297.25373997353,
+            "p50": 2295.990400016308,
+            "p90": 2844.719099928625,
+            "p95": 2844.719099928625,
+            "max": 2844.719099928625,
+            "min": 1723.6507999477908,
+            "stddev": 418.1713055729817
+          },
+          "actual_http_attempts": 10
+        },
+        "补货建议": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2414.2831199569628,
+            "p50": 2452.890499960631,
+            "p90": 2571.356999920681,
+            "p95": 2571.356999920681,
+            "max": 2571.356999920681,
+            "min": 2156.045199953951,
+            "stddev": 140.3762850849141
+          },
+          "actual_http_attempts": 10
+        },
+        "缺少单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2428.4464200027287,
+            "p50": 2312.7034000353888,
+            "p90": 3174.117400078103,
+            "p95": 3174.117400078103,
+            "max": 3174.117400078103,
+            "min": 1861.1567999469116,
+            "stddev": 451.682041913867
+          },
+          "actual_http_attempts": 10
+        },
+        "模糊数量": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2084.932820009999,
+            "p50": 2104.959800024517,
+            "p90": 2295.722399954684,
+            "p95": 2295.722399954684,
+            "max": 2295.722399954684,
+            "min": 1916.2790999980643,
+            "stddev": 144.29668121327614
+          },
+          "actual_http_attempts": 10
+        },
+        "超库存": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2437.9820600384846,
+            "p50": 2365.163900074549,
+            "p90": 2662.552800029516,
+            "p95": 2662.552800029516,
+            "max": 2662.552800029516,
+            "min": 2352.73889999371,
+            "stddev": 118.80433143046878
+          },
+          "actual_http_attempts": 10
+        },
+        "不兼容单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2449.905340000987,
+            "p50": 2382.7401000307873,
+            "p90": 2772.9733999585733,
+            "p95": 2772.9733999585733,
+            "max": 2772.9733999585733,
+            "min": 2273.3885999768972,
+            "stddev": 178.91292692948528
+          },
+          "actual_http_attempts": 10
+        },
+        "多操作": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2466.289220005274,
+            "p50": 2558.0286000622436,
+            "p90": 2614.579499932006,
+            "p95": 2614.579499932006,
+            "max": 2614.579499932006,
+            "min": 2167.6457000430673,
+            "stddev": 160.9123134068973
+          },
+          "actual_http_attempts": 10
+        },
+        "改口数量": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2284.217120008543,
+            "p50": 2235.3521999903023,
+            "p90": 2762.878500041552,
+            "p95": 2762.878500041552,
+            "max": 2762.878500041552,
+            "min": 1796.7651000944898,
+            "stddev": 343.78029692283553
+          },
+          "actual_http_attempts": 10
+        },
+        "否定假设": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2348.5089199850336,
+            "p50": 2355.8452000143006,
+            "p90": 2611.2700999947265,
+            "p95": 2611.2700999947265,
+            "max": 2611.2700999947265,
+            "min": 2096.2161999195814,
+            "stddev": 202.6604568651705
+          },
+          "actual_http_attempts": 10
+        },
+        "提示注入": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1.2550400104373693,
+            "p50": 1.262800069525838,
+            "p90": 1.2916000559926033,
+            "p95": 1.2916000559926033,
+            "max": 1.2916000559926033,
+            "min": 1.2227999977767467,
+            "stddev": 0.027456343486374782
+          },
+          "actual_http_attempts": 0
+        },
+        "多批次选择": {
+          "counts": {
+            "PASS": 4,
+            "FAIL": 1
+          },
+          "n": 5,
+          "accuracy": 0.8,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1323.5256800428033,
+            "p50": 1977.9011000646278,
+            "p90": 2348.4373000683263,
+            "p95": 2348.4373000683263,
+            "max": 2348.4373000683263,
+            "min": 1.6277000540867448,
+            "stddev": 1086.587833248673
+          },
+          "actual_http_attempts": 6
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 226
+      },
+      "finish_reasons": {
+        "stop": 226
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 226,
+          "wire_latency_ms": {
+            "n": 226,
+            "mean": 1019.455405313262,
+            "p50": 1015.8609000500292,
+            "p90": 1338.8773000333458,
+            "p95": 1380.4894000058994,
+            "max": 1969.3155999993905,
+            "min": 465.6874999636784,
+            "stddev": 242.23979038475335
+          }
+        },
+        "2k_to_8k": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 114920,
+      "measured_cache_miss_tokens": 36383,
+      "cache_hit_fraction": 0.7595355016093535,
+      "measured_prompt_tokens": 151303,
+      "measured_completion_tokens": 13450,
+      "known_calculated_cost_cny": "0.09248140",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0009633479166666666666666666667",
+      "cost_per_correct_complete_scenario_cny": "0.0009633479166666666666666666667",
+      "http_per_correct_complete_scenario": 2.3541666666666665,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-multi-r2": {
+      "counts": {
+        "PASS": 119,
+        "FAIL": 1
+      },
+      "evaluated_denominator": 120,
+      "turn_accuracy": 0.9916666666666667,
+      "conservative_all_executed_pass_fraction": 0.9916666666666667,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 10,
+        "low": 0.975,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 20,
+      "complete_scenario_pass": 19,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2064.9829158249,
+        "p50": 2280.3334000054747,
+        "p90": 2971.3446999667212,
+        "p95": 3274.7114999219775,
+        "max": 3910.567000042647,
+        "min": 1.719399937428534,
+        "stddev": 995.0987792840741
+      },
+      "wire_latency_ms": {
+        "n": 200,
+        "mean": 1065.773259496782,
+        "p50": 995.3454999485984,
+        "p90": 1407.6941999373958,
+        "p95": 1810.5718999868259,
+        "max": 2773.3207000419497,
+        "min": 471.5820000274107,
+        "stddev": 333.08703272189103
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1161.8379274994368,
+          "p50": 1209.3040000181645,
+          "p90": 1944.1016999771819,
+          "p95": 2047.2849999787286,
+          "max": 2944.0020999172702,
+          "min": 0.30019995756447315,
+          "stddev": 621.7109496763203
+        },
+        "resolve": {
+          "n": 120,
+          "mean": 0.9140133304754272,
+          "p50": 0.4556999774649739,
+          "p90": 0.6549999816343188,
+          "p95": 0.7262000581249595,
+          "max": 13.047799933701754,
+          "min": 0.1740000443533063,
+          "stddev": 2.296925842792388
+        },
+        "response": {
+          "n": 100,
+          "mean": 1080.8560590061825,
+          "p50": 1041.9854000210762,
+          "p90": 1310.4578000493348,
+          "p95": 1415.8471000846475,
+          "max": 1581.7277000751346,
+          "min": 650.2738000126556,
+          "stddev": 180.34534161904304
+        }
+      },
+      "actual_http_attempts": 200,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 200
+      },
+      "raw_action_only_accuracy": {
+        "pass": 40,
+        "n": 40,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.6666666666666667,
+      "zero_wire_turns": 20,
+      "fallback_turns": 14,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 0,
+        "denominator": 120,
+        "rate": 0.0,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 80,
+          "n": 80,
+          "rate": 1.0
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft_exists": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.action": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.batch_id": {
+          "pass": 32,
+          "n": 32,
+          "rate": 1.0
+        },
+        "draft.expected_version": {
+          "pass": 32,
+          "n": 32,
+          "rate": 1.0
+        },
+        "draft.quantity": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "draft.unit": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "kind": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "same_draft": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "preserve_active": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.尚未执行": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.to_location": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.discard_mode": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 20 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 22 盒": {
+          "pass": 2,
+          "n": 3,
+          "rate": 0.6666666666666666
+        },
+        "fact.登记数量 24 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 26 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 28 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 30 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 32 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 34 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "CONSUME多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2118.8262833359963,
+            "p50": 2433.727900031954,
+            "p90": 3276.714300038293,
+            "p95": 3376.992499921471,
+            "max": 3480.8174000354484,
+            "min": 1.765499939210713,
+            "stddev": 1015.9127707241184
+          },
+          "actual_http_attempts": 40
+        },
+        "MOVE多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2076.591929149193,
+            "p50": 2254.488699953072,
+            "p90": 3024.0862000500783,
+            "p95": 3623.653699993156,
+            "max": 3910.567000042647,
+            "min": 1.7632999224588275,
+            "stddev": 1045.3878188623648
+          },
+          "actual_http_attempts": 40
+        },
+        "OPEN多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2048.943266660596,
+            "p50": 2286.315199919045,
+            "p90": 3037.7825000323355,
+            "p95": 3072.511599981226,
+            "max": 3199.6417000191286,
+            "min": 1.9318999256938696,
+            "stddev": 982.0258558304868
+          },
+          "actual_http_attempts": 40
+        },
+        "DISCARD多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2011.1923874986435,
+            "p50": 2192.194700008258,
+            "p90": 2861.881799995899,
+            "p95": 2952.8850000351667,
+            "max": 2971.3446999667212,
+            "min": 1.7837999621406198,
+            "stddev": 938.093912994581
+          },
+          "actual_http_attempts": 40
+        },
+        "PLAN_ADD多轮": {
+          "counts": {
+            "PASS": 23,
+            "FAIL": 1
+          },
+          "n": 24,
+          "accuracy": 0.9583333333333334,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2069.3607124800715,
+            "p50": 2272.864699945785,
+            "p90": 3083.3818999817595,
+            "p95": 3274.7114999219775,
+            "max": 3275.6574999075383,
+            "min": 1.719399937428534,
+            "stddev": 987.7219994503691
+          },
+          "actual_http_attempts": 40
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 200
+      },
+      "finish_reasons": {
+        "stop": 200
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 144,
+          "wire_latency_ms": {
+            "n": 144,
+            "mean": 961.9898333274048,
+            "p50": 947.7392999688163,
+            "p90": 1262.6661999383941,
+            "p95": 1290.7589999958873,
+            "max": 1419.4577999878675,
+            "min": 471.5820000274107,
+            "stddev": 192.651989208848
+          }
+        },
+        "2k_to_8k": {
+          "requests": 56,
+          "wire_latency_ms": {
+            "n": 56,
+            "mean": 1332.6449267894661,
+            "p50": 1148.8341999938712,
+            "p90": 1951.1235000099987,
+            "p95": 2159.458800102584,
+            "max": 2773.3207000419497,
+            "min": 794.8985999682918,
+            "stddev": 449.31482498790166
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 84096,
+      "measured_cache_miss_tokens": 120417,
+      "cache_hit_fraction": 0.4112012439307037,
+      "measured_prompt_tokens": 204513,
+      "measured_completion_tokens": 13069,
+      "known_calculated_cost_cny": "0.17437492",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.001465335462184873949579831933",
+      "cost_per_correct_complete_scenario_cny": "0.009177627368421052631578947368",
+      "http_per_correct_complete_scenario": 10.526315789473685,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-single-r3": {
+      "counts": {
+        "PASS": 97,
+        "FAIL": 19,
+        "REVIEW": 4
+      },
+      "evaluated_denominator": 116,
+      "turn_accuracy": 0.8362068965517241,
+      "conservative_all_executed_pass_fraction": 0.8083333333333333,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 24,
+        "low": 0.6833333333333333,
+        "high": 0.9553571428571429
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 120,
+      "complete_scenario_pass": 97,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2237.925020834276,
+        "p50": 2288.4533000178635,
+        "p90": 2760.8866000082344,
+        "p95": 2860.367500106804,
+        "max": 3113.3184999926016,
+        "min": 1.146900001913309,
+        "stddev": 616.7374255032153
+      },
+      "wire_latency_ms": {
+        "n": 226,
+        "mean": 1013.8905455767325,
+        "p50": 970.3317999374121,
+        "p90": 1344.3026000168175,
+        "p95": 1371.274600038305,
+        "max": 1569.511599955149,
+        "min": 455.4190000053495,
+        "stddev": 204.74862541545468
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1214.1464816610096,
+          "p50": 1232.7061000978574,
+          "p90": 1534.7861999180168,
+          "p95": 1603.0123999807984,
+          "max": 1745.4330999171361,
+          "min": 0.10099995415657759,
+          "stddev": 351.6886891413579
+        },
+        "resolve": {
+          "n": 120,
+          "mean": 1.1287158355116844,
+          "p50": 0.4836000734940171,
+          "p90": 2.530400059185922,
+          "p95": 6.098999991081655,
+          "max": 15.282999956980348,
+          "min": 0.10870001278817654,
+          "stddev": 2.2111366850431846
+        },
+        "response": {
+          "n": 113,
+          "mean": 1084.4690840674843,
+          "p50": 1059.3347999965772,
+          "p90": 1326.9731999607757,
+          "p95": 1330.4374000290409,
+          "max": 1534.5701000187546,
+          "min": 632.8685999615118,
+          "stddev": 168.20732178445428
+        }
+      },
+      "actual_http_attempts": 226,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 226
+      },
+      "raw_action_only_accuracy": {
+        "pass": 50,
+        "n": 50,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.8833333333333333,
+      "zero_wire_turns": 7,
+      "fallback_turns": 16,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 20,
+        "denominator": 20,
+        "rate": 1.0
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 12,
+        "denominator": 100,
+        "rate": 0.12,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "draft_exists": {
+          "pass": 49,
+          "n": 50,
+          "rate": 0.98
+        },
+        "draft.action": {
+          "pass": 49,
+          "n": 50,
+          "rate": 0.98
+        },
+        "draft.name": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.quantity": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.unit": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.location": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 49,
+          "n": 50,
+          "rate": 0.98
+        },
+        "draft.batch_id": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.expected_version": {
+          "pass": 39,
+          "n": 40,
+          "rate": 0.975
+        },
+        "draft.to_location": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "absent.quantity": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "draft.discard_mode": {
+          "pass": 10,
+          "n": 10,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 70,
+          "n": 70,
+          "rate": 1.0
+        },
+        "target_batch": {
+          "pass": 9,
+          "n": 10,
+          "rate": 0.9
+        },
+        "fact.登记数量 10 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "read_routing": {
+          "pass": 27,
+          "n": 30,
+          "rate": 0.9
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 1,
+          "n": 1,
+          "rate": 1.0
+        },
+        "fact.开封日期 未知": {
+          "pass": 4,
+          "n": 5,
+          "rate": 0.8
+        },
+        "fact.2026-11-20": {
+          "pass": 4,
+          "n": 5,
+          "rate": 0.8
+        },
+        "risk_evidence": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation_present": {
+          "pass": 0,
+          "n": 15,
+          "rate": 0.0
+        },
+        "calculation.observed_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.effective_events": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.status": {
+          "pass": 0,
+          "n": 10,
+          "rate": 0.0
+        },
+        "calculation.daily_recorded_consumption": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.remaining_days": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.current_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.suggested_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.pending_quantity": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "calculation.target_stock": {
+          "pass": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "clarification": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "error_code": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "kind": {
+          "pass": 4,
+          "n": 5,
+          "rate": 0.8
+        },
+        "preserve_active": {
+          "pass": 5,
+          "n": 5,
+          "rate": 1.0
+        },
+        "fact.厨房": {
+          "pass": 2,
+          "n": 3,
+          "rate": 0.6666666666666666
+        }
+      },
+      "by_function": {
+        "新增": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2458.012380031869,
+            "p50": 2458.339500008151,
+            "p90": 2860.367500106804,
+            "p95": 2860.367500106804,
+            "max": 2860.367500106804,
+            "min": 2005.8979999739677,
+            "stddev": 316.70974619589157
+          },
+          "actual_http_attempts": 10
+        },
+        "定量消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2474.8273600358516,
+            "p50": 2349.2944000754505,
+            "p90": 2764.587900019251,
+            "p95": 2764.587900019251,
+            "max": 2764.587900019251,
+            "min": 2296.1092999903485,
+            "stddev": 183.30596948748908
+          },
+          "actual_http_attempts": 10
+        },
+        "一半消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2456.268859980628,
+            "p50": 2558.991299942136,
+            "p90": 2662.1779000852257,
+            "p95": 2662.1779000852257,
+            "max": 2662.1779000852257,
+            "min": 2239.427899941802,
+            "stddev": 174.5516387821468
+          },
+          "actual_http_attempts": 10
+        },
+        "全部消耗": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2147.1861200174317,
+            "p50": 2199.2982999654487,
+            "p90": 2250.830200035125,
+            "p95": 2250.830200035125,
+            "max": 2250.830200035125,
+            "min": 1944.0861999755725,
+            "stddev": 112.23743424025682
+          },
+          "actual_http_attempts": 10
+        },
+        "整批移动": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2102.9864399926737,
+            "p50": 2219.772699987516,
+            "p90": 2304.240299970843,
+            "p95": 2304.240299970843,
+            "max": 2304.240299970843,
+            "min": 1800.83670001477,
+            "stddev": 200.15770310211178
+          },
+          "actual_http_attempts": 10
+        },
+        "开封日期": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2576.426320010796,
+            "p50": 2494.0622000722215,
+            "p90": 2764.139399980195,
+            "p95": 2764.139399980195,
+            "max": 2764.139399980195,
+            "min": 2456.2433999963105,
+            "stddev": 132.8767972785548
+          },
+          "actual_http_attempts": 10
+        },
+        "部分丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2712.359440000728,
+            "p50": 2760.989199974574,
+            "p90": 3113.3184999926016,
+            "p95": 3113.3184999926016,
+            "max": 3113.3184999926016,
+            "min": 2059.495700057596,
+            "stddev": 384.85969671886085
+          },
+          "actual_http_attempts": 10
+        },
+        "全部丢弃": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2430.247319978662,
+            "p50": 2411.8545999517664,
+            "p90": 2661.5576000185683,
+            "p95": 2661.5576000185683,
+            "max": 2661.5576000185683,
+            "min": 2256.423700018786,
+            "stddev": 133.98169023286442
+          },
+          "actual_http_attempts": 10
+        },
+        "采购草稿": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2375.979659985751,
+            "p50": 2288.4533000178635,
+            "p90": 2970.3186999540776,
+            "p95": 2970.3186999540776,
+            "max": 2970.3186999540776,
+            "min": 1946.8502999516204,
+            "stddev": 344.050534768971
+          },
+          "actual_http_attempts": 10
+        },
+        "数量位置查询": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2121.6121000470594,
+            "p50": 2134.3800000613555,
+            "p90": 2174.8527000891045,
+            "p95": 2174.8527000891045,
+            "max": 2174.8527000891045,
+            "min": 2001.1852000607178,
+            "stddev": 63.51851139843295
+          },
+          "actual_http_attempts": 10
+        },
+        "日期查询": {
+          "counts": {
+            "PASS": 4,
+            "FAIL": 1
+          },
+          "n": 5,
+          "accuracy": 0.8,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2301.2665199814364,
+            "p50": 2154.3078999966383,
+            "p90": 2747.883199946955,
+            "p95": 2747.883199946955,
+            "max": 2747.883199946955,
+            "min": 2023.2474999502301,
+            "stddev": 264.468731124724
+          },
+          "actual_http_attempts": 10
+        },
+        "风险查询": {
+          "counts": {
+            "FAIL": 1,
+            "REVIEW": 4
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2438.9597000321373,
+            "p50": 2464.2580000218004,
+            "p90": 2593.9379000337794,
+            "p95": 2593.9379000337794,
+            "max": 2593.9379000337794,
+            "min": 2180.8228000300005,
+            "stddev": 139.3439571985837
+          },
+          "actual_http_attempts": 10
+        },
+        "消费统计": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2374.2301400052384,
+            "p50": 2354.971499997191,
+            "p90": 2480.8219000697136,
+            "p95": 2480.8219000697136,
+            "max": 2480.8219000697136,
+            "min": 2254.6809999039397,
+            "stddev": 82.88416081406571
+          },
+          "actual_http_attempts": 10
+        },
+        "耗尽预测": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2457.1059599751607,
+            "p50": 2252.7367000002414,
+            "p90": 3074.7411999618635,
+            "p95": 3074.7411999618635,
+            "max": 3074.7411999618635,
+            "min": 2147.941999952309,
+            "stddev": 338.22367445244305
+          },
+          "actual_http_attempts": 10
+        },
+        "补货建议": {
+          "counts": {
+            "FAIL": 5
+          },
+          "n": 5,
+          "accuracy": 0.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2292.9234199924394,
+            "p50": 2252.790299942717,
+            "p90": 2663.9034000691026,
+            "p95": 2663.9034000691026,
+            "max": 2663.9034000691026,
+            "min": 2075.6165999919176,
+            "stddev": 196.74159860298624
+          },
+          "actual_http_attempts": 10
+        },
+        "缺少单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2453.3179599558935,
+            "p50": 2446.5171999763697,
+            "p90": 2775.7108999649063,
+            "p95": 2775.7108999649063,
+            "max": 2775.7108999649063,
+            "min": 2137.3751999344677,
+            "stddev": 212.35531862175498
+          },
+          "actual_http_attempts": 10
+        },
+        "模糊数量": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2521.222180011682,
+            "p50": 2456.993900006637,
+            "p90": 2967.1002000104636,
+            "p95": 2967.1002000104636,
+            "max": 2967.1002000104636,
+            "min": 2254.048699978739,
+            "stddev": 270.8954917030065
+          },
+          "actual_http_attempts": 10
+        },
+        "超库存": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2561.2758199917153,
+            "p50": 2469.825900043361,
+            "p90": 2930.4912999505177,
+            "p95": 2930.4912999505177,
+            "max": 2930.4912999505177,
+            "min": 2289.405999938026,
+            "stddev": 245.2238776327155
+          },
+          "actual_http_attempts": 10
+        },
+        "不兼容单位": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2468.781219981611,
+            "p50": 2462.7509999554604,
+            "p90": 2786.9865000247955,
+            "p95": 2786.9865000247955,
+            "max": 2786.9865000247955,
+            "min": 2209.55520006828,
+            "stddev": 192.3515213496598
+          },
+          "actual_http_attempts": 10
+        },
+        "多操作": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2206.6952400142327,
+            "p50": 2196.068000048399,
+            "p90": 2583.142500021495,
+            "p95": 2583.142500021495,
+            "max": 2583.142500021495,
+            "min": 1990.3646999737248,
+            "stddev": 207.50020423309255
+          },
+          "actual_http_attempts": 10
+        },
+        "改口数量": {
+          "counts": {
+            "FAIL": 1,
+            "PASS": 4
+          },
+          "n": 5,
+          "accuracy": 0.8,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2280.106099997647,
+            "p50": 2250.165699981153,
+            "p90": 2565.1757000014186,
+            "p95": 2565.1757000014186,
+            "max": 2565.1757000014186,
+            "min": 2088.5061000008136,
+            "stddev": 155.50543887725982
+          },
+          "actual_http_attempts": 10
+        },
+        "否定假设": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 2100.640399986878,
+            "p50": 2214.6455000620335,
+            "p90": 2253.0846999725327,
+            "p95": 2253.0846999725327,
+            "max": 2253.0846999725327,
+            "min": 1727.5963999563828,
+            "stddev": 196.84695986210178
+          },
+          "actual_http_attempts": 10
+        },
+        "提示注入": {
+          "counts": {
+            "PASS": 5
+          },
+          "n": 5,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1.2293600011616945,
+            "p50": 1.1781000066548586,
+            "p90": 1.4040999813005328,
+            "p95": 1.4040999813005328,
+            "max": 1.4040999813005328,
+            "min": 1.146900001913309,
+            "stddev": 0.09260965981613967
+          },
+          "actual_http_attempts": 0
+        },
+        "多批次选择": {
+          "counts": {
+            "PASS": 4,
+            "FAIL": 1
+          },
+          "n": 5,
+          "accuracy": 0.8,
+          "ai_latency_ms": {
+            "n": 5,
+            "mean": 1396.5404800139368,
+            "p50": 2079.768200055696,
+            "p90": 2476.885800017044,
+            "p95": 2476.885800017044,
+            "max": 2476.885800017044,
+            "min": 1.5715999761596322,
+            "stddev": 1147.0963487205179
+          },
+          "actual_http_attempts": 6
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 226
+      },
+      "finish_reasons": {
+        "stop": 226
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 226,
+          "wire_latency_ms": {
+            "n": 226,
+            "mean": 1013.8905455767325,
+            "p50": 970.3317999374121,
+            "p90": 1344.3026000168175,
+            "p95": 1371.274600038305,
+            "max": 1569.511599955149,
+            "min": 455.4190000053495,
+            "stddev": 204.74862541545468
+          }
+        },
+        "2k_to_8k": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 115431,
+      "measured_cache_miss_tokens": 35876,
+      "cache_hit_fraction": 0.7628926619389718,
+      "measured_prompt_tokens": 151307,
+      "measured_completion_tokens": 13202,
+      "known_calculated_cost_cny": "0.09099262",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0009380682474226804123711340206",
+      "cost_per_correct_complete_scenario_cny": "0.0009380682474226804123711340206",
+      "http_per_correct_complete_scenario": 2.329896907216495,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "new-multi-r3": {
+      "counts": {
+        "PASS": 118,
+        "FAIL": 2
+      },
+      "evaluated_denominator": 120,
+      "turn_accuracy": 0.9833333333333333,
+      "conservative_all_executed_pass_fraction": 0.9833333333333333,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 10,
+        "low": 0.9583333333333334,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 20,
+      "complete_scenario_pass": 18,
+      "ai_turn_latency_ms": {
+        "n": 120,
+        "mean": 2096.744228331954,
+        "p50": 2404.8706999747083,
+        "p90": 2945.2920000767335,
+        "p95": 3275.952700059861,
+        "max": 3646.9645999604836,
+        "min": 1.7596000107005239,
+        "stddev": 1020.0329739706189
+      },
+      "wire_latency_ms": {
+        "n": 199,
+        "mean": 1089.3381266303631,
+        "p50": 1001.6091000288725,
+        "p90": 1650.7377999369055,
+        "p95": 1814.929599990137,
+        "max": 2259.0878000482917,
+        "min": 486.98130005504936,
+        "stddev": 343.35725300852755
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 120,
+          "mean": 1183.6030874954304,
+          "p50": 1260.6372999725863,
+          "p90": 1937.7514000516385,
+          "p95": 2025.6110000191256,
+          "max": 2485.7533000176772,
+          "min": 0.3062000032514334,
+          "stddev": 625.6314945721365
+        },
+        "resolve": {
+          "n": 119,
+          "mean": 0.9540932746056248,
+          "p50": 0.4572999896481633,
+          "p90": 0.6767000304535031,
+          "p95": 1.734199933707714,
+          "max": 13.557299971580505,
+          "min": 0.26350002735853195,
+          "stddev": 2.38807084771842
+        },
+        "response": {
+          "n": 99,
+          "mean": 1103.860555554157,
+          "p50": 1102.9034999664873,
+          "p90": 1365.910300053656,
+          "p95": 1535.1456999778748,
+          "max": 1960.3220999706537,
+          "min": 664.9342000018805,
+          "stddev": 229.4224668291854
+        }
+      },
+      "actual_http_attempts": 199,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {
+        "DIALOGUE_PLAN_INVALID:selector.use_reference": 1
+      },
+      "http_statuses": {
+        "200": 199
+      },
+      "raw_action_only_accuracy": {
+        "pass": 40,
+        "n": 40,
+        "rate": 1.0,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.6583333333333334,
+      "zero_wire_turns": 20,
+      "fallback_turns": 14,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 0,
+        "denominator": 120,
+        "rate": 0.0,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "inventory_unchanged": {
+          "pass": 120,
+          "n": 120,
+          "rate": 1.0
+        },
+        "no_draft": {
+          "pass": 80,
+          "n": 80,
+          "rate": 1.0
+        },
+        "fact.登记数量 12 盒": {
+          "pass": 2,
+          "n": 2,
+          "rate": 1.0
+        },
+        "fact.位置 冰箱": {
+          "pass": 38,
+          "n": 40,
+          "rate": 0.95
+        },
+        "draft_exists": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.action": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "draft.batch_id": {
+          "pass": 32,
+          "n": 32,
+          "rate": 1.0
+        },
+        "draft.expected_version": {
+          "pass": 32,
+          "n": 32,
+          "rate": 1.0
+        },
+        "draft.quantity": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "draft.unit": {
+          "pass": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "status": {
+          "pass": 40,
+          "n": 40,
+          "rate": 1.0
+        },
+        "kind": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "same_draft": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "preserve_active": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.尚未执行": {
+          "pass": 20,
+          "n": 20,
+          "rate": 1.0
+        },
+        "fact.登记数量 14 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.to_location": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 16 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.opened_at": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 18 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "draft.discard_mode": {
+          "pass": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "fact.登记数量 20 盒": {
+          "pass": 3,
+          "n": 4,
+          "rate": 0.75
+        },
+        "fact.登记数量 22 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 24 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 26 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 28 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 30 盒": {
+          "pass": 4,
+          "n": 4,
+          "rate": 1.0
+        },
+        "fact.登记数量 32 盒": {
+          "pass": 3,
+          "n": 3,
+          "rate": 1.0
+        },
+        "fact.登记数量 34 盒": {
+          "pass": 0,
+          "n": 1,
+          "rate": 0.0
+        },
+        "no_exception": {
+          "pass": 0,
+          "n": 1,
+          "rate": 0.0
+        }
+      },
+      "by_function": {
+        "CONSUME多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 1984.59830415959,
+            "p50": 2170.55869998876,
+            "p90": 2762.955000041984,
+            "p95": 2914.494300028309,
+            "max": 3062.058400013484,
+            "min": 1.7596000107005239,
+            "stddev": 937.7622429486686
+          },
+          "actual_http_attempts": 40
+        },
+        "MOVE多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2172.545079170959,
+            "p50": 2426.738200010732,
+            "p90": 3017.108300002292,
+            "p95": 3124.3968999478966,
+            "max": 3646.9645999604836,
+            "min": 1.829999964684248,
+            "stddev": 1035.186336049829
+          },
+          "actual_http_attempts": 40
+        },
+        "OPEN多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2045.4317208350403,
+            "p50": 2277.0263999700546,
+            "p90": 2921.282900031656,
+            "p95": 2968.7337999930605,
+            "max": 3482.774700038135,
+            "min": 1.788900000974536,
+            "stddev": 996.8477450396543
+          },
+          "actual_http_attempts": 40
+        },
+        "DISCARD多轮": {
+          "counts": {
+            "PASS": 24
+          },
+          "n": 24,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2199.7046208319566,
+            "p50": 2447.8191999951378,
+            "p90": 3442.6737999310717,
+            "p95": 3590.04499996081,
+            "max": 3617.5275000277907,
+            "min": 1.7808000557124615,
+            "stddev": 1083.6504638349195
+          },
+          "actual_http_attempts": 40
+        },
+        "PLAN_ADD多轮": {
+          "counts": {
+            "PASS": 22,
+            "FAIL": 2
+          },
+          "n": 24,
+          "accuracy": 0.9166666666666666,
+          "ai_latency_ms": {
+            "n": 24,
+            "mean": 2081.441416662225,
+            "p50": 2448.290399974212,
+            "p90": 3074.5833999244496,
+            "p95": 3275.952700059861,
+            "max": 3339.871099917218,
+            "min": 1.9762000301852822,
+            "stddev": 1025.4429977045502
+          },
+          "actual_http_attempts": 39
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 199
+      },
+      "finish_reasons": {
+        "stop": 199
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 143,
+          "wire_latency_ms": {
+            "n": 143,
+            "mean": 986.1719964985521,
+            "p50": 955.9025999624282,
+            "p90": 1270.6814999692142,
+            "p95": 1441.735400003381,
+            "max": 1987.1495999395847,
+            "min": 486.98130005504936,
+            "stddev": 258.11344601463674
+          }
+        },
+        "2k_to_8k": {
+          "requests": 56,
+          "wire_latency_ms": {
+            "n": 56,
+            "mean": 1352.780208931238,
+            "p50": 1272.5341999903321,
+            "p90": 1859.3324000248685,
+            "p95": 2079.6010000631213,
+            "max": 2259.0878000482917,
+            "min": 766.3476000307128,
+            "stddev": 390.1794438770736
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 84992,
+      "measured_cache_miss_tokens": 119651,
+      "cache_hit_fraction": 0.41531838372189617,
+      "measured_prompt_tokens": 204643,
+      "measured_completion_tokens": 13202,
+      "known_calculated_cost_cny": "0.17415884",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.001475922372881355932203389831",
+      "cost_per_correct_complete_scenario_cny": "0.009675491111111111111111111111",
+      "http_per_correct_complete_scenario": 11.055555555555555,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    }
+  }
+}

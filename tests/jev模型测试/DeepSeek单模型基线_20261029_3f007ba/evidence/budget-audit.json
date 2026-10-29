@@ -1,0 +1,10 @@
+{
+  "cap_cny": 5,
+  "all_live_http": 1965,
+  "ledger_calls_delta": 1965,
+  "request_ledger_match": true,
+  "new_conservative_cost_cny": 4.534698,
+  "cap_respected": true,
+  "unknown_usage_calls": 0,
+  "supplier_invoice_reconciled": false
+}

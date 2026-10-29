@@ -1,0 +1,516 @@
+{
+  "run": "smoke-20261029T004040",
+  "completion": {
+    "command": "smoke",
+    "complete": true,
+    "stopped_reason": null,
+    "executed_turns": 18,
+    "pass": 18,
+    "fail": 0,
+    "review": 0,
+    "actual_http_attempts": 20,
+    "budget_before": {
+      "limit_cny": 5.0,
+      "conservative_cost_cny": 0,
+      "calls": 0,
+      "unknown_usage_calls": 0
+    },
+    "budget_after": {
+      "limit_cny": 5.0,
+      "conservative_cost_cny": 0.054898,
+      "calls": 20,
+      "unknown_usage_calls": 0
+    },
+    "infrastructure_ok": true,
+    "provenance": "live_deepseek",
+    "human_review_status": "pending",
+    "production_database_accessed": false,
+    "app_acceptance": "NOT_RUN"
+  },
+  "batches": {
+    "smoke-multi": {
+      "counts": {
+        "PASS": 12
+      },
+      "evaluated_denominator": 12,
+      "turn_accuracy": 1.0,
+      "conservative_all_executed_pass_fraction": 1.0,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 2,
+        "low": 1.0,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 0,
+        "pass": 0,
+        "original_pass_but_extra_failed": 0,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 2,
+      "complete_scenario_pass": 2,
+      "ai_turn_latency_ms": {
+        "n": 12,
+        "mean": 1252.9130583279766,
+        "p50": 1672.4188999505714,
+        "p90": 2320.940600009635,
+        "p95": 3212.171799968928,
+        "max": 3212.171799968928,
+        "min": 2.2424000781029463,
+        "stddev": 1118.9941723776271
+      },
+      "wire_latency_ms": {
+        "n": 12,
+        "mean": 1092.6060083341629,
+        "p50": 959.0847999788821,
+        "p90": 1522.6071999641135,
+        "p95": 1624.6213000267744,
+        "max": 1624.6213000267744,
+        "min": 685.7274000067264,
+        "stddev": 326.2431992105168
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 12,
+          "mean": 802.2530332964379,
+          "p50": 989.0751999337226,
+          "p90": 1680.9739999007434,
+          "p95": 1781.720400089398,
+          "max": 1781.720400089398,
+          "min": 0.34309993498027325,
+          "stddev": 716.7565668797803
+        },
+        "resolve": {
+          "n": 12,
+          "mean": 1.0938749959071477,
+          "p50": 0.7597999647259712,
+          "p90": 1.1131999781355262,
+          "p95": 4.388200002722442,
+          "max": 4.388200002722442,
+          "min": 0.5163999740034342,
+          "stddev": 1.010934882887579
+        },
+        "response": {
+          "n": 5,
+          "mean": 1076.135199982673,
+          "p50": 938.0617999704555,
+          "p90": 1529.030799982138,
+          "p95": 1529.030799982138,
+          "max": 1529.030799982138,
+          "min": 848.263300023973,
+          "stddev": 261.764066148483
+        }
+      },
+      "actual_http_attempts": 12,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 12
+      },
+      "raw_action_only_accuracy": {
+        "pass": 0,
+        "n": 0,
+        "rate": null,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.0,
+      "zero_wire_turns": 5,
+      "fallback_turns": 0,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "legacy_p85_oracle": {
+          "pass": 12,
+          "n": 12,
+          "rate": 1.0
+        },
+        "inventory_unchanged": {
+          "pass": 12,
+          "n": 12,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "P8.5六轮记忆": {
+          "counts": {
+            "PASS": 12
+          },
+          "n": 12,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 12,
+            "mean": 1252.9130583279766,
+            "p50": 1672.4188999505714,
+            "p90": 2320.940600009635,
+            "p95": 3212.171799968928,
+            "max": 3212.171799968928,
+            "min": 2.2424000781029463,
+            "stddev": 1118.9941723776271
+          },
+          "actual_http_attempts": 12
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 12
+      },
+      "finish_reasons": {
+        "stop": 12
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 9,
+          "wire_latency_ms": {
+            "n": 9,
+            "mean": 1069.233355552165,
+            "p50": 959.0847999788821,
+            "p90": 1624.6213000267744,
+            "p95": 1624.6213000267744,
+            "max": 1624.6213000267744,
+            "min": 685.7274000067264,
+            "stddev": 335.70603463915324
+          }
+        },
+        "2k_to_8k": {
+          "requests": 3,
+          "wire_latency_ms": {
+            "n": 3,
+            "mean": 1162.7239666801568,
+            "p50": 1139.2889000708237,
+            "p90": 1522.6071999641135,
+            "p95": 1522.6071999641135,
+            "max": 1522.6071999641135,
+            "min": 826.2758000055328,
+            "stddev": 284.75867724830573
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 14592,
+      "measured_cache_miss_tokens": 2816,
+      "cache_hit_fraction": 0.8382352941176471,
+      "measured_prompt_tokens": 17408,
+      "measured_completion_tokens": 828,
+      "known_calculated_cost_cny": "0.00641984",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0005349866666666666666666666667",
+      "cost_per_correct_complete_scenario_cny": "0.00320992",
+      "http_per_correct_complete_scenario": 6.0,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    },
+    "smoke-single": {
+      "counts": {
+        "PASS": 6
+      },
+      "evaluated_denominator": 6,
+      "turn_accuracy": 1.0,
+      "conservative_all_executed_pass_fraction": 1.0,
+      "human_review_status": "pending; automated score is provisional",
+      "accuracy_95ci": {
+        "method": "group bootstrap, seed 20261029, 10000 resamples",
+        "groups": 6,
+        "low": 1.0,
+        "high": 1.0
+      },
+      "legacy_additional_audit": {
+        "covered": 3,
+        "pass": 2,
+        "original_pass_but_extra_failed": 1,
+        "coverage_note": "field audit subset; cannot call original legacy success rate full correctness"
+      },
+      "scenario_count": 6,
+      "complete_scenario_pass": 6,
+      "ai_turn_latency_ms": {
+        "n": 6,
+        "mean": 1800.4047999856994,
+        "p50": 1946.1664999835193,
+        "p90": 3215.372600010596,
+        "p95": 3215.372600010596,
+        "max": 3215.372600010596,
+        "min": 0.9372999193146825,
+        "stddev": 1330.1561278003965
+      },
+      "wire_latency_ms": {
+        "n": 8,
+        "mean": 1188.625287511968,
+        "p50": 1132.6921000145376,
+        "p90": 1828.7656999891624,
+        "p95": 1828.7656999891624,
+        "max": 1828.7656999891624,
+        "min": 823.8062000600621,
+        "stddev": 307.15307714369806
+      },
+      "stage_latency_ms": {
+        "understanding": {
+          "n": 6,
+          "mean": 971.1721500304217,
+          "p50": 973.221700056456,
+          "p90": 2043.9151000464335,
+          "p95": 2043.9151000464335,
+          "max": 2043.9151000464335,
+          "min": 0.09029998909682035,
+          "stddev": 754.2202075031875
+        },
+        "resolve": {
+          "n": 6,
+          "mean": 0.563750024108837,
+          "p50": 0.24750002194195986,
+          "p90": 0.9903000900521874,
+          "p95": 0.9903000900521874,
+          "max": 0.9903000900521874,
+          "min": 0.09809993207454681,
+          "stddev": 0.39917982558415643
+        },
+        "response": {
+          "n": 4,
+          "mean": 1240.605874976609,
+          "p50": 1166.112900013104,
+          "p90": 1533.3023999119177,
+          "p95": 1533.3023999119177,
+          "max": 1533.3023999119177,
+          "min": 971.7290999833494,
+          "stddev": 203.76638271128667
+        }
+      },
+      "actual_http_attempts": 8,
+      "non_200_http": 0,
+      "transport_errors": {},
+      "engine_errors": {},
+      "http_statuses": {
+        "200": 8
+      },
+      "raw_action_only_accuracy": {
+        "pass": 0,
+        "n": 0,
+        "rate": null,
+        "note": "new write samples with an actual understanding response only; not whole-task accuracy"
+      },
+      "prohibited_raw_actions": 0,
+      "prohibited_raw_actions_blocked": 0,
+      "requests_per_turn": 1.3333333333333333,
+      "zero_wire_turns": 2,
+      "fallback_turns": 0,
+      "truncated_turns": 0,
+      "clarification_recall": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unnecessary_clarification_proxy": {
+        "numerator": 1,
+        "denominator": 6,
+        "rate": 0.16666666666666666,
+        "note": "automatic proxy, requires human review"
+      },
+      "field_checks": {
+        "legacy_oracle": {
+          "pass": 6,
+          "n": 6,
+          "rate": 1.0
+        },
+        "inventory_unchanged": {
+          "pass": 6,
+          "n": 6,
+          "rate": 1.0
+        }
+      },
+      "by_function": {
+        "问候": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 3215.372600010596,
+            "p50": 3215.372600010596,
+            "p90": 3215.372600010596,
+            "p95": 3215.372600010596,
+            "max": 3215.372600010596,
+            "min": 3215.372600010596,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 2
+        },
+        "全部消耗": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 2967.628600075841,
+            "p50": 2967.628600075841,
+            "p90": 2967.628600075841,
+            "p95": 2967.628600075841,
+            "max": 2967.628600075841,
+            "min": 2967.628600075841,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 2
+        },
+        "新增": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 2670.510799973272,
+            "p50": 2670.510799973272,
+            "p90": 2670.510799973272,
+            "p95": 2670.510799973272,
+            "max": 2670.510799973272,
+            "min": 2670.510799973272,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 2
+        },
+        "补货建议": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 1946.1664999835193,
+            "p50": 1946.1664999835193,
+            "p90": 1946.1664999835193,
+            "p95": 1946.1664999835193,
+            "max": 1946.1664999835193,
+            "min": 1946.1664999835193,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 2
+        },
+        "已取消状态": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 1.8129999516531825,
+            "p50": 1.8129999516531825,
+            "p90": 1.8129999516531825,
+            "p95": 1.8129999516531825,
+            "max": 1.8129999516531825,
+            "min": 1.8129999516531825,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 0
+        },
+        "提示注入": {
+          "counts": {
+            "PASS": 1
+          },
+          "n": 1,
+          "accuracy": 1.0,
+          "ai_latency_ms": {
+            "n": 1,
+            "mean": 0.9372999193146825,
+            "p50": 0.9372999193146825,
+            "p90": 0.9372999193146825,
+            "p95": 0.9372999193146825,
+            "max": 0.9372999193146825,
+            "min": 0.9372999193146825,
+            "stddev": 0.0
+          },
+          "actual_http_attempts": 0
+        }
+      },
+      "returned_models": {
+        "deepseek-flash": 8
+      },
+      "finish_reasons": {
+        "stop": 8
+      },
+      "latency_by_input_tokens": {
+        "under_2k": {
+          "requests": 8,
+          "wire_latency_ms": {
+            "n": 8,
+            "mean": 1188.625287511968,
+            "p50": 1132.6921000145376,
+            "p90": 1828.7656999891624,
+            "p95": 1828.7656999891624,
+            "max": 1828.7656999891624,
+            "min": 823.8062000600621,
+            "stddev": 307.15307714369806
+          }
+        },
+        "2k_to_8k": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        },
+        "8k_and_more": {
+          "requests": 0,
+          "wire_latency_ms": {
+            "n": 0,
+            "mean": null,
+            "p50": null,
+            "p90": null,
+            "p95": null,
+            "max": null,
+            "min": null,
+            "stddev": null
+          }
+        }
+      },
+      "measured_cache_hit_tokens": 2816,
+      "measured_cache_miss_tokens": 2065,
+      "cache_hit_fraction": 0.5769309567711535,
+      "measured_prompt_tokens": 4881,
+      "measured_completion_tokens": 462,
+      "known_calculated_cost_cny": "0.00396932",
+      "cost_unknown_or_inexact_requests": 0,
+      "cost_per_correct_turn_cny": "0.0006615533333333333333333333333",
+      "cost_per_correct_complete_scenario_cny": "0.0006615533333333333333333333333",
+      "http_per_correct_complete_scenario": 1.3333333333333333,
+      "invoice_cost_cny": null,
+      "invoice_status": "NOT_RECONCILED",
+      "no_business_writes": true
+    }
+  }
+}

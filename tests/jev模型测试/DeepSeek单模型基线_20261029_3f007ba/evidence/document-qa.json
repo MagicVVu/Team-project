@@ -1,0 +1,8 @@
+{
+  "pages": 4,
+  "renderer": "Word COM PDF export and bundled Poppler page images",
+  "packaged_renderer": "unavailable; bundled LibreOffice missing on Windows; diagnostic log retained",
+  "all_pages_visually_inspected": true,
+  "layout_pass": true,
+  "handoff_docx_identical": true
+}

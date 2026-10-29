@@ -1,0 +1,1439 @@
+{
+  "notes": "AI-assisted analysis only; original statuses and expectations retained; supplemental audit failures also in issues.json",
+  "nonpass_occurrences": 78,
+  "unique_nonpass_case_ids": 37,
+  "records": [
+    {
+      "run": "formal-20261029T004149",
+      "batch": "p84-regression",
+      "id": "p84-22-1",
+      "raw_status": "FAIL",
+      "category": "模型理解问题",
+      "finding": "多操作被理解为new_task。模型同时输出write_count=2，但最终走清除引用分支，没有按原预期追问操作优先级。",
+      "next": "AI负责人核对speech_act与多操作冲突的处理；保留原失败。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "p84-regression",
+      "id": "p84-24-2",
+      "raw_status": "FAIL",
+      "category": "样本标注或版本契约待确认",
+      "finding": "模型正确输出correction和目标冰箱；当前库存已在冰箱，确定性代码未生成移动草稿，原预期要求edit。",
+      "next": "团队确定改回当前位置应取消、无操作还是保留待确认草稿；原FAIL不自动转PASS。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "p84-regression",
+      "id": "p84-29-6",
+      "raw_status": "FAIL",
+      "category": "模型理解问题及保护规则待核对",
+      "finding": "模型将数量查询输出为question但reads为空，最终解释分支没有触发原预期的过期引用检查。",
+      "next": "核对缺少读取动作的查询降级策略，保留原FAIL。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "p85-regression",
+      "id": "p85-08-1-t5",
+      "raw_status": "FAIL",
+      "category": "模型多轮理解问题",
+      "finding": "用户已经改为现在登记消耗两盒，模型仍输出negation，未生成草稿。",
+      "next": "检查否定之后明确重新请求的语义承接。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "p85-regression",
+      "id": "p85-08-1-t6",
+      "raw_status": "FAIL",
+      "category": "前轮失败的后续影响",
+      "finding": "前轮没有生成草稿，因此状态追问缺少任务引用，返回TASK_REFERENCE_REQUIRED。",
+      "depends_on": "p85-08-1-t5",
+      "next": "与前轮一起修复和复测，不当成两个互不相关的模型缺陷。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-12-1",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-12-2",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-12-3",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-12-4",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-12-5",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-13-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-13-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-13-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-13-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-13-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-14-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-14-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-14-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-14-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-14-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-15-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-15-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-15-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-15-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r1",
+      "id": "garin-new-15-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r1",
+      "id": "garin-multi-02-2-t2",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r1",
+      "id": "garin-multi-02-2-t3",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r1",
+      "id": "garin-multi-07-2-t1",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-05-5",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-06-2",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-06-4",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-12-1",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-12-2",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-12-3",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-12-4",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-12-5",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-13-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-13-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-13-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-13-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-13-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-14-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-14-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-14-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-14-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-14-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-15-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-15-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-15-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-15-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-15-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r2",
+      "id": "garin-new-24-3",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r2",
+      "id": "garin-multi-05-2-t1",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-11-5",
+      "raw_status": "FAIL",
+      "category": "模型理解问题",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-12-1",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-12-2",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-12-3",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-12-4",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-12-5",
+      "raw_status": "REVIEW",
+      "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-13-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-13-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-13-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-13-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-13-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-14-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-14-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-14-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-14-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-14-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-15-1",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-15-2",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-15-3",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-15-4",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-15-5",
+      "raw_status": "FAIL",
+      "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-21-1",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-single-r3",
+      "id": "garin-new-24-3",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r3",
+      "id": "garin-multi-05-1-t6",
+      "raw_status": "FAIL",
+      "category": "程序或模型问题待定位",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    },
+    {
+      "run": "formal-20261029T004149",
+      "batch": "new-multi-r3",
+      "id": "garin-multi-10-2-t6",
+      "raw_status": "FAIL",
+      "category": "模型输出问题",
+      "finding": "见逐条失败断言和原始模型响应；自动分类尚未获负责人确认。",
+      "next": "先检查模型原始计划，再检查确定性规则与样本前提。",
+      "human_review_status": "pending",
+      "root_cause_confirmed_by_team": false,
+      "evidence": "runs\\formal-20261029T004149\\cases.jsonl",
+      "raw_requests": "runs\\formal-20261029T004149\\requests.jsonl"
+    }
+  ],
+  "by_case": {
+    "p84-22-1": {
+      "occurrences": 1,
+      "batches": [
+        "p84-regression"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "p84-24-2": {
+      "occurrences": 1,
+      "batches": [
+        "p84-regression"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "p84-29-6": {
+      "occurrences": 1,
+      "batches": [
+        "p84-regression"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "p85-08-1-t5": {
+      "occurrences": 1,
+      "batches": [
+        "p85-regression"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "p85-08-1-t6": {
+      "occurrences": 1,
+      "batches": [
+        "p85-regression"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-12-1": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "REVIEW",
+        "FAIL"
+      ]
+    },
+    "garin-new-12-2": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "REVIEW",
+        "REVIEW",
+        "REVIEW"
+      ]
+    },
+    "garin-new-12-3": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "REVIEW",
+        "FAIL",
+        "REVIEW"
+      ]
+    },
+    "garin-new-12-4": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "REVIEW",
+        "REVIEW",
+        "REVIEW"
+      ]
+    },
+    "garin-new-12-5": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "REVIEW",
+        "REVIEW",
+        "REVIEW"
+      ]
+    },
+    "garin-new-13-1": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-13-2": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-13-3": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-13-4": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-13-5": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-14-1": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-14-2": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-14-3": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-14-4": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-14-5": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-15-1": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-15-2": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-15-3": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-15-4": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-new-15-5": {
+      "occurrences": 3,
+      "batches": [
+        "new-single-r1",
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-multi-02-2-t2": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r1"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-multi-02-2-t3": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r1"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-multi-07-2-t1": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r1"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-05-5": {
+      "occurrences": 1,
+      "batches": [
+        "new-single-r2"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-06-2": {
+      "occurrences": 1,
+      "batches": [
+        "new-single-r2"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-06-4": {
+      "occurrences": 1,
+      "batches": [
+        "new-single-r2"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-24-3": {
+      "occurrences": 2,
+      "batches": [
+        "new-single-r2",
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "garin-multi-05-2-t1": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r2"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-11-5": {
+      "occurrences": 1,
+      "batches": [
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-new-21-1": {
+      "occurrences": 1,
+      "batches": [
+        "new-single-r3"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-multi-05-1-t6": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r3"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    },
+    "garin-multi-10-2-t6": {
+      "occurrences": 1,
+      "batches": [
+        "new-multi-r3"
+      ],
+      "raw_statuses": [
+        "FAIL"
+      ]
+    }
+  }
+}

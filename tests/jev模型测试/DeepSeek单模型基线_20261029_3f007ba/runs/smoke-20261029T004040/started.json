@@ -1,0 +1,27 @@
+{
+  "command": "smoke",
+  "source": "3f007ba",
+  "budget_before": {
+    "limit_cny": 5.0,
+    "conservative_cost_cny": 0,
+    "calls": 0,
+    "unknown_usage_calls": 0
+  },
+  "paid_calls": true,
+  "complete": false,
+  "adapter_sha256": {
+    "generate_cases.py": "59da45c02182d9d6411c979816b35838e3aaac7f94f9c51cfc4d2e4a08423371",
+    "prepare.py": "5aedef9642e142732478780d7d2ebd27376d2c3cd12ecc21cb80fd26af21b386",
+    "run.py": "3e02e6fa74246a3c90fddd9690c3baf5455c2e6bfc204048ad59cb5885a632de",
+    "scoring.py": "582b3109c15d9468ea3a7c350f6a1219459df2d5f7ae86b3d7f42b174d9a0e24",
+    "summarize.py": "8148488fd76abc418e8d6aadcdcd5ea6311d67a36beb0c035f8003ea452b2072",
+    "telemetry.py": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58",
+    "test_harness.py": "b93f212166dacd96cf5321d56ef84321894edf41cb3afa69a7b64b7cbd1ed580"
+  },
+  "dataset_manifest_sha256": "d2bd661bd5771bdd93443dc474e00ad08db47dd56119b7319c6e8b88d9d66290",
+  "prompt_sources_sha256": {
+    "conversation\\dialogue_engine.py": "a79277b5bf7d2ada54a78671f8ec2e4dadc9f4ab8f55e7c4902c219de71067e3",
+    "conversation\\p85\\engine.py": "eceee0c8d959dcbd8428945303eb57538abdce9c0025b2d034accdddca922b64",
+    "p0\\deepseek.py": "b4c71953ac038405fccc50b4b5a864ca59d8e6dd15b6d7c870f767e18a0e4c7b"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "cpu": {
+    "Name": "AMD Ryzen 9 7940HX with Radeon Graphics        ",
+    "NumberOfCores": 16,
+    "NumberOfLogicalProcessors": 32
+  },
+  "os": {
+    "Caption": "Microsoft Windows 11 专业版",
+    "Version": "10.0.22631",
+    "BuildNumber": "22631"
+  },
+  "physical_memory_bytes": 33517621248,
+  "quality_concurrency": 1,
+  "network": "local machine to api.deepseek.com; no load test",
+  "instrumentation_overhead_subtracted": false
+}

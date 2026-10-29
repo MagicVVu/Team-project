@@ -1,0 +1,15 @@
+{
+  "verified_on": "2026-10-29",
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "requested_model": "deepseek-flash",
+  "documented_version": "DeepSeek-V4.1-Flash-1017",
+  "currency": "CNY",
+  "unit": "per million tokens",
+  "peak": {"cache_hit_input": 0.04, "cache_miss_input": 2, "output": 8},
+  "off_peak": {"cache_hit_input": 0.02, "cache_miss_input": 1, "output": 4},
+  "peak_windows": "Asia/Shanghai workdays excluding statutory holidays, 09:00-12:00 and 14:00-18:00",
+  "budget_reservation": "peak cache-miss upper bound, unknown usage retains full reservation",
+  "new_call_budget_cap_cny": 5,
+  "invoice_reconciled": false,
+  "note": "Original source pricing file retained unchanged. Actual returned model and usage recorded on every HTTP response. Public aliases may not reveal immutable backend build ID."
+}

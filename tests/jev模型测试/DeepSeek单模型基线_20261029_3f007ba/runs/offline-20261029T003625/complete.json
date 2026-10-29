@@ -1,0 +1,16 @@
+{
+  "command": "offline",
+  "complete": true,
+  "stopped_reason": null,
+  "executed_turns": 480,
+  "pass": 460,
+  "fail": 20,
+  "actual_http_attempts": 0,
+  "budget_before": null,
+  "budget_after": null,
+  "infrastructure_ok": false,
+  "provenance": "fixture_workflow_not_model",
+  "human_review_status": "pending",
+  "production_database_accessed": false,
+  "app_acceptance": "NOT_RUN"
+}

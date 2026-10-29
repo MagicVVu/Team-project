@@ -1,0 +1,20 @@
+{
+  "human_review_status": "pending",
+  "source": "Garin test adapter authored synthetic scenarios; no production data",
+  "frozen_before_live": true,
+  "new_group_isolation": "variants share group; existing taxonomy reused; not a new unseen semantic domain",
+  "sets": {
+    "new-single": {
+      "rows": 120,
+      "groups": 24,
+      "turns": 120,
+      "sha256": "32dcddc2e9e5ed886962fe7d60cbccf94f08939863bf73cf705f78563811377d"
+    },
+    "new-multi": {
+      "rows": 20,
+      "groups": 10,
+      "turns": 120,
+      "sha256": "879f019da99f445affa5a51b6b4ed71e710d518ebf32894c400acbafccc8f424"
+    }
+  }
+}

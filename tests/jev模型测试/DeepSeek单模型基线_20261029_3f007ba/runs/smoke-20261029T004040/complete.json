@@ -1,0 +1,27 @@
+{
+  "command": "smoke",
+  "complete": true,
+  "stopped_reason": null,
+  "executed_turns": 18,
+  "pass": 18,
+  "fail": 0,
+  "review": 0,
+  "actual_http_attempts": 20,
+  "budget_before": {
+    "limit_cny": 5.0,
+    "conservative_cost_cny": 0,
+    "calls": 0,
+    "unknown_usage_calls": 0
+  },
+  "budget_after": {
+    "limit_cny": 5.0,
+    "conservative_cost_cny": 0.054898,
+    "calls": 20,
+    "unknown_usage_calls": 0
+  },
+  "infrastructure_ok": true,
+  "provenance": "live_deepseek",
+  "human_review_status": "pending",
+  "production_database_accessed": false,
+  "app_acceptance": "NOT_RUN"
+}

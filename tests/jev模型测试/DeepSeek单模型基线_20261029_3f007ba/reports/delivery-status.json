@@ -1,0 +1,59 @@
+{
+  "formal_completions": [
+    {
+      "command": "formal",
+      "complete": true,
+      "stopped_reason": null,
+      "executed_turns": 1200,
+      "pass": 1122,
+      "fail": 66,
+      "review": 12,
+      "actual_http_attempts": 1945,
+      "budget_before": {
+        "limit_cny": 5.0,
+        "conservative_cost_cny": 0.054898,
+        "calls": 20,
+        "unknown_usage_calls": 0
+      },
+      "budget_after": {
+        "limit_cny": 5.0,
+        "conservative_cost_cny": 4.534698,
+        "calls": 1965,
+        "unknown_usage_calls": 0
+      },
+      "infrastructure_ok": true,
+      "provenance": "live_deepseek",
+      "human_review_status": "pending",
+      "production_database_accessed": false,
+      "app_acceptance": "NOT_RUN"
+    }
+  ],
+  "planned_formal_turns": 1200,
+  "recorded_formal_turns": 1200,
+  "not_executed_formal_turns": 0,
+  "counts": {
+    "PASS": 1122,
+    "FAIL": 66,
+    "REVIEW": 12
+  },
+  "integrity": {
+    "outside_owned_checked": 1781,
+    "outside_owned_changed": [],
+    "snapshot_checked": 301,
+    "snapshot_changed": [],
+    "head_before": "3f007ba830539f57b15ef5711865a5ef70a2b22a",
+    "head_after": "3f007ba830539f57b15ef5711865a5ef70a2b22a",
+    "source_unchanged": true
+  },
+  "budget": {
+    "cap_cny": 5,
+    "all_live_http": 1965,
+    "ledger_calls_delta": 1965,
+    "request_ledger_match": true,
+    "new_conservative_cost_cny": 4.534698,
+    "cap_respected": true,
+    "unknown_usage_calls": 0,
+    "supplier_invoice_reconciled": false
+  },
+  "handoff": "D:\\Team_Project\\Team-project\\tests\\交接文件夹\\2026-10-29_DeepSeek单模型基线"
+}

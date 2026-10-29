@@ -1,0 +1,2035 @@
+[
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-18-1",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "risk"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-1",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-2",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-3",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-4",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-5",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-19-6",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "consumption"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-1",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-2",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-3",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-4",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-5",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-20-6",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "forecast"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-1",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-2",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-3",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-4",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-5",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-21-6",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-22-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "legacy_oracle"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-24-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "legacy_oracle"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-24-2",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "FAIL",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.to_location",
+      "draft.expected_version",
+      "kind",
+      "status"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "kind": "edit",
+      "draft": {
+        "action": "MOVE",
+        "batch_id": "b1",
+        "to_location": "冰箱",
+        "expected_version": 4
+      },
+      "status": "needs_confirmation"
+    },
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p84-regression",
+    "id": "p84-29-6",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "legacy_oracle"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p85-regression",
+    "id": "p85-08-1-t5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "legacy_p85_oracle"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "p85-regression",
+    "id": "p85-08-1-t6",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "legacy_p85_oracle"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-12-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-12-2",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-12-3",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-12-4",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-12-5",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-13-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-13-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-13-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-13-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-13-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-14-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-14-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-14-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-14-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-14-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-15-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-15-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-15-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-15-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r1",
+    "id": "garin-new-15-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r1",
+    "id": "garin-multi-02-2-t2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.expected_version",
+      "draft.to_location",
+      "status"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r1",
+    "id": "garin-multi-02-2-t3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "kind",
+      "same_draft"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r1",
+    "id": "garin-multi-07-2-t1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "fact.位置 冰箱"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-05-5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.to_location",
+      "draft.expected_version",
+      "status"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-06-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.opened_at",
+      "draft.expected_version",
+      "status"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-06-4",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.opened_at",
+      "draft.expected_version",
+      "status"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-12-1",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-12-2",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-12-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-12-4",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-12-5",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-13-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-13-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-13-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-13-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-13-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-14-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-14-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-14-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-14-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-14-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-15-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-15-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-15-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-15-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-15-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r2",
+    "id": "garin-new-24-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "target_batch",
+      "fact.厨房"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r2",
+    "id": "garin-multi-05-2-t1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "fact.登记数量 22 盒",
+      "fact.位置 冰箱"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-11-5",
+    "status": "FAIL",
+    "category": "模型理解问题",
+    "failed_checks": [
+      "fact.开封日期 未知",
+      "fact.2026-11-20",
+      "read_routing"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-12-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-12-2",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-12-3",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-12-4",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-12-5",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-13-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-13-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-13-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-13-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-13-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-14-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-14-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-14-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-14-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-14-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-15-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-15-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-15-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-15-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-15-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "read_routing",
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-21-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "draft_exists",
+      "draft.action",
+      "draft.batch_id",
+      "draft.quantity",
+      "draft.unit",
+      "draft.expected_version",
+      "kind",
+      "status"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-single-r3",
+    "id": "garin-new-24-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "target_batch",
+      "fact.厨房"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r3",
+    "id": "garin-multi-05-1-t6",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "fact.登记数量 20 盒",
+      "fact.位置 冰箱"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "formal-20261029T004149",
+    "batch": "new-multi-r3",
+    "id": "garin-multi-10-2-t6",
+    "status": "FAIL",
+    "category": "模型输出问题",
+    "failed_checks": [
+      "fact.登记数量 34 盒",
+      "fact.位置 冰箱",
+      "no_exception"
+    ],
+    "evidence": "runs\\formal-20261029T004149\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-4",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-4",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-4",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-1",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-2",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-3",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-4",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T003625",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-5",
+    "status": "FAIL",
+    "category": "程序或模型问题待定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T003625\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-1",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-2",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-3",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-4",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-12-5",
+    "status": "REVIEW",
+    "category": "样本标注问题：预期绿色，但当前没有适用的已审核规则",
+    "failed_checks": [
+      "risk_evidence"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-13-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.observed_days",
+      "calculation.effective_quantity",
+      "calculation.effective_events"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-14-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.daily_recorded_consumption",
+      "calculation.remaining_days",
+      "calculation.current_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-1",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-2",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-3",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-4",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "offline-20261029T004038",
+    "batch": "offline-new-single",
+    "id": "garin-new-15-5",
+    "status": "FAIL",
+    "category": "版本契约或适配问题：批次 b1 与规划商品 milk 未对应，需定位",
+    "failed_checks": [
+      "calculation_present",
+      "calculation.status",
+      "calculation.suggested_quantity",
+      "calculation.pending_quantity",
+      "calculation.target_stock"
+    ],
+    "evidence": "runs\\offline-20261029T004038\\cases.jsonl"
+  },
+  {
+    "run": "smoke-20261029T004040",
+    "batch": "smoke-single",
+    "id": "p84-21-1",
+    "status": "FAIL_SUPPLEMENTAL_AUDIT",
+    "category": "additional field or calculation check; needs root-cause review",
+    "legacy_status": "PASS",
+    "failed_checks": [
+      "read_routing",
+      "calculation_available"
+    ],
+    "expected": {
+      "no_inventory_write": true,
+      "no_draft": true,
+      "reads": [
+        "purchase"
+      ]
+    },
+    "evidence": "runs\\smoke-20261029T004040\\cases.jsonl"
+  }
+]
