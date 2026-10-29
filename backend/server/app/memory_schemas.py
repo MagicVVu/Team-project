@@ -60,7 +60,7 @@ class DialogueCalls(BaseModel):
 
 class DialogueMetadata(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    protocol_version: Literal["p84-dialogue-1"]
+    protocol_version: Literal["p84-dialogue-1", "p85-dialogue-1"]
     calls: DialogueCalls
     recovery_model_calls: Literal[0] | None = None
     fallback_used: bool

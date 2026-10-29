@@ -1,0 +1,300 @@
+{
+  "$defs": {
+    "FieldSource": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "maxLength": 120,
+          "title": "Value",
+          "type": "string"
+        },
+        "source": {
+          "default": "current_text",
+          "enum": [
+            "current_text",
+            "current_task"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "quote": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "FieldSource",
+      "type": "object"
+    },
+    "Plan": {
+      "additionalProperties": false,
+      "properties": {
+        "speech_act": {
+          "enum": [
+            "request",
+            "discuss",
+            "hypothesis",
+            "negation",
+            "correction",
+            "supplement",
+            "question",
+            "social",
+            "status",
+            "basis",
+            "recall",
+            "new_task"
+          ],
+          "title": "Speech Act",
+          "type": "string"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "reads": {
+          "items": {
+            "$ref": "#/$defs/Read"
+          },
+          "maxItems": 4,
+          "title": "Reads",
+          "type": "array"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "enum": [
+                "ADD",
+                "CONSUME",
+                "OPEN",
+                "MOVE",
+                "DISCARD",
+                "PLAN_ADD"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FieldSource"
+          },
+          "maxProperties": 8,
+          "title": "Fields",
+          "type": "object"
+        },
+        "amount_mode": {
+          "default": "literal",
+          "enum": [
+            "literal",
+            "half",
+            "all",
+            "unknown"
+          ],
+          "title": "Amount Mode",
+          "type": "string"
+        },
+        "write_count": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Write Count",
+          "type": "integer"
+        },
+        "task_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Index"
+        },
+        "preserve_active": {
+          "default": true,
+          "title": "Preserve Active",
+          "type": "boolean"
+        },
+        "social_reply": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Social Reply"
+        },
+        "memory_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Memory Id"
+        }
+      },
+      "required": [
+        "speech_act"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "Read": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "quantity",
+            "location",
+            "dates",
+            "risk",
+            "consumption",
+            "forecast",
+            "purchase"
+          ],
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Read",
+      "type": "object"
+    },
+    "Selector": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "choice_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice Index"
+        },
+        "use_reference": {
+          "default": false,
+          "title": "Use Reference",
+          "type": "boolean"
+        }
+      },
+      "title": "Selector",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "household_timezone": {
+      "default": "Asia/Shanghai",
+      "title": "Household Timezone",
+      "type": "string"
+    },
+    "context": {
+      "additionalProperties": true,
+      "title": "Context",
+      "type": "object"
+    },
+    "current_task_plan": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Task Plan"
+    },
+    "remaining_seconds": {
+      "exclusiveMinimum": 0,
+      "maximum": 18,
+      "title": "Remaining Seconds",
+      "type": "number"
+    },
+    "plan": {
+      "$ref": "#/$defs/Plan"
+    },
+    "plan_context_revision": {
+      "minimum": 0,
+      "title": "Plan Context Revision",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "text",
+    "request_id",
+    "context",
+    "remaining_seconds",
+    "plan",
+    "plan_context_revision"
+  ],
+  "title": "P85ResolveRequest",
+  "type": "object"
+}

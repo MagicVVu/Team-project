@@ -18,7 +18,7 @@ router = APIRouter(tags=["Draft execution — business backend"])
 
 @router.get("/api/v1/agent/execution-capabilities")
 def capabilities(identity: Identity = Depends(get_identity)):
-    from app.services.dialogue import enabled, PROTOCOL
+    from app.services.dialogue import configured_protocol
     from app.services.conversation import reference_enabled
     from app.services.planning_facts import business_zone
     return {"protocol_version": "draft-execution-1", "owner": "business_backend",
@@ -31,7 +31,7 @@ def capabilities(identity: Identity = Depends(get_identity)):
             "automatic_planning_commit": False, "trusted_reference_messages": reference_enabled(),
             "conversation_protocol": "backend-conversation-1", "chat_controls": True,
             "conversation_memory_protocol": "conversation-memory-1", "conversation_retention_days": 30,
-            "conversation_dialogue_protocol": PROTOCOL if enabled() else None,
+            "conversation_dialogue_protocol": configured_protocol(),
             "planning_context_protocol": "v1-planning-context-1",
             "planning_facts_protocol": "backend-planning-facts-1",
             "execution_preview": True,

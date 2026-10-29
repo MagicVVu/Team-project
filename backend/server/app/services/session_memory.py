@@ -265,6 +265,7 @@ def final_response(db, identity, turn, response):
 
 
 def recover(db, identity, home, request_id):
+    from app.services import dialogue
     execution.membership(db, identity.user.id, home)
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
         ConversationTurn.household_id == home, ConversationTurn.request_id == request_id))
@@ -281,7 +282,8 @@ def recover(db, identity, home, request_id):
     current = routing.cursor(db, identity.user.id)
     processing = bool(current and current.processing_nonce == turn.processing_nonce and current.processing_nonce
                       and current.lease_until and gateway.as_aware(current.lease_until) > gateway.now())
-    return dict(phase="processing" if processing else "prepared" if turn.resolution_json else "result_unknown", request_id=request_id,
+    prepared = bool(turn.resolution_json) or dialogue.has_plan(turn.binding_json or {})
+    return dict(phase="processing" if processing else "prepared" if prepared else "result_unknown", request_id=request_id,
                 original_text=turn.original_text, active_task=active,
                 recovery_hint="以原请求ID和原请求体恢复；理解结果未知时不会再次调用模型。")
 
@@ -292,6 +294,7 @@ async def send(db, identity, body):
     digest = routing.digest({"memory_message": body.model_dump(mode="json")})
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
         ConversationTurn.household_id == body.household_id, ConversationTurn.request_id == body.request_id))
+    new_turn = turn is None
     if turn:
         if turn.request_hash != digest:
             execution.fail("REQUEST_ID_CONFLICT")
@@ -300,7 +303,7 @@ async def send(db, identity, body):
         if turn.phase == "completed":
             if not in_window(turn): execution.fail("CONVERSATION_TURN_EXPIRED", 410)
             return final_response(db, identity, turn, turn.response_json)
-        if not turn.resolution_json and not (turn.binding_json or {}).get(dialogue.KEY, {}).get("plan"):
+        if not turn.resolution_json and not dialogue.has_plan(turn.binding_json or {}):
             execution.fail("AI_OUTCOME_UNKNOWN")
         current = cursor_for_write(db, identity, body.household_id)
     else:
@@ -319,8 +322,9 @@ async def send(db, identity, body):
             request_id=body.request_id, request_hash=digest, original_text=body.text, created_at=gateway.now(),
             binding_json={KEY: info, "payload": payload}, phase="understanding")
         db.add(turn)
-    recovering_dialogue = bool((turn.binding_json or {}).get(dialogue.KEY))
-    use_dialogue = dialogue.enabled() or recovering_dialogue
+    recovering_dialogue = dialogue.saved_protocol(turn.binding_json or {}) is not None
+    # Existing legacy prepared turns must not switch protocols after a rollout.
+    use_dialogue = recovering_dialogue or (new_turn and dialogue.enabled())
     nonce = str(uuid4())
     current.processing_nonce = turn.processing_nonce = nonce
     current.lease_until = gateway.now()+timedelta(seconds=30)
@@ -471,7 +475,8 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
         kind=kind, task=gateway.response_for(db, task) if task else None,
         filled_fields=understood.get("filled_fields", {}),
         evidence=understood.get("evidence", []), model_calls=understood["model_calls"],
-        truncated=understood.get("truncated", False), error_code=understood.get("error_code"), inventory_written=False)
+        truncated=understood.get("truncated", False) or (understood.get("memory") or {}).get("truncated", False),
+        error_code=understood.get("error_code"), inventory_written=False)
     turn.response_json = response
     if understood.get("dialogue"):
         response["dialogue"] = understood["dialogue"]

@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "household_timezone": {
+      "default": "Asia/Shanghai",
+      "title": "Household Timezone",
+      "type": "string"
+    },
+    "context": {
+      "additionalProperties": true,
+      "title": "Context",
+      "type": "object"
+    },
+    "current_task_plan": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Task Plan"
+    },
+    "remaining_seconds": {
+      "exclusiveMinimum": 0,
+      "maximum": 18,
+      "title": "Remaining Seconds",
+      "type": "number"
+    }
+  },
+  "required": [
+    "text",
+    "request_id",
+    "context",
+    "remaining_seconds"
+  ],
+  "title": "P85Request",
+  "type": "object"
+}

@@ -24,4 +24,15 @@ def assert_backend_contract(old, current):
         assert current["properties"]["model_calls"]["maximum"]==2
         current["properties"]["model_calls"]["maximum"]=1
         current["properties"].pop("dialogue")
-    assert decimal_schema_projection(old) == decimal_schema_projection(current)
+    def dialogue_protocols(value):
+        if isinstance(value, list): return [dialogue_protocols(v) for v in value]
+        if not isinstance(value, dict): return value
+        value = deepcopy(value)
+        if value.get("title") == "DialogueMetadata":
+            field = value.get("properties", {}).get("protocol_version", {})
+            if field.get("const") == "p84-dialogue-1":
+                field.pop("const")
+                field["enum"] = ["p84-dialogue-1", "p85-dialogue-1"]
+        return {k: dialogue_protocols(v) for k, v in value.items()}
+    # P8.5 adds a protocol choice; all other historical bounds remain exact.
+    assert decimal_schema_projection(dialogue_protocols(old)) == decimal_schema_projection(current)
