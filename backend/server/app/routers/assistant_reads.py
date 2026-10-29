@@ -1,5 +1,6 @@
 """Authenticated, read-only summaries and post-commit feedback adapters."""
 from uuid import UUID
+from decimal import Decimal
 import asyncio
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Response, Query
@@ -16,7 +17,7 @@ from app.services.ai_inventory import IncompatibleInventory, to_p1_batch
 
 router = APIRouter(tags=["Assistant read adapters"])
 DISPLAY_FIELDS = {"name", "quantity", "unit", "storage_location", "opened_at", "status", "version",
-                  "purchased_on", "expires_on", "is_checked", "source_inventory_item_id"}
+                  "purchased_on", "expires_on", "is_checked", "source_inventory_item_id", "specification"}
 
 
 @router.get("/api/v1/households/{household_id}/inventory-ai-compatibility", response_model=CompatibilityPage)
@@ -44,18 +45,23 @@ def inventory_compatibility(household_id: UUID, response: Response,
 def shared_summary(household_id: UUID, operation_id: UUID, response: Response,
                    identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     service.membership(db, identity.user.id, household_id)
-    row = db.execute(select(DraftOperation, BusinessEvent).join(BusinessEvent,
+    rows = db.execute(select(DraftOperation, BusinessEvent).join(BusinessEvent,
         BusinessEvent.operation_id == DraftOperation.id).where(DraftOperation.id == operation_id,
-        DraftOperation.household_id == household_id, BusinessEvent.household_id == household_id)).one_or_none()
-    if row is None:
+        DraftOperation.household_id == household_id, BusinessEvent.household_id == household_id)
+        .order_by(BusinessEvent.created_at, BusinessEvent.id)).all()
+    if not rows:
         service.fail("OPERATION_NOT_FOUND", 404)
-    operation, event = row
+    operation, event = rows[0]
+    primary = (operation.receipt_json or {}).get("event_ids", [])
+    if primary:
+        operation, event = next((row for row in rows if str(row[1].id) == primary[0]), rows[0])
+    total_quantity = sum((row[1].quantity or Decimal(0) for row in rows), Decimal(0))
     response.headers["Cache-Control"] = "no-store"
     return SharedOperationSummary(operation_id=operation.id, household_id=household_id,
         actor_user_id=event.actor_user_id, action=operation.action, event_id=event.id, event_type=event.event_type,
         inventory_item_id=event.inventory_item_id, shopping_item_id=event.shopping_item_id,
         name=(event.after_json or {}).get("name") or (event.before_json or {}).get("name"),
-        quantity=event.quantity, unit=event.unit, occurred_at=event.occurred_at,
+        quantity=total_quantity if any(row[1].quantity is not None for row in rows) else None, unit=event.unit, occurred_at=event.occurred_at,
         before={k:v for k,v in (event.before_json or {}).items() if k in DISPLAY_FIELDS},
         after={k:v for k,v in (event.after_json or {}).items() if k in DISPLAY_FIELDS})
 

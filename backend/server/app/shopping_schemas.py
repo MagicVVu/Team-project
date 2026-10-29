@@ -102,7 +102,7 @@ class StockResponse(BaseModel):
     id: UUID
     household_id: UUID
     name: str
-    quantity: Decimal
+    specification: str | None = None
     category: str | None
     minimum_quantity: Decimal
     history_json: list
@@ -117,7 +117,14 @@ class StockResponse(BaseModel):
     opened_at: date | None = None
 
 
+class StockCreateResponse(StockResponse):
+    created_count: int = 1
+    inventory_item_ids: list[UUID] = Field(default_factory=list)
+
+
 class PurchaseResponse(BaseModel):
     item: ShoppingItemResponse
     inventory_item: StockResponse
     newly_stocked: bool
+    created_count: int = 0
+    inventory_item_ids: list[UUID] = Field(default_factory=list)

@@ -19,7 +19,7 @@ data class AgentCommand(
 data class AgentMutation(val items: List<StockItem>, val purchases: List<Purchase>, val itemId: String)
 
 private val aliases = mapOf("毫升" to "ml", "mL" to "ml", "升" to "L", "l" to "L", "克" to "g", "千克" to "kg", "公斤" to "kg")
-private val supportedUnits = setOf("盒", "瓶", "包", "袋", "个", "卷", "片", "ml", "L", "g", "kg")
+private val supportedUnits = setOf("盒", "瓶", "包", "袋", "个", "卷", "片", "份", "件", "ml", "L", "g", "kg")
 private fun canonicalUnit(unit: String): String = (aliases[unit] ?: unit).also { require(it in supportedUnits) { "单位不支持，请选择盒、瓶、包、袋、个、卷、片、ml、L、g、kg" } }
 private fun converted(value: BigDecimal, from: String, to: String): BigDecimal {
     val source = canonicalUnit(from); val target = canonicalUnit(to)
@@ -46,7 +46,7 @@ fun applyAgentCommand(items: List<StockItem>, purchases: List<Purchase>, command
         "ADD" -> {
             require(command.batchId == null && command.expectedVersion == null) { "新增不能覆盖原有批次" }
             val item = StockItem(name = name, quantity = quantity.toDouble(), unit = unit, location = command.location.ifBlank { "待定位" }, expiry = command.labelExpiry, purchasedAt = command.purchasedAt)
-            return AgentMutation(items + item, purchases, item.id)
+            return AgentMutation(items + item.individualItems(), purchases, item.id)
         }
         "CONSUME" -> {
             val item = items.singleOrNull { it.id == command.batchId } ?: error("物品已不存在，请重新核对")
@@ -54,7 +54,8 @@ fun applyAgentCommand(items: List<StockItem>, purchases: List<Purchase>, command
             val amount = converted(quantity, unit, item.unit)
             val remaining = BigDecimal.valueOf(item.quantity) - amount
             require(remaining >= BigDecimal.ZERO) { "消耗数量不能超过库存" }
-            return AgentMutation(items.map { if (it.id == item.id) it.copy(quantity = remaining.toDouble()) else it }, purchases, item.id)
+            require(!item.individualRecord || amount == BigDecimal.ONE) { "每次只可消耗这件物品" }
+            return AgentMutation(items.map { if (it.id == item.id) it.copy(quantity = remaining.toDouble(), lifecycleStatus = if (remaining.signum() == 0) "FINISHED" else "ACTIVE") else it }, purchases, item.id)
         }
         "PLAN_ADD" -> {
             require(command.batchId == null && command.expectedVersion == null)

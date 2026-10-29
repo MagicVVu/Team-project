@@ -183,6 +183,8 @@ def purchase_item(
     stock = db.get(InventoryItem, purchase.inventory_item_id)
     result = PurchaseResponse(item=ShoppingItemResponse.model_validate(item),
                               inventory_item=StockResponse.model_validate(stock),
-                              newly_stocked=purchase.newly_stocked)
+                              newly_stocked=purchase.newly_stocked,
+                              created_count=len(purchase.inventory_item_ids) if purchase.newly_stocked else 0,
+                              inventory_item_ids=list(purchase.inventory_item_ids))
     db.commit()
     return result

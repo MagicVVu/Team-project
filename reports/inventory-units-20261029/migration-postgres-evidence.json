@@ -1,0 +1,10 @@
+{
+  "production_database_accessed": false,
+  "host": "127.0.0.1",
+  "port": 65119,
+  "database": "inventory_units_migration_test",
+  "data_directory": "D:\\project\\Team_Project_Shared\\Team-project\\.cache\\inventory-unit-migration-dce6i5j2\\data",
+  "tests_exit_code": 0,
+  "postgres_stopped": true,
+  "cluster_removed": true
+}

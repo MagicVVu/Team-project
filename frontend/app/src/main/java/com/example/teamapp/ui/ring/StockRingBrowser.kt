@@ -352,7 +352,7 @@ internal fun StockRingBrowser(
                             RingItemIllustration(item, Modifier.size(32.dp))
                             Text(item.name, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
                                 textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 5.dp))
-                            Text("${item.quantityText} ${item.unit}", fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 1)
+                            Text(item.stockCountText, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 1)
                         }
                         val badgeRadius = radius + thickness * .34f
                         Box(Modifier.offset {
@@ -532,7 +532,7 @@ internal fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: ()
             Text("${strings.label(item.category)} · ${item.location}", fontSize = 10.sp, lineHeight = 14.sp,
                 color = scheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("${item.quantityText} ${item.unit}", fontSize = 14.sp, lineHeight = 19.sp, color = palette.accent,
+                Text(item.stockCountText, fontSize = 14.sp, lineHeight = 19.sp, color = palette.accent,
                     modifier = Modifier.weight(.35f), maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Text(statusText, fontSize = 10.sp, lineHeight = 14.sp, color = palette.accent,
                     modifier = Modifier.weight(.65f), maxLines = 2, overflow = TextOverflow.Ellipsis)
@@ -560,7 +560,7 @@ internal fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: ()
                         maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
             }
-            Text("${item.quantityText} ${item.unit}", fontSize = 15.sp, lineHeight = 20.sp, color = palette.accent, fontWeight = FontWeight.Medium)
+            Text(item.stockCountText, fontSize = 15.sp, lineHeight = 20.sp, color = palette.accent, fontWeight = FontWeight.Medium)
             Text(statusText, fontSize = 12.sp, lineHeight = 17.sp, color = palette.accent, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {

@@ -124,16 +124,17 @@ open class CloudApi(val address: String, private val token: String = "") {
 internal fun JSONArray.objects(): List<JSONObject> = (0 until length()).map { getJSONObject(it) }
 internal fun JSONObject.stringOrEmpty(key: String): String = if (isNull(key)) "" else optString(key)
 internal fun JSONObject.toStock(): StockItem = StockItem(
-    id = getString("id"), name = getString("name"), quantity = getString("quantity").toDouble(), unit = getString("unit"),
+    id = getString("id"), name = getString("name"), quantity = if (stringOrEmpty("status").ifBlank { "ACTIVE" } == "ACTIVE") 1.0 else 0.0, unit = getString("unit"),
     category = InventoryContract.categoryLabel(stringOrEmpty("category").ifBlank { "unknown" }), location = stringOrEmpty("storage_location").ifBlank { "待定位" },
     minimum = optString("minimum_quantity", "0").toDouble(), expiry = stringOrEmpty("expires_on"), purchasedAt = stringOrEmpty("purchased_on"),
     history = optJSONArray("history_json")?.objects()?.map { it.stringOrEmpty("created_at").take(16).replace('T', ' ') + " · " + it.stringOrEmpty("message").ifBlank { it.stringOrEmpty("kind") } }.orEmpty(),
     version = getInt("version"), openedAt = stringOrEmpty("opened_at"), lifecycleStatus = stringOrEmpty("status").ifBlank { "ACTIVE" },
-    quantityExact = getString("quantity")
+    specification = stringOrEmpty("specification"), individualRecord = true
 )
 internal fun JSONObject.toShopping(): CloudShoppingItem = CloudShoppingItem(getString("id"), stringOrEmpty("source_inventory_item_id"),
     getString("name"), getString("quantity").toDouble(), getString("unit"), getBoolean("is_checked"), stringOrEmpty("added_by_user_id"), stringOrEmpty("purchased_by_user_id"))
 internal fun StockItem.toCloudJson() = JSONObject().put("id", id).put("name", name).put("quantity", BigDecimal.valueOf(quantity).toPlainString())
+    .put("specification", specification)
     .put("unit", InventoryContract.unit(unit) ?: unit).put("category", InventoryContract.category(category)).put("storage_location", location).put("minimum_quantity", BigDecimal.valueOf(minimum).toPlainString())
     .put("expires_on", expiry.ifBlank { null } ?: JSONObject.NULL).put("purchased_on", purchasedAt.ifBlank { null } ?: JSONObject.NULL)
 internal fun versionBody(item: StockItem, operationId: String = UUID.randomUUID().toString()) =

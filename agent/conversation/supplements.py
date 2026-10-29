@@ -12,7 +12,7 @@ class SupplementError(ValueError):
 
 def multiple_fields(text, allowed, timezone, now):
     # A location delimiter may occur immediately after a literal amount.
-    value = re.sub(r"(?<=[盒瓶包袋个台克升])(?=放(?:在|到)?)", "，", text)
+    value = re.sub(r"(?<=[盒瓶包袋个台份件克升])(?=放(?:在|到)?)", "，", text)
     chunks = [s.strip() for s in re.split(r"[，,；;]", value)]
     if len(chunks) > 9 or any(not s for s in chunks):
         return None

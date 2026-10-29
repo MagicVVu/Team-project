@@ -34,6 +34,7 @@ class PurchaseReconciliationRequired(RuntimeError):
 class PurchaseResult:
     inventory_item_id: UUID
     newly_stocked: bool
+    inventory_item_ids: tuple[UUID, ...] = ()
 
 
 def purchase_and_stock(
@@ -82,17 +83,18 @@ def purchase_and_stock(
     if item is None:
         raise ShoppingItemNotFound("Shopping item not found in household")
 
-    existing_stock = session.scalar(
-        select(InventoryItem).where(
-            InventoryItem.source_shopping_list_item_id == item.id
-        )
-    )
+    from app.services.product_grouping import lock_household
+    lock_household(session, household_id)
+    existing_rows = session.scalars(select(InventoryItem).where(
+        InventoryItem.source_shopping_list_item_id == item.id).order_by(InventoryItem.created_at, InventoryItem.id)).all()
+    first_id = uuid5(item.id, 'purchase-inventory')
+    existing_stock = next((row for row in existing_rows if row.id == first_id), existing_rows[0] if existing_rows else None)
     if existing_stock is not None:
         if not item.is_checked:
             raise PurchaseReconciliationRequired(
                 "Shopping item is unchecked but a linked stock row already exists"
             )
-        return PurchaseResult(existing_stock.id, newly_stocked=False)
+        return PurchaseResult(existing_stock.id, newly_stocked=False, inventory_item_ids=tuple(r.id for r in existing_rows))
 
     if item.is_checked:
         raise PurchaseReconciliationRequired(
@@ -107,37 +109,29 @@ def purchase_and_stock(
         .with_for_update().execution_options(populate_existing=True)) if item.source_inventory_item_id else None
     if source is not None and source.household_id != household_id:
         raise ShoppingItemNotFound("Source inventory is not in this household")
-    stock = InventoryItem(
-        household_id=household_id,
-        name=item.name,
-        quantity=item.quantity,
-        unit=item.unit,
-        category=source.category if source else None,
+    from app.product_models import ProductBatch
+    from app.services import ledger
+    from app.services.physical_inventory import add_objects
+    source_link = session.get(ProductBatch, source.id) if source else None
+    rows = add_objects(session, first_id=uuid5(item.id, 'purchase-inventory'), quantity=item.quantity,
+        unit=item.unit, actor_user_id=actor_user_id, household_id=household_id,
+        product_id=source_link.product_id if source_link else None,
+        name=item.name, category=source.category if source else None,
         minimum_quantity=source.minimum_quantity if source else Decimal(0),
-        purchased_on=now.date(),
-        expires_on=expires_on,
+        specification=source.specification if source else None,
+        purchased_on=now.date(), expires_on=expires_on,
         storage_location=storage_location or (source.storage_location if source else None),
-        history_json=[{"message": f"采购入库 {item.quantity} {item.unit}", "created_at": now.isoformat()}],
-        created_by_user_id=actor_user_id,
-        source_shopping_list_item_id=item.id,
-    )
-    session.add(stock)
+        history_json=[{"message": "采购入库一个独立物品", "created_at": now.isoformat()}],
+        source_shopping_list_item_id=item.id)
     item.is_checked = True
     item.checked_at = now
     item.purchased_by_user_id = actor_user_id
-    session.flush()  # Ensure DB constraints are checked before returning.
-    from app.product_models import ProductBatch
-    from app.services import ledger
-    if source is not None:
-        link = session.get(ProductBatch, source.id)
-        if link is not None:
-            session.add(ProductBatch(inventory_item_id=stock.id, product_id=link.product_id,
-                actor_user_id=actor_user_id, source='purchase_from_explicit_source_batch'))
-            session.flush()
-    from app.services.product_grouping import refresh_linked_name
-    refresh_linked_name(session, stock, actor_user_id)
+    session.flush()
     request_id = uuid5(item.id, 'purchase-and-stock')
     ledger.save(session, request_id, household_id, actor_user_id,
-        ledger.digest(['purchase', str(item.id)]), {'inventory_item_id': str(stock.id)})
-    ledger.append(session, stock, actor_user_id, 'Purchased', {}, request_id=request_id, quantity=stock.quantity)
-    return PurchaseResult(stock.id, newly_stocked=True)
+        ledger.digest(['purchase', str(item.id)]), {'inventory_item_id': str(rows[0].id),
+            'inventory_item_ids': [str(row.id) for row in rows], 'created_count': len(rows)})
+    for stock in rows:
+        ledger.append(session, stock, actor_user_id, 'Purchased', {}, request_id=request_id,
+            event_id=uuid5(request_id, 'event:' + str(stock.id)), quantity=Decimal(1))
+    return PurchaseResult(rows[0].id, newly_stocked=True, inventory_item_ids=tuple(row.id for row in rows))

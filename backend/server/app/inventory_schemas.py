@@ -34,6 +34,7 @@ class InventoryCreate(Input):
     name: str = Field(min_length=1, max_length=200)
     quantity: Amount
     unit: str = Field(min_length=1, max_length=30)
+    specification: str | None = Field(default=None, max_length=200)
     category: str = Field(default="其他", min_length=1, max_length=64)
     storage_location: str = Field(min_length=1, max_length=100)
     minimum_quantity: Amount = Decimal(0)
@@ -51,6 +52,7 @@ class InventoryUpdate(Versioned):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     quantity: Amount | None = None
     unit: str | None = Field(default=None, min_length=1, max_length=30)
+    specification: str | None = Field(default=None, max_length=200)
     category: str | None = Field(default=None, min_length=1, max_length=64)
     storage_location: str | None = Field(default=None, min_length=1, max_length=100)
     minimum_quantity: Amount | None = None
@@ -62,7 +64,7 @@ class InventoryUpdate(Versioned):
         changes = self.model_fields_set - {"expected_version", "operation_id"}
         if not changes:
             raise ValueError("Provide changes")
-        for key in changes - {"expires_on", "purchased_on"}:
+        for key in changes - {"expires_on", "purchased_on", "specification"}:
             if getattr(self, key) is None:
                 raise ValueError("Field cannot be null")
         return self

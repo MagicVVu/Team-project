@@ -1,0 +1,34 @@
+{
+  "source_files_verified": 22,
+  "apk_sha256_verified": true,
+  "server_tests": {
+    "backend-postgres-tests.xml": {
+      "tests": 79,
+      "failures": 0,
+      "errors": 0
+    },
+    "server-agent-tests.xml": {
+      "tests": 105,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "production_postcheck_passed": true,
+  "frontend": {
+    "apk_bytes": 65495777,
+    "device": "emulator-5580 / Android 16 / CodexP85",
+    "apk_sha256": "83D23C4897D534A57981A0FA3C89FAE19ACAEA9F21291187901AF80013C69AD7",
+    "unit": {
+      "errors": 0,
+      "suites": 15,
+      "failures": 0,
+      "tests": 74
+    },
+    "apk": "D:\\project\\Team_Project_Shared\\Team-project\\frontend\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "android": {
+      "errors": 0,
+      "failures": 0,
+      "tests": 11
+    }
+  }
+}

@@ -112,6 +112,7 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     var name by rememberSaveable { mutableStateOf(initial?.name ?: draft?.name.orEmpty()) }
     var quantity by rememberSaveable { mutableStateOf(initial?.quantity?.display() ?: draft?.quantity.orEmpty()) }
     var unit by rememberSaveable { mutableStateOf(initial?.unit ?: draft?.unit.orEmpty()) }
+    var specification by rememberSaveable { mutableStateOf(initial?.specification.orEmpty()) }
     var category by rememberSaveable { mutableStateOf(initial?.category?.let(InventoryContract::categoryLabel) ?: "食品") }
     var location by rememberSaveable { mutableStateOf(initial?.location ?: draft?.location?.takeIf { it.isNotBlank() } ?: store.locations.firstOrNull().orEmpty()) }
     var minimum by rememberSaveable { mutableStateOf(initial?.minimum?.display() ?: "0") }
@@ -138,8 +139,12 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         else if (LocalLightDesign.current) Text(strings.get(R.string.ui___required__inventory_changes_only_after), style = MaterialTheme.typography.bodySmall)
         else DarkNotice(strings.get(R.string.ui___required__inventory_changes_only_after))
         Field(strings.get(R.string.ui_item_name), name, { name = it }, errors["name"], enabled = !submitting)
-        Field(strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true, enabled = !submitting)
+        if (initial?.individualRecord != true) {
+            Field(if (store.cloud.signedIn) strings.tr("入库件数（最多10000件）", "Items to add (up to 10,000)") else strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true, enabled = !submitting)
+        }
         Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"], enabled = !submitting)
+        Field(strings.tr("规格（可选，如500g/盒）", "Specification (optional, e.g. 500g/box)"), specification, { specification = it }, errors["specification"], enabled = !submitting)
+        if (store.cloud.signedIn) Text(strings.tr("每件物品单独保存；重量或容量作为一份的规格。", "Each object has its own record. Weight or volume describes one portion."), style = MaterialTheme.typography.bodySmall)
         Text(strings.get(R.string.ui_category), style = MaterialTheme.typography.labelLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { listOf("食品", "日用品", "药品", "其他").forEach { c -> FilterChip(selected = category == c, onClick = { category = c }, enabled = !submitting, label = { Text(if (c == "药品") strings.tr("药品", "Medicine") else strings.label(c)) }) } }
         Choice(strings.get(R.string.ui_location), store.locations, location, enabled = !submitting) { location = it }
@@ -148,12 +153,14 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         Field(strings.get(R.string.ui_expiry_date__optional__yyyy_mm_dd), expiry, { expiry = it }, errors["expiry"], enabled = !submitting)
         MotionErrorText(generalError)
         Button(onClick = {
-            val q = if (initial == null) positiveNumber(quantity) else nonNegativeNumber(quantity)
+            val q = if (initial?.individualRecord == true) initial.quantity else if (initial == null) positiveNumber(quantity) else nonNegativeNumber(quantity)
             val m = nonNegativeNumber(minimum.ifBlank { "0" })
             errors = buildMap {
                 if (name.isBlank()) put("name", "请填写物品名称")
                 else if (name.trim().length > 80) put("name", strings.tr("最多 80 字；旧名称不会自动截断，请核对后修改", "Up to 80 characters. Review legacy names explicitly; they are not truncated."))
                 if (q == null) put("quantity", if (initial == null) "请输入有效正数" else "数量不能为负数")
+                else if (initial == null && !InventoryContract.validReceipt(quantity, unit)) put("quantity", strings.tr("件数须为1–10000的整数；重量、容量请填写规格", "Use 1–10,000 whole items; put weight or volume in the specification"))
+                if (specification.length > 200) put("specification", strings.tr("规格最多200字", "Specification: up to 200 characters"))
                 if (InventoryContract.unit(unit) == null) put("unit", strings.tr("请核对单位：${InventoryContract.units.joinToString("、")}；不猜测容量换算", "Review the unit: ${InventoryContract.units.joinToString(", ")}. No guessed capacity conversions."))
                 if (location.isBlank()) put("location", "请选择存放位置")
                 if (m == null) put("minimum", "最低库存必须是有效非负数")
@@ -162,11 +169,9 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
             if (errors.isEmpty()) {
                 val item = StockItem(itemId, name.trim(), q!!, InventoryContract.unit(unit)!!, category, location, m!!, expiry, initial?.image ?: image,
                     purchasedAt = initial?.purchasedAt.orEmpty(), version = initial?.version ?: 1,
-                    openedAt = initial?.openedAt.orEmpty(), lifecycleStatus = initial?.lifecycleStatus ?: "ACTIVE", quantityExact = quantity.trim())
-                val existing = store.items.firstOrNull { it.id != itemId && it.name.equals(item.name, true) }
-                if (existing != null && !store.cloud.signedIn) {
-                    if (initial != null) generalError = "已有同名物品，请使用不同名称；合并入库请从添加入口操作。" else { duplicate = existing; pending = item }
-                } else if (initial == null && store.cloud.signedIn) {
+                    openedAt = initial?.openedAt.orEmpty(), lifecycleStatus = initial?.lifecycleStatus ?: "ACTIVE", quantityExact = if (initial?.individualRecord == true) "" else quantity.trim(),
+                    specification = specification.trim(), individualRecord = initial?.individualRecord ?: false)
+                if (initial == null && store.cloud.signedIn) {
                     generalError = ""; submitting = true
                     groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)
                 } else save(item)

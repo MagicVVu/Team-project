@@ -17,7 +17,7 @@ from conversation.schemas import Message as P7Message
 from p2.knowledge import RuleCatalog
 
 
-@pytest.mark.parametrize("unit", ["吨", "台"])
+@pytest.mark.parametrize("unit", ["吨", "台", "份", "件"])
 def test_same_unit_preserves_decimal_and_literal_evidence(unit):
     assert normalize_unit(unit) == unit
     assert convert(Decimal("1.000001"), unit, unit) == Decimal("1.000001")
@@ -33,13 +33,13 @@ def test_metric_tonnes_are_exact(quantity, source, target, expected):
     assert convert(Decimal(quantity), source, target) == Decimal(expected)
 
 
-@pytest.mark.parametrize("source,target", [("台", "个"), ("台", "吨"), ("吨", "L"), ("台", "盒")])
+@pytest.mark.parametrize("source,target", [("台", "个"), ("台", "吨"), ("吨", "L"), ("台", "盒"), ("份", "g"), ("份", "件")])
 def test_count_units_and_dimensions_cannot_be_guessed(source, target):
     with pytest.raises(DomainError):
         convert(Decimal(1), source, target)
 
 
-@pytest.mark.parametrize("unit", ["吨", "台"])
+@pytest.mark.parametrize("unit", ["吨", "台", "份", "件"])
 def test_consume_draft_preserves_original_unit_and_never_writes(unit):
     reader = FixtureReader([{"id":"b1", "household_id":SCOPE.household_id,
         "name":"物资", "quantity":"3", "unit":unit, "location":"仓库", "version":7}])
@@ -56,11 +56,11 @@ def test_p7_reads_all_supported_units_as_current_facts_without_model_calls():
     item = reader.data.items[0]
     original = item.batches[0]
     item.batches = [original.model_copy(update={"id":"b"+str(i), "unit":unit})
-                    for i,unit in enumerate(["吨", "台", "个"])]
+                    for i,unit in enumerate(["吨", "台", "个", "份", "件"])]
     before = reader.data.model_dump_json()
     result = asyncio.run(P7Manager(P7Engine(), reader, RuleCatalog.load(), now=lambda:NOW).handle(
         P7Message(text="库存有什么", request_id="all-units"), SCOPE))
-    assert result.status == "answered" and {b.unit for b in result.facts} == {"吨", "台", "个"}
+    assert result.status == "answered" and {b.unit for b in result.facts} == {"吨", "台", "个", "份", "件"}
     assert result.runtime.model_calls == 0 and not result.inventory_writes
     assert reader.data.model_dump_json() == before
 

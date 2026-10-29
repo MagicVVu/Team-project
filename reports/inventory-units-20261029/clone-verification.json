@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "audit": {
+    "source_rows": 34,
+    "target_rows": 323,
+    "additional_rows": 289,
+    "portion_rows": 6,
+    "max_batch_items": 10000,
+    "max_total_items": 1000000
+  },
+  "status_counts": {
+    "ACTIVE": 319,
+    "DISCARDED": 4
+  },
+  "original_ids_fields_preserved": true,
+  "every_item_linked_to_product": true,
+  "household_boundaries_preserved": true,
+  "exact_downgrade_verified": true,
+  "repeatable_upgrade_verified": true,
+  "production_data_remained_on_server": true
+}

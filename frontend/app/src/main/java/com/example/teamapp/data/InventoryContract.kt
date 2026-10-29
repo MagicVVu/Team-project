@@ -4,7 +4,13 @@ import java.math.BigDecimal
 
 /** Shared wire vocabulary. Unknown containers are never converted into a guessed capacity. */
 object InventoryContract {
-    val units = listOf("盒", "瓶", "包", "袋", "个", "卷", "片", "吨", "台", "ml", "L", "g", "kg")
+    val units = listOf("盒", "瓶", "包", "袋", "个", "卷", "片", "台", "份", "件", "吨", "ml", "L", "g", "kg")
+    val measuredUnits = setOf("吨", "ml", "L", "g", "kg")
+    fun validReceipt(value: String, unit: String): Boolean {
+        val amount = amount(value, positive = true) ?: return false
+        val canonical = unit(unit) ?: return false
+        return canonical in measuredUnits || (amount.stripTrailingZeros().scale() <= 0 && amount <= BigDecimal(10000))
+    }
     private val aliases = mapOf("毫升" to "ml", "mL" to "ml", "升" to "L", "l" to "L", "克" to "g", "千克" to "kg", "公斤" to "kg")
     fun unit(value: String): String? = value.trim().let { aliases[it] ?: it.takeIf(units::contains) }
     fun category(value: String): String = when(value) {

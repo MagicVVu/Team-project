@@ -20,11 +20,15 @@ data class StockItem(
     val openedAt: String = "",
     val lifecycleStatus: String = "ACTIVE",
     val quantityExact: String = "",
-    val displayQuantity: String? = null
+    val displayQuantity: String? = null,
+    val specification: String = "",
+    // Quantity remains an input/projection field; a server inventory record is one object.
+    val individualRecord: Boolean = false
 )
 
 val StockItem.activeBatch get() = lifecycleStatus.uppercase() == "ACTIVE"
 val StockItem.quantityText get() = displayQuantity ?: quantityExact.takeIf { it.toDoubleOrNull() == quantity } ?: quantity.display()
+val StockItem.stockCountText get() = if (id.startsWith("product:")) "*${quantityText}" else "${quantityText} $unit"
 
 data class Purchase(val itemId: String, val quantity: Double)
 data class StockStatus(val low: Boolean, val days: Long?, val soon: Boolean, val expired: Boolean, val terminal: Boolean = false) {
@@ -36,7 +40,7 @@ data class StockStatus(val low: Boolean, val days: Long?, val soon: Boolean, val
 fun StockItem.status(reminderDays: Int, today: LocalDate = LocalDate.now()): StockStatus {
     val days = runCatching { ChronoUnit.DAYS.between(today, LocalDate.parse(expiry)) }.getOrNull()
     if (!activeBatch) return StockStatus(false, days, false, false, terminal = true)
-    return StockStatus(quantity < minimum, days, days != null && days in 0..reminderDays.toLong(), days != null && days < 0)
+    return StockStatus(!individualRecord && quantity < minimum, days, days != null && days in 0..reminderDays.toLong(), days != null && days < 0)
 }
 
 fun Double.display(): String = if (this % 1.0 == 0.0) toLong().toString() else toString()
@@ -51,7 +55,7 @@ fun parseVoice(text: String): List<VoiceDraft> {
     return text.split(Regex("[，,、；;。]|以及|还有|和")).filter { it.isNotBlank() }.map { sentence ->
         val number = Regex("([0-9]+(?:\\.[0-9]+)?|[一二两三四五六七八九十])\\s*([个盒袋瓶包杯斤升枚卷罐])").find(sentence)
         val location = listOf("冰箱", "厨房", "储物柜", "阳台").firstOrNull { sentence.contains(it) }.orEmpty()
-        var name = sentence.replace(Regex("添加|放了|买了|买|有|放在|放到|里|请|帮我"), "")
+        var name = sentence.trim().replace(Regex("^(?:我们|我)\\s*"), "").replace(Regex("添加|放了|买了|买|有|放在|放到|里|请|帮我"), "")
         if (location.isNotEmpty()) name = name.replace(location, "")
         if (number != null) name = name.replace(number.value, "")
         VoiceDraft(name.trim(), number?.groupValues?.get(1)?.let { digits[it] ?: it }.orEmpty(), number?.groupValues?.get(2).orEmpty(), location)

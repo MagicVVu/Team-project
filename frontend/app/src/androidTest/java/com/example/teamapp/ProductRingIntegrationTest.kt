@@ -32,14 +32,17 @@ class ProductRingIntegrationTest {
         }
         val a = CloudAccount(BuildConfig.CLOUD_API_URL, "offline-never-sent", "fixture-user", "Fixture", "fixture-home")
         CloudCredentials(context).save(a)
-        fun batch(id: String, count: String, status: String) = JSONObject().put("id", id).put("name", "真实批次 $id")
-            .put("quantity", count).put("unit", "盒").put("category", "food").put("minimum_quantity", "0")
+        fun objectRow(id: String, name: String, status: String = "ACTIVE") = JSONObject().put("id", id).put("name", name)
+            .put("unit", "个").put("category", "food").put("minimum_quantity", "5")
             .put("storage_location", "冰箱").put("expires_on", "2026-12-01").put("status", status).put("version", 1)
-        val batches = JSONArray().put(batch("batch-a", "2", "ACTIVE")).put(batch("batch-b", "0", "FINISHED"))
-        val product = JSONObject().put("product_id", "one").put("name", "商品牛奶").put("base_unit", "盒")
-            .put("category", "food").put("version", 1).put("inventory_items", batches)
+        val batches = JSONArray()
+        repeat(10) { batches.put(objectRow("apple-$it", "苹果")) }
+        repeat(12) { batches.put(objectRow("red-apple-$it", "红苹果")) }
+        batches.put(objectRow("finished", "苹果", "FINISHED"))
+        val product = JSONObject().put("product_id", "one").put("name", "苹果").put("base_unit", "个")
+            .put("count", 22).put("category", "food").put("version", 1).put("inventory_items", batches)
         context.getSharedPreferences("magicvvu_cloud_cache", 0).edit().putString("${a.address}|${a.userId}|${a.householdId}",
-            JSONObject().put("inventory", batches).put("shopping", JSONArray()).put("products", JSONArray().put(product)).toString()).commit()
+            JSONObject().put("inventory_schema", "individual-v1").put("inventory", batches).put("shopping", JSONArray()).put("products", JSONArray().put(product)).toString()).commit()
         store = InventoryStore(context)
     }
     @After fun cleanup() {
@@ -50,18 +53,24 @@ class ProductRingIntegrationTest {
         compose.setContent { AppLanguageProvider(if (english) "en" else "zh-CN") { TeamAppTheme(darkTheme = dark) {
             RingInventoryPage(store, { _, _ -> }, {}, {})
         } } }
-        compose.onNodeWithTag("ring-info-name", useUnmergedTree = true).assertTextEquals("商品牛奶")
+        compose.onNodeWithTag("ring-info-name", useUnmergedTree = true).assertTextEquals("苹果")
+        compose.onAllNodesWithText("*22", useUnmergedTree = true).onFirst().assertExists()
         shot("product-ring-${if (dark) "dark" else "light"}")
         compose.onNodeWithTag("ring-selected-info").performClick()
         compose.onNodeWithTag("product-inventory-detail").assertExists()
-        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-batch-a"))
-        compose.onNodeWithTag("product-batch-batch-a").assertExists()
-        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-batch-b"))
-        compose.onNodeWithTag("product-batch-batch-b").assertExists()
+        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-apple-0"))
+        compose.onNodeWithTag("product-batch-apple-0").assertExists()
+        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-red-apple-11"))
+        compose.onNodeWithTag("product-batch-red-apple-11").assertExists()
+        compose.onNodeWithTag("product-batch-finished").assertDoesNotExist()
+        compose.onNodeWithTag("product-inventory-detail").performScrollToIndex(0)
+        compose.onNodeWithTag("product-show-ended").performClick()
+        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-finished"))
+        compose.onNodeWithTag("product-batch-finished").assertExists()
         compose.onNodeWithTag("product-inventory-detail").performScrollToIndex(0)
         shot("product-detail-${if (dark) "dark" else "light"}")
         compose.onNodeWithTag("inventory-detail-close").performClick()
-        compose.onNodeWithTag("ring-info-name", useUnmergedTree = true).assertTextEquals("商品牛奶")
+        compose.onNodeWithTag("ring-info-name", useUnmergedTree = true).assertTextEquals("苹果")
     }
     private fun shot(name: String) {
         compose.waitForIdle()
@@ -74,4 +83,17 @@ class ProductRingIntegrationTest {
     }
     @Test fun lightChineseProductOpensAllRealBatches() = run(false, false)
     @Test fun darkEnglishProductOpensAllRealBatches() = run(true, true)
+    @Test fun consumeActionUsesTheSelectedRedAppleIdentity() {
+        var chosen: Pair<StockItem, String>? = null
+        compose.setContent { AppLanguageProvider("zh-CN") { TeamAppTheme {
+            RingInventoryPage(store, { item, action -> chosen = item to action }, {}, {})
+        } } }
+        compose.onNodeWithTag("ring-selected-info").performClick()
+        compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("consume-item-red-apple-3"))
+        compose.onNodeWithTag("consume-item-red-apple-3").performClick()
+        compose.waitUntil(5_000) { chosen != null }
+        Assert.assertEquals("red-apple-3", chosen!!.first.id)
+        Assert.assertEquals("红苹果", chosen!!.first.name)
+        Assert.assertEquals("消耗库存", chosen!!.second)
+    }
 }

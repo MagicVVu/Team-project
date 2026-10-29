@@ -7,7 +7,8 @@ import org.junit.Test
 class InventoryContractTest {
     @Test fun aliasesNormalizeWithoutGuessingContainers() {
         for ((alias, unit) in mapOf("mL" to "ml", "毫升" to "ml", "l" to "L", "升" to "L", "公斤" to "kg")) assertEquals(unit, InventoryContract.unit(alias))
-        for (value in listOf("件", "杯", "斤", "罐", "一瓶500毫升")) assertNull(InventoryContract.unit(value))
+        assertEquals("件", InventoryContract.unit("件")); assertEquals("份", InventoryContract.unit("份"))
+        for (value in listOf("杯", "斤", "罐", "一瓶500毫升")) assertNull(InventoryContract.unit(value))
     }
     @Test fun precisionAndLimitsMatchTheTwoPublicContracts() {
         assertNotNull(InventoryContract.amount("999999999.999999"))

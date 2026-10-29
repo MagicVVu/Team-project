@@ -23,8 +23,8 @@
 
 ## 生效与交付边界
 
-本次完成源码修改、测试和调试安装包，**尚未部署线上服务**。当前网关文件是候选配置，不能据此认定线上入口已延长等待。
+本地修改完成后，已按用户后续授权通过 `ssh magicvvu` 发布后端与配套AI服务。线上发布验证和服务器测试证据见 [deployment/README.md](deployment/README.md)。本目录原 validation.json 是部署前本地验证快照。
 
-部署时须先更新P8.5 AI的60秒请求契约，再更新后端75秒等待与90秒处理锁，并核对实际入口代理读取等待至少覆盖75秒（候选85秒），最后更新Android。旧AI只接受18秒预算，不能仅发布后端；旧服务或仅安装APK都不代表整条链路已延长。`inventory-autonomous-1` 等待队友正式交付后另行适配。
+已先更新P8.5 AI的60秒请求契约，再更新后端75秒等待与90秒处理锁。实查线上入口由后端直接提供TLS，没有使用候选Nginx配置；入口没有额外的30/60秒处理期限，5秒keep-alive只针对空闲连接。`inventory-autonomous-1` 等待队友正式交付后另行适配。
 
 调试安装包：`frontend/app/build/outputs/apk/debug/app-debug.apk`。测试证据与安装包SHA-256见 `validation.json`。

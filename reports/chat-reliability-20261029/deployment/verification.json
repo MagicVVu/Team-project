@@ -1,0 +1,72 @@
+{
+  "deployed": true,
+  "images": {
+    "backend": "magicvvu/backend:chat-reliability-20261029",
+    "agent": "magicvvu/agent:chat-reliability-20261029"
+  },
+  "checks": {
+    "database_container_unchanged": true,
+    "secret_env_file_unchanged": true,
+    "tls_certificate_unchanged": true,
+    "agent_environment_unchanged": true,
+    "agent_mounts_unchanged": true,
+    "agent_ports_unchanged": true,
+    "backend_environment_unchanged": true,
+    "backend_mounts_unchanged": true,
+    "backend_ports_unchanged": true,
+    "overlay/backend/app/memory_schemas.py": true,
+    "overlay/backend/app/services/dialogue.py": true,
+    "overlay/backend/app/services/session_memory.py": true,
+    "overlay/backend/app/routers/session_memory.py": true,
+    "overlay/agent/conversation/p85/app.py": true,
+    "overlay/agent/conversation/p85/flow.py": true,
+    "overlay/agent/conversation/p85/schemas.py": true,
+    "p85_protocol_preserved": true,
+    "status_and_stop_reason_public": true,
+    "latest_task_recovery_public": true,
+    "model_calls_still_two": true,
+    "all_healthy": true,
+    "direct_tls_health": true,
+    "tls_certificate_pinned": true,
+    "mapped_public_health": true,
+    "public_missing_app_key_rejected": true,
+    "recovery_without_bearer_rejected": true,
+    "host_source_seven_files_synced_with_backups": true
+  },
+  "business_rows_unchanged": true,
+  "ai_health": {
+    "status": "ok",
+    "maintenance_release": "V1-P8.5",
+    "conversation_dialogue_protocol": "p85-dialogue-1",
+    "dialogue_deadline_seconds": 60,
+    "dialogue_max_model_calls": 2,
+    "inventory_writes": false,
+    "shopping_writes": false
+  },
+  "public_health": {
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P9",
+      "isolated_test": false
+    }
+  },
+  "source_manifest": {
+    "overlay/backend/app/memory_schemas.py": "a4464e88a7539e028ceaaee65d7c7294c4eb83ba976ffdff01c7fe78609575f3",
+    "overlay/backend/app/services/dialogue.py": "0c57abf3e1f1f63d10725c7193bab6a1f5a35c8feb745d0043414b286ccd2cdb",
+    "overlay/backend/app/services/session_memory.py": "a24853bc96cc8c2bd6e869195965e24a86dc4fa2ab943a0cbc8ad4bb06b7c001",
+    "overlay/backend/app/routers/session_memory.py": "9b5f37330497c775626734d2b57f82ed5aed62c3a9b268a9b5b3d82066d0cd79",
+    "overlay/agent/conversation/p85/app.py": "1d6ada2e517ffe6e19d8eebdaa9b3c1fb8c4ecbfe7b6c9e59f94b74ee2472128",
+    "overlay/agent/conversation/p85/flow.py": "219137c440e3deb8f77cd2948ada634cf4a26c3779efaa1868d0c0f8cd297ec8",
+    "overlay/agent/conversation/p85/schemas.py": "0b42a1c0d2c937046efaeea4fb853303aab88a5a8e7c3b69279cce16f8a36115"
+  },
+  "runtime_config_changes": [
+    "backend.image",
+    "agent.image"
+  ],
+  "production_model_calls": 0,
+  "production_business_writes": false,
+  "backup_directory": "/srv/magicvvu/releases/chat-reliability-20261029-r1"
+}

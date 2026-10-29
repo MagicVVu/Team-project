@@ -82,6 +82,8 @@ def quantity_delta(event):
     before, after = event.before_json, event.after_json
     if before and before.get('unit') != after.get('unit'):
         return None  # Unit edits are not a quantity delta in either unit.
-    if after.get('quantity') is None:
-        return None
-    return str(Decimal(after['quantity']) - Decimal(before.get('quantity', '0')))
+    def count(snapshot):
+        if 'quantity' in snapshot:  # Preserve the meaning of historical batch events.
+            return Decimal(snapshot['quantity'])
+        return Decimal(1) if snapshot.get('status') == 'ACTIVE' else Decimal(0)
+    return str(count(after) - count(before))

@@ -280,13 +280,14 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
     val scope = rememberCoroutineScope()
     val operationId = rememberSaveable(item.id, mode) { java.util.UUID.randomUUID().toString() }
     var submitting by remember { mutableStateOf(false) }
-    var quantity by rememberSaveable(item.id, mode) { mutableStateOf(if (mode == "加入采购清单") maxOf(item.minimum - item.quantity, 1.0).display() else if (mode == "调整采购数量") store.purchases.firstOrNull { it.itemId == item.id }?.quantity?.display().orEmpty() else "") }
+    var quantity by rememberSaveable(item.id, mode) { mutableStateOf(if (mode == "加入采购清单") maxOf(item.minimum - item.quantity, 1.0).display() else if (mode == "调整采购数量") store.purchases.firstOrNull { it.itemId == item.id }?.quantity?.display().orEmpty() else if (item.individualRecord && mode == "消耗库存") "1" else "") }
     var error by remember { mutableStateOf("") }
     Column(Modifier.padding(22.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(item.name, style = MaterialTheme.typography.titleLarge)
         Text(strings.get(R.string.ui_current_stock, item.quantity.display(), item.unit))
         ModeNotice(if (mode == "购买入库") strings.get(R.string.ui_bought_this_item__check_the_quantity) else if (mode.contains("采购")) strings.get(R.string.ui_check_the_planned_quantity_before_saving) else strings.get(R.string.ui_check_this_quantity_before_confirming_the))
-        OutlinedTextField(quantity, { quantity = it; error = "" }, label = { Text(strings.get(R.string.ui_quantity_3, if (mode == "购买入库") strings.get(R.string.ui_actual_purchase) else strings.get(R.string.ui_this_change), item.unit)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), isError = error.isNotBlank(), supportingText = { MotionErrorText(error) }, modifier = Modifier.fillMaxWidth())
+        if (item.individualRecord && mode == "消耗库存") Text(strings.tr("本次只消耗所选的这一件物品。", "Use the selected item."))
+        else OutlinedTextField(quantity, { quantity = it; error = "" }, label = { Text(strings.get(R.string.ui_quantity_3, if (mode == "购买入库") strings.get(R.string.ui_actual_purchase) else strings.get(R.string.ui_this_change), item.unit)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), isError = error.isNotBlank(), supportingText = { MotionErrorText(error) }, modifier = Modifier.fillMaxWidth())
         Button(onClick = {
             val amount = if (mode == "盘点修正") nonNegativeNumber(quantity) else positiveNumber(quantity)
             if (amount == null) error = "请输入有效正数" else if (!submitting) scope.launch {

@@ -10,7 +10,7 @@ class Product(Base):
     __tablename__ = 'products'
     id: Mapped[UUID] = mapped_column(Uuid(), primary_key=True, default=uuid4)
     household_id: Mapped[UUID] = mapped_column(Uuid(), ForeignKey('households.id', ondelete='RESTRICT'), index=True)
-    name: Mapped[str] = mapped_column(String(80))
+    name: Mapped[str] = mapped_column(String(200))
     specification: Mapped[str | None] = mapped_column(String(200))
     base_unit: Mapped[str] = mapped_column(String(30))
     category: Mapped[str] = mapped_column(String(20))

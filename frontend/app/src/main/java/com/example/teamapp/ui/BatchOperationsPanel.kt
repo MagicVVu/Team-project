@@ -17,7 +17,7 @@ import java.time.LocalDate
 internal fun BatchOperationsPanel(cloud: CloudStore, item: StockItem, initialAction: String = "CONSUME") {
     val s = rememberUiStrings()
     var action by rememberSaveable(cloud.scopeKey, item.id) { mutableStateOf(initialAction) }
-    var quantity by rememberSaveable { mutableStateOf("") }
+    var quantity by rememberSaveable { mutableStateOf(if (item.individualRecord) "1" else "") }
     var date by rememberSaveable { mutableStateOf("") }
     var question by rememberSaveable { mutableStateOf("") }
     var reviewing by rememberSaveable(cloud.scopeKey, item.id) { mutableStateOf(false) }
@@ -25,7 +25,7 @@ internal fun BatchOperationsPanel(cloud: CloudStore, item: StockItem, initialAct
     val assistant = cloud.assistant
     if (reviewing) {
         Column(Modifier.fillMaxSize()) {
-            Text("${item.name} · ${item.location} · ${item.quantityText} ${item.unit}", Modifier.padding(horizontal = 18.dp), style = MaterialTheme.typography.labelLarge)
+            Text("${item.name} · ${item.location}" + item.specification.takeIf { it.isNotBlank() }?.let { " · $it" }.orEmpty(), Modifier.padding(horizontal = 18.dp), style = MaterialTheme.typography.labelLarge)
             Text(s.tr("正在核对指定批次；只有最终确认后的业务回执表示执行成功。", "This exact batch is being reviewed. Only a final server receipt confirms execution."), Modifier.padding(horizontal = 18.dp), style = MaterialTheme.typography.bodySmall)
             CloudAssistant(cloud, showIntro = false)
         }
@@ -42,15 +42,16 @@ internal fun BatchOperationsPanel(cloud: CloudStore, item: StockItem, initialAct
             Text(s.tr("此旧记录的名称或单位与 AI 契约不兼容。请先编辑核对；不会自动改写。", "This legacy name or unit needs review before AI can use it. Edit it explicitly; no automatic conversion."), color = MaterialTheme.colorScheme.error)
         }
         ContractChoice(s.tr("本次操作", "Action"), listOf(
-            Triple("CONSUME", "正式消耗", "Record consumption"), Triple("FINISH", "全部用完", "Use all remaining"),
-            Triple("OPEN", "开封", "Open batch"), Triple("DISCARD", "部分丢弃", "Discard an amount"), Triple("DISCARD_ALL", "全部丢弃", "Discard all remaining"),
+            Triple("CONSUME", "消耗这件", "Use this item"), Triple("FINISH", "已用完", "Item used up"),
+            Triple("OPEN", "开封", "Open item"), Triple("DISCARD", "丢弃这件", "Discard this item"), Triple("DISCARD_ALL", "已丢弃", "Item discarded"),
             Triple("ASK", "询问这批", "Ask about this batch"), Triple("STATS", "消费统计", "Consumption statistics"),
             Triple("FORECAST", "还能用多久", "How long will it last?"), Triple("RISK", "风险与缺失资料", "Risk & missing facts"), Triple("RESTOCK", "本次 AI 补货建议", "AI restock suggestion")), action) { action = it }
         val mutation = action in setOf("CONSUME", "FINISH", "OPEN", "DISCARD", "DISCARD_ALL")
         if (!item.activeBatch) Text(s.tr("该批次已结束，不能再绑定活动批次引用或执行业务操作；可在详情查看记录。", "This terminal batch cannot be bound as an active reference or mutated. Its records remain available in details."), color = MaterialTheme.colorScheme.error)
         if (action == "OPEN" && item.openedAt.isNotBlank()) Text(s.tr("此批次已有开封日期，不能重复开封。", "An opening date is already recorded; this batch cannot be opened twice."))
         when(action) {
-            "CONSUME", "DISCARD" -> Field(s.tr("数量（${item.unit}）", "Quantity (${item.unit})"), quantity, { quantity = it }, numeric = true)
+            "CONSUME", "DISCARD" -> if (item.individualRecord) Text(s.tr("本次只处理所选的这一件物品。", "This action applies to the selected item."))
+                else Field(s.tr("数量（${item.unit}）", "Quantity (${item.unit})"), quantity, { quantity = it }, numeric = true)
             "OPEN" -> Field(s.tr("实际开封日期 YYYY-MM-DD", "Actual opening date YYYY-MM-DD"), date, { date = it })
             "FINISH", "DISCARD_ALL" -> Text(s.tr("将以服务器核对的当前全部余量生成草稿，数量、单位及模式不可编辑。", "The server will use the current remaining amount. Quantity, unit and mode are protected."))
             "ASK" -> Field(s.tr("想问什么", "Your question"), question, { question = it })
@@ -61,7 +62,7 @@ internal fun BatchOperationsPanel(cloud: CloudStore, item: StockItem, initialAct
             try {
                 val text = when(action) {
                     "CONSUME", "DISCARD" -> {
-                        val amount = InventoryContract.amount(quantity, positive = true)
+                        val amount = if (item.individualRecord) java.math.BigDecimal.ONE else InventoryContract.amount(quantity, positive = true)
                         require(amount != null && amount <= item.quantityText.toBigDecimal()) { s.tr("数量须有效且不能超过当前余量，最多六位小数", "Use a positive amount within remaining stock, with up to six decimals") }
                         "${if (action == "CONSUME") "消耗" else "丢弃"}它 ${amount.toPlainString()} ${item.unit}"
                     }

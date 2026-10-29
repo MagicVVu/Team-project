@@ -94,13 +94,10 @@ class HouseholdMember(Base):
 class InventoryItem(Base):
     __tablename__ = "inventory_items"
     __table_args__ = (
-        CheckConstraint("quantity >= 0", name="ck_inventory_items_quantity_nonnegative"),
-        CheckConstraint("quantity <= 1000000000", name="ck_inventory_items_quantity_ai_max"),
         CheckConstraint("version >= 1", name="ck_inventory_items_version_positive"),
         CheckConstraint("status IN ('ACTIVE', 'FINISHED', 'DISCARDED', 'REVERSED')", name="ck_inventory_items_status"),
         Index("ix_inventory_items_household_expires", "household_id", "expires_on"),
         Index("ix_inventory_items_household_name", "household_id", "name"),
-        UniqueConstraint("source_shopping_list_item_id", name="uq_inventory_source_shopping_item"),
     )
 
     id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), primary_key=True, default=uuid4)
@@ -109,7 +106,7 @@ class InventoryItem(Base):
     )
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     category: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    quantity: Mapped[Decimal] = mapped_column(Numeric(16, 6), nullable=False)
+    specification: Mapped[str | None] = mapped_column(String(200), nullable=True)
     minimum_quantity: Mapped[Decimal] = mapped_column(Numeric(16, 6), nullable=False, server_default=text("0"))
     history_json: Mapped[list] = mapped_column(JSON, nullable=False, default=list, server_default=text("'[]'"))
     opened_at: Mapped[date | None] = mapped_column(Date, nullable=True)
@@ -133,6 +130,18 @@ class InventoryItem(Base):
     )
 
     household: Mapped[Household] = relationship(back_populates="inventory_items")
+
+    @property
+    def quantity(self) -> Decimal:
+        """Legacy AI projection only: one row is one physical object, never an amount."""
+        return Decimal(1) if self.status in (None, "ACTIVE") else Decimal(0)
+
+    @quantity.setter
+    def quantity(self, value):
+        value = Decimal(str(value))
+        if value not in (Decimal(0), Decimal(1)):
+            raise ValueError("An inventory row represents one object; expand quantities before insertion")
+        self.status = "ACTIVE" if value == 1 else "FINISHED"
 
 
 class ShoppingList(Base):

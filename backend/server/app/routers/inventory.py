@@ -4,7 +4,7 @@ import json
 from typing import Literal
 from datetime import datetime, timezone
 from decimal import Decimal
-from uuid import UUID
+from uuid import UUID, uuid5
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel, Field
@@ -16,7 +16,7 @@ from app.dependencies import Identity, get_db, get_identity
 from app.inventory_schemas import Adjustment, InventoryCreate, InventoryUpdate, Versioned
 from app.models import InventoryItem
 from app.routers.households import membership_or_404
-from app.shopping_schemas import StockResponse
+from app.shopping_schemas import StockCreateResponse, StockResponse
 from app.services import ledger
 
 router = APIRouter(prefix="/api/v1/households/{household_id}/inventory-items", tags=["Inventory"])
@@ -32,6 +32,8 @@ class InventoryPage(BaseModel):
 def fingerprint(kind, payload):
     values = payload.model_dump(mode="json")
     # Preserve old request hashes for clients retrying a pre-classification create.
+    if values.get('specification') is None:
+        values.pop('specification', None)
     if values.get('product_grouping') is None:
         values.pop('product_grouping', None)
     return hashlib.sha256((kind + json.dumps(values, sort_keys=True)).encode()).hexdigest()
@@ -94,42 +96,36 @@ def get_inventory(household_id: UUID, item_id: UUID,
     return StockResponse.model_validate(item)
 
 
-@router.post("", response_model=StockResponse, status_code=201)
+@router.post("", response_model=StockCreateResponse, status_code=201)
+@ledger.retry_conflicts
 def create_inventory(household_id: UUID, payload: InventoryCreate,
                      identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
+    from app.services.physical_inventory import add_objects
+    from app.services.product_grouping import lock_household
+    lock_household(db, household_id)
     digest = fingerprint("create", payload)
     prior = ledger.replay(db, payload.id, household_id, identity.user.id, digest)
     if prior is not None:
-        return StockResponse.model_validate(prior)
-    existing = db.get(InventoryItem, payload.id)
-    if existing is not None:
-        if (existing.household_id == household_id and existing.created_by_user_id == identity.user.id
-                and replay(existing, payload.id, digest)):
-            return StockResponse.model_validate(existing)
+        return StockCreateResponse.model_validate(prior)
+    if db.get(InventoryItem, payload.id) is not None:
         raise HTTPException(409, "Item ID is already in use; refresh inventory")
-    item = InventoryItem(household_id=household_id, created_by_user_id=identity.user.id,
-                         status="ACTIVE" if payload.quantity > 0 else "FINISHED",
-                         **payload.model_dump(exclude={'product_grouping'}))
-    record(item, payload.id, digest, f"首次录入 {payload.quantity} {payload.unit}", kind="create",
-           **minimum_preference(item, payload, identity.user.id))
-    db.add(item)
-    try:
-        db.flush()
-        from app.services.product_grouping import classify_new
-        classify_new(db, item, payload.product_grouping, identity.user.id)
-        result = StockResponse.model_validate(item)
-        ledger.save(db, payload.id, household_id, identity.user.id, digest, result.model_dump(mode='json'))
-        ledger.append(db, item, identity.user.id, 'Created', {}, request_id=payload.id, quantity=item.quantity)
-        db.commit()
-        return result
-    except IntegrityError:
-        db.rollback()
-        existing = db.get(InventoryItem, payload.id)
-        if (existing is not None and existing.household_id == household_id
-                and existing.created_by_user_id == identity.user.id and replay(existing, payload.id, digest)):
-            return StockResponse.model_validate(existing)
-        raise HTTPException(409, "Concurrent item creation; refresh inventory") from None
+    values = payload.model_dump(exclude={'id', 'quantity', 'unit', 'product_grouping'})
+    rows = add_objects(db, first_id=payload.id, household_id=household_id,
+        actor_user_id=identity.user.id, quantity=payload.quantity, unit=payload.unit,
+        choice=payload.product_grouping, **values)
+    for item in rows:
+        record(item, payload.id, digest, f"首次录入 1 {item.unit}", kind="create",
+               **minimum_preference(item, payload, identity.user.id))
+    db.flush()
+    result = StockCreateResponse(**StockResponse.model_validate(rows[0]).model_dump(),
+        created_count=len(rows), inventory_item_ids=[row.id for row in rows])
+    ledger.save(db, payload.id, household_id, identity.user.id, digest, result.model_dump(mode='json'))
+    for item in rows:
+        ledger.append(db, item, identity.user.id, 'Created', {}, request_id=payload.id,
+            event_id=uuid5(payload.id, 'event:' + str(item.id)), quantity=Decimal(1))
+    db.commit()
+    return result
 
 
 def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
@@ -148,8 +144,8 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
     before = StockResponse.model_validate(item).model_dump(mode='json')
     if kind == "adjust":
         quantity = item.quantity + payload.delta
-        if quantity < 0 or quantity > 1_000_000_000:
-            raise HTTPException(422, "Resulting quantity is outside the allowed range")
+        if quantity not in (Decimal(0), Decimal(1)):
+            raise HTTPException(422, {"code": "SINGLE_OBJECT_ADJUSTMENT_REQUIRED"})
         item.quantity = quantity
         message = f"数量调整 {payload.delta} {item.unit} → {quantity} {item.unit}"
     elif kind == 'correct':
@@ -157,10 +153,17 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
         original = db.get(BusinessEvent, payload.related_event_id)
         if original is None or original.household_id != household_id or original.inventory_item_id != item.id:
             raise HTTPException(404, {'code': 'RELATED_EVENT_NOT_FOUND'})
+        if payload.quantity not in (Decimal(0), Decimal(1)):
+            raise HTTPException(422, {"code": "SINGLE_OBJECT_CORRECTION_REQUIRED"})
         item.quantity = payload.quantity
         message = payload.reason
     elif kind == "edit":
         changes = payload.model_dump(exclude_unset=True, exclude={"expected_version", "operation_id"})
+        if "quantity" in changes and changes["quantity"] != item.quantity:
+            raise HTTPException(422, {"code": "USE_SINGLE_OBJECT_LIFECYCLE_ACTION"})
+        from app.services.physical_inventory import MEASURE_UNITS
+        if changes.get("unit") in MEASURE_UNITS:
+            raise HTTPException(422, {"code": "USE_SPECIFICATION_FOR_MEASUREMENTS"})
         for key, value in changes.items():
             setattr(item, key, value)
         message = f"更新记录 → {item.quantity} {item.unit}"
@@ -180,8 +183,8 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
     record(item, payload.operation_id, digest, message, **facts)
     db.flush()
     if kind == 'edit' and 'name' in payload.model_fields_set:
-        from app.services.product_grouping import refresh_linked_name
-        refresh_linked_name(db, item, actor_user_id, create_if_missing=False)
+        from app.services.product_grouping import reclassify_edited
+        reclassify_edited(db, item, actor_user_id)
     result = StockResponse.model_validate(item).model_dump(mode='json')
     ledger.save(db, payload.operation_id, household_id, actor_user_id, digest, result)
     event_type = {'adjust': 'Adjusted', 'correct': 'Corrected', 'edit': 'Edited', 'delete': 'Archived'}[kind]
@@ -197,6 +200,10 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
 def edit_inventory(household_id: UUID, item_id: UUID, payload: InventoryUpdate,
                    identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
+    if 'name' in payload.model_fields_set:
+        # Match create/purchase lock order before taking the object's row lock.
+        from app.services.product_grouping import lock_household
+        lock_household(db, household_id)
     result = StockResponse.model_validate(mutate(db, household_id, item_id, payload, "edit", identity.user.id))
     db.commit()
     return result

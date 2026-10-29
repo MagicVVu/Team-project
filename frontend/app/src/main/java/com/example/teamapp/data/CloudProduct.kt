@@ -3,22 +3,23 @@ package com.example.teamapp.data
 import org.json.JSONObject
 import java.math.BigDecimal
 
-/** Only product_batches defines membership. A ring projection is never a writable batch. */
+/** Membership comes from the server. A ring projection is never a writable object. */
 data class CloudProduct(val id: String, val name: String, val specification: String,
     val baseUnit: String, val category: String, val version: Int, val batches: List<StockItem>) {
+    val activeItems get() = batches.filter { it.activeBatch }
+    val count get() = activeItems.size
     fun ringItem(english: Boolean): StockItem {
-        val single = batches.singleOrNull()
-        val amounts = batches.map { convertProductQuantity(BigDecimal(it.quantityExact.ifBlank { it.quantity.toString() }), it.unit, baseUnit) }
-        val total = if (amounts.any { it == null }) null else amounts.filterNotNull().fold(BigDecimal.ZERO, BigDecimal::add)
+        val current = activeItems
+        val single = current.singleOrNull()
         return StockItem(id = "product:$id", name = name, category = category,
-            quantity = total?.toDouble() ?: 0.0, quantityExact = total?.stripTrailingZeros()?.toPlainString().orEmpty(),
-            unit = baseUnit, location = single?.location ?: if (english) "${batches.size} batches" else "${batches.size} 个库存批次",
-            minimum = single?.let { convertProductQuantity(BigDecimal.valueOf(it.minimum), it.unit, baseUnit)?.toDouble() } ?: 0.0,
-            expiry = batches.map { it.expiry }.filter { it.isNotBlank() }.minOrNull().orEmpty(),
+            quantity = count.toDouble(), quantityExact = count.toString(),
+            unit = "个", location = single?.location ?: if (english) "$count individual items" else "$count 件在库物品",
+            minimum = current.maxOfOrNull { it.minimum } ?: 0.0,
+            expiry = current.map { it.expiry }.filter { it.isNotBlank() }.minOrNull().orEmpty(),
             image = single?.image.orEmpty(), history = single?.history.orEmpty(),
             purchasedAt = single?.purchasedAt.orEmpty(), openedAt = single?.openedAt.orEmpty(),
-            lifecycleStatus = single?.lifecycleStatus ?: if (batches.isNotEmpty() && batches.none { it.activeBatch }) "FINISHED" else "ACTIVE",
-            version = version, displayQuantity = if (total == null) { if (english) "Review units" else "数量待核对" } else null)
+            lifecycleStatus = if (current.isEmpty()) "FINISHED" else "ACTIVE",
+            version = version, specification = specification)
     }
 }
 

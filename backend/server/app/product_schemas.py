@@ -7,7 +7,7 @@ from app.services.ai_inventory import UNIT_CANONICAL
 class ProductCreate(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
     id: UUID
-    name: str = Field(min_length=1, max_length=80, pattern=r'\S')
+    name: str = Field(min_length=1, max_length=200, pattern=r'\S')
     specification: str | None = Field(default=None, max_length=200)
     base_unit: str
     category: Literal['food', 'medicine', 'household', 'unknown'] = 'unknown'

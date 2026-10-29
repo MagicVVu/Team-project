@@ -35,8 +35,8 @@ class ProductGroupingFlowTest {
     private val savedIds = mutableListOf<String>()
     private var input by mutableStateOf<ProductGroupingInput?>(null)
     private var error by mutableStateOf("")
-    private val item = StockItem(id = UUID.randomUUID().toString(), name = "纯牛奶", quantity = 2.000001,
-        quantityExact = "2.000001", unit = "盒", category = "食品", location = "冰箱")
+    private val item = StockItem(id = UUID.randomUUID().toString(), name = "纯牛奶", quantity = 10.0,
+        quantityExact = "10", unit = "盒", category = "食品", location = "冰箱")
 
     @Before fun setup() {
         val prefix = "grouping_flow_${UUID.randomUUID()}_"
@@ -72,64 +72,30 @@ class ProductGroupingFlowTest {
         bitmap.recycle()
     }
 
-    @Test fun multipleMatchesRequireAnExplicitCandidateAndYesUsesItsVersions() {
+    @Test fun serverGroupsAutomaticallyAndReceivesWholeItemCount() {
         api.candidates = listOf(api.match(api.first, "牛奶", api.product), api.match(api.second, "鲜牛奶", null))
         show()
-        compose.onNodeWithTag("product-grouping-dialog").assertExists()
-        Assert.assertTrue(api.writes.isEmpty())
-        compose.onNodeWithTag("product-grouping-candidate-${api.second}").performScrollTo().performClick()
-        shot("product-grouping-light")
-        compose.onNodeWithTag("product-grouping-yes").performClick()
         compose.waitUntil(5_000) { savedIds.isNotEmpty() }
+        compose.onNodeWithTag("product-grouping-dialog").assertDoesNotExist()
         val body = JSONObject(api.writes.single())
         Assert.assertEquals(item.id, body.getString("id"))
-        Assert.assertEquals("2.000001", body.getString("quantity"))
-        val decision = body.getJSONObject("product_grouping")
-        Assert.assertEquals("existing", decision.getString("mode"))
-        Assert.assertEquals(api.second, decision.getString("candidate_inventory_item_id"))
-        Assert.assertEquals(3, decision.getInt("expected_inventory_version"))
-        Assert.assertFalse(decision.has("expected_product_version"))
+        Assert.assertEquals("10", body.getString("quantity"))
+        Assert.assertFalse(body.has("product_grouping"))
+        Assert.assertEquals(0, api.matchReads)
     }
 
-    @Test fun noCreatesASeparateProductEvenForAnExactName() {
-        api.candidates = listOf(api.match(api.first, item.name, api.product))
-        show(dark = true, english = true)
-        shot("product-grouping-dark")
-        compose.onNodeWithTag("product-grouping-no").performClick()
-        compose.waitUntil(5_000) { savedIds.isNotEmpty() }
-        Assert.assertEquals("separate", JSONObject(api.writes.single()).getJSONObject("product_grouping").getString("mode"))
-    }
-
-    @Test fun noMatchesCreatesASeparateProductWithoutAsking() {
-        api.candidates = emptyList()
-        show()
-        compose.waitUntil(5_000) { savedIds.isNotEmpty() }
-        compose.onNodeWithTag("product-grouping-dialog").assertDoesNotExist()
-        Assert.assertEquals("separate", JSONObject(api.writes.single()).getJSONObject("product_grouping").getString("mode"))
-    }
-
-    @Test fun cancelMakesNoInventoryWrite() {
-        api.candidates = listOf(api.match(api.first, "牛奶", api.product))
-        show()
-        compose.onNodeWithTag("product-grouping-cancel").performClick()
-        compose.onNodeWithTag("product-grouping-dialog").assertDoesNotExist()
-        Assert.assertTrue(api.writes.isEmpty())
-        Assert.assertTrue(savedIds.isEmpty())
-    }
-
-    @Test fun matchingFailureDoesNotSilentlyCreateAProduct() {
+    @Test fun matchingEndpointIsNoLongerRequiredByTheEntryFlow() {
         api.matchFailure = true
-        show()
-        compose.waitUntil(5_000) { error.isNotBlank() }
-        compose.onNodeWithTag("product-grouping-dialog").assertDoesNotExist()
-        Assert.assertTrue(api.writes.isEmpty())
+        show(dark = true, english = true)
+        compose.waitUntil(5_000) { savedIds.isNotEmpty() }
+        Assert.assertEquals(1, api.writes.size)
+        Assert.assertEquals(0, api.matchReads)
     }
 
     @Test fun uncertainSaveSurvivesStoreRecreationAndReplaysTheSameBody() {
-        api.candidates = listOf(api.match(api.first, "牛奶", api.product))
         api.timeoutOnce = true
         show()
-        compose.onNodeWithTag("product-grouping-yes").performClick()
+        compose.waitUntil(5_000) { cloud.pendingProductGrouping() != null && error.isNotBlank() }
         compose.onNodeWithTag("product-grouping-recovery").assertExists()
         val restored = CloudStore(context) { _, _ -> api }
         val pending = restored.pendingProductGrouping()
@@ -139,15 +105,12 @@ class ProductGroupingFlowTest {
         Assert.assertEquals(2, api.writes.size)
         Assert.assertEquals(api.writes[0], api.writes[1])
         Assert.assertNull(restored.pendingProductGrouping())
-        Assert.assertEquals(7, JSONObject(api.writes.last()).getJSONObject("product_grouping").getInt("expected_product_version"))
     }
 
     @Test fun expiredAuthenticationDoesNotEraseAnEarlierUnknownSave() {
-        api.candidates = listOf(api.match(api.first, "牛奶", api.product))
         api.timeoutOnce = true
         show()
-        compose.onNodeWithTag("product-grouping-yes").performClick()
-        compose.onNodeWithTag("product-grouping-recovery").assertExists()
+        compose.waitUntil(5_000) { cloud.pendingProductGrouping() != null && error.isNotBlank() }
         val pending = cloud.pendingProductGrouping()!!
         api.authFailure = true
         runBlocking { runCatching { cloud.replayGroupedInventory(pending) } }
@@ -162,6 +125,7 @@ private class GroupingApi : CloudApi(BuildConfig.CLOUD_API_URL) {
     val second = "00000000-0000-4000-8000-000000000004"
     val product = "00000000-0000-4000-8000-000000000005"
     var candidates = emptyList<JSONObject>()
+    var matchReads = 0
     var matchFailure = false
     var timeoutOnce = false
     var authFailure = false
@@ -171,6 +135,7 @@ private class GroupingApi : CloudApi(BuildConfig.CLOUD_API_URL) {
         .put("product_version", if (pid != null) 7 else JSONObject.NULL).put("product_name", if (pid != null) "牛奶" else JSONObject.NULL)
     override suspend fun request(method: String, path: String, body: JSONObject?): JSONObject {
         if (path.contains("inventory-product-matches?")) {
+            matchReads++
             if (matchFailure) throw IOException("Offline fixture: matching unavailable")
             return JSONObject().put("protocol_version", "inventory-product-matches-1").put("total", candidates.size)
                 .put("items", JSONArray(candidates))

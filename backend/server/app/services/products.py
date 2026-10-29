@@ -1,4 +1,4 @@
-"""Explicit household identity and conservative aggregation, without name matching."""
+"""Household product identities and counts of independently stored objects."""
 from decimal import Decimal
 from fastapi import HTTPException
 from app.product_models import ProductBatch
@@ -40,7 +40,7 @@ def aggregate(products, links, rows, profiles, projected, day):
                            and l.inventory_item_id in by_id], key=lambda r: str(r.id))
         total, eligible, complete, batches = Decimal(0), Decimal(0), True, []
         for row in selected:
-            converted = convert(row.quantity, row.unit, product.base_unit)
+            converted = row.quantity  # Physical row count is independent of package/display units.
             complete &= converted is not None
             if converted is not None:
                 total += converted
@@ -57,6 +57,7 @@ def aggregate(products, links, rows, profiles, projected, day):
                 'stock_verification': projected.get(str(row.id), {}).get('stock_verification'),
                 'mapping_status': 'household_attested'})
         out.append({**value(product), 'item_key': 'product:'+str(product.id), 'batches': batches,
+            'count': sum(row.status == 'ACTIVE' for row in selected), 'quantity_basis': 'physical_object_count',
             'quantity_complete': bool(complete), 'total_quantity': str(total) if complete else None,
             'nonexpired_active_quantity': str(eligible) if complete else None,
             'usable_quantity': None, 'consumption_coverage_days': None,

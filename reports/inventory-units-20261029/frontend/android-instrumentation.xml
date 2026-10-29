@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="11" failures="0" errors="0" skipped="0" time="45.976" timestamp="2026-10-29T08:08:03" hostname="localhost">
+  <testsuite name="com.example.teamapp.ProductRingIntegrationTest" tests="3" failures="0" errors="0" skipped="0" time="33.012" timestamp="2026-10-29T08:08:03" hostname="localhost">
+    <properties>
+      <property name="device" value="CodexP85(AVD) - 16" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="lightChineseProductOpensAllRealBatches" classname="com.example.teamapp.ProductRingIntegrationTest" time="18.277" />
+    <testcase name="darkEnglishProductOpensAllRealBatches" classname="com.example.teamapp.ProductRingIntegrationTest" time="8.548" />
+    <testcase name="consumeActionUsesTheSelectedRedAppleIdentity" classname="com.example.teamapp.ProductRingIntegrationTest" time="6.187" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.ProductGroupingFlowTest" tests="4" failures="0" errors="0" skipped="0" time="11.361" timestamp="2026-10-29T08:08:03" hostname="localhost">
+    <properties>
+      <property name="device" value="CodexP85(AVD) - 16" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="serverGroupsAutomaticallyAndReceivesWholeItemCount" classname="com.example.teamapp.ProductGroupingFlowTest" time="2.382" />
+    <testcase name="expiredAuthenticationDoesNotEraseAnEarlierUnknownSave" classname="com.example.teamapp.ProductGroupingFlowTest" time="3.576" />
+    <testcase name="matchingEndpointIsNoLongerRequiredByTheEntryFlow" classname="com.example.teamapp.ProductGroupingFlowTest" time="2.248" />
+    <testcase name="uncertainSaveSurvivesStoreRecreationAndReplaysTheSameBody" classname="com.example.teamapp.ProductGroupingFlowTest" time="3.155" />
+  </testsuite>
+  <testsuite name="com.example.teamapp.InventoryStoreTest" tests="4" failures="0" errors="0" skipped="0" time="0.65" timestamp="2026-10-29T08:08:03" hostname="localhost">
+    <properties>
+      <property name="device" value="CodexP85(AVD) - 16" />
+      <property name="flavor" value="" />
+      <property name="project" value=":app" />
+    </properties>
+    <testcase name="purchasingUsesActualAmountAndPersistsAcrossInstances" classname="com.example.teamapp.InventoryStoreTest" time="0.288" />
+    <testcase name="repeatedIntakesPersistSeparateObjectsAndUseOnlyTheSelectedObject" classname="com.example.teamapp.InventoryStoreTest" time="0.188" />
+    <testcase name="unreadableDataIsPreservedUntilExplicitClear" classname="com.example.teamapp.InventoryStoreTest" time="0.167" />
+    <testcase name="cloudRecordHasNoAmountAndLegacyAmountsCannotInflateItsCount" classname="com.example.teamapp.InventoryStoreTest" time="0.007" />
+  </testsuite>
+</testsuites>

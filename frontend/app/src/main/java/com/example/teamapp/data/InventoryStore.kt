@@ -47,8 +47,9 @@ class InventoryStore(context: Context) {
                 val array = json.getJSONArray("items")
                 items = (0 until array.length()).map { i ->
                     val o = array.getJSONObject(i)
-                    StockItem(o.getString("id"), o.getString("name"), o.getDouble("quantity"), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"), openedAt = o.optString("openedAt"), lifecycleStatus = o.optString("lifecycleStatus", "ACTIVE"), quantityExact = o.optString("quantityExact"))
-                }
+                    val status = o.optString("lifecycleStatus", "ACTIVE")
+                    StockItem(o.getString("id"), o.getString("name"), o.optDouble("quantity", if (status == "ACTIVE") 1.0 else 0.0), o.getString("unit"), o.getString("category"), o.getString("location"), o.getDouble("minimum"), o.optString("expiry"), o.optString("image"), o.optJSONArray("history")?.strings().orEmpty(), o.optString("purchasedAt"), openedAt = o.optString("openedAt"), lifecycleStatus = status, quantityExact = o.optString("quantityExact"), specification = o.optString("specification"), individualRecord = json.optInt("version", 1) >= 2)
+                }.flatMap { it.individualItems() }
                 val tasks = json.getJSONArray("purchases")
                 purchases = (0 until tasks.length()).map { i -> tasks.getJSONObject(i).let { Purchase(it.getString("itemId"), it.getDouble("quantity")) } }.filter { p -> localItems.any { it.id == p.itemId } }
                 nickname = json.optString("nickname", nickname)
@@ -68,7 +69,7 @@ class InventoryStore(context: Context) {
         val samples = sampleInventory().filter { sample ->
             items.none { it.id == sample.id || it.name.trim().equals(sample.name, true) }
         }
-        items = items + samples
+        items = items + samples.flatMap { it.individualItems() }
         persist()
         if (storageError == null) preferences.edit().putBoolean("ring_preview_inventory_v1", true).commit()
     }
@@ -78,16 +79,16 @@ class InventoryStore(context: Context) {
         require(item.name.isNotBlank() && item.unit.isNotBlank() && item.location.isNotBlank())
         require(item.quantity.isFinite() && item.quantity >= 0 && item.minimum.isFinite() && item.minimum >= 0)
         val old = items.firstOrNull { it.id == item.id }
-        val duplicate = items.firstOrNull { it.id != item.id && it.name.trim().equals(item.name.trim(), true) }
-        if (duplicate != null) {
-            require(duplicateMode != "新建") { "该物品已在库存中，请选择入库或盘点。" }
-            require(duplicate.unit == item.unit) { "计量单位不同，请先在详情中核对并修改。" }
-            val quantity = if (duplicateMode == "入库") duplicate.quantity + item.quantity else item.quantity
-            require(quantity.isFinite())
-            items = items.map { if (it.id == duplicate.id) it.copy(quantity = quantity, image = item.image.ifBlank { it.image }, history = (listOf(stamp("$duplicateMode → ${quantity.display()} ${it.unit}")) + it.history).take(30)) else it }
+        if (old == null) {
+            require(item.quantity > 0)
+            val records = item.copy(name = item.name.trim()).individualItems().map {
+                it.copy(history = (listOf(stamp("首次录入")) + it.history).take(30))
+            }
+            items = items + records
         } else {
-            val updated = item.copy(name = item.name.trim(), history = (listOf(stamp(if (old == null) "首次录入 ${item.quantity.display()} ${item.unit}" else "更新记录 → ${item.quantity.display()} ${item.unit}")) + (old?.history ?: emptyList())).take(30))
-            items = if (old == null) items + updated else items.map { if (it.id == item.id) updated else it }
+            val updated = item.copy(name = item.name.trim(), quantity = old.quantity, quantityExact = "", individualRecord = true,
+                history = (listOf(stamp("更新物品资料")) + old.history).take(30))
+            items = items.map { if (it.id == item.id) updated else it }
         }
         persist()
         return "${item.name}已保存"
@@ -99,9 +100,16 @@ class InventoryStore(context: Context) {
     }
     private fun updateQuantity(id: String, delta: Double) {
         val item = items.first { it.id == id }
+        if (item.individualRecord && delta > 0) {
+            val receipt = item.copy(id = java.util.UUID.randomUUID().toString(), quantity = delta, quantityExact = "", individualRecord = false,
+                lifecycleStatus = "ACTIVE", openedAt = "", history = listOf(stamp("新增入库")))
+            items = items + receipt.individualItems()
+            return
+        }
         val next = item.quantity + delta
         require(delta.isFinite() && next.isFinite() && next >= 0) { "消耗数量不能超过现有库存" }
-        items = items.map { if (it.id == id) it.copy(quantity = next, history = (listOf(stamp("${if (delta >= 0) "入库" else "消耗"} ${kotlin.math.abs(delta).display()} ${it.unit} → ${next.display()} ${it.unit}")) + it.history).take(30)) else it }
+        require(!item.individualRecord || next in listOf(0.0, 1.0)) { "每次只可处理这件物品" }
+        items = items.map { if (it.id == id) it.copy(quantity = next, lifecycleStatus = if (next == 0.0) "FINISHED" else "ACTIVE", history = (listOf(stamp("${if (delta >= 0) "入库" else "消耗"} ${kotlin.math.abs(delta).display()} ${it.unit} → ${next.display()} ${it.unit}")) + it.history).take(30)) else it }
     }
     fun deleteItem(id: String) { require(!cloud.signedIn); items = items.filterNot { it.id == id }; purchases = purchases.filterNot { it.itemId == id }; persist() }
     fun plan(id: String, quantity: Double): Boolean {
@@ -137,7 +145,7 @@ class InventoryStore(context: Context) {
     fun setNotification(index: Int, value: Boolean) { notifications = notifications.mapIndexed { i, old -> if (i == index) value else old }; persist() }
     fun clear() { require(!cloud.signedIn) { "云端家庭不支持批量清空，请逐项核对后删除" }; items = emptyList(); purchases = emptyList(); storageError = null; readFailed = false; persist() }
     fun export(): String = if (cloud.signedIn) JSONObject().put("mode", "cloud").put("householdId", cloud.account?.householdId)
-        .put("items", JSONArray(items.map { it.toCloudJson() })).put("shopping", JSONArray(cloud.shopping.map {
+        .put("items", JSONArray(items.map { it.toCloudJson().apply { remove("quantity") } })).put("shopping", JSONArray(cloud.shopping.map {
             JSONObject().put("id", it.id).put("name", it.name).put("quantity", it.quantity).put("unit", it.unit).put("purchased", it.purchased)
         })).toString(2) else if (readFailed) preferences.getString("state", "{}").orEmpty() else json().toString(2)
 
@@ -162,8 +170,8 @@ class InventoryStore(context: Context) {
         if (cloud.signedIn) { cloud.minimums(minimums); reminderDays = days; persist() } else rules(days, minimums)
     }
     private fun json() = JSONObject().apply {
-        put("version", 1); put("nickname", localNickname); put("family", localFamily); put("locations", JSONArray(locations)); put("reminderDays", reminderDays); put("appearance", appearance); put("notifications", JSONArray(notifications))
-        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("quantity", i.quantity); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("openedAt", i.openedAt); put("lifecycleStatus", i.lifecycleStatus); put("quantityExact", i.quantityExact); put("history", JSONArray(i.history)) }) } })
+        put("version", 2); put("nickname", localNickname); put("family", localFamily); put("locations", JSONArray(locations)); put("reminderDays", reminderDays); put("appearance", appearance); put("notifications", JSONArray(notifications))
+        put("items", JSONArray().apply { localItems.forEach { i -> put(JSONObject().apply { put("id", i.id); put("name", i.name); put("unit", i.unit); put("category", i.category); put("location", i.location); put("minimum", i.minimum); put("expiry", i.expiry); put("image", i.image); put("purchasedAt", i.purchasedAt); put("openedAt", i.openedAt); put("lifecycleStatus", i.lifecycleStatus); put("specification", i.specification); put("history", JSONArray(i.history)) }) } })
         put("purchases", JSONArray().apply { localPurchases.forEach { put(JSONObject().put("itemId", it.itemId).put("quantity", it.quantity)) } })
     }
     private fun persist() {

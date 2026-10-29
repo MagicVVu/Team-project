@@ -4,19 +4,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.ui.i18n.rememberUiStrings
 
-/** Server batches, including terminal records. Never creates per-piece preview records. */
+/** Every row has a durable server identity and represents one physical object. */
 @Composable
-internal fun ProductInventoryDetail(product: CloudProduct, action: (StockItem, String) -> Unit) {
+internal fun ProductInventoryDetail(product: CloudProduct, cloudMode: Boolean = true, action: (StockItem, String) -> Unit) {
     val s = rememberUiStrings()
     val summary = product.ringItem(s.english)
+    var showEnded by remember(product.id) { mutableStateOf(false) }
+    val endedCount = product.batches.size - product.count
+    val records = if (showEnded) product.batches else product.activeItems
     CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurface) {
     LazyColumn(Modifier.fillMaxSize().testTag("product-inventory-detail"),
         contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -24,21 +26,23 @@ internal fun ProductInventoryDetail(product: CloudProduct, action: (StockItem, S
             Text(product.name, style = MaterialTheme.typography.headlineSmall)
             if (product.specification.isNotBlank()) Text(product.specification)
             Text(s.label(product.category), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text("${summary.quantityText} ${product.baseUnit}", style = MaterialTheme.typography.headlineMedium,
+            Text(summary.stockCountText, style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary)
-            Text(if (s.english) "Total of all linked batches; expiry uses the earliest recorded date." else "数量为全部关联批次合计，有效期取已登记日期中最早的一天。",
+            Text(if (s.english) "Each row is one item. Open, edit or use each item separately." else "每行代表一件物品，可分别编辑、开封或消耗。",
                 style = MaterialTheme.typography.bodySmall)
-            Text(if (s.english) "${product.batches.size} linked batches" else "关联库存批次 ${product.batches.size} 条")
+            if (endedCount > 0) TextButton(onClick = { showEnded = !showEnded }, modifier = Modifier.testTag("product-show-ended")) {
+                Text(if (showEnded) { if (s.english) "Hide ended items" else "隐藏已结束物品" }
+                    else { if (s.english) "Show $endedCount ended items" else "查看${endedCount}件已结束物品" })
+            }
         }
-        if (product.batches.isEmpty()) item {
-            Text(if (s.english) "No inventory batches linked to this product." else "此商品还没有关联的库存批次。")
+        if (records.isEmpty()) item {
+            Text(if (s.english) "No items currently in stock." else "当前没有在库物品。")
         }
-        items(product.batches, key = { it.id }) { batch ->
+        items(records, key = { it.id }) { batch ->
             OutlinedCard(Modifier.fillMaxWidth().testTag("product-batch-${batch.id}")) {
                 Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(batch.name, style = MaterialTheme.typography.titleMedium)
-                    Text("${batch.quantityText} ${batch.unit}", color = MaterialTheme.colorScheme.primary)
-                    Text((if (s.english) "Minimum stock: " else "最低库存：") + "${batch.minimum.display()} ${batch.unit}")
+                    if (batch.specification.isNotBlank()) Text(batch.specification, color = MaterialTheme.colorScheme.primary)
                     Text((if (s.english) "Location: " else "位置：") + batch.location)
                     Text((if (s.english) "Expiry: " else "有效期：") + batch.expiry.ifBlank { if (s.english) "Not recorded" else "未登记" })
                     Text((if (s.english) "Received: " else "购入日期：") + batch.purchasedAt.ifBlank { if (s.english) "Not recorded" else "未登记" })
@@ -50,12 +54,12 @@ internal fun ProductInventoryDetail(product: CloudProduct, action: (StockItem, S
                         "REVERSED" -> if (s.english) "Reversed" else "已撤销"
                         else -> batch.lifecycleStatus
                     })
-                    Text((if (s.english) "Batch ID: " else "批次编号：") + batch.id,
-                        style = MaterialTheme.typography.bodySmall)
                     if (batch.activeBatch) {
-                        TextButton(onClick = { action(batch, "编辑物品") }) { Text(if (s.english) "Edit this batch" else "编辑此批次") }
-                        TextButton(onClick = { action(batch, "资料与盘点") }) { Text(if (s.english) "Batch facts and verification" else "此批次资料与盘点") }
-                        TextButton(onClick = { action(batch, "批次操作") }) { Text(if (s.english) "Ask about this batch" else "询问此批次") }
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            TextButton(onClick = { action(batch, "编辑物品") }) { Text(if (s.english) "Edit" else "编辑") }
+                            TextButton(onClick = { action(batch, "消耗库存") }, modifier = Modifier.testTag("consume-item-${batch.id}")) { Text(if (s.english) "Use this item" else "消耗这件") }
+                            if (cloudMode) TextButton(onClick = { action(batch, "批次操作") }) { Text(if (s.english) "More" else "更多") }
+                        }
                     }
                 }
             }

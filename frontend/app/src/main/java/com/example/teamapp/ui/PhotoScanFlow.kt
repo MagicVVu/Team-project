@@ -261,10 +261,8 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
     val focus = LocalFocusManager.current
     val initial = result.draft
     val id = rememberSaveable { UUID.randomUUID().toString() }
-    // The current inventory contract has no separate specification field. Keep it visible
-    // in the editable name so 250ml and 1L packages cannot be silently collapsed.
-    var name by rememberSaveable { mutableStateOf(if(initial.name.isNotBlank() && initial.specification.isNotBlank())
-        "${initial.name}（${initial.specification}）" else initial.name) }
+    var name by rememberSaveable { mutableStateOf(initial.name) }
+    var specification by rememberSaveable { mutableStateOf(initial.specification) }
     var quantity by rememberSaveable { mutableStateOf("1") }
     var unit by rememberSaveable { mutableStateOf(initial.unit) }
     var category by rememberSaveable { mutableStateOf(initial.category) }
@@ -312,7 +310,7 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
             if (result.originalUri.isNotBlank() && !result.cutout) Text(strings.tr("已保留原照片", "Original photo preserved"), fontSize = 11.sp, color = scheme.onSurfaceVariant)
             OutlinedTextField(name, { name = it; error = "" }, label = { Text(strings.tr("物品名称", "Item name")) }, singleLine = true,
                 modifier = Modifier.fillMaxWidth().testTag("photo-name"), enabled = !saving, textStyle = MaterialTheme.typography.titleLarge)
-            if (initial.specification.isNotBlank()) Text(strings.tr("包装规格：", "Package size: ") + initial.specification, color = scheme.onSurfaceVariant, fontSize = 12.sp)
+            Field(strings.tr("规格（如500g/盒）", "Specification (e.g. 500g/box)"), specification, { specification = it }, enabled = !saving)
             Surface(shape = RoundedCornerShape(18.dp), color = scheme.surface, border = androidx.compose.foundation.BorderStroke(1.dp, scheme.outlineVariant)) {
                 Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -366,6 +364,8 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                     error = when {
                         name.isBlank() || name.trim().length > 80 -> strings.tr("请填写1至80字的物品名称", "Enter an item name of 1–80 characters")
                         amount == null -> strings.tr("请核对数量，需要有效正数", "Review the quantity; enter a positive number")
+                        !InventoryContract.validReceipt(quantity, unit) -> strings.tr("件数须为1–10000的整数", "Use 1–10,000 whole items")
+                        specification.length > 200 -> strings.tr("规格最多200字", "Specification: up to 200 characters")
                         InventoryContract.unit(unit) == null -> strings.tr("请选择计量单位，包装容量不会自动换算", "Choose a unit; package size is not converted automatically")
                         location.isBlank() -> strings.tr("请选择存放位置", "Choose a location")
                         min == null -> strings.tr("请核对最低库存", "Review minimum stock")
@@ -374,10 +374,8 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                     }
                     if(error.isEmpty()) {
                         val item = StockItem(id = id, name = name.trim(), quantity = amount!!.toDouble(), unit = InventoryContract.unit(unit)!!,
-                            category = category, location = location, minimum = min!!.toDouble(), expiry = expiry, image = result.displayUri, quantityExact = quantity.trim())
-                        val old = if(store.cloud.signedIn) null else store.items.firstOrNull { it.id != id && it.name.equals(item.name, true) }
-                        if(old != null) { duplicate = old; pending = item }
-                        else if (store.cloud.signedIn) {
+                            category = category, location = location, minimum = min!!.toDouble(), expiry = expiry, image = result.displayUri, quantityExact = quantity.trim(), specification = specification.trim())
+                        if (store.cloud.signedIn) {
                             saving = true; error = ""
                             groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)
                         } else save(item)

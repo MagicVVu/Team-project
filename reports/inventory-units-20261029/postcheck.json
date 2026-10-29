@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "database": {
+    "revision": "20261029_0012",
+    "source_rows": 34,
+    "inventory_rows": 323,
+    "status_counts": {
+      "DISCARDED": 4,
+      "ACTIVE": 319
+    },
+    "original_ids_fields_preserved": true,
+    "every_row_linked": true,
+    "cross_household_links": 0,
+    "quantity_column_removed": true,
+    "specification_column_present": true,
+    "inventory_response_omits_quantity": true,
+    "audit": {
+      "source_rows": 34,
+      "target_rows": 323,
+      "additional_rows": 289,
+      "portion_rows": 6,
+      "max_batch_items": 10000,
+      "max_total_items": 1000000,
+      "merged_products": 1
+    }
+  },
+  "https": {
+    "direct_tls_health": 200,
+    "no_app_key": 403,
+    "no_bearer": 401
+  },
+  "ai": {
+    "status": "ok",
+    "protocol": "p85-dialogue-1",
+    "max_model_calls": 2,
+    "portion_and_object_units": true
+  },
+  "production_model_calls": 0,
+  "production_test_inventory_created": false
+}

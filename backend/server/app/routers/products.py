@@ -43,7 +43,7 @@ def inventory_products(household_id: UUID, response: Response,
         grouped[product_id].append(StockResponse.model_validate(batch).model_dump(mode='json'))
     response.headers['Cache-Control'] = 'no-store'
     return {'protocol_version': 'inventory-products-1', 'items': [
-        {**products.value(p), 'inventory_items': grouped[p.id]} for p in rows],
+        {**products.value(p), 'count': sum(row['status'] == 'ACTIVE' for row in grouped[p.id]), 'inventory_items': grouped[p.id]} for p in rows],
         'total': total, 'limit': limit, 'offset': offset}
 
 

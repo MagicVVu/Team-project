@@ -22,8 +22,8 @@ from app.services.ai_inventory import UNIT_CANONICAL
 from app.shopping_schemas import ShoppingItemResponse, StockResponse
 
 EDITABLE = {"ADD": set(AddFields.model_fields), "MOVE": {"to_location"},
-            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": {"quantity", "unit"},
-            "OPEN": {"opened_at"}, "DISCARD": {"quantity", "unit"}}
+            "PLAN_ADD": {"quantity", "unit"}, "CONSUME": set(),
+            "OPEN": {"opened_at"}, "DISCARD": set()}
 EXECUTION_TTL = timedelta(minutes=15)
 
 
@@ -275,9 +275,9 @@ def stock_changes(action, fields, item, normalized):
             normalized["quantity"], normalized["unit"] = str(quantity), item.unit
         if quantity > item.quantity:
             fail("INSUFFICIENT_STOCK", 422)
-        remaining = item.quantity - quantity
-        changes.update(quantity=remaining, status="ACTIVE" if remaining > 0 else (
-            "DISCARDED" if action == "DISCARD" else "FINISHED"))
+        if quantity != Decimal(1):
+            fail("SINGLE_OBJECT_CONSUMPTION_REQUIRED", 422)
+        changes["status"] = "DISCARDED" if action == "DISCARD" else "FINISHED"
     return quantity, changes
 
 
@@ -328,16 +328,18 @@ def execute(db, identity, draft_id, body):
     at = now()
     event_id = uuid5(body.operation_id, "event")
     before, batch_versions, item, shopping = {}, {}, None, None
+    created_objects = []
     quantity, event_type = None, {"ADD": "StockAdded", "MOVE": "StockMoved", "PLAN_ADD": "PlanAdded",
                                 "CONSUME": "Consumed", "OPEN": "Opened", "DISCARD": "Discarded"}[action]
     if action == "ADD":
-        item = InventoryItem(id=uuid5(body.operation_id, "inventory"), household_id=draft.household_id,
-            created_by_user_id=identity.user.id, name=fields.name, quantity=fields.quantity,
-            unit=unit(fields.unit), storage_location=fields.location, purchased_on=fields.purchased_at,
-            expires_on=fields.label_expiry, category="其他", minimum_quantity=0,
-            status="ACTIVE", version=1, history_json=[])
-        db.add(item)
-        quantity = fields.quantity
+        from app.services.physical_inventory import add_objects
+        created_objects = add_objects(db, first_id=uuid5(body.operation_id, "inventory"),
+            household_id=draft.household_id, actor_user_id=identity.user.id,
+            name=fields.name, quantity=fields.quantity, unit=unit(fields.unit),
+            storage_location=fields.location, purchased_on=fields.purchased_at,
+            expires_on=fields.label_expiry, category="其他", minimum_quantity=0, history_json=[])
+        item = created_objects[0]
+        quantity = Decimal(1)
     elif action in {"MOVE", "CONSUME", "OPEN", "DISCARD"}:
         item = target_item(db, draft.household_id, target, lock=True)
         if action == "CONSUME" and (task.result_json or {}).get("consume_mode") == "all":
@@ -360,24 +362,25 @@ def execute(db, identity, draft_id, body):
             unit=unit(fields.unit), is_checked=False, source_inventory_item_id=source.id if source else None)
         quantity = fields.quantity
         db.add(shopping)
-    if item is not None:
-        item.history_json = ([{"id": str(body.operation_id), "event_id": str(event_id),
-                              "kind": event_type, "created_at": at.isoformat()}] + (item.history_json or []))[:30]
+    for changed in created_objects or ([item] if item is not None else []):
+        changed.history_json = ([{"id": str(body.operation_id), "event_id": str(event_id if changed == item else uuid5(body.operation_id, "event:" + str(changed.id))),
+                              "kind": event_type, "created_at": at.isoformat()}] + (changed.history_json or []))[:30]
+        batch_versions[str(changed.id)] = changed.version
     db.flush()
-    if action == 'ADD':
-        from app.services.product_grouping import singleton
-        singleton(db, item, identity.user.id, 'confirmed_draft_inventory_singleton')
     after = (StockResponse.model_validate(item) if item is not None else ShoppingItemResponse.model_validate(shopping)).model_dump(mode="json")
-    if item is not None:
-        batch_versions[str(item.id)] = item.version
+    event_ids = [event_id] + [uuid5(body.operation_id, "event:" + str(row.id)) for row in created_objects[1:]]
+    result = {"inventory_item" if item is not None else "shopping_item": after}
+    if created_objects:
+        result.update(created_count=len(created_objects), inventory_item_ids=[str(row.id) for row in created_objects],
+            inventory_items=[StockResponse.model_validate(row).model_dump(mode="json") for row in created_objects])
     receipt = {"protocol_version": "draft-operation-receipt-1", "operation_id": str(body.operation_id),
         "draft_id": str(draft.id), "task_id": str(task.id), "draft_revision": draft.revision,
         "task_revision": task.revision, "scope": {"user_id": str(identity.user.id), "household_id": str(draft.household_id)},
         "status": "committed", "action": action, "committed_at": at.isoformat(),
         "trace_id": "op_" + body.operation_id.hex, "batch_versions": batch_versions,
-        "event_ids": [str(event_id)], "inventory_written": item is not None,
+        "event_ids": [str(value) for value in event_ids], "inventory_written": item is not None,
         "shopping_written": shopping is not None,
-        "result": {"inventory_item" if item is not None else "shopping_item": after}}
+        "result": result}
     if action in {"OPEN", "DISCARD"}:
         receipt["execution"] = {"before": before, "after": after, "event_type": event_type,
             "quantity": str(quantity) if quantity is not None else None, "unit": item.unit,
@@ -393,6 +396,11 @@ def execute(db, identity, draft_id, body):
         shopping_item_id=shopping.id if shopping is not None else None, event_type=event_type,
         quantity=quantity, unit=item.unit if item is not None else shopping.unit,
         before_json=before, after_json=after, occurred_at=at)
+    for row, extra_event_id in zip(created_objects[1:], event_ids[1:]):
+        persist_event(db, id=extra_event_id, operation_id=body.operation_id, household_id=draft.household_id,
+            actor_user_id=identity.user.id, inventory_item_id=row.id, shopping_item_id=None,
+            event_type=event_type, quantity=Decimal(1), unit=row.unit, before_json={},
+            after_json=StockResponse.model_validate(row).model_dump(mode="json"), occurred_at=at)
     db.add(DraftDecision(draft_id=draft.id, draft_revision=draft.revision, task_revision=task.revision,
                          status="committed", operation_id=body.operation_id, decided_at=at))
     db.flush()

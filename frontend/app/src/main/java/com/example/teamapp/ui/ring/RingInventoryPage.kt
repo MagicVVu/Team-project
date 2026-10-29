@@ -39,6 +39,7 @@ import com.example.teamapp.R
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.data.StockItem
 import com.example.teamapp.data.CloudProduct
+import com.example.teamapp.data.localInventoryProducts
 import com.example.teamapp.ui.AppMotion
 import com.example.teamapp.ui.AssistantMascotWidth
 import com.example.teamapp.ui.Detail
@@ -75,8 +76,8 @@ internal fun RingInventoryPage(
     var hostBounds by remember { mutableStateOf(Rect.Zero) }
     var pendingAction by remember { mutableStateOf<String?>(null) }
     var actionBatch by remember { mutableStateOf<StockItem?>(null) }
-    val products = store.cloud.products
-    val ringItems = if (store.cloud.signedIn) products.map { it.ringItem(strings.english) } else store.items
+    val products = if (store.cloud.signedIn) store.cloud.products else localInventoryProducts(store.items)
+    val ringItems = products.map { it.ringItem(strings.english) }
     val product = products.firstOrNull { "product:${it.id}" == detailId }
     val expansion = remember { Animatable(0f) }
     val ringFocus = remember { Animatable(0f) }
@@ -221,7 +222,7 @@ internal fun RingInventoryPage(
                         }
                     }
                     Box(Modifier.weight(1f).fillMaxWidth().motionInput(phase == InventoryDetailPhase.Expanded)) {
-                        if (product != null) ProductInventoryDetail(product) { batch, action ->
+                        if (product != null) ProductInventoryDetail(product, cloudMode = store.cloud.signedIn) { batch, action ->
                             actionBatch = batch
                             close(action)
                         } else Detail(store, item, { close(it) }, notify, { close() },

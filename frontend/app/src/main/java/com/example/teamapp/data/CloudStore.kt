@@ -61,6 +61,10 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         runCatching {
             cache.getString(cacheKey(a), null)?.let { saved ->
                 val json = JSONObject(saved)
+                if (json.optString("inventory_schema") != "individual-v1") {
+                    error = "库存记录格式已升级，请联网刷新后查看逐件库存"
+                    return@let
+                }
                 items = json.getJSONArray("inventory").objects().map { it.toStock().let { item -> item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty()) } }
                 shopping = json.getJSONArray("shopping").objects().map { it.toShopping() }
                 products = json.optJSONArray("products")?.objects()?.map { productWithPhotos(it, a) }.orEmpty()
@@ -130,9 +134,12 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val catalogue = productJson?.map { productWithPhotos(it, a) }
         val synced = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss"))
         val json = JSONObject().put("inventory", JSONArray(stockJson)).put("shopping", JSONArray(shoppingJson))
+            .put("inventory_schema", "individual-v1")
             .put("lastSync", synced).put("householdName", household?.name ?: "云端家庭")
         if (productJson != null) json.put("products", JSONArray(productJson))
-        else cache.getString(cacheKey(a), null)?.let { previous -> JSONObject(previous).optJSONArray("products")?.let { json.put("products", it) } }
+        else cache.getString(cacheKey(a), null)?.let { previous ->
+            JSONObject(previous).takeIf { it.optString("inventory_schema") == "individual-v1" }?.optJSONArray("products")?.let { json.put("products", it) }
+        }
         check(cache.edit().putString(cacheKey(a), json.toString()).commit()) { "服务器已读取，但设备无法保存缓存，请检查存储空间" }
         items = stock; shopping = plans; lastSync = synced
         if (catalogue != null) products = catalogue
@@ -240,9 +247,14 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         check(pendingProductGrouping() == pending) { "原请求已改变，请重新打开保存结果核实" }
         mutate { api ->
             require(pending.scope == scopeKey && !expired) { "账号或家庭已切换，请回到原家庭核实保存结果" }
+            var createdIds = listOf(pending.itemId)
             try {
                 val receipt = api.request("POST", "$root/inventory-items", JSONObject(pending.body))
                 check(receipt.getString("id") == pending.itemId) { "服务器返回的批次与原请求不一致，请保留原请求核实" }
+                receipt.optJSONArray("inventory_item_ids")?.let { ids ->
+                    createdIds = (0 until ids.length()).map { UUID.fromString(ids.getString(it)).toString() }
+                    check(createdIds.firstOrNull() == pending.itemId && createdIds.distinct().size == createdIds.size) { "服务器返回的物品列表不完整，请保留原请求核实" }
+                }
             } catch (failure: CloudFailure) {
                 if (failure.status in setOf(400, 409, 422) && !failure.errorCode.contains("OPERATION_ID_CONFLICT")) {
                     // Auth/access errors cannot rule out an earlier successful, timed-out request.
@@ -251,8 +263,9 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
                 }
                 throw failure
             }
-            if (pending.image.isNotBlank()) check(cache.edit()
-                .putString("photo|${cacheKey(requireNotNull(account))}|${pending.itemId}", pending.image).commit()) {
+            if (pending.image.isNotBlank()) check(cache.edit().apply {
+                createdIds.forEach { putString("photo|${cacheKey(requireNotNull(account))}|$it", pending.image) }
+            }.commit()) {
                 "物品已保存，照片引用保存失败，请用原请求核实"
             }
             check(groupingOutbox.edit().remove(pending.scope).commit()) { "物品已保存，设备未能更新状态，请用原请求核实" }
@@ -304,7 +317,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         require(item.name.length <= 80 && InventoryContract.unit(item.unit) != null) { "AI 支持的名称最多 80 字；请核对计量单位，旧记录不会自动截断或猜测换算" }
         if (initial == null) api.request("POST", "$root/inventory-items", item.toCloudJson())
         else {
-            val json = item.toCloudJson().apply { remove("id"); put("expected_version", initial.version); put("operation_id", UUID.randomUUID().toString()) }
+            val json = item.toCloudJson().apply { remove("id"); remove("quantity"); put("expected_version", initial.version); put("operation_id", UUID.randomUUID().toString()) }
             api.request("PATCH", "$root/inventory-items/${item.id}", json)
         }
         if (item.image.isNotBlank()) check(cache.edit().putString("photo|${cacheKey(requireNotNull(account))}|${item.id}", item.image).commit()) { "物品已保存，照片引用保存失败，请刷新核对" }

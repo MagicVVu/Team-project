@@ -26,11 +26,11 @@ class InventoryStoreTest {
         assertFalse(store.plan(item.id, 2.0)); assertTrue(store.plan(item.id, 4.0))
         assertEquals(1, store.purchases.size); assertEquals(1.0, store.items.single().quantity, 0.0)
         store.receive(item.id, 1.0)
-        assertEquals(2.0, store.items.single().quantity, 0.0); assertTrue(store.purchases.isEmpty())
+        assertEquals(2, store.items.size); assertTrue(store.items.all { it.quantity == 1.0 }); assertTrue(store.purchases.isEmpty())
         assertTrue(runCatching { store.receive(item.id, 1.0) }.isFailure)
         val restored = InventoryStore(context)
-        assertEquals(2.0, restored.items.single().quantity, 0.0); assertTrue(restored.items.single().status(3).low)
-        assertEquals(2, restored.items.single().history.size)
+        assertEquals(2, restored.items.size); assertTrue(restored.items.all { it.individualRecord })
+        assertTrue(restored.items.all { it.history.isNotEmpty() })
     }
     @Test fun unreadableDataIsPreservedUntilExplicitClear() {
         context.getSharedPreferences("magicvvu_v1", 0).edit().putString("state", "invalid-json-original").commit()
@@ -41,19 +41,30 @@ class InventoryStoreTest {
         assertNull(store.storageError)
         assertTrue(InventoryStore(context).items.isEmpty())
     }
-    @Test fun duplicatesRequireConfirmationAndConsumptionCannotGoNegative() {
+    @Test fun repeatedIntakesPersistSeparateObjectsAndUseOnlyTheSelectedObject() {
         val store = InventoryStore(context)
-        val item = StockItem(name = "测试鸡蛋", quantity = 2.0, unit = "个")
+        val item = StockItem(name = "苹果", quantity = 10.0, unit = "个")
         store.saveItem(item)
-        assertTrue(runCatching { store.saveItem(item.copy(id = "other", quantity = 3.0)) }.isFailure)
-        assertEquals(2.0, store.items.single().quantity, 0.0)
-        store.saveItem(item.copy(id = "other", quantity = 3.0), "入库")
-        assertEquals(5.0, store.items.single().quantity, 0.0)
-        store.saveItem(item.copy(id = "other", quantity = 1.0), "盘点")
-        assertEquals(1.0, store.items.single().quantity, 0.0)
+        store.saveItem(item.copy(id = "red-intake", name = "红苹果", quantity = 12.0))
+        assertEquals(22, store.items.size)
+        assertEquals(22, localInventoryProducts(store.items).single().count)
         assertTrue(runCatching { store.changeQuantity(item.id, -2.0) }.isFailure)
-        assertEquals(1.0, store.items.single().quantity, 0.0)
-        store.plan(item.id, 2.0); store.deleteItem(item.id)
-        assertTrue(store.items.isEmpty()); assertTrue(store.purchases.isEmpty())
+        store.changeQuantity(item.id, -1.0)
+        val restored = InventoryStore(context)
+        assertEquals(21, localInventoryProducts(restored.items).single().count)
+        assertEquals(1, restored.items.count { it.lifecycleStatus == "FINISHED" })
+        assertEquals(22, restored.items.map { it.id }.distinct().size)
+        assertFalse(restored.export().contains("\"quantity\""))
+    }
+    @Test fun cloudRecordHasNoAmountAndLegacyAmountsCannotInflateItsCount() {
+        val json = org.json.JSONObject().put("id", "object-one").put("name", "牛奶").put("unit", "份")
+            .put("status", "ACTIVE").put("version", 1).put("specification", "500ml")
+        val item = json.toStock()
+        assertEquals(1.0, item.quantity, 0.0)
+        assertEquals("500ml", item.specification)
+        assertTrue(item.individualRecord)
+        assertFalse(item.copy(minimum = 5.0).status(3).low)
+        assertEquals(1.0, json.put("quantity", "500").toStock().quantity, 0.0)
+        assertEquals(0.0, json.put("status", "FINISHED").toStock().quantity, 0.0)
     }
 }

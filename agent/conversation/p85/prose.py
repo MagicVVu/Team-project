@@ -21,7 +21,7 @@ def household_prose(text):
     # inventory quantity. Do not reject it as if it said 'three cartons remain'.
     quantities = re.sub(r"[一两二三四五六七八九十1-9]个(?:[\u4e00-\u9fff]{0,8})?(?:区域|抽屉|柜子|收纳盒|篮子|目标|地方|问题|建议|角落|步骤|方案|思路|标签|计时器|清单|高频区)", "整理单元", text)
     quantities = re.sub(r"一个[“「][^”」]{1,30}[”」](?:的)?(?:位置|区域|目标)", "整理单元", quantities)
-    if re.search(r"[\d一二两三四五六七八九十百千万半]+\s*(?:盒|瓶|包|袋|个|克|千克|公斤|毫升|升|吨|台|天|年|月|日)", quantities): return None
+    if re.search(r"[\d一二两三四五六七八九十百千万半]+\s*(?:盒|瓶|包|袋|个|份|件|克|千克|公斤|毫升|升|吨|台|天|年|月|日)", quantities): return None
     # Location suggestions are fine; assertions about where an object IS are not.
     if re.search(r"放在|位于|就在|在.{0,12}(?:冰箱|厨房|冷藏室|柜子)", text) and not re.search(r"可以|建议|不妨|通常|如果|试着", text): return None
     numbers = re.sub(r"(?m)^\s*[1-4][.、]", "", text)

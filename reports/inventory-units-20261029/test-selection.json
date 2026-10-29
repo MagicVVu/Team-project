@@ -1,0 +1,14 @@
+{
+  "backend-postgres-tests": [
+    "backend/server/tests/test_physical_inventory.py",
+    "backend/server/tests/test_inventory_unit_migration.py",
+    "backend/server/tests/test_app_access.py",
+    "backend/server/tests/test_registration_password.py",
+    "backend/server/tests/test_p8_security.py"
+  ],
+  "agent-tests": [
+    "agent/tests/test_unit_compatibility.py",
+    "agent/tests/test_p84_dialogue.py",
+    "agent/tests/test_p85_memory.py"
+  ]
+}

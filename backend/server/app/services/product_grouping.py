@@ -1,15 +1,11 @@
-"""Explicit same-household classification, atomic with the new inventory batch.
-
-Names only suggest candidates. A name match never constitutes permission to merge.
-No quantities or original batch names are changed by classification.
-"""
+"""Automatic household product classification; original object names remain intact."""
 import unicodedata
 from uuid import uuid5
 
 from fastapi import HTTPException
 from sqlalchemy import select
 
-from app.models import InventoryItem
+from app.models import Household, InventoryItem
 from app.product_models import Product, ProductBatch
 
 
@@ -59,9 +55,9 @@ def category(value):
 
 
 def checked_product_name(name):
-    if not name.strip() or len(name) > 80:
+    if not name.strip() or len(name) > 200:
         raise HTTPException(422, {'code': 'PRODUCT_NAME_TOO_LONG',
-                                  'message': '商品名称需为 1 至 80 字；请明确核对名称，不自动截断。'})
+                                  'message': '商品名称需为 1 至 200 字；请明确核对名称，不自动截断。'})
     return name
 
 
@@ -75,7 +71,12 @@ def singleton(db, item, actor_user_id, source='inventory_singleton', representat
     if prior is not None:
         return db.get(Product, prior.product_id)
     representative = representative or item
-    product = Product(id=product_id or uuid5(item.id, 'inventory-product'), household_id=item.household_id,
+    identity = product_id or uuid5(item.id, 'inventory-product')
+    if product_id is None and db.get(Product, identity) is not None:
+        # A renamed singleton may leave its former product available to other
+        # objects/history. Give the new identity its own stable identifier.
+        identity = uuid5(item.id, 'inventory-product:' + normalized_name(representative.name))
+    product = Product(id=identity, household_id=item.household_id,
         name=checked_product_name(representative.name), base_unit=representative.unit, category=category(representative.category),
         specification=None, tags_json=[], source=source, actor_user_id=actor_user_id, version=1)
     db.add(product)
@@ -105,44 +106,47 @@ def refresh_linked_name(db, item, actor_user_id, create_if_missing=True):
     return product
 
 
+def lock_household(db, household_id):
+    # Serialize all product classification/intake in a household, including the
+    # empty catalogue case where no existing product row could be locked.
+    db.scalar(select(Household).where(Household.id == household_id).with_for_update())
+
+
 def classify_new(db, item, choice, actor_user_id):
-    if choice is None or choice.mode == 'separate':
-        return singleton(db, item, actor_user_id)
-    candidate = db.scalar(select(InventoryItem).where(
-        InventoryItem.id == choice.candidate_inventory_item_id,
-        InventoryItem.household_id == item.household_id).with_for_update()
-        .execution_options(populate_existing=True))
-    if candidate is None or candidate.id == item.id:
-        raise HTTPException(404, {'code': 'GROUPING_CANDIDATE_NOT_FOUND'})
-    if candidate.version != choice.expected_inventory_version:
-        raise HTTPException(409, {'code': 'GROUPING_CANDIDATE_CHANGED'})
-    if name_match(item.name, candidate.name) is None:
-        raise HTTPException(409, {'code': 'GROUPING_NAME_NO_LONGER_MATCHES'})
-    link = db.scalar(select(ProductBatch).where(ProductBatch.inventory_item_id == candidate.id)
-                     .execution_options(populate_existing=True))
-    if link is None:
-        if choice.expected_product_version is not None:
-            raise HTTPException(409, {'code': 'GROUPING_PRODUCT_CHANGED'})
-        product = singleton(db, candidate, actor_user_id, 'confirmed_inventory_grouping',
-                            representative=shortest_member([candidate, item]),
-                            product_id=uuid5(item.id, 'inventory-group-product'))
-        candidate.version += 1
-    else:
-        product = db.scalar(select(Product).where(Product.id == link.product_id,
-            Product.household_id == item.household_id).with_for_update()
-            .execution_options(populate_existing=True))
-        if product is None:
-            raise HTTPException(404, {'code': 'GROUPING_PRODUCT_NOT_FOUND'})
-        if choice.expected_product_version != product.version:
-            raise HTTPException(409, {'code': 'GROUPING_PRODUCT_CHANGED'})
-        product.version += 1
-    members = db.scalars(select(InventoryItem).join(ProductBatch,
-        ProductBatch.inventory_item_id == InventoryItem.id).where(
-        ProductBatch.product_id == product.id, InventoryItem.household_id == item.household_id)).all()
-    # Stable tie order; original inventory names are never overwritten.
-    shortest = shortest_member([*members, item])
-    product.name = checked_product_name(shortest.name)
+    """Exact first, then a shared contiguous pair; never cross households.
+
+    Legacy explicit grouping fields are accepted for old queued clients, while
+    classification now consistently follows the household catalogue rule.
+    """
+    lock_household(db, item.household_id)
+    prior = db.get(ProductBatch, item.id)
+    if prior is not None:
+        return db.get(Product, prior.product_id)
+    products = db.scalars(select(Product).where(Product.household_id == item.household_id)).all()
+    matching = [(product, name_match(item.name, product.name)) for product in products]
+    matching = [(product, match) for product, match in matching if match]
+    matching.sort(key=lambda pair: (pair[1]['match_type'] != 'exact', len(pair[0].name),
+        normalized_name(pair[0].name), str(pair[0].id)))
+    if not matching:
+        return singleton(db, item, actor_user_id, 'automatic_name_grouping')
+    product = matching[0][0]
+    product.version += 1
     db.add(ProductBatch(inventory_item_id=item.id, product_id=product.id,
-        source='confirmed_inventory_grouping', actor_user_id=actor_user_id))
+        source='automatic_name_grouping', actor_user_id=actor_user_id))
+    db.flush()
+    return product
+
+
+def reclassify_edited(db, item, actor_user_id):
+    """Regroup only the renamed object; keep its former product and peers intact."""
+    link = db.get(ProductBatch, item.id)
+    previous_product_id = link.product_id if link else None
+    if link is not None:
+        db.delete(link)
+        db.flush()
+    product = classify_new(db, item, None, actor_user_id)
+    if previous_product_id is not None and previous_product_id != product.id:
+        previous = db.get(Product, previous_product_id)
+        previous.version += 1
     db.flush()
     return product
