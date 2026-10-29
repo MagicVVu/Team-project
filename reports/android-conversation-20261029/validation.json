@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-29",
+  "timezone": "Asia/Shanghai",
+  "build": "passed",
+  "unit_tests": {
+    "tests": 67,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "offline_device_tests": {
+    "tests": 12,
+    "passed": 12,
+    "failures": 0,
+    "android_api": 36
+  },
+  "production_account_used": false,
+  "production_writes": false,
+  "paid_model_calls": 0,
+  "apk": {
+    "path": "D:\\project\\Team_Project_Shared\\Team-project\\frontend\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+    "bytes": 65491095,
+    "sha256": "9f0169fec3f95e13e895c04b974cd5fb8113d22501eef8ca9e9637be6d61778e"
+  },
+  "source_sha256": {
+    "data/AgentClient.kt": "600838f84f936d5bc9f122365d7bcbbb3f1f05eaf74564dbda947aa03d509fc4",
+    "data/AssistantStore.kt": "8633d920197ce3ec4821f426ce0bee259e58393a1ff2f47077bf6f9922595917",
+    "data/AssistantModels.kt": "295db21be92e75459d9f3f6bd5e7273c20bbec5b8f37b81456e445d21fbeaf62",
+    "data/CloudApi.kt": "526203af192a16368674da75d51c67a6b84cbe8597def4a52200742158c1211a",
+    "data/ConversationProtocol.kt": "2b8458f5adc51e2a38bb5fe41d825539391358f19b7c7f7c5ba6540b8ec3200b",
+    "ui/CloudAssistant.kt": "f086c7200fd8d12a4300a966d8d796255f11b5a7ee02d23a6c35cab15ea2a37e"
+  }
+}

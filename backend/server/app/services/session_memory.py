@@ -376,6 +376,9 @@ async def send(db, identity, body):
             reference = understood.get("reference")
             if reference:
                 permitted = [*saved["payload"]["context"].get("choices", []), saved["payload"]["context"].get("reference")]
+                # Only the original references in this request's own trusted
+                # archive may be returned; each still undergoes live validation.
+                permitted.extend(e.get("reference") for e in (saved["payload"].get("archive") or {}).get("episodes", []))
                 def same(left, right):
                     if not right:
                         return False
@@ -467,7 +470,6 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
     current.task_id = UUID(info["active_task_id"]) if info.get("active_task_id") else None
     current.reference_json = info.get("reference")
     current.processing_nonce = current.lease_until = turn.processing_nonce = None
-    turn.binding_json = {**saved, KEY: info}
     turn.phase = "completed"
     response = dict(protocol_version=PROTOCOL, conversation_id=info["conversation_id"],
         conversation_revision=info["revision"], request_id=turn.request_id, original_text=turn.original_text,
@@ -480,5 +482,7 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
     turn.response_json = response
     if understood.get("dialogue"):
         response["dialogue"] = understood["dialogue"]
+    from app.services import memory_archive
+    turn.binding_json = memory_archive.finalize(turn, saved, info, understood, response, has_task=task is not None)
     db.flush()
     return response

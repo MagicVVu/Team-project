@@ -32,8 +32,13 @@ class AssistantStore(
     var referenceLabel by mutableStateOf(""); private set
     var activeRequestId by mutableStateOf(""); private set
     var phase by mutableStateOf(""); private set
+    var conversationId by mutableStateOf(""); private set
+    var conversationRevision by mutableStateOf(0); private set
+    var historyCursor by mutableStateOf(""); private set
     val activeEntry get() = entries.firstOrNull { it.requestId == activeRequestId }
-    val conversationEnabled get() = JSONObject(capabilities).optString("conversation_protocol") == "backend-conversation-1"
+    val visibleEntries get() = entries.filter { it.conversationScopeId.isBlank() || it.conversationScopeId == conversationId }
+    val memoryEnabled get() = JSONObject(capabilities).optString("conversation_memory_protocol") == "conversation-memory-1"
+    val conversationEnabled get() = memoryEnabled || JSONObject(capabilities).optString("conversation_protocol") == "backend-conversation-1"
     private val currentSession get() = cloud.account?.token?.let { token -> MessageDigest.getInstance("SHA-256").digest(token.toByteArray()).joinToString("") { "%02x".format(it) } }.orEmpty()
     private var unreadable = false
 
@@ -44,9 +49,14 @@ class AssistantStore(
         if (boundScope == cloud.scopeKey) return
         if (boundScope.isNotBlank()) prefs.edit().remove("$boundScope|active").commit()
         boundScope = cloud.scopeKey; entries = emptyList(); capabilities = "{}"; error = ""; unreadable = false; referenceLabel = ""; activeRequestId = ""
+        conversationId = ""; conversationRevision = 0; historyCursor = ""
         if (boundScope.isBlank()) return
         try {
             entries = prefs.getString(boundScope, null)?.let { JSONArray(it).objects().map(AssistantEntry::fromJson) }.orEmpty()
+            prefs.getString("$boundScope|conversation", null)?.let {
+                val saved = JSONObject(it)
+                conversationId = saved.getString("id"); conversationRevision = saved.getInt("revision")
+            }
             if (prefs.getString("$boundScope|session", "") == currentSession) {
                 activeRequestId = prefs.getString("$boundScope|active", "").orEmpty().takeIf { id -> entries.any { it.requestId == id } }.orEmpty()
             }
@@ -59,6 +69,7 @@ class AssistantStore(
         // A later authenticated login may GET-recover the same scoped outbox, never auto-POST.
         if (boundScope.isNotBlank()) prefs.edit().remove("$boundScope|active").remove("$boundScope|session").commit()
         boundScope = ""; entries = emptyList(); capabilities = "{}"; activeRequestId = ""; referenceLabel = ""
+        conversationId = ""; conversationRevision = 0; historyCursor = ""
     }
     private fun verifyScope(scope: String) {
         check(scope == cloud.scopeKey && scope == boundScope && !cloud.expired && cloud.signedIn) { "账号或家庭已切换，请重新选择当前家庭任务" }
@@ -66,6 +77,7 @@ class AssistantStore(
     private fun save(scope: String, next: List<AssistantEntry>) {
         verifyScope(scope)
         check(prefs.edit().putString(scope, JSONArray(next.map { it.toJson() }).toString())
+            .putString("$scope|conversation", JSONObject().put("id", conversationId).put("revision", conversationRevision).toString())
             .putString("$scope|active", activeRequestId).putString("$scope|session", currentSession).commit()) {
             "无法持久保存操作请求，已停止发送。请检查设备空间"
         }
@@ -98,7 +110,7 @@ class AssistantStore(
                             old = old.copy(task = JSONObject().put("task_id", it).toString())
                         }
                     }
-                    val definitiveRejection = failure is CloudFailure && failure.status in setOf(401,403,404,409,422) &&
+                    val definitiveRejection = old.transportMode != "memory" && failure is CloudFailure && failure.status in setOf(401,403,404,409,422) &&
                         code !in setOf("AI_OUTCOME_UNKNOWN", "CONVERSATION_PROCESSING", "TASK_PROCESSING", "CONCURRENT_DUPLICATE_REQUEST")
                     if (definitiveRejection && old.conversationBody.isNotBlank()) {
                         val selector = JSONObject(old.conversationBody).optString("task_id")
@@ -125,7 +137,11 @@ class AssistantStore(
 
     suspend fun connectAndRecover() = session { scope, api ->
         phase = "正在恢复已保存的任务"
-        for (item in entries.toList().asReversed().distinctBy { it.taskId.ifBlank { it.requestId } }.asReversed()) {
+        if (memoryEnabled) restoreConversation(scope, api)
+        for (pending in entries.filter { it.transportMode == "memory" && !it.conversationResolved }.toList()) {
+            recoverMemory(scope, api, pending.requestId, allowResume = false)
+        }
+        for (item in entries.filterNot { it.historical }.asReversed().distinctBy { it.taskId.ifBlank { it.requestId } }.asReversed()) {
             if (item.taskId.isNotBlank() && item.state !in setOf(AssistantStatus.CANCELLED, AssistantStatus.ANSWERED, AssistantStatus.EXPIRED)) {
                 try { recoverEntry(scope, api, item.requestId) }
                 catch (_: Exception) {
@@ -146,18 +162,29 @@ class AssistantStore(
     suspend fun send(text: String) {
         require(text.isNotBlank() && text.length <= 1000) { "消息须为 1–1000 字" }
         val id = UUID.randomUUID().toString()
-        val preparedScope = mutex.withLock {
-            bind(); val scope = boundScope; verifyScope(scope); check(!unreadable) { error }
+        val expectedScope = cloud.scopeKey
+        session(id) { scope, api ->
+            require(scope == expectedScope) { "家庭已切换，请在当前家庭重新核对原文" }
+            if (memoryEnabled) {
+                if (conversationId.isBlank()) restoreConversation(scope, api)
+                require(entries.none { it.transportMode == "memory" && !it.conversationResolved }) { "请先查询上一条消息的原请求结果" }
+                val account = requireNotNull(cloud.account)
+                val body = JSONObject().put("household_id", account.householdId).put("request_id", id)
+                    .put("conversation_id", conversationId).put("conversation_revision", conversationRevision).put("text", text)
+                activeEntry?.takeIf { it.taskId.isNotBlank() }?.let { body.put("task_id", it.taskId).put("revision", it.taskRevision) }
+                save(scope, entries + AssistantEntry(id, JSONObject().put("text", text).toString(), conversationBody = body.toString(),
+                    conversationSession = currentSession, transportMode = "memory", conversationScopeId = conversationId))
+                phase = "正在理解并核对库存"
+                sendMemory(scope, api, id)
+                return@session
+            }
+            verifyScope(scope); check(!unreadable) { error }
             require(entries.none { it.conversationBody.isNotBlank() && !it.conversationResolved && it.conversationSession == currentSession }) { "请先核实上一条消息的结果，不会自动重复调用模型" }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", JSONObject(capabilities).optString("household_timezone", "Asia/Shanghai"))
             val conversation = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId).put("request_id", id)
             activeEntry?.takeIf { it.taskId.isNotBlank() }?.let { conversation.put("task_id", it.taskId).put("revision", it.taskRevision) }
             save(scope, entries + AssistantEntry(id, body.toString(), conversationBody = conversation.toString(), conversationSession = currentSession, transportMode = "discover"))
-            scope
-        }
-        session(id) { scope, api ->
-            require(scope == preparedScope) { "家庭已切换，原消息已保留在原家庭" }
             phase = "正在理解并核对库存"
             try {
                 dispatchMessage(scope, api, id)
@@ -170,6 +197,9 @@ class AssistantStore(
     suspend fun recover(id: String) = session(id) { scope, api ->
         var old = entry(id)
         phase = "正在核实原请求结果"
+        if (old.transportMode == "memory" && !old.conversationResolved) {
+            recoverMemory(scope, api, id, allowResume = true); return@session
+        }
         if (old.transportMode == "discover") { dispatchMessage(scope, api, id); return@session }
         if (old.conversationResolved && old.taskId.isNotBlank() && old.commitBody.isBlank() && old.cancelBody.isBlank() &&
             old.failureCode in setOf("TASK_REVISION_CONFLICT", "TASK_SNAPSHOT_CHANGED", "CANDIDATES_CHANGED", "DRAFT_REVISION_CONFLICT", "INVENTORY_VERSION_CONFLICT")) {
@@ -197,6 +227,7 @@ class AssistantStore(
     suspend fun retryMessage(id: String) = session(id) { scope, api ->
         val old = entry(id)
         require(old.taskId.isBlank() && old.commitBody.isBlank())
+        if (old.transportMode == "memory") { recoverMemory(scope, api, id, allowResume = true); return@session }
         if (old.transportMode == "discover") dispatchMessage(scope, api, id)
         else if (old.conversationBody.isNotBlank()) {
             require(old.conversationSession == currentSession)
@@ -265,6 +296,143 @@ class AssistantStore(
         }
         save(scope, entries)
     }
+    private suspend fun restoreConversation(scope: String, api: AgentClient, cursor: String? = null) {
+        val home = requireNotNull(cloud.account).householdId
+        val page = api.currentConversation(home, cursor); verifyScope(scope)
+        require(page.getString("protocol_version") == "conversation-memory-1" && page.getString("household_id") == home)
+        val remoteId = page.stringOrEmpty("conversation_id")
+        if (remoteId.isBlank()) {
+            require(page.optBoolean("requires_reset") && cursor == null) { "服务器尚无可恢复会话" }
+            require(entries.none { it.transportMode == "memory" && !it.conversationResolved }) { "原消息仍待核实，不能自动开始新会话" }
+            val key = "$scope|conversation_reset"
+            val body = prefs.getString(key, null)?.let(::JSONObject) ?: JSONObject().put("household_id", home)
+                .put("request_id", UUID.randomUUID().toString()).put("conversation_revision", 0)
+            check(prefs.edit().putString(key, body.toString()).commit()) { "无法保存会话初始化请求" }
+            val reset = api.resetConversation(body); verifyScope(scope)
+            require(reset.getString("protocol_version") == "conversation-memory-1" && reset.getString("request_id") == body.getString("request_id") && !reset.getBoolean("inventory_written"))
+            conversationId = UUID.fromString(reset.getString("conversation_id")).toString()
+            conversationRevision = reset.getInt("current_conversation_revision")
+            check(prefs.edit().remove(key).commit()) { "无法保存初始化结果" }
+            save(scope, entries)
+            return
+        }
+        UUID.fromString(remoteId)
+        val changed = conversationId.isNotBlank() && conversationId != remoteId
+        conversationId = remoteId; conversationRevision = page.getInt("conversation_revision")
+        require(conversationRevision >= 0)
+        historyCursor = page.stringOrEmpty("next_cursor")
+        val messages = page.getJSONArray("messages").objects()
+        val activeTaskId = page.optJSONObject("active_task")?.optJSONObject("task")?.stringOrEmpty("task_id").orEmpty()
+        val byId = entries.associateBy { it.requestId }
+        val history = messages.map { message ->
+            val id = message.getString("request_id")
+            val prior = byId[id]
+            if (prior != null) require(JSONObject(prior.requestBody).getString("text") == message.getString("original_text")) { "历史记录与原请求不匹配" }
+            (prior ?: AssistantEntry(id, JSONObject().put("text", message.getString("original_text")).toString(),
+                transportMode = "history", conversationResolved = true, state = AssistantStatus.ANSWERED))
+                .copy(conversationReply = message.getString("reply"),
+                    historical = message.optString("phase") == "completed" && (prior == null ||
+                        (prior.conversationResolved && prior.commitBody.isBlank() && prior.cancelBody.isBlank() &&
+                            prior.clarificationBody.isBlank() && (prior.taskId.isBlank() || prior.taskId != activeTaskId))),
+                    conversationScopeId = remoteId,
+                    conversationResponse = prior?.conversationResponse?.takeIf { it.isNotBlank() } ?: message.toString())
+        }
+        val ids = history.map { it.requestId }.toSet()
+        var retained = entries.filter { it.requestId !in ids }
+        if (changed) retained = retained.filter { !it.historical }.map { item ->
+            if (item.transportMode == "memory" && !item.conversationResolved)
+                item.copy(conversationResolved = true, state = AssistantStatus.CONFLICT,
+                    notice = "原会话已结束，原请求已封存；不会换会话重复发送", failureCode = "CONVERSATION_SUPERSEDED") else item
+        }
+        save(scope, if (cursor == null) retained + history else history + retained)
+        check(prefs.edit().remove("$scope|conversation_reset").commit())
+        syncActiveTask(scope, api, page.optJSONObject("active_task"))
+    }
+
+    suspend fun loadEarlierConversation() = session { scope, api ->
+        require(memoryEnabled && historyCursor.isNotBlank())
+        restoreConversation(scope, api, historyCursor)
+    }
+
+    private suspend fun syncActiveTask(scope: String, api: AgentClient, active: JSONObject?) {
+        if (active == null) { activeRequestId = ""; referenceLabel = ""; save(scope, entries); return }
+        val task = active.getJSONObject("task")
+        val previous = entries.lastOrNull { it.taskId == task.getString("task_id") && !it.historical }
+        val id = previous?.requestId ?: "active-${task.getString("task_id") }"
+        if (previous == null) {
+            save(scope, entries + AssistantEntry(id, JSONObject().put("text", task.optString("original_text", "当前活动任务")).toString(),
+                transportMode = "active", conversationResolved = true, conversationScopeId = conversationId))
+        }
+        activeRequestId = id; save(scope, entries)
+        acceptTask(scope, api, id, task)
+    }
+
+    private suspend fun acceptMemoryResponse(scope: String, api: AgentClient, id: String, response: JSONObject) {
+        verifyScope(scope)
+        val old = entry(id); val request = JSONObject(old.conversationBody)
+        require(response.getString("protocol_version") == "conversation-memory-1" &&
+            response.getString("request_id") == id && response.getString("original_text") == request.getString("text") &&
+            !response.getBoolean("inventory_written")) { "会话响应与原请求不匹配，请查询原请求" }
+        val returnedId = UUID.fromString(response.getString("conversation_id")).toString()
+        require(returnedId == request.getString("conversation_id") || response.getString("kind") == "reset")
+        val latestRevision = response.getInt("current_conversation_revision")
+        require(latestRevision >= response.getInt("conversation_revision"))
+        conversationId = returnedId; conversationRevision = latestRevision
+        // Save completion before any optional draft/stock GET can fail.
+        update(scope, old.copy(conversationResolved = true, conversationReply = response.getString("reply"),
+            conversationResponse = response.toString(), state = AssistantStatus.ANSWERED, conversationScopeId = returnedId,
+            failureCode = "", notice = response.stringOrEmpty("error_code")))
+        response.optJSONObject("task")?.let { task ->
+            val same = entries.lastOrNull { it.requestId != id && it.taskId == task.getString("task_id") &&
+                it.taskRevision == task.getInt("revision") && it.commitBody.isBlank() }
+            if (same != null) update(scope, entry(id).copy(draft = same.draft, edits = same.edits, checkedPreview = same.checkedPreview))
+            acceptTask(scope, api, id, task)
+        }
+        syncActiveTask(scope, api, response.optJSONObject("active_task"))
+    }
+
+    private suspend fun sendMemory(scope: String, api: AgentClient, id: String) {
+        val body = JSONObject(entry(id).conversationBody)
+        val response = try { api.conversationTurn(body) }
+        catch (failure: java.io.IOException) {
+            verifyScope(scope)
+            if (failure is CloudFailure && failure.status in setOf(400, 404, 409, 410, 422) &&
+                failure.errorCode !in setOf("AI_OUTCOME_UNKNOWN", "CONVERSATION_PROCESSING", "CONCURRENT_DUPLICATE_REQUEST", "TASK_PROCESSING")) {
+                update(scope, entry(id).copy(conversationResolved = true,
+                    state = if (failure.status == 409) AssistantStatus.CONFLICT else AssistantStatus.FAILED,
+                    failureCode = failure.errorCode, notice = failure.message.orEmpty()))
+                if (failure.errorCode in setOf("CONVERSATION_REVISION_CONFLICT", "CONVERSATION_SUPERSEDED")) restoreConversation(scope, api)
+                throw failure
+            }
+            update(scope, entry(id).copy(state = AssistantStatus.UNKNOWN, notice = "正在查询原消息结果；不会换请求ID重发"))
+            recoverMemory(scope, api, id, allowResume = false)
+            return
+        }
+        acceptMemoryResponse(scope, api, id, response)
+    }
+
+    private suspend fun recoverMemory(scope: String, api: AgentClient, id: String, allowResume: Boolean) {
+        val old = entry(id)
+        val home = requireNotNull(cloud.account).householdId
+        val recovered = try { api.recoverConversation(id, home) }
+        catch (failure: CloudFailure) {
+            if (failure.status != 404 || failure.errorCode != "CONVERSATION_TURN_NOT_FOUND") throw failure
+            if (allowResume) { sendMemory(scope, api, id); return }
+            update(scope, old.copy(state = AssistantStatus.UNKNOWN, notice = "服务器尚未查到原消息，原文和完整请求已保留；不会自动重新理解"))
+            return
+        }
+        verifyScope(scope)
+        require(recovered.getString("request_id") == id && recovered.getString("original_text") == JSONObject(old.conversationBody).getString("text"))
+        when (recovered.getString("phase")) {
+            "completed" -> acceptMemoryResponse(scope, api, id, recovered.getJSONObject("response"))
+            "prepared" -> if (allowResume) sendMemory(scope, api, id) else update(scope, old.copy(state = AssistantStatus.UNKNOWN,
+                notice = "理解已保存；点击核实恢复可按原请求继续，不重新理解"))
+            "processing" -> update(scope, old.copy(state = AssistantStatus.UNKNOWN, notice = "原消息仍在处理中，请稍后查询"))
+            "result_unknown" -> update(scope, old.copy(state = AssistantStatus.UNKNOWN, notice = "理解结果尚未核实，不会自动再次调用模型"))
+            else -> throw IllegalStateException("未知的会话恢复状态")
+        }
+    }
+
     suspend fun validateDraft(id: String) = session(id) { scope, api ->
         val old = entry(id)
         if (JSONObject(capabilities).optBoolean("chat_controls")) {
@@ -304,6 +472,17 @@ class AssistantStore(
         val source = entries.lastOrNull() ?: return
         val facts = source.result.optJSONArray("facts")?.objects().orEmpty() + source.candidates
         require(facts.any { it.stringOrEmpty("batch_id").ifBlank { it.stringOrEmpty("id") } == item.id }) { "查询结果未包含当前批次，请在助手中核对候选，尚未提交操作" }
+        if (memoryEnabled) {
+            require(expectedScope == cloud.scopeKey) { "家庭已切换，请重新选择物品" }
+            val candidates = facts.distinctBy { it.stringOrEmpty("id").ifBlank { it.stringOrEmpty("batch_id") } }
+            if (candidates.size > 1) {
+                val index = candidates.indexOfFirst { it.stringOrEmpty("id").ifBlank { it.stringOrEmpty("batch_id") } == item.id }
+                send("第${index+1}批")
+                if (error.isNotBlank()) return
+            }
+            require(expectedScope == cloud.scopeKey) { "家庭已切换，请重新选择物品" }
+            send(text); return
+        }
         val id = UUID.randomUUID().toString()
         session(id) { scope, api ->
             require(expectedScope == scope && JSONObject(capabilities).optBoolean("trusted_reference_messages")) { "当前服务不能绑定指定批次" }
@@ -513,6 +692,24 @@ class AssistantStore(
     }
     private suspend fun clearCancelledReference(scope: String, api: AgentClient, entryId: String) {
         activeRequestId = ""; referenceLabel = ""; save(scope, entries)
+        if (memoryEnabled) {
+            val old = entry(entryId)
+            if (old.referenceCleared) return
+            if (old.referenceClearBody.isBlank()) restoreConversation(scope, api)
+            val body = old.referenceClearBody.takeIf { it.isNotBlank() }?.let(::JSONObject) ?: JSONObject()
+                .put("household_id", requireNotNull(cloud.account).householdId).put("request_id", UUID.randomUUID().toString())
+                .put("conversation_id", conversationId).put("conversation_revision", conversationRevision).put("text", "开始新任务")
+            val id = body.getString("request_id")
+            update(scope, entry(entryId).copy(referenceClearBody = body.toString(), notice = "草稿已取消，会话引用待核实"))
+            if (entries.none { it.requestId == id }) {
+                save(scope, entries + AssistantEntry(id, JSONObject().put("text", "开始新任务").toString(),
+                    conversationBody = body.toString(), transportMode = "memory", conversationScopeId = conversationId))
+                sendMemory(scope, api, id)
+            } else if (!entry(id).conversationResolved) recoverMemory(scope, api, id, allowResume = true)
+            if (entry(id).conversationResolved && JSONObject(entry(id).conversationResponse).optString("kind") == "clear_reference")
+                update(scope, entry(entryId).copy(referenceCleared = true, notice = ""))
+            return
+        }
         if (conversationEnabled) {
             val old = entry(entryId)
             if (old.referenceCleared) return

@@ -51,11 +51,27 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
             }
         }
         if (text.length > 1000) { localError = "消息最多 1000 字，不会自动截断"; return }
-        input = ""; localError = ""; assistant.launch { this.send(text) }
+        localError = ""
+        assistant.launch {
+            val previousIds = entries.map { it.requestId }.toSet()
+            this.send(text)
+            if (input == text && entries.any { it.requestId !in previousIds && JSONObject(it.requestBody).optString("text") == text }) input = ""
+        }
     }
-    LaunchedEffect(initial) { if (initial.isNotBlank()) { send(initial); consumed() } }
-    LaunchedEffect(assistant.entries.size) {
-        if (assistant.entries.isNotEmpty()) scroll.animateScrollToItem(assistant.entries.lastIndex)
+    LaunchedEffect(initial) {
+        if (initial.isNotBlank()) {
+            val expectedScope = cloud.scopeKey
+            assistant.launch {
+                connectAndRecover()
+                if (cloud.scopeKey == expectedScope && error.isBlank()) {
+                    this.send(initial)
+                    if (error.isBlank()) consumed()
+                }
+            }
+        }
+    }
+    LaunchedEffect(assistant.visibleEntries.size) {
+        if (assistant.visibleEntries.isNotEmpty()) scroll.animateScrollToItem(assistant.visibleEntries.lastIndex + if (assistant.historyCursor.isBlank()) 0 else 1)
     }
     Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
         if (showIntro) MewChatIntro()
@@ -86,8 +102,13 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
         if (assistant.busy) { LinearProgressIndicator(Modifier.fillMaxWidth()); Text(strings.label(assistant.phase), style = MaterialTheme.typography.bodySmall) }
         if (assistant.error.isNotBlank() || localError.isNotBlank()) Text(strings.label(localError.ifBlank { assistant.error }), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         LazyColumn(Modifier.weight(1f).testTag("ai-tasks"), state = scroll, verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
-            if (assistant.entries.isEmpty()) item { Text(strings.get(R.string.ui_try_a_chinese_request_such_as)) }
-            items(assistant.entries, key = { it.requestId }) { entry ->
+            if (assistant.historyCursor.isNotBlank()) item {
+                TextButton(onClick = { assistant.launch { loadEarlierConversation() } }, enabled = !assistant.busy) {
+                    Text(strings.tr("加载更早对话", "Load earlier messages"))
+                }
+            }
+            if (assistant.visibleEntries.isEmpty()) item { Text(strings.get(R.string.ui_try_a_chinese_request_such_as)) }
+            items(assistant.visibleEntries, key = { it.requestId }) { entry ->
                 AssistantTaskCard(entry, cloud, assistant.busy || cloud.expired,
                     confirm = { assistant.launch { validateDraft(entry.requestId); if (assistant.error.isBlank()) confirmId = entry.requestId } })
             }
@@ -133,7 +154,7 @@ internal fun AssistantTaskCard(entry: AssistantEntry, cloud: CloudStore, disable
     val strings = rememberUiStrings()
     val assistant = cloud.assistant
     val id = entry.requestId
-    val historical = entry.taskId.isNotBlank() && assistant.entries.lastOrNull { it.taskId == entry.taskId }?.requestId != id
+    val historical = entry.historical || (entry.taskId.isNotBlank() && assistant.entries.lastOrNull { it.taskId == entry.taskId && !it.historical }?.requestId != id)
     var details by rememberSaveable(id) { mutableStateOf(false) }
     var answers by rememberSaveable(id, entry.taskRevision) { mutableStateOf("") }
     var selectedField by rememberSaveable(id, entry.taskRevision) { mutableStateOf("") }

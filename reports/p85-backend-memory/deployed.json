@@ -1,0 +1,6 @@
+{
+  "deployed": true,
+  "image": "magicvvu/backend:p85-memory-20261029",
+  "image_id": "sha256:d57618b837ebad1e40ec74e75d5c3ebf608984707fc7ca9fc58ca05d0156c4e3",
+  "health": "healthy"
+}

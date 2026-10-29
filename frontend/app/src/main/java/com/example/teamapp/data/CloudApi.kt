@@ -58,7 +58,7 @@ open class CloudApi(val address: String, private val token: String = "") {
         try {
             connection.requestMethod = method
             connection.connectTimeout = 5000
-            connection.readTimeout = 20000
+            connection.readTimeout = ConversationProtocol.readTimeoutMillis(path)
             connection.instanceFollowRedirects = false
             connection.setRequestProperty("Accept", "application/json")
             connection.setRequestProperty(TeamApiAccess.HEADER, TeamApiAccess.KEY)

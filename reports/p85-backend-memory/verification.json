@@ -1,0 +1,85 @@
+{
+  "protocol": "p85-dialogue-1",
+  "health": {
+    "status": "ok",
+    "service": "magicvvu-backend",
+    "version": "0.9.0",
+    "maintenance_release": "V1-P9",
+    "isolated_test": false
+  },
+  "ai_health": {
+    "status": "ok",
+    "release_version": "V1-P7",
+    "engine": "deepseek",
+    "policy_version": "p3-policy-1",
+    "ruleset_version": "p2-rules-1",
+    "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+    "clarification_protocols": [
+      "v1-local-1",
+      "v1-batch-selection-1",
+      "p5-continuation-1",
+      "p5-text-review-1",
+      "p7-reference-continuation-1"
+    ],
+    "planning_contract": "v1-planning-context-1",
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "production_chain_verified": false,
+    "input_policy_version": "p7-limited-context-1",
+    "extraction_prompt_version": "p7-extract-1",
+    "public_gateway_contract": "v0.8-compatible",
+    "operation_contract": "v1-operation-receipt-1",
+    "rule_review_policy": "human_review_only",
+    "stock_max_age_hours": 168,
+    "jev_status": "deferred_by_user",
+    "device_asr_verified": false,
+    "audio_upload_supported": false,
+    "object_reference_protocol": "p7-object-reference-1",
+    "reference_ttl_seconds": 900,
+    "chat_policy_version": "p8-chat-1",
+    "reply_routing_model_calls": 0,
+    "maintenance_release": "V1-P8.5",
+    "repair_policy_version": "p81-chain-repair-1",
+    "planning_adapter_protocol": "p83-planning-adapter-1",
+    "planning_revalidation_protocol": "planning-revalidation-1",
+    "conversation_memory_protocol": "conversation-memory-1",
+    "memory_recent_turns": 10,
+    "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+    "memory_history_days": 30,
+    "conversation_dialogue_protocol": "p85-dialogue-1",
+    "dialogue_deadline_seconds": 20,
+    "dialogue_max_model_calls": 2,
+    "frontend_integration_verified": false,
+    "execution_capabilities_owner": "business_backend",
+    "public_reference_forwarding": "requires_separate_trusted_adapter",
+    "conversation_episode_protocol": "conversation-episodes-1",
+    "memory_archive_max_episodes": 100,
+    "memory_retrieved_episodes": 8,
+    "memory_persistence_owner": "business_backend",
+    "active_human_rule_count": 0
+  },
+  "schema_protocols": {
+    "type": "string",
+    "enum": [
+      "p84-dialogue-1",
+      "p85-dialogue-1"
+    ],
+    "title": "Protocol Version"
+  },
+  "hashes": {
+    "dialogue_schemas.py": "c2057afddaf1608deb838a8e51a478deb87c9876800ef8096430419120b32e07",
+    "memory_schemas.py": "74d4705855ed891f1c2941564fd3154a8c4d4637ecf74f00e354b16bd3366e01",
+    "services/dialogue.py": "7bbee141689f977ecd342bf14859259f6e61022ae50fcb6475838c5c646ef055",
+    "services/session_memory.py": "eb3e71a14a811698b3e95bf6f8f2fc985c60a39a92599b307d555e30edccd94a",
+    "services/memory_archive.py": "e68a2e7d8c150c81f960f553454e7eacaf6fb3d5f9eb59c04abf12f3c3c033de",
+    "routers/session_memory.py": "bf6de2e56b28379224fd38b81a370c0a2b1b005b8c73765a647e0a0b81f5b556",
+    "routers/draft_execution.py": "d77d5922c026fd3d2cc00cf41d4ca49bfe204b123b27c5e0de8bfeff7866cfac"
+  },
+  "counts": {
+    "ai_conversation_turns": 21,
+    "inventory_items": 31,
+    "ai_tasks": 27,
+    "ai_drafts": 9,
+    "draft_operations": 7
+  }
+}

@@ -81,6 +81,15 @@ class Episode(Wire):
         return self
 
 
+class Archive(Wire):
+    protocol_version: Literal["conversation-episodes-1"] = "conversation-episodes-1"
+    scope: Scope
+    conversation_id: UUID
+    revision: int = Field(ge=0, strict=True)
+    episodes: list[Episode] = Field(default_factory=list, max_length=100)
+    has_more: bool = False
+
+
 class MemoryDelta(Wire):
     protocol_version: Literal["conversation-episode-delta-1"]
     scope: Scope

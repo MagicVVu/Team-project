@@ -5,7 +5,6 @@ No schema migrations, inventory writes, confirmation or receipt fabrication.
 import asyncio
 import os
 import time
-from hashlib import sha256
 from copy import deepcopy
 from decimal import Decimal
 from datetime import timedelta
@@ -98,6 +97,7 @@ class P85Request(p85.Wire):
     request_id: str = Field(min_length=1, max_length=100)
     household_timezone: str = "Asia/Shanghai"
     context: dict
+    archive: p85.Archive | None = None
     current_task_plan: dict | None = None
     remaining_seconds: float = Field(gt=0, le=18)
 
@@ -144,6 +144,7 @@ def persist(db, identity, turn_id, nonce, saved, state, phase, key=KEY):
 
 async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
     from app.services import session_memory as memory
+    from app.services import memory_archive as archive
     start = time.monotonic()
     protocol = saved_protocol(saved) or configured_protocol()
     if protocol is None: execution.fail("DIALOGUE_STATE_INVALID", 503)
@@ -164,6 +165,8 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
         if value <= 0: raise TimeoutError()
         return value
     payload = {**original, "context":memory.context_for(db,identity,body.household_id,db.get(ConversationTurn,turn_id))}
+    if is_p85:
+        payload["archive"] = archive.build(db, identity, body.household_id, db.get(ConversationTurn, turn_id), payload["context"])
     active = payload["context"].get("active")
     if active:
         previous = db.scalar(memory.query(identity.user.id,body.household_id).where(
@@ -177,6 +180,8 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
     if not state.get("plan"):
         if recovering: execution.fail("AI_OUTCOME_UNKNOWN")
         state.update(protocol_version=protocol, understanding_started=True)
+        state["understand_payload"] = deepcopy(payload)
+        saved = {**saved, "payload": payload}
         saved = save("understanding")
         understood = validated(p85.Understanding if is_p85 else Understanding,
             await invoke("understand", {**payload,"remaining_seconds":remaining()}))
@@ -184,15 +189,20 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
         value = understood.model_dump(mode="json")
         if is_p85 and understood.context_revision != payload["context"]["revision"]:
             execution.fail("DIALOGUE_AI_INVALID", 503)
-        if is_p85 and (understood.memory.selected_ids or understood.memory.archive_available or understood.plan.memory_id):
-            execution.fail("DIALOGUE_AI_INVALID", 503)
+        if is_p85:
+            archive.validate_use(value["memory"], payload)
+            if understood.plan.memory_id and understood.plan.memory_id not in understood.memory.selected_ids:
+                execution.fail("DIALOGUE_AI_INVALID", 503)
         state.update(value)
         saved = save("understood")
     # Understanding may take seconds: task/receipt facts must be loaded again
     # for resolve, not merely carried from the model's initial snapshot.
     payload["context"]=memory.context_for(db,identity,body.household_id,db.get(ConversationTurn,turn_id,populate_existing=True))
+    if is_p85:
+        payload["archive"] = archive.build(db, identity, body.household_id, db.get(ConversationTurn, turn_id), payload["context"])
     # Persist the exact refreshed attestation used for downstream validation.
     saved = {**saved, "payload": payload}
+    saved = save("resolving")
     resolution_payload = {**payload,"plan":state["plan"],"remaining_seconds":remaining()}
     if is_p85:
         resolution_payload["plan_context_revision"] = state["context_revision"]
@@ -205,21 +215,8 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
         if data.get("inventory_writes") is not False or data.get("shopping_writes") is not False or data.get("original_text") != body.text:
             execution.fail("DIALOGUE_AI_INVALID",503)
     if is_p85:
-        # Archive retrieval is a separate adapter step. Do not accept invented
-        # history selections while this stage supplies no archive.
-        if frame["memory"]["selected_ids"] or frame["memory"]["archive_available"]:
-            execution.fail("DIALOGUE_AI_INVALID",503)
-        delta = frame.get("memory_delta")
-        if delta:
-            ctx = payload["context"]
-            episode = delta["episode"]
-            if (delta["scope"] != ctx["scope"] or delta["conversation_id"] != ctx["conversation_id"]
-                    or delta["expected_revision"] != ctx["revision"]
-                    or episode["request_id"] != body.request_id or episode["text"] != body.text
-                    or delta["source_text_sha256"] != sha256(body.text.encode()).hexdigest()
-                    or gateway.datetime.fromisoformat(episode["created_at"]) != gateway.datetime.fromisoformat(ctx["trusted_now"])
-                    or episode.get("reference") is not None):
-                execution.fail("DIALOGUE_AI_INVALID",503)
+        archive.validate_use(frame["memory"], payload)
+        archive.validate_delta(frame.get("memory_delta"), payload, frame["reply"])
         frame["truncated"] = frame["truncated"] or frame["memory"]["truncated"]
     state.update(resolved=deepcopy(frame))
     saved = save("resolved")

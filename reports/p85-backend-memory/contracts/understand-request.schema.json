@@ -1,0 +1,216 @@
+{
+  "$defs": {
+    "Archive": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "conversation-episodes-1",
+          "default": "conversation-episodes-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "episodes": {
+          "items": {
+            "$ref": "#/$defs/Episode"
+          },
+          "maxItems": 100,
+          "title": "Episodes",
+          "type": "array"
+        },
+        "has_more": {
+          "default": false,
+          "title": "Has More",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "scope",
+        "conversation_id",
+        "revision"
+      ],
+      "title": "Archive",
+      "type": "object"
+    },
+    "Episode": {
+      "additionalProperties": false,
+      "properties": {
+        "memory_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Memory Id",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Request Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "reply": {
+          "default": "",
+          "maxLength": 8000,
+          "title": "Reply",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "subjects": {
+          "items": {
+            "$ref": "#/$defs/Subject"
+          },
+          "maxItems": 4,
+          "title": "Subjects",
+          "type": "array"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        }
+      },
+      "required": [
+        "memory_id",
+        "request_id",
+        "text",
+        "created_at"
+      ],
+      "title": "Episode",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    },
+    "Subject": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quote"
+      ],
+      "title": "Subject",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "text": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Request Id",
+      "type": "string"
+    },
+    "household_timezone": {
+      "default": "Asia/Shanghai",
+      "title": "Household Timezone",
+      "type": "string"
+    },
+    "context": {
+      "additionalProperties": true,
+      "title": "Context",
+      "type": "object"
+    },
+    "archive": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Archive"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "current_task_plan": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Task Plan"
+    },
+    "remaining_seconds": {
+      "exclusiveMinimum": 0,
+      "maximum": 18,
+      "title": "Remaining Seconds",
+      "type": "number"
+    }
+  },
+  "required": [
+    "text",
+    "request_id",
+    "context",
+    "remaining_seconds"
+  ],
+  "title": "P85Request",
+  "type": "object"
+}

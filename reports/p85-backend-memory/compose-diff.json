@@ -1,0 +1,7 @@
+{
+  "changed": [
+    "backend.image",
+    "backend.environment.AI_CONVERSATION_DIALOGUE_PROTOCOL"
+  ],
+  "all_other_effective_fields_identical": true
+}

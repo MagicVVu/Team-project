@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="41" time="44.220" timestamp="2026-10-29T11:12:40.764194+08:00" hostname="Bee"><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_old_topic_after_recent_window_uses_original_reference_and_fresh_stock" time="4.053"><failure message="AssertionError: assert '7.000000' == '7.000'&#10;  &#10;  - 7.000&#10;  + 7.000000&#10;  ?      +++">execution_state = (&lt;starlette.testclient.TestClient object at 0x0000022574BDCDA0&gt;, sessionmaker(class_='Session', bind=Engine(sqlite:///...oreign_list': UUID('ef9fa777-f652-4248-9788-1187bf79eaf7'), 'home': UUID('3a9263db-733d-4fa6-b2ad-da2774d4ce2e'), ...})
+p85 = (&lt;test_backend_p2_conversation.p7.&lt;locals&gt;.Counted object at 0x0000022574FCEE10&gt;, [('agent', '/agent/dialogue/p85/unde...nt/dialogue/p85/respond'), ('agent', '/agent/dialogue/p85/understand'), ('agent', '/agent/dialogue/p85/resolve'), ...])
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000022574E26B40&gt;
+
+    def test_old_topic_after_recent_window_uses_original_reference_and_fresh_stock(execution_state, p85, monkeypatch):
+        from conversation.p85.schemas import P85Plan
+        client, Session, ids = execution_state
+        first = ok(send(client, ids, ok(start(client, ids)), "牛奶多少放哪"))
+        state = first
+        for _ in range(11): state = ok(send(client, ids, state, "你好"))
+        with Session.begin() as db:
+            item = db.get(InventoryItem, ids["batch"]); item.quantity = 7; item.version += 1
+        original = p85[0].p85_understand
+        async def recall(text, context, episodes, memory):
+            if text == "回到最早的牛奶，现在还剩多少":
+                assert first["request_id"] not in {e.request_id for e in context.history}
+                episode = next(e for e in episodes if e.request_id == first["request_id"])
+                return P85Plan(speech_act="question", memory_id=episode.memory_id,
+                    selector={"use_reference": True}, reads=[{"kind": "quantity"}])
+            return await original(text, context, episodes, memory)
+        monkeypatch.setattr(p85[0], "p85_understand", recall)
+        result = ok(send(client, ids, state, "回到最早的牛奶，现在还剩多少"))
+&gt;       assert result["task"]["result"]["facts"][0]["quantity"] == "7.000"
+E       AssertionError: assert '7.000000' == '7.000'
+E         
+E         - 7.000
+E         + 7.000000
+E         ?      +++
+
+backend\server\tests\test_p85_archive_persistence.py:40: AssertionError</failure></testcase><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_final_expression_and_completion_time_saved_atomically_and_replay_immutable" time="0.977"><failure message="AssertionError: assert '2026-10-29T0....876509+00:00' == '2026-10-29T03:12:47.876509Z'&#10;  &#10;  - 2026-10-29T03:12:47.876509Z&#10;  ?                           ^&#10;  + 2026-10-29T03:12:47.876509+00:00&#10;  ?                           ^^^^^^">execution_state = (&lt;starlette.testclient.TestClient object at 0x0000022574E6C560&gt;, sessionmaker(class_='Session', bind=Engine(sqlite:///...oreign_list': UUID('e6a4681e-1b4b-4c76-bc70-7aad3dfb018f'), 'home': UUID('22297988-da95-4d17-86c9-1686dd098e90'), ...})
+p85 = (&lt;test_backend_p2_conversation.p7.&lt;locals&gt;.Counted object at 0x00000225765A9970&gt;, [('agent', '/agent/dialogue/p85/unde.../agent/dialogue/p85/resolve'), ('backend', '/internal/v1/inventory/search'), ('agent', '/agent/dialogue/p85/respond')])
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000022574EA8F20&gt;
+
+    def test_final_expression_and_completion_time_saved_atomically_and_replay_immutable(execution_state, p85, monkeypatch):
+        client, Session, ids = execution_state
+        async def expression(text, frame):
+            p85[0].response_calls += 1
+            return {"opening": "understood", "fact_order": list(frame.facts)}
+        monkeypatch.setattr(p85[0], "p85_respond", expression)
+        session = ok(start(client, ids)); request_id = uuid4().hex
+        result = ok(send(client, ids, session, "牛奶多少放哪", request_id=request_id))
+        with Session() as db:
+            row = row_for(db, request_id); saved = deepcopy(row.binding_json)
+            state = saved[dialogue.P85_KEY]
+            assert state["memory_delta"] == state["resolved"]["memory_delta"]
+            assert state["final_reply"] == result["reply"]
+            assert state["memory_delta"]["episode"]["reply"] != result["reply"]
+&gt;           assert state["completed_at"] == saved["memory_v1"]["completed_at"] == saved["episode_v1"]["created_at"]
+E           AssertionError: assert '2026-10-29T0....876509+00:00' == '2026-10-29T03:12:47.876509Z'
+E             
+E             - 2026-10-29T03:12:47.876509Z
+E             ?                           ^
+E             + 2026-10-29T03:12:47.876509+00:00
+E             ?                           ^^^^^^
+
+backend\server\tests\test_p85_archive_persistence.py:66: AssertionError</failure></testcase><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_archive_bound_filters_original_time_reset_scope_and_incomplete_rows" time="1.189" /><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_delta_cannot_inject_episode_identity_text_time_or_reference[memory_id]" time="0.763" /><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_delta_cannot_inject_episode_identity_text_time_or_reference[reply]" time="0.863" /><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_delta_cannot_inject_episode_identity_text_time_or_reference[created_at]" time="0.767" /><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_delta_cannot_inject_episode_identity_text_time_or_reference[reference]" time="0.685" /><testcase classname="backend.server.tests.test_p85_archive_persistence" name="test_restart_style_recovery_saved_plan_uses_archive_without_understanding" time="1.166" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_p85_query_draft_edit_and_internal_delta" time="1.424" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_discussion_skips_expression_and_recovers_without_calls" time="0.785" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_expression_counter_validation_and_fallback[0]" time="0.905" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_expression_counter_validation_and_fallback[1]" time="1.058" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_expression_counter_validation_and_fallback[2]" time="0.794" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_expression_counter_validation_and_fallback[True]" time="0.879" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[scope]" time="0.764" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[conversation_id]" time="0.747" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[expected_revision]" time="0.741" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[request_id]" time="0.721" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[text]" time="0.928" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_delta_must_match_attested_request[source_text_sha256]" time="0.711" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_prepared_recovery_pins_original_protocol_after_config_change[False-p84-dialogue-1]" time="1.019" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_prepared_recovery_pins_original_protocol_after_config_change[False-p85-dialogue-1]" time="0.881" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_prepared_recovery_pins_original_protocol_after_config_change[True-p84-dialogue-1]" time="0.953" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_prepared_recovery_pins_original_protocol_after_config_change[True-p85-dialogue-1]" time="0.888" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_revision_forwarded_without_rewriting_and_memory_truncation" time="0.812" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_invalid_understanding_revision_and_unknown_model_outcome" time="0.842" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_optional_delta_and_untrusted_response_boundaries[missing_delta]" time="0.893" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_optional_delta_and_untrusted_response_boundaries[memory_selection]" time="0.737" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_optional_delta_and_untrusted_response_boundaries[new_field]" time="0.683" /><testcase classname="backend.server.tests.test_p85_dialogue" name="test_optional_delta_and_untrusted_response_boundaries[expression_lost]" time="0.957" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_new_flow_greeting_then_query_half_edit_and_state" time="2.639" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_duplicate_and_cloud_recovery_never_call_again" time="1.072" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_pending_task_survives_other_item_query" time="1.093" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_response_failure_delivers_saved_verified_result" time="0.833" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_understood_crash_recovers_without_model" time="0.864" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_opt_in_capability_and_public_input_is_unchanged" time="0.585" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_multi_batch_half_then_select_is_zero_model_and_exact" time="1.102" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_ordinal_followup_query_has_attested_reference" time="1.198" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_lost_understanding_never_retries_paid_request" time="0.624" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_lost_expression_uses_saved_fallback" time="0.980" /><testcase classname="backend.server.tests.test_p84_dialogue" name="test_confirm_during_correction_never_overwrites_receipt" time="1.456" /></testsuite></testsuites>
