@@ -1,0 +1,405 @@
+{
+  "$defs": {
+    "ObjectReference": {
+      "additionalProperties": false,
+      "description": "Attestation from an authenticated business caller, never a phone fact.",
+      "properties": {
+        "protocol_version": {
+          "const": "p7-object-reference-1",
+          "default": "p7-object-reference-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "source_task_id": {
+          "format": "uuid",
+          "title": "Source Task Id",
+          "type": "string"
+        },
+        "source_revision": {
+          "minimum": 1,
+          "title": "Source Revision",
+          "type": "integer"
+        },
+        "batch_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "issued_at": {
+          "format": "date-time",
+          "title": "Issued At",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "title": "Expires At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "source_task_id",
+        "source_revision",
+        "batch_id",
+        "issued_at",
+        "expires_at"
+      ],
+      "title": "ObjectReference",
+      "type": "object"
+    },
+    "P85Episode": {
+      "additionalProperties": false,
+      "properties": {
+        "memory_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Memory Id",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Request Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "reply": {
+          "default": "",
+          "maxLength": 8000,
+          "title": "Reply",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "subjects": {
+          "items": {
+            "$ref": "#/$defs/P85Subject"
+          },
+          "maxItems": 4,
+          "title": "Subjects",
+          "type": "array"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ObjectReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "memory_id",
+        "request_id",
+        "text",
+        "created_at"
+      ],
+      "title": "P85Episode",
+      "type": "object"
+    },
+    "P85MemoryDelta": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "conversation-episode-delta-1",
+          "default": "conversation-episode-delta-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/Scope"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "episode": {
+          "$ref": "#/$defs/P85Episode"
+        },
+        "source_text_sha256": {
+          "title": "Source Text Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "conversation_id",
+        "expected_revision",
+        "episode",
+        "source_text_sha256"
+      ],
+      "title": "P85MemoryDelta",
+      "type": "object"
+    },
+    "P85MemoryUse": {
+      "additionalProperties": false,
+      "properties": {
+        "selected_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Selected Ids",
+          "type": "array"
+        },
+        "omitted_episodes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Omitted Episodes",
+          "type": "integer"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "archive_available": {
+          "default": false,
+          "title": "Archive Available",
+          "type": "boolean"
+        },
+        "summary": {
+          "additionalProperties": true,
+          "title": "Summary",
+          "type": "object"
+        }
+      },
+      "title": "P85MemoryUse",
+      "type": "object"
+    },
+    "P85Subject": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "quote"
+      ],
+      "title": "P85Subject",
+      "type": "object"
+    },
+    "Scope": {
+      "additionalProperties": false,
+      "properties": {
+        "user_id": {
+          "title": "User Id",
+          "type": "string"
+        },
+        "household_id": {
+          "title": "Household Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "household_id"
+      ],
+      "title": "Scope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "p85-dialogue-1",
+      "default": "p85-dialogue-1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "task",
+        "clarify",
+        "edit",
+        "explain",
+        "needs_input",
+        "clear_reference"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "reply": {
+      "title": "Reply",
+      "type": "string"
+    },
+    "result": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Result"
+    },
+    "answers": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Answers",
+      "type": "object"
+    },
+    "task_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task Revision"
+    },
+    "reference": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reference"
+    },
+    "preserve_active": {
+      "default": true,
+      "title": "Preserve Active",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "field_sources": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Field Sources",
+      "type": "object"
+    },
+    "filled_fields": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Filled Fields",
+      "type": "object"
+    },
+    "facts": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Facts",
+      "type": "object"
+    },
+    "edit": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Edit"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Code"
+    },
+    "truncated": {
+      "default": false,
+      "title": "Truncated",
+      "type": "boolean"
+    },
+    "model_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "memory": {
+      "$ref": "#/$defs/P85MemoryUse"
+    },
+    "memory_delta": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/P85MemoryDelta"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "expression_required": {
+      "default": true,
+      "title": "Expression Required",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "original_text",
+    "kind",
+    "reply"
+  ],
+  "title": "P85Resolved",
+  "type": "object"
+}

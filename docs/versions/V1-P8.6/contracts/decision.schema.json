@@ -1,0 +1,357 @@
+{
+  "$defs": {
+    "Expression": {
+      "additionalProperties": false,
+      "properties": {
+        "opening": {
+          "default": "none",
+          "enum": [
+            "none",
+            "understood",
+            "check",
+            "gentle",
+            "brief",
+            "correction",
+            "focus",
+            "together"
+          ],
+          "title": "Opening",
+          "type": "string"
+        },
+        "fact_order": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Fact Order",
+          "type": "array"
+        },
+        "layout": {
+          "default": "paragraph",
+          "enum": [
+            "paragraph",
+            "lines"
+          ],
+          "title": "Layout",
+          "type": "string"
+        },
+        "closing": {
+          "default": "none",
+          "enum": [
+            "none",
+            "continue",
+            "review_draft",
+            "choose_batch",
+            "invite"
+          ],
+          "title": "Closing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fact_order"
+      ],
+      "title": "Expression",
+      "type": "object"
+    },
+    "FieldSource": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "maxLength": 120,
+          "title": "Value",
+          "type": "string"
+        },
+        "source": {
+          "default": "current_text",
+          "enum": [
+            "current_text",
+            "current_task"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "quote": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "title": "FieldSource",
+      "type": "object"
+    },
+    "P85Plan": {
+      "additionalProperties": false,
+      "properties": {
+        "speech_act": {
+          "enum": [
+            "request",
+            "discuss",
+            "hypothesis",
+            "negation",
+            "correction",
+            "supplement",
+            "question",
+            "social",
+            "status",
+            "basis",
+            "recall",
+            "new_task"
+          ],
+          "title": "Speech Act",
+          "type": "string"
+        },
+        "selector": {
+          "$ref": "#/$defs/Selector"
+        },
+        "reads": {
+          "items": {
+            "$ref": "#/$defs/Read"
+          },
+          "maxItems": 4,
+          "title": "Reads",
+          "type": "array"
+        },
+        "action": {
+          "anyOf": [
+            {
+              "enum": [
+                "ADD",
+                "CONSUME",
+                "OPEN",
+                "MOVE",
+                "DISCARD",
+                "PLAN_ADD"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Action"
+        },
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FieldSource"
+          },
+          "maxProperties": 8,
+          "title": "Fields",
+          "type": "object"
+        },
+        "amount_mode": {
+          "default": "literal",
+          "enum": [
+            "literal",
+            "half",
+            "all",
+            "unknown"
+          ],
+          "title": "Amount Mode",
+          "type": "string"
+        },
+        "write_count": {
+          "default": 0,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Write Count",
+          "type": "integer"
+        },
+        "task_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Index"
+        },
+        "preserve_active": {
+          "default": true,
+          "title": "Preserve Active",
+          "type": "boolean"
+        },
+        "social_reply": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Social Reply"
+        },
+        "memory_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Memory Id"
+        }
+      },
+      "required": [
+        "speech_act"
+      ],
+      "title": "P85Plan",
+      "type": "object"
+    },
+    "Read": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "quantity",
+            "location",
+            "dates",
+            "risk",
+            "consumption",
+            "forecast",
+            "purchase"
+          ],
+          "title": "Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Read",
+      "type": "object"
+    },
+    "Selector": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        },
+        "choice_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice Index"
+        },
+        "use_reference": {
+          "default": false,
+          "title": "Use Reference",
+          "type": "boolean"
+        }
+      },
+      "title": "Selector",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "resolve",
+        "finish",
+        "ask"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/P85Plan"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "expression": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Expression"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "clarification": {
+      "anyOf": [
+        {
+          "enum": [
+            "intent",
+            "object",
+            "quantity",
+            "unit",
+            "date",
+            "location",
+            "priority"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clarification"
+    },
+    "finish_after_resolve": {
+      "default": false,
+      "title": "Finish After Resolve",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "title": "Decision",
+  "type": "object"
+}

@@ -1,0 +1,130 @@
+{
+  "source": "saved_real_provider_decisions_replayed",
+  "actual_new_model_calls": 0,
+  "cases": 24,
+  "passed": 24,
+  "checks": [
+    {
+      "case_id": "compound-0",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "compound-1",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "quantity-0",
+      "passed": true,
+      "stop_reason": "repeated_plan"
+    },
+    {
+      "case_id": "quantity-1",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "move-0",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "move-1",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "half-0",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "half-1",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "open-0",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "open-1",
+      "passed": true,
+      "stop_reason": "confirmation_required"
+    },
+    {
+      "case_id": "missing-0",
+      "passed": true,
+      "stop_reason": "user_input_required"
+    },
+    {
+      "case_id": "missing-1",
+      "passed": true,
+      "stop_reason": "user_input_required"
+    },
+    {
+      "case_id": "unknown_state-0",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "unknown_state-1",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "social-0",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "social-1",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "negation-0",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "negation-1",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "hypothesis-0",
+      "passed": true,
+      "stop_reason": "completed"
+    },
+    {
+      "case_id": "hypothesis-1",
+      "passed": true,
+      "stop_reason": "model_error"
+    },
+    {
+      "case_id": "ambiguous-0",
+      "passed": true,
+      "stop_reason": "user_input_required"
+    },
+    {
+      "case_id": "ambiguous-1",
+      "passed": true,
+      "stop_reason": "user_input_required"
+    },
+    {
+      "case_id": "expired-0",
+      "passed": true,
+      "stop_reason": "boundary"
+    },
+    {
+      "case_id": "expired-1",
+      "passed": true,
+      "stop_reason": "boundary"
+    }
+  ],
+  "independent_blind_evaluation": false,
+  "production_accessed": false
+}

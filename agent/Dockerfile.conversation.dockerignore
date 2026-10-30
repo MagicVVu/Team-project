@@ -29,3 +29,4 @@ conversation/export_memory_contracts.py
 conversation/export_planning_contracts.py
 conversation/export_dialogue_contracts.py
 eval/dialogue
+eval/autonomous

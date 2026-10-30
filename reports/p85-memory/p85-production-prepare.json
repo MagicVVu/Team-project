@@ -1,0 +1,32 @@
+{
+  "stage": "prepared",
+  "release": "V1-P8.5",
+  "tag": "magicvvu/agent:p85-0266f64869d7",
+  "source_sha256": "0266f64869d74074db42c4b1d4d217ff53bee838b9cc3d20ed13fe2dcce350b4",
+  "overlay_files": [
+    "conversation/p85/__init__.py",
+    "conversation/p85/app.py",
+    "conversation/p85/archive.py",
+    "conversation/p85/engine.py",
+    "conversation/p85/flow.py",
+    "conversation/p85/health.py",
+    "conversation/p85/memory.py",
+    "conversation/p85/prose.py",
+    "conversation/p85/render.py",
+    "conversation/p85/schemas.py"
+  ],
+  "candidate_directory": "/home/magicvvu_ai/workspace/agent/candidates/p85-0266f64869d7",
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p85-20261028-0266f64869d7",
+  "candidate_checks": {
+    "isolated_no_network": true,
+    "old_routes_retained": true,
+    "new_routes_verified": true,
+    "internal_auth_verified": true,
+    "model_calls": 0,
+    "inventory_reads": 0,
+    "inventory_writes": false
+  },
+  "backend_modified": false,
+  "database_migrations_executed": false,
+  "formal_runtime_switched": false
+}

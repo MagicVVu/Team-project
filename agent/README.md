@@ -1,4 +1,6 @@
-最新接入准备配置为 [conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0），新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；[V1-P7.1 收尾](../docs/versions/V1-P7.1/README.md)补齐 `check --profile p7` 配置预检、显式启动选择及服务器源码同步，后续权限与接入复核、0.9.0＋P7＋DeepSeek 正式服务迁移独立归入 [V1-P7.2](../docs/versions/V1-P7.2/README.md)，未修改 Android 或数据库网关；旧库存单位限制及客户端验收见该阶段记录。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
+当前本地增量为 [V1-P8.6 自主循环](../docs/versions/V1-P8.6/README.md)，AI工厂 `conversation.autonomous.app:create_app`，AI版本0.8.6、协议 `inventory-autonomous-1`。只读核对、草稿、会话恢复及逐件库存适配已归档；服务器截至2026-10-30上次核对仍P8.5，本次整理未部署。前后端按[交接说明](../docs/versions/V1-P8.6/前后端交接说明.md)和其中JSON契约协作；业务后端版本不随AI阶段号更改。
+
+以下保留P7及更早历史使用说明。[conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0）新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；[V1-P7.1 收尾](../docs/versions/V1-P7.1/README.md)补齐 `check --profile p7` 配置预检、显式启动选择及服务器源码同步，后续权限与接入复核、0.9.0＋P7＋DeepSeek 正式服务迁移独立归入 [V1-P7.2](../docs/versions/V1-P7.2/README.md)，未修改 Android 或数据库网关；旧库存单位限制及客户端验收见该阶段记录。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
 
 # V1-P0 AI 开发包
 

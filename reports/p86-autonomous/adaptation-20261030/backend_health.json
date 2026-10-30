@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "service": "magicvvu-backend",
+  "version": "0.9.0",
+  "maintenance_release": "V1-P9",
+  "isolated_test": false
+}

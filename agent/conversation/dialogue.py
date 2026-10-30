@@ -5,6 +5,7 @@ caller persists each stage and supplies a fresh, permission-checked context.
 """
 import asyncio
 import re
+import time
 from decimal import Decimal
 from datetime import timedelta
 
@@ -26,7 +27,12 @@ from . import dialogue_engine
 def checked(owner, body, scope):
     if body.context.scope != scope:
         raise DomainError("HOUSEHOLD_FORBIDDEN", "会话不属于当前用户或家庭。", 403)
-    if abs((owner.now()-body.context.trusted_now).total_seconds()) > 30:
+    # The autonomous owner can retain its originally authenticated context for
+    # one bounded run. This never renews timestamps, task facts or object TTLs.
+    lease = getattr(owner, "_autonomous_context_lease", None)
+    accepted = lease and lease[:4] == (scope, body.context.conversation_id, body.context.revision,
+                                      body.context.trusted_now) and time.monotonic() < lease[4]
+    if abs((owner.now()-body.context.trusted_now).total_seconds()) > 30 and not accepted:
         raise DomainError("MEMORY_SNAPSHOT_EXPIRED", "请重新读取会话与任务状态。", 409)
     return bounded_context(body.context)
 

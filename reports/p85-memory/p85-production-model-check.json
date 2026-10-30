@@ -1,0 +1,15 @@
+{
+  "release": "V1-P8.5",
+  "protocol": "p85-dialogue-1",
+  "synthetic_provider_verified": true,
+  "model": "deepseek-flash",
+  "understanding_calls": 1,
+  "response_calls": 0,
+  "total_calls": 1,
+  "latency_ms": 1787.0405160356313,
+  "production_inventory_read": false,
+  "business_writes_performed": false,
+  "tasks_or_sessions_created": false,
+  "secrets_printed_or_uploaded": false,
+  "app_joint_acceptance": false
+}

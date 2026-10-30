@@ -17,7 +17,7 @@ from .memory import prepare, delta
 from . import engine, render
 from .prose import household_prose, fallback
 
-ORDINAL = re.compile(r"(?:请|麻烦|帮我|请帮我)?(?:查下|查询|核对|看看|查一下)?第([一二两三四五六七八九十0-9]+)(?:个|批)(?:的)?(?:(?:数量|余量|还有多少|剩多少)(?:帮我核对下|帮我查一下)?|在哪里|在哪|在哪儿|在什么地方|位置)?[。！？?!]?")
+ORDINAL = re.compile(r"(?:请|麻烦|帮我|请帮我)?(?:查下|查询|核对|看看|查一下)?第([一二两三四五六七八九十0-9]+)(?:个|批|件|份)(?:的)?(?:(?:数量|余量|还有多少|剩多少)(?:帮我核对下|帮我查一下)?|在哪里|在哪|在哪儿|在什么地方|位置)?[。！？?!]?")
 QUANTITY = re.compile(r"(?:请|麻烦|帮我)?(?:查下|查询|核对|看看|查一下)?(?:它|这一批|这批|那个)(?:的)?(?:数量|余量|还有多少|剩多少|还剩多少|还剩几盒)(?:呢|吧)?[。！？?!]?")
 HOLD = re.compile(r"(?:先别执行|先不执行|不要执行|先别改|先不改)(?:[，, ]*(?:我)?(?:只是|先)?(?:核对|问问|看看)(?:一下)?)?[。！？?!]?")
 CORRECTION = re.compile(r"(?:刚才说错了[，, ]*)?(?:还是|改成|改为|应该是)("+NUMBER_PATTERN+r")\s*("+UNIT_PATTERN+r")?(?:吧|好了)?[。！？?!]?")
@@ -116,7 +116,7 @@ async def resolve(owner, body, scope):
         plan = plan.model_copy(update={"selector": plan.selector.model_copy(update={"choice_index": None})})
         normalizations.append("current_reference_is_not_candidate_zero")
     if (plan.selector.choice_index is not None and ctx.choices
-            and not re.search(r"第[一二两三四五六七八九十0-9]+(?:个|批)", body.text)):
+            and not re.search(r"第[一二两三四五六七八九十0-9]+(?:个|批|件|份)", body.text)):
         if plan.selector.location and plan.selector.location in body.text:
             # Verify the described location across ALL current candidates rather
             # than trusting the model's guessed index.

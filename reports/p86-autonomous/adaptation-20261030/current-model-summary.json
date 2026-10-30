@@ -1,0 +1,13 @@
+{
+  "inventory_model": "single-object-1",
+  "source": "new_synthetic_current_contract_cases",
+  "cases": 16,
+  "passed": 14,
+  "human_review": "pending",
+  "independent_blind_eval": false,
+  "calls": 18,
+  "p95_ms": 4353.933000005782,
+  "production_inventory_accessed": false,
+  "server_modified": false,
+  "app_joint_acceptance": false
+}

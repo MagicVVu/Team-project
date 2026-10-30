@@ -36,6 +36,13 @@ SOURCE_PATHS = (
     "conversation/memory.py", "conversation/memory_schemas.py",
     "conversation/planning.py", "conversation/planning_schemas.py",
     "conversation/dialogue.py", "conversation/dialogue_schemas.py", "conversation/dialogue_engine.py",
+    "conversation/p85/__init__.py", "conversation/p85/app.py", "conversation/p85/archive.py",
+    "conversation/p85/engine.py", "conversation/p85/flow.py", "conversation/p85/health.py",
+    "conversation/p85/memory.py", "conversation/p85/prose.py", "conversation/p85/render.py", "conversation/p85/schemas.py",
+    "conversation/autonomous/__init__.py", "conversation/autonomous/app.py",
+    "conversation/autonomous/schemas.py", "conversation/autonomous/engine.py",
+    "conversation/autonomous/runner.py", "conversation/autonomous/reads.py", "conversation/autonomous/health.py",
+    "conversation/autonomous/physical.py",
     "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 

@@ -28,11 +28,13 @@ def reset(body: Reset, identity: Identity = Depends(get_identity), db: Session =
 async def message(body: Message, identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     try:
         from app.services.dialogue import enabled, saved_protocol
+        from app.services import autonomous
         from app.conversation_models import ConversationTurn
         from sqlalchemy import select
         prior = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
             ConversationTurn.household_id == body.household_id, ConversationTurn.request_id == body.request_id))
-        staged = saved_protocol(prior.binding_json or {}) is not None if prior else enabled()
+        staged = (saved_protocol(prior.binding_json or {}) is not None or
+            autonomous.saved_state(prior.binding_json or {}) is not None) if prior else enabled() or autonomous.enabled()
         async with asyncio.timeout(75 if staged else 10):
             if body.text.strip().rstrip("。！! ") in {"开始新会话", "清空当前会话"}:
                 return service.reset(db, identity, Reset(household_id=body.household_id, request_id=body.request_id,
