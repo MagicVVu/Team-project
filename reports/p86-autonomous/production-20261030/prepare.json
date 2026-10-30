@@ -1,0 +1,59 @@
+{
+  "stage": "prepared",
+  "release": "V1-P8.6",
+  "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+  "tags": {
+    "agent": "magicvvu/agent:p86-dc3519330fec",
+    "backend": "magicvvu/backend:p86-dc3519330fec"
+  },
+  "overlay_files": {
+    "agent": [
+      "Dockerfile.conversation.dockerignore",
+      "conversation/autonomous/__init__.py",
+      "conversation/autonomous/app.py",
+      "conversation/autonomous/engine.py",
+      "conversation/autonomous/health.py",
+      "conversation/autonomous/physical.py",
+      "conversation/autonomous/reads.py",
+      "conversation/autonomous/runner.py",
+      "conversation/autonomous/schemas.py",
+      "conversation/dialogue.py",
+      "conversation/memory.py",
+      "conversation/p85/flow.py",
+      "conversation/replies.py",
+      "integration/source_manifest.py"
+    ],
+    "backend": [
+      "app/memory_schemas.py",
+      "app/routers/draft_execution.py",
+      "app/routers/session_memory.py",
+      "app/services/autonomous.py",
+      "app/services/memory_archive.py",
+      "app/services/session_memory.py"
+    ]
+  },
+  "candidate_checks": {
+    "agent": {
+      "imports": true,
+      "new_route": true,
+      "legacy_factory": true,
+      "internal_auth": true,
+      "deterministic_run": true,
+      "model_calls": 0,
+      "external_network": false
+    },
+    "backend": {
+      "imports": true,
+      "public_auth": true,
+      "capabilities": true,
+      "calls_above_two": true,
+      "legacy_limits": true,
+      "old_routes": true,
+      "database_connected": false,
+      "business_writes": false
+    }
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p86-20261030-dc3519330fec",
+  "formal_runtime_switched": false,
+  "database_migrations": false
+}

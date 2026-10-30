@@ -1,0 +1,8 @@
+{
+  "source": "initial_public_probe_and_read_only_certificate_diagnosis",
+  "public_origin": "https://8.134.172.165:8000",
+  "system_ca_probe": "SSLCertVerificationError: unable to get local issuer certificate",
+  "issuer": "MagicVVu Internal Test CA",
+  "debug_ca_probe_report": "network-check.json",
+  "tls_configuration_changed": false
+}

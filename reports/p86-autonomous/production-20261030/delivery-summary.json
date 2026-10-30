@@ -1,0 +1,59 @@
+{
+  "release": "V1-P8.6",
+  "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+  "deployed": true,
+  "ai_version": "0.8.6",
+  "protocol": "inventory-autonomous-1",
+  "runtime_sources": {
+    "agent": 107,
+    "backend": 6
+  },
+  "all_services_healthy": true,
+  "database_container_unchanged": true,
+  "database_migrations_executed": false,
+  "unrelated_runtime_sources_preserved": true,
+  "private_configuration_preserved": true,
+  "real_model_check": {
+    "stage": "model_checked",
+    "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+    "real_deepseek": true,
+    "model_calls": 1,
+    "stop_reason": "completed",
+    "elapsed_ms": 1450.227683992125,
+    "deterministic_calls": 0,
+    "inventory_reads": 0,
+    "business_writes": false,
+    "production_account_created": false,
+    "app_joint_acceptance": false
+  },
+  "network_check": {
+    "stage": "network_checked",
+    "release": "V1-P8.6",
+    "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+    "public_origin": "https://8.134.172.165:8000",
+    "tls_certificate_verified": true,
+    "tls_trust_source": "existing Android Debug bundled CA",
+    "public_ca_sha256": "05bf022190b600215088f11f1adf40685eda508dda1e46932aea8a4e7384ade9",
+    "system_ca_trust_verified": false,
+    "tls_configuration_changed": false,
+    "http_probes": {
+      "health_with_app_key": 200,
+      "without_app_key": 403,
+      "without_bearer": 401
+    },
+    "service_link": {
+      "backend_to_ai_authenticated": true,
+      "autonomous_calls": 0,
+      "legacy_p85_calls": 0,
+      "database_rows_created": false,
+      "inventory_reads": 0,
+      "business_writes": false
+    },
+    "app_joint_acceptance": false
+  },
+  "document_links_checked": 167,
+  "production_contracts": 2,
+  "rollback_images_available": true,
+  "app_joint_acceptance": false,
+  "git_commit_or_push_performed": false
+}
