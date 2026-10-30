@@ -72,24 +72,37 @@ class ProductGroupingFlowTest {
         bitmap.recycle()
     }
 
-    @Test fun serverGroupsAutomaticallyAndReceivesWholeItemCount() {
+    @Test fun matchingNamesWaitForExplicitGroupingChoice() {
         api.candidates = listOf(api.match(api.first, "牛奶", api.product), api.match(api.second, "鲜牛奶", null))
         show()
+        compose.onNodeWithTag("product-grouping-dialog").assertExists()
+        Assert.assertTrue(api.writes.isEmpty())
+        compose.onNodeWithTag("product-grouping-merge").performClick()
         compose.waitUntil(5_000) { savedIds.isNotEmpty() }
-        compose.onNodeWithTag("product-grouping-dialog").assertDoesNotExist()
         val body = JSONObject(api.writes.single())
         Assert.assertEquals(item.id, body.getString("id"))
         Assert.assertEquals("10", body.getString("quantity"))
-        Assert.assertFalse(body.has("product_grouping"))
-        Assert.assertEquals(0, api.matchReads)
+        Assert.assertEquals(java.time.LocalDate.now().toString(), body.getString("purchased_on"))
+        Assert.assertEquals("existing", body.getJSONObject("product_grouping").getString("mode"))
+        Assert.assertEquals(api.first, body.getJSONObject("product_grouping").getString("candidate_inventory_item_id"))
+        Assert.assertEquals(1, api.matchReads)
     }
 
-    @Test fun matchingEndpointIsNoLongerRequiredByTheEntryFlow() {
-        api.matchFailure = true
+    @Test fun userCanKeepMatchingItemsSeparate() {
+        api.candidates = listOf(api.match(api.first, "牛奶", api.product))
         show(dark = true, english = true)
+        compose.onNodeWithTag("product-grouping-dialog").assertExists()
+        Assert.assertTrue(api.writes.isEmpty())
+        compose.onNodeWithTag("product-grouping-separate").performClick()
         compose.waitUntil(5_000) { savedIds.isNotEmpty() }
-        Assert.assertEquals(1, api.writes.size)
-        Assert.assertEquals(0, api.matchReads)
+        Assert.assertEquals("separate", JSONObject(api.writes.single()).getJSONObject("product_grouping").getString("mode"))
+    }
+
+    @Test fun failedMatchReadDoesNotSilentlyCreateOrGroup() {
+        api.matchFailure = true
+        show()
+        compose.waitUntil(5_000) { error.isNotBlank() }
+        Assert.assertTrue(api.writes.isEmpty())
     }
 
     @Test fun uncertainSaveSurvivesStoreRecreationAndReplaysTheSameBody() {

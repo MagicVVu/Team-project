@@ -178,8 +178,8 @@ def test_consume_one_object_and_retry_leave_other_objects_untouched(state):
     assert after['status'] == 'FINISHED' and 'quantity' not in after
     assert commit(client, draft_id, body)[0].json() == result.json()
     group, = products(client, ids)
-    assert group['count'] == 9 and len(group['inventory_items']) == 10
-    assert Counter(row['status'] for row in group['inventory_items']) == {'ACTIVE': 9, 'FINISHED': 1}
+    assert group['count'] == 9 and len(group['inventory_items']) == 9
+    assert Counter(row['status'] for row in group['inventory_items']) == {'ACTIVE': 9}
 
 
 def test_half_an_object_cannot_be_consumed(state):
@@ -276,7 +276,7 @@ def test_renaming_one_object_reclassifies_it_without_renaming_peers(state):
         operation_id=str(uuid4()), name='红苹果'))
     assert back.status_code == 200, back.text
     groups = {group['name']: group for group in products(client, ids)}
-    assert groups['苹果']['count'] == 2 and groups['牛奶']['count'] == 0
+    assert groups['苹果']['count'] == 2 and '牛奶' not in groups
 
 
 @pytest.mark.skipif(not PG, reason='Row-lock concurrency requires disposable PostgreSQL')

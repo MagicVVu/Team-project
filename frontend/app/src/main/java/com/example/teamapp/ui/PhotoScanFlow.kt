@@ -264,7 +264,7 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
     var name by rememberSaveable { mutableStateOf(initial.name) }
     var specification by rememberSaveable { mutableStateOf(initial.specification) }
     var quantity by rememberSaveable { mutableStateOf("1") }
-    var unit by rememberSaveable { mutableStateOf(initial.unit) }
+    val unit = "件"
     var category by rememberSaveable { mutableStateOf(initial.category) }
     var location by rememberSaveable { mutableStateOf(store.locations.firstOrNull().orEmpty()) }
     var expiry by rememberSaveable { mutableStateOf(initial.expiry) }
@@ -317,13 +317,7 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                         Text(strings.tr("数量", "Quantity"), fontSize = 13.sp)
                         OutlinedTextField(quantity, { quantity = it; error = "" }, modifier = Modifier.weight(1f).testTag("photo-quantity"),
                             singleLine = true, enabled = !saving, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
-                        var unitMenu by remember { mutableStateOf(false) }
-                        Box {
-                            OutlinedButton(onClick = { unitMenu = true }, enabled = !saving, contentPadding = PaddingValues(horizontal = 10.dp)) { Text(unit.ifBlank { strings.tr("单位", "Unit") }) }
-                            DropdownMenu(unitMenu, { unitMenu = false }) { InventoryContract.units.forEach { value ->
-                                DropdownMenuItem(text = { Text(value) }, onClick = { unit = value; unitMenu = false; error = "" })
-                            } }
-                        }
+
                     }
                     PhotoReviewChoice(strings.tr("分类", "Category"), listOf("食品", "日用品", "药品", "其他"), category, translateOptions = true, enabled = !saving) { category = it }
                     PhotoReviewChoice(strings.tr("存放位置", "Location"), store.locations, location, enabled = !saving) { location = it }
@@ -344,7 +338,11 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                 store.locations.firstOrNull { supplement.contains(it) }?.let { location = it }
                 val drafts = parseVoice(supplement)
                 val draft = drafts.singleOrNull()
-                if (draft != null && draft.quantity.isNotBlank() && InventoryContract.unit(draft.unit) != null) { quantity = draft.quantity; unit = InventoryContract.unit(draft.unit)!! }
+                if (draft != null && draft.quantity.isNotBlank()) {
+                    if (InventoryContract.unit(draft.unit) in InventoryContract.measuredUnits) {
+                        specification = "${draft.quantity}${draft.unit}"; quantity = "1"
+                    } else quantity = draft.quantity
+                }
                 error = strings.tr("已应用明确的数量和位置，请核对。", "Applied explicit quantity and location. Please review.")
             }, enabled = !saving) { Text(strings.tr("应用补充信息", "Apply note"), fontSize = 12.sp) }
             TextButton(onClick = { expanded = !expanded }, enabled = !saving) { Text(strings.tr(if(expanded) "收起更多设置" else "更多设置", if(expanded) "Less" else "More settings"), fontSize = 12.sp) }
@@ -366,7 +364,6 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                         amount == null -> strings.tr("请核对数量，需要有效正数", "Review the quantity; enter a positive number")
                         !InventoryContract.validReceipt(quantity, unit) -> strings.tr("件数须为1–10000的整数", "Use 1–10,000 whole items")
                         specification.length > 200 -> strings.tr("规格最多200字", "Specification: up to 200 characters")
-                        InventoryContract.unit(unit) == null -> strings.tr("请选择计量单位，包装容量不会自动换算", "Choose a unit; package size is not converted automatically")
                         location.isBlank() -> strings.tr("请选择存放位置", "Choose a location")
                         min == null -> strings.tr("请核对最低库存", "Review minimum stock")
                         expiry.isNotBlank() && runCatching { LocalDate.parse(expiry) }.isFailure -> strings.tr("请核对有效期", "Review the expiry date")
@@ -374,7 +371,8 @@ private fun PhotoReviewEditor(store: InventoryStore, result: PhotoRecognitionRes
                     }
                     if(error.isEmpty()) {
                         val item = StockItem(id = id, name = name.trim(), quantity = amount!!.toDouble(), unit = InventoryContract.unit(unit)!!,
-                            category = category, location = location, minimum = min!!.toDouble(), expiry = expiry, image = result.displayUri, quantityExact = quantity.trim(), specification = specification.trim())
+                            category = category, location = location, minimum = min!!.toDouble(), expiry = expiry, image = result.displayUri, quantityExact = quantity.trim(), specification = specification.trim(),
+                            purchasedAt = LocalDate.now().toString())
                         if (store.cloud.signedIn) {
                             saving = true; error = ""
                             groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)

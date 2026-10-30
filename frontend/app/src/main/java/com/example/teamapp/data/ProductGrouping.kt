@@ -27,6 +27,6 @@ internal fun JSONObject.toProductGroupingMatch(): ProductGroupingMatch {
     return ProductGroupingMatch(inventoryId, getString("name"), inventoryVersion, productId, productVersion, stringOrEmpty("product_name"))
 }
 
-internal fun groupedInventoryBody(item: StockItem, match: ProductGroupingMatch?) = item.toCloudJson()
+internal fun groupedInventoryBody(item: StockItem, match: ProductGroupingMatch?) = item.withIntakeDate().toCloudJson()
     .put("quantity", item.quantityExact.ifBlank { java.math.BigDecimal.valueOf(item.quantity).toPlainString() })
-    .apply { if (match != null) put("product_grouping", match.decision()) }
+    .put("product_grouping", match?.decision() ?: JSONObject().put("mode", "separate"))

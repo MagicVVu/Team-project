@@ -42,7 +42,7 @@ class ProductRingIntegrationTest {
         val product = JSONObject().put("product_id", "one").put("name", "苹果").put("base_unit", "个")
             .put("count", 22).put("category", "food").put("version", 1).put("inventory_items", batches)
         context.getSharedPreferences("magicvvu_cloud_cache", 0).edit().putString("${a.address}|${a.userId}|${a.householdId}",
-            JSONObject().put("inventory_schema", "individual-v1").put("inventory", batches).put("shopping", JSONArray()).put("products", JSONArray().put(product)).toString()).commit()
+            JSONObject().put("inventory_schema", "individual-v1").put("inventory", batches).put("shopping", JSONArray()).put("products", JSONArray().put(product).put(JSONObject(product.toString()).put("product_id", "empty").put("name", "全麦面包").put("count", 0).put("inventory_items", JSONArray()))).toString()).commit()
         store = InventoryStore(context)
     }
     @After fun cleanup() {
@@ -53,6 +53,8 @@ class ProductRingIntegrationTest {
         compose.setContent { AppLanguageProvider(if (english) "en" else "zh-CN") { TeamAppTheme(darkTheme = dark) {
             RingInventoryPage(store, { _, _ -> }, {}, {})
         } } }
+        compose.onAllNodesWithText("*0", useUnmergedTree = true).assertCountEquals(0)
+        compose.onAllNodesWithText("全麦面包", useUnmergedTree = true).assertCountEquals(0)
         compose.onNodeWithTag("ring-info-name", useUnmergedTree = true).assertTextEquals("苹果")
         compose.onAllNodesWithText("*22", useUnmergedTree = true).onFirst().assertExists()
         shot("product-ring-${if (dark) "dark" else "light"}")
@@ -60,6 +62,9 @@ class ProductRingIntegrationTest {
         compose.onNodeWithTag("product-inventory-detail").assertExists()
         compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-apple-0"))
         compose.onNodeWithTag("product-batch-apple-0").assertExists()
+        compose.onAllNodesWithText(if (english) "Stocked on: Not recorded" else "入库日期：未登记").onFirst().assertExists()
+        compose.onAllNodesWithText(if (english) "Opening status: Unopened" else "开封状态：未开封").onFirst().assertExists()
+        compose.onAllNodesWithText(if (english) "Status: In stock" else "状态：在库").assertCountEquals(0)
         compose.onNodeWithTag("product-inventory-detail").performScrollToNode(hasTestTag("product-batch-red-apple-11"))
         compose.onNodeWithTag("product-batch-red-apple-11").assertExists()
         compose.onNodeWithTag("product-batch-finished").assertDoesNotExist()

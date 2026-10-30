@@ -33,7 +33,7 @@ class InventoryCreate(Input):
     id: UUID
     name: str = Field(min_length=1, max_length=200)
     quantity: Amount
-    unit: str = Field(min_length=1, max_length=30)
+    unit: str = Field(default='件', min_length=1, max_length=30)
     specification: str | None = Field(default=None, max_length=200)
     category: str = Field(default="其他", min_length=1, max_length=64)
     storage_location: str = Field(min_length=1, max_length=100)

@@ -77,7 +77,7 @@ internal fun RingInventoryPage(
     var pendingAction by remember { mutableStateOf<String?>(null) }
     var actionBatch by remember { mutableStateOf<StockItem?>(null) }
     val products = if (store.cloud.signedIn) store.cloud.products else localInventoryProducts(store.items)
-    val ringItems = products.map { it.ringItem(strings.english) }
+    val ringItems = products.filter { it.count > 0 }.map { it.ringItem(strings.english) }
     val product = products.firstOrNull { "product:${it.id}" == detailId }
     val expansion = remember { Animatable(0f) }
     val ringFocus = remember { Animatable(0f) }

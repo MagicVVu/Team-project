@@ -35,6 +35,7 @@ class PurchaseResult:
     inventory_item_id: UUID
     newly_stocked: bool
     inventory_item_ids: tuple[UUID, ...] = ()
+    inventory_snapshot: dict | None = None
 
 
 def purchase_and_stock(
@@ -71,6 +72,9 @@ def purchase_and_stock(
     if authorized is None:
         raise ShoppingAccessError("Actor is not a member of this household")
 
+    from app.services.product_grouping import lock_household
+    lock_household(session, household_id)
+
     item = session.scalar(
         select(ShoppingListItem)
         .join(ShoppingList, ShoppingList.id == ShoppingListItem.shopping_list_id)
@@ -97,6 +101,19 @@ def purchase_and_stock(
         return PurchaseResult(existing_stock.id, newly_stocked=False, inventory_item_ids=tuple(r.id for r in existing_rows))
 
     if item.is_checked:
+        # All stocked objects may have been consumed and physically deleted.
+        # Retained events/receipts prove the purchase; never restock on a retry.
+        from app.product_models import MutationReceipt
+        from app.execution_models import BusinessEvent
+        request_id = uuid5(item.id, 'purchase-and-stock')
+        receipt = session.get(MutationReceipt, request_id)
+        if receipt is not None and receipt.household_id == household_id:
+            first_id = receipt.response_json.get('inventory_item_id')
+            events = session.scalars(select(BusinessEvent).where(BusinessEvent.request_id == request_id)).all()
+            snapshot = next((e.after_json for e in events if e.after_json.get('id') == first_id), None)
+            if snapshot is not None:
+                return PurchaseResult(UUID(first_id), False,
+                    tuple(UUID(value) for value in receipt.response_json.get('inventory_item_ids', [first_id])), snapshot)
         raise PurchaseReconciliationRequired(
             "This item was purchased before stock-link tracking was enabled; "
             "reconcile manually instead of creating duplicate inventory"

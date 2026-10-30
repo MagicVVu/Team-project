@@ -45,15 +45,10 @@ internal fun ProductInventoryDetail(product: CloudProduct, cloudMode: Boolean = 
                     if (batch.specification.isNotBlank()) Text(batch.specification, color = MaterialTheme.colorScheme.primary)
                     Text((if (s.english) "Location: " else "位置：") + batch.location)
                     Text((if (s.english) "Expiry: " else "有效期：") + batch.expiry.ifBlank { if (s.english) "Not recorded" else "未登记" })
-                    Text((if (s.english) "Received: " else "购入日期：") + batch.purchasedAt.ifBlank { if (s.english) "Not recorded" else "未登记" })
-                    Text((if (s.english) "Opened: " else "开封日期：") + batch.openedAt.ifBlank { if (s.english) "Not recorded" else "未登记" })
-                    Text((if (s.english) "Status: " else "状态：") + when (batch.lifecycleStatus) {
-                        "ACTIVE" -> if (s.english) "In stock" else "在库"
-                        "FINISHED" -> if (s.english) "Finished" else "已用完"
-                        "DISCARDED" -> if (s.english) "Discarded" else "已丢弃"
-                        "REVERSED" -> if (s.english) "Reversed" else "已撤销"
-                        else -> batch.lifecycleStatus
-                    })
+                    Text((if (s.english) "Stocked on: " else "入库日期：") + batch.purchasedAt.ifBlank { if (s.english) "Not recorded" else "未登记" })
+                    Text((if (s.english) "Opening status: " else "开封状态：") +
+                        if (batch.openedAt.isBlank()) { if (s.english) "Unopened" else "未开封" }
+                        else { if (s.english) "Opened" else "已开封" })
                     if (batch.activeBatch) {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             TextButton(onClick = { action(batch, "编辑物品") }) { Text(if (s.english) "Edit" else "编辑") }

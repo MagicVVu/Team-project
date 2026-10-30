@@ -1,0 +1,11 @@
+{
+  "app/routers/inventory.py": "184da4397ed32b72b0fbaf46f3556a6bf3067108abb90479e8072faf1d04d6a1",
+  "app/routers/products.py": "ead2b7845bb82b189d4560aa584bbc5d534842eeb47b3285e020bdf843ca22db",
+  "app/routers/shopping.py": "d9a99c80c45f85361c5bd01ef99364ca5fb7a2a32abcc8070bdce5e0345e76e2",
+  "app/routers/draft_execution.py": "9e5e3c00037c9f6b7db230760da849b1555a54879cbf08d97c03e4bde9a03304",
+  "app/services/draft_execution.py": "c18782b0116c37c9ebd6e0a8544a655ac805610ed092de7a771bafa5eb60f643",
+  "app/services/product_grouping.py": "0fe92c823fb8feec8a1ca38fe6aeecbeec6ce0d7186fc386ffd8dcb900a8d3f2",
+  "app/services/shopping.py": "dbbaeff2dc40229d49a309c9727c4c5fc9222ba732d43f36a40335c4412c06b6",
+  "app/services/ledger.py": "d5d3f2c7a683e9d0b57554b6df40ba988cab847c9798474afc8d646d99040823",
+  "app/services/inventory_cleanup.py": "fdd28284c19dcfe3b40cf2e53858c739a231fa9427a2abd959ce913b34d8217a"
+}

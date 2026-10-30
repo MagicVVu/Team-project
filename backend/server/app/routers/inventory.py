@@ -77,7 +77,7 @@ def list_inventory(household_id: UUID, limit: int = Query(50, ge=1, le=100), off
     membership_or_404(db, household_id, identity.user.id)
     filters = [InventoryItem.household_id == household_id]
     if status is None:
-        filters.append(InventoryItem.status.in_(["ACTIVE", "FINISHED"]))
+        filters.append(InventoryItem.status == 'ACTIVE')
     elif status != "all":
         filters.append(InventoryItem.status == status)
     total = db.scalar(select(func.count()).select_from(InventoryItem).where(*filters))
@@ -129,11 +129,15 @@ def create_inventory(household_id: UUID, payload: InventoryCreate,
 
 
 def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
-    item = locked(db, household_id, item_id)
+    from app.services.product_grouping import lock_household
+    lock_household(db, household_id)
     digest = fingerprint(kind, payload)
     prior = ledger.replay(db, payload.operation_id, household_id, actor_user_id, digest)
     if prior is not None:
+        if prior.get('id') != str(item_id):
+            raise HTTPException(409, {'code': 'OPERATION_ID_CONFLICT'})
         return prior
+    item = locked(db, household_id, item_id)
     if replay(item, payload.operation_id, digest):
         return item
     if item.status not in ("ACTIVE", "FINISHED"):
@@ -192,6 +196,9 @@ def mutate(db, household_id, item_id, payload, kind, actor_user_id=None):
         related_event_id=payload.related_event_id if kind == 'correct' else None)
     if kind == 'correct':
         event.after_json = {**event.after_json, 'correction_reason': payload.reason}
+    from app.services.inventory_cleanup import remove_ended, remove_empty_products
+    remove_ended(db, item)
+    remove_empty_products(db, household_id)
     return item
 
 

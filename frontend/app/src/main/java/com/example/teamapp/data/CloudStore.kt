@@ -315,9 +315,9 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     }
     suspend fun saveItem(item: StockItem, initial: StockItem?) = mutate { api ->
         require(item.name.length <= 80 && InventoryContract.unit(item.unit) != null) { "AI 支持的名称最多 80 字；请核对计量单位，旧记录不会自动截断或猜测换算" }
-        if (initial == null) api.request("POST", "$root/inventory-items", item.toCloudJson())
+        if (initial == null) api.request("POST", "$root/inventory-items", item.withIntakeDate().toCloudJson())
         else {
-            val json = item.toCloudJson().apply { remove("id"); remove("quantity"); put("expected_version", initial.version); put("operation_id", UUID.randomUUID().toString()) }
+            val json = item.toCloudJson().apply { remove("id"); remove("quantity"); remove("unit"); put("expected_version", initial.version); put("operation_id", UUID.randomUUID().toString()) }
             api.request("PATCH", "$root/inventory-items/${item.id}", json)
         }
         if (item.image.isNotBlank()) check(cache.edit().putString("photo|${cacheKey(requireNotNull(account))}|${item.id}", item.image).commit()) { "物品已保存，照片引用保存失败，请刷新核对" }

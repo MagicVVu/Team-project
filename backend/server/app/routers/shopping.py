@@ -180,7 +180,7 @@ def purchase_item(
         db.rollback()
         raise HTTPException(status_code=409, detail="Purchase history requires reconciliation; no stock created") from None
     item = db.get(ShoppingListItem, item_id)
-    stock = db.get(InventoryItem, purchase.inventory_item_id)
+    stock = purchase.inventory_snapshot or db.get(InventoryItem, purchase.inventory_item_id)
     result = PurchaseResponse(item=ShoppingItemResponse.model_validate(item),
                               inventory_item=StockResponse.model_validate(stock),
                               newly_stocked=purchase.newly_stocked,

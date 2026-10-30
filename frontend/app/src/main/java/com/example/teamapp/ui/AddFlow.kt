@@ -110,9 +110,10 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     var submitting by remember { mutableStateOf(false) }
     val itemId = rememberSaveable { initial?.id ?: java.util.UUID.randomUUID().toString() }
     var name by rememberSaveable { mutableStateOf(initial?.name ?: draft?.name.orEmpty()) }
-    var quantity by rememberSaveable { mutableStateOf(initial?.quantity?.display() ?: draft?.quantity.orEmpty()) }
-    var unit by rememberSaveable { mutableStateOf(initial?.unit ?: draft?.unit.orEmpty()) }
-    var specification by rememberSaveable { mutableStateOf(initial?.specification.orEmpty()) }
+    val measuredDraft = draft != null && InventoryContract.unit(draft.unit) in InventoryContract.measuredUnits
+    var quantity by rememberSaveable { mutableStateOf(initial?.quantity?.display() ?: if (measuredDraft) "1" else draft?.quantity.orEmpty()) }
+    val unit = initial?.unit ?: "件"
+    var specification by rememberSaveable { mutableStateOf(initial?.specification ?: if (measuredDraft) "${draft!!.quantity}${draft.unit}" else "") }
     var category by rememberSaveable { mutableStateOf(initial?.category?.let(InventoryContract::categoryLabel) ?: "食品") }
     var location by rememberSaveable { mutableStateOf(initial?.location ?: draft?.location?.takeIf { it.isNotBlank() } ?: store.locations.firstOrNull().orEmpty()) }
     var minimum by rememberSaveable { mutableStateOf(initial?.minimum?.display() ?: "0") }
@@ -142,7 +143,6 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         if (initial?.individualRecord != true) {
             Field(if (store.cloud.signedIn) strings.tr("入库件数（最多10000件）", "Items to add (up to 10,000)") else strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true, enabled = !submitting)
         }
-        Field(strings.get(R.string.ui_unit____e_g__box__bag__bottle), unit, { unit = it }, errors["unit"], enabled = !submitting)
         Field(strings.tr("规格（可选，如500g/盒）", "Specification (optional, e.g. 500g/box)"), specification, { specification = it }, errors["specification"], enabled = !submitting)
         if (store.cloud.signedIn) Text(strings.tr("每件物品单独保存；重量或容量作为一份的规格。", "Each object has its own record. Weight or volume describes one portion."), style = MaterialTheme.typography.bodySmall)
         Text(strings.get(R.string.ui_category), style = MaterialTheme.typography.labelLarge)
@@ -161,14 +161,13 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
                 if (q == null) put("quantity", if (initial == null) "请输入有效正数" else "数量不能为负数")
                 else if (initial == null && !InventoryContract.validReceipt(quantity, unit)) put("quantity", strings.tr("件数须为1–10000的整数；重量、容量请填写规格", "Use 1–10,000 whole items; put weight or volume in the specification"))
                 if (specification.length > 200) put("specification", strings.tr("规格最多200字", "Specification: up to 200 characters"))
-                if (InventoryContract.unit(unit) == null) put("unit", strings.tr("请核对单位：${InventoryContract.units.joinToString("、")}；不猜测容量换算", "Review the unit: ${InventoryContract.units.joinToString(", ")}. No guessed capacity conversions."))
                 if (location.isBlank()) put("location", "请选择存放位置")
                 if (m == null) put("minimum", "最低库存必须是有效非负数")
                 if (expiry.isNotBlank() && runCatching { LocalDate.parse(expiry) }.isFailure) put("expiry", "请填写有效日期，如 2026-10-20")
             }
             if (errors.isEmpty()) {
                 val item = StockItem(itemId, name.trim(), q!!, InventoryContract.unit(unit)!!, category, location, m!!, expiry, initial?.image ?: image,
-                    purchasedAt = initial?.purchasedAt.orEmpty(), version = initial?.version ?: 1,
+                    purchasedAt = initial?.purchasedAt ?: LocalDate.now().toString(), version = initial?.version ?: 1,
                     openedAt = initial?.openedAt.orEmpty(), lifecycleStatus = initial?.lifecycleStatus ?: "ACTIVE", quantityExact = if (initial?.individualRecord == true) "" else quantity.trim(),
                     specification = specification.trim(), individualRecord = initial?.individualRecord ?: false)
                 if (initial == null && store.cloud.signedIn) {

@@ -27,6 +27,9 @@ data class StockItem(
 )
 
 val StockItem.activeBatch get() = lifecycleStatus.uppercase() == "ACTIVE"
+/** Freeze the device's calendar date when a new intake is confirmed, before network review. */
+internal fun StockItem.withIntakeDate(today: LocalDate = LocalDate.now()): StockItem =
+    copy(purchasedAt = purchasedAt.ifBlank { today.toString() })
 val StockItem.quantityText get() = displayQuantity ?: quantityExact.takeIf { it.toDoubleOrNull() == quantity } ?: quantity.display()
 val StockItem.stockCountText get() = if (id.startsWith("product:")) "*${quantityText}" else "${quantityText} $unit"
 

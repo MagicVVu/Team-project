@@ -325,6 +325,8 @@ def execute(db, identity, draft_id, body):
                                           'regenerate_required': True})
             raise HTTPException(409, {'code': 'PLANNING_REVALIDATION_UNAVAILABLE', 'blockers': report['blockers']})
     action, target, fields, normalized = command(task, draft, body.edits)
+    from app.services.product_grouping import lock_household
+    lock_household(db, draft.household_id)
     at = now()
     event_id = uuid5(body.operation_id, "event")
     before, batch_versions, item, shopping = {}, {}, None, None
@@ -404,6 +406,9 @@ def execute(db, identity, draft_id, body):
     db.add(DraftDecision(draft_id=draft.id, draft_revision=draft.revision, task_revision=task.revision,
                          status="committed", operation_id=body.operation_id, decided_at=at))
     db.flush()
+    if item is not None:
+        from app.services.inventory_cleanup import remove_ended
+        remove_ended(db, item)
     return receipt
 
 

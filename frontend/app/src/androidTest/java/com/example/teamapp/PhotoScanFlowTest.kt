@@ -114,14 +114,15 @@ class PhotoScanFlowTest {
         compose.waitUntil(5_000) { store.items.size == 1 }
         compose.runOnIdle {
             assertEquals(1.0, store.items.single().quantity, 0.0)
-            assertEquals("瓶", store.items.single().unit)
+            assertEquals("件", store.items.single().unit)
+            assertEquals(java.time.LocalDate.now().toString(), store.items.single().purchasedAt)
             assertEquals(uri, store.items.single().image)
             assertEquals("", store.items.single().expiry)
             assertTrue(closed)
         }
     }
 
-    @Test fun failedRecognitionRetainsImageAndRequiresNameAndUnit() {
+    @Test fun failedRecognitionRequiresNameWithoutAUnitSelector() {
         compose.setContent { TeamAppTheme { PhotoScanFlow(store, {}, {}, PhotoRecognizer { _, _ -> error("test failure") }, uri) } }
         compose.waitUntil(5_000) { compose.onAllNodesWithText("保留照片，手动填写").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithText("保留照片，手动填写").performClick(); awaitReview()
@@ -130,8 +131,7 @@ class PhotoScanFlowTest {
         compose.runOnIdle { assertTrue(store.items.isEmpty()) }
         compose.onNodeWithTag("photo-name").performScrollTo().performTextInput("手填物品")
         Espresso.closeSoftKeyboard()
-        compose.onNodeWithText("单位", substring = false).performScrollTo().performClick()
-        compose.onNodeWithText("瓶", substring = false).performClick()
+        compose.onAllNodesWithText("单位", substring = false).assertCountEquals(0)
         compose.onNodeWithTag("photo-confirm").performClick()
         compose.waitUntil(5_000) { store.items.isNotEmpty() }
         compose.runOnIdle { assertEquals(uri, store.items.single().image) }

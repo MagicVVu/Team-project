@@ -1,0 +1,17 @@
+{
+  "version": "1.2.4-inventory",
+  "version_code": 8,
+  "apk": "D:\\project\\Team_Project_Shared\\Team-project\\frontend\\app\\build\\outputs\\apk\\debug\\mewstow-1.2.4-inventory.apk",
+  "sha256": "c748d446f8de983a1f94c513d39f18f9b1f9efac24d217cbee5e6344322ae0f9",
+  "unit": {
+    "tests": 74,
+    "failures": 0,
+    "errors": 0
+  },
+  "postgres": 30,
+  "device": 8,
+  "live_post_deploy": 3,
+  "no_database_schema_change": true,
+  "product_count": "unchanged live aggregate",
+  "inventory_quantity_column": false
+}

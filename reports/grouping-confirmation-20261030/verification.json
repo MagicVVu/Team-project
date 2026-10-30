@@ -1,0 +1,30 @@
+{
+  "version": "1.2.2-inventory",
+  "version_code": 6,
+  "apk": "D:\\project\\Team_Project_Shared\\Team-project\\frontend\\app\\build\\outputs\\apk\\debug\\mewstow-1.2.2-inventory.apk",
+  "apk_sha256": "224b1a571386fa1287105e53f9d9b20dfc2f60a14449df6fa7ab359ad8ea5184",
+  "unit": {
+    "tests": 74,
+    "failures": 0,
+    "errors": 0
+  },
+  "postgres_tests_passed": 22,
+  "offline_ui_tests_passed": 8,
+  "live_device_tests_passed": 3,
+  "deployment": {
+    "deployed": true,
+    "image": "magicvvu/backend:grouping-confirmation-20261030",
+    "checks": {
+      "agent_unchanged": true,
+      "database_unchanged": true,
+      "backend_image": true,
+      "environment_unchanged": true,
+      "mounts_unchanged": true,
+      "ports_unchanged": true,
+      "source_verified": true
+    },
+    "schema_migration": false,
+    "backup_directory": "/srv/magicvvu/releases/grouping-confirmation-20261030"
+  },
+  "production_inventory_test_writes": false
+}

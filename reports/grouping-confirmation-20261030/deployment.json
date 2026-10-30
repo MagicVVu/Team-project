@@ -1,0 +1,15 @@
+{
+  "deployed": true,
+  "image": "magicvvu/backend:grouping-confirmation-20261030",
+  "checks": {
+    "agent_unchanged": true,
+    "database_unchanged": true,
+    "backend_image": true,
+    "environment_unchanged": true,
+    "mounts_unchanged": true,
+    "ports_unchanged": true,
+    "source_verified": true
+  },
+  "schema_migration": false,
+  "backup_directory": "/srv/magicvvu/releases/grouping-confirmation-20261030"
+}

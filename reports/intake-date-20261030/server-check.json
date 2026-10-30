@@ -1,0 +1,1 @@
+{"passed": true, "deployed_api_checked": true, "created_objects_checked": 6, "explicit_date_preserved": true, "null_and_omitted_date_defaulted": true, "replay_and_edit_preserve_date": true, "product_realtime_counts_unchanged": true, "all_fixture_writes_rolled_back": true, "business_day": "2026-10-30"}

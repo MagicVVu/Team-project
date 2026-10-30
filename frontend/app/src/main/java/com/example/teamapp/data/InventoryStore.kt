@@ -81,7 +81,7 @@ class InventoryStore(context: Context) {
         val old = items.firstOrNull { it.id == item.id }
         if (old == null) {
             require(item.quantity > 0)
-            val records = item.copy(name = item.name.trim()).individualItems().map {
+            val records = item.withIntakeDate().copy(name = item.name.trim()).individualItems().map {
                 it.copy(history = (listOf(stamp("首次录入")) + it.history).take(30))
             }
             items = items + records

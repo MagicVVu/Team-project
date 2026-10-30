@@ -51,7 +51,7 @@ internal fun BatchOperationsPanel(cloud: CloudStore, item: StockItem, initialAct
         if (action == "OPEN" && item.openedAt.isNotBlank()) Text(s.tr("此批次已有开封日期，不能重复开封。", "An opening date is already recorded; this batch cannot be opened twice."))
         when(action) {
             "CONSUME", "DISCARD" -> if (item.individualRecord) Text(s.tr("本次只处理所选的这一件物品。", "This action applies to the selected item."))
-                else Field(s.tr("数量（${item.unit}）", "Quantity (${item.unit})"), quantity, { quantity = it }, numeric = true)
+                else Field(s.tr("物品件数", "Item count"), quantity, { quantity = it }, numeric = true)
             "OPEN" -> Field(s.tr("实际开封日期 YYYY-MM-DD", "Actual opening date YYYY-MM-DD"), date, { date = it })
             "FINISH", "DISCARD_ALL" -> Text(s.tr("将以服务器核对的当前全部余量生成草稿，数量、单位及模式不可编辑。", "The server will use the current remaining amount. Quantity, unit and mode are protected."))
             "ASK" -> Field(s.tr("想问什么", "Your question"), question, { question = it })

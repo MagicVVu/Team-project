@@ -31,12 +31,16 @@ def inventory_products(household_id: UUID, response: Response,
                        identity: Identity = Depends(get_identity), db: Session = Depends(get_db)):
     """Product identities and ALL linked batches, never inferred from equal names."""
     membership_or_404(db, household_id, identity.user.id)
-    total = db.scalar(select(func.count()).select_from(Product).where(Product.household_id == household_id))
-    rows = db.scalars(select(Product).where(Product.household_id == household_id)
+    active_product = select(ProductBatch.product_id).join(InventoryItem,
+        InventoryItem.id == ProductBatch.inventory_item_id).where(InventoryItem.status == 'ACTIVE')
+    filters = [Product.household_id == household_id, Product.id.in_(active_product)]
+    total = db.scalar(select(func.count()).select_from(Product).where(*filters))
+    rows = db.scalars(select(Product).where(*filters)
                       .order_by(Product.name, Product.id).limit(limit).offset(offset)).all()
     batches = db.execute(select(ProductBatch.product_id, InventoryItem).join(
         InventoryItem, InventoryItem.id == ProductBatch.inventory_item_id).where(
-        ProductBatch.product_id.in_([p.id for p in rows]), InventoryItem.household_id == household_id)
+        ProductBatch.product_id.in_([p.id for p in rows]), InventoryItem.household_id == household_id,
+        InventoryItem.status == 'ACTIVE')
         .order_by(InventoryItem.created_at, InventoryItem.id)).all() if rows else []
     grouped = {p.id: [] for p in rows}
     for product_id, batch in batches:
@@ -73,6 +77,8 @@ def create_product(household_id: UUID, body: ProductCreate, identity: Identity =
 def link_product(household_id: UUID, item_id: UUID, body: ProductLink, identity: Identity = Depends(get_identity),
                  db: Session = Depends(get_db)):
     membership_or_404(db, household_id, identity.user.id)
+    from app.services.product_grouping import lock_household
+    lock_household(db, household_id)
     item = db.scalar(select(InventoryItem).where(InventoryItem.id == item_id,
         InventoryItem.household_id == household_id).with_for_update().execution_options(populate_existing=True))
     if item is None:
@@ -104,6 +110,8 @@ def link_product(household_id: UUID, item_id: UUID, body: ProductLink, identity:
     ledger.save(db, body.operation_id, household_id, identity.user.id, fingerprint, result)
     event = ledger.append(db, item, identity.user.id, 'ProductLinked', before, request_id=body.operation_id)
     event.after_json = {**event.after_json, 'product_id': result['product_id'], 'mapping_source': body.source}
+    from app.services.inventory_cleanup import remove_empty_products
+    remove_empty_products(db, household_id)
     db.commit()
     return result
 

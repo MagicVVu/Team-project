@@ -77,7 +77,7 @@ def valid_origin(db, event, operation, household_id):
 
 def quantity_delta(event):
     from decimal import Decimal
-    if event.inventory_item_id is None:
+    if event.shopping_item_id is not None or (event.inventory_item_id is None and not event.after_json.get('id')):
         return None
     before, after = event.before_json, event.after_json
     if before and before.get('unit') != after.get('unit'):

@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "before": {
+    "active": {
+      "count": 331,
+      "digest": "be8930ab5361b5c102ff6d7b5c8860d7"
+    },
+    "inactive": 5,
+    "products": 24,
+    "events": 49,
+    "receipts": 31,
+    "empty_products": 2
+  },
+  "after": {
+    "active": {
+      "count": 331,
+      "digest": "be8930ab5361b5c102ff6d7b5c8860d7"
+    },
+    "inactive": 0,
+    "products": 22,
+    "events": 49,
+    "receipts": 31,
+    "empty_products": 0
+  },
+  "deleted_inventory": 5,
+  "deleted_products": 2,
+  "active_rows_unchanged": true,
+  "idempotent": true
+}

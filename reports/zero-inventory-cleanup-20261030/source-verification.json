@@ -1,0 +1,11 @@
+{
+  "app/routers/inventory.py": true,
+  "app/routers/products.py": true,
+  "app/routers/shopping.py": true,
+  "app/routers/draft_execution.py": true,
+  "app/services/draft_execution.py": true,
+  "app/services/product_grouping.py": true,
+  "app/services/shopping.py": true,
+  "app/services/ledger.py": true,
+  "app/services/inventory_cleanup.py": true
+}

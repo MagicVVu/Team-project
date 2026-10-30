@@ -24,8 +24,8 @@ android {
         applicationId = "com.example.teamapp"
         minSdk = 24
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.2.0-test"
+        versionCode = 9
+        versionName = "1.2.5-inventory"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

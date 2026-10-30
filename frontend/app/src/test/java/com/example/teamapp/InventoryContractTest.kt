@@ -5,6 +5,14 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class InventoryContractTest {
+    @Test fun intakeDateIsFrozenAndSurvivesExpansionAndLaterRetry() {
+        val day = java.time.LocalDate.of(2026, 10, 30)
+        val item = StockItem(name = "苹果", quantity = 3.0, unit = "件").withIntakeDate(day)
+        assertEquals("2026-10-30", item.purchasedAt)
+        assertTrue(item.individualItems().all { it.purchasedAt == "2026-10-30" })
+        assertEquals(item, item.withIntakeDate(day.plusDays(1)))
+        assertEquals("2026-10-29", item.copy(purchasedAt = "2026-10-29").withIntakeDate(day).purchasedAt)
+    }
     @Test fun aliasesNormalizeWithoutGuessingContainers() {
         for ((alias, unit) in mapOf("mL" to "ml", "毫升" to "ml", "l" to "L", "升" to "L", "公斤" to "kg")) assertEquals(unit, InventoryContract.unit(alias))
         assertEquals("件", InventoryContract.unit("件")); assertEquals("份", InventoryContract.unit("份"))

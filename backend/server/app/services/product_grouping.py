@@ -32,10 +32,10 @@ def candidates(db, household_id, name, limit=200, offset=0):
     rows = db.execute(select(InventoryItem, Product).outerjoin(
         ProductBatch, ProductBatch.inventory_item_id == InventoryItem.id).outerjoin(
         Product, (Product.id == ProductBatch.product_id) & (Product.household_id == household_id))
-        .where(InventoryItem.household_id == household_id).order_by(InventoryItem.id)).all()
+        .where(InventoryItem.household_id == household_id, InventoryItem.status == 'ACTIVE').order_by(InventoryItem.id)).all()
     matches = []
     for item, product in rows:
-        match = name_match(name, item.name)
+        match = name_match(name, item.name) or (name_match(name, product.name) if product else None)
         if match:
             matches.append({'inventory_item_id': str(item.id), 'name': item.name,
                 'inventory_version': item.version, 'product_id': str(product.id) if product else None,
@@ -115,13 +115,42 @@ def lock_household(db, household_id):
 def classify_new(db, item, choice, actor_user_id):
     """Exact first, then a shared contiguous pair; never cross households.
 
-    Legacy explicit grouping fields are accepted for old queued clients, while
-    classification now consistently follows the household catalogue rule.
+    Explicit user choices take precedence; absent choices retain automatic
+    classification for AI drafts and older queued requests.
     """
     lock_household(db, item.household_id)
     prior = db.get(ProductBatch, item.id)
     if prior is not None:
         return db.get(Product, prior.product_id)
+    if choice is not None:
+        if choice.mode == 'separate':
+            return singleton(db, item, actor_user_id, 'user_separate_grouping')
+        candidate = db.scalar(select(InventoryItem).where(
+            InventoryItem.id == choice.candidate_inventory_item_id,
+            InventoryItem.household_id == item.household_id).with_for_update())
+        if candidate is None or candidate.id == item.id:
+            raise HTTPException(404, {'code': 'GROUPING_CANDIDATE_NOT_FOUND'})
+        if candidate.version != choice.expected_inventory_version:
+            raise HTTPException(409, {'code': 'GROUPING_CANDIDATE_CHANGED'})
+        link = db.get(ProductBatch, candidate.id)
+        product = db.get(Product, link.product_id) if link else None
+        if not (name_match(item.name, candidate.name) or (product and name_match(item.name, product.name))):
+            raise HTTPException(409, {'code': 'GROUPING_NAME_NO_LONGER_MATCHES'})
+        if product is not None:
+            if product.household_id != item.household_id:
+                raise HTTPException(404, {'code': 'GROUPING_PRODUCT_NOT_FOUND'})
+            if product.version != choice.expected_product_version:
+                raise HTTPException(409, {'code': 'GROUPING_PRODUCT_CHANGED'})
+            product.version += 1
+        else:
+            if choice.expected_product_version is not None:
+                raise HTTPException(409, {'code': 'GROUPING_PRODUCT_CHANGED'})
+            product = singleton(db, candidate, actor_user_id, 'user_confirmed_grouping')
+            candidate.version += 1
+        db.add(ProductBatch(inventory_item_id=item.id, product_id=product.id,
+            source='user_confirmed_grouping', actor_user_id=actor_user_id))
+        db.flush()
+        return product
     products = db.scalars(select(Product).where(Product.household_id == item.household_id)).all()
     matching = [(product, name_match(item.name, product.name)) for product in products]
     matching = [(product, match) for product, match in matching if match]

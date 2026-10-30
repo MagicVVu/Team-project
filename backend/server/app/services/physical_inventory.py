@@ -1,6 +1,8 @@
 """Expand intake amounts into independently addressable physical objects."""
 from decimal import Decimal
+from datetime import datetime, timezone
 from uuid import uuid5
+from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
 
@@ -8,6 +10,11 @@ from app.models import InventoryItem
 
 MEASURE_UNITS = {'毫升', 'ml', 'mL', '升', 'l', 'L', '克', 'g', '千克', '公斤', 'kg', '吨'}
 MAX_OBJECTS = 10000
+
+
+def intake_date():
+    # Legacy callers may omit the device date. Never use the server's UTC date.
+    return datetime.now(timezone.utc).astimezone(ZoneInfo('Asia/Shanghai')).date()
 
 
 def intake_shape(quantity, unit, specification=None):
@@ -33,6 +40,8 @@ def add_objects(db, *, first_id, quantity, unit, actor_user_id, choice=None, pro
     lock_household(db, values['household_id'])
     specification = values.pop('specification', None)
     count, physical_unit, specification = intake_shape(quantity, unit, specification)
+    if values.get('purchased_on') is None:
+        values['purchased_on'] = intake_date()
     rows = [InventoryItem(id=first_id if index == 0 else uuid5(first_id, f'object:{index}'),
         unit=physical_unit, specification=specification, status='ACTIVE', version=1,
         created_by_user_id=actor_user_id, **values) for index in range(count)]
