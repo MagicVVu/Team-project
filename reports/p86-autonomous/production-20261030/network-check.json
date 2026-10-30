@@ -1,0 +1,25 @@
+{
+  "stage": "network_checked",
+  "release": "V1-P8.6",
+  "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+  "public_origin": "https://8.134.172.165:8000",
+  "tls_certificate_verified": true,
+  "tls_trust_source": "existing Android Debug bundled CA",
+  "public_ca_sha256": "05bf022190b600215088f11f1adf40685eda508dda1e46932aea8a4e7384ade9",
+  "system_ca_trust_verified": false,
+  "tls_configuration_changed": false,
+  "http_probes": {
+    "health_with_app_key": 200,
+    "without_app_key": 403,
+    "without_bearer": 401
+  },
+  "service_link": {
+    "backend_to_ai_authenticated": true,
+    "autonomous_calls": 0,
+    "legacy_p85_calls": 0,
+    "database_rows_created": false,
+    "inventory_reads": 0,
+    "business_writes": false
+  },
+  "app_joint_acceptance": false
+}

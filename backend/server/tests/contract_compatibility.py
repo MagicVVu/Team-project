@@ -17,13 +17,25 @@ def decimal_schema_projection(value):
 
 
 def assert_backend_contract(old, current):
-    # P8.4 adds opt-in counters to the session response only. Legacy AIResolution
-    # and all business schemas still compare exactly, including numeric bounds.
-    if old.get("title")=="Response" and "dialogue" not in old.get("properties",{}) and "dialogue" in current.get("properties",{}):
+    # Autonomous turns intentionally widen only the session call counter and
+    # add a discriminated metadata branch. Older wire routes/business models
+    # remain exact; runtime tests separately enforce old protocol call limits.
+    if old.get("title")=="Response" and "maximum" in old.get("properties",{}).get("model_calls",{}) and "maximum" not in current.get("properties",{}).get("model_calls",{}):
         current=deepcopy(current)
-        assert current["properties"]["model_calls"]["maximum"]==2
-        current["properties"]["model_calls"]["maximum"]=1
-        current["properties"].pop("dialogue")
+        counter=current["properties"]["model_calls"]
+        assert counter["minimum"]==0 and counter["type"]=="integer"
+        if "maximum" not in counter:
+            choices=current["properties"]["dialogue"]["anyOf"][0]["discriminator"]["mapping"]
+            assert set(choices)=={"p84-dialogue-1","p85-dialogue-1","inventory-autonomous-1"}
+        counter["maximum"]=old["properties"]["model_calls"]["maximum"]
+        if "dialogue" in old["properties"]:
+            # Existing records retain the exact same legacy metadata type.
+            refs=[v["$ref"] for v in old["properties"]["dialogue"].get("anyOf",[]) if "$ref" in v]
+            assert len(refs)==1 and choices["p84-dialogue-1"]==choices["p85-dialogue-1"]==refs[0]
+            current["properties"]["dialogue"]=deepcopy(old["properties"]["dialogue"])
+        else: current["properties"].pop("dialogue")
+        for name in ("AutonomousCalls","AutonomousMetadata"):
+            if name not in old.get("$defs",{}):current.get("$defs",{}).pop(name,None)
     def dialogue_protocols(value):
         if isinstance(value, list): return [dialogue_protocols(v) for v in value]
         if not isinstance(value, dict): return value

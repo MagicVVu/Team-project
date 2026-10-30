@@ -1,0 +1,488 @@
+{
+  "$defs": {
+    "AutonomousCalls": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "minimum": 0,
+          "title": "Decision",
+          "type": "integer"
+        },
+        "response": {
+          "const": 0,
+          "default": 0,
+          "title": "Response",
+          "type": "integer"
+        },
+        "total": {
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "decision",
+        "total"
+      ],
+      "title": "AutonomousCalls",
+      "type": "object"
+    },
+    "AutonomousMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "const": "inventory-autonomous-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "calls": {
+          "$ref": "#/$defs/AutonomousCalls"
+        },
+        "recovery_model_calls": {
+          "anyOf": [
+            {
+              "const": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recovery Model Calls"
+        },
+        "fallback_used": {
+          "title": "Fallback Used",
+          "type": "boolean"
+        },
+        "field_sources": {
+          "additionalProperties": true,
+          "title": "Field Sources",
+          "type": "object"
+        },
+        "stop_reason": {
+          "title": "Stop Reason",
+          "type": "string"
+        },
+        "loop_stop_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Loop Stop Reason"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "needs_input",
+            "needs_confirmation",
+            "stopped"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "tool_reads": {
+          "minimum": 0,
+          "title": "Tool Reads",
+          "type": "integer"
+        },
+        "elapsed_ms": {
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "number"
+        },
+        "ai_elapsed_ms": {
+          "minimum": 0,
+          "title": "Ai Elapsed Ms",
+          "type": "number"
+        },
+        "revalidation_calls": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Revalidation Calls",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "calls",
+        "fallback_used",
+        "stop_reason",
+        "status",
+        "tool_reads",
+        "elapsed_ms",
+        "ai_elapsed_ms"
+      ],
+      "title": "AutonomousMetadata",
+      "type": "object"
+    },
+    "CurrentTask": {
+      "properties": {
+        "task": {
+          "additionalProperties": true,
+          "title": "Task",
+          "type": "object"
+        },
+        "execution": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution"
+        }
+      },
+      "required": [
+        "task"
+      ],
+      "title": "CurrentTask",
+      "type": "object"
+    },
+    "DialogueCalls": {
+      "additionalProperties": false,
+      "properties": {
+        "understanding": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Understanding",
+          "type": "integer"
+        },
+        "response": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Response",
+          "type": "integer"
+        },
+        "total": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "understanding",
+        "response",
+        "total"
+      ],
+      "title": "DialogueCalls",
+      "type": "object"
+    },
+    "DialogueMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "protocol_version": {
+          "enum": [
+            "p84-dialogue-1",
+            "p85-dialogue-1"
+          ],
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "calls": {
+          "$ref": "#/$defs/DialogueCalls"
+        },
+        "recovery_model_calls": {
+          "anyOf": [
+            {
+              "const": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recovery Model Calls"
+        },
+        "fallback_used": {
+          "title": "Fallback Used",
+          "type": "boolean"
+        },
+        "field_sources": {
+          "additionalProperties": true,
+          "title": "Field Sources",
+          "type": "object"
+        },
+        "status": {
+          "default": "completed",
+          "enum": [
+            "completed",
+            "needs_input",
+            "needs_confirmation",
+            "stopped"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "stop_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stop Reason"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "calls",
+        "fallback_used"
+      ],
+      "title": "DialogueMetadata",
+      "type": "object"
+    },
+    "Response": {
+      "properties": {
+        "protocol_version": {
+          "const": "conversation-memory-1",
+          "default": "conversation-memory-1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "conversation_revision": {
+          "title": "Conversation Revision",
+          "type": "integer"
+        },
+        "current_conversation_revision": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Conversation Revision"
+        },
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "original_text": {
+          "title": "Original Text",
+          "type": "string"
+        },
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "task": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task"
+        },
+        "active_task": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CurrentTask"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "filled_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Filled Fields",
+          "type": "object"
+        },
+        "model_calls": {
+          "minimum": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "dialogue": {
+          "anyOf": [
+            {
+              "discriminator": {
+                "mapping": {
+                  "inventory-autonomous-1": "#/$defs/AutonomousMetadata",
+                  "p84-dialogue-1": "#/$defs/DialogueMetadata",
+                  "p85-dialogue-1": "#/$defs/DialogueMetadata"
+                },
+                "propertyName": "protocol_version"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DialogueMetadata"
+                },
+                {
+                  "$ref": "#/$defs/AutonomousMetadata"
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dialogue"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "inventory_written": {
+          "const": false,
+          "default": false,
+          "title": "Inventory Written",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "conversation_id",
+        "conversation_revision",
+        "request_id",
+        "original_text",
+        "reply",
+        "kind",
+        "model_calls"
+      ],
+      "title": "Response",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "conversation_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Conversation Id"
+    },
+    "current_conversation_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Conversation Revision"
+    },
+    "phase": {
+      "enum": [
+        "completed",
+        "processing",
+        "result_unknown",
+        "prepared"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "original_text": {
+      "title": "Original Text",
+      "type": "string"
+    },
+    "response": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Response"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "active_task": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CurrentTask"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "recovery_hint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recovery Hint"
+    }
+  },
+  "required": [
+    "phase",
+    "request_id",
+    "original_text"
+  ],
+  "title": "Recovery",
+  "type": "object"
+}

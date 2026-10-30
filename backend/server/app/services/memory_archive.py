@@ -40,10 +40,9 @@ def checked_reference(reference, scope, completed_at):
 
 
 def subjects_for(turn):
-    from app.services import dialogue
+    from app.services import dialogue, autonomous
     saved = turn.binding_json or {}
-    protocol = dialogue.saved_protocol(saved)
-    plan = (saved.get(dialogue.PROTOCOL_KEYS[protocol]) or {}).get("plan", {}) if protocol else {}
+    plan = autonomous.previous_plan(saved) or {}
     candidates = [(plan.get("selector") or {}).get("name")]
     field = (plan.get("fields") or {}).get("name") or {}
     if field.get("source", "current_text") == "current_text":
@@ -117,22 +116,24 @@ def validate_delta(delta, payload, reply):
 
 def finalize(turn, saved, info, understood, response, *, has_task):
     """Called in the task/draft/turn completion transaction, never commits itself."""
-    from app.services import dialogue
+    from app.services import dialogue, autonomous
     protocol = dialogue.saved_protocol(saved)
     completed = gateway.now()
     info["completed_at"] = completed.isoformat()
-    if protocol != dialogue.P85_PROTOCOL:
+    auto_state=autonomous.saved_state(saved)
+    if protocol != dialogue.P85_PROTOCOL and auto_state is None:
         return {**saved, "memory_v1": info}
-    state = deepcopy(saved[dialogue.P85_KEY])
+    state_key=autonomous.KEY if auto_state is not None else dialogue.P85_KEY
+    state = deepcopy(saved[state_key])
     # Revalidate the durable resolved delta, not a mobile-supplied or edited copy.
     resolved = state.get("resolved") or {}
     delta = resolved.get("memory_delta")
-    validate_delta(delta, saved["payload"], resolved.get("reply", ""))
+    validate_delta(delta,state.get("resolution_payload",saved["payload"]),resolved.get("reply", ""))
     scope = saved["payload"]["context"]["scope"]
     episode = wire.Episode(memory_id=memory_id(scope, info["conversation_id"], turn.request_id),
         request_id=turn.request_id, text=turn.original_text, reply=response["reply"][:8000],
         created_at=completed, subjects=delta["episode"]["subjects"] if delta else subjects_for(turn),
         reference=checked_reference(info.get("reference"), scope, completed) if has_task else None)
     state.update(memory_delta=delta, final_reply=response["reply"], completed_at=completed.isoformat())
-    return {**saved, "memory_v1": info, dialogue.P85_KEY: state,
+    return {**saved, "memory_v1": info, state_key: state,
             EPISODE_KEY: episode.model_dump(mode="json")}

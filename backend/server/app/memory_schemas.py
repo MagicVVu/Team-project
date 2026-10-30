@@ -69,6 +69,34 @@ class DialogueMetadata(BaseModel):
     stop_reason: str | None = None
 
 
+class AutonomousCalls(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    decision: int = Field(ge=0, strict=True)
+    response: Literal[0] = 0
+    total: int = Field(ge=0, strict=True)
+
+    @model_validator(mode="after")
+    def count(self):
+        if self.total != self.decision: raise ValueError("Invalid autonomous count")
+        return self
+
+
+class AutonomousMetadata(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    protocol_version: Literal["inventory-autonomous-1"]
+    calls: AutonomousCalls
+    recovery_model_calls: Literal[0] | None = None
+    fallback_used: bool
+    field_sources: dict[str,Any] = Field(default_factory=dict)
+    stop_reason: str
+    loop_stop_reason: str | None = None
+    status: Literal["completed", "needs_input", "needs_confirmation", "stopped"]
+    tool_reads: int = Field(ge=0, strict=True)
+    elapsed_ms: float = Field(ge=0)
+    ai_elapsed_ms: float = Field(ge=0)
+    revalidation_calls: int = Field(default=0, ge=0, strict=True)
+
+
 class Response(BaseModel):
     protocol_version: Literal["conversation-memory-1"] = "conversation-memory-1"
     conversation_id: UUID
@@ -82,8 +110,8 @@ class Response(BaseModel):
     active_task: CurrentTask | None = None
     evidence: list[dict[str, Any]] = Field(default_factory=list)
     filled_fields: dict[str, str] = Field(default_factory=dict)
-    model_calls: int = Field(ge=0, le=2)
-    dialogue: DialogueMetadata | None = None
+    model_calls: int = Field(ge=0, strict=True)
+    dialogue: DialogueMetadata | AutonomousMetadata | None = Field(default=None, discriminator="protocol_version")
     truncated: bool = False
     error_code: str | None = None
     inventory_written: Literal[False] = False

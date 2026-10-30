@@ -265,7 +265,7 @@ def final_response(db, identity, turn, response):
 
 
 def recover(db, identity, home, request_id):
-    from app.services import dialogue
+    from app.services import dialogue, autonomous
     execution.membership(db, identity.user.id, home)
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
         ConversationTurn.household_id == home, ConversationTurn.request_id == request_id))
@@ -283,9 +283,10 @@ def recover(db, identity, home, request_id):
     current = routing.cursor(db, identity.user.id)
     processing = bool(current and current.processing_nonce == turn.processing_nonce and current.processing_nonce
                       and current.lease_until and gateway.as_aware(current.lease_until) > gateway.now())
-    prepared = bool(turn.resolution_json) or dialogue.has_plan(turn.binding_json or {})
+    auto_state=autonomous.saved_state(turn.binding_json or {})
+    prepared = bool(turn.resolution_json) or dialogue.has_plan(turn.binding_json or {}) or bool(auto_state and auto_state.get("result"))
     protocol = dialogue.saved_protocol(turn.binding_json or {})
-    state = (turn.binding_json or {}).get(dialogue.PROTOCOL_KEYS[protocol], {}) if protocol else {}
+    state = auto_state or ((turn.binding_json or {}).get(dialogue.PROTOCOL_KEYS[protocol], {}) if protocol else {})
     reason = {"timeout": "本轮处理超时，已经查到的结果仍保留。",
               "ai_unavailable": "AI 服务暂时不可用，已经查到的结果仍保留。"}.get(state.get("stop_reason"), "")
     return dict(phase="processing" if processing else "prepared" if prepared else "result_unknown", request_id=request_id,
@@ -294,7 +295,7 @@ def recover(db, identity, home, request_id):
 
 
 async def send(db, identity, body):
-    from app.services import dialogue
+    from app.services import dialogue, autonomous
     execution.membership(db, identity.user.id, body.household_id, lock=True)
     digest = routing.digest({"memory_message": body.model_dump(mode="json")})
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
@@ -308,7 +309,14 @@ async def send(db, identity, body):
         if turn.phase == "completed":
             if not in_window(turn): execution.fail("CONVERSATION_TURN_EXPIRED", 410)
             return final_response(db, identity, turn, turn.response_json)
-        if not turn.resolution_json and not dialogue.has_plan(turn.binding_json or {}):
+        cursor = routing.cursor(db, identity.user.id)
+        if ((turn.binding_json or {}).get(autonomous.KEY) and cursor and cursor.processing_nonce
+                and cursor.processing_nonce == turn.processing_nonce and cursor.lease_until
+                and gateway.as_aware(cursor.lease_until) > gateway.now()):
+            execution.fail("CONVERSATION_PROCESSING")
+        auto_state=autonomous.saved_state(turn.binding_json or {})
+        autonomous_result = (auto_state or {}).get("result")
+        if not turn.resolution_json and not dialogue.has_plan(turn.binding_json or {}) and not autonomous_result:
             execution.fail("AI_OUTCOME_UNKNOWN")
         current = cursor_for_write(db, identity, body.household_id)
     else:
@@ -328,11 +336,13 @@ async def send(db, identity, body):
             binding_json={KEY: info, "payload": payload}, phase="understanding")
         db.add(turn)
     recovering_dialogue = dialogue.saved_protocol(turn.binding_json or {}) is not None
+    recovering_autonomous = autonomous.saved_state(turn.binding_json or {}) is not None
     # Existing legacy prepared turns must not switch protocols after a rollout.
-    use_dialogue = recovering_dialogue or (new_turn and dialogue.enabled())
+    use_autonomous = recovering_autonomous or (new_turn and autonomous.enabled())
+    use_dialogue = not use_autonomous and (recovering_dialogue or (new_turn and dialogue.enabled()))
     nonce = str(uuid4())
     current.processing_nonce = turn.processing_nonce = nonce
-    current.lease_until = gateway.now()+timedelta(seconds=90 if use_dialogue else 30)
+    current.lease_until = gateway.now()+timedelta(seconds=120 if use_autonomous else 90 if use_dialogue else 30)
     try:
         db.commit()
     except IntegrityError:
@@ -342,9 +352,11 @@ async def send(db, identity, body):
     understood = turn.resolution_json
     db.rollback()
     try:
+        if use_autonomous:
+            understood, saved = await autonomous.run(db, identity, body, turn_id, nonce, saved, recovering=recovering_autonomous)
         if use_dialogue:
             understood, saved = await dialogue.run(db, identity, body, turn_id, nonce, saved, recovering=recovering_dialogue)
-        if not use_dialogue and understood is not None and understood.get("kind") == "task" and understood.get("understanding"):
+        if not use_dialogue and not use_autonomous and understood is not None and understood.get("kind") == "task" and understood.get("understanding"):
             # Recovery reuses semantic parsing, not stale computed inventory.
             # Replay is internal-only and cannot call a model.
             _, turn = routing.locked_turn(db, identity, turn_id, nonce)
@@ -440,6 +452,9 @@ async def send(db, identity, body):
         # unknown paid extraction that would permanently block the conversation.
         conflict = dict(kind="needs_input", reply="库存或原任务已经变化，请重新查询并核对；尚未执行。",
                         model_calls=understood["model_calls"], error_code=code, dialogue=understood.get("dialogue"))
+        if (conflict.get("dialogue") or {}).get("protocol_version")==autonomous.PROTOCOL:
+            conflict["dialogue"]={**conflict["dialogue"],"status":"needs_input","stop_reason":"boundary"}
+            conflict["filled_fields"]=understood.get("filled_fields",{})
         response = complete(db, identity, turn_id, nonce, conflict, saved)
         db.commit()
         turn = db.get(ConversationTurn, turn_id, populate_existing=True)

@@ -1,0 +1,9 @@
+{
+  "isolated_no_network": true,
+  "old_routes_retained": true,
+  "new_routes_verified": true,
+  "internal_auth_verified": true,
+  "model_calls": 0,
+  "inventory_reads": 0,
+  "inventory_writes": false
+}

@@ -355,11 +355,11 @@ def test_local_memory_backend_contract_matches_factory(execution_state):
     from app.main import app
     from app.memory_schemas import Response
     project = Path(__file__).resolve().parents[3]
-    root = project/"reports/p85-backend-adapter/contracts"
+    root = project/"docs/versions/V1-P8.6/contracts"
     exported = json.loads((root/'backend-openapi.json').read_text(encoding="utf-8"))
-    assert exported.pop("x-deployment-status") == "local_source_not_deployed"
-    assert exported.pop("x-p85-adapter-status") == "protocol_adapter_only_archive_supply_pending"
-    assert exported.pop("x-supported-dialogue-protocols") == ["p84-dialogue-1", "p85-dialogue-1"]
+    assert exported.pop("x-deployment-status") == "local_source_contract_not_deployed"
+    assert exported.pop("x-conversation-memory-protocol") == "conversation-memory-1"
+    assert exported.pop("x-conversation-dialogue-protocol") == "inventory-autonomous-1"
     from contract_compatibility import assert_backend_contract
     assert_backend_contract(exported, app.openapi())
     assert_backend_contract(json.loads((root/"public-response.schema.json").read_text(encoding="utf-8")), Response.model_json_schema())

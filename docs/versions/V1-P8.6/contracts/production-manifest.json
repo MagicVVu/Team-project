@@ -1,0 +1,18 @@
+{
+  "stage": "V1-P8.6",
+  "source_sha256": "dc3519330fecb734cb72cf52855e67173aeeaa568ceac4032cf8fbb9638837a5",
+  "source_commit": "6480c776853331bef8ca072a815a8c81d48ad232",
+  "images": {
+    "agent": "magicvvu/agent:p86-dc3519330fec",
+    "backend": "magicvvu/backend:p86-dc3519330fec"
+  },
+  "ai_version": "0.8.6",
+  "business_version": "0.9.0",
+  "protocol": "inventory-autonomous-1",
+  "files": {
+    "production-ai-openapi.json": "51c4ac75baf6650bdfe98dd171c15be882392250853706c85df6db60327b850a",
+    "production-backend-openapi.json": "3b98940d7f07f8b6ea6df47578e1341049dc3b3ba448ac9298415b92f8ddf0ae"
+  },
+  "backend_export_method": "running container app.openapi(); public docs remain disabled",
+  "app_joint_acceptance": false
+}

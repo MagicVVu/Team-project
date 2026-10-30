@@ -1,0 +1,871 @@
+{
+  "containers": {
+    "agent": {
+      "id": "2f7c288500e8983489cd92bb2900989bce18c9f62dcd2b72c4e57a0e01d59852",
+      "image": "magicvvu/agent:inventory-units-20261029",
+      "started_at": "2026-10-29T08:16:35.082438267Z",
+      "health": "healthy",
+      "protocol": null,
+      "engine": "deepseek",
+      "model": "deepseek-flash"
+    },
+    "backend": {
+      "id": "74b4479daf3b5607d865db31400fb4c6a86afa13e3511de1e7587da07be88a9c",
+      "image": "magicvvu/backend:inventory-units-20261029",
+      "started_at": "2026-10-29T08:16:27.677755414Z",
+      "health": "healthy",
+      "protocol": "p85-dialogue-1",
+      "engine": null,
+      "model": null
+    },
+    "db": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "health": "healthy",
+      "protocol": null,
+      "engine": null,
+      "model": null
+    }
+  },
+  "schema_revision": "[\"20261029_0012\"]",
+  "source_comparison": [
+    {
+      "path": "agent/p0/__init__.py",
+      "server_sha256": "c4a897c2d8fbee54ffd7b07657c3a53deef556e45f0592258876c516b0df131b",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/text.py",
+      "server_sha256": "fa66ee7bd7cf23b2271ff1d9e71fae3126b6f17f51a75a5a25e59a0bad12494c",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/domain.py",
+      "server_sha256": "077bf543f948658bd7b415e4d15d48e34b1535055d63ab0e4848a477e0e4489c",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/engines.py",
+      "server_sha256": "d45b2bd772543c544ad017e4d80ec2982d8c145880cfc80332427c99ab6a76f3",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/manager.py",
+      "server_sha256": "42ac82f71de611e406f5f64213fb1f309864726fafed9fa0411a9aa2cab8392c",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/budget.py",
+      "server_sha256": "18a633f1bb418a501a42fa93f91adad4c05a76e17045a4ec3f95ccec5f086892",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/deepseek.py",
+      "server_sha256": "3e0475a80ae2f5103a64059585abefe9e28d9043a1d01d6bdeef292d0152cc5a",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/schemas.py",
+      "server_sha256": "1f4503e1d9c2d160f545a082a5f6340147b314abed10d3f50d4e82f189d01ee9",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p0/tools.py",
+      "server_sha256": "06c51e522cb4252cb9ddde8cbdf1bc3bdff57f6787ed98d290da2c78cecef065",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/__init__.py",
+      "server_sha256": "1682b7cfeb85c5c2d096b77b5189d3300846a515aea1fab44f9c63438f8ee283",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/engines.py",
+      "server_sha256": "bf3acce689e29ea2e1ab3b62297318e75ba12570facd8111786bd14ca0c4a3f1",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/domain.py",
+      "server_sha256": "1e03a09d62780834f2a9ec4140a5894c3f1738855ee2e52b4533831fcaa9c86e",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/manager.py",
+      "server_sha256": "d5a5ea3b9c1fce8a84c6ba30ae065ce30de2627c8793d8ed805af8a3e86dcc67",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/schemas.py",
+      "server_sha256": "ebc5c0ae728825266a86db7f3af7a1afbaf4a1939de4ae9cd7416e71bfdf5936",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p1/tools.py",
+      "server_sha256": "26d2ddfe6a9d1cfe64967b4b1933bbda2f40eb5a8232514cd2ef02a01f162f24",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/__init__.py",
+      "server_sha256": "dc7a395098434c9c0160f5146435a250ddeeeb022feb4593b2f4bdb34993acc4",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/app.py",
+      "server_sha256": "bf9c38f9e53c51d1a6b865584409392850c508a4f1c75dd25855b0025361da42",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/engines.py",
+      "server_sha256": "9e9065b9b170d34789e6a735bc7fbaa6efb288ef2096b2b84115eaeb616dc133",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/knowledge.py",
+      "server_sha256": "84281ff185fd9c117c51550ebfb26f4f57b5b52446ce7fc1c2aa6a02aacb07af",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/manager.py",
+      "server_sha256": "edb3b40d9b296088e97519a0bd738f738f8a9ef9cb4d6e8bd232f58d13aaf301",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/risk.py",
+      "server_sha256": "96c33d6af5472dcb57828e3e0ac87f1dab51cc147ede5762aeacbd6171842a2c",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/schemas.py",
+      "server_sha256": "0ee36711396287ec2dd8fbe49eec6bcdf3804c74fe2994524afba5ec85466190",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/tools.py",
+      "server_sha256": "df54933dc4d94338345f66fcb5195efa8fe2f32e2dc8364eaf86ed7c203476f2",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p2/rules.json",
+      "server_sha256": "ac57ca457373c301784958b8e6db4974f805fecabe68dea79c2442c9d9768651",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/integration/__init__.py",
+      "server_sha256": "a0a2d1c263a3845d74a031ee7728106e37e9a9509bac35a20a987567c6af7615",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/integration/agent_health.py",
+      "server_sha256": "a31cca81037eab3408d69a2eb91292b10fb1aaca56025a18cd5b2c9445a5aeda",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/integration/backend_v06.py",
+      "server_sha256": "111e5da05f837589bec2cd8f96640ae502af1bc74b5f843a98fa2520626a83b6",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/integration/source_manifest.py",
+      "server_sha256": "63903d7fc8bbb9afa78bf249f4a335668f2055f49c24e7c0586b996c5e7cc516",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/integration/runtime_config.py",
+      "server_sha256": "1f8061835bdfb5689d3421ded03b97e6b6f66ae6ff42516bfb4c05927b6813c5",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.p2",
+      "server_sha256": "3f922ee2623f1a69a36180380ed9f30d428d85a9e817df7d498cbce2baf5ee9a",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.p2.dockerignore",
+      "server_sha256": "7023007b23ecdfd12c325292ebf4baab474ace37e7a9841a097ee0bd7893acac",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/requirements.p2.runtime.txt",
+      "server_sha256": "4dabb5eeb84525116fec2d30e40bdf1a02499a08dcbbe154b540b2db258b5aab",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/__init__.py",
+      "server_sha256": "3938aae0095dc9e65909d98928f6a6c96c71f944dff0d2df30d64ae7d756fed6",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/app.py",
+      "server_sha256": "5b7c4f32e0ceaa710495acf941f59954a52c3223473ba6369bada51a43776da0",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/engines.py",
+      "server_sha256": "ca03903cbf795dcf953c84afaf0879727f58b102b98d4a338ea0139673463e45",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/forecast.py",
+      "server_sha256": "008331602720b9d9b4123367674f176b27e2617788e7ea6ceacbc54d875991e2",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/health.py",
+      "server_sha256": "a0a40581f046d8b2a9cc294988c87f3826a072f174df8145b3997b3dcad6329e",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/history.py",
+      "server_sha256": "625a99f9513753fa8c3c68d777cca3c552eb751a349028e744620e307cbad4a2",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/manager.py",
+      "server_sha256": "dffa9b2aef6dbb500507c66fbdc474a6726e07c2b65fb14ce2b1afe4a0be93a5",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/procurement.py",
+      "server_sha256": "21ade88bc7bbd27be960480d6fb823a45b308b78cee1a7b718c3ee04fe54b333",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/schemas.py",
+      "server_sha256": "844ab8c53f08cd4e8da59cb48a3040d0a94a341390ad50d629353037e2035033",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/p3/tools.py",
+      "server_sha256": "c8cbc2d652740dec8ab38d90b86f26886c9e13c02d43828325f16fc948239dca",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.p3",
+      "server_sha256": "9d8c5050f3a60e5df6f1fd33ee0e2838c860da2b3cd4ecb41dc4d831d66069c5",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.p3.dockerignore",
+      "server_sha256": "b51a22022d6b1442d71157d8f3a0adaa86f2fda4d9a59b0e6bd26d0c9919c7cd",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/__init__.py",
+      "server_sha256": "f0de26d451c42ce3a9ade2461eba75fece55b8c03ed82aa6cc1f5ad571a518ff",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/app.py",
+      "server_sha256": "a2890e8409b164d03578bf30c18184b5b281270a0de86d87430335e8513f84bf",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/engines.py",
+      "server_sha256": "a4fefd48bed03c8b725aa1278fe8cae1f608e1441245f296abe651e15040a09f",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/health.py",
+      "server_sha256": "387dfe3ecba869c3945ed6483f9ff98b3c3c02e39016854d8c2612479d5edae0",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/manager.py",
+      "server_sha256": "6263ed13b1932f5739caa04131fc5d20b113cc75fdd62ade1836948bc0072af9",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/policy.py",
+      "server_sha256": "91f68f0854e627d6ebb9b05f155b79bfde1e572ba03ba75500cac0b7e2c5238d",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/schemas.py",
+      "server_sha256": "3973636f5d6a20b90b89cdd828a40fc0bce1b57dd26169d45918fc3562ac5d3b",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/session.py",
+      "server_sha256": "e293c520340378fc9fa0fcae3151e3eaeef0c5fbd55308f79b4974a27733a9d8",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/interaction/tasks.py",
+      "server_sha256": "330adb318fb7450277719f7cffb024563d7bcc9b0b59e886f5ef789ddaec2573",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.interaction",
+      "server_sha256": "ae5eab0221aaa1bc524dcd5ddbd36ead74249674124a21b36650ae4ff52749bd",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.interaction.dockerignore",
+      "server_sha256": "c4e3234bea88d9ae00e9f57795d54368b9d1b76ef84d24ceb9861236648ff392",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/__init__.py",
+      "server_sha256": "0d884cc80164d0542fc9cba4333fa7750c05996bf4d613687f9dca9f06140c85",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/app.py",
+      "server_sha256": "450039c31cd49f98e353086c525c8d9015055a6ec2bac1437299f98aaef9ca8c",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/engines.py",
+      "server_sha256": "29f462af6cd5bb06eda3546099008501669d83823576e3f609bf60a7f321b9f2",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/health.py",
+      "server_sha256": "80a03b21bfc9ac64c6f8abac7b03d76b9cc3d094994352c6225f6b78fafe827d",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/knowledge.py",
+      "server_sha256": "2eb2b449e70f2cce813caef3f05f8ca7b3f584696b402997ff4df90596479a49",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/manager.py",
+      "server_sha256": "96871624a07236d5578910a268a92ee1685c69286badde69db8b817b9917fce8",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/policy.py",
+      "server_sha256": "ae04b151d38fb290d3eee0df959d0d7dab619f3d825f4825a53a77da4220dd4b",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/render.py",
+      "server_sha256": "3d65a3478e486010ab18104db60291b7b3edb5fa21969851e0e0ed2b36cf7180",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/schemas.py",
+      "server_sha256": "b3113551f0c7a4bef59bb516c2fc4d6016b3da6b06090e250d057b6f65dd9e41",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/tasks.py",
+      "server_sha256": "d87b97fa039d350cb92eeb0687098e15561013e0e4e490397ec62977af5fcfaf",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/v1/tools.py",
+      "server_sha256": "b14d7c68eb652fb54405ea3538bf06952761497ea4bd3a02fb829c851d078fc4",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.v1",
+      "server_sha256": "577392f72010563e3039f10370f34a401b99a2eeb077daf58e4ae2476cad085f",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.v1.dockerignore",
+      "server_sha256": "806d07c486a74d75b2a2023c2a337cd1b843614c7830dbbfd57168cc27f3d97f",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/__init__.py",
+      "server_sha256": "50dd5368bf73b61d2df8c97382a3573664e019a517b154c2fe40bb9a5612b2ac",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/app.py",
+      "server_sha256": "c077228e1193c409b2be0374f222e9e9a550ae8c89796aa2e635b2e80a9122b3",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/schemas.py",
+      "server_sha256": "fd45324afe11b8fcf7ee9441c1d9824ab6e857429d671118d954f2b80819bbfe",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/engines.py",
+      "server_sha256": "88b72e6893270950710171d6bdbaed6df402b67ebdc18d45012a388b4f3806cc",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/manager.py",
+      "server_sha256": "d8530ae7a20ee8e00039e15439fbea193596f663b555671aac23050b7b63e355",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/replies.py",
+      "server_sha256": "9252be909b6ba4dc37f8792f70bdebaca4843dae6fe016d468b0ce8c1b7ee632",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/tasks.py",
+      "server_sha256": "00d8443bef5ed7bf04b1bfe9529d02dc305c2d3b40be31d7f89a1df79450b9c8",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/health.py",
+      "server_sha256": "e5e5827faff1269e1099f19b35e5277ab23050d3652cb5e95c7110c21dd0b2d6",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/reply_adapter.py",
+      "server_sha256": "da6421a3ef2302e106f9e473ca2b033a457710611b0d3594047d5a2e65491900",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/chat_text.py",
+      "server_sha256": "4c62e79df94ec19a757e3f069c18a91113830ff06eaa2fb095bd46e9755fac84",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/supplements.py",
+      "server_sha256": "127e65a4175284bec5f735a6f4c26464357ed77bbef5ed13ba89cb88fbfdb532",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/scoped_queries.py",
+      "server_sha256": "7da1c584f0aaa6c46b89c305e2ec8366ec8e57a972a84acbd358ef9c03815d3b",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/memory.py",
+      "server_sha256": "cdf7f8751c4c9391301508fd718827ed327581f029bff1a81af50937327ddbde",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/memory_schemas.py",
+      "server_sha256": "39c16464d7df44d30e2942ba8fce2dd0121d74da9964e6345e91f8c42808a29f",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/planning.py",
+      "server_sha256": "41c1e4d6f4f8eb84aa064f4780e83bef45eb5bcdc59e914479c321f104f8e8ee",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/planning_schemas.py",
+      "server_sha256": "3dcb3074f35e25b67efadf1630380c8f78ee045f686e5b402d4d65afa02f87a3",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/dialogue.py",
+      "server_sha256": "bb6467a93438c51e4f645bbbc8bb25bc30ce3ebefa005d4db1f4e2fe65947466",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/dialogue_schemas.py",
+      "server_sha256": "bb6933b532cf2070729fc52b7493dce21f0118f42610f7e9d6df0241c7b54c07",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/dialogue_engine.py",
+      "server_sha256": "23b6dbccced72c51e089013b2f0c8668e495fc194f8941bcd5696da45483064d",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/__init__.py",
+      "server_sha256": "131c161917ddbb713d4b2ebb067da79114712fbb74a7352a9e0e795d96a50ccc",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/app.py",
+      "server_sha256": "f6fdb366f760f46adf1c7d96570abffe970e93e37c2b637b51614756616920a8",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/archive.py",
+      "server_sha256": "2c59b1f5bb491561314dac1413b88b3abb1a86867a3d027bf282f800113bbf0e",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/engine.py",
+      "server_sha256": "3c30b1a4f3117ee33cb5396223657d22752ea62768d121adbf19530c27ba1422",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/flow.py",
+      "server_sha256": "5908636d4d60c43f5e49a4683b1eb8addc1fc3071647a38ee9f468f2a09e4bad",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/health.py",
+      "server_sha256": "dd920a7b241fe57953cc1db1cf73ec9f264133e1170e4e36d64b6c53d40f8ad4",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/memory.py",
+      "server_sha256": "e8bd2a8996e3af27c71e647dbe1dfe96bb8231e86831dd7ba43445cec972c6a5",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/prose.py",
+      "server_sha256": "ee41affd2af3cbca6e5ae94074e630aa4f69ddcef15321ec401f046f48473f1f",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/render.py",
+      "server_sha256": "5a56ed3f103d048c3f89bdf5d71ce580c0de71437864029f9b2d8dcb2d9f67f6",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/p85/schemas.py",
+      "server_sha256": "1879e96271687fbc6f8e8a22eb8a35095a7b3467a6518ba2f63d01fc8f090ea5",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/conversation/autonomous/__init__.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/app.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/schemas.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/engine.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/runner.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/reads.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/conversation/autonomous/health.py",
+      "remote_missing": true
+    },
+    {
+      "path": "agent/Dockerfile.conversation",
+      "server_sha256": "30534a6eda2ab722592000b54a2532a04fffce10c51cff12e4bbbe659d71a346",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "agent/Dockerfile.conversation.dockerignore",
+      "server_sha256": "f47951a6f869fb2945cb7349cf71f1b50240442f9f9610f3c5e8695fe54335fd",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/dialogue.py",
+      "server_sha256": "e23cd0ec192b638049852fc96eb6034b5e4f1ac1ef654b4c71a57f8b06f3e0a6",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/dialogue_schemas.py",
+      "server_sha256": "c2057afddaf1608deb838a8e51a478deb87c9876800ef8096430419120b32e07",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/memory_schemas.py",
+      "server_sha256": "c2331abcb3ee996bb4c902fc50629dfcb17522df44478171fd92e3ad35bbb0c7",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/routers/session_memory.py",
+      "server_sha256": "6120117e03c00462e46d07a930dfa4b48d1671af5981d34832a129e5ca774e6b",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/session_memory.py",
+      "server_sha256": "d398946be26441eda7ee006533c47ce4e46473f561d117ee404a8caf632afcf4",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/routers/draft_execution.py",
+      "server_sha256": "1c4bb305cb560300573583cb76bb2a85a3f980d291a94f17d3fb1f29d4dc5563",
+      "worktree_matches": false,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/memory_archive.py",
+      "server_sha256": "e68a2e7d8c150c81f960f553454e7eacaf6fb3d5f9eb59c04abf12f3c3c033de",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/ai_inventory.py",
+      "server_sha256": "7e301285ac9086d977937ef8b299262ae879325d49a47c810c94448886a7307b",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/models.py",
+      "server_sha256": "56f36b5dea4a0d95a1c0cebf24a2fd84eb56ce80d4d5ff45cf4fc9817b2e538b",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/execution_models.py",
+      "server_sha256": "ff91eaa2e2b3810ab380c81db613b827cbf8240d8a45833990bf8b69cc47c603",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/inventory_schemas.py",
+      "server_sha256": "6ef9b3a09322aa3f7959aac23dac867b5c3f76d19b29642d19572f4599017fcc",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/draft_execution.py",
+      "server_sha256": "05a6d7ec1746e4932b651c19e99fd3aec9528830dd4b0ec80ccbdb51c172bf33",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/physical_inventory.py",
+      "server_sha256": "eea052175f0cad05717cf902d2d11713ea5a55d4e060a2f8d8941f60f2a0a03a",
+      "worktree_matches": false,
+      "HEAD_matches": false,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/routers/ai_inventory.py",
+      "server_sha256": "06365d28453a59bf6cad74b2b6fecdaabc0c044edb3100609f67270ada1bf460",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/routers/planning.py",
+      "server_sha256": "e802140d194aaaf1da236bdb37d39f79d3445105424d5e70ad698350bf0f2e1c",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    },
+    {
+      "path": "backend/server/app/services/planning_context.py",
+      "server_sha256": "6e9f9f9a1c6060058fd53e3db8361dbc17b172cdfdd0d90e00346ce84578d49b",
+      "worktree_matches": true,
+      "HEAD_matches": true,
+      "origin/dev_matches": true
+    }
+  ],
+  "server_modified": false,
+  "personal_inventory_read": false,
+  "local_head": "3efb9e284d7a6922c202be803a7675f654345ae7",
+  "origin_dev": "192e9400afc7846fa0777c01b96c78441c85cce1"
+}

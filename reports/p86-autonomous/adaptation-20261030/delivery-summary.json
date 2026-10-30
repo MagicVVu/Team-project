@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-30",
+  "baseline": "192e9400afc7846fa0777c01b96c78441c85cce1",
+  "inventory_model": "single-object-1",
+  "runtime_files": 107,
+  "contract_files": 12,
+  "document_links_checked": 152,
+  "tests": {
+    "ai-tests.xml": {
+      "tests": 1137,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 1136,
+      "skipped_cases": [
+        {
+          "name": "test_symlink_target_is_never_followed",
+          "reason": "Symlink creation unavailable on this test account"
+        }
+      ]
+    },
+    "backend-tests.xml": {
+      "tests": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 103,
+      "skipped_cases": [
+        {
+          "name": "test_concurrent_intake_and_duplicate_request_share_one_product",
+          "reason": "Row-lock concurrency requires disposable PostgreSQL"
+        },
+        {
+          "name": "test_postgres_expands_links_preserves_history_and_completely_round_trips",
+          "reason": "Dedicated PostgreSQL migration database not requested"
+        },
+        {
+          "name": "test_postgres_later_business_writes_block_downgrade_without_changing_data",
+          "reason": "Dedicated PostgreSQL migration database not requested"
+        },
+        {
+          "name": "test_postgres_excessive_legacy_batch_refuses_before_schema_or_data_change",
+          "reason": "Dedicated PostgreSQL migration database not requested"
+        }
+      ]
+    }
+  },
+  "backend_scope": "current-contract selected regressions; historical quantity fixtures not fully migrated",
+  "real_first": {
+    "inventory_model": "single-object-1",
+    "source": "new_synthetic_current_contract_cases",
+    "cases": 16,
+    "passed": 14,
+    "human_review": "pending",
+    "independent_blind_eval": false,
+    "calls": 18,
+    "p95_ms": 4353.933000005782,
+    "production_inventory_accessed": false,
+    "server_modified": false,
+    "app_joint_acceptance": false
+  },
+  "real_regression": {
+    "inventory_model": "single-object-1",
+    "source": "new_synthetic_current_contract_cases",
+    "cases": 16,
+    "passed": 16,
+    "human_review": "pending",
+    "independent_blind_eval": false,
+    "calls": 17,
+    "p95_ms": 3472.693799994886,
+    "production_inventory_accessed": false,
+    "server_modified": false,
+    "app_joint_acceptance": false
+  },
+  "protected_historical_files_preserved": [
+    "docs/versions/V1-P8.5/README.md",
+    "docs/versions/V1-P8.5/contracts/production-ai-openapi.json",
+    "docs/versions/V1-P8.5/前后端交接说明.md",
+    "docs/versions/V1-P8.5/工作记录.md",
+    "docs/versions/V1-P8.5/服务器源码同步记录.md",
+    "docs/versions/V1-P8.5/正式版本替换记录.md",
+    "reports/ai-autonomous/ai-tests.xml",
+    "reports/ai-autonomous/backend-tests.xml",
+    "reports/ai-autonomous/cases.json",
+    "reports/ai-autonomous/delivery-summary.json",
+    "reports/ai-autonomous/final-plan-replay.json",
+    "reports/ai-autonomous/real-first-summary.json",
+    "reports/ai-autonomous/real-first.jsonl",
+    "reports/p85-memory/ai-release-tests.xml",
+    "reports/p85-memory/p85-production-audit.json",
+    "reports/p85-memory/p85-production-baseline-check.json",
+    "reports/p85-memory/p85-production-candidate-check.json",
+    "reports/p85-memory/p85-production-capture.json",
+    "reports/p85-memory/p85-production-model-check.json",
+    "reports/p85-memory/p85-production-prepare.json",
+    "reports/p85-memory/p85-production-switch.json",
+    "reports/p85-memory/p85-production-verify.json",
+    "tools/p85_release.py",
+    "tools/p85_release_remote.py"
+  ],
+  "unresolved_conflicts": 0,
+  "teammate_core_or_frontend_changed": false,
+  "new_git_commit": false,
+  "git_push": false,
+  "deployed": false,
+  "server_runtime_unchanged": true,
+  "postgres_verified_this_round": false,
+  "app_joint_acceptance": false
+}

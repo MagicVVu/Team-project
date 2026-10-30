@@ -1,0 +1,220 @@
+{
+  "stage": "V1-P8.6",
+  "date": "2026-10-30",
+  "moves": {
+    "docs/ai-autonomous": "docs/versions/V1-P8.6",
+    "reports/ai-autonomous": "reports/p86-autonomous/initial-20261029",
+    "reports/runtime-adaptation-20261030": "reports/p86-autonomous/adaptation-20261030"
+  },
+  "files": [
+    {
+      "from": "docs/ai-autonomous/2026-10-30-服务器核对与适配记录.md",
+      "to": "docs/versions/V1-P8.6/2026-10-30-服务器核对与适配记录.md",
+      "sha256_before": "24b178fa82b0fcfa0c0fba814b28b17e7bb9774e9389cc5d9e8d5b3b16cff450"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/ai-openapi.json",
+      "to": "docs/versions/V1-P8.6/contracts/ai-openapi.json",
+      "sha256_before": "aae29f1a4f4346d9ebffaf2013d65e61ff8f0e530579ad588396d15a8243e5d1"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/backend-openapi.json",
+      "to": "docs/versions/V1-P8.6/contracts/backend-openapi.json",
+      "sha256_before": "485237a7dfcedf8e648ea3d09b44acfd01938ac3853f5ccb8938f4dce19a3c1f"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/context.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/context.schema.json",
+      "sha256_before": "10e15d51d56c0ef5ffc3ff9376b18ca49133bf9a6df07e65eeb86baff03c5165"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/conversation-page.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/conversation-page.schema.json",
+      "sha256_before": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/decision.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/decision.schema.json",
+      "sha256_before": "a8f49058284c706e003c545d719488b1510ce4a7022aa108c218872587e63082"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/manifest.json",
+      "to": "docs/versions/V1-P8.6/contracts/manifest.json",
+      "sha256_before": "4935b2609d722f3e26876e3652c6a22bb91b0f1690f01a27865a43a68dd5f7f5"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/public-message.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/public-message.schema.json",
+      "sha256_before": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/public-response.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/public-response.schema.json",
+      "sha256_before": "127d86a05535f56aec72cecd29422e1e3db5ed174fd779bf68a8c679998efd01"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/recovery.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/recovery.schema.json",
+      "sha256_before": "de8e833d00c4595bf829dfd94c90f15452bc9f1c4a4b91abe5a37884739442af"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/revalidation-request.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/revalidation-request.schema.json",
+      "sha256_before": "a55b14137f31a78e842ec0540cd12f484c5c503f6a30fc444ed9f1050a96110a"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/revalidation-response.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/revalidation-response.schema.json",
+      "sha256_before": "1a7dcc349b1c69298c9718251ff12f156ed4462c6e5ac88c6e794fb512dc8bef"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/run-request.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/run-request.schema.json",
+      "sha256_before": "54915dd131afb1b62c79d878e2f3978172ee563e53b71d66da18c360eab198c8"
+    },
+    {
+      "from": "docs/ai-autonomous/contracts/run-response.schema.json",
+      "to": "docs/versions/V1-P8.6/contracts/run-response.schema.json",
+      "sha256_before": "836e72176807bc622de00e8fd3b2cbf4951cff41ce70ee3a8b3bfda0877826d8"
+    },
+    {
+      "from": "docs/ai-autonomous/README.md",
+      "to": "docs/versions/V1-P8.6/README.md",
+      "sha256_before": "419e54e73e08c663d99cc0ce23482a4649835328c886d111b5afc88426d94be6"
+    },
+    {
+      "from": "docs/ai-autonomous/runtime-source-manifest.json",
+      "to": "docs/versions/V1-P8.6/runtime-source-manifest.json",
+      "sha256_before": "b0b277487d00057420b4063edd7311cfdc619624afe2f2896bbf8dd2b4e588c9"
+    },
+    {
+      "from": "docs/ai-autonomous/前后端交接说明.md",
+      "to": "docs/versions/V1-P8.6/前后端交接说明.md",
+      "sha256_before": "924246b0f2fbaec2cc09c3e5694821a8061e7817f564faed70ebb606a79bd6ca"
+    },
+    {
+      "from": "docs/ai-autonomous/工作记录.md",
+      "to": "docs/versions/V1-P8.6/工作记录.md",
+      "sha256_before": "c6034936569702c11c8590610f10cba332b2bc9ef3e7d928c7977c07893b8103"
+    },
+    {
+      "from": "docs/ai-autonomous/评测记录.md",
+      "to": "docs/versions/V1-P8.6/评测记录.md",
+      "sha256_before": "3da22ecc82fffbe33e8797c0595559b852520254935e06920f770393e6129f4e"
+    },
+    {
+      "from": "reports/ai-autonomous/ai-tests.xml",
+      "to": "reports/p86-autonomous/initial-20261029/ai-tests.xml",
+      "sha256_before": "05a1140c65b73ebd1c53f000a1492f251b20a1ab653af289c95911dc5d6c0de9"
+    },
+    {
+      "from": "reports/ai-autonomous/backend-tests.xml",
+      "to": "reports/p86-autonomous/initial-20261029/backend-tests.xml",
+      "sha256_before": "fc67a85a7c5567e637caebff440eb7da41aece5ad3b8d2ae527c0db42fc3cef6"
+    },
+    {
+      "from": "reports/ai-autonomous/cases.json",
+      "to": "reports/p86-autonomous/initial-20261029/cases.json",
+      "sha256_before": "40d09e8148d3ad16a08d95c9686dfee253bc190a424cb3cb1f336e8886a6e803"
+    },
+    {
+      "from": "reports/ai-autonomous/delivery-summary.json",
+      "to": "reports/p86-autonomous/initial-20261029/delivery-summary.json",
+      "sha256_before": "7a976fa50fc8b89753db866215b9b90dbaa2fa093b28adae3263997676da4c2b"
+    },
+    {
+      "from": "reports/ai-autonomous/final-plan-replay.json",
+      "to": "reports/p86-autonomous/initial-20261029/final-plan-replay.json",
+      "sha256_before": "b5d254b3c18ae685b2424c9899586bc8938546e0392fba7b681d620792967106"
+    },
+    {
+      "from": "reports/ai-autonomous/real-first-summary.json",
+      "to": "reports/p86-autonomous/initial-20261029/real-first-summary.json",
+      "sha256_before": "9766ce4acf1c65380ac8694454bacb752da76ff8cb5ea3b0d8796485a50c3be7"
+    },
+    {
+      "from": "reports/ai-autonomous/real-first.jsonl",
+      "to": "reports/p86-autonomous/initial-20261029/real-first.jsonl",
+      "sha256_before": "8828c3c1ad7016b30be3e9555b260fab39d96f4e26557885a7960b1e48c01f46"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/agent_health.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/agent_health.json",
+      "sha256_before": "c3a6b77d5d5f1dffa44e6e21162e64a0db7fd52017be14d0eb1a43cc5f19b334"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/agent_openapi.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/agent_openapi.json",
+      "sha256_before": "cfe0d459cc0d8b41d639cbf2df1cf5dfa67b77b28b68e4b15a2957704e386ff6"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/ai-tests.xml",
+      "to": "reports/p86-autonomous/adaptation-20261030/ai-tests.xml",
+      "sha256_before": "70d65c12940c14bb76a48304ee44461f8017e0b90711d556f9da8f0f81a1dc11"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/backend-tests.xml",
+      "to": "reports/p86-autonomous/adaptation-20261030/backend-tests.xml",
+      "sha256_before": "da5afd64500fb2d1a6ba62a43f56ecd4e2e46a7023ee082637dcfdef7f705240"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/backend_health.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/backend_health.json",
+      "sha256_before": "fa493fd54c81031018b7efc4fde724418dff958de3d60529e52ef7bb06772b7a"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/backend_openapi.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/backend_openapi.json",
+      "sha256_before": "347d4b4e0603c4165e24e89c064a60cf846be220093f2f4db75881d5389d17e7"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/current-model-after-repair-summary.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/current-model-after-repair-summary.json",
+      "sha256_before": "07b23bb186987e9a1ac06676825bbfc5c4110fa7a8815101eff2756c1c3c4e5f"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/current-model-after-repair.jsonl",
+      "to": "reports/p86-autonomous/adaptation-20261030/current-model-after-repair.jsonl",
+      "sha256_before": "c699c33e7d38d3be3d8f64d1271394ef5fbdc30c70811b58fd36ff0a159df716"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/current-model-summary.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/current-model-summary.json",
+      "sha256_before": "84677ef7aff643b680c81576cb5ee5425ea5cefa68e9f7a4c323a22e8ba80654"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/current-model.jsonl",
+      "to": "reports/p86-autonomous/adaptation-20261030/current-model.jsonl",
+      "sha256_before": "8f0238de0a79411c2dc3c1b4ec53977bfd4667993de67417ed40ac7012e7dc08"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/delivery-summary.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/delivery-summary.json",
+      "sha256_before": "594b74aa0ec0356c78a6e722a6013c87a9b688145faea33489d1d758c91baaa4"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/server-audit.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/server-audit.json",
+      "sha256_before": "e484b872d0dae10d9acb9088c513b4a1d4e8a138c37d4b1ef60eb7a6b88d3b79"
+    },
+    {
+      "from": "reports/runtime-adaptation-20261030/server-postcheck.json",
+      "to": "reports/p86-autonomous/adaptation-20261030/server-postcheck.json",
+      "sha256_before": "ffb0a69ac4efa42b57346e886106cdf91c2a674bfb1ba67481df1817af96f329"
+    }
+  ],
+  "markdown_links_updated": [
+    "docs/versions/V1-P8.6/2026-10-30-服务器核对与适配记录.md",
+    "docs/versions/V1-P8.6/前后端交接说明.md",
+    "docs/versions/V1-P8.6/工作记录.md",
+    "docs/versions/V1-P8.6/评测记录.md",
+    "docs/handoffs/V1-P8.3-P8.5-前后端统一对接方案.md",
+    "docs/handoffs/前端AI助手接入任务清单-单窗口版.md"
+  ],
+  "git_index_sha256": "3ce94a870093fac09c250874c89348f9506169fcd798eda3ff8bb1fb25d13ad6",
+  "git_index_changed": false,
+  "raw_report_contents_changed": false,
+  "deployed": false,
+  "committed": false,
+  "pushed": false
+}

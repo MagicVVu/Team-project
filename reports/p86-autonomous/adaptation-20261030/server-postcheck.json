@@ -1,0 +1,94 @@
+{
+  "checked_at": "2026-10-30T02:37:53.212524+00:00",
+  "containers": {
+    "agent": {
+      "id": "2f7c288500e8983489cd92bb2900989bce18c9f62dcd2b72c4e57a0e01d59852",
+      "image": "magicvvu/agent:inventory-units-20261029",
+      "started_at": "2026-10-29T08:16:35.082438267Z",
+      "health": "healthy",
+      "protocol": null,
+      "engine": "deepseek",
+      "model": "deepseek-flash"
+    },
+    "backend": {
+      "id": "74b4479daf3b5607d865db31400fb4c6a86afa13e3511de1e7587da07be88a9c",
+      "image": "magicvvu/backend:inventory-units-20261029",
+      "started_at": "2026-10-29T08:16:27.677755414Z",
+      "health": "healthy",
+      "protocol": "p85-dialogue-1",
+      "engine": null,
+      "model": null
+    },
+    "db": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "health": "healthy",
+      "protocol": null,
+      "engine": null,
+      "model": null
+    }
+  },
+  "health": {
+    "agent": {
+      "status": "ok",
+      "release_version": "V1-P7",
+      "engine": "deepseek",
+      "policy_version": "p3-policy-1",
+      "ruleset_version": "p2-rules-1",
+      "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+      "clarification_protocols": [
+        "v1-local-1",
+        "v1-batch-selection-1",
+        "p5-continuation-1",
+        "p5-text-review-1",
+        "p7-reference-continuation-1"
+      ],
+      "planning_contract": "v1-planning-context-1",
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "production_chain_verified": false,
+      "input_policy_version": "p7-limited-context-1",
+      "extraction_prompt_version": "p7-extract-1",
+      "public_gateway_contract": "v0.8-compatible",
+      "operation_contract": "v1-operation-receipt-1",
+      "rule_review_policy": "human_review_only",
+      "stock_max_age_hours": 168,
+      "jev_status": "deferred_by_user",
+      "device_asr_verified": false,
+      "audio_upload_supported": false,
+      "object_reference_protocol": "p7-object-reference-1",
+      "reference_ttl_seconds": 900,
+      "chat_policy_version": "p8-chat-1",
+      "reply_routing_model_calls": 0,
+      "maintenance_release": "V1-P8.5",
+      "repair_policy_version": "p81-chain-repair-1",
+      "planning_adapter_protocol": "p83-planning-adapter-1",
+      "planning_revalidation_protocol": "planning-revalidation-1",
+      "conversation_memory_protocol": "conversation-memory-1",
+      "memory_recent_turns": 10,
+      "memory_understanding_prompt_version": "conversation-memory-understanding-1",
+      "memory_history_days": 30,
+      "conversation_dialogue_protocol": "p85-dialogue-1",
+      "dialogue_deadline_seconds": 60,
+      "dialogue_max_model_calls": 2,
+      "frontend_integration_verified": false,
+      "execution_capabilities_owner": "business_backend",
+      "public_reference_forwarding": "requires_separate_trusted_adapter",
+      "conversation_episode_protocol": "conversation-episodes-1",
+      "memory_archive_max_episodes": 100,
+      "memory_retrieved_episodes": 8,
+      "memory_persistence_owner": "business_backend",
+      "active_human_rule_count": 0
+    },
+    "backend": {
+      "status": "ok",
+      "service": "magicvvu-backend",
+      "version": "0.9.0",
+      "maintenance_release": "V1-P9",
+      "isolated_test": false
+    }
+  },
+  "same_container_identity": true,
+  "server_modified_by_this_work": false
+}

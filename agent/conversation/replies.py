@@ -136,7 +136,7 @@ def resolve_reply(binding, text, scope, now, *, selected_batch_id=None):
     if not allowed or not allowed <= PUBLIC_FIELDS:
         return ReplyResolution(kind="needs_input", error_code="INVALID_CLARIFICATION_FIELDS")
     answers = supplement or {}
-    ordinal = re.fullmatch(r"(?:选|选择|我要|就)?第([一二两三四五六七八九十0-9]+)(?:个|批|项)(?:吧|就行|就可以)?", text)
+    ordinal = re.fullmatch(r"(?:选|选择|我要|就)?第([一二两三四五六七八九十0-9]+)(?:个|批|项|件|份)(?:吧|就行|就可以)?", text)
     candidates = task.result.candidates
     if supplement:
         pass

@@ -1,0 +1,242 @@
+[
+  {
+    "id": "compound-0",
+    "group": "compound",
+    "split": "dev",
+    "profile": "empty",
+    "text": "家里的牛奶我想核对一下，数量和放的位置一起告诉我",
+    "expected": "query",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "compound-1",
+    "group": "compound",
+    "split": "dev",
+    "profile": "empty",
+    "text": "帮我看看牛奶还存了多少，顺便说一下放在哪儿",
+    "expected": "query",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "quantity-0",
+    "group": "quantity",
+    "split": "dev",
+    "profile": "reference",
+    "text": "接着这盒，能不能帮我核实一下目前的余量",
+    "expected": "query",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "quantity-1",
+    "group": "quantity",
+    "split": "dev",
+    "profile": "reference",
+    "text": "前面那份牛奶还存着多少呢",
+    "expected": "query",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "move-0",
+    "group": "move",
+    "split": "dev",
+    "profile": "empty",
+    "text": "麻烦把牛奶这一整批挪去书房，给我看看要改什么",
+    "expected": "MOVE",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "move-1",
+    "group": "move",
+    "split": "dev",
+    "profile": "empty",
+    "text": "我决定把牛奶移到书房，帮我准备一下",
+    "expected": "MOVE",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "half-0",
+    "group": "half",
+    "split": "dev",
+    "profile": "reference",
+    "text": "这盒我刚喝了半盒的量，按现有剩下的一半帮我登记",
+    "expected": "CONSUME",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "half-1",
+    "group": "half",
+    "split": "dev",
+    "profile": "reference",
+    "text": "我刚把它喝掉一半，帮我做个记录草稿",
+    "expected": "CONSUME",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "open-0",
+    "group": "open",
+    "split": "dev",
+    "profile": "reference",
+    "text": "这批是昨天开封的，麻烦登记下日期",
+    "expected": "OPEN",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "open-1",
+    "group": "open",
+    "split": "dev",
+    "profile": "reference",
+    "text": "帮我记录它的开封日期，就是昨天",
+    "expected": "OPEN",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "missing-0",
+    "group": "missing",
+    "split": "dev",
+    "profile": "empty",
+    "text": "牛奶刚才用了一点，具体多少我还没数",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "missing-1",
+    "group": "missing",
+    "split": "dev",
+    "profile": "empty",
+    "text": "帮我登记牛奶的消耗，但数量我得再核实",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "unknown_state-0",
+    "group": "unknown_state",
+    "split": "holdout",
+    "profile": "unknown",
+    "text": "刚才那件事究竟有没有办成，我还需要再点吗",
+    "expected": "unknown",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "unknown_state-1",
+    "group": "unknown_state",
+    "split": "holdout",
+    "profile": "unknown",
+    "text": "原来那个记录现在执行结果确认了吗",
+    "expected": "unknown",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "social-0",
+    "group": "social",
+    "split": "dev",
+    "profile": "empty",
+    "text": "收拾厨房总是觉得累，有没有轻松一点的思路",
+    "expected": "social",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "social-1",
+    "group": "social",
+    "split": "dev",
+    "profile": "empty",
+    "text": "你好呀，今天整理柜子有点烦，陪我理理思路",
+    "expected": "social",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "negation-0",
+    "group": "negation",
+    "split": "dev",
+    "profile": "reference",
+    "text": "牛奶先不要改动，我只是想讨论怎么安排",
+    "expected": "no_draft",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "negation-1",
+    "group": "negation",
+    "split": "dev",
+    "profile": "reference",
+    "text": "先别登记消耗，我只是说说自己的打算",
+    "expected": "no_draft",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "hypothesis-0",
+    "group": "hypothesis",
+    "split": "holdout",
+    "profile": "reference",
+    "text": "假如把这盒喝掉一半，还能剩多少？先不要记录",
+    "expected": "no_draft",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "hypothesis-1",
+    "group": "hypothesis",
+    "split": "holdout",
+    "profile": "reference",
+    "text": "如果只用掉一半会怎么样，我现在只是问问",
+    "expected": "no_draft",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "ambiguous-0",
+    "group": "ambiguous",
+    "split": "holdout",
+    "profile": "multiple",
+    "text": "牛奶有不同批次，帮我准备把牛奶移到书房",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "ambiguous-1",
+    "group": "ambiguous",
+    "split": "holdout",
+    "profile": "multiple",
+    "text": "把牛奶移到书房，先让我选具体哪一批",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "expired-0",
+    "group": "expired",
+    "split": "holdout",
+    "profile": "expired",
+    "text": "继续刚才那盒，请告诉我它现在在哪里",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  },
+  {
+    "id": "expired-1",
+    "group": "expired",
+    "split": "holdout",
+    "profile": "expired",
+    "text": "之前那一批的余量再核对一下",
+    "expected": "needs_input",
+    "source": "authored_synthetic_2026-10-29",
+    "human_review_status": "pending"
+  }
+]

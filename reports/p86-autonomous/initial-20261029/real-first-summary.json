@@ -1,0 +1,90 @@
+{
+  "source": "real_deepseek_synthetic_only",
+  "production_inventory_accessed": false,
+  "backend_or_app_joint_acceptance": false,
+  "human_naturalness_review": "pending",
+  "variants": {
+    "p85": {
+      "cases": 24,
+      "passed": 24,
+      "p95_ms": 3869.8002999881282,
+      "calls": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        2
+      ],
+      "split": {
+        "dev": {
+          "cases": 16,
+          "passed": 16
+        },
+        "holdout": {
+          "cases": 8,
+          "passed": 8
+        }
+      }
+    },
+    "autonomous": {
+      "cases": 24,
+      "passed": 24,
+      "p95_ms": 3711.4815999520943,
+      "calls": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "split": {
+        "dev": {
+          "cases": 16,
+          "passed": 16
+        },
+        "holdout": {
+          "cases": 8,
+          "passed": 8
+        }
+      }
+    }
+  }
+}

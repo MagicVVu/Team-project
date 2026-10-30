@@ -1,0 +1,35 @@
+{
+  "stage": "V1-P8.6",
+  "ai_version": "0.8.6",
+  "protocol": "inventory-autonomous-1",
+  "runtime_files": 107,
+  "contract_files": 12,
+  "moved_files": 39,
+  "raw_report_files_preserved": 20,
+  "document_links_checked": 233,
+  "tests": {
+    "ai-tests.xml": {
+      "tests": 1137,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 1136
+    },
+    "backend-tests.xml": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 28
+    }
+  },
+  "backend_test_scope": "autonomous adapter, protocol recovery, current physical fixtures and relocated contract check",
+  "git_index_changed": false,
+  "teammate_frontend_or_core_modified": false,
+  "new_model_calls": 0,
+  "server_accessed_this_organization": false,
+  "deployed": false,
+  "committed": false,
+  "pushed": false,
+  "app_joint_acceptance": false
+}
