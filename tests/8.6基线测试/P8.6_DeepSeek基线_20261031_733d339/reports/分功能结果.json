@@ -1,0 +1,286 @@
+[
+  {
+    "category": "按件新增",
+    "executed": 15,
+    "PASS": 14,
+    "FAIL": 1,
+    "failure_types": {
+      "数量和多操作判断问题待定位": 1
+    },
+    "examples": [
+      "r2-p86-q01-2"
+    ]
+  },
+  {
+    "category": "重量规格新增",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "容量规格新增",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "整件消耗",
+    "executed": 15,
+    "PASS": 6,
+    "FAIL": 9,
+    "failure_types": {
+      "模型理解和数量落地问题待定位": 9
+    },
+    "examples": [
+      "r1-p86-q04-1",
+      "r1-p86-q04-2",
+      "r1-p86-q04-5"
+    ]
+  },
+  {
+    "category": "整件丢弃",
+    "executed": 15,
+    "PASS": 6,
+    "FAIL": 9,
+    "failure_types": {
+      "模型理解和数量落地问题待定位": 9
+    },
+    "examples": [
+      "r1-p86-q05-1",
+      "r1-p86-q05-3",
+      "r1-p86-q05-5"
+    ]
+  },
+  {
+    "category": "移动",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "开封",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "采购草稿",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "数量位置查询",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "日期缺失降级",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "风险依据不足",
+    "executed": 15,
+    "PASS": 14,
+    "FAIL": 1,
+    "failure_types": {
+      "模型结构输出问题": 1
+    },
+    "examples": [
+      "r1-p86-q11-3"
+    ]
+  },
+  {
+    "category": "规划资料缺失",
+    "executed": 15,
+    "PASS": 1,
+    "FAIL": 14,
+    "failure_types": {
+      "未支持功能和状态契约差异": 14
+    },
+    "examples": [
+      "r1-p86-q12-2",
+      "r1-p86-q12-3",
+      "r1-p86-q12-4"
+    ]
+  },
+  {
+    "category": "半件拒绝",
+    "executed": 15,
+    "PASS": 13,
+    "FAIL": 2,
+    "failure_types": {
+      "错误码契约差异待复核": 2
+    },
+    "examples": [
+      "r2-p86-q13-5",
+      "r3-p86-q13-4"
+    ]
+  },
+  {
+    "category": "规格不能扣余量",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "无规格不猜容量",
+    "executed": 15,
+    "PASS": 12,
+    "FAIL": 3,
+    "failure_types": {
+      "错误码契约差异待复核": 3
+    },
+    "examples": [
+      "r1-p86-q15-3",
+      "r2-p86-q15-1",
+      "r3-p86-q15-4"
+    ]
+  },
+  {
+    "category": "非整数件数拒绝",
+    "executed": 15,
+    "PASS": 14,
+    "FAIL": 1,
+    "failure_types": {
+      "模型结构输出问题": 1
+    },
+    "examples": [
+      "r2-p86-q16-5"
+    ]
+  },
+  {
+    "category": "多件选择",
+    "executed": 15,
+    "PASS": 12,
+    "FAIL": 3,
+    "failure_types": {
+      "对象选择问题待定位": 3
+    },
+    "examples": [
+      "r2-p86-q17-2",
+      "r3-p86-q17-2",
+      "r3-p86-q17-4"
+    ]
+  },
+  {
+    "category": "明确序号",
+    "executed": 15,
+    "PASS": 14,
+    "FAIL": 1,
+    "failure_types": {
+      "循环终止和状态问题待定位": 1
+    },
+    "examples": [
+      "r3-p86-q18-5"
+    ]
+  },
+  {
+    "category": "引用过期",
+    "executed": 15,
+    "PASS": 14,
+    "FAIL": 1,
+    "failure_types": {
+      "引用有效性问题待定位": 1
+    },
+    "examples": [
+      "r1-p86-q19-5"
+    ]
+  },
+  {
+    "category": "否定和假设",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "提示注入",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "多操作先澄清",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "未知执行状态",
+    "executed": 15,
+    "PASS": 15,
+    "FAIL": 0,
+    "failure_types": {},
+    "examples": []
+  },
+  {
+    "category": "日常交流",
+    "executed": 15,
+    "PASS": 8,
+    "FAIL": 7,
+    "failure_types": {
+      "模型意图或对话状态问题待定位": 5,
+      "模型结构输出问题": 2
+    },
+    "examples": [
+      "r1-p86-q24-2",
+      "r1-p86-q24-4",
+      "r2-p86-q24-2"
+    ]
+  },
+  {
+    "category": "移动多轮",
+    "executed": 180,
+    "PASS": 172,
+    "FAIL": 8,
+    "failure_types": {
+      "循环终止和状态问题待定位": 6,
+      "程序或模型问题待定位": 2
+    },
+    "examples": [
+      "r1-p86-m03-2-t1",
+      "r1-p86-m05-2-t6",
+      "r1-p86-m07-1-t6"
+    ]
+  },
+  {
+    "category": "开封多轮",
+    "executed": 179,
+    "PASS": 174,
+    "FAIL": 5,
+    "failure_types": {
+      "循环终止和状态问题待定位": 4,
+      "模型结构输出问题": 1
+    },
+    "examples": [
+      "r1-p86-m08-2-t6",
+      "r2-p86-m02-1-t6",
+      "r2-p86-m10-2-t1"
+    ]
+  }
+]

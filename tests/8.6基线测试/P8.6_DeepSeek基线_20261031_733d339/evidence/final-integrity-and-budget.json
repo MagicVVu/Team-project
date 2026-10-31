@@ -1,0 +1,15 @@
+{
+  "head_unchanged": true,
+  "protected_files": 2379,
+  "snapshot_files": 314,
+  "hash_mismatches": [],
+  "new_conservative_cny": "4.957662",
+  "cap_cny": "5",
+  "within_budget": true,
+  "new_ledger_calls": 773,
+  "new_wire_calls": 773,
+  "ledger_matches_wire": true,
+  "unknown_usage": 0,
+  "real_business_database_accessed": false,
+  "live_calls_stopped": true
+}

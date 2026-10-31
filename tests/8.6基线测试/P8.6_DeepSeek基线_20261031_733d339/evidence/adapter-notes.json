@@ -1,0 +1,6 @@
+{
+  "raw_records_preserved": true,
+  "decision_step": "原始计数器按问题编号累计跨遍，分析按execution_id内实际请求顺序重新编号；原值保留为recorded_cumulative_step。不影响模型提示、次数、耗时或费用。",
+  "initial_fixes": "付费执行前修复离线CURRENT重复参数、模拟Oracle、UTF8读取等测试工具问题，初始日志保留；55项最终计量及源码测试通过。",
+  "workbook_export": "导出程序打印成功后进程返回1；以最终XLSX解压、缓存值、公式、图表结构及渲染验证结果作为交付依据。"
+}

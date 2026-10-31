@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Garin_P8.6基线测试工作记录.docx",
+    "sha256": "d1df345c86de71122150aef59439e66e9e0304c287c6f89154f3b9d1609a60c7"
+  },
+  {
+    "name": "P8.6 DeepSeek基线总览.xlsx",
+    "sha256": "545b97d7467ae9909ec3dad3cf51b1db65f3a74261072947e6151f41f86d5e26"
+  },
+  {
+    "name": "失败交接清单.md",
+    "sha256": "977ee395c08ec632075be19f1cb39d5e1fdb9c50ae26baa132fefd23641ad585"
+  },
+  {
+    "name": "测试方法与分功能结果.md",
+    "sha256": "ebcc47741a566b3a65a6ac7bae8704c0482bff23c7835ac5a49276135911787a"
+  },
+  {
+    "name": "测试结果与极端值.md",
+    "sha256": "54ca227af30d18ec2f069e909b508ab62fc236a103f1856b898168aafac6b437"
+  }
+]

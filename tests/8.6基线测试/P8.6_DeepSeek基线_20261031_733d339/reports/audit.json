@@ -1,0 +1,9 @@
+{
+  "requests_equal_question_sum": true,
+  "known_question_costs_equal_request_costs": true,
+  "network_time_not_above_question_time": true,
+  "all_inventory_unchanged": true,
+  "declared_vs_wire_disagreements": [
+    "r3-p86-m10-2-t6"
+  ]
+}

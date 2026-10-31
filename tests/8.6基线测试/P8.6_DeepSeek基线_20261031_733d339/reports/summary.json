@@ -1,0 +1,227 @@
+{
+  "version": "V1-P8.6",
+  "source": "733d339",
+  "inventory_model": "single-object-1",
+  "protocol": "inventory-autonomous-1",
+  "runs": [
+    {
+      "run": "formal-20261031T121012",
+      "completion": {
+        "mode": "formal",
+        "complete": false,
+        "stop_reason": "BUDGET_OR_CONFIG_STOP",
+        "questions": 720,
+        "counts": {
+          "PASS": 654,
+          "FAIL": 65,
+          "BLOCKED": 1
+        },
+        "actual_http_calls": 766,
+        "budget_after": {
+          "limit_cny": 9.534698,
+          "conservative_cost_cny": 9.49236,
+          "calls": 2738,
+          "unknown_usage_calls": 0
+        },
+        "new_conservative_cost_cny": 4.957662,
+        "infrastructure_ok": false,
+        "provenance": "real_deepseek",
+        "human_review_status": "pending",
+        "app_joint_acceptance": false
+      }
+    }
+  ],
+  "planned_formal_questions": 720,
+  "recorded_formal_questions": 720,
+  "not_run_questions": 1,
+  "blocked_records": [
+    {
+      "execution_id": "r3-p86-m10-2-t6",
+      "id": "p86-m10-2-t6",
+      "repeat": 3,
+      "reason": "预算或配置保护停止",
+      "actual_http_calls": 0
+    }
+  ],
+  "unique_questions": 240,
+  "measured_questions": 719,
+  "counts": {
+    "PASS": 654,
+    "FAIL": 65,
+    "BLOCKED": 1
+  },
+  "scored_denominator": 719,
+  "automatic_accuracy": 0.9095966620305981,
+  "question_seconds": {
+    "n": 719,
+    "mean": 1.2792077930458157,
+    "min": 0.0009231999938492663,
+    "p50": 1.2244005000029574,
+    "p90": 2.1826626999973087,
+    "p95": 2.3936840300040787,
+    "p99": 2.648420457995383,
+    "max": 4.176856099998986,
+    "stddev": 0.7077144771787429
+  },
+  "api_seconds": {
+    "n": 766,
+    "mean": 1.0411727805483242,
+    "min": 0.4123031000053743,
+    "p50": 0.9908580000010261,
+    "p90": 1.4070455499968375,
+    "p95": 1.5998279250034102,
+    "p99": 1.9437379800023342,
+    "max": 2.504619100000127,
+    "stddev": 0.2778280136407465
+  },
+  "actual_http_calls": 766,
+  "api_calls_per_question": 1.0653685674547984,
+  "call_distribution": {
+    "0": 105,
+    "1": 463,
+    "2": 150,
+    "3": 1
+  },
+  "known_cost_cny": 0.74768412,
+  "unknown_cost_requests": 0,
+  "cost_per_question_cny": 0.001039894464534075,
+  "cost_per_api_call_cny": 0.0009760889295039164,
+  "input_tokens": 2195925,
+  "output_tokens": 65846,
+  "zero_call_questions": 105,
+  "over_two_call_questions": 1,
+  "three_repeat_questions": 239,
+  "all_three_pass": 199,
+  "same_semantic_result": 176,
+  "by_repeat": [
+    {
+      "repeat": 1,
+      "questions": 240,
+      "recorded_questions": 240,
+      "counts": {
+        "PASS": 220,
+        "FAIL": 20
+      },
+      "calls": 258,
+      "mean_calls": 1.075,
+      "accuracy": 0.9166666666666666,
+      "time": {
+        "n": 240,
+        "mean": 1.2963229074997797,
+        "min": 0.0009231999938492663,
+        "p50": 1.2168700500005798,
+        "p90": 2.1855629699959533,
+        "p95": 2.405257809997055,
+        "p99": 2.6749313809984576,
+        "max": 4.176856099998986,
+        "stddev": 0.7304605048413578
+      },
+      "known_cost_cny": 0.2983424
+    },
+    {
+      "repeat": 2,
+      "questions": 240,
+      "recorded_questions": 240,
+      "counts": {
+        "PASS": 217,
+        "FAIL": 23
+      },
+      "calls": 255,
+      "mean_calls": 1.0625,
+      "accuracy": 0.9041666666666667,
+      "time": {
+        "n": 240,
+        "mean": 1.2575153683329519,
+        "min": 0.0009410999991814606,
+        "p50": 1.2071288500010269,
+        "p90": 2.1853584000040427,
+        "p95": 2.342692309997801,
+        "p99": 2.5732842459987295,
+        "max": 3.388511599994672,
+        "stddev": 0.6928783665770634
+      },
+      "known_cost_cny": 0.2243316
+    },
+    {
+      "repeat": 3,
+      "questions": 239,
+      "recorded_questions": 240,
+      "counts": {
+        "PASS": 217,
+        "FAIL": 22,
+        "BLOCKED": 1
+      },
+      "calls": 253,
+      "mean_calls": 1.0585774058577406,
+      "accuracy": 0.9079497907949791,
+      "time": {
+        "n": 239,
+        "mean": 1.283804255230485,
+        "min": 0.0009457999985897914,
+        "p50": 1.2481315000040922,
+        "p90": 2.1745704799992382,
+        "p95": 2.433846059998177,
+        "p99": 2.6675231939966033,
+        "max": 2.817932000005385,
+        "stddev": 0.6986333964207937
+      },
+      "known_cost_cny": 0.22501012
+    }
+  ],
+  "stop_reasons": {
+    "confirmation_required": 223,
+    "user_input_required": 51,
+    "boundary": 91,
+    "completed": 288,
+    "data_unavailable": 42,
+    "model_error": 14,
+    "repeated_plan": 8,
+    "no_progress": 3
+  },
+  "human_review_status": "pending",
+  "call_behaviors": {
+    "一次模型决策": 463,
+    "核对后单独结束": 136,
+    "规则零调用": 105,
+    "校验反馈后再决策": 3,
+    "追加读取后再决策": 11,
+    "其他多次决策": 1
+  },
+  "error_feedback_then_pass": 3,
+  "cost_is_usage_estimate_not_invoice": true,
+  "app_or_real_database_acceptance": false,
+  "slowest_api_request": {
+    "execution_id": "r3-p86-q24-3",
+    "question_id": "p86-q24-3",
+    "repeat": 3,
+    "batch": "单轮",
+    "wire_id": "http-000627",
+    "step": 1,
+    "recorded_cumulative_step": 3,
+    "http_status": 200,
+    "seconds": 2.504619100000127,
+    "started_at": "2026-10-31T04:22:39.482852+00:00",
+    "finished_at": "2026-10-31T04:22:41.987469+00:00",
+    "model": "deepseek-flash",
+    "transport_error": null,
+    "evidence": "runs/formal-20261031T121012/requests.jsonl:627",
+    "decision_action": "finish",
+    "plan_action": null,
+    "finish_after_resolve": false,
+    "read_kinds": "",
+    "observation_error": null,
+    "history_turns": 0,
+    "retrieved_episodes": 0,
+    "input_tokens": 2247,
+    "output_tokens": 304,
+    "cache_hit_tokens": 2048,
+    "cache_miss_tokens": 199,
+    "cost_cny": 0.00145596,
+    "cost_known": true,
+    "hit_rate": 0.02,
+    "miss_rate": 1.0,
+    "output_rate": 4.0,
+    "pricing_note": "按官方周末空闲费率及返回usage估算，未核对供应商账单",
+    "cost_exact_decimal": "0.00145596"
+  }
+}

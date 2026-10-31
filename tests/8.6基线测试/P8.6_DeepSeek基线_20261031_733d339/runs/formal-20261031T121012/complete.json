@@ -1,0 +1,23 @@
+{
+  "mode": "formal",
+  "complete": false,
+  "stop_reason": "BUDGET_OR_CONFIG_STOP",
+  "questions": 720,
+  "counts": {
+    "PASS": 654,
+    "FAIL": 65,
+    "BLOCKED": 1
+  },
+  "actual_http_calls": 766,
+  "budget_after": {
+    "limit_cny": 9.534698,
+    "conservative_cost_cny": 9.49236,
+    "calls": 2738,
+    "unknown_usage_calls": 0
+  },
+  "new_conservative_cost_cny": 4.957662,
+  "infrastructure_ok": false,
+  "provenance": "real_deepseek",
+  "human_review_status": "pending",
+  "app_joint_acceptance": false
+}

@@ -1,0 +1,25 @@
+{
+  "source": "733d339ee5bbb73635413902cdd0d07d43a6075a",
+  "mode": "smoke",
+  "policy": {
+    "initial_cny": "4.534698",
+    "initial_reservations": 1965,
+    "new_cap_cny": "5",
+    "cumulative_original_cap_cny": "20",
+    "authorization": "user approved separate new 5 CNY 2026-10-31"
+  },
+  "budget_before": {
+    "limit_cny": 9.534698,
+    "conservative_cost_cny": 4.534698,
+    "calls": 1965,
+    "unknown_usage_calls": 0
+  },
+  "adapter_sha256": {
+    "cases.py": "dda8ac1ea667700dff0ae7d1da9655c5fd8ec056aa9042960fa9d39b7ffc0204",
+    "prepare.py": "86fcfc12e012dca0e18831496da2288297c9c65af0c81781301d69113d01f47f",
+    "runner.py": "29caffd0c617d157a789b1c385cae809b1980b695d05c054f4f0dbc5589e1d3b",
+    "telemetry.py": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58",
+    "test_measurement.py": "a2f4f3de49d8a36ebafe09a652fe5b8c64c5a287a4d666bd95898abd0a3558a1"
+  },
+  "dataset_sha256": "1e3512a47035049516391cd5c28ba19fe2f718c1a7951ee09b8c31480f81e09c"
+}

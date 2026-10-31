@@ -1,0 +1,422 @@
+[
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/.gitignore",
+    "bytes": 74,
+    "sha256": "6fae31a3f4af78f3e2d59bdc0000ffb922e4ba0f323602761057104033fa2c89"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/README.md",
+    "bytes": 4136,
+    "sha256": "5918265bc44c27259ed25cf909d30edb45c98e314b948895fb342b909e0dc20c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/datasets/manifest.json",
+    "bytes": 516,
+    "sha256": "1e3512a47035049516391cd5c28ba19fe2f718c1a7951ee09b8c31480f81e09c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/datasets/multi.jsonl",
+    "bytes": 24844,
+    "sha256": "2de196eefd3446522dc3c2a1acea4e6203d18ae36d1031d716c140c337c01b14"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/datasets/single.jsonl",
+    "bytes": 40369,
+    "sha256": "44f02e3b9a38e0b7e1b86bf1be58429eba160dee762c2608e4551dd80ebc768f"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/adapter-notes.json",
+    "bytes": 608,
+    "sha256": "b17adb886cbdb426fda0c43ebc706a07cb608858b57661156d39c2355ff86cc3"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/docx-renderer.log",
+    "bytes": 1184,
+    "sha256": "1b0f4472a8f229b45c41f64b6abe175e8771f30e08b8856f98a1f78ddcc7f536"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/environment.json",
+    "bytes": 1382,
+    "sha256": "fcba64ffc0bf5f7d9e745d9c83268e0067fc89e228676982b0ced1be1d114e4d"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/final-integrity-and-budget.json",
+    "bytes": 381,
+    "sha256": "c4ec76fd7a88630e5e5c8ff0a5fd24e9dda5181c8f3ff3ef7da6843a92ed65dd"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/formal.log",
+    "bytes": 42710,
+    "sha256": "77ccd092829a1a6b1b41e8b0743c26482bef52a5de75033663032d6c29edce79"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/measurement-and-source-tests-corrected.xml",
+    "bytes": 7416,
+    "sha256": "9321db977451432fc4bbabaf3cc8c5df20684b9df007f274fea0222f50822ae1"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/measurement-and-source-tests.xml",
+    "bytes": 23970,
+    "sha256": "1de5f5250e6f6c4dc009994cb73214ee5d2d379c8a590e6876a899fece7fb3d6"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/offline-corrected.log",
+    "bytes": 15048,
+    "sha256": "d782e9968ebc544e4144ab8f6b76b52fccba051ba9d6308bdfc95628c1621a9e"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/offline-final.log",
+    "bytes": 14168,
+    "sha256": "b81b9f7e2b17a617bac38ef4c6e55be2e5a68e305f3cf28ad1a5f3baf3fda748"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/offline.log",
+    "bytes": 14126,
+    "sha256": "bab45fe92f2b6b6cfa7702f5f20f333c19f6d3e874dae2e7c7fc8950cf46da47"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/smoke.log",
+    "bytes": 1035,
+    "sha256": "8acf03c558d3667ce2146e705714fae882f66ad3a0f2b68313296be03ace3379"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/source.json",
+    "bytes": 450111,
+    "sha256": "48837abb5fa00c0912593d506a27696e1a69ed1e5523ae4ee02a291702574d8d"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/test-console.log",
+    "bytes": 17436,
+    "sha256": "7fe38af4b7817a4043d0711132ab2b32657804f35640aaa22862f5e171143c34"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/test-corrected.log",
+    "bytes": 101,
+    "sha256": "6a672969b468ddeea24ce92789b042433cf843f863a4090852552244f4a23b4f"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/workbook-build-initial.log",
+    "bytes": 350,
+    "sha256": "6cc497ead44644566184d41d37a1423451819f917254a7f6c3d8b5320b563d13"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/workbook-errors.ndjson",
+    "bytes": 60,
+    "sha256": "acc0111e19cf44d2753fc9ecd164bf1b27fbd65597463a25cf48bd1c65e90146"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/workbook-export-inspection.ndjson",
+    "bytes": 11636470,
+    "sha256": "8695e674225d208f98ff1fa63dab37c20b8997d49eec939ea45c04114f3d5ce3"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/workbook-inspection.ndjson",
+    "bytes": 1343,
+    "sha256": "85649f7e22d50be9e86429aa3231703a1e4078979cc4c5a475b3558912eb1517"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/workbook-validation.json",
+    "bytes": 180,
+    "sha256": "5ed68e08ce59e02164c4e35f273720be52af0b41e72286977ad2e3a4b8a7a0c8"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/evidence/xlsx-saved-validation.json",
+    "bytes": 229,
+    "sha256": "3a48dca1695c698afc6e6a29abd3b66d28529dbe8a16b555ce6dbc50a05ce1f1"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/API明细.jsonl",
+    "bytes": 717103,
+    "sha256": "c7a4d74cda6d21eb9db8127c1edebd02249dfecab72c3825858a1354ec381112"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/audit.json",
+    "bytes": 251,
+    "sha256": "cdebe4abe82f39b31373626e842ecd6b4dcf1ad6c4d4f3f9ba1f47dd1ffea257"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/extremes.json",
+    "bytes": 16882,
+    "sha256": "27b7c50a9e24a11b184159c5402c7b7baa52be428f9d8700157cf82bc01a7e07"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/Garin_P8.6基线测试工作记录.docx",
+    "bytes": 42605,
+    "sha256": "d1df345c86de71122150aef59439e66e9e0304c287c6f89154f3b9d1609a60c7"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/P8.6 DeepSeek基线总览.xlsx",
+    "bytes": 270616,
+    "sha256": "545b97d7467ae9909ec3dad3cf51b1db65f3a74261072947e6151f41f86d5e26"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/summary.json",
+    "bytes": 6247,
+    "sha256": "970c0a59d97a0fe601f3ed2adf4d48a6327a093e09300a0e35688fbc984f0ad7"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/workbook-data.json",
+    "bytes": 7808368,
+    "sha256": "4d2fff423f1c888886875b8b8cc1d03ffdea71fc753e480d3a14fdcab138dbc2"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/分功能结果.json",
+    "bytes": 5478,
+    "sha256": "cc2ceb3458f1c51f71d3efaafdf8988c1d2ad5d655f39ed3d5d613d710d8d46f"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/失败交接清单.md",
+    "bytes": 48605,
+    "sha256": "977ee395c08ec632075be19f1cb39d5e1fdb9c50ae26baa132fefd23641ad585"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/失败逐条.jsonl",
+    "bytes": 375963,
+    "sha256": "13fe360a897a3ecfa9fec08bc501ae00e5614a3ffd51dd6ebf70dddee2639318"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/未执行.json",
+    "bytes": 175,
+    "sha256": "565c41de398877e9519b60d4ec7f7c1f1fcda73727d63176c9022ceaa841dfcf"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/每题均值.jsonl",
+    "bytes": 210308,
+    "sha256": "2fb6cd4c60291d91b74ef1f19c2f2bc8af0d31a8974c8b9077be3ed6a28c2df7"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/测试方法与分功能结果.md",
+    "bytes": 3487,
+    "sha256": "ebcc47741a566b3a65a6ac7bae8704c0482bff23c7835ac5a49276135911787a"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/测试结果与极端值.md",
+    "bytes": 11975,
+    "sha256": "54ca227af30d18ec2f069e909b508ab62fc236a103f1856b898168aafac6b437"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/统计不确定性.json",
+    "bytes": 469,
+    "sha256": "9569d1692d2698b49ddd72dbe343bcadb30e99783d66fa4cb2a142845caed382"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/补充指标.json",
+    "bytes": 933,
+    "sha256": "c479be64ec49dda1ed684fb18599ed40db3763c4bf49fad038c595e003dd3353"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/reports/逐题记录.jsonl",
+    "bytes": 4367742,
+    "sha256": "8754cfecea7127e51c6f05c2ef83d1d31ad2f9f11b97684b0db33699ce0b2c57"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/complete.json",
+    "bytes": 537,
+    "sha256": "476e8e9aadf97962e640d41a6a06e7256ad953cf8978f83a0964d5ad710093fa"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/extractions.jsonl",
+    "bytes": 759276,
+    "sha256": "9b601f0bafef65304712bff2f9b565e9686186b10f6a20c4031f09f0a233570c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/inputs.jsonl",
+    "bytes": 5938829,
+    "sha256": "ec7b4b70cd8b2cb16aca1a4e0934a1d0250a14f4db98c6985452fe050c21a33c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/questions.jsonl",
+    "bytes": 3953943,
+    "sha256": "3b42997367e65b4c5eafbc60b4311a23ca72e9bc2570af9716ad8f4460518a0b"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/requests.jsonl",
+    "bytes": 10508356,
+    "sha256": "765d7530e6359cbe577d09f3bcac2e5800dbb423a1e167c991b61ad4973f4683"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/formal-20261031T121012/started.json",
+    "bytes": 1012,
+    "sha256": "72ebcc5bdd5ef0225ae4c501afefdb38e9b93a106b0d01750b279d234e49aa5e"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120553/inputs.jsonl",
+    "bytes": 795662,
+    "sha256": "848da6bfd67866614afaab337ef0d71757b67f579e608dc1752e3dfda7dfad18"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120553/questions.jsonl",
+    "bytes": 595257,
+    "sha256": "d94cffae340a56854f12d99bf42334af9741f875eadf0ce068cda93045c8e7fd"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120553/started.json",
+    "bytes": 593,
+    "sha256": "630a0b3056448c04655f1aad7ee8ce273585d610a36c5217b76dda08ed96f337"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120646/complete.json",
+    "bytes": 382,
+    "sha256": "85b015438c68f6c966420fcb00e1eeb60c09d4e160e1811b20202077231f4082"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120646/inputs.jsonl",
+    "bytes": 1970492,
+    "sha256": "33206e82fe6dd1de313674f73777c911b6d730f0f6c7b0fffc324bede31a1937"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120646/questions.jsonl",
+    "bytes": 1266450,
+    "sha256": "fd4c8d31448d09c53db35ad9c7d73a79c1b1228f00bbd90aeadbf94141fc2d29"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T120646/started.json",
+    "bytes": 593,
+    "sha256": "bf173913c21a5283d5d20ac0444d05204f5acf77fafc3b3a267b828ccbfd214c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T121010/complete.json",
+    "bytes": 382,
+    "sha256": "30d06ea12b44c8cbca3389c8914b29d2d205052f566bd22e9174aeb9c76c6287"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T121010/inputs.jsonl",
+    "bytes": 1972152,
+    "sha256": "efd3d537147422e15b29e2a5c0f2f1598617f67ff9acb6982e6b4e3c7b0ff7cd"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T121010/questions.jsonl",
+    "bytes": 1297429,
+    "sha256": "606439d9f8a98598c5fa660eb247402e6fda2fb17b5d8affb6556216f711647b"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/offline-20261031T121010/started.json",
+    "bytes": 689,
+    "sha256": "4f74386b9f4f5ffb7d0b4941d60520c6ded43230501e49cbdada08707794e057"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/complete.json",
+    "bytes": 490,
+    "sha256": "f798e44be2e25624aa4c2f9965a2477cc60f2c8c4a0977775b9eeb0cfef2c8c2"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/extractions.jsonl",
+    "bytes": 7304,
+    "sha256": "30be7973ed5aa217735530e7b9b58fb9749f4f6675a554784c8b3c37b5193362"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/inputs.jsonl",
+    "bytes": 38942,
+    "sha256": "7c25c6eca09e3da032901dd57c8341eea6d19a1d99cbe0ec79e5b4effb26840e"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/questions.jsonl",
+    "bytes": 32036,
+    "sha256": "c6207a1193be2a4ac6f50ab76fd77edd178185713f11a3c6a46bdff7d3ca007c"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/requests.jsonl",
+    "bytes": 86194,
+    "sha256": "71db3d98e97acd71feb1528b4eb90acdbfc210f44615a9c51ab5589a72a0fe91"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/runs/smoke-20261031T120830/started.json",
+    "bytes": 1011,
+    "sha256": "483ae7e359afc191dd858b8573f1d97781f9d7f9e0e54be75ddfff88396b3d85"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/analyze.py",
+    "bytes": 18331,
+    "sha256": "ed06671b9427705e38fae98dea9147120bfc79b961ec063b031e64f11404437f"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/build_record.py",
+    "bytes": 10911,
+    "sha256": "67a8343482fa4fc7281435a77345dc5714eaa713794b4e20db27c9d1dd25635d"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/cases.py",
+    "bytes": 11077,
+    "sha256": "dda8ac1ea667700dff0ae7d1da9655c5fd8ec056aa9042960fa9d39b7ffc0204"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/package_results.py",
+    "bytes": 7804,
+    "sha256": "f4b814bb8307a518f5bdd9db2939a1028154a9276f3f62ab03516f8994b095a8"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/prepare.py",
+    "bytes": 2542,
+    "sha256": "e001685a27db9937d643d3b5393474746ba0fe86204eb2ada284bcc6cda715d6"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/render_with_word.ps1",
+    "bytes": 1048,
+    "sha256": "8482a5eed69d06f15fe30ba235be2a1510f381c68d62f31f9778c2ce0115e684"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/review_results.py",
+    "bytes": 12606,
+    "sha256": "4adb987c77c4e8a2456d072c91977ee5368ba36988cca2a55a821e0513581bef"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/Run.ps1",
+    "bytes": 1278,
+    "sha256": "f7421a7914f0392c9ac0a11f4dea2983cbe23b29b549dd5bd6ec438d158c32a2"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/runner.py",
+    "bytes": 17549,
+    "sha256": "29caffd0c617d157a789b1c385cae809b1980b695d05c054f4f0dbc5589e1d3b"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/telemetry.py",
+    "bytes": 6070,
+    "sha256": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/test_measurement.py",
+    "bytes": 2887,
+    "sha256": "a2f4f3de49d8a36ebafe09a652fe5b8c64c5a287a4d666bd95898abd0a3558a1"
+  },
+  {
+    "path": "tests/8.6基线测试/P8.6_DeepSeek基线_20261031_733d339/scripts/workbook.mjs",
+    "bytes": 19106,
+    "sha256": "79b69542a3c97a8aecef0ccaf989555aa1d0d3239ce63fbf75b98b0c98e3c733"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/Garin_P8.6基线测试工作记录.docx",
+    "bytes": 42605,
+    "sha256": "d1df345c86de71122150aef59439e66e9e0304c287c6f89154f3b9d1609a60c7"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/P8.6 DeepSeek基线总览.xlsx",
+    "bytes": 270616,
+    "sha256": "545b97d7467ae9909ec3dad3cf51b1db65f3a74261072947e6151f41f86d5e26"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/README.md",
+    "bytes": 3116,
+    "sha256": "eafe52aa84c76a5c21260661e88d4ffb8365fcd69a8c8cd72e3746c77c8a1a7b"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/交接文件校验.json",
+    "bytes": 705,
+    "sha256": "c67d2a8c6f6cd6c273136336aae7cd8ce05d706f63d63feadc29508e8abaf62e"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/失败交接清单.md",
+    "bytes": 48605,
+    "sha256": "977ee395c08ec632075be19f1cb39d5e1fdb9c50ae26baa132fefd23641ad585"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/测试方法与分功能结果.md",
+    "bytes": 3487,
+    "sha256": "ebcc47741a566b3a65a6ac7bae8704c0482bff23c7835ac5a49276135911787a"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_P8.6基线测试/测试结果与极端值.md",
+    "bytes": 11975,
+    "sha256": "54ca227af30d18ec2f069e909b508ab62fc236a103f1856b898168aafac6b437"
+  }
+]

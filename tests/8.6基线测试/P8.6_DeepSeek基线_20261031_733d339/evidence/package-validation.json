@@ -1,0 +1,12 @@
+{
+  "public_files_checked": 84,
+  "credential_pattern_matches": 0,
+  "handoff_copies_hash_match": true,
+  "frozen_dataset_hashes_match": true,
+  "workbook_chart_count": 1,
+  "word_rendered_pages": 4,
+  "word_all_pages_visually_checked": true,
+  "workbook_all_sheets_visually_checked": true,
+  "word_renderer_fallback": "Packaged renderer lacks bundled LibreOffice; retained failure log, used installed Word hidden read-only PDF export and bundled Poppler.",
+  "source_files_untouched": "see final-integrity-and-budget.json"
+}

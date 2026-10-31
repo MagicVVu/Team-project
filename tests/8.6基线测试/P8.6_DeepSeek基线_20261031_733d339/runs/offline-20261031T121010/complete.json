@@ -1,0 +1,17 @@
+{
+  "mode": "offline",
+  "complete": true,
+  "stop_reason": null,
+  "questions": 240,
+  "counts": {
+    "PASS": 229,
+    "FAIL": 11
+  },
+  "actual_http_calls": 0,
+  "budget_after": null,
+  "new_conservative_cost_cny": 0,
+  "infrastructure_ok": false,
+  "provenance": "offline_oracle_not_model",
+  "human_review_status": "pending",
+  "app_joint_acceptance": false
+}

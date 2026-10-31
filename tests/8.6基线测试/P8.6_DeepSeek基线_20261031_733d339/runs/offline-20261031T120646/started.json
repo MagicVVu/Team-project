@@ -1,0 +1,13 @@
+{
+  "source": "733d339ee5bbb73635413902cdd0d07d43a6075a",
+  "mode": "offline",
+  "policy": null,
+  "budget_before": null,
+  "adapter_sha256": {
+    "cases.py": "dda8ac1ea667700dff0ae7d1da9655c5fd8ec056aa9042960fa9d39b7ffc0204",
+    "prepare.py": "86fcfc12e012dca0e18831496da2288297c9c65af0c81781301d69113d01f47f",
+    "runner.py": "094f33c299656b42dbafceaa947512c80564a8265bafe9e1caaad48f59943c12",
+    "telemetry.py": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58"
+  },
+  "dataset_sha256": "1e3512a47035049516391cd5c28ba19fe2f718c1a7951ee09b8c31480f81e09c"
+}

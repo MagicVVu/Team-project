@@ -1,0 +1,9 @@
+[
+  {
+    "execution_id": "r3-p86-m10-2-t6",
+    "id": "p86-m10-2-t6",
+    "repeat": 3,
+    "reason": "预算或配置保护停止",
+    "actual_http_calls": 0
+  }
+]

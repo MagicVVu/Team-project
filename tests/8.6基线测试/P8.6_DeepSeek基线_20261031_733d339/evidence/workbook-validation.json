@@ -1,0 +1,8 @@
+{
+  "headlines_match_source": true,
+  "timing_formulas_match": true,
+  "cost_dependency_edit_restored": true,
+  "questions": 719,
+  "apis": 766,
+  "known_fee": 0.7476841200000002
+}

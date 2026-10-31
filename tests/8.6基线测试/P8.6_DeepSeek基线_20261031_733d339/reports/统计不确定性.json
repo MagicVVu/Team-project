@@ -1,0 +1,15 @@
+{
+  "cluster_bootstrap_95_interval": [
+    0.8481375358166189,
+    0.9552429667519181
+  ],
+  "groups": 34,
+  "resamples": 10000,
+  "seed": 20261031,
+  "method": "按34个表达/场景族整体有放回重采样，族内所有重复观测绑定；百分位区间，只描述合成集，不代表真实用户总体。",
+  "scenario_task_results": {
+    "complete_scenario_executions": 59,
+    "all_six_pass": 47,
+    "blocked_scenario_executions": 1
+  }
+}

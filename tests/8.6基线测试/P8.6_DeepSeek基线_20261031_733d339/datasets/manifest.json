@@ -1,0 +1,18 @@
+{
+  "inventory_model": "single-object-1",
+  "human_review_status": "pending",
+  "source": "new authored synthetic data, no production records",
+  "business_clock": "2026-10-15T10:00:00+08:00",
+  "sets": {
+    "single": {
+      "rows": 120,
+      "turns": 120,
+      "sha256": "44f02e3b9a38e0b7e1b86bf1be58429eba160dee762c2608e4551dd80ebc768f"
+    },
+    "multi": {
+      "rows": 20,
+      "turns": 120,
+      "sha256": "2de196eefd3446522dc3c2a1acea4e6203d18ae36d1031d716c140c337c01b14"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "by_call_count": [
+    {
+      "calls": 0,
+      "questions": 105,
+      "PASS": 105,
+      "FAIL": 0,
+      "mean_seconds": 0.002283302857055484,
+      "mean_cost_cny": 0.0
+    },
+    {
+      "calls": 1,
+      "questions": 463,
+      "PASS": 422,
+      "FAIL": 41,
+      "mean_seconds": 1.2640794723540423,
+      "mean_cost_cny": 0.0010686813822894168
+    },
+    {
+      "calls": 2,
+      "questions": 150,
+      "PASS": 126,
+      "FAIL": 24,
+      "mean_seconds": 2.2004333640002005,
+      "mean_cost_cny": 0.0016687175999999999
+    },
+    {
+      "calls": 3,
+      "questions": 1,
+      "PASS": 1,
+      "FAIL": 0,
+      "mean_seconds": 4.176856099998986,
+      "mean_cost_cny": 0.002577
+    }
+  ],
+  "http_status_counts": {
+    "200": 766
+  },
+  "returned_model_names": {
+    "deepseek-flash": 766
+  },
+  "transport_errors": 0,
+  "dataset_or_annotation_defect_confirmed": false
+}
