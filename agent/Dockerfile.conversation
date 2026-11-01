@@ -13,6 +13,11 @@ COPY p3/ ./p3/
 COPY interaction/ ./interaction/
 COPY v1/ ./v1/
 COPY conversation/ ./conversation/
+COPY jev/*.py ./jev/
+# Keep the opt-in ledger on the existing persistent Agent cache mount.
+RUN mkdir -p /app/agent/.cache/jev \
+    && ln -s /app/agent/.cache/jev /app/agent/jev/.cache \
+    && chown -R 10002:10002 /app/agent/.cache
 COPY eval/pricing.json ./eval/pricing.json
 USER 10002:10002
 EXPOSE 8767

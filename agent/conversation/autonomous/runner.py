@@ -97,11 +97,17 @@ async def run(owner, body, scope):
     owner._autonomous_context_lease = (scope, ctx.conversation_id, ctx.revision, ctx.trusted_now, deadline)
     reader = owner.reader = ReadOnly(owner.reader, scope, deadline)
     calls, trace, plans = 0, [], []
+    router = getattr(owner, "jev_router", None)
+    jev = router.session() if router is not None else None
     verified, last, last_plan = None, None, None
     seen_plans, seen_results = set(), set()
     filled = {}
 
     def finish(status, reason, *, reply=None, code=None, fallback=False):
+        if jev is not None:
+            for item in trace:
+                if item.action == "jev":
+                    item.jev = jev.audit()
         frame = verified.model_copy(deep=True) if verified else last.model_copy(deep=True) if last else None
         text = reply or (frame.reply if frame else "本轮尚未完成，请保留原文并核对原请求。")
         if reason not in {"completed", "confirmation_required", "user_input_required", "data_unavailable", "boundary"}:
@@ -132,6 +138,13 @@ async def run(owner, body, scope):
             literal=P85Plan(speech_act="question",selector={"use_reference":True},
                 reads=[{"kind":"quantity" if described[1] in {"数量","还剩多少"} else "location"}])
     pending = Decision(action="resolve", plan=literal) if literal else None
+    if jev is not None and pending is None:
+        fast = await jev.classify(body, ctx, deadline-time.monotonic())
+        attempted = bool(jev.call and jev.call.attempted)
+        calls += int(attempted)
+        trace.append(Step(step=len(trace)+1, action="jev", model_call=attempted, jev=jev.audit()))
+        if fast is not None:
+            pending = Decision(action="resolve", plan=fast, finish_after_resolve=True)
     while True:
         remaining = deadline-time.monotonic()
         if remaining <= 0: return finish("stopped", "deadline", fallback=True)
@@ -142,7 +155,9 @@ async def run(owner, body, scope):
                 "inventory_model":getattr(owner,"inventory_model","batch-quantity-1"),
                 "retrieved_episodes":[e.model_dump(mode="json") for e in episodes],
                 "observations":observation(last), "verified_facts":verified.facts if verified else {},
-                "previous_steps":[s.model_dump() for s in trace[-6:]]}
+                "previous_steps":[s.model_dump() for s in trace if s.action != "jev"][-6:]}
+            if jev is not None and jev.hint() is not None:
+                payload["jev_hint"] = jev.hint()
             # Do not silently remove active tasks or candidates to fit a prompt.
             while len(json.dumps(payload, ensure_ascii=False).encode()) > 30000 and payload["context"]["history"]:
                 payload["context"]["history"].pop(0); memory.truncated = True
@@ -161,6 +176,8 @@ async def run(owner, body, scope):
                               code=getattr(error, "code", "AUTONOMOUS_MODEL_FAILED"), fallback=True)
         else:
             decision, pending = pending, None
+        if jev is not None:
+            decision = jev.protect(decision)
         step = Step(step=len(trace)+1, action=decision.action, model_call=paid)
         trace.append(step)
         if decision.action == "ask":

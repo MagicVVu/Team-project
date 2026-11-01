@@ -43,6 +43,9 @@ SOURCE_PATHS = (
     "conversation/autonomous/schemas.py", "conversation/autonomous/engine.py",
     "conversation/autonomous/runner.py", "conversation/autonomous/reads.py", "conversation/autonomous/health.py",
     "conversation/autonomous/physical.py",
+    "jev/__init__.py", "jev/__main__.py", "jev/schemas.py", "jev/config.py",
+    "jev/budget.py", "jev/client.py", "jev/providers.py", "jev/questions.py",
+    "jev/policy.py", "jev/engine.py", "jev/evaluation.py", "jev/runtime.py",
     "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 
