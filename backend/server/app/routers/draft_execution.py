@@ -22,7 +22,8 @@ def capabilities(identity: Identity = Depends(get_identity)):
     from app.services import autonomous
     from app.services.conversation import reference_enabled
     from app.services.planning_facts import business_zone
-    return {"protocol_version": "draft-execution-1", "owner": "business_backend",
+    return {'ai_adapter_release':'V1-P8.7','assistant_language_protocol':'assistant-language-1','assistant_languages':['zh-CN','en'],
+            'inventory_name_resolution_protocol':'inventory-name-resolution-1',"protocol_version": "draft-execution-1", "owner": "business_backend",
             "maintenance_release": "V1-P9",
             "product_identity_protocol": "household-product-1",
             "inventory_ledger_protocol": "inventory-ledger-1",

@@ -22,6 +22,7 @@ def check_scope(scope: Scope, batches: list[Batch]) -> list[Batch]:
 
 
 class RemoteInventoryReader:
+    batch_type=Batch
     """Two explicit read capabilities; never accepts a caller-supplied URL."""
     def __init__(self, base_url: str, token: str):
         self.base_url, self.token = base_url.rstrip("/"), token
@@ -61,3 +62,13 @@ class RemoteInventoryReader:
         if batch.id != batch_id:
             raise DomainError("TOOL_UNAVAILABLE", "库存工具返回了错误批次。", 503)
         return batch
+
+    async def search_names(self,scope,name,hints=()):
+        data=await self._read(scope,'/internal/v1/inventory/search',{'name':name,'resolve_names':'true','name_variants':list(hints)})
+        try:
+            rows=check_scope(scope,[self.batch_type.model_validate(item) for item in data['batches']])
+            meta=data['name_resolution']
+            if meta['query']!=name or len(rows)>1000:raise ValueError()
+            return rows,meta
+        except (KeyError,ValueError,TypeError):
+            raise DomainError('LANGUAGE_ADAPTER_UNAVAILABLE','This server does not support bilingual name lookup.',503) from None

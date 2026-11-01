@@ -103,6 +103,8 @@ def resolve_reply(binding, text, scope, now, *, selected_batch_id=None):
     if not isinstance(text, str) or not text.strip() or len(text) > 1000:
         return ReplyResolution(kind="needs_input", error_code="INVALID_CLARIFICATION_INPUT")
     text = text.strip().rstrip("。！! ")
+    if text in {'ADD','CONSUME','OPEN','MOVE','DISCARD','PLAN_ADD'}:
+        return ReplyResolution(kind='needs_input',error_code='INVALID_CLARIFICATION_FIELDS')
     if RESET.fullmatch(text):
         return ReplyResolution(kind="clear_reference", clear_reference=True)
     if text in {"算了", "不用了", "取消草稿", "取消这次任务", "取消这次操作", "先不做了"}:

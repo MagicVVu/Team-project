@@ -16,6 +16,7 @@ from . import engine
 from . import physical
 from .reads import ReadOnly
 from .schemas import RunResponse, Decision, Step
+from ..language import choose, using
 
 REPAIRABLE = {"UNGROUNDED_FIELD", "UNGROUNDED_SELECTOR", "CANDIDATE_SELECTION_UNGROUNDED", "ACTION_SEMANTIC_CONFLICT"}
 QUESTIONS = {"intent":"你希望我查询资料、登记操作，还是先讨论一下？",
@@ -89,7 +90,7 @@ def observation(frame):
             "filled_fields":frame.filled_fields}
 
 
-async def run(owner, body, scope):
+async def _run(owner, body, scope):
     start = time.monotonic()
     deadline = start + min(58, body.remaining_seconds)
     ctx, episodes, memory = prepare(owner, body, scope)
@@ -109,7 +110,10 @@ async def run(owner, body, scope):
                 if item.action == "jev":
                     item.jev = jev.audit()
         frame = verified.model_copy(deep=True) if verified else last.model_copy(deep=True) if last else None
-        text = reply or (frame.reply if frame else "本轮尚未完成，请保留原文并核对原请求。")
+        if frame and frame.locale!=ctx.locale and last_plan:
+            from ..language.render import localize_frame
+            localize_frame(frame,P85ResolveRequest(**body.model_dump(exclude={'remaining_seconds'}),plan=last_plan,plan_context_revision=ctx.revision))
+        text = reply or (frame.reply if frame else choose("本轮尚未完成，请保留原文并核对原请求。","This turn is incomplete. Keep the original input and check the original request."))
         if reason not in {"completed", "confirmation_required", "user_input_required", "data_unavailable", "boundary"}:
             note = {"deadline":"处理达到本轮时限，以上仅为已核实部分，请核对未完成事项。",
                 "repeated_plan":"继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",
@@ -117,6 +121,13 @@ async def run(owner, body, scope):
                 "model_error":"后续理解未完成，已停止调用；请核对以上结果或原请求。",
                 "context_limit":"必要资料超出本轮输入容量，请缩小问题范围。",
                 "context_refresh_required":"原任务状态需要重新读取后核对。"}[reason]
+            if ctx.locale=='en':note={
+                'deadline':'The turn reached its time limit. Only the verified partial results are shown.',
+                'repeated_plan':'No new information was produced by the repeated plan. Review the verified results before continuing.',
+                'no_progress':'No further verified progress was made. Please clarify the unresolved question.',
+                'model_error':'Further interpretation failed. Calls have stopped; verified information is retained.',
+                'context_limit':'The required context exceeds this turn’s capacity. Please narrow the question.',
+                'context_refresh_required':'The original task status must be refreshed before continuing.'}[reason]
             text = text+"\n"+note if frame else note
         if frame:
             frame.reply = text
@@ -125,7 +136,7 @@ async def run(owner, body, scope):
                     remaining_seconds=min(18, max(.001, deadline-time.monotonic())),
                     plan=last_plan, plan_context_revision=ctx.revision)
                 frame.memory_delta = delta(replay_body, frame)
-        return RunResponse(request_id=body.request_id, context_revision=ctx.revision, original_text=body.text,
+        return RunResponse(locale=ctx.locale,request_id=body.request_id, context_revision=ctx.revision, original_text=body.text,
             reply=text, status=status, stop_reason=reason, resolved=frame, plan=last_plan,
             verified_plans=plans, filled_fields=filled, model_calls=calls, tool_reads=reader.calls,
             elapsed_ms=(time.monotonic()-start)*1000, trace=trace,
@@ -181,7 +192,12 @@ async def run(owner, body, scope):
         step = Step(step=len(trace)+1, action=decision.action, model_call=paid)
         trace.append(step)
         if decision.action == "ask":
-            question = QUESTIONS[decision.clarification]
+            question = QUESTIONS[decision.clarification] if ctx.locale!='en' else {
+                'intent':'Would you like to query information, prepare a draft, or discuss an idea?',
+                'object':'Which registered item would you like to use?',
+                'quantity':'Please provide the exact quantity to record.','unit':'Which unit does that quantity use?',
+                'date':'Please provide an unambiguous date.','location':'Please specify the location.',
+                'priority':'You requested multiple changes. Which one should be handled first?'}[decision.clarification]
             return finish("needs_input", "user_input_required", reply=(verified.reply+"\n" if verified else "")+question)
         if decision.action == "finish":
             if not verified or last and last.error_code:
@@ -243,3 +259,8 @@ async def run(owner, body, scope):
             return finish(*end)
         if literal or decision.finish_after_resolve and not last.error_code:
             return finish("completed", "completed")
+
+
+async def run(owner,body,scope):
+    with using(body.context.locale):
+        return await _run(owner,body,scope)

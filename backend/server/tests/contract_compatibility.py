@@ -40,6 +40,16 @@ def assert_backend_contract(old, current):
         if isinstance(value, list): return [dialogue_protocols(v) for v in value]
         if not isinstance(value, dict): return value
         value = deepcopy(value)
+        if value.get('title') in {'Response','Turn','Message','Reset','Selector'}:
+            field=value.get('properties',{}).get('locale')
+            if field:
+                assert field.get('default')=='zh-CN' and set(field.get('enum',[]))=={'zh-CN','en'}
+                assert 'locale' not in value.get('required',[])
+                value['properties'].pop('locale')
+            field=value.get('properties',{}).get('search_terms')
+            if field:
+                assert field.get('default')==[] and field.get('maxItems')==3
+                value['properties'].pop('search_terms')
         if value.get("title") == "DialogueMetadata":
             # Optional output feedback added after P8.5; historical business bounds stay exact.
             for name in ("status", "stop_reason"):

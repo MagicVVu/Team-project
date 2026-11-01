@@ -1,0 +1,184 @@
+{
+  "feature": "bilingual-assistant",
+  "new_version_assigned": false,
+  "baseline": "8f44a6a",
+  "local_only": true,
+  "contracts": 13,
+  "runtime_files": 125,
+  "bilingual_pairs": 150,
+  "dev": 90,
+  "holdout": 60,
+  "ai_tests": {
+    "tests": 1279,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "passed": 1277
+  },
+  "current_backend_tests": {
+    "tests": 116,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 4,
+    "passed": 112
+  },
+  "legacy_backend_tests": {
+    "tests": 75,
+    "failures": 1,
+    "errors": 69,
+    "skipped": 5,
+    "passed": 0
+  },
+  "android": {
+    "android_compile": true,
+    "jvm_runner": "JUnitCore using Gradle exported dependencies",
+    "passed": 78,
+    "failed": false,
+    "gradle_test_worker_passed": false,
+    "gradle_test_worker_issue": "ClassNotFoundException in Gradle worker on this workspace; direct JUnit used",
+    "device_tests_run": false,
+    "app_joint_acceptance": false,
+    "server_accessed": false
+  },
+  "real_model_regression": {
+    "label": "real-corrected-regression",
+    "synthetic_only": true,
+    "post_fix_nonblind_regression": true,
+    "human_review_status": "pending",
+    "joint_app_acceptance": false,
+    "by_locale": {
+      "zh-CN": {
+        "inputs": 150,
+        "outcome_passed": 149,
+        "outcome_rate": 0.9933333333333333,
+        "clarification_required": 50,
+        "clarification_recalled": 50,
+        "clarification_recall": 1.0,
+        "returned_drafts": 44,
+        "read_or_boundary_cases": 105,
+        "semantic_fact_violations": [],
+        "unlocalized_system_reply_cases": [],
+        "model_calls_distribution": {
+          "0": 18,
+          "1": 108,
+          "2": 23,
+          "3": 1
+        },
+        "stop_reason_distribution": {
+          "completed": 44,
+          "repeated_plan": 5,
+          "confirmation_required": 44,
+          "model_error": 1,
+          "user_input_required": 36,
+          "boundary": 20
+        },
+        "p95_ms": 6449.328200000309,
+        "failed_outcomes": [
+          "plan_add-1"
+        ]
+      },
+      "en": {
+        "inputs": 150,
+        "outcome_passed": 144,
+        "outcome_rate": 0.96,
+        "clarification_required": 50,
+        "clarification_recalled": 48,
+        "clarification_recall": 0.96,
+        "returned_drafts": 42,
+        "read_or_boundary_cases": 105,
+        "semantic_fact_violations": [
+          {
+            "id": "multiple_items-1",
+            "code": "action"
+          },
+          {
+            "id": "multiple_items-1",
+            "code": "unexpected_draft"
+          },
+          {
+            "id": "multiple_items-1",
+            "code": "read_or_blocked_created_draft"
+          }
+        ],
+        "unlocalized_system_reply_cases": [],
+        "model_calls_distribution": {
+          "0": 65,
+          "1": 73,
+          "2": 12
+        },
+        "stop_reason_distribution": {
+          "completed": 50,
+          "confirmation_required": 42,
+          "user_input_required": 36,
+          "boundary": 21,
+          "model_error": 1
+        },
+        "p95_ms": 5861.621399999422,
+        "failed_outcomes": [
+          "open_today-3",
+          "add_weight-4",
+          "consume_all-2",
+          "consume_all-3",
+          "model_alias-1",
+          "multiple_items-1"
+        ]
+      }
+    }
+  },
+  "final_selection_model_check": {
+    "label": "real-selection-final",
+    "synthetic_only": true,
+    "post_fix_nonblind_regression": true,
+    "human_review_status": "pending",
+    "joint_app_acceptance": false,
+    "by_locale": {
+      "zh-CN": {
+        "inputs": 5,
+        "outcome_passed": 5,
+        "outcome_rate": 1.0,
+        "clarification_required": 5,
+        "clarification_recalled": 5,
+        "clarification_recall": 1.0,
+        "returned_drafts": 0,
+        "read_or_boundary_cases": 5,
+        "semantic_fact_violations": [],
+        "unlocalized_system_reply_cases": [],
+        "model_calls_distribution": {
+          "1": 5
+        },
+        "stop_reason_distribution": {
+          "user_input_required": 5
+        },
+        "p95_ms": 6764.741599999979,
+        "failed_outcomes": []
+      },
+      "en": {
+        "inputs": 5,
+        "outcome_passed": 5,
+        "outcome_rate": 1.0,
+        "clarification_required": 5,
+        "clarification_recalled": 5,
+        "clarification_recall": 1.0,
+        "returned_drafts": 0,
+        "read_or_boundary_cases": 5,
+        "semantic_fact_violations": [],
+        "unlocalized_system_reply_cases": [],
+        "model_calls_distribution": {
+          "1": 5
+        },
+        "stop_reason_distribution": {
+          "user_input_required": 5
+        },
+        "p95_ms": 5944.162399999186,
+        "failed_outcomes": []
+      }
+    }
+  },
+  "historical_selection_violation_fixed_and_retested": true,
+  "business_core_and_migrations_unchanged": true,
+  "acceptance_targets_met_in_nonblind_regression": true,
+  "manual_review": "pending",
+  "real_device_acceptance": "not_run",
+  "server_deployment": "not_run",
+  "git_commit_or_push": "not_run"
+}

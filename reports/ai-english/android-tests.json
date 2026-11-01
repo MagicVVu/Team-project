@@ -1,0 +1,11 @@
+{
+  "android_compile": true,
+  "jvm_runner": "JUnitCore using Gradle exported dependencies",
+  "passed": 78,
+  "failed": false,
+  "gradle_test_worker_passed": false,
+  "gradle_test_worker_issue": "ClassNotFoundException in Gradle worker on this workspace; direct JUnit used",
+  "device_tests_run": false,
+  "app_joint_acceptance": false,
+  "server_accessed": false
+}

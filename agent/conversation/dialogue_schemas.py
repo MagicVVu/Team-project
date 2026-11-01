@@ -1,5 +1,5 @@
 """P8.4 internal stages. Trusted context and user text have separate origins."""
-from typing import Literal
+from typing import Annotated, Literal
 from pydantic import Field, model_validator
 from p0.schemas import Model
 from p1.schemas import Message
@@ -16,6 +16,7 @@ class FieldSource(Model):
 
 
 class Selector(Model):
+    search_terms: list[Annotated[str,Field(min_length=1,max_length=80)]] = Field(default_factory=list,max_length=3)
     name: str | None = Field(default=None, max_length=80)
     location: str | None = Field(default=None, max_length=100)
     choice_index: int | None = Field(default=None, ge=0, strict=True)
@@ -75,6 +76,7 @@ ResolveRequest = DialogueResolveRequest
 
 
 class Resolved(Model):
+    locale: Literal["zh-CN", "en"] = "zh-CN"
     protocol_version: Literal["p84-dialogue-1"] = PROTOCOL
     original_text: str
     kind: Literal["task", "clarify", "edit", "explain", "needs_input", "clear_reference"]

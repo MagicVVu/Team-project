@@ -1,4 +1,4 @@
-"""V1-P8.6: uvicorn conversation.autonomous.app:create_app --factory."""
+"""V1-P8.7: bilingual autonomous assistant; existing JEV routing is retained."""
 import os
 from fastapi import Depends
 from p0.schemas import Scope
@@ -12,9 +12,9 @@ from . import runner
 
 
 class Profile(P85Profile):
-    title = "Household V1-P8.6 autonomous inventory assistant"
-    version = "0.8.6"
-    health = {**P85Profile.health, "maintenance_release":"V1-P8.6",
+    title = "Household V1-P8.7 bilingual autonomous inventory assistant"
+    version = "0.8.7"
+    health = {**P85Profile.health, 'assistant_language_protocol':'assistant-language-1','assistant_languages':['zh-CN','en'],"maintenance_release":"V1-P8.7",
         "conversation_dialogue_protocol":PROTOCOL,
         "dialogue_max_model_calls":None, "dialogue_deadline_seconds":60,
         "dialogue_work_seconds":58, "legacy_dialogue_max_model_calls":2,

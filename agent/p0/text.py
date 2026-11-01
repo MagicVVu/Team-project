@@ -5,9 +5,10 @@ requests; dates are removed before numbers are read as quantities.
 """
 import re
 from decimal import Decimal, InvalidOperation
+from .language import EN_NUMBER, EN_UNIT, EN_ACTIONS, english_number
 
-NUMBER_PATTERN = r"-?\d+(?:\.\d+)?|[零一二两三四五六七八九十]+"
-UNIT_PATTERN = r"毫升|千克|公斤|ml|mL|kg|升|克|L|g|盒|瓶|包|袋|个|卷|片|吨|台|份|件"
+NUMBER_PATTERN = r"-?\d{1,3}(?:,\d{3})+(?:\.\d+)?|-?\d+(?:\.\d+)?|[零一二两三四五六七八九十]+|(?i:"+EN_NUMBER+r")|(?i:\b(?:a|an)(?=\s+"+EN_UNIT+r"))"
+UNIT_PATTERN = r"毫升|千克|公斤|升|克|盒|瓶|包|袋|个|卷|片|吨|台|份|件|(?<![A-Za-z])(?:ml|mL|kg|L|g)(?![A-Za-z])|"+EN_UNIT
 AMOUNT_PATTERN = rf"({NUMBER_PATTERN})\s*({UNIT_PATTERN})"
 DATE_PATTERN = r"\d{4}-\d{1,2}-\d{1,2}"
 RELATIVE_PATTERN = r"今天|昨天|明天|前天|上周|上个月|前几天|最近"
@@ -28,6 +29,8 @@ CHINESE = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4,
 
 
 def number(value):
+    english=english_number(value)
+    if english is not None:return english
     if value in CHINESE:
         return Decimal(CHINESE[value])
     if value.count("十") == 1 and len(value) <= 3:
@@ -48,7 +51,9 @@ def actions(text):
     remainder = re.sub(ACTION_PATTERNS["PLAN_ADD"], "", text)
     found = {key for key, pattern in ACTION_PATTERNS.items()
              if key != "PLAN_ADD" and re.search(pattern, remainder)}
-    return found | ({"PLAN_ADD"} if plan else set())
+    english={key for key,pattern in EN_ACTIONS.items() if re.search(pattern,text,re.I)}
+    if "PLAN_ADD" in english:english.discard("ADD")
+    return found | ({"PLAN_ADD"} if plan else set()) | english
 
 
 def quantity_evidence(text):

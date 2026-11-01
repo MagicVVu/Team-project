@@ -175,7 +175,9 @@ def test_whole_object_consumption_and_verified_state(execution_state,autonomous_
     assert ok(post(client,value["task"]["draft_id"],commit_body(task_revision=value["task"]["revision"])))['status']=="committed"
     status=ok(send(client,ids,value,"执行了吗"))
     assert "执行成功" in status["reply"] and status["model_calls"]==0
-    with Session() as db:assert db.get(InventoryItem,ids["batch"]).quantity==0 and db.query(DraftOperation).count()==1
+    # Ended physical objects are removed by the current inventory cleanup;
+    # the stable execution receipt remains authoritative after removal.
+    with Session() as db:assert db.get(InventoryItem,ids["batch"]) is None and db.query(DraftOperation).count()==1
 
 
 def test_measured_add_preview_specification_and_real_commit(execution_state,autonomous_ai):

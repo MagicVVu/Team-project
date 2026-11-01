@@ -5,6 +5,7 @@ import org.json.JSONObject
 /** Public user APIs only; never connects directly to the AI or database. */
 open class AgentClient(address: String, token: String) {
     private val api = CloudApi(address, token)
+    fun useLanguage(provider: () -> String): AgentClient { api.localeProvider = provider; return this }
     open suspend fun capabilities(): JSONObject {
         return api.verifiedCapabilities()
     }

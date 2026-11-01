@@ -34,6 +34,7 @@ def previous_plan(saved):
 
 
 class Resolution(dialogue.Resolution):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     protocol_version: Literal["p85-dialogue-1"]
     kind: Literal["task","clarify","edit","explain","needs_input","clear_reference"]
     memory: dict = Field(default_factory=dict)
@@ -42,6 +43,7 @@ class Resolution(dialogue.Resolution):
 
 
 class Result(BaseModel):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     model_config = ConfigDict(extra="forbid")
     protocol_version: str
     request_id: str
@@ -107,6 +109,7 @@ def checked_context(db, identity, body, turn_id, nonce, original=None, plan=None
     if latest is None or latest.id != turn.id:
         execution.fail("CONVERSATION_REVISION_CONFLICT")
     ctx = memory.context_for(db,identity,body.household_id,turn)
+    ctx['locale']=(original or {}).get('locale',body.locale)
     if original:
         if (ctx["conversation_id"],ctx["revision"]) != (original["conversation_id"],original["revision"]):
             execution.fail("CONVERSATION_REVISION_CONFLICT")
@@ -146,6 +149,7 @@ def project_intake(frame):
         domain["preview"]["after"].update(quantity="1",unit=unit)
         domain["preview"]["quantity_delta"]="1"
     note=f"确认后将新增{count}件独立物品，单位为{unit}"+(f"，规格为{specification}" if specification else "")+"；尚未写入。"
+    if frame.get('locale')=='en':note=f'Confirmation will create {count} individual item(s)'+(f', specification {specification}' if specification else '')+'. Nothing has been written.'
     facts=frame.setdefault("facts",{})
     if note not in facts.values():facts[f"f{len(facts)}"]=note
     frame["reply"]="\n".join(facts.values())
@@ -185,7 +189,7 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
                 {**original,"remaining_seconds":58},60)
             result = Result.model_validate(raw)
         except (ValueError,TypeError): execution.fail("AUTONOMOUS_AI_INVALID",503)
-        if (result.request_id != body.request_id or result.original_text != body.text
+        if (result.locale!=body.locale or result.request_id != body.request_id or result.original_text != body.text
                 or result.context_revision != original["context"]["revision"]):
             execution.fail("AUTONOMOUS_AI_INVALID",503)
         if result.resolved:
@@ -238,10 +242,10 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
             if checked:
                 before, after = frame.get("result") or {}, checked.get("result") or {}
                 if before.get("draft") and routing.digest(before.get("draft")) != routing.digest(after.get("draft")):
-                    checked = dict(kind="needs_input",reply="库存或原草稿已变化，请重新核对；尚未执行。",
+                    checked = dict(kind="needs_input",reply="Inventory or the original draft changed. Review it again; nothing has been executed." if body.locale=='en' else "库存或原草稿已变化，请重新核对；尚未执行。",
                         error_code="INVENTORY_VERSION_CONFLICT",facts={},evidence=[],field_sources={},filled_fields=frame.get("filled_fields",{}))
                 if frame.get("answers") and (frame.get("answers"),frame.get("task_revision")) != (checked.get("answers"),checked.get("task_revision")):
-                    checked = dict(kind="needs_input",reply="原任务已更新，请重新核对。",error_code="TASK_REVISION_CONFLICT",
+                    checked = dict(kind="needs_input",reply="The original task changed. Review its latest revision." if body.locale=='en' else "原任务已更新，请重新核对。",error_code="TASK_REVISION_CONFLICT",
                         facts={},evidence=[],field_sources={},filled_fields=frame.get("filled_fields",{}))
                 if recovering or checked.get("error_code") or plan.get("speech_act") in {"status","basis"} or result.stop_reason=="context_refresh_required":
                     frame = {**checked,"model_calls":result.model_calls}
@@ -263,7 +267,7 @@ async def run(db, identity, body, turn_id, nonce, saved, *, recovering=False):
             "DRAFT_EXPIRED","INVENTORY_VERSION_CONFLICT"}: raise
         db.rollback()
         routing.locked_turn(db,identity,turn_id,nonce)
-        frame=dict(kind="needs_input",reply="原对象或任务已变化，请重新选择并核对；尚未执行。",
+        frame=dict(kind="needs_input",locale=body.locale,reply="The original item or task changed. Select it again and review; nothing has been executed." if body.locale=='en' else "原对象或任务已变化，请重新选择并核对；尚未执行。",
             error_code=code,model_calls=result.model_calls,field_sources={},filled_fields=result.filled_fields,
             evidence=[],preserve_active=True)
     frame["dialogue"] = dict(protocol_version=PROTOCOL,

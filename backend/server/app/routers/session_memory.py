@@ -36,9 +36,10 @@ async def message(body: Message, identity: Identity = Depends(get_identity), db:
         staged = (saved_protocol(prior.binding_json or {}) is not None or
             autonomous.saved_state(prior.binding_json or {}) is not None) if prior else enabled() or autonomous.enabled()
         async with asyncio.timeout(75 if staged else 10):
-            if body.text.strip().rstrip("。！! ") in {"开始新会话", "清空当前会话"}:
+            if body.text.strip().rstrip("。！! ").lower() in {"开始新会话", "清空当前会话",'start a new conversation','start new conversation','clear this conversation'}:
                 return service.reset(db, identity, Reset(household_id=body.household_id, request_id=body.request_id,
-                    conversation_id=body.conversation_id, conversation_revision=body.conversation_revision), body.text)
+                    conversation_id=body.conversation_id, conversation_revision=body.conversation_revision,
+                    **({'locale':body.locale} if 'locale' in body.model_fields_set else {})), body.text)
             return await service.send(db, identity, body)
     except (TimeoutError, httpx.TimeoutException):
         raise HTTPException(504, detail={"code": "CONVERSATION_TIMEOUT", "request_id": body.request_id,

@@ -25,6 +25,7 @@ class CloudFailure(val status: Int, message: String, val errorCode: String = "",
 
 /** No automatic mutation retries: callers keep IDs stable when retrying a confirmed operation. */
 open class CloudApi(val address: String, private val token: String = "") {
+    var localeProvider: () -> String = { "zh-CN" }
     companion object {
         private val targetChecks = TargetCheckCache()
         private val discovery = Mutex()
@@ -45,6 +46,7 @@ open class CloudApi(val address: String, private val token: String = "") {
     }
 
     open suspend fun request(method: String, path: String, body: JSONObject? = null): JSONObject = withContext(Dispatchers.IO) {
+        val locale = body?.optString("locale")?.takeIf { it in setOf("zh-CN", "en") } ?: localeProvider()
         validateAddress(address)
         require(!token.contains('\r') && !token.contains('\n'))
         if (method !in setOf("GET", "HEAD")) {
@@ -61,6 +63,7 @@ open class CloudApi(val address: String, private val token: String = "") {
             connection.readTimeout = ConversationProtocol.readTimeoutMillis(path)
             connection.instanceFollowRedirects = false
             connection.setRequestProperty("Accept", "application/json")
+            connection.setRequestProperty("Accept-Language", locale)
             connection.setRequestProperty(TeamApiAccess.HEADER, TeamApiAccess.KEY)
             if (token.isNotEmpty()) connection.setRequestProperty("Authorization", "Bearer $token")
             if (body != null) {
@@ -84,7 +87,16 @@ open class CloudApi(val address: String, private val token: String = "") {
                 val code = runCatching { JSONObject(text).optJSONObject("detail")?.optString("code").orEmpty() }.getOrDefault("")
                 if (status in setOf(401, 403, 503)) targetChecks.invalidate(targetKey)
                 val hint = runCatching { JSONObject(text).optJSONObject("detail")?.optString("task_id").orEmpty() }.getOrDefault("")
-                throw CloudFailure(status, ChatMessages.reason(code, message), code, hint)
+                val localized = if (locale == "en") when (status) {
+                    401 -> "Please sign in again."
+                    403 -> "Access is denied. Check household permissions or application access."
+                    404 -> "The item or household is unavailable. Refresh and check permissions."
+                    409 -> "The record changed. Refresh and review before confirming again."
+                    422 -> "Please check the supplied fields, date, quantity and unit."
+                    503 -> "The service is temporarily unavailable. Please try again later."
+                    else -> "Request failed ($status). Recover the original request before retrying."
+                } else message
+                throw CloudFailure(status, ChatMessages.reason(code, localized, locale), code, hint)
             }
             when {
                 text.isBlank() -> JSONObject()
@@ -92,7 +104,7 @@ open class CloudApi(val address: String, private val token: String = "") {
                 else -> JSONObject(text)
             }
         } catch (failure: CloudFailure) { throw failure }
-        catch (failure: IOException) { throw IOException("无法连接服务器。请检查网络、服务器地址、证书及服务器访问策略；如刚提交操作，请先刷新核对结果。", failure) }
+        catch (failure: IOException) { throw IOException(AssistantLanguage.system("无法连接服务器。请检查网络、服务器地址、证书及服务器访问策略；如刚提交操作，请先刷新核对结果。", locale == "en"), failure) }
         finally { connection.disconnect() }
     }
 

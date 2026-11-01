@@ -1,7 +1,7 @@
 package com.example.teamapp.data
 
 object ChatMessages {
-    fun reason(code: String, fallback: String = "请核对当前任务后继续"): String = when (code) {
+    fun reason(code: String, fallback: String = "请核对当前任务后继续", locale: String = "zh-CN"): String = if (locale == "en") english(code, fallback) else when (code) {
         "APP_KEY_INVALID" -> "团队 API 访问密钥无效，请同步最新 App，或联系服务器维护者。"
         "APP_KEY_NOT_CONFIGURED" -> "服务器尚未配置团队 API 访问密钥，请联系服务器维护者。"
         "STOCK_COUNT_MISMATCH" -> "盘点数量与当前库存不同，请先盘点修正、刷新，再由你重新确认盘点。"
@@ -33,5 +33,16 @@ object ChatMessages {
         "DRAFT_CANCEL_REQUIRES_CONFIRMATION" -> "请核对这份草稿的执行状态，并使用取消草稿按钮；取消草稿不会撤销已执行操作。"
         "CONVERSATION_SESSION_EXPIRED", "CONVERSATION_BINDING_CHANGED", "CONVERSATION_SUPERSEDED" -> "登录、家庭或活动任务已变化，请重新选择当前任务。"
         else -> fallback
+    }
+    private fun english(code: String, fallback: String): String = when {
+        code in setOf("REFERENCE_REQUIRED", "INVALID_CANDIDATE", "CANDIDATES_CHANGED") -> "Choose an item from the current candidate list."
+        code.contains("CONFLICT") || code.contains("CHANGED") -> "The task or inventory changed. Refresh and review the latest information."
+        code.contains("EXPIRED") -> "The task or reference expired. Select the current item again."
+        code in setOf("AI_OUTCOME_UNKNOWN", "OPERATION_ID_CONFLICT") -> "Recover the original request and verify its outcome. Do not submit another operation."
+        code == "DRAFT_ALREADY_COMMITTED" -> "This draft already has an execution result. Recover its receipt instead of confirming again."
+        code == "SINGLE_OBJECT_CONSUMPTION_REQUIRED" -> "Only a whole physical item can be consumed or discarded. Fractions are not supported."
+        code in setOf("INVALID_DATE", "OPEN_DATE_IN_FUTURE") -> "Provide a valid date. The opening date cannot be in the household's future."
+        code == "INVALID_UNIT" -> "Choose a supported unit and review the item specification."
+        else -> AssistantLanguage.system(fallback, true)
     }
 }

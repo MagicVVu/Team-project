@@ -15,7 +15,7 @@ from p0.text import number, NUMBER_PATTERN
 from p1.domain import guard, TARGET_ACTIONS
 from p1.schemas import Parsed, Message, Batch
 from p1.tools import check_scope
-from .manager import LifecycleManager, LOCATION_REFERENCE, business_fields
+from .manager import LifecycleManager, LOCATION_REFERENCE, PRONOUN, business_fields
 from .memory import bounded_context, STATUS, BASIS, RECALL, ORDINAL, START_TASK, explain_state, basis_text
 from .replies import resolve_reply
 from .schemas import AgentResult
@@ -98,12 +98,14 @@ def grounded_fields(plan, text, context, timezone_name="Asia/Shanghai"):
             if not quote or quote not in text:
                 raise DomainError("UNGROUNDED_FIELD", "请明确本轮要填写的字段，不能使用猜测值。")
             if field == "quantity":
-                numbers = [number(m[0]) for m in re.finditer(NUMBER_PATTERN, re.sub(r"\d{4}-\d{2}-\d{2}", "", quote))]
+                from p0.language import numbers as english_numbers
+                numbers = [number(m[0]) for m in re.finditer(NUMBER_PATTERN, re.sub(r"\d{4}-\d{2}-\d{2}", "", quote))]+english_numbers(quote)
                 try: valid = Decimal(value) in numbers
                 except Exception: valid = False
             elif field == "unit":
                 from p0.text import UNIT_PATTERN
                 valid = any(normalize_unit(match[0]) == normalize_unit(value) for match in re.finditer(UNIT_PATTERN,quote))
+                if valid:value=normalize_unit(value)
             else:
                 valid = value in quote
                 if not valid and field in {"opened_at","purchased_at","label_expiry"}:
@@ -113,9 +115,13 @@ def grounded_fields(plan, text, context, timezone_name="Asia/Shanghai"):
                         expected=parse_date(relative[0],context.trusted_now,timezone_name).isoformat()
                         valid=value==expected
                         if valid:value=relative[0]
+                    if not valid:
+                        try:valid=value==parse_date(quote,context.trusted_now,timezone_name).isoformat()
+                        except ValueError:pass
             if not valid: raise DomainError("UNGROUNDED_FIELD", "该字段与本轮原文不一致，请核对。")
         values[field] = value
         sources[field] = source.model_dump()
+        if value!=source.value:sources[field].update(value=value,normalization="literal_language_alias",original_value=source.value)
     # Literal unit inference is allowed only from the quantity's exact quote.
     if "quantity" in values and "unit" not in values:
         from p0.text import UNIT_PATTERN
@@ -176,7 +182,7 @@ async def _resolve(owner, body, scope):
     referenced_name = None
     for key in ("name", "location"):
         value = getattr(selector, key)
-        if value and value not in body.text:
+        if value and value.casefold() not in body.text.casefold():
             if key=="name" and selector.use_reference and context.reference:
                 referenced_name=value
                 selector=selector.model_copy(update={"name":None})
@@ -229,7 +235,9 @@ async def _resolve(owner, body, scope):
         if selector.choice_index >= len(context.choices):
             return finish("请从当前展示的候选中重新选择。", kind="needs_input", error_code="INVALID_CANDIDATE")
         reference = context.choices[selector.choice_index]
-    elif not (selector.location and context.choices) and (selector.use_reference or not selector.name and not values.get("name")):
+    elif not (selector.location and context.choices) and not selector.name and not values.get("name"):
+        # An explicitly named item is a fresh search. A provider cannot use an
+        # old single-item reference to bypass today's multi-item selection.
         reference = context.reference
     # Same-target corrections use the saved draft's identity, never a guessed ID.
     target = command.get("batch_id") if editing else None
@@ -239,25 +247,58 @@ async def _resolve(owner, body, scope):
         result.reference = reference.model_dump(mode="json")
     if not reference and not target and not (selector.name or values.get("name")) and context.reference_error:
         return finish("之前讨论的对象需要重新确认，请重新选择当前批次。", kind="needs_input", error_code=context.reference_error)
+    if (reference and not target and selector.choice_index is None and len(context.choices)>1
+            and (not (PRONOUN.search(body.text) or re.search(r"\b(?:it|this item|that item|this batch|that batch|this one|that one)\b",body.text,re.I))
+                 or re.search(r"让我选|让我选择|\blet me (?:select|choose|pick)\b",body.text,re.I))):
+        # A provider can omit the named noun as well as invent use_reference.
+        # A multi-candidate task therefore also needs literal reference evidence.
+        if any(not r.issued_at<=owner.now()<r.expires_at for r in context.choices):
+            return finish("候选引用已过期，请重新查询。",kind='needs_input',error_code='REFERENCE_EXPIRED')
+        rows=[await reader.get_batch(scope,r.batch_id) for r in context.choices]
+        from .language.names import clarification
+        domain=clarification(owner,body,scope,rows,action,values,{'query':rows[0].name})
+        result.reference=None
+        result.result=domain.model_dump(mode='json');result.kind='task';return finish(domain.reply)
     if target or reference:
         rows = [await reader.get_batch(scope, target or reference.batch_id)]
     elif selector.name or values.get("name"):
         name = selector.name or values["name"]
-        rows = await reader.search(scope, name)
-        rows = [r for r in rows if name.casefold() in r.name.casefold()]
-        exact = [r for r in rows if r.name.casefold() == name.casefold()]
-        rows = exact or rows
+        if context.locale=='en' or selector.search_terms or re.search('[a-zA-Z]',name):
+            from .language.names import resolve_name,clarification
+            rows,matching=await resolve_name(owner.reader,scope,name,selector.search_terms)
+            for row in rows:reader.rows[row.id]=row
+            result.evidence.append({'kind':'name_resolution',**matching,'batch_ids':[r.id for r in rows]})
+            if rows and matching['match_kind']!='original' and (matching['match_kind']=='model_translation' or len(rows)!=1):
+                domain=clarification(owner,body,scope,rows,action,values,matching)
+                result.result=domain.model_dump(mode='json');result.kind='task';return finish(domain.reply)
+        else:
+            rows = await reader.search(scope, name)
+            rows = [r for r in rows if name.casefold() in r.name.casefold()]
+            exact = [r for r in rows if r.name.casefold() == name.casefold()]
+            rows = exact or rows
     elif selector.location and context.choices:
         if any(not r.issued_at <= owner.now() < r.expires_at for r in context.choices):
             return finish("原候选已过期，请重新查询。", kind="needs_input", error_code="REFERENCE_EXPIRED")
         rows = [await reader.get_batch(scope, r.batch_id) for r in context.choices]
     else:
         rows = []
-    if selector.location: rows = [r for r in rows if selector.location in (r.location or "")]
+    if selector.location:
+        from .language.names import location
+        selected_location,_=await location(owner.reader,scope,selector.location) if context.locale=='en' or re.search('[a-zA-Z]',selector.location) else (selector.location,None)
+        rows = [r for r in rows if selected_location in (r.location or "")]
+    if context.locale=='en' or any(re.search('[a-zA-Z]',values.get(f,'')) for f in ('to_location','location')):
+        from .language.names import location
+        for field in ('to_location','location'):
+            if field in values:
+                values[field],source=await location(owner.reader,scope,values[field])
+                if source:result.field_sources[field]={**source,'quote':plan.fields[field].quote}
     if referenced_name and (len(rows)!=1 or rows[0].name!=referenced_name):
         return finish("当前对象与提到的名称不一致，请重新选择。",kind="needs_input",error_code="REFERENCE_IDENTITY_CHANGED")
     for row in rows:
         result.evidence.append({"kind":"inventory_read", "batch_id":row.id, "version":row.version, "checked_at":owner.now().isoformat()})
+    if action in {'CONSUME','DISCARD'} and len(rows)==1 and values.get('quantity') and Decimal(values['quantity'])==1 and re.search(r'\b(?:items?|pieces?)\b',body.text,re.I) and not re.search(r'\b(?:bottles?|boxes|cartons?|packs?|bags?)\b',body.text,re.I):
+        values['unit']=rows[0].unit
+        result.field_sources['unit']={'source':'verified_whole_object','batch_id':rows[0].id,'version':rows[0].version,'value':rows[0].unit}
     for read in plan.reads:
         if read.kind in {"quantity", "location", "dates"}:
             for row in rows:
@@ -327,7 +368,8 @@ async def _resolve(owner, body, scope):
     parsed_values.update(intent=action, name=rows[0].name if len(rows)==1 else selector.name or values.get("name") or command.get("name"))
     if command.get("discard_mode"): parsed_values["discard_mode"] = command["discard_mode"]
     if plan.amount_mode in {"half", "all"}:
-        if not re.search(r"一半|半数|50[%％]" if plan.amount_mode=="half" else r"全部|剩下|剩余|余下|都",body.text):
+        from p0.language import ALL,HALF
+        if not re.search((r"一半|半数|50[%％]|"+HALF) if plan.amount_mode=="half" else (r"全部|剩下|剩余|余下|都|"+ALL),body.text):
             return finish("请明确要记录的数量或比例。",kind="needs_input",error_code="UNGROUNDED_AMOUNT_MODE")
         if action not in {"CONSUME", "DISCARD"}:
             return finish("此操作不支持按比例处理。", kind="needs_input", error_code="QUANTITY_TARGET_REQUIRED")

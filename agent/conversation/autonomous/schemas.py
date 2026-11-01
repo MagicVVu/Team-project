@@ -41,6 +41,7 @@ class Step(Model):
 
 
 class RunResponse(Model):
+    locale: Literal["zh-CN", "en"] = "zh-CN"
     protocol_version: Literal["inventory-autonomous-1"] = PROTOCOL
     request_id: str
     context_revision: int = Field(ge=0)

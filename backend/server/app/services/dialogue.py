@@ -65,6 +65,7 @@ class Understanding(BaseModel):
 
 
 class Resolution(BaseModel):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     model_config = ConfigDict(extra="forbid")
     protocol_version: str
     original_text: str

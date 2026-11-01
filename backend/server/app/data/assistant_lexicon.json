@@ -1,0 +1,18 @@
+{
+  "version": "bilingual-names-1",
+  "names": {
+    "milk": ["牛奶"], "apple": ["苹果"], "apples": ["苹果"],
+    "egg": ["鸡蛋"], "eggs": ["鸡蛋"], "bread": ["面包"],
+    "rice": ["大米", "米"], "flour": ["面粉"], "butter": ["黄油"],
+    "cheese": ["奶酪", "芝士"], "yogurt": ["酸奶"], "yoghurt": ["酸奶"],
+    "water": ["水"], "bottled water": ["瓶装水", "矿泉水"],
+    "toilet paper": ["卫生纸"], "tissue": ["纸巾"], "tissues": ["纸巾"],
+    "shampoo": ["洗发水"], "soap": ["肥皂", "香皂"], "toothpaste": ["牙膏"]
+  },
+  "locations": {
+    "fridge": ["冰箱"], "refrigerator": ["冰箱"], "kitchen": ["厨房"],
+    "freezer": ["冷冻室"], "study": ["书房"], "bedroom": ["卧室"],
+    "balcony": ["阳台"], "bathroom": ["浴室", "卫生间"],
+    "cupboard": ["储物柜", "橱柜"], "pantry": ["食品储藏室", "储物柜"]
+  }
+}

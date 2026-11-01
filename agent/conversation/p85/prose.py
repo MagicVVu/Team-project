@@ -9,6 +9,8 @@ import re
 def household_prose(text):
     if not isinstance(text, str) or not text.strip() or len(text) > 800:
         return None
+    if re.search(r"\b(?:ignore|bypass|skip)\b.{0,25}\b(?:rules?|confirmation|instructions?)\b|\b(?:I|we) (?:have |already )?(?:moved|consumed|discarded|executed|cancelled|recorded)|\b(?:stock|inventory|remaining quantity|receipt|expires?|expired|depletion|safe to eat|you prefer|you told me|I remember you)\b",text,re.I):return None
+    if re.search(r"\b(?:moved|consumed|discarded|executed|cancelled|recorded|ordered|added|opened|deleted|saved)\b|\b(?:is|are|was|were)\s+(?:in|on|at|stored|located|safe|unsafe|spoiled|fresh|empty|finished)\b|\byou\s+(?:have|own)\b|\b(?:contains?|weighs?|dosage)\b",text,re.I):return None
     if re.search(r"忽略.*规则|跳过确认|system|\{\{|```|<[^>]+>", text, re.I): return None
     # A generic suggestion about sorting expired items is not a claim that a
     # particular household item HAS expired. Keep those distinct.

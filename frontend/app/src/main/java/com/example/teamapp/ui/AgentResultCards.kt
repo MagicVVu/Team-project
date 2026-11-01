@@ -46,7 +46,7 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
             .map { it.stringOrEmpty("batch_id") }.toSet()
         rows("facts").filter { it.stringOrEmpty("id") !in groupedBatches }.forEach { row ->
             AlignmentCard(s.tr("批次资料 · ", "Batch · ") + row.stringOrEmpty("name")) {
-                Text(s.tr("登记数量：", "Recorded quantity: ") + missing(row.stringOrEmpty("quantity")) + " " + row.stringOrEmpty("unit"))
+                Text(s.tr("登记数量：", "Recorded quantity: ") + missing(row.stringOrEmpty("quantity")) + " " + s.unit(row.stringOrEmpty("unit"), row.stringOrEmpty("quantity")))
                 Text(s.tr("存放位置：", "Location: ") + missing(row.stringOrEmpty("location").ifBlank { row.stringOrEmpty("storage_location") }))
                 Text(s.tr("标示到期日：", "Label expiry: ") + missing(row.stringOrEmpty("label_expiry")))
                 Text(s.tr("开封日期：", "Opened: ") + missing(row.stringOrEmpty("opened_at")))
@@ -57,11 +57,11 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
             val product = row.optJSONObject("product") ?: JSONObject()
             AlignmentCard(s.tr("商品汇总 · ", "Product · ") + product.stringOrEmpty("name")) {
                 product.stringOrEmpty("specification").takeIf { it.isNotBlank() }?.let { Text(it) }
-                Text(s.tr("登记总量：", "Total recorded: ") + missing(product.stringOrEmpty("total_quantity")) + " " + product.stringOrEmpty("base_unit"))
+                Text(s.tr("登记总量：", "Total recorded: ") + missing(product.stringOrEmpty("total_quantity")) + " " + s.unit(product.stringOrEmpty("base_unit")))
                 Text(s.tr("未过标示日期的活动量：", "Active quantity within label date: ") + missing(product.stringOrEmpty("nonexpired_active_quantity")))
                 Text(s.tr("可用量：", "Usable quantity: ") + missing(product.stringOrEmpty("usable_quantity")))
                 Text(s.tr("这不是可安全食用的保证；商品汇总与批次数量不可重复相加。", "This does not establish food safety. Do not add the product aggregate to its batches."), style = MaterialTheme.typography.bodySmall)
-                Text(s.tr("已登记消费小计：", "Recorded consumption subtotal: ") + missing(row.stringOrEmpty("recorded_consumption_quantity")) + " " + product.stringOrEmpty("base_unit"))
+                Text(s.tr("已登记消费小计：", "Recorded consumption subtotal: ") + missing(row.stringOrEmpty("recorded_consumption_quantity")) + " " + s.unit(product.stringOrEmpty("base_unit")))
                 Text(s.tr("统计范围：", "Recorded window: ") + "${missing(row.stringOrEmpty("window_start"))} → ${missing(row.stringOrEmpty("window_end_exclusive"))} " + s.tr("（不含结束日）", "(end exclusive)"))
                 Text(s.tr("记录小计不代表完整实际消费，没有记录不能解释为零消费。", "Recorded events do not establish complete consumption; no records does not mean zero consumption."), style = MaterialTheme.typography.bodySmall)
                 Text(s.tr("关联待购量：", "Linked pending quantity: ") + missing(row.stringOrEmpty("pending_quantity")))
@@ -76,7 +76,7 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
                         "DISCARDED" -> s.tr("已丢弃", "Discarded")
                         else -> missing(batch.stringOrEmpty("status"))
                     }
-                    Text("${missing(batch.stringOrEmpty("quantity"))} ${batch.stringOrEmpty("unit")} · ${missing(batch.stringOrEmpty("location"))} · $batchState")
+                    Text("${missing(batch.stringOrEmpty("quantity"))} ${s.unit(batch.stringOrEmpty("unit"), batch.stringOrEmpty("quantity"))} · ${missing(batch.stringOrEmpty("location"))} · $batchState")
                     Text(s.tr("标示到期日：", "Label expiry: ") + missing(batch.stringOrEmpty("label_expiry")) +
                         if (batch.optBoolean("expired")) s.tr("（已过标示日期）", " (past label date)") else "")
                     Text(s.tr("批次：", "Batch: ") + batch.stringOrEmpty("batch_id") + " · v" + batch.stringOrEmpty("version"), style = MaterialTheme.typography.labelSmall)
@@ -108,7 +108,7 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
             reasons(row)
         } }
         rows("consumption_summary").forEach { row -> AlignmentCard(s.tr("已记录消费 · ", "Recorded consumption · ") + row.stringOrEmpty("name")) {
-            Text(missing(row.stringOrEmpty("effective_quantity")) + " " + row.stringOrEmpty("unit"), style = MaterialTheme.typography.titleLarge)
+            Text(missing(row.stringOrEmpty("effective_quantity")) + " " + s.unit(row.stringOrEmpty("unit"), row.stringOrEmpty("quantity")), style = MaterialTheme.typography.titleLarge)
             Text("${row.stringOrEmpty("window_start")} → ${row.stringOrEmpty("window_end_exclusive")} " + s.tr("（不含结束日）", "(end exclusive)"))
             Text(s.tr("有效事件 ${row.stringOrEmpty("effective_events")} 次 · 观察 ${row.stringOrEmpty("observed_days")} 天 · 消费分布 ${row.stringOrEmpty("consumption_dates")} 天", "${row.stringOrEmpty("effective_events")} effective events · ${row.stringOrEmpty("observed_days")} observed days · ${row.stringOrEmpty("consumption_dates")} consumption dates"))
             Text(status(row.optString("status"))); reasons(row)
@@ -116,11 +116,11 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
         } }
         rows("forecast").forEach { row -> AlignmentCard(s.tr("耗尽参考 · ", "Stock forecast · ") + row.stringOrEmpty("name")) {
             Text(status(row.optString("status")))
-            Text(s.tr("登记库存：", "Recorded stock: ") + missing(row.stringOrEmpty("current_stock")) + " " + row.stringOrEmpty("unit"))
+            Text(s.tr("登记库存：", "Recorded stock: ") + missing(row.stringOrEmpty("current_stock")) + " " + s.unit(row.stringOrEmpty("unit"), row.stringOrEmpty("quantity")))
             Text(s.tr("日均记录消费：", "Daily recorded consumption: ") + missing(row.stringOrEmpty("daily_recorded_consumption")))
             Text(s.tr("参考剩余天数：", "Reference days remaining: ") + missing(row.stringOrEmpty("remaining_days")))
             Text(s.tr("参考日期：", "Reference date: ") + missing(row.stringOrEmpty("reference_date")))
-            Text(row.stringOrEmpty("conditions"), style = MaterialTheme.typography.bodySmall)
+            Text(if (s.english && row.stringOrEmpty("conditions").isNotBlank()) "Conditional estimate based on the recorded observation window and verified stock; future consumption may differ." else row.stringOrEmpty("conditions"), style = MaterialTheme.typography.bodySmall)
             row.optJSONObject("summary")?.let { summary ->
                 Text(s.tr("记录依据：完整观察 ${missing(summary.stringOrEmpty("observed_days"))}/14 天；有效消费 ${missing(summary.stringOrEmpty("effective_events"))}/5 次，分布 ${missing(summary.stringOrEmpty("consumption_dates"))}/3 天。",
                     "Recorded basis: ${missing(summary.stringOrEmpty("observed_days"))}/14 observed days; ${missing(summary.stringOrEmpty("effective_events"))}/5 effective events across ${missing(summary.stringOrEmpty("consumption_dates"))}/3 dates."), style = MaterialTheme.typography.bodySmall)
@@ -132,7 +132,7 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
         rows("recommendations").forEach { row -> AlignmentCard(s.tr("本次 AI 补货建议 · ", "AI restock suggestion · ") + row.stringOrEmpty("name")) {
             Text(status(row.optString("status")))
             listOf("current_stock" to s.tr("当前量", "Current"), "pending_quantity" to s.tr("待购量", "Pending"), "target_stock" to s.tr("目标量", "Target"), "suggested_quantity" to s.tr("建议量", "Suggested")).forEach { (key, label) ->
-                Text("$label: ${missing(row.stringOrEmpty(key))} ${row.stringOrEmpty("unit")}")
+                Text("$label: ${missing(row.stringOrEmpty(key))} ${s.unit(row.stringOrEmpty("unit"), row.stringOrEmpty("quantity"))}")
             }
             Text(s.tr("依据：", "Basis: ") + when(row.stringOrEmpty("source")) { "minimum_stock" -> s.tr("最低库存", "Minimum stock"); "recorded_history" -> s.tr("已记录消费历史", "Recorded history"); else -> s.tr("待核对", "Needs review") })
             reasons(row)
@@ -142,9 +142,15 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
         rows("risks").forEach { row -> AlignmentCard(s.tr("风险资料 · ", "Risk facts · ") + row.stringOrEmpty("name")) {
             Text(if (row.optString("level") == "unknown") s.tr("未知，不能判断为安全", "Unknown; not a safety assurance") else row.stringOrEmpty("level"))
             Text(if (row.optBoolean("attention")) s.tr("需要关注", "Needs attention") else s.tr("未触发当前规则的关注标记，不表示安全", "No attention flag under current rules; this does not establish safety"))
-            Text(row.stringOrEmpty("recommended_action")); reasons(row)
+            Text(if (!s.english) row.stringOrEmpty("recommended_action") else if (row.optBoolean("excluded")) "This item is no longer active; it is excluded from current-stock attention checks." else when(row.optString("level")) {
+                "red" -> "Stop using it and check the package label. Follow applicable instructions; ask a pharmacist about medicines."
+                "orange" -> "Check storage and opening requirements and the actual item's condition before treating it as usable."
+                "yellow" -> "The configured reminder window has started. Check the label and arrange handling."
+                "green" -> "Known rules did not trigger an attention flag. Still follow the package instructions and check the actual item."
+                else -> "Facts or applicable reviewed rules are missing. Review the listed fields and reassess."
+            }); reasons(row)
             row.optJSONArray("evidence")?.objects()?.forEach { evidence ->
-                Text(evidence.stringOrEmpty("explanation"), style = MaterialTheme.typography.bodySmall)
+                Text(if (s.english) alignmentReason(evidence.stringOrEmpty("reason_code"), true) else evidence.stringOrEmpty("explanation"), style = MaterialTheme.typography.bodySmall)
                 evidence.optJSONObject("source")?.let { Text(it.stringOrEmpty("ref"), style = MaterialTheme.typography.labelSmall) }
             }
             row.optJSONArray("missing_information")?.let { Text(s.tr("缺少资料：", "Missing facts: ") + it.toString(), style = MaterialTheme.typography.bodySmall) }
@@ -152,7 +158,7 @@ internal fun AgentResultCards(result: JSONObject, facts: (String, String) -> Uni
             TextButton(onClick = { facts(row.stringOrEmpty("batch_id"), "risk_facts") }) { Text(s.tr("补充这批的标签与储存资料", "Review this batch's label & storage")) }
         } }
         rows("guidance").forEach { row -> AlignmentCard(s.tr("补录任务", "Facts to review")) {
-            row.optJSONArray("instructions")?.let { array -> repeat(array.length()) { Text(array.getString(it)) } }
+            row.optJSONArray("instructions")?.let { array -> if (s.english && array.length()>0) Text("Review the listed missing fields in item facts, save, and query again.") else repeat(array.length()) { Text(array.getString(it)) } }
             val fields = row.optJSONArray("missing_fields")?.let { values -> (0 until values.length()).map { values.getString(it) } }.orEmpty()
             TextButton(onClick = { facts(row.stringOrEmpty("batch_id"), sectionFor(fields)) }) { Text(s.tr("选择批次并补录", "Select batch & review facts")) }
         } }

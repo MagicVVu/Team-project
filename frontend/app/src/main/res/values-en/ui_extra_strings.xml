@@ -32,7 +32,7 @@
     <string name="ui_unsupported">Not supported</string>
     <string name="ui_failed">Action failed</string>
     <string name="ui_answered">Answered</string>
-    <string name="ui_ai_language_note">Replies and existing conversations keep their original language.</string>
+    <string name="ui_ai_language_note">New replies follow the selected language. Previous messages remain unchanged.</string>
     <string name="ui_language_save_error">Could not save the language setting. Try again.</string>
     <plurals name="ui_item_count">
         <item quantity="one">%1$d item</item>

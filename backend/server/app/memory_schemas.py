@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class Input(BaseModel):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     model_config = ConfigDict(extra="forbid")
     household_id: UUID
     request_id: str = Field(min_length=1, max_length=100, pattern=r"^[A-Za-z0-9._:-]+$")
@@ -36,6 +37,7 @@ class CurrentTask(BaseModel):
 
 
 class Turn(BaseModel):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     request_id: str
     original_text: str
     created_at: datetime
@@ -98,6 +100,7 @@ class AutonomousMetadata(BaseModel):
 
 
 class Response(BaseModel):
+    locale: Literal['zh-CN','en'] = 'zh-CN'
     protocol_version: Literal["conversation-memory-1"] = "conversation-memory-1"
     conversation_id: UUID
     conversation_revision: int

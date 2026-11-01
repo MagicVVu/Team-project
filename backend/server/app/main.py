@@ -10,6 +10,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.database import engine
 from app.login_guard import LoginGuard
 from app.app_access import AppKeyMiddleware
+from app.assistant_language import LanguageMiddleware,current as current_locale,error_message
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from app.routers.auth import router as auth_router
 from app.routers.households import router as household_router
 from app.routers.ai_inventory import router as ai_inventory_router
@@ -36,6 +40,23 @@ app = FastAPI(
 )
 app.state.login_guard = LoginGuard()
 app.add_middleware(AppKeyMiddleware)
+app.add_middleware(LanguageMiddleware)
+
+
+@app.exception_handler(StarletteHTTPException)
+async def language_http_error(request,error):
+    detail=error.detail
+    if current_locale.get()=='en':
+        code=detail.get('code','REQUEST_FAILED') if isinstance(detail,dict) else 'REQUEST_FAILED'
+        detail={**detail,'message':error_message(code)} if isinstance(detail,dict) else {'code':code,'message':error_message(code)}
+    return JSONResponse(status_code=error.status_code,content={'detail':detail},headers=error.headers)
+
+
+@app.exception_handler(RequestValidationError)
+async def language_validation_error(request,error):
+    from fastapi.exception_handlers import request_validation_exception_handler
+    if current_locale.get()=='en':return JSONResponse(status_code=422,content={'detail':{'code':'VALIDATION_ERROR','message':'Please check the input fields and supported language (en or zh-CN).'}})
+    return await request_validation_exception_handler(request,error)
 app.include_router(auth_router)
 app.include_router(household_router)
 app.include_router(ai_inventory_router)
@@ -55,6 +76,7 @@ app.include_router(session_memory_router)
 def health_check() -> dict:
     return {"status": "ok", "service": "magicvvu-backend", "version": app.version,
             "maintenance_release": "V1-P9",
+            "ai_adapter_release": "V1-P8.7",
             "isolated_test": os.getenv("ISOLATED_APP_TEST") == "yes"}
 
 

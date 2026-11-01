@@ -7,7 +7,8 @@ import java.time.LocalDate
 object AgentExecutionPolicy {
     fun wireEdits(values: Map<String, String>): Map<String, String?> = values.mapValues { (field, value) ->
         if (field in setOf("purchased_at", "label_expiry") && value.isBlank()) null
-        else if (field == "unit") InventoryContract.unit(value) ?: value else value
+        else if (field == "opened_at") AssistantLanguage.dateToken(value)
+        else if (field == "unit") InventoryContract.unit(AssistantUnitAliases.canonical(value)) ?: value else value
     }
     val editable = mapOf(
         "ADD" to listOf("name", "quantity", "unit", "location", "purchased_at", "label_expiry"),
@@ -25,9 +26,9 @@ object AgentExecutionPolicy {
         for (field in listOf("location", "to_location")) values[field]?.let {
             require(it.isNotBlank() && it.codePointCount(0, it.length) <= 100) { "位置必填且最多 100 字，不会自动截断" }
         }
-        values["opened_at"]?.let { if (it !in setOf("今天", "昨天")) LocalDate.parse(it) }
+        values["opened_at"]?.let { if (AssistantLanguage.dateToken(it) !in setOf("今天", "昨天")) LocalDate.parse(it) }
         values["name"]?.let { require(it.isNotBlank() && it.codePointCount(0, it.length) <= 80) { "物品名称必填且最多 80 字，不会自动截断" } }
-        values["unit"]?.let { require(InventoryContract.unit(it) != null) { "请核对 AI 支持的计量单位，不会猜测容器容量" } }
+        values["unit"]?.let { require(InventoryContract.unit(AssistantUnitAliases.canonical(it)) != null) { "请核对 AI 支持的计量单位，不会猜测容器容量" } }
         val dates = listOf("purchased_at", "label_expiry").map { key -> values[key]?.takeIf { it.isNotBlank() }?.let { LocalDate.parse(it) } }
         require(dates[0] == null || dates[1] == null || !dates[1]!!.isBefore(dates[0])) { "有效期不能早于购入日期" }
     }

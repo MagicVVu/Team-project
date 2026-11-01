@@ -10,6 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = (
+    'p0/language.py','conversation/language/__init__.py','conversation/language/parsing.py',
+    'conversation/language/names.py','conversation/language/render.py','conversation/language/lexicon.json',
     "p0/__init__.py", "p0/text.py", "p0/domain.py", "p0/engines.py", "p0/manager.py",
     "p0/budget.py", "p0/deepseek.py", "p0/schemas.py", "p0/tools.py",
     "p1/__init__.py", "p1/engines.py", "p1/domain.py", "p1/manager.py", "p1/schemas.py", "p1/tools.py",

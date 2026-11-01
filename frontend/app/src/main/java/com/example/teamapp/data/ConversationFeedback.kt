@@ -5,8 +5,24 @@ import java.util.Locale
 
 /** Dialogue progress is informational; only task state and receipts authorize actions. */
 internal object ConversationFeedback {
-    fun dialogue(raw: String): String {
+    fun dialogue(raw: String, locale: String = "zh-CN"): String {
         val metadata = raw.takeIf { it.isNotBlank() }?.let(::JSONObject)?.optJSONObject("dialogue") ?: return ""
+        if (locale == "en") return when (metadata.stringOrEmpty("status")) {
+            "", "completed" -> ""
+            "needs_input" -> "More information is needed. Review the reply and supply the missing details."
+            "needs_confirmation" -> "Waiting for your review and confirmation; nothing has been executed."
+            "stopped" -> {
+                val reason = when (metadata.stringOrEmpty("loop_stop_reason").ifBlank { metadata.stringOrEmpty("stop_reason") }) {
+                    "deadline", "timeout", "time_budget_exceeded", "deadline_exceeded", "processing_timeout" -> "the time limit was reached"
+                    "repeated_plan", "no_progress" -> "further processing produced no new verified information"
+                    "context_limit" -> "the required context exceeds this turn's capacity"
+                    "ai_unavailable", "model_error" -> "the AI service is unavailable"
+                    else -> "more information or a manual review is required"
+                }
+                "Stopped: $reason. Verified results are retained; review them before continuing."
+            }
+            else -> "The processing status is unavailable. The original reply and verified information are retained."
+        }
         return when (metadata.stringOrEmpty("status")) {
             "", "completed" -> ""
             "needs_input" -> "需要补充资料，请查看本轮回答后继续补充。"
@@ -25,7 +41,14 @@ internal object ConversationFeedback {
         }
     }
 
-    fun recovery(phase: String, hint: String): String {
+    fun recovery(phase: String, hint: String, locale: String = "zh-CN"): String {
+        if (locale == "en") return when (phase) {
+            "completed" -> ""
+            "prepared" -> "Understanding is saved. Recover the original request to continue without another interpretation call."
+            "processing" -> "The original message is processing. Check its result later."
+            "result_unknown" -> "The outcome is not verified. No automatic model retry will be started."
+            else -> "Recovery status is unavailable. Keep the original request and check again later."
+        }
         val message = when (phase) {
             "completed" -> ""
             "prepared" -> "理解已保存；点击核实恢复可按原请求继续，不重新理解"

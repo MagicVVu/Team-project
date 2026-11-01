@@ -1,0 +1,25 @@
+{
+  "source": "real_deepseek_synthetic_only",
+  "pairs": 150,
+  "split": "all",
+  "human_review": "pending",
+  "production_accessed": false,
+  "deployed": false,
+  "app_joint_acceptance": false,
+  "by_locale": {
+    "zh-CN": {
+      "cases": 150,
+      "passed": 149,
+      "success_rate": 0.9933333333333333,
+      "p95_ms": 6449.328200000309,
+      "model_calls": 157
+    },
+    "en": {
+      "cases": 150,
+      "passed": 144,
+      "success_rate": 0.96,
+      "p95_ms": 5861.621399999422,
+      "model_calls": 97
+    }
+  }
+}

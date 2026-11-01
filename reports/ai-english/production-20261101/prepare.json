@@ -1,0 +1,75 @@
+{
+  "stage": "prepared",
+  "release": "V1-P8.7",
+  "source_sha256": "a80095e013bdb0d6b89dbf523b6ef46d4bef854f01f961a5ecb4b1c8d3b072d3",
+  "tags": {
+    "agent": "magicvvu/agent:p87-a80095e013bd",
+    "backend": "magicvvu/backend:p87-a80095e013bd"
+  },
+  "overlay_files": {
+    "agent": [
+      "conversation/autonomous/app.py",
+      "conversation/autonomous/engine.py",
+      "conversation/autonomous/physical.py",
+      "conversation/autonomous/reads.py",
+      "conversation/autonomous/runner.py",
+      "conversation/autonomous/schemas.py",
+      "conversation/dialogue.py",
+      "conversation/dialogue_schemas.py",
+      "conversation/language/__init__.py",
+      "conversation/language/lexicon.json",
+      "conversation/language/names.py",
+      "conversation/language/parsing.py",
+      "conversation/language/render.py",
+      "conversation/memory_schemas.py",
+      "conversation/p85/flow.py",
+      "conversation/p85/prose.py",
+      "conversation/p85/render.py",
+      "conversation/replies.py",
+      "integration/source_manifest.py",
+      "p0/domain.py",
+      "p0/language.py",
+      "p0/text.py",
+      "p1/domain.py",
+      "p1/tools.py",
+      "p2/tools.py"
+    ],
+    "backend": [
+      "app/assistant_language.py",
+      "app/data/assistant_lexicon.json",
+      "app/dialogue_schemas.py",
+      "app/main.py",
+      "app/memory_schemas.py",
+      "app/routers/ai_inventory.py",
+      "app/routers/draft_execution.py",
+      "app/routers/session_memory.py",
+      "app/services/autonomous.py",
+      "app/services/dialogue.py",
+      "app/services/session_memory.py"
+    ]
+  },
+  "candidate_checks": {
+    "agent": {
+      "imports": true,
+      "new_route": true,
+      "legacy_factory": true,
+      "internal_auth": true,
+      "deterministic_run": true,
+      "model_calls": 0,
+      "external_network": false
+    },
+    "backend": {
+      "imports": true,
+      "public_auth": true,
+      "capabilities": true,
+      "calls_above_two": true,
+      "legacy_limits": true,
+      "old_routes": true,
+      "database_connected": false,
+      "business_writes": false
+    }
+  },
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p87-20261101-a80095e013bd",
+  "formal_runtime_switched": false,
+  "database_migrations": false
+}

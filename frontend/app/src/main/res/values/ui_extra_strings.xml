@@ -32,7 +32,7 @@
     <string name="ui_unsupported">暂不支持</string>
     <string name="ui_failed">执行失败</string>
     <string name="ui_answered">已回答</string>
-    <string name="ui_ai_language_note">回答与已有对话保留原语言。</string>
+    <string name="ui_ai_language_note">新回复使用所选语言，历史消息保留原文。</string>
     <string name="ui_language_save_error">语言设置保存失败，请重试。</string>
     <plurals name="ui_item_count">
         <item quantity="one">%1$d 项</item>
