@@ -15,47 +15,56 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import android.app.Activity
-import android.content.Intent
-import android.speech.RecognizerIntent
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @Composable
-internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: () -> Unit = {}, showIntro: Boolean = true) {
+internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: () -> Unit = {}, showIntro: Boolean = true, closeAssistant: (() -> Unit)? = null,
+    assistant: AssistantStore = cloud.assistant) {
     val strings = rememberUiStrings()
-    val assistant = cloud.assistant
     val scroll = rememberLazyListState()
-    var input by rememberSaveable(cloud.scopeKey) { mutableStateOf("") }
+    val uiScope = rememberCoroutineScope()
+    var toolsExpanded by rememberAssistantToolsExpanded(cloud.scopeKey, assistant.visibleEntries.lastOrNull()?.requestId)
+    var input by rememberSaveable(cloud.scopeKey, stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
+    var draftRevision by remember(cloud.scopeKey) { mutableIntStateOf(0) }
+    var submitting by remember(cloud.scopeKey) { mutableStateOf(false) }
     var localError by remember { mutableStateOf("") }
     var confirmId by rememberSaveable { mutableStateOf<String?>(null) }
-    val voice = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.let { input = it }
-        }
-    }
     LaunchedEffect(cloud.scopeKey) { assistant.bind(); assistant.launch { connectAndRecover() } }
     fun send(text: String) {
-        if (text.isBlank() || assistant.busy || cloud.expired) return
+        if (text.isBlank() || assistant.busy || submitting || cloud.expired) return
+        val active = assistant.activeEntry?.takeIf { !assistant.conversationEnabled && it.state == AssistantStatus.CLARIFICATION }
+        val answers = active?.let { ClarificationReplies.resolve(text, it.allowedFields.toSet(), it.candidates.map { c -> c.batchId() }) }
         if (!assistant.conversationEnabled) {
-            val active = assistant.activeEntry?.takeIf { it.state == AssistantStatus.CLARIFICATION }
-            val answers = active?.let { ClarificationReplies.resolve(text, it.allowedFields.toSet(), it.candidates.map { c -> c.batchId() }) }
-            if (answers != null) { input = ""; assistant.launch { clarify(active.requestId, answers) }; return }
-            if (text.trim().startsWith("它") || text.contains("把它")) {
+            if (answers == null && (text.trim().startsWith("它") || text.contains("把它"))) {
                 localError = "当前服务尚未启用连续引用，请写明物品名称或使用候选按钮"; return
             }
         }
         if (text.length > 1000) { localError = "消息最多 1000 字，不会自动截断"; return }
         localError = ""
+        toolsExpanded = false
+        // Acquire before launching so taps in the same frame cannot queue duplicate requests.
+        submitting = true
+        val submittedRevision = draftRevision
+        val expectedScope = cloud.scopeKey
         assistant.launch {
-            val previousIds = entries.map { it.requestId }.toSet()
-            this.send(text)
-            if (input == text && entries.any { it.requestId !in previousIds && !it.messageRejected && JSONObject(it.requestBody).optString("text") == text }) input = ""
+            try {
+                val previousIds = entries.map { it.requestId }.toSet()
+                if (answers != null) clarify(active.requestId, answers) else this.send(text)
+                val accepted = if (answers != null) {
+                    entries.any { it.requestId == active.requestId && !it.messageRejected && it.state != AssistantStatus.UNKNOWN }
+                } else entries.any { it.requestId !in previousIds && !it.messageRejected &&
+                    it.state != AssistantStatus.UNKNOWN && JSONObject(it.requestBody).optString("text") == text }
+                // Errors and uncertain results keep the draft. Edits made while awaiting a
+                // response also survive, even if the user changes the text back to the original.
+                if (cloud.scopeKey == expectedScope && error.isBlank() && accepted &&
+                    draftRevision == submittedRevision && input.text == text && input.composition == null) input = TextFieldValue()
+            } finally { submitting = false }
         }
     }
     LaunchedEffect(initial) {
@@ -64,80 +73,69 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
             assistant.launch {
                 connectAndRecover()
                 if (cloud.scopeKey == expectedScope && error.isBlank()) {
+                    toolsExpanded = false
                     this.send(initial)
                     if (error.isBlank()) consumed()
                 }
             }
         }
     }
+    val hasContext = assistant.activeEntry != null || assistant.referenceLabel.isNotBlank()
     LaunchedEffect(assistant.visibleEntries.size) {
-        if (assistant.visibleEntries.isNotEmpty()) scroll.animateScrollToItem(assistant.visibleEntries.lastIndex + if (assistant.historyCursor.isBlank()) 0 else 1)
+        val leadingItems = (if (toolsExpanded) 1 else 0) + (if (hasContext) 1 else 0) + (if (assistant.historyCursor.isBlank()) 0 else 1)
+        if (assistant.visibleEntries.isNotEmpty()) scroll.animateScrollToItem(assistant.visibleEntries.lastIndex + leadingItems)
     }
-    Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
-        if (showIntro) MewChatIntro()
-        if (strings.english) Text(strings.get(R.string.ui_ai_language_note), style = MaterialTheme.typography.bodySmall)
-        Text(strings.get(R.string.ui_household_ai___actions_require_confirmation), style = MaterialTheme.typography.labelLarge)
-        Text(if (assistant.conversationEnabled) strings.get(R.string.ui_continue_the_current_task_directly__edited) else strings.get(R.string.ui_this_service_handles_separate_tasks__candidate), style = MaterialTheme.typography.bodySmall)
-        assistant.activeEntry?.let { Text(strings.get(R.string.ui_current_task, JSONObject(it.requestBody).optString("text").take(50)), style = MaterialTheme.typography.labelMedium) }
-        assistant.activeEntry?.takeIf { it.draftId.isNotBlank() }?.let { active ->
-            Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth().testTag("ai-active-draft")) {
-                Column(Modifier.padding(12.dp)) {
-                    Text(strings.tr("当前草稿 · ", "Current draft · ") + strings.label(active.state.label), fontWeight = FontWeight.SemiBold)
-                    Text(strings.label(actionLabel(active.action)) + " · " + active.command.stringOrEmpty("name"))
-                    Text(if (active.receipt.isNotBlank()) strings.tr("已收到服务器成功记录；刷新失败不会再次执行。", "The server confirmed success; a refresh failure will not repeat the operation.")
-                        else if (assistant.hasConfirmation(active)) strings.tr("已有确认记录，请核实执行结果，勿重复提交。", "A confirmation exists. Check its result before submitting again.")
-                        else strings.tr("聊天和预览不会执行；核对下方当前草稿后再确认。", "Chat and previews do not execute changes. Review the current draft below before confirming."), style = MaterialTheme.typography.bodySmall)
+    Column(Modifier.fillMaxSize()) {
+        Column(Modifier.weight(1f).padding(horizontal = 18.dp)) {
+            AssistantChatHeader(toolsExpanded, toggle = {
+                toolsExpanded = !toolsExpanded
+                if (toolsExpanded) uiScope.launch { scroll.animateScrollToItem(0) }
+            }, showBrand = showIntro, close = closeAssistant)
+            LazyColumn(Modifier.weight(1f).testTag("ai-tasks"), state = scroll, verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
+                if (toolsExpanded) item(key = "ai-tools") {
+                    Column(Modifier.fillMaxWidth().testTag("ai-tools"), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        AssistantQuickActions(enabled = !assistant.busy && !cloud.expired, send = ::send)
+                        if (strings.english) Text(strings.get(R.string.ui_ai_language_note), style = MaterialTheme.typography.bodySmall)
+                        Text(strings.get(R.string.ui_household_ai___actions_require_confirmation), style = MaterialTheme.typography.labelLarge)
+                        Text(if (assistant.conversationEnabled) strings.get(R.string.ui_continue_the_current_task_directly__edited) else strings.get(R.string.ui_this_service_handles_separate_tasks__candidate), style = MaterialTheme.typography.bodySmall)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            listOf(Triple("消费统计", "Consumption", "最近28天的消费统计"), Triple("还能用多久", "Forecast", "库存还能用多久"),
+                                Triple("补货依据", "Restock", "计算本次补货建议，只展示不提交"), Triple("关注概览", "Overview", "今天需要关注什么，分别展示风险和规划资料"))
+                                .forEach { (zh, en, query) -> SuggestionChip(onClick = { send(if (strings.english) when (en) {
+                                    "Consumption" -> "Show recorded consumption for the last 28 days"
+                                    "Forecast" -> "How long will the inventory last?"
+                                    "Restock" -> "Calculate restock suggestions for review only; do not submit"
+                                    else -> "What needs attention today? Show risks and planning evidence separately"
+                                } else query) }, enabled = !assistant.busy && !cloud.expired, label = { Text(strings.tr(zh, en)) }) }
+                        }
+                        if (assistant.conversationEnabled) TextButton(onClick = { send(strings.tr("开始新任务", "Start a new task")) }, enabled = !assistant.busy && !cloud.expired) { Text(strings.get(R.string.ui_start_a_new_task)) }
+                        val caps = JSONObject(assistant.capabilities).optJSONObject("actions")
+                        Text(if (caps == null) strings.get(R.string.ui_available_actions_have_not_been_verified) else listOf("ADD", "MOVE", "CONSUME", "PLAN_ADD", "OPEN", "DISCARD").joinToString(" · ") {
+                            "${strings.label(actionLabel(it))}${if (caps.optBoolean(it)) " ✓" else strings.get(R.string.ui_not_supported)}"
+                        }, style = MaterialTheme.typography.labelSmall, modifier = Modifier.testTag("ai-capabilities"))
+                    }
+                }
+                if (hasContext) item(key = "ai-context") { AssistantChatContext(cloud) }
+                if (assistant.historyCursor.isNotBlank()) item {
+                    TextButton(onClick = { assistant.launch { loadEarlierConversation() } }, enabled = !assistant.busy) {
+                        Text(strings.tr("加载更早对话", "Load earlier messages"))
+                    }
+                }
+                if (assistant.visibleEntries.isEmpty()) item { Text(strings.get(R.string.ui_try_a_chinese_request_such_as)) }
+                items(assistant.visibleEntries, key = { it.requestId }) { entry ->
+                    AssistantTaskCard(entry, cloud, assistant.busy || cloud.expired,
+                        confirm = { assistant.launch { validateDraft(entry.requestId); if (assistant.error.isBlank()) confirmId = entry.requestId } })
                 }
             }
+            if (assistant.busy) { LinearProgressIndicator(Modifier.fillMaxWidth()); Text(strings.system(assistant.phase), style = MaterialTheme.typography.bodySmall) }
+            if (assistant.error.isNotBlank() || localError.isNotBlank()) Text(strings.system(localError.ifBlank { assistant.error }), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         }
-        if (assistant.referenceLabel.isNotBlank()) Text(strings.system(assistant.referenceLabel), style = MaterialTheme.typography.bodySmall)
-        if (assistant.referenceLabel.isNotBlank()) {
-            val active = assistant.activeEntry
-            val batchId = active?.command?.stringOrEmpty("batch_id").orEmpty().ifBlank {
-                active?.conversationBody?.takeIf { it.isNotBlank() }?.let { JSONObject(it).stringOrEmpty("batch_id") }.orEmpty()
-            }.ifBlank { active?.result?.optJSONArray("facts")?.objects()?.singleOrNull()?.stringOrEmpty("id").orEmpty() }
-            cloud.items.firstOrNull { it.id == batchId }?.let { batch ->
-                Text(strings.tr("当前对象（本机缓存）：", "Current batch (cached): ") + "${batch.name} · ${batch.location} · ${batch.id.take(8)} · v${batch.version}", style = MaterialTheme.typography.labelSmall)
-            }
-        }
-        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            listOf(Triple("消费统计", "Consumption", "最近28天的消费统计"), Triple("还能用多久", "Forecast", "库存还能用多久"),
-                Triple("补货依据", "Restock", "计算本次补货建议，只展示不提交"), Triple("关注概览", "Overview", "今天需要关注什么，分别展示风险和规划资料"))
-                .forEach { (zh, en, query) -> SuggestionChip(onClick = { send(if (strings.english) when(en) {
-                    "Consumption" -> "Show recorded consumption for the last 28 days"
-                    "Forecast" -> "How long will the inventory last?"
-                    "Restock" -> "Calculate restock suggestions for review only; do not submit"
-                    else -> "What needs attention today? Show risks and planning evidence separately"
-                } else query) }, enabled = !assistant.busy && !cloud.expired, label = { Text(strings.tr(zh, en)) }) }
-        }
-        if (assistant.conversationEnabled) TextButton(onClick = { send(strings.tr("开始新任务", "Start a new task")) }, enabled = !assistant.busy) { Text(strings.get(R.string.ui_start_a_new_task)) }
-        val caps = JSONObject(assistant.capabilities).optJSONObject("actions")
-        Text(if (caps == null) strings.get(R.string.ui_available_actions_have_not_been_verified) else listOf("ADD", "MOVE", "CONSUME", "PLAN_ADD", "OPEN", "DISCARD").joinToString(" · ") {
-            "${strings.label(actionLabel(it))}${if (caps.optBoolean(it)) " ✓" else strings.get(R.string.ui_not_supported)}"
-        }, style = MaterialTheme.typography.labelSmall, modifier = Modifier.testTag("ai-capabilities"))
-        if (assistant.busy) { LinearProgressIndicator(Modifier.fillMaxWidth()); Text(strings.system(assistant.phase), style = MaterialTheme.typography.bodySmall) }
-        if (assistant.error.isNotBlank() || localError.isNotBlank()) Text(strings.system(localError.ifBlank { assistant.error }), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
-        LazyColumn(Modifier.weight(1f).testTag("ai-tasks"), state = scroll, verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
-            if (assistant.historyCursor.isNotBlank()) item {
-                TextButton(onClick = { assistant.launch { loadEarlierConversation() } }, enabled = !assistant.busy) {
-                    Text(strings.tr("加载更早对话", "Load earlier messages"))
-                }
-            }
-            if (assistant.visibleEntries.isEmpty()) item { Text(strings.get(R.string.ui_try_a_chinese_request_such_as)) }
-            items(assistant.visibleEntries, key = { it.requestId }) { entry ->
-                AssistantTaskCard(entry, cloud, assistant.busy || cloud.expired,
-                    confirm = { assistant.launch { validateDraft(entry.requestId); if (assistant.error.isBlank()) confirmId = entry.requestId } })
-            }
-        }
-        Row(Modifier.fillMaxWidth()) {
-            OutlinedTextField(input, { input = it }, label = { Text(strings.get(R.string.ui_enter_a_question)) }, modifier = Modifier.weight(1f).testTag("ai-input"))
-            TextButton(onClick = {
-                try { voice.launch(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM).putExtra(RecognizerIntent.EXTRA_LANGUAGE, strings.language)) }
-                catch (_: Exception) { localError = strings.tr("系统语音识别不可用，请手动输入。", "Speech recognition is unavailable. Type your message instead.") }
-            }, enabled = !assistant.busy && !cloud.expired) { Text(strings.tr("语音", "Voice")) }
-            TextButton(onClick = { send(input) }, enabled = !assistant.busy && !cloud.expired && input.isNotBlank(), modifier = Modifier.testTag("ai-send")) { Text(strings.get(R.string.ui_send)) }
-        }
-        Spacer(Modifier.height(12.dp))
+        AssistantComposer(input, onValueChange = {
+            if (it.text != input.text) draftRevision++
+            input = it
+        }, onSend = { if (input.composition == null) send(input.text) }, onVoiceError = { localError = it },
+            enabled = !cloud.expired, sending = submitting || assistant.busy,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 12.dp))
     }
     confirmId?.let { id ->
         val entry = assistant.entries.firstOrNull { it.requestId == id }
@@ -157,6 +155,36 @@ internal fun CloudAssistant(cloud: CloudStore, initial: String = "", consumed: (
             },
             confirmButton = { TextButton(onClick = { confirmId = null; assistant.launch { confirm(id) } }, modifier = Modifier.testTag("ai-final-confirm")) { Text(strings.get(R.string.ui_confirm_action)) } },
             dismissButton = { TextButton(onClick = { confirmId = null }) { Text(strings.get(R.string.ui_back_to_review)) } })
+    }
+}
+
+@Composable
+private fun AssistantChatContext(cloud: CloudStore) {
+    val strings = rememberUiStrings()
+    val assistant = cloud.assistant
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        assistant.activeEntry?.let { Text(strings.get(R.string.ui_current_task, JSONObject(it.requestBody).optString("text").take(50)), style = MaterialTheme.typography.labelMedium) }
+        assistant.activeEntry?.takeIf { it.draftId.isNotBlank() }?.let { active ->
+            Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = MaterialTheme.shapes.medium, modifier = Modifier.fillMaxWidth().testTag("ai-active-draft")) {
+                Column(Modifier.padding(12.dp)) {
+                    Text(strings.tr("当前草稿 · ", "Current draft · ") + strings.label(active.state.label), fontWeight = FontWeight.SemiBold)
+                    Text(strings.label(actionLabel(active.action)) + " · " + active.command.stringOrEmpty("name"))
+                    Text(if (active.receipt.isNotBlank()) strings.tr("已收到服务器成功记录；刷新失败不会再次执行。", "The server confirmed success; a refresh failure will not repeat the operation.")
+                        else if (assistant.hasConfirmation(active)) strings.tr("已有确认记录，请核实执行结果，勿重复提交。", "A confirmation exists. Check its result before submitting again.")
+                        else strings.tr("聊天和预览不会执行；核对下方当前草稿后再确认。", "Chat and previews do not execute changes. Review the current draft below before confirming."), style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
+        if (assistant.referenceLabel.isNotBlank()) {
+            Text(strings.system(assistant.referenceLabel), style = MaterialTheme.typography.bodySmall)
+            val active = assistant.activeEntry
+            val batchId = active?.command?.stringOrEmpty("batch_id").orEmpty().ifBlank {
+                active?.conversationBody?.takeIf { it.isNotBlank() }?.let { JSONObject(it).stringOrEmpty("batch_id") }.orEmpty()
+            }.ifBlank { active?.result?.optJSONArray("facts")?.objects()?.singleOrNull()?.stringOrEmpty("id").orEmpty() }
+            cloud.items.firstOrNull { it.id == batchId }?.let { batch ->
+                Text(strings.tr("当前对象（本机缓存）：", "Current batch (cached): ") + "${batch.name} · ${batch.location} · ${batch.id.take(8)} · v${batch.version}", style = MaterialTheme.typography.labelSmall)
+            }
+        }
     }
 }
 

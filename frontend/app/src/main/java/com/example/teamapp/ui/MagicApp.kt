@@ -35,8 +35,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -310,52 +312,60 @@ private fun QuantityAction(store: InventoryStore, item: StockItem, mode: String,
 }
 
 @Composable
-internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit, showIntro: Boolean = true) {
+internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, initial: String, consumed: () -> Unit, notify: (String) -> Unit, showIntro: Boolean = true, closeAssistant: (() -> Unit)? = null) {
     val strings = rememberUiStrings()
     if (store.cloud.signedIn) {
-        key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed, showIntro = showIntro) }
+        key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed, showIntro = showIntro, closeAssistant = closeAssistant) }
         return
     }
     val lightDesign = LocalLightDesign.current
-    var input by rememberSaveable { mutableStateOf("") }
+    var input by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var confirming by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     var asking by remember { mutableStateOf(false) }
+    val scroll = androidx.compose.foundation.lazy.rememberLazyListState()
+    var toolsExpanded by rememberAssistantToolsExpanded("guest", conversation.lastIndex.takeIf { it >= 0 }?.toString())
     fun send(text: String) {
         if (text.isNotBlank() && !asking) {
-            conversation.add(text to true); input = ""
-            conversation.add(answerInventory(text, store.items, store.reminderDays) to false)
+            toolsExpanded = false
+            val answer = answerInventory(text, store.items, store.reminderDays)
+            conversation.add(text to true)
+            conversation.add(answer to false)
+            input = TextFieldValue()
         }
     }
     LaunchedEffect(initial) { if (initial.isNotBlank()) { send(initial); consumed() } }
-    Column(Modifier.padding(horizontal = 22.dp)) {
-        if (showIntro) MewChatIntro()
-        if (strings.english) Text(strings.get(R.string.ui_ai_language_note), style = MaterialTheme.typography.bodySmall)
-        if (store.cloud.signedIn) Text(strings.get(R.string.ui_household_inventory_q_a___review_and), style = MaterialTheme.typography.bodySmall)
-        else if (!showIntro) Text(strings.get(R.string.ui_based_on_local_stock___restocking), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        else if (LocalLightDesign.current) Text(strings.get(R.string.ui_local_stock_q_a___each_question), style = MaterialTheme.typography.bodySmall)
-        else DarkNotice(strings.get(R.string.ui_local_stock_q_a___each_question))
-        val scroll = androidx.compose.foundation.lazy.rememberLazyListState()
-        LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex) }
-        LazyColumn(Modifier.weight(1f).padding(vertical = 8.dp), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            if (conversation.isEmpty()) item {
-                Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
-                    Column(Modifier.fillMaxWidth().padding(12.dp)) {
-                        Text(strings.get(R.string.ui_what_would_you_like_to_check), fontWeight = FontWeight.SemiBold, fontSize = 18.sp, lineHeight = 24.sp)
+    Column(Modifier.fillMaxSize()) {
+        Column(Modifier.weight(1f).padding(horizontal = 22.dp)) {
+            AssistantChatHeader(toolsExpanded, toggle = {
+                toolsExpanded = !toolsExpanded
+                if (toolsExpanded) scope.launch { scroll.animateScrollToItem(0) }
+            }, showBrand = showIntro, close = closeAssistant)
+            LaunchedEffect(conversation.size) { if (conversation.isNotEmpty()) scroll.animateScrollToItem(conversation.lastIndex + if (toolsExpanded) 1 else 0) }
+            LazyColumn(Modifier.weight(1f).padding(vertical = 8.dp).testTag("ai-tasks"), state = scroll, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (toolsExpanded) item(key = "ai-tools") {
+                    Column(Modifier.fillMaxWidth().testTag("ai-tools"), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        AssistantQuickActions(enabled = !asking, send = ::send)
+                        if (strings.english) Text(strings.get(R.string.ui_ai_language_note), style = MaterialTheme.typography.bodySmall)
+                        if (!showIntro) Text(strings.get(R.string.ui_based_on_local_stock___restocking), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        else if (lightDesign) Text(strings.get(R.string.ui_local_stock_q_a___each_question), style = MaterialTheme.typography.bodySmall)
+                        else DarkNotice(strings.get(R.string.ui_local_stock_q_a___each_question))
                     }
                 }
-            }
-            if (showIntro && conversation.isEmpty() && !lightDesign) item {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    SuggestionChip(onClick = { send("哪些快过期了？") }, label = { Text(strings.get(R.string.ui_expiring_soon), fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
-                    SuggestionChip(onClick = { send("需要补什么？") }, label = { Text(strings.get(R.string.ui_restock), fontSize = 12.sp) }, shape = androidx.compose.foundation.shape.CircleShape)
+                if (conversation.isEmpty()) item {
+                    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                        Column(Modifier.fillMaxWidth().padding(12.dp)) {
+                            Text(strings.get(R.string.ui_what_would_you_like_to_check), fontWeight = FontWeight.SemiBold, fontSize = 18.sp, lineHeight = 24.sp)
+                        }
+                    }
                 }
+                itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) strings.get(R.string.ui_you) else "✦ Mew", style = MaterialTheme.typography.labelSmall); Text(message) } } }
             }
-            itemsIndexed(conversation.toList(), key = { index, _ -> "message-$index" }) { _, (message, user) -> Card(colors = CardDefaults.cardColors(containerColor = if (user) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant), modifier = Modifier.animateItem().fillMaxWidth().padding(start = if (user) 32.dp else 0.dp, end = if (user) 0.dp else 18.dp)) { Column(Modifier.padding(14.dp)) { Text(if (user) strings.get(R.string.ui_you) else "✦ Mew", style = MaterialTheme.typography.labelSmall); Text(message) } } }
+            TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text(strings.get(R.string.ui_review_restock)) }
         }
-        TextButton(onClick = { confirming = true }, enabled = store.items.any { it.status(store.reminderDays).low }) { Text(strings.get(R.string.ui_review_restock)) }
-        Row(verticalAlignment = Alignment.CenterVertically) { OutlinedTextField(input, { input = it }, placeholder = { Text(strings.get(R.string.ui_enter_a_question)) }, modifier = Modifier.weight(1f)); TextButton(onClick = { send(input) }, enabled = !asking) { Text(if (asking) strings.get(R.string.ui_checking) else strings.get(R.string.ui_send)) } }
-        Spacer(Modifier.height(16.dp))
+        AssistantComposer(input, onValueChange = { input = it }, onSend = { if (input.composition == null) send(input.text) },
+            onVoiceError = notify, sending = asking,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp))
     }
     if (confirming) {
         val low = store.items.filter { it.status(store.reminderDays).low && store.purchases.none { p -> p.itemId == it.id } }
