@@ -7,6 +7,7 @@ from .schemas import Batch
 
 
 class RemoteInventoryReader(P1RemoteReader):
+    batch_type=Batch
     async def _read(self, scope, path, params=None):
         try:
             async with httpx.AsyncClient(timeout=5, trust_env=False, follow_redirects=False) as client:

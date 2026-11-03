@@ -1,0 +1,13 @@
+{
+  "release": "V1-P8.7",
+  "documents_root": "docs/versions/V1-P8.7",
+  "files_moved": 22,
+  "unchanged_json_and_source_manifest_files": 18,
+  "existing_work_record_reused": true,
+  "readmes_merged": true,
+  "old_directories_removed": true,
+  "links_checked": 93,
+  "reports_location_unchanged": "reports/ai-english",
+  "server_contacted": false,
+  "runtime_modified": false
+}

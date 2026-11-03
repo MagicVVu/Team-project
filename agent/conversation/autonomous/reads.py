@@ -57,6 +57,24 @@ class ReadOnly:
             self.remember(row)
         return self.rows[ident].model_copy(deep=True)
 
+    async def search_names(self,scope,name,hints=()):
+        self.authorize(scope)
+        from ..language.names import resolve_name
+        key=('names',name,tuple(hints))
+        if key not in self.searches:
+            delegate=self.delegate
+            if getattr(delegate,'search_names',None):
+                rows,meta=await self.read(delegate.search_names,scope,name,list(hints))
+            else:
+                from types import SimpleNamespace
+                rows,meta=await resolve_name(SimpleNamespace(search=self.search),scope,name,hints)
+            check_scope(scope,rows)
+            if len(rows)>1000:raise DomainError('INVENTORY_INCOMPLETE','Narrow the inventory query.',503)
+            for row in rows:self.remember(row)
+            self.searches[key]=([r.id for r in rows],meta)
+        ids,meta=self.searches[key]
+        return [self.rows[i].model_copy(deep=True) for i in ids],dict(meta)
+
     async def planning_context(self, scope, *, name=None, item_key=None):
         self.authorize(scope)
         key = (name, item_key)

@@ -67,7 +67,7 @@
     <string name="ui_current_task">Current task: %1$s</string>
     <string name="ui_start_a_new_task">Start a new task</string>
     <string name="ui_available_actions_have_not_been_verified">Available actions have not been verified</string>
-    <string name="ui_try_a_chinese_request_such_as">Try a Chinese request such as “纸巾还有多少” or “添加两盒牛奶”.</string>
+    <string name="ui_try_a_chinese_request_such_as">Try “How much milk is left?” or “Add two bottles of milk in the kitchen”.</string>
     <string name="ui_enter_a_question">Enter a question…</string>
     <string name="ui_send">Send</string>
     <string name="ui_confirm">Confirm %1$s?</string>

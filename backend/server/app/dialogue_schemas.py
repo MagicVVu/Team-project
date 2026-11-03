@@ -1,5 +1,5 @@
 """Independent business-side P8.5 wire types; no AI package dependency."""
-from typing import Literal
+from typing import Annotated, Literal
 from uuid import UUID
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
@@ -20,6 +20,7 @@ class FieldSource(Wire):
 
 
 class Selector(Wire):
+    search_terms: list[Annotated[str,Field(min_length=1,max_length=80)]] = Field(default_factory=list,max_length=3)
     name: str | None = Field(default=None, max_length=80)
     location: str | None = Field(default=None, max_length=100)
     choice_index: int | None = Field(default=None, ge=0, strict=True)

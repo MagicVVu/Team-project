@@ -1,0 +1,27 @@
+{
+  "stage": "V1-P8.7",
+  "ai_version": "0.8.7",
+  "protocol": "inventory-autonomous-1",
+  "deployment": "local_only",
+  "files": {
+    "ai-openapi.json": "da0d19452bac439f4b28972362654c02349305d05d49b0bf31212b5a31d67597",
+    "backend-openapi.json": "3b3705192ebb124b9db4698972bc459abb06193785986a2d8bc5b233ea5aea95",
+    "run-request.schema.json": "fe958aa8f015653b64f6a71a7d21ef248890ac804b9e489d62395bde942c13d9",
+    "run-response.schema.json": "368b00c6ee84c3426c59cc62caac11650516b1c4f5ac155bf65d3995dbf5ae54",
+    "decision.schema.json": "81ce520f1c8784fb8199afa809e080157b914ce8bc5eca0da21ff702d38fcd70",
+    "context.schema.json": "36e504aa4fa3c5dd2bf2770333f4369d446cacde8db3c5cc5812a3068d75d11d",
+    "revalidation-request.schema.json": "79fb2f76a87965182eac8f2ace12bdd4955d4e501684aaa72692983d18c03007",
+    "revalidation-response.schema.json": "5404341e0614899b35892e7187e3f6509ab64a016b6ae27920fc9acdec662a12",
+    "public-message.schema.json": "e06790568a3b94852d37bb67c4c8165f8eee4fa2821dfc3e3ed64e16c0396f3d",
+    "public-response.schema.json": "837e22703b3df982a814ba3df6f84cb069c34a70a9c321d6fefa307b2d89b183",
+    "conversation-page.schema.json": "2495e695683dd6bed256c8984817ebbc69cf259b13b09edc09f3d880233d7c02",
+    "recovery.schema.json": "9ee0c61cdb963df65a396269c75ec055019d588a1c4037b06bdc2a52366efdee",
+    "legacy-ai-openapi.json": "1a130f1459b4506e6cbfb3a9ca789766fe3848c08c0a53a8f4e2089580ac3e21"
+  },
+  "feature": "bilingual-assistant",
+  "language_protocol": "assistant-language-1",
+  "languages": [
+    "zh-CN",
+    "en"
+  ]
+}

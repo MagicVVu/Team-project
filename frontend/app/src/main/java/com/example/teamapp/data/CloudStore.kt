@@ -17,6 +17,9 @@ import java.util.UUID
 /** Server is authoritative. Guest state is never uploaded or overwritten by this store. */
 class CloudStore(context: Context, private val apiFactory: (String, String) -> CloudApi = { address, token -> CloudApi(address, token) }) {
     private val credentials = CloudCredentials(context)
+    private val languagePreferences = context.getSharedPreferences("magicvvu_v1", Context.MODE_PRIVATE)
+    val assistantLocale get() = languagePreferences.getString("ui_language", "zh-CN").let { if (it == "en") "en" else "zh-CN" }
+    private fun localizedApi(address: String, token: String) = apiFactory(address, token).apply { localeProvider = { assistantLocale } }
     private val cache = context.getSharedPreferences("magicvvu_cloud_cache", Context.MODE_PRIVATE)
     private val groupingOutbox = context.getSharedPreferences("mewstow_inventory_grouping_outbox_v1", Context.MODE_PRIVATE)
     private val mutex = Mutex()
@@ -39,10 +42,10 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     val household get() = households.firstOrNull { it.id == account?.householdId }
     val scopeKey get() = account?.let { "${it.address}|${it.userId}|${it.householdId}" }.orEmpty()
     val assistant = AssistantStore(context, this)
-    val planningFacts = PlanningFactsStore(context, this) { apiFactory(it.address, it.token) }
+    val planningFacts = PlanningFactsStore(context, this) { localizedApi(it.address, it.token) }
     suspend fun capabilities(): JSONObject {
         val a = requireNotNull(account); val expected = scopeKey
-        val result = apiFactory(a.address, a.token).verifiedCapabilities()
+        val result = localizedApi(a.address, a.token).verifiedCapabilities()
         check(expected == scopeKey && !expired) { "家庭已切换，请重新核对" }
         return result
     }
@@ -91,10 +94,10 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
 
     suspend fun login(address: String, phone: String, password: String, name: String? = null) = guarded(expireOnUnauthorized = false) {
         CloudApi.validateAddress(address)
-        val api = apiFactory(address, "")
+        val api = localizedApi(address, "")
         if (name != null) api.register(phone.trim(), password, name.trim())
         val authenticated = api.login(phone.trim(), password)
-        val homes = apiFactory(authenticated.address, authenticated.token).households()
+        val homes = localizedApi(authenticated.address, authenticated.token).households()
         val next = authenticated.copy(householdId = homes.firstOrNull()?.id.orEmpty())
         credentials.save(next)
         account = next
@@ -108,7 +111,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         if (!signedIn || expired) return
         guarded {
             val current = requireNotNull(account)
-            val api = apiFactory(current.address, current.token)
+            val api = localizedApi(current.address, current.token)
             val user = api.request("GET", "/api/v1/users/me")
             val homes = api.households()
             val selected = homes.firstOrNull { it.id == current.householdId } ?: homes.firstOrNull()
@@ -123,7 +126,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     private suspend fun refreshData() {
         val a = requireNotNull(account)
         require(a.householdId.isNotEmpty()) { "请先创建或加入家庭" }
-        val api = apiFactory(a.address, a.token)
+        val api = localizedApi(a.address, a.token)
         val stockJson = api.pages("$root/inventory-items")
         val shoppingJson = api.pages("$root/shopping-list/items?status=all")
         val stock = stockJson.map { it.toStock().let { item -> item.copy(image = cache.getString("photo|${cacheKey(a)}|${item.id}", "").orEmpty()) } }
@@ -151,7 +154,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
             require(expectedScope == scopeKey && !expired) { "账号或家庭已切换，请重新操作" }
             val a = requireNotNull(account)
             require(a.householdId.isNotBlank()) { "请先创建或加入家庭" }
-            action(apiFactory(a.address, a.token))
+            action(localizedApi(a.address, a.token))
             try { refreshData() }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (_: Exception) { error = "操作已提交，最新家庭数据暂未刷新；请刷新核对，不要重复提交" }
@@ -170,8 +173,8 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     }
     suspend fun createHousehold(name: String) = guarded {
         val a = requireNotNull(account)
-        val created = apiFactory(a.address, a.token).request("POST", "/api/v1/households", JSONObject().put("name", name.trim()))
-        val homes = apiFactory(a.address, a.token).households()
+        val created = localizedApi(a.address, a.token).request("POST", "/api/v1/households", JSONObject().put("name", name.trim()))
+        val homes = localizedApi(a.address, a.token).households()
         val next = a.copy(householdId = created.getString("id"))
         credentials.save(next); account = next; households = homes
         items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
@@ -179,9 +182,9 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     }
     suspend fun joinHousehold(code: String) = guarded {
         val a = requireNotNull(account)
-        val joined = apiFactory(a.address, a.token).request("POST", "/api/v1/households/join", JSONObject().put("invite_code", code.trim()))
+        val joined = localizedApi(a.address, a.token).request("POST", "/api/v1/households/join", JSONObject().put("invite_code", code.trim()))
         val next = a.copy(householdId = joined.getString("id"))
-        val homes = apiFactory(a.address, a.token).households()
+        val homes = localizedApi(a.address, a.token).households()
         credentials.save(next); account = next; households = homes
         items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""
         refreshData()
@@ -193,7 +196,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     }
     suspend fun members(): List<CloudMember> {
         val a = requireNotNull(account)
-        return apiFactory(a.address, a.token).request("GET", "$root/members").getJSONArray("items").objects().map {
+        return localizedApi(a.address, a.token).request("GET", "$root/members").getJSONArray("items").objects().map {
             CloudMember(it.getString("user_id"), it.getString("display_name"), it.getString("role"), it.stringOrEmpty("joined_at"))
         }
     }
@@ -201,7 +204,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         val scope = scopeKey
         val a = requireNotNull(account)
         require(a.householdId.isNotBlank() && !expired)
-        val result = apiFactory(a.address, a.token).request("GET", "$root/$path")
+        val result = localizedApi(a.address, a.token).request("GET", "$root/$path")
         check(scope == scopeKey && !expired) { "家庭已切换，请重新读取" }
         return result
     }
@@ -273,14 +276,14 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
     }
     suspend fun operationReceipt(id: String): JSONObject {
         val a = requireNotNull(account); val scope = scopeKey
-        val receipt = apiFactory(a.address, a.token).request("GET", "/api/v1/operations/${UUID.fromString(id)}")
+        val receipt = localizedApi(a.address, a.token).request("GET", "/api/v1/operations/${UUID.fromString(id)}")
         check(scope == scopeKey && receipt.getString("operation_id") == id &&
             receipt.getJSONObject("scope").getString("household_id") == a.householdId) { "回执家庭不匹配" }
         return receipt
     }
     suspend fun manageFamily(action: String, memberId: String = "", confirmation: String = "") {
         guarded {
-            val a = requireNotNull(account); val api = apiFactory(a.address, a.token)
+            val a = requireNotNull(account); val api = localizedApi(a.address, a.token)
             val memberPath = "$root/members/${if (memberId.isBlank()) "" else UUID.fromString(memberId)}"
             when(action) {
                 "leave" -> api.request("POST", "$root/leave")
@@ -311,7 +314,7 @@ class CloudStore(context: Context, private val apiFactory: (String, String) -> C
         assistant.clearAccount(a)
         // Remove local access first even if the server is unreachable; never restore another user's cache.
         credentials.save(null); account = null; households = emptyList(); items = emptyList(); shopping = emptyList(); products = emptyList(); productError = null; lastSync = ""; expired = false
-        if (a != null) runCatching { apiFactory(a.address, a.token).request("POST", "/api/v1/auth/logout") }
+        if (a != null) runCatching { localizedApi(a.address, a.token).request("POST", "/api/v1/auth/logout") }
     }
     suspend fun saveItem(item: StockItem, initial: StockItem?) = mutate { api ->
         require(item.name.length <= 80 && InventoryContract.unit(item.unit) != null) { "AI 支持的名称最多 80 字；请核对计量单位，旧记录不会自动截断或猜测换算" }

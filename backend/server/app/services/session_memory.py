@@ -20,6 +20,7 @@ from app.routers import agent_gateway as gateway
 from app.services import conversation as routing
 from app.services import draft_execution as execution
 from app.memory_schemas import AIResolution
+from app.assistant_language import request_dump, text, current as current_locale
 
 PROTOCOL = "conversation-memory-1"
 KEY = "memory_v1"
@@ -118,7 +119,7 @@ def page(db, identity, home, cursor=None, limit=20):
     for row in reversed(rows):
         saved = row.response_json or {}
         messages.append(dict(request_id=row.request_id, original_text=row.original_text, created_at=row.created_at,
-            phase=row.phase, reply=saved.get("reply", ""), task_id=str(row.task_id) if row.task_id else None,
+            phase=row.phase, locale=saved.get('locale','zh-CN'),reply=saved.get("reply", ""), task_id=str(row.task_id) if row.task_id else None,
             historical_status=(saved.get("task") or {}).get("status"), evidence=saved.get("evidence", [])))
     active = live_task(db, identity, home, info.get("active_task_id")) if in_window(latest) else None
     return dict(conversation_id=info["conversation_id"], conversation_revision=info["revision"],
@@ -127,7 +128,7 @@ def page(db, identity, home, cursor=None, limit=20):
 
 def reset(db, identity, body, original_text=""):
     execution.membership(db, identity.user.id, body.household_id, lock=True)
-    payload_hash = routing.digest({"reset": body.model_dump(mode="json"), "original_text": original_text})
+    payload_hash = routing.digest({"reset": request_dump(body), "original_text": original_text})
     prior = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
         ConversationTurn.household_id == body.household_id, ConversationTurn.request_id == body.request_id))
     if prior:
@@ -145,12 +146,12 @@ def reset(db, identity, body, original_text=""):
     current.task_id = current.reference_json = current.processing_nonce = current.lease_until = None
     session_id = str(uuid4())
     response = dict(protocol_version=PROTOCOL, conversation_id=session_id, conversation_revision=0, current_conversation_revision=0,
-        request_id=body.request_id, original_text=original_text, reply="已开始新会话。旧草稿没有被取消或执行。",
+        request_id=body.request_id, locale=body.locale,original_text=original_text, reply='A new conversation has started. Existing drafts were neither cancelled nor executed.' if body.locale=='en' else "已开始新会话。旧草稿没有被取消或执行。",
         kind="reset", model_calls=0, inventory_written=False)
     db.add(ConversationTurn(user_id=identity.user.id, household_id=body.household_id,
         request_id=body.request_id, request_hash=payload_hash, original_text=original_text,
         binding_json={KEY: {"protocol_version": PROTOCOL, "kind": "reset", "conversation_id": session_id,
-                           "revision": 0, "active_task_id": None, "reference": None, "focus_task_id": None}},
+                           "revision": 0, 'locale':body.locale,"active_task_id": None, "reference": None, "focus_task_id": None}},
         response_json=response, phase="completed", created_at=gateway.now()))
     try:
         db.commit()
@@ -221,7 +222,7 @@ def context_for(db, identity, home, latest):
                 # Never shift a surviving ordinal into a deleted/expired row's slot.
                 choices = []
                 break
-    return dict(protocol_version=PROTOCOL, scope={"user_id": str(identity.user.id), "household_id": str(home)},
+    return dict(protocol_version=PROTOCOL, locale=info.get('locale','zh-CN'),scope={"user_id": str(identity.user.id), "household_id": str(home)},
         conversation_id=info["conversation_id"], revision=info["revision"], trusted_now=at, history=history,
         active={"scope": {"user_id": str(identity.user.id), "household_id": str(home)},
                 "task": active["task"], "household_timezone": routing.source_task(db, identity, UUID(active_id), home).household_timezone} if active else None,
@@ -291,13 +292,14 @@ def recover(db, identity, home, request_id):
               "ai_unavailable": "AI 服务暂时不可用，已经查到的结果仍保留。"}.get(state.get("stop_reason"), "")
     return dict(phase="processing" if processing else "prepared" if prepared else "result_unknown", request_id=request_id,
                 original_text=turn.original_text, **snapshot,
-                recovery_hint=reason+"以原请求ID和原请求体恢复；理解结果未知时不会再次调用模型。")
+                recovery_hint=text(reason+"以原请求ID和原请求体恢复；理解结果未知时不会再次调用模型。",
+                    'Recover using the original request ID and original body. An unknown interpretation outcome will not trigger another model call.'))
 
 
 async def send(db, identity, body):
     from app.services import dialogue, autonomous
     execution.membership(db, identity.user.id, body.household_id, lock=True)
-    digest = routing.digest({"memory_message": body.model_dump(mode="json")})
+    digest = routing.digest({"memory_message": request_dump(body)})
     turn = db.scalar(select(ConversationTurn).where(ConversationTurn.user_id == identity.user.id,
         ConversationTurn.household_id == body.household_id, ConversationTurn.request_id == body.request_id))
     new_turn = turn is None
@@ -329,8 +331,9 @@ async def send(db, identity, body):
             if not active or str(body.task_id) != active["task"]["task_id"] or body.revision != active["task"]["revision"]:
                 execution.fail("TASK_REVISION_CONFLICT")
         from app.services.planning_facts import business_zone
+        context['locale']=body.locale
         payload = dict(text=body.text, request_id=body.request_id, household_timezone=business_zone().key, context=context)
-        info = {**meta(latest), "kind": "message", "revision": body.conversation_revision+1}
+        info = {**meta(latest), 'locale':body.locale,"kind": "message", "revision": body.conversation_revision+1}
         turn = ConversationTurn(user_id=identity.user.id, household_id=body.household_id,
             request_id=body.request_id, request_hash=digest, original_text=body.text, created_at=gateway.now(),
             binding_json={KEY: info, "payload": payload}, phase="understanding")
@@ -450,7 +453,7 @@ async def send(db, identity, body):
         db.rollback()
         # A known stale-read conflict is a completed clarification outcome, not an
         # unknown paid extraction that would permanently block the conversation.
-        conflict = dict(kind="needs_input", reply="库存或原任务已经变化，请重新查询并核对；尚未执行。",
+        conflict = dict(kind="needs_input", reply="Inventory or the original task changed. Query and review it again; nothing has been executed." if body.locale=='en' else "库存或原任务已经变化，请重新查询并核对；尚未执行。",
                         model_calls=understood["model_calls"], error_code=code, dialogue=understood.get("dialogue"))
         if (conflict.get("dialogue") or {}).get("protocol_version")==autonomous.PROTOCOL:
             conflict["dialogue"]={**conflict["dialogue"],"status":"needs_input","stop_reason":"boundary"}
@@ -491,7 +494,7 @@ def complete(db, identity, turn_id, nonce, understood, saved, task=None):
     current.reference_json = info.get("reference")
     current.processing_nonce = current.lease_until = turn.processing_nonce = None
     turn.phase = "completed"
-    response = dict(protocol_version=PROTOCOL, conversation_id=info["conversation_id"],
+    response = dict(protocol_version=PROTOCOL, locale=(saved.get('payload') or {}).get('context',{}).get('locale','zh-CN'),conversation_id=info["conversation_id"],
         conversation_revision=info["revision"], request_id=turn.request_id, original_text=turn.original_text,
         reply=understood["reply"] if understood.get("dialogue") else (task.result_json or {}).get("reply", understood["reply"]) if task else understood["reply"],
         kind=kind, task=gateway.response_for(db, task) if task else None,

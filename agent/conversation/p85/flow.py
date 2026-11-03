@@ -28,6 +28,8 @@ HISTORICAL = re.compile(r"之前|以前|先前|刚才的|上次|回到|最开始
 
 
 def literal_plan(body):
+    from ..language.parsing import literal_plan as english_literal
+    if english:=english_literal(body):return english
     text = body.text.strip()
     ctx = body.context
     if HOLD.fullmatch(text):
@@ -92,7 +94,7 @@ def problem(body, use, code, reply):
                        filled_fields={k: v.value for k, v in body.plan.fields.items() if v.quote and v.quote in body.text})
 
 
-async def resolve(owner, body, scope):
+async def _resolve(owner, body, scope):
     ctx, episodes, use = prepare(owner, body, scope)
     if body.plan_context_revision != ctx.revision:
         return problem(body, use, "CONVERSATION_REVISION_CONFLICT", "会话已更新，请刷新原任务后继续。")
@@ -106,7 +108,7 @@ async def resolve(owner, body, scope):
     if plan.speech_act == "recall" and plan.reads and re.search(r"现在|数量|位置|还剩|在哪|多少", body.text):
         plan = plan.model_copy(update={"speech_act": "question"})
         normalizations.append("current_fact_question")
-    if (plan.selector.name and plan.selector.name not in body.text and ctx.reference
+    if (plan.selector.name and plan.selector.name.casefold() not in body.text.casefold() and ctx.reference
             and plan.selector.choice_index is None):
         # P8.4 then verifies this name against the freshly-read referenced row.
         plan = plan.model_copy(update={"selector": plan.selector.model_copy(update={"use_reference": True})})
@@ -115,8 +117,14 @@ async def resolve(owner, body, scope):
             and plan.selector.use_reference and not re.search(r"第[一二两三四五六七八九十0-9]+", body.text)):
         plan = plan.model_copy(update={"selector": plan.selector.model_copy(update={"choice_index": None})})
         normalizations.append("current_reference_is_not_candidate_zero")
+    from p0.language import ordinal_evidence,polite_core
+    stated_ordinals=ordinal_evidence(body.text)
+    stated_ordinals.update(int(n) for m in re.finditer(r"第([一二两三四五六七八九十0-9]+)(?:个|批|件|份)",body.text) if (n:=number(m[1])) is not None)
+    sole_confirmation=(plan.selector.choice_index==0 and len(ctx.choices)==1 and ctx.active
+        and ctx.active.task.status=='needs_clarification' and 'batch_id' in ctx.active.task.result.missing_fields
+        and polite_core(body.text).lower().rstrip('.!?') in {'yes','yes that one','that one','correct'})
     if (plan.selector.choice_index is not None and ctx.choices
-            and not re.search(r"第[一二两三四五六七八九十0-9]+(?:个|批|件|份)", body.text)):
+            and stated_ordinals!={plan.selector.choice_index+1} and not sole_confirmation):
         if plan.selector.location and plan.selector.location in body.text:
             # Verify the described location across ALL current candidates rather
             # than trusting the model's guessed index.
@@ -131,7 +139,8 @@ async def resolve(owner, body, scope):
         # old episode selected by the provider. Its original TTL still applies.
         plan = plan.model_copy(update={"memory_id": None})
         normalizations.append("bare_pronoun_uses_current_reference")
-    hypothesis_half = plan.speech_act == "hypothesis" and plan.amount_mode == "half" and "一半" in body.text
+    from p0.language import HALF
+    hypothesis_half = plan.speech_act == "hypothesis" and plan.amount_mode == "half" and bool(re.search('一半|'+HALF,body.text))
     if hypothesis_half:
         plan = plan.model_copy(update={"reads": [Read(kind="quantity")], "action": None, "write_count": 0})
         normalizations.append("hypothesis_half_is_read_only_arithmetic")
@@ -238,6 +247,16 @@ async def resolve(owner, body, scope):
         frame.expression_required = False
     frame.memory_delta = delta(body, frame)
     return frame
+
+
+async def resolve(owner, body, scope):
+    from ..language import using
+    from ..language.render import localize_frame
+    with using(body.context.locale):
+        frame=await _resolve(owner,body,scope)
+        localize_frame(frame,body)
+        frame.memory_delta=delta(body,frame)
+        return frame
 
 
 async def respond(owner, body):

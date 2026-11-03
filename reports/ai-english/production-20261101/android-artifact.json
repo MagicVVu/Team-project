@@ -1,0 +1,9 @@
+{
+  "path": "frontend/app/build/outputs/apk/debug/app-debug.apk",
+  "bytes": 64748137,
+  "sha256": "d4537d959ae3c2b84cb1d4fd987f21e3d341ae27a02a8f5c842fdd5689ce3c81",
+  "build_type": "debug",
+  "installed_on_device": false,
+  "frontend_source_uploaded": false,
+  "app_version_policy_unchanged": true
+}

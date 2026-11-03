@@ -1,0 +1,28 @@
+{
+  "stage": "prepared",
+  "source_sha256": "172dbc3b84b81090e9d567686dc04a27c2f06bea750a73df01ef08266ad0c7fa",
+  "tag": "magicvvu/agent:p9-jev-172dbc3b84b8",
+  "overlay_files": [
+    "conversation/autonomous/app.py",
+    "conversation/autonomous/runner.py",
+    "conversation/autonomous/schemas.py",
+    "integration/source_manifest.py",
+    "jev/__init__.py",
+    "jev/__main__.py",
+    "jev/budget.py",
+    "jev/client.py",
+    "jev/config.py",
+    "jev/engine.py",
+    "jev/evaluation.py",
+    "jev/policy.py",
+    "jev/providers.py",
+    "jev/questions.py",
+    "jev/runtime.py",
+    "jev/schemas.py"
+  ],
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p9-jev-20261101-172dbc3b84b8",
+  "candidate_directory": "/home/magicvvu_ai/workspace/agent/candidates/p9-jev-172dbc3b84b8",
+  "image_id": "sha256:8213c101cd2160a57a597d7c2a644a00b6ad836ec7aa50df422c072faab24437",
+  "tests_performed": false,
+  "model_calls_performed": false
+}

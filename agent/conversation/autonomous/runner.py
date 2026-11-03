@@ -16,6 +16,7 @@ from . import engine
 from . import physical
 from .reads import ReadOnly
 from .schemas import RunResponse, Decision, Step
+from ..language import choose, using
 
 REPAIRABLE = {"UNGROUNDED_FIELD", "UNGROUNDED_SELECTOR", "CANDIDATE_SELECTION_UNGROUNDED", "ACTION_SEMANTIC_CONFLICT"}
 QUESTIONS = {"intent":"你希望我查询资料、登记操作，还是先讨论一下？",
@@ -89,7 +90,7 @@ def observation(frame):
             "filled_fields":frame.filled_fields}
 
 
-async def run(owner, body, scope):
+async def _run(owner, body, scope):
     start = time.monotonic()
     deadline = start + min(58, body.remaining_seconds)
     ctx, episodes, memory = prepare(owner, body, scope)
@@ -97,13 +98,22 @@ async def run(owner, body, scope):
     owner._autonomous_context_lease = (scope, ctx.conversation_id, ctx.revision, ctx.trusted_now, deadline)
     reader = owner.reader = ReadOnly(owner.reader, scope, deadline)
     calls, trace, plans = 0, [], []
+    router = getattr(owner, "jev_router", None)
+    jev = router.session() if router is not None else None
     verified, last, last_plan = None, None, None
     seen_plans, seen_results = set(), set()
     filled = {}
 
     def finish(status, reason, *, reply=None, code=None, fallback=False):
+        if jev is not None:
+            for item in trace:
+                if item.action == "jev":
+                    item.jev = jev.audit()
         frame = verified.model_copy(deep=True) if verified else last.model_copy(deep=True) if last else None
-        text = reply or (frame.reply if frame else "本轮尚未完成，请保留原文并核对原请求。")
+        if frame and frame.locale!=ctx.locale and last_plan:
+            from ..language.render import localize_frame
+            localize_frame(frame,P85ResolveRequest(**body.model_dump(exclude={'remaining_seconds'}),plan=last_plan,plan_context_revision=ctx.revision))
+        text = reply or (frame.reply if frame else choose("本轮尚未完成，请保留原文并核对原请求。","This turn is incomplete. Keep the original input and check the original request."))
         if reason not in {"completed", "confirmation_required", "user_input_required", "data_unavailable", "boundary"}:
             note = {"deadline":"处理达到本轮时限，以上仅为已核实部分，请核对未完成事项。",
                 "repeated_plan":"继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",
@@ -111,6 +121,13 @@ async def run(owner, body, scope):
                 "model_error":"后续理解未完成，已停止调用；请核对以上结果或原请求。",
                 "context_limit":"必要资料超出本轮输入容量，请缩小问题范围。",
                 "context_refresh_required":"原任务状态需要重新读取后核对。"}[reason]
+            if ctx.locale=='en':note={
+                'deadline':'The turn reached its time limit. Only the verified partial results are shown.',
+                'repeated_plan':'No new information was produced by the repeated plan. Review the verified results before continuing.',
+                'no_progress':'No further verified progress was made. Please clarify the unresolved question.',
+                'model_error':'Further interpretation failed. Calls have stopped; verified information is retained.',
+                'context_limit':'The required context exceeds this turn’s capacity. Please narrow the question.',
+                'context_refresh_required':'The original task status must be refreshed before continuing.'}[reason]
             text = text+"\n"+note if frame else note
         if frame:
             frame.reply = text
@@ -119,7 +136,7 @@ async def run(owner, body, scope):
                     remaining_seconds=min(18, max(.001, deadline-time.monotonic())),
                     plan=last_plan, plan_context_revision=ctx.revision)
                 frame.memory_delta = delta(replay_body, frame)
-        return RunResponse(request_id=body.request_id, context_revision=ctx.revision, original_text=body.text,
+        return RunResponse(locale=ctx.locale,request_id=body.request_id, context_revision=ctx.revision, original_text=body.text,
             reply=text, status=status, stop_reason=reason, resolved=frame, plan=last_plan,
             verified_plans=plans, filled_fields=filled, model_calls=calls, tool_reads=reader.calls,
             elapsed_ms=(time.monotonic()-start)*1000, trace=trace,
@@ -132,6 +149,13 @@ async def run(owner, body, scope):
             literal=P85Plan(speech_act="question",selector={"use_reference":True},
                 reads=[{"kind":"quantity" if described[1] in {"数量","还剩多少"} else "location"}])
     pending = Decision(action="resolve", plan=literal) if literal else None
+    if jev is not None and pending is None:
+        fast = await jev.classify(body, ctx, deadline-time.monotonic())
+        attempted = bool(jev.call and jev.call.attempted)
+        calls += int(attempted)
+        trace.append(Step(step=len(trace)+1, action="jev", model_call=attempted, jev=jev.audit()))
+        if fast is not None:
+            pending = Decision(action="resolve", plan=fast, finish_after_resolve=True)
     while True:
         remaining = deadline-time.monotonic()
         if remaining <= 0: return finish("stopped", "deadline", fallback=True)
@@ -142,7 +166,9 @@ async def run(owner, body, scope):
                 "inventory_model":getattr(owner,"inventory_model","batch-quantity-1"),
                 "retrieved_episodes":[e.model_dump(mode="json") for e in episodes],
                 "observations":observation(last), "verified_facts":verified.facts if verified else {},
-                "previous_steps":[s.model_dump() for s in trace[-6:]]}
+                "previous_steps":[s.model_dump() for s in trace if s.action != "jev"][-6:]}
+            if jev is not None and jev.hint() is not None:
+                payload["jev_hint"] = jev.hint()
             # Do not silently remove active tasks or candidates to fit a prompt.
             while len(json.dumps(payload, ensure_ascii=False).encode()) > 30000 and payload["context"]["history"]:
                 payload["context"]["history"].pop(0); memory.truncated = True
@@ -161,10 +187,17 @@ async def run(owner, body, scope):
                               code=getattr(error, "code", "AUTONOMOUS_MODEL_FAILED"), fallback=True)
         else:
             decision, pending = pending, None
+        if jev is not None:
+            decision = jev.protect(decision)
         step = Step(step=len(trace)+1, action=decision.action, model_call=paid)
         trace.append(step)
         if decision.action == "ask":
-            question = QUESTIONS[decision.clarification]
+            question = QUESTIONS[decision.clarification] if ctx.locale!='en' else {
+                'intent':'Would you like to query information, prepare a draft, or discuss an idea?',
+                'object':'Which registered item would you like to use?',
+                'quantity':'Please provide the exact quantity to record.','unit':'Which unit does that quantity use?',
+                'date':'Please provide an unambiguous date.','location':'Please specify the location.',
+                'priority':'You requested multiple changes. Which one should be handled first?'}[decision.clarification]
             return finish("needs_input", "user_input_required", reply=(verified.reply+"\n" if verified else "")+question)
         if decision.action == "finish":
             if not verified or last and last.error_code:
@@ -226,3 +259,8 @@ async def run(owner, body, scope):
             return finish(*end)
         if literal or decision.finish_after_resolve and not last.error_code:
             return finish("completed", "completed")
+
+
+async def run(owner,body,scope):
+    with using(body.context.locale):
+        return await _run(owner,body,scope)

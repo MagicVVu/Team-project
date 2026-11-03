@@ -42,4 +42,5 @@ def render(value, resolved):
         raise ValueError("No fresh evidence")
     facts = [resolved.facts[key] for key in expression.fact_order]
     joiner = "\n" if expression.layout == "lines" else " "
+    if getattr(resolved,'locale','zh-CN')=='en':return joiner.join(facts)
     return joiner.join(part for part in [OPENINGS[expression.opening], *facts, CLOSINGS[expression.closing]] if part).strip()

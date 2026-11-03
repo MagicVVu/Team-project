@@ -175,8 +175,8 @@ def test_auth_capabilities_and_legacy_factory_are_distinct(monkeypatch):
     client=TestClient(create_app(engine=owner.engine,reader=reader,now=lambda:NOW))
     legacy=TestClient(old(engine=owner.engine,reader=reader,now=lambda:NOW))
     health=client.get("/health").json()
-    assert health["maintenance_release"]=="V1-P8.6"
-    assert client.get("/openapi.json").json()["info"]["version"]=="0.8.6"
+    assert health["maintenance_release"]=="V1-P8.7"
+    assert client.get("/openapi.json").json()["info"]["version"]=="0.8.7"
     assert health["dialogue_max_model_calls"] is None and health["dialogue_deadline_seconds"]==60
     assert legacy.get("/health").json()["maintenance_release"]=="V1-P8.5"
     assert legacy.get("/health").json()["dialogue_max_model_calls"]==2

@@ -37,6 +37,7 @@ class TaskEvidence(Model):
 
 
 class MemoryContext(Model):
+    locale: Literal["zh-CN", "en"] = "zh-CN"
     protocol_version: Literal["conversation-memory-1"] = MEMORY_PROTOCOL
     scope: Scope
     conversation_id: UUID

@@ -2,6 +2,7 @@ from decimal import Decimal
 from uuid import uuid4
 
 from .schemas import Command
+from .language import UNITS as EN_UNITS
 
 UNITS = {"毫升": "ml", "ml": "ml", "mL": "ml", "升": "L", "l": "L", "L": "L",
          "克": "g", "g": "g", "千克": "kg", "公斤": "kg", "kg": "kg",
@@ -23,6 +24,7 @@ class DomainError(Exception):
 
 
 def normalize_unit(unit: str) -> str:
+    if isinstance(unit,str):unit=EN_UNITS.get(unit.casefold(),unit)
     if unit not in UNITS:
         raise DomainError("INVALID_UNIT", "请选择份、件、盒、瓶、包、袋、个、卷、片、台、吨、ml、L、g 或 kg。")
     return UNITS[unit]

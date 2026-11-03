@@ -46,6 +46,9 @@ internal class UiStrings(context: Context, val language: String) {
 
     /** For built-in labels only. Never pass user-entered names, locations, units or conversation text. */
     fun label(value: String): String = UiTextIds.labels[value]?.let { get(it) } ?: value
+    fun system(value: String): String = UiTextIds.labels[value]?.let { get(it) }
+        ?: com.example.teamapp.data.AssistantLanguage.system(value, english)
+    fun unit(value: String, quantity: String? = null): String = com.example.teamapp.data.AssistantLanguage.unit(value, english, quantity)
 
     fun itemCount(count: Int): String = localized.resources.getQuantityString(R.plurals.ui_item_count, count, count)
     fun stockCount(count: Int): String = localized.resources.getQuantityString(R.plurals.ui_stock_count, count, count)

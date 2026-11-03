@@ -10,6 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = (
+    'p0/language.py','conversation/language/__init__.py','conversation/language/parsing.py',
+    'conversation/language/names.py','conversation/language/render.py','conversation/language/lexicon.json',
     "p0/__init__.py", "p0/text.py", "p0/domain.py", "p0/engines.py", "p0/manager.py",
     "p0/budget.py", "p0/deepseek.py", "p0/schemas.py", "p0/tools.py",
     "p1/__init__.py", "p1/engines.py", "p1/domain.py", "p1/manager.py", "p1/schemas.py", "p1/tools.py",
@@ -43,6 +45,9 @@ SOURCE_PATHS = (
     "conversation/autonomous/schemas.py", "conversation/autonomous/engine.py",
     "conversation/autonomous/runner.py", "conversation/autonomous/reads.py", "conversation/autonomous/health.py",
     "conversation/autonomous/physical.py",
+    "jev/__init__.py", "jev/__main__.py", "jev/schemas.py", "jev/config.py",
+    "jev/budget.py", "jev/client.py", "jev/providers.py", "jev/questions.py",
+    "jev/policy.py", "jev/engine.py", "jev/evaluation.py", "jev/runtime.py",
     "Dockerfile.conversation", "Dockerfile.conversation.dockerignore",
 )
 

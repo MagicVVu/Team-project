@@ -1,0 +1,85 @@
+{
+  "label": "real-final-regression",
+  "synthetic_only": true,
+  "post_fix_nonblind_regression": true,
+  "human_review_status": "pending",
+  "joint_app_acceptance": false,
+  "by_locale": {
+    "zh-CN": {
+      "inputs": 150,
+      "outcome_passed": 148,
+      "outcome_rate": 0.9866666666666667,
+      "clarification_required": 50,
+      "clarification_recalled": 48,
+      "clarification_recall": 0.96,
+      "returned_drafts": 45,
+      "read_or_boundary_cases": 105,
+      "semantic_fact_violations": [],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 18,
+        "1": 102,
+        "2": 29,
+        "3": 1
+      },
+      "stop_reason_distribution": {
+        "completed": 44,
+        "repeated_plan": 4,
+        "no_progress": 3,
+        "confirmation_required": 45,
+        "user_input_required": 34,
+        "boundary": 19,
+        "model_error": 1
+      },
+      "p95_ms": 7479.702000000543,
+      "failed_outcomes": [
+        "missing_quantity-0",
+        "half_discard-4"
+      ]
+    },
+    "en": {
+      "inputs": 150,
+      "outcome_passed": 147,
+      "outcome_rate": 0.98,
+      "clarification_required": 50,
+      "clarification_recalled": 47,
+      "clarification_recall": 0.94,
+      "returned_drafts": 46,
+      "read_or_boundary_cases": 105,
+      "semantic_fact_violations": [
+        {
+          "id": "multiple_items-3",
+          "code": "action"
+        },
+        {
+          "id": "multiple_items-3",
+          "code": "unexpected_draft"
+        },
+        {
+          "id": "multiple_items-3",
+          "code": "read_or_blocked_created_draft"
+        }
+      ],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 55,
+        "1": 85,
+        "2": 10
+      },
+      "stop_reason_distribution": {
+        "completed": 47,
+        "repeated_plan": 2,
+        "user_input_required": 33,
+        "confirmation_required": 46,
+        "model_error": 2,
+        "boundary": 20
+      },
+      "p95_ms": 6275.601299999835,
+      "failed_outcomes": [
+        "missing_unit-3",
+        "missing_quantity-4",
+        "multiple_items-3"
+      ]
+    }
+  }
+}

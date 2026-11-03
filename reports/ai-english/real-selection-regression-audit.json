@@ -1,0 +1,62 @@
+{
+  "label": "real-selection-regression",
+  "synthetic_only": true,
+  "post_fix_nonblind_regression": true,
+  "human_review_status": "pending",
+  "joint_app_acceptance": false,
+  "by_locale": {
+    "zh-CN": {
+      "inputs": 5,
+      "outcome_passed": 5,
+      "outcome_rate": 1.0,
+      "clarification_required": 5,
+      "clarification_recalled": 5,
+      "clarification_recall": 1.0,
+      "returned_drafts": 0,
+      "read_or_boundary_cases": 5,
+      "semantic_fact_violations": [],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "1": 5
+      },
+      "stop_reason_distribution": {
+        "user_input_required": 5
+      },
+      "p95_ms": 4383.088099999441,
+      "failed_outcomes": []
+    },
+    "en": {
+      "inputs": 5,
+      "outcome_passed": 4,
+      "outcome_rate": 0.8,
+      "clarification_required": 5,
+      "clarification_recalled": 4,
+      "clarification_recall": 0.8,
+      "returned_drafts": 0,
+      "read_or_boundary_cases": 5,
+      "semantic_fact_violations": [
+        {
+          "id": "multiple_items-1",
+          "code": "write_boundary"
+        },
+        {
+          "id": "multiple_items-1",
+          "code": "original_and_locale"
+        }
+      ],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 1,
+        "1": 4
+      },
+      "stop_reason_distribution": {
+        "user_input_required": 4,
+        "missing": 1
+      },
+      "p95_ms": 3496.257999999216,
+      "failed_outcomes": [
+        "multiple_items-1"
+      ]
+    }
+  }
+}

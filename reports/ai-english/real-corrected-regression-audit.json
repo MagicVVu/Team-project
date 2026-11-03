@@ -1,0 +1,85 @@
+{
+  "label": "real-corrected-regression",
+  "synthetic_only": true,
+  "post_fix_nonblind_regression": true,
+  "human_review_status": "pending",
+  "joint_app_acceptance": false,
+  "by_locale": {
+    "zh-CN": {
+      "inputs": 150,
+      "outcome_passed": 149,
+      "outcome_rate": 0.9933333333333333,
+      "clarification_required": 50,
+      "clarification_recalled": 50,
+      "clarification_recall": 1.0,
+      "returned_drafts": 44,
+      "read_or_boundary_cases": 105,
+      "semantic_fact_violations": [],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 18,
+        "1": 108,
+        "2": 23,
+        "3": 1
+      },
+      "stop_reason_distribution": {
+        "completed": 44,
+        "repeated_plan": 5,
+        "confirmation_required": 44,
+        "model_error": 1,
+        "user_input_required": 36,
+        "boundary": 20
+      },
+      "p95_ms": 6449.328200000309,
+      "failed_outcomes": [
+        "plan_add-1"
+      ]
+    },
+    "en": {
+      "inputs": 150,
+      "outcome_passed": 144,
+      "outcome_rate": 0.96,
+      "clarification_required": 50,
+      "clarification_recalled": 48,
+      "clarification_recall": 0.96,
+      "returned_drafts": 42,
+      "read_or_boundary_cases": 105,
+      "semantic_fact_violations": [
+        {
+          "id": "multiple_items-1",
+          "code": "action"
+        },
+        {
+          "id": "multiple_items-1",
+          "code": "unexpected_draft"
+        },
+        {
+          "id": "multiple_items-1",
+          "code": "read_or_blocked_created_draft"
+        }
+      ],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 65,
+        "1": 73,
+        "2": 12
+      },
+      "stop_reason_distribution": {
+        "completed": 50,
+        "confirmation_required": 42,
+        "user_input_required": 36,
+        "boundary": 21,
+        "model_error": 1
+      },
+      "p95_ms": 5861.621399999422,
+      "failed_outcomes": [
+        "open_today-3",
+        "add_weight-4",
+        "consume_all-2",
+        "consume_all-3",
+        "model_alias-1",
+        "multiple_items-1"
+      ]
+    }
+  }
+}

@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 from p0.domain import DomainError, UNITS, convert, normalize_unit
 from p0.text import date_fields, fields
 from .engines import ALL_PATTERN, AMOUNT_PATTERN, NUMBER_PATTERN, actions, number
+from p0.language import parse_english_date, INJECTION as EN_INJECTION
 from .schemas import (AddCommand, Batch, ChangePreview, ConsumeCommand, DiscardCommand,
     Intent, MoveCommand, OpenCommand, Parsed, PlanCommand, ProposedState, valid_quantity)
 
@@ -15,7 +16,7 @@ INJECTION = r"忽略.*(?:指令|规则|系统)|跳过确认|不[用要需]确认
 
 
 def guard(text: str, parsed: Parsed | None = None) -> str | None:
-    if re.search(INJECTION, text, re.I):
+    if re.search(INJECTION, text, re.I) or re.search(EN_INJECTION,text):
         return "库存变更必须先生成草稿并由你确认。"
     if parsed is None:
         return None
@@ -82,7 +83,7 @@ def parse_date(value: str, reference: datetime, timezone_name: str) -> date:
     if value in {"今天", "昨天"}:
         return today - timedelta(days=value == "昨天")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
-        raise ValueError("日期必须是 YYYY-MM-DD、今天或昨天")
+        return parse_english_date(value,reference,ZoneInfo(timezone_name))
     return date.fromisoformat(value)
 
 

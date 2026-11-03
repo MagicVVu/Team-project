@@ -33,13 +33,15 @@ class Decision(Model):
 
 class Step(Model):
     step: int = Field(ge=1)
-    action: Literal["resolve", "finish", "ask", "model_error"]
+    action: Literal["resolve", "finish", "ask", "model_error", "jev"]
     model_call: bool
     plan_sha256: str | None = None
     error_code: str | None = None
+    jev: dict | None = Field(default=None, exclude_if=lambda value: value is None)
 
 
 class RunResponse(Model):
+    locale: Literal["zh-CN", "en"] = "zh-CN"
     protocol_version: Literal["inventory-autonomous-1"] = PROTOCOL
     request_id: str
     context_revision: int = Field(ge=0)

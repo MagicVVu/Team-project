@@ -1,0 +1,63 @@
+{
+  "label": "real-holdout-first",
+  "synthetic_only": true,
+  "post_fix_nonblind_regression": false,
+  "human_review_status": "pending",
+  "joint_app_acceptance": false,
+  "by_locale": {
+    "zh-CN": {
+      "inputs": 60,
+      "outcome_passed": 59,
+      "outcome_rate": 0.9833333333333333,
+      "clarification_required": 40,
+      "clarification_recalled": 40,
+      "clarification_recall": 1.0,
+      "returned_drafts": 5,
+      "read_or_boundary_cases": 55,
+      "semantic_fact_violations": [],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 7,
+        "1": 53
+      },
+      "stop_reason_distribution": {
+        "boundary": 20,
+        "user_input_required": 26,
+        "completed": 9,
+        "confirmation_required": 5
+      },
+      "p95_ms": 4494.899299999815,
+      "failed_outcomes": [
+        "hypothesis-2"
+      ]
+    },
+    "en": {
+      "inputs": 60,
+      "outcome_passed": 57,
+      "outcome_rate": 0.95,
+      "clarification_required": 40,
+      "clarification_recalled": 39,
+      "clarification_recall": 0.975,
+      "returned_drafts": 5,
+      "read_or_boundary_cases": 55,
+      "semantic_fact_violations": [],
+      "unlocalized_system_reply_cases": [],
+      "model_calls_distribution": {
+        "0": 7,
+        "1": 53
+      },
+      "stop_reason_distribution": {
+        "boundary": 20,
+        "completed": 9,
+        "user_input_required": 26,
+        "confirmation_required": 5
+      },
+      "p95_ms": 4391.870799998287,
+      "failed_outcomes": [
+        "half_consume-4",
+        "negation-2",
+        "negation-4"
+      ]
+    }
+  }
+}

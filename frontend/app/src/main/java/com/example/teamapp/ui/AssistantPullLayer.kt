@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,10 +37,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -280,24 +277,9 @@ private fun AssistantCurtainPage(
     store: InventoryStore, conversation: SnapshotStateList<Pair<String, Boolean>>,
     notify: (String) -> Unit, close: () -> Unit
 ) {
-    val strings = rememberUiStrings()
-    var initial by rememberSaveable { mutableStateOf("") }
     Column(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().imePadding()) {
-        Box(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 6.dp)) {
-            Column(Modifier.align(Alignment.TopCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-                MewMascot(MewPose.Thinking, Modifier.size(64.dp).testTag("assistant-ip"), strings.get(R.string.ui_mew_ai_assistant))
-                Text(strings.get(R.string.brand_assistant_title), fontSize = 21.sp, lineHeight = 28.sp, fontWeight = FontWeight.SemiBold)
-            }
-            TextButton(onClick = close, modifier = Modifier.align(Alignment.TopEnd).testTag("assistant-close")) { Text(strings.get(R.string.ui_close)) }
-        }
-        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("查库存" to "家里有什么库存？", "临期提醒" to "哪些快过期了？", "补货建议" to "需要补什么？").forEach { (label, query) ->
-                OutlinedButton(onClick = { initial = query }, modifier = Modifier.weight(1f), shape = CircleShape,
-                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)) { Text(strings.label(label), fontSize = 12.sp) }
-            }
-        }
         Box(Modifier.weight(1f).fillMaxWidth()) {
-            Chat(store, conversation, initial, { initial = "" }, notify, showIntro = false)
+            Chat(store, conversation, "", {}, notify, closeAssistant = close)
         }
     }
 }

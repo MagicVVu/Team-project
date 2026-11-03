@@ -5,6 +5,9 @@ from ..p85.engine import UNDERSTAND, parse_plan
 from .schemas import Decision
 
 PROMPT = UNDERSTAND + """
+context.locale决定回复语言：en时social_reply使用自然英文，zh-CN时使用中文。理解中英混合输入。
+字段quote始终引用原文；quantity可规范化英文数字词，unit可用英文单复数；today/yesterday保留原词。
+不能通过翻译改写name/location原文来绕过校验；selector.search_terms最多3个翻译检索提示，不能当已确认对象。
 本入口为自主循环，不限固定调用次数。每次只输出一个决策JSON，不输出思维链：
 {"action":"resolve","plan":{上述计划字段}} 或
 {"action":"finish","expression":{"opening":"none","fact_order":["f0"],"layout":"lines","closing":"none"}} 或
@@ -35,6 +38,11 @@ def parse(value):
     try:
         data = json.loads(value)
         if isinstance(data, dict) and isinstance(data.get("plan"), dict):
+            nested=data['plan'].pop('finish_after_resolve',None)
+            if nested is not None:
+                if type(nested) is not bool or ('finish_after_resolve' in data and data['finish_after_resolve']!=nested):
+                    raise ValueError('Conflicting completion flag')
+                data.setdefault('finish_after_resolve',nested)
             data["plan"] = parse_plan(json.dumps(data["plan"], ensure_ascii=False))
         return Decision.model_validate(data)
     except (ValueError, TypeError):

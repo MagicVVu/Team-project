@@ -1,0 +1,25 @@
+{
+  "stage": "model_checked",
+  "release": "V1-P8.7",
+  "source_sha256": "a80095e013bdb0d6b89dbf523b6ef46d4bef854f01f961a5ecb4b1c8d3b072d3",
+  "real_deepseek": true,
+  "by_locale": {
+    "zh-CN": {
+      "model_calls": 1,
+      "stop_reason": "completed",
+      "elapsed_ms": 1569.0011760452762,
+      "reply": "你好，慢慢整理就好。可以先挑一个小区域，我陪你一起理清思路。"
+    },
+    "en": {
+      "model_calls": 1,
+      "stop_reason": "completed",
+      "elapsed_ms": 2607.0827309740707,
+      "reply": "Totally understandable — tidying can feel like a lot all at once. Try picking just one small corner or one category (like trash or laundry) and give it five minutes; momentum beats perfection. You don't have to do it all today."
+    }
+  },
+  "deterministic_calls": 0,
+  "inventory_reads": 0,
+  "business_writes": false,
+  "production_account_created": false,
+  "app_joint_acceptance": false
+}

@@ -1,4 +1,4 @@
-当前增量为 [V1-P8.6 自主循环](../docs/versions/V1-P8.6/README.md)，AI工厂 `conversation.autonomous.app:create_app`，AI版本0.8.6、协议 `inventory-autonomous-1`。2026-10-30经用户追加授权已完成服务器同步与正式AI/必要后端适配替换，见[发布记录](../docs/versions/V1-P8.6/正式版本替换记录.md)；前后端按[交接说明](../docs/versions/V1-P8.6/前后端交接说明.md)及实际运行OpenAPI协作。数据库和业务后端版本保持原样；App联验和Release证书单列待验收。
+当前增量为 [V1-P8.7 中英文助手](../docs/versions/V1-P8.7/README.md)，AI 工厂仍为 `conversation.autonomous.app:create_app`，AI 版本 **0.8.7**，协议 `inventory-autonomous-1`，语言协议 `assistant-language-1`。已获用户授权同步并替换服务器 AI 与必要后端语言适配；JEV、自主循环、逐件库存、数据库和其他负责人代码保留，见[正式发布记录](../docs/versions/V1-P8.7/正式发布记录.md)。[中英文接入说明](../docs/versions/V1-P8.7/前后端交接说明.md)包含 OpenAPI 和 Schema。真机及完整 App 联验仍待完成；以下保留历史说明。
 
 以下保留P7及更早历史使用说明。[conversation 模块](conversation/README.md)（V1-P7，AI 0.7.0）新增受信对象引用、有限上下文和零模型澄清解析。[P7 交付入口](../docs/versions/V1-P7/README.md)区分 AI 实现、前端承接、后端执行与联合验收；[V1-P7.1 收尾](../docs/versions/V1-P7.1/README.md)补齐 `check --profile p7` 配置预检、显式启动选择及服务器源码同步，后续权限与接入复核、0.9.0＋P7＋DeepSeek 正式服务迁移独立归入 [V1-P7.2](../docs/versions/V1-P7.2/README.md)，未修改 Android 或数据库网关；旧库存单位限制及客户端验收见该阶段记录。原 [v1 模块](v1/README.md)（V1-P6，AI 0.6.0）及旧入口保留，Jev 暂缓。以下保留原使用说明。
 

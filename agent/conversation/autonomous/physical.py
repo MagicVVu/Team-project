@@ -3,6 +3,8 @@ import re
 from decimal import Decimal
 from p0.domain import SCALES
 from ..p85.schemas import P85Resolved
+from ..language import choose
+from p0.language import EN_ACTIONS, HALF
 
 CONSUMPTION_MESSAGE="当前每条库存是一件实物，只能登记整件消耗或丢弃；重量和容量仅作规格，不能按半件扣减。请明确要处理哪一件，或核对是否已整件用完。尚未写入。"
 REFERENCE_QUERY=re.compile(r"(?:接着|继续)?(?:之前|刚才)?(?:那|这)(?:一)?(?:件|份|个|批)[，, ]*(?:查|查询|核对|看看)?(?:它|这件|那件)?(?:的)?(位置|在哪|在哪里|在什么地方|数量|还剩多少)[?？。!！]?")
@@ -14,14 +16,14 @@ def refusal(body, memory, code, reply, filled):
 
 
 def precheck(body, plan, memory, filled):
-    consumed=bool(re.search(r"消耗|喝(?:完|掉|了|光)|吃(?:完|掉|了|光)|用(?:完|掉|了|光)",body.text))
-    discarded=bool(re.search(r"丢弃|扔掉|扔了|丢掉|报废",body.text))
+    consumed=bool(re.search(r"消耗|喝(?:完|掉|了|光)|吃(?:完|掉|了|光)|用(?:完|掉|了|光)|"+EN_ACTIONS['CONSUME'],body.text,re.I))
+    discarded=bool(re.search(r"丢弃|扔掉|扔了|丢掉|报废|"+EN_ACTIONS['DISCARD'],body.text,re.I))
     if (plan.action=="DISCARD" and consumed and not discarded or
             plan.action=="CONSUME" and discarded and not consumed):
         return refusal(body,memory,"ACTION_SEMANTIC_CONFLICT",
             "当前动作与原文的消耗/丢弃含义不一致，请按本轮原文重新核对动作；尚未生成变更。",filled)
     if plan.action in {"CONSUME","DISCARD"}:
-        half=plan.amount_mode=="half" and re.search(r"一半|半数|50[%％]",body.text)
+        half=plan.amount_mode=="half" and re.search(r"一半|半数|50[%％]|"+HALF,body.text)
         specified=plan.fields.get("quantity")
         amount=Decimal(filled["quantity"]) if specified and "quantity" in filled else None
         if half or amount is not None and amount!=1:
@@ -38,10 +40,11 @@ def precheck(body, plan, memory, filled):
 def project(body, frame, plan):
     command=(frame.result or {}).get("draft")
     if not command:
-        asks_measurement=re.search(r"多少\s*(?:克|千克|公斤|毫升|升|g\b|kg\b|ml\b|L\b)|(?:重量|容量|规格).*(?:多少|是什么|是多大)",body.text,re.I)
+        asks_measurement=re.search(r"多少\s*(?:克|千克|公斤|毫升|升|g\b|kg\b|ml\b|L\b)|(?:重量|容量|规格).*(?:多少|是什么|是多大)|how (?:much|many).*(?:grams?|kilograms?|millilit(?:er|re)s?|lit(?:er|re)s?|\bml\b|\bkg\b)|(?:weight|capacity|specification)",body.text,re.I)
         rows=(frame.result or {}).get("facts",[])
         if plan.speech_act=="question" and asks_measurement and rows:
             note="当前AI读取接口只提供逐件登记信息，没有提供重量或容量规格，无法把物品数换算成克数或毫升。请查看物品详情的规格或补充标签；尚未生成变更。"
+            note=choose(note,'The inventory read interface provides item counts, not weight or capacity specifications. Check the item details or label; no change has been prepared.')
             frame.facts[f"f{len(frame.facts)}"]=note
             frame.reply="\n".join(frame.facts.values())
             frame.kind="needs_input";frame.error_code="SPECIFICATION_READ_UNAVAILABLE";frame.expression_required=False
@@ -66,6 +69,7 @@ def project(body, frame, plan):
         "per_object_quantity":1,"inventory_unit":unit,"specification":specification,
         "input_quantity":str(quantity),"input_unit":command["unit"]})
     sentence=f"确认后将新增{count}件独立物品，单位为{unit}"+(f"，规格为{specification}" if specification else "")+"；尚未写入。"
+    sentence=choose(sentence,f"Confirmation will create {count} individual item(s)"+(f", specification {specification}" if specification else "")+". Nothing has been written.")
     frame.facts[f"f{len(frame.facts)}"]=sentence
     frame.reply="\n".join(frame.facts.values())
     return frame

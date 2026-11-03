@@ -102,13 +102,13 @@ class AssistantStore(
             val a = requireNotNull(cloud.account)
             require(a.householdId.isNotBlank()) { "请先选择家庭" }
             busy = true; error = ""; phase = "正在核对服务能力"
-            val api = clientFactory(a)
+            val api = clientFactory(a).useLanguage { cloud.assistantLocale }
             val caps = api.capabilities(); verifyScope(scope); capabilities = caps.toString()
             block(scope, api)
         } catch (failure: Exception) {
             if (scope == cloud.scopeKey && boundScope == scope) {
                 val code = (failure as? CloudFailure)?.errorCode.orEmpty()
-                error = ChatMessages.reason(code, failure.message ?: "请核对任务后重试")
+                error = ChatMessages.reason(code, failure.message ?: "请核对任务后重试", cloud.assistantLocale)
                 if (code in setOf("CONVERSATION_BINDING_CHANGED", "CONVERSATION_SUPERSEDED", "CONVERSATION_SESSION_EXPIRED")) { activeRequestId = ""; referenceLabel = "" }
                 if (id != null && entries.any { it.requestId == id }) {
                     var old = entry(id)
@@ -178,11 +178,16 @@ class AssistantStore(
         session(id) { scope, api ->
             require(scope == expectedScope) { "家庭已切换，请在当前家庭重新核对原文" }
             if (memoryEnabled) {
+                require(AssistantLanguage.supported(JSONObject(capabilities), cloud.assistantLocale)) {
+                    "This server does not support the English assistant yet. Your input is retained."
+                }
                 if (conversationId.isBlank()) restoreConversation(scope, api)
                 require(entries.none { it.transportMode == "memory" && !it.conversationResolved }) { "请先查询上一条消息的原请求结果" }
                 val account = requireNotNull(cloud.account)
                 val body = JSONObject().put("household_id", account.householdId).put("request_id", id)
                     .put("conversation_id", conversationId).put("conversation_revision", conversationRevision).put("text", text)
+                if (JSONObject(capabilities).optString("assistant_language_protocol") == AssistantLanguage.PROTOCOL)
+                    body.put("locale", cloud.assistantLocale)
                 activeEntry?.takeIf { it.taskId.isNotBlank() }?.let { body.put("task_id", it.taskId).put("revision", it.taskRevision) }
                 save(scope, entries + AssistantEntry(id, JSONObject().put("text", text).toString(), conversationBody = body.toString(),
                     conversationSession = currentSession, transportMode = "memory", conversationScopeId = conversationId))
@@ -191,6 +196,7 @@ class AssistantStore(
                 return@session
             }
             verifyScope(scope); check(!unreadable) { error }
+            require(cloud.assistantLocale == "zh-CN") { "This server does not support English conversation tasks yet. Your input is retained." }
             require(entries.none { it.conversationBody.isNotBlank() && !it.conversationResolved && it.conversationSession == currentSession }) { "请先核实上一条消息的结果，不会自动重复调用模型" }
             val body = JSONObject().put("text", text).put("household_id", requireNotNull(cloud.account).householdId)
                 .put("request_id", id).put("household_timezone", JSONObject(capabilities).optString("household_timezone", "Asia/Shanghai"))
@@ -319,6 +325,8 @@ class AssistantStore(
             val key = "$scope|conversation_reset"
             val body = prefs.getString(key, null)?.let(::JSONObject) ?: JSONObject().put("household_id", home)
                 .put("request_id", UUID.randomUUID().toString()).put("conversation_revision", 0)
+            if (prefs.getString(key, null) == null && JSONObject(capabilities).optString("assistant_language_protocol") == AssistantLanguage.PROTOCOL)
+                body.put("locale", cloud.assistantLocale)
             check(prefs.edit().putString(key, body.toString()).commit()) { "无法保存会话初始化请求" }
             val reset = api.resetConversation(body); verifyScope(scope)
             require(reset.getString("protocol_version") == "conversation-memory-1" && reset.getString("request_id") == body.getString("request_id") && !reset.getBoolean("inventory_written"))

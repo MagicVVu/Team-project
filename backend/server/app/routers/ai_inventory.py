@@ -69,6 +69,8 @@ def _authorize(
 @router.get("/search")
 def search_batches(
     name: str | None = Query(default=None, max_length=200),
+    resolve_names: bool = False,
+    name_variants: list[str] | None = Query(default=None,max_length=3),
     household_id: UUID = Depends(_authorize),
     db: Session = Depends(get_db),
 ) -> dict:
@@ -81,6 +83,25 @@ def search_batches(
         stmt = stmt.where(func.lower(InventoryItem.name).contains(value.lower(), autoescape=True))
     # A deterministic full result is required; fail rather than silently truncate.
     rows = db.scalars(stmt.order_by(InventoryItem.created_at.asc(), InventoryItem.id.asc()).limit(1001)).all()
+    matching=None
+    if resolve_names is True and name:
+        from app.assistant_language import variants,LEXICON
+        matching={'query':name,'match_kind':'original' if rows else 'none','lexicon_version':LEXICON['version']}
+        if not rows:
+            fixed=variants(name);hints=name_variants if isinstance(name_variants,list) else []
+            if len(hints)>3 or any(not isinstance(v,str) or not 1<=len(v.strip())<=80 for v in hints):
+                raise HTTPException(422,detail={'code':'INVALID_NAME_VARIANTS'})
+            for kind,terms in (('dictionary',fixed),('model_translation',hints)):
+                if not terms:continue
+                from sqlalchemy import or_
+                translated=select(InventoryItem).where(InventoryItem.household_id==household_id,
+                    or_(*(func.lower(InventoryItem.name).contains(v.strip().lower(),autoescape=True) for v in terms)))
+                rows=db.scalars(translated.order_by(InventoryItem.created_at.asc(),InventoryItem.id.asc()).limit(1001)).all()
+                if rows:
+                    matching['match_kind']=kind
+                    break
+        exact=[r for r in rows if r.name.casefold()==name.strip().casefold()]
+        if exact:rows=exact
     if len(rows) > 1000:
         raise HTTPException(status_code=409, detail="Too many batches for P1 tool; narrow inventory query")
     try:
@@ -92,7 +113,7 @@ def search_batches(
         batches = [with_risk_facts(row, profiles.get(row.id), links.get(row.id)) for row in rows]
     except IncompatibleInventory as error:
         raise HTTPException(status_code=409, detail=str(error)) from None
-    return {"data": {"batches": batches}}
+    return {"data": {"batches": batches,**({'name_resolution':matching} if matching else {})}}
 
 
 @router.get("/batches/{batch_id}")

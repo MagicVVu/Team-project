@@ -1,0 +1,68 @@
+{
+  "stage": "deployed",
+  "source_sha256": "172dbc3b84b81090e9d567686dc04a27c2f06bea750a73df01ef08266ad0c7fa",
+  "tag": "magicvvu/agent:p9-jev-172dbc3b84b8",
+  "containers": {
+    "agent": {
+      "id": "5acf6b84622f5318e79c163a85511ab7fef6923ffbd7a7477df3d729eeb0ba4e",
+      "image": "magicvvu/agent:p9-jev-172dbc3b84b8",
+      "image_id": "sha256:8213c101cd2160a57a597d7c2a644a00b6ad836ec7aa50df422c072faab24437",
+      "started_at": "2026-11-01T07:42:20.584002548Z",
+      "status": "running",
+      "health": "healthy",
+      "configuration_sha256": "62674fca8e392fed5b0f1753e6c8e4362ca8a2c0369ed3db8142790c84ea7745"
+    },
+    "backend": {
+      "id": "079299d939763b1ba0ae90b83ce44e6058013c3ebd4e7b506076e463f34b5a98",
+      "image": "magicvvu/backend:intake-date-20261030",
+      "image_id": "sha256:40ec01bef6538fe81a4e3e1bfbc9d32d6f6bece1af313dd29be129992b4b569d",
+      "started_at": "2026-10-30T06:38:28.003745407Z",
+      "status": "running",
+      "health": "healthy",
+      "configuration_sha256": "1f697c420dfa89b72b0a00a961264bd0ffb851a15506beed3be10c54ea99d205"
+    },
+    "db": {
+      "id": "38d319a0f2a93b462ef476ec0ccdb833909dab7b52cfe9b06f1f5ed67f492cc2",
+      "image": "public.ecr.aws/docker/library/postgres:17",
+      "image_id": "sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3",
+      "started_at": "2026-10-24T08:01:43.477077008Z",
+      "status": "running",
+      "health": "healthy",
+      "configuration_sha256": "b40898d052719d44e3ae17f6d5c408aa8da0cfe13cfdb497213cbe372c351876"
+    }
+  },
+  "health": {
+    "status": "ok",
+    "maintenance_release": "V1-P8.6",
+    "conversation_dialogue_protocol": "inventory-autonomous-1",
+    "engine": "deepseek",
+    "jev_mode": "off",
+    "jev_status": "disabled"
+  },
+  "overlay_hashes": {
+    "conversation/autonomous/app.py": "c2aaad0a657f52f140797733d0ae16722b9eb963e30658bd8e6e01b12c7e7262",
+    "conversation/autonomous/runner.py": "abae836c486f8f9fd8709aca671c977f0219008f22330ccc4c2fcc63833f8dcc",
+    "conversation/autonomous/schemas.py": "b6b08669ef91c2a586377f5410be7ada8883aa8265a9e44ef988fd66cf272c0f",
+    "integration/source_manifest.py": "2119dd0cc31e788cb36f2ec5574672d23304382c203c4de17228b851313ee1d4",
+    "jev/__init__.py": "767cb4ea259f5ac8d932bbbac1cd5688088e58755ab8693a5b1f47b341d0dbd0",
+    "jev/__main__.py": "51b52d5c1444465ede0fc3772316f854160c59a90e32e61a136c564a47e00a31",
+    "jev/budget.py": "1a79ab5c2409c5131f2e8b191f92f6b2027a3a74fea4dda2b6e9138772a496f5",
+    "jev/client.py": "61af40cfb09ce4dba757729ad9d308e463a8e608b16adfe663107f1b1c06c9d2",
+    "jev/config.py": "3a555adba7f17b132c582dc33d4a061718388e434cd87f846a4045c4d75a570e",
+    "jev/engine.py": "b8b649266045eaefec3e4d30872b94a4bf234c2a1e4f89515cc3fcc0d731effb",
+    "jev/evaluation.py": "e3b3659d8b099b33fc834a0c01bf2d6cad4c9bf45a03beae435e6ff1fb8f9fff",
+    "jev/policy.py": "b0cc8bba7f627141b76b29b36b23ff4ddd63e46123471cc3400fa7987b01528b",
+    "jev/providers.py": "40ca77f322bcb516f8c6e1caec8090d97a4c263aa4c3e62da8d895eafdbf577a",
+    "jev/questions.py": "9f4260258cbf8825346b4057d77064a16099292625e9749868e454735a9613f4",
+    "jev/runtime.py": "b51d2b6b687dfc36c858252d3f27fcc970689a1cc4acdf6c41e803ba5b0cc0b2",
+    "jev/schemas.py": "5824f9857bd66e93f8031904e445abc697eb5a0ae8a51a2defc8553474c8d018"
+  },
+  "untouched_python_files": 100,
+  "workspace_hashes_verified": true,
+  "backup_directory": "/home/magicvvu_ai/workspace/agent/.releases/p9-jev-20261101-172dbc3b84b8",
+  "backend_database_unchanged": true,
+  "configuration_unchanged_except_agent_image": true,
+  "tests_performed": false,
+  "model_calls_performed": false,
+  "database_migrations": false
+}
