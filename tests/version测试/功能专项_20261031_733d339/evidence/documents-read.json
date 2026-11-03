@@ -1,0 +1,2967 @@
+[
+  {
+    "path": "docs/versions/README.md",
+    "sha256": "c8d317d39c8cdc1c69b802862bcb23772265a38c20977965461448b255a0a97c",
+    "kind": ".md",
+    "characters_read": 5007,
+    "headings": [
+      "# 版本索引"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/acceptance.md",
+    "sha256": "e1435de7ba7b1a4839af679fc6b1f128f6557a8defb47a14cfe5ba3017608506",
+    "kind": ".md",
+    "characters_read": 1662,
+    "headings": [
+      "# V1-P0 验收与追溯表",
+      "## AI 指标",
+      "## 正式 V1-P0 最终门槛（待 CaviarHidon / Garin-cyber 执行）"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/ai-experiments.md",
+    "sha256": "53dab7b47e026ba12dec884f9f18429ec6cb559a28281ed96e77b8f7f8d99189",
+    "kind": ".md",
+    "characters_read": 2212,
+    "headings": [
+      "# AI 试验记录（真实调用，2026-10-08）",
+      "## 方法与环境",
+      "## 结果",
+      "## 费用、失败与降级",
+      "## 原始记录与复现"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/ai-openapi.json",
+    "sha256": "4a0c7074b3a01e5ddcedc425e465fb65841b0b05bfdcefb29be93eb2975d9ec2",
+    "kind": ".json",
+    "characters_read": 5641,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P0/contract.md",
+    "sha256": "6dcfe2282067466f46dfe438a7b267cc3fe6c2ebb4a2e72f7b8715ceaa46a46a",
+    "kind": ".md",
+    "characters_read": 3752,
+    "headings": [
+      "# 接口契约 p0-1",
+      "## 数据与认证",
+      "## 接口与例子",
+      "## 状态、错误与重试",
+      "## 正式后端必须实现的约束"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/demo-script.md",
+    "sha256": "b447e1b8643f3e04af8786ee3554b2cc7707aee50c00d02b2d520243d10768cf",
+    "kind": ".md",
+    "characters_read": 638,
+    "headings": [
+      "# 可重复演示脚本"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/interaction.md",
+    "sha256": "dd2edc1febd9ebf7cfdb4fab217d5bec4ae6b5cc95ceead0584eb1482b9e794b",
+    "kind": ".md",
+    "characters_read": 1192,
+    "headings": [
+      "# 交互状态规格"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/openapi.json",
+    "sha256": "c5d7f2d3e5443e2a60bfe3d83cad62be2fc2844e29a12a44edda0b502f457067",
+    "kind": ".json",
+    "characters_read": 26217,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P0/prd.md",
+    "sha256": "df38e8a03ea4de2efe4f7f1f08ca695618ae887ea0e0787c76f1ece096ef358a",
+    "kind": ".md",
+    "characters_read": 1902,
+    "headings": [
+      "# V1-P0 PRD：文字库存闭环与手动采购",
+      "## 用户假设与证据边界",
+      "## 必做与延期",
+      "## 字段与规则",
+      "## 范围变更"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/README.md",
+    "sha256": "a1617959be4c585a369bb6e747393e9c3934af1ad7d0775fc7a390f03705b2e2",
+    "kind": ".md",
+    "characters_read": 1379,
+    "headings": [
+      "# V1-P0 交付索引与状态",
+      "## 团队接入顺序"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/tasks.md",
+    "sha256": "beae41f9f42f04bcd0036af47cc909028ac7eab4d2bea09d02b5910e8fb43872",
+    "kind": ".md",
+    "characters_read": 1069,
+    "headings": [
+      "# V1-P0 开发任务"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P0/verification-temp-permission-failure.json",
+    "sha256": "988847b8625e82dbddfaf16f7dab32ff434e8520fe4aeefa8bc1e04d4a5e2e6e",
+    "kind": ".json",
+    "characters_read": 30427,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P0/verification.json",
+    "sha256": "35ae5299bf574eb4954e1bca1a02d0b50ee90a6c5b950881e53a5554dc2a3f63",
+    "kind": ".json",
+    "characters_read": 1380,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/ai-contract.md",
+    "sha256": "c2e28be8a1bd98d9e0106479a070a893127d8503e7fd756fdaec1ad2dc7d71e6",
+    "kind": ".md",
+    "characters_read": 3879,
+    "headings": [
+      "# V1-P1 AI 接口与现有页面映射",
+      "## 页面与字段",
+      "## 请求与响应",
+      "## 结构化澄清续接",
+      "## 错误与后端交接"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P1/ai-experiments.md",
+    "sha256": "b914210e914bc89bfb439449caa9418bad939d51ff3afde9d7abdd5e6291e786",
+    "kind": ".md",
+    "characters_read": 2148,
+    "headings": [
+      "# V1-P1 AI 实测记录",
+      "## 方法与样本",
+      "## 保留集结果",
+      "## 调用与费用",
+      "## 证据与完成边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P1/ai-openapi.json",
+    "sha256": "681726a97fb1c7062566656da1b8462b3e64b2d47f83ca008b7f4cf550e83b82",
+    "kind": ".json",
+    "characters_read": 21562,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/AI开发任务.md",
+    "sha256": "06bb6b967ca288cddb6f9134b8d6581b14191ccd0e7ba5e28c6ce8c72e0295f1",
+    "kind": ".md",
+    "characters_read": 2897,
+    "headings": [
+      "# V1-P1 AI 开发任务",
+      "## 1. 开发清单",
+      "## 2. 必须实现的业务规则",
+      "## 3. AI 验收与交接"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P1/examples.json",
+    "sha256": "ebee871d0061b3fa16103e776ba110588a14b6c8ed8205dc81f8fabc1f437b7f",
+    "kind": ".json",
+    "characters_read": 10146,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/README.md",
+    "sha256": "badd7bdf5dabee4bb122c5bab6d15d719ad52756f6ab2d95af394a782eef69e9",
+    "kind": ".md",
+    "characters_read": 934,
+    "headings": [
+      "# V1-P1：文字生命周期扩展与澄清续接"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P1/V1-P1_AI开发工作记录_2026-10-14.docx",
+    "sha256": "fc362e2e05b9087023684a6a11fda819418209541448e29853c16243ec34b55b",
+    "kind": ".docx",
+    "characters_read": 2977,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/V1-P1_后端协同开发与接入说明_2026-10-14.docx",
+    "sha256": "67afffa0fff78f923bfbc8222c152af1080947ab36e9db16ecec63e4dda7f27d",
+    "kind": ".docx",
+    "characters_read": 5441,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/verification.json",
+    "sha256": "2e4e35552681f047d8cf70dd1dd2f6120b2d5c64765035d8bedd1a978264cb2a",
+    "kind": ".json",
+    "characters_read": 2369,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P1/队友协作任务.md",
+    "sha256": "fc1f18cc4f2a4f78efffd97b6dcace9cc4b5f2ba0e98bcfff2397a56fe8b0114",
+    "kind": ".md",
+    "characters_read": 3102,
+    "headings": [
+      "# V1-P1 队友协作任务",
+      "## 1. CaviarHidon：新动作前后端与数据接入",
+      "## 2. summerdong2006-dot：新动作与澄清交互原型",
+      "## 3. Garin-cyber：本阶段样本复核与验收",
+      "## 4. Gracie1103：本阶段需求证据与文档",
+      "## 5. 协作顺序与共同完成标准"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/ai-contract.md",
+    "sha256": "097925f7f3ee1b4287a7a95f7fdf675d48bb6e07bf2873503889dbc46001176e",
+    "kind": ".md",
+    "characters_read": 4618,
+    "headings": [
+      "# V1-P2 AI 风险接口与协作说明",
+      "## 认证与读取",
+      "## P2 批次新增字段",
+      "## 直接风险评估",
+      "## 等级与缺失规则",
+      "## Manager 与页面",
+      "## 本地规则与错误"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/ai-experiments.md",
+    "sha256": "819807cd7df8ef01089a863720a8eb5711ba8e83d9beaca8c0bf202768bd96ef",
+    "kind": ".md",
+    "characters_read": 2436,
+    "headings": [
+      "# V1-P2 实测与完成边界",
+      "## 自动化",
+      "## 独立数据与方法",
+      "## 保留集实测",
+      "## 开发集与历史失败",
+      "## 费用与局限",
+      "## 证据索引"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/ai-openapi.json",
+    "sha256": "2506347ae4b5cab7a52a7ca3c3098cad7245c78bc835459ab1a0c66dd3cc34a4",
+    "kind": ".json",
+    "characters_read": 34185,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P2/backend-integration-plan-2026-10-15.md",
+    "sha256": "d9ee5e5dab6de2a9755b54957196280291b0615ddacc080b68037485257dc780",
+    "kind": ".md",
+    "characters_read": 10008,
+    "headings": [
+      "# V1-P2 后端交接分析与对接计划",
+      "## 最新文件夹复核（2026-10-15）",
+      "## 1. 依据及可信范围",
+      "## 2. 对交接文档的判断",
+      "## 3. 契约兼容性与差异",
+      "### 3.1 必须优先处理的实际问题",
+      "### 3.2 数据字段映射",
+      "## 4. 推荐接口与部署方案",
+      "## 5. 实施顺序、分工与退出条件",
+      "## 6. 联调测试清单",
+      "## 7. 模型、规则与预算门槛",
+      "## 8. 后端需要提供的最小材料",
+      "## 9. 初始规划交付与完成标准（实施前记录）"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/examples.json",
+    "sha256": "ef240957585c06adc0082279e52e8e646bc95271052be39c89e6367246e8e5b5",
+    "kind": ".json",
+    "characters_read": 12088,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P2/integration-status-2026-10-15.md",
+    "sha256": "4da8e3bb6ccdd6171e29b03923b154fec9d6e92be2a222f4322300b7ff42333c",
+    "kind": ".md",
+    "characters_read": 3796,
+    "headings": [
+      "# V1-P2 后端对接实施记录",
+      "## 代码同步与运行验证",
+      "## 最新连接复核",
+      "## 已完成",
+      "## 本地验证",
+      "## 远端实际检查",
+      "## 下一步",
+      "## 交付位置"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/integration-verification.json",
+    "sha256": "b3938a5aaafddabdf41e7cb80d0d037b94a8ec47f24ce8b2c4577cbe53ff4774",
+    "kind": ".json",
+    "characters_read": 6655,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P2/README.md",
+    "sha256": "388d4668dc21693a426a6edf1a54443697150f49dd09afc4f3c6a90cfe8dc664",
+    "kind": ".md",
+    "characters_read": 1376,
+    "headings": [
+      "# V1-P2 基础风险与本地规则"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/remote-contract-review-2026-10-15.md",
+    "sha256": "556897d9c14cbd77472f02f7e6508a381c9006336552e04a9492aeab648285c3",
+    "kind": ".md",
+    "characters_read": 1945,
+    "headings": [
+      "# V1-P2 远端后端契约核对",
+      "## 实际可访问范围",
+      "## 契约核对结果",
+      "## 后端仍需协作的事项"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/rule-sources.md",
+    "sha256": "7203ba5aceb694575d8c37bf94537d1b72dc1c80a53d065a2f8869333d4200bd",
+    "kind": ".md",
+    "characters_read": 1287,
+    "headings": [
+      "# V1-P2 规则来源与审核状态",
+      "## 官方来源",
+      "## 项目策略",
+      "## 商品专属开封规则",
+      "## 后续审核"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P2/V1-P2_AI后端接入契约_2026-10-15.docx",
+    "sha256": "62a363a90e23e8952b100d6a0988f5d71b095f757461fcb9712044412d466bcd",
+    "kind": ".docx",
+    "characters_read": 11689,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P2/V1-P2_AI开发工作记录_2026-10-15.docx",
+    "sha256": "722ea4a89578781d265bbb15f7103689e0f5c3f53496b487f291788f3a7b02d7",
+    "kind": ".docx",
+    "characters_read": 3362,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P2/verification.json",
+    "sha256": "84bde1bf996075e5bfbe950e5d48b590128b255dcc761553097fda31c45f9e63",
+    "kind": ".json",
+    "characters_read": 2692,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/ai-openapi.json",
+    "sha256": "bd3c8a2ee5c36f0768505d4576077a1241b6b6cca8de916121e8a58eba90f5ec",
+    "kind": ".json",
+    "characters_read": 51434,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/backend-coordination.md",
+    "sha256": "bfad16b6a82d39230ffaf31d9fed13aca5b9a7516faa3ecde8a3118834db7c26",
+    "kind": ".md",
+    "characters_read": 4697,
+    "headings": [
+      "# P3 后端协作契约",
+      "## 1. 后端需要提供的只读数据",
+      "## 2. 商品、事件、覆盖口径",
+      "## 3. 网关、任务和澄清",
+      "## 4. 保存和确认采购草稿",
+      "## 5. 接入次序与验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/delivery-and-validation.md",
+    "sha256": "731328947b94cab2fe8a923549678509bc0065a760940129e2c41f78fe68a416",
+    "kind": ".md",
+    "characters_read": 2812,
+    "headings": [
+      "# P3 本轮开发与验收记录",
+      "## 本轮完成",
+      "## 验证结果",
+      "## 评测解释与保留的失败记录",
+      "## 正式接入状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/development-plan.md",
+    "sha256": "8b2f26ca504d8ec8604ec15723e91a7d09c5a7ee740c128b2f5b8af4153c9f0e",
+    "kind": ".md",
+    "characters_read": 6594,
+    "headings": [
+      "# V1-P3 开发规划与实施基线",
+      "## 1. 当前基线与阶段目标",
+      "## 2. 建议冻结的范围",
+      "## 3. 数据和事件口径",
+      "### 商品与批次",
+      "### 有效消耗",
+      "### 质量与覆盖",
+      "## 4. 首版预测方法",
+      "## 5. 补货建议与草稿",
+      "## 6. 服务及接口设计建议",
+      "## 7. 现有页面对应",
+      "## 8. 实施顺序与交付",
+      "## 9. 验收与评测"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/fields-and-states.md",
+    "sha256": "a934fec07ff83b70289896236f10c2e42eb41ee6ab440c85f04aa0e36ef73464",
+    "kind": ".md",
+    "characters_read": 1840,
+    "headings": [
+      "# 现有页面对应的 P3 字段与状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/planning-context.schema.json",
+    "sha256": "e782509b712b4e7cd892666e86201e60c6710fa419ec520d7a00435ce7af1c91",
+    "kind": ".json",
+    "characters_read": 8576,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/README.md",
+    "sha256": "800130fb2bac959d816708357781d9f969883d399ed2bf3525c728b35c2789a7",
+    "kind": ".md",
+    "characters_read": 1039,
+    "headings": [
+      "# V1-P3 消耗统计、耗尽预测与补货建议"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/real-data-backtest.md",
+    "sha256": "694cd623220923c1a0137a2b48ccefb93b89e5b4c928e98901f2d6ba0ab144ca",
+    "kind": ".md",
+    "characters_read": 1098,
+    "headings": [
+      "# 真实数据回测状态与记录模板"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P3/V1-P3_AI后端接入契约_2026-10-15.docx",
+    "sha256": "a541c893063a73c4264e364190ad386b9505ad982a88e3a409edd3792abd48a8",
+    "kind": ".docx",
+    "characters_read": 7724,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/V1-P3_AI开发成果与功能说明_2026-10-15.docx",
+    "sha256": "2bd173a5cf83bb4841f3923406a10c1a42eeb00d71ca8745b46d58a19dee1ebc",
+    "kind": ".docx",
+    "characters_read": 3080,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/V1-P3_测试执行与验收说明_2026-10-15.docx",
+    "sha256": "b2f8e4733f127fe0ca8072f0bfd5fce701aaa11d4c2c231954203387420b8c0b",
+    "kind": ".docx",
+    "characters_read": 7397,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P3/validation-summary.json",
+    "sha256": "963da8552161019e49246b3e98bc1173a9f3649219881189b853b98b7bc07bb9",
+    "kind": ".json",
+    "characters_read": 3866,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/document-qa.json",
+    "sha256": "ecf70048e49b1fd5f2b5f64ed7dcd727abe5b2e6c3f823eacf554cdf684a1754",
+    "kind": ".json",
+    "characters_read": 1003,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/frozen-integrity.json",
+    "sha256": "39b88436b9205a6de6fc21b2d6248a703785af0852dccd8dad9cffa308b90fca",
+    "kind": ".json",
+    "characters_read": 1204,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/legacy/android-regression/summary.json",
+    "sha256": "65b267a5b97688d9513b2b96bb3a0c15a6c0444a8f744b56d2b3f6e25270c633",
+    "kind": ".json",
+    "characters_read": 97,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/legacy/p0-regression/summary.json",
+    "sha256": "c20ad7995134daf41cfbac0a78ca12d86628bc325cdf9627738b9b485e8dada1",
+    "kind": ".json",
+    "characters_read": 69,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/legacy/p1-regression/summary.json",
+    "sha256": "9d39f4f1a7c5f5bd4f129629b067184f4ceecb2992a5f07b6801527945c0cd22",
+    "kind": ".json",
+    "characters_read": 97,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/legacy/verification.json",
+    "sha256": "3c9e3fecc644d2095643efcc5a10e607e9e7cdab36ba5e566f5dac2b3867fc0c",
+    "kind": ".json",
+    "characters_read": 23070,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p1-rules-dev.json",
+    "sha256": "f2100eab42cdb802bfd5470e705a3536ebf75889138066829087b71f8da18ecd",
+    "kind": ".json",
+    "characters_read": 156491,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p1-rules-test.json",
+    "sha256": "a347ba6eec3c0f4143f8e5b24314518a24d27e20e6cc8618f941a10c346b0ed3",
+    "kind": ".json",
+    "characters_read": 110429,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p2-rules-dev.json",
+    "sha256": "44068994847e1dd8ef4bb4b3c9b564a1f4e61b2261f92244ff07d1f52497090d",
+    "kind": ".json",
+    "characters_read": 238259,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p2-rules-test.json",
+    "sha256": "9bd348867a3aa3f47c531c380f760fa30d332421620c6879219865c026d67d79",
+    "kind": ".json",
+    "characters_read": 172279,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p3-rules-dev.json",
+    "sha256": "3911823fe6e087b0eee221f2d70ff7d9c0810a99152b050efae24445b4fd8299",
+    "kind": ".json",
+    "characters_read": 254958,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/native/p3-rules-test.json",
+    "sha256": "665238efb7991673eaee471fe1740005c6c83f61b69cbafd77a7aee1f19f57a9",
+    "kind": ".json",
+    "characters_read": 158622,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/evidence/final/validation-summary.json",
+    "sha256": "0935c907fdb215a85c387efa098b3b48d5af18d9eee96abd5b16f3b00da88041",
+    "kind": ".json",
+    "characters_read": 7593,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/fixes.md",
+    "sha256": "00b250fd1e8e6af6275c8e5f3dceffddf5da98f31d3f6bfc62f2771a1482f3c3",
+    "kind": ".md",
+    "characters_read": 2432,
+    "headings": [
+      "# P4 修复记录与契约边界",
+      "## 程序问题",
+      "## 三条修复后仍与旧断言不同的记录",
+      "## 回归补充及发布注意"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P4/README.md",
+    "sha256": "335fee51dc6a283770023c73b47468ac0d4b471cb4fe40266fa26551471a4b20",
+    "kind": ".md",
+    "characters_read": 2681,
+    "headings": [
+      "# V1-P4 测试缺陷统一修复",
+      "## Word交付文件",
+      "## 修复内容",
+      "## 验证结果",
+      "## 交付和复跑",
+      "## 尚未验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P4/server-sync-2026-10-16.md",
+    "sha256": "f092b64c730ff76354ad8ffaa74e1fe2f486e175a7a6fe7b474f1b3276f3d824",
+    "kind": ".md",
+    "characters_read": 1464,
+    "headings": [
+      "# P0–P4 AI 运行源码同步记录",
+      "## 范围与结果",
+      "## 验证",
+      "## 网关文件的处理"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P4/V1-P4_AI后端接入契约_2026-10-15.docx",
+    "sha256": "31aa1d656b0f58ab2fac24452888ac579d7286064ddc7c74364ad8c0ffcfbb4c",
+    "kind": ".docx",
+    "characters_read": 5931,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/V1-P4_AI开发工作记录_2026-10-15.docx",
+    "sha256": "c570de678c768a3445e64269fc4fa8e37428361a6b8b550aa3168cb030a25570",
+    "kind": ".docx",
+    "characters_read": 2135,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P4/V1-P4_测试交接文档_2026-10-15.docx",
+    "sha256": "ec3572fd895f9514b666b226844b3a6f54fb68553eb12dc7663078c6af3c923e",
+    "kind": ".docx",
+    "characters_read": 3155,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/ai-contract.md",
+    "sha256": "746499694537d7e5895a417c539133274e03efb39b5f3e5777658f4cf27d5929",
+    "kind": ".md",
+    "characters_read": 3338,
+    "headings": [
+      "# P5 已实现的 AI 输入与任务适配契约",
+      "## 服务与兼容性",
+      "## 最终确认文字",
+      "## 口语边界与澄清",
+      "## 与不改动的数据库网关对接",
+      "## 调用端会话状态参考"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P5/ai-openapi.json",
+    "sha256": "92bc2eb3f34e6114d212a4193371a42445233c08d8e1b9d1c425f10ea2c23a3d",
+    "kind": ".json",
+    "characters_read": 59131,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/baseline-analysis.md",
+    "sha256": "b9089fbcd700f2df05ba28002370ce480db1cefae6dab58967ff3de033192fb4",
+    "kind": ".md",
+    "characters_read": 3422,
+    "headings": [
+      "# 现有文件与 P5 开发基线分析",
+      "## 1. 已具备的能力及证据限度",
+      "## 2. 手机当前调用关系",
+      "## 3. 同一路径下存在两套不兼容的网关协议",
+      "## 4. 远端的实际版本差异",
+      "## 5. 对 P5 的结论"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P5/continuation.schema.json",
+    "sha256": "5a0af446211d1b474a58b7e6dab706caacbe671ca9a6cb62dae391e5ad1685e5",
+    "kind": ".json",
+    "characters_read": 14514,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/delivery-and-validation.md",
+    "sha256": "0ef67b0348c9547023e474f6a485c2c8e4554eb06e441f52373859f79341bf63",
+    "kind": ".md",
+    "characters_read": 3280,
+    "headings": [
+      "# P5 AI 开发、验证与同步记录",
+      "## 本轮实现",
+      "## 验证结果及证据",
+      "## 真实模型尚未完全通过",
+      "## 评测能证明什么",
+      "## 服务器状态与文件边界",
+      "## 分项完成状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P5/development-plan.md",
+    "sha256": "805dc5f057a1d997e334804163ad20535963cd9371e6dc6a4e4a319e127a9c19",
+    "kind": ".md",
+    "characters_read": 5355,
+    "headings": [
+      "# V1-P5 开发规划：统一任务接入与语音文字闭环",
+      "## 1. 目标与范围",
+      "## 2. 分阶段开放能力",
+      "## 3. 先统一正式任务协议",
+      "## 4. 语音与编辑状态",
+      "## 5. 防误处理与恢复",
+      "## 6. 后端与前端配合",
+      "## 7. 实施顺序与退出条件",
+      "## 8. 验收设计",
+      "## 9. 交付和存放"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P5/input-session.schema.json",
+    "sha256": "aa3867400c4fd97045aba38e0721c8d4368d1feac4fa20d756017f4b035c030d",
+    "kind": ".json",
+    "characters_read": 2902,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/planning-baseline.json",
+    "sha256": "b2d1a034663bf9b6113398d713dde9bb6602d4271a9510dcc7ef9cc65dd8459c",
+    "kind": ".json",
+    "characters_read": 749,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/public-draft.schema.json",
+    "sha256": "1ced9d2a25ff8d3188d5272af1efcb9ea050668272882753b0820a7fb6ac66ea",
+    "kind": ".json",
+    "characters_read": 8393,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/public-task.schema.json",
+    "sha256": "52a87f631cf08a201617cfda58d5885ac274ff2d06bd6e4967ecfed0084e0176",
+    "kind": ".json",
+    "characters_read": 26084,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/README.md",
+    "sha256": "40738ce62ea05cf29fad17190762617c0fa1ded5dd25a3215d7f902f6ab58393",
+    "kind": ".md",
+    "characters_read": 1106,
+    "headings": [
+      "# V1-P5：确认文字输入与任务适配",
+      "## P5 Word交接文件"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P5/reviewed-message.schema.json",
+    "sha256": "df831fd0e45623878375671da4192872b06c32245280f97c1b6ae77e6c485fc1",
+    "kind": ".json",
+    "characters_read": 1288,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/V1-P5_AI后端接入契约_2026-10-16.docx",
+    "sha256": "6cad655a41a29b0f952687fb393f2289ce1023996e4d2b814babde2776abc6cc",
+    "kind": ".docx",
+    "characters_read": 7013,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/V1-P5_AI开发工作记录_2026-10-16.docx",
+    "sha256": "d69bd6c4d6dcd7a5e7273c60216487bded85ab856b7e7e220e479295c4418db5",
+    "kind": ".docx",
+    "characters_read": 3257,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/V1-P5_测试交接文档_2026-10-16.docx",
+    "sha256": "6d2715efeaebd63171ae743b7d89f6170217d4b1c8739bf2c07490534b13f35f",
+    "kind": ".docx",
+    "characters_read": 5685,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P5/validation-summary.json",
+    "sha256": "aa6401ae76096f0c255fdc5a8e599649cb55e96bdcb82427fe528cbdbcf9b7c4",
+    "kind": ".json",
+    "characters_read": 4837,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/acceptance.md",
+    "sha256": "23fd0a195ace9ab39914989c2fa24b65c995f66651dc1d33c617487782790b7f",
+    "kind": ".md",
+    "characters_read": 3034,
+    "headings": [
+      "# P6 统一验收计划",
+      "## 1. 自动化与契约",
+      "## 2. 新 V1 综合评测",
+      "## 3. 真实数据、语音和规则",
+      "## 4. 联合端到端验收",
+      "## 5. 完成报告"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/ai-contract.md",
+    "sha256": "4a5a9bb27ee6102f98dffe05856c9b73b2403f57d27602f77dd166d362cba23b",
+    "kind": ".md",
+    "characters_read": 4089,
+    "headings": [
+      "# P6 AI契约与接口预留",
+      "## 1. 当前AI接口",
+      "## 2. 现有数据库网关保持不变",
+      "## 3. 草稿与页面字段",
+      "## 4. 预留规划事实接口",
+      "## 5. 预留提交凭证接口",
+      "## 6. 不可用与实施边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/ai-openapi.json",
+    "sha256": "5c3e5de027870332ac6fd2f5a47df88a4edc7e3b3a862d012dd8693f80a66706",
+    "kind": ".json",
+    "characters_read": 72906,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/backend-read-openapi.json",
+    "sha256": "1fc866c4f7425e04da303aec5a59b64ba3d452cada638ca9bd8768ec1a9763ca",
+    "kind": ".json",
+    "characters_read": 11826,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/baseline.json",
+    "sha256": "00f1c13e0a82f6082d1d8058c10ddcb6b06db241f7c60ad67622453917981be8",
+    "kind": ".json",
+    "characters_read": 2326,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/batch-selection.schema.json",
+    "sha256": "968a25ba7d2c12c2a2baac3e393113745b0243c461ba917a89e7a288700faeaa",
+    "kind": ".json",
+    "characters_read": 15756,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/coordination.md",
+    "sha256": "a4617ce1914ac85a1221639e2a7aa12bdc29873be024e736b1c56e43c9abedf2",
+    "kind": ".md",
+    "characters_read": 2450,
+    "headings": [
+      "# P6 对接与协作边界",
+      "## 1. 本轮结论",
+      "## 2. AI 可自行完成",
+      "## 3. 后端业务服务需要协同",
+      "## 4. 前端协作",
+      "## 5. 人工与外部协作",
+      "## 6. 发布与存储"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/delivery-and-validation.md",
+    "sha256": "7458a92982493addbb2faa4a1549bb5f513e2a65dd6f91e8de69879504f70dc3",
+    "kind": ".md",
+    "characters_read": 3730,
+    "headings": [
+      "# P6 开发与验证记录",
+      "## 1. 本轮实现",
+      "## 2. 验证结果",
+      "## 3. 评测与失败记录的解释",
+      "## 4. 接入与发布状态",
+      "## 5. 文件和操作边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/development-plan.md",
+    "sha256": "a60f757d22f7f69452528ef80a0bd4f600a648e49736fa442050672ca46eff10",
+    "kind": ".md",
+    "characters_read": 5401,
+    "headings": [
+      "# V1-P6 开发规划",
+      "## 1. 实施原则",
+      "## 2. 统一任务表",
+      "## 3. 功能设计",
+      "### T02：按位置反查",
+      "### T03：明确用完，仍输出既有 CONSUME",
+      "### T04：无需改网关的商品选择与恢复",
+      "### T05：风险闭环",
+      "### T06：消费、预测、采购的真实数据入口",
+      "### T07：按需摘要与成功后反馈",
+      "### T08：四节点记录；Jev 暂缓",
+      "### T09—T12：可靠性与交付",
+      "## 4. 实施顺序与退出条件",
+      "## 5. P6 完成定义"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/gap-analysis.md",
+    "sha256": "34dea5ba4cdc289f7aea38a0c9020f253ef363e8dc009b6918ba0fa93aac2a68",
+    "kind": ".md",
+    "characters_read": 4655,
+    "headings": [
+      "# V1 AI 范围与完成情况核对",
+      "## 1. 依据与判定方式",
+      "## 2. 已有能力",
+      "## 3. V1 逐项缺口与 P6 归属",
+      "## 4. 2026-10-16 远端新基线",
+      "## 5. 尚未通过的验收",
+      "## 6. 后续版本边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/implementation-status.json",
+    "sha256": "acbf1e624b7a4b1e866fa866c3ba8bda5f09d07276da82bb5c1a88876d9c797b",
+    "kind": ".json",
+    "characters_read": 9202,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/local-continuation.schema.json",
+    "sha256": "97773ee5db19fc00aad132a249c20f2f15cc687f1963ec3df6c63082ba0454cd",
+    "kind": ".json",
+    "characters_read": 6023,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/operation-receipt.schema.json",
+    "sha256": "8c6105b3a03e1d97d2e13263988a78a968e235fdf184f3612a874460b8c16185",
+    "kind": ".json",
+    "characters_read": 1228,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/planning-context.schema.json",
+    "sha256": "4e9c0e65d831929490f22ae57cebd2955ebc9469ace7017cde3383eb278f08f3",
+    "kind": ".json",
+    "characters_read": 9024,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/public-draft.schema.json",
+    "sha256": "1ced9d2a25ff8d3188d5272af1efcb9ea050668272882753b0820a7fb6ac66ea",
+    "kind": ".json",
+    "characters_read": 8393,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/public-task.schema.json",
+    "sha256": "41758fd57bd2169c6baf3943ef2cbc0a0e294b7668f8cd99e94d12dea8643847",
+    "kind": ".json",
+    "characters_read": 30519,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/README.md",
+    "sha256": "f25050b55959d8f89268bb79f20b7a1eb25e321b59caa87408a2d9559cc2226d",
+    "kind": ".md",
+    "characters_read": 1332,
+    "headings": [
+      "# V1-P6：V1 AI 能力补齐与统一验收",
+      "## Word交接文档"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6/V1-P6_AI后端接入契约_2026-10-16.docx",
+    "sha256": "f7affd8f4f9bd7717aac3820541697e560efd7da3060e19fa25efdb838235cbf",
+    "kind": ".docx",
+    "characters_read": 8470,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/V1-P6_AI开发工作记录_2026-10-16.docx",
+    "sha256": "6de5f89fa77140c79f6f61fe7316807ca764e2f01c044cdbd3c2d0de6cb1d07c",
+    "kind": ".docx",
+    "characters_read": 2692,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/V1-P6_测试交接文档_2026-10-16.docx",
+    "sha256": "9c30ae11f0c8c9bac6dd45b6ff2dc805cfcbe2c0dba4f18a5208b6e9d77bd092",
+    "kind": ".docx",
+    "characters_read": 4264,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6/voice-task-checklist.md",
+    "sha256": "cbda1591b50561ae9f3f82ea301214b33cad1ac2cc45f2c6f551f705517b17ce",
+    "kind": ".md",
+    "characters_read": 1587,
+    "headings": [
+      "# P6 语音与任务承接验收清单"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6.1/model-runtime-configuration.md",
+    "sha256": "501f22bcecd07ab230c14a8185dfeceef86236eed0ed934d9ca2c86e00bbbb92",
+    "kind": ".md",
+    "characters_read": 1898,
+    "headings": [
+      "# V1-P6.1 服务器 DeepSeek 运行配置",
+      "## 已完成",
+      "## 输入密钥",
+      "## 手动启动与正式部署边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6.1/README.md",
+    "sha256": "9d8b30e8e28a9fcb9c17eafe2a871393c38d3a2c7a3d5f6cf35c86aa4faec7ed",
+    "kind": ".md",
+    "characters_read": 1466,
+    "headings": [
+      "# V1-P6.1 AI 运行配置与后端协同",
+      "## Word 交付",
+      "## 当前状态",
+      "## 代码与说明"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P6.1/V1-P6.1_AI后端配置契约_2026-10-16.docx",
+    "sha256": "69b82cd7d888e877c9453cf13b68dcb531e50e11648c88c45fbab9642417fbef",
+    "kind": ".docx",
+    "characters_read": 4037,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P6.1/V1-P6.1_AI运行配置改动记录_2026-10-16.docx",
+    "sha256": "d93452b0bcc840896c02091b47732848977194e879a953911e808d0ecb125d90",
+    "kind": ".docx",
+    "characters_read": 2737,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/acceptance.md",
+    "sha256": "0c996a89428c64c1a97c7a36b9f378d7ead77428694362a728e99d031b32d4f3",
+    "kind": ".md",
+    "characters_read": 2232,
+    "headings": [
+      "# P7 验收与验证记录",
+      "## 自动化与评测口径",
+      "## 联合验收清单：待前后端执行"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/ai-contract.md",
+    "sha256": "7271076b15bbf04000b5bd059eea42a8ab3e40c84846b1e7dace25af378dd9b3",
+    "kind": ".md",
+    "characters_read": 2511,
+    "headings": [
+      "# P7 AI 接口与有限上下文契约",
+      "## 身份与兼容",
+      "## 内部 POST /agent/message",
+      "## POST /agent/clarification",
+      "## 纯调用方参考",
+      "## 返回字段"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/ai-openapi.json",
+    "sha256": "2f6a4aa234646e8adc8f6514010e84701f7697c46450471df7e6ea4833e9a8d4",
+    "kind": ".json",
+    "characters_read": 78221,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/android-execution.md",
+    "sha256": "7ae6e0da6561f449ee9ae97408bfa52c8ab9d0e56b1a86face416e00273a894c",
+    "kind": ".md",
+    "characters_read": 4183,
+    "headings": [
+      "# P7 Android 草稿确认接入（第四阶段）",
+      "## 运行与连接",
+      "## 数据与状态",
+      "## 公开 API",
+      "## 界面与限制",
+      "## 验收工具"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/backend-handoff.md",
+    "sha256": "98e1306e1e4a4d190f6e63169f00c45c3a4e0aca3db5132d61b18ef56ac83d04",
+    "kind": ".md",
+    "characters_read": 2345,
+    "headings": [
+      "# P7 后端协作交接",
+      "## 可复用接口与缺口",
+      "## 独立适配与执行责任",
+      "## 草稿编辑字段",
+      "## 继续沿用的只读契约",
+      "## 部署与存储"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/caller-task-binding.schema.json",
+    "sha256": "f908e46ec6f79363d193e9f03afc318864e7543d5bbc598e77f30df202fd0304",
+    "kind": ".json",
+    "characters_read": 32423,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/code-sync-report.json",
+    "sha256": "0b44ce2b847fb2439b36bd1e4da30a0e153c400387d97428ff3b0869e75fbd00",
+    "kind": ".json",
+    "characters_read": 6334,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/delivery-and-validation.md",
+    "sha256": "7fa7f1e703f6a24a2da1ed3141a76400fb2707960aa7584d659370fd7bc397cb",
+    "kind": ".md",
+    "characters_read": 953,
+    "headings": [
+      "# P7 交付与验证"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/development-plan.md",
+    "sha256": "a9d7c5f782570732d9a5c63500dba73c53efa6cf4464a17f0a23f82a3768ea33",
+    "kind": ".md",
+    "characters_read": 918,
+    "headings": [
+      "# P7 实施范围与责任",
+      "## 已实施的 AI 工作",
+      "## 确定性逻辑与模型分工",
+      "## 保留边界",
+      "## 发布顺序"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/draft-execution.md",
+    "sha256": "a0ff7f0da448bcb500fe5b9e2b59044b819bc9054436fc5be6baaa141eebd639",
+    "kind": ".md",
+    "characters_read": 5610,
+    "headings": [
+      "# P7 后端草稿执行与 Android 接入（第三阶段）",
+      "## 状态与支持范围",
+      "## 事务和持久化",
+      "## API",
+      "## 编辑白名单",
+      "## Android 调用顺序",
+      "## 内部回执",
+      "## 受信引用适配设计与未完成边界",
+      "## 迁移和回退",
+      "## 测试与冻结摘要问题"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/frontend-handoff.md",
+    "sha256": "7e8ec88e970dfb1383813db55bbc0befa30402713edb78a2fc93e7c88aba50c9",
+    "kind": ".md",
+    "characters_read": 2168,
+    "headings": [
+      "# P7 前端接入交接",
+      "## 页面与字段",
+      "## 状态与来源",
+      "## 有限上下文与持久化",
+      "## 调用顺序"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/full-integration-acceptance.md",
+    "sha256": "7b2f2b335bbe3b7eac7ad2da057466edf47b1d89b411856e46eb1645b324da16",
+    "kind": ".md",
+    "characters_read": 11860,
+    "headings": [
+      "# V1-P7 三端完整联合验收与生产发布准备报告",
+      "## 1. 代码与交付一致性",
+      "## 2. 实际运行环境与安全连接",
+      "## 3. 发现的问题与实际修复",
+      "## 4. 自动化测试矩阵",
+      "## 5. 端到端场景逐项结果",
+      "## 6. 性能",
+      "## 7. 安全与 Lint",
+      "## 8. 冻结数据问题与证据可信度",
+      "## 9. 数据迁移、备份和发布演练",
+      "## 10. 风险、缺失条件与最终判定"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/implementation-status.json",
+    "sha256": "c4a7b79d2f0624f9dc5c767e6d245937467a968c3f1480828d3deb4a53d58192",
+    "kind": ".json",
+    "characters_read": 4780,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/object-reference.schema.json",
+    "sha256": "b8a6e374890f40c22dd6f1724d2e0a20e767511807356f7432a1497c6143a36c",
+    "kind": ".json",
+    "characters_read": 1124,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/p52-final-acceptance.md",
+    "sha256": "7397e1ce38f6bebb9a5e698af5bfc4534a751a70864c9282318b4249974a6b07",
+    "kind": ".md",
+    "characters_read": 12517,
+    "headings": [
+      "# V1-P7-P5.2 最终候选联合验收与发布门禁报告",
+      "## 1. 范围、代码与证据来源",
+      "## 2. 实际运行环境与候选产物",
+      "## 3. 自动化与业务验收矩阵",
+      "### 四动作与限制",
+      "### 本轮失败与修复，不隐藏历史结果",
+      "## 4. HTTP 与 PostgreSQL 逐笔对账",
+      "## 5. 延迟、资源与容量",
+      "## 6. 安全、兼容与Lint",
+      "## 7. 冻结数据问题",
+      "## 8. 发布与回退准备（本轮不执行生产命令）",
+      "## 9. 风险、阻塞与第六阶段条件",
+      "## 10. 证据完整性与停止状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/p52-production-runbook.md",
+    "sha256": "aed126e5fc1dc55536fdbe7d33941c7a061032aa8b3aa870501134097691c65d",
+    "kind": ".md",
+    "characters_read": 3876,
+    "headings": [
+      "# V1-P7 P5.2 发布与回退操作手册（待授权，未执行生产步骤）",
+      "## 1. 发布前必须补齐",
+      "## 2. 目标与构建物",
+      "## 3. 状态采集与备份",
+      "# PROD_DB、CONTROLLED_BACKUP 只能由负责人填写经核实的正式目标；本阶段未运行。",
+      "## 4. 迁移和服务切换顺序",
+      "## 5. 回退与数据保护",
+      "## 6. 本轮实际演练证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/public-draft.schema.json",
+    "sha256": "1ced9d2a25ff8d3188d5272af1efcb9ea050668272882753b0820a7fb6ac66ea",
+    "kind": ".json",
+    "characters_read": 8393,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/public-task.schema.json",
+    "sha256": "e480754fe17182dffcf9aa1679582387511ec834a9f2fbc60405587e2294b057",
+    "kind": ".json",
+    "characters_read": 31978,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/README.md",
+    "sha256": "1770e5685959eb17b7270e1acf7b03044cfd84bd8beadeb32d0bc48fbe9ff433",
+    "kind": ".md",
+    "characters_read": 765,
+    "headings": [
+      "# V1-P7：家庭库存 AI 助手接入准备"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/reference-continuation.schema.json",
+    "sha256": "c93e74aca63ecf7a85751bc786d57ed2ac41ae873a75866bc0b464c8a4d6e8af",
+    "kind": ".json",
+    "characters_read": 8504,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/release-candidate.md",
+    "sha256": "e9d3f9eb7a811ab2e1344d726f38d29e3382ea61a3df8f13ac406fa886486159",
+    "kind": ".md",
+    "characters_read": 5551,
+    "headings": [
+      "# V1-P7 第五阶段候选与第六阶段发布手册",
+      "## 候选变更与兼容契约",
+      "## 生产变更前必须补齐",
+      "## 生产发布前只读采集",
+      "## 备份与恢复门禁",
+      "## 迁移 0007 审核",
+      "## 仅在用户另行授权后执行的生产步骤",
+      "## 回退"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7/reply-resolution.schema.json",
+    "sha256": "f7cf597ad7b53ac1c6766c810bf23db3cb58f99f63e374dbe38bf0647657cb31",
+    "kind": ".json",
+    "characters_read": 687,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7/server-verification.json",
+    "sha256": "e84fd27c79c77b071cd24285223a3450d8fd41883483b9b7131107ae060b8c82",
+    "kind": ".json",
+    "characters_read": 6499,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/backend-recheck-20261019.md",
+    "sha256": "dc7fada927f5a0340e55984db93d8bc50560c5356483f2e52adc3a80ba89205e",
+    "kind": ".md",
+    "characters_read": 3318,
+    "headings": [
+      "# P7.1 后端交付后的只读复核",
+      "## 权限和实际环境",
+      "## 接口与保护边界",
+      "## 证据来源和待验证事项"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/backend-full-preflight-20261019.json",
+    "sha256": "eace248b617fedd5a7be0c7f39ed2733a9c5e0b9a2deef26b14ee2694911a7b4",
+    "kind": ".json",
+    "characters_read": 2601,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/backend-recheck-20261019.json",
+    "sha256": "3bebe2b981e5547788122d4bbcce7e4c38e21fdce42f088147c85ba02a819796",
+    "kind": ".json",
+    "characters_read": 12098,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/code-sync-report.json",
+    "sha256": "ba8531deaff46446fdf1f34317c1d2914c70748c8bc906aee8e244bf0ab64143",
+    "kind": ".json",
+    "characters_read": 6529,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/frozen-dataset-audit.json",
+    "sha256": "e3dd5c03fe7622f7025a0fc377128c2e8ded6290b878080820be94c12fdb2429",
+    "kind": ".json",
+    "characters_read": 682,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/production-migration-20261019.json",
+    "sha256": "d21f44e267bf4f34e1d5524210841813d7dc4eb769f06a1fbeaaef59d0eada2b",
+    "kind": ".json",
+    "characters_read": 7240,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/evidence/remote-verification.json",
+    "sha256": "ce0493fc5e0266cf6040e364d595bba1984e178365495435994f1510cbf0b23d",
+    "kind": ".json",
+    "characters_read": 1078,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/implementation-status.json",
+    "sha256": "78999a1c603e8571d8fc872f6c3c23fa80b483cba0c26653dcac8142c50d402b",
+    "kind": ".json",
+    "characters_read": 1421,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.1/production-migration-20261019.md",
+    "sha256": "10e1346edb3ab929064167a30b36f99ee2bdc9329aa41dd64cc48df3c6c9a802",
+    "kind": ".md",
+    "characters_read": 280,
+    "headings": [
+      "# 正式迁移记录已归档至 V1-P7.2"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.1/README.md",
+    "sha256": "315c56df11568ea3ea743479285f540f565e7b5d8017d6cfd9b5f07ab6bf3161",
+    "kind": ".md",
+    "characters_read": 3913,
+    "headings": [
+      "# V1-P7.1 AI 侧接入收尾",
+      "## 本次交付",
+      "## 运行与协作",
+      "## 验证与限制",
+      "## 文件与证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.2/chat-assistant-team-handoff-20261020.md",
+    "sha256": "dcb0da89101ca15ebc099026a583b7a709faf1068cf7ed006213cca246135f91",
+    "kind": ".md",
+    "characters_read": 18552,
+    "headings": [
+      "# 家庭库存聊天助手：前后端问题汇总与开发交接",
+      "## 1. 给接手同学的结论",
+      "### 1.1 核对基线与证据范围",
+      "### 1.2 工作总表",
+      "## 2. 通用边界：继续保留的实现",
+      "## 3. T01：先解决安装包与正式服务连接",
+      "### 当前情况",
+      "### 前端要做什么",
+      "### 后端／部署要做什么",
+      "### 验收",
+      "## 4. T02：自然语言补充必须续接原任务",
+      "### 当前情况",
+      "### 前端要做什么",
+      "### 后端要做什么",
+      "### 验收",
+      "## 5. T03：查询后继续问“它在什么地方”",
+      "### 当前情况",
+      "### 后端要做什么：完成独立受信适配层",
+      "### 前端要做什么",
+      "### 验收与 AI 兼容注意",
+      "## 6. T04：开封（OPEN）",
+      "### 当前情况",
+      "### 后端要做什么",
+      "### 前端要做什么",
+      "### 验收",
+      "## 7. T05：部分／全部丢弃（DISCARD）",
+      "### 当前情况",
+      "### 后端要做什么",
+      "### 前端要做什么",
+      "### 验收",
+      "## 8. T06：消费统计——先补可信事实，复用 AI 算法",
+      "### 当前情况",
+      "### 后端要做什么",
+      "### 前端要做什么",
+      "### 验收",
+      "## 9. T07：耗尽预测——只给有条件的估计",
+      "### 后端要做什么",
+      "### 前端要做什么",
+      "### 验收",
+      "## 10. T08：自动补货建议与确认加入待购",
+      "### 当前情况",
+      "### 后端要做什么",
+      "### 前端要做什么",
+      "### 验收",
+      "## 11. 共用接口与字段约定",
+      "### 11.1 继续复用的公开接口",
+      "### 11.2 内部只读接口",
+      "### 11.3 单位、精度和保护字段",
+      "## 12. 状态、超时与恢复：所有新动作一起遵守",
+      "## 13. 建议开发顺序与联合验收",
+      "### 13.1 顺序",
+      "### 13.2 必须保留的场景",
+      "### 13.3 每项交付时填写",
+      "## 14. 接手者应查看的文件"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.2/evidence/production-migration-20261019.json",
+    "sha256": "d21f44e267bf4f34e1d5524210841813d7dc4eb769f06a1fbeaaef59d0eada2b",
+    "kind": ".json",
+    "characters_read": 7240,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.2/evidence/unit-compatibility-fix-20261019.json",
+    "sha256": "16526c788f0a1bf3c02d119e0128b104bbe3c4b2c28e1879f58e680c6d1e2037",
+    "kind": ".json",
+    "characters_read": 1565,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.2/implementation-status.json",
+    "sha256": "630f1c0c0747a1d18e984cbae13c116bb657542d4842cffc02db0c6e0c017a92",
+    "kind": ".json",
+    "characters_read": 1804,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.2/README.md",
+    "sha256": "1f65b0c8ba2bb8fb1dd9c81674b3f44c152cea85f1c520fb865e66cff7bec4c4",
+    "kind": ".md",
+    "characters_read": 6357,
+    "headings": [
+      "# V1-P7.2 阶段行为记录：正式迁移与 DeepSeek 接入",
+      "## 阶段划分",
+      "## 本阶段做过的事情",
+      "## 操作时间点",
+      "## 归档及证据约定",
+      "## 当前正式环境",
+      "## 备份、迁移和验证",
+      "## 保留的失败与修正",
+      "## 迁移时的数据兼容性限制（后续已修复）",
+      "## 模型配置和预算维护",
+      "## 回退和后续验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.2/remote-database-review-20261020.md",
+    "sha256": "6bad001efa3de14785ce75c245157f27702138f43c230d1be4482b10866227da",
+    "kind": ".md",
+    "characters_read": 6588,
+    "headings": [
+      "# 远端正式数据库只读分析",
+      "## 1. 结论",
+      "## 2. 本次检查方式",
+      "## 3. 运行状态",
+      "## 4. 表与实际数据量",
+      "## 5. 库存数据质量",
+      "## 6. 关联与幂等结构",
+      "## 7. 与待接入功能直接相关的数据库缺口",
+      "### 7.1 开封与丢弃需要新增迁移",
+      "### 7.2 事件账本还不满足完整统计契约",
+      "### 7.3 耗尽预测缺事实，不只是缺查询路由",
+      "### 7.4 自动补货还缺偏好、待购版本与重验依据",
+      "### 7.5 对象引用缺受信状态生命周期",
+      "## 8. 运行权限与备份",
+      "### 权限",
+      "### 备份",
+      "## 9. 推荐后端推进顺序",
+      "## 10. 本次结论的边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.2/unit-compatibility-fix.md",
+    "sha256": "e5b1271c486e8eaa7c681b4d5fbec2343c27e5b317b2b2f27517ba3d093a6966",
+    "kind": ".md",
+    "characters_read": 2707,
+    "headings": [
+      "# V1-P7.2：库存“吨／台”单位冲突修复",
+      "## 原因与实际单位",
+      "## 修改内容",
+      "## 测试结果",
+      "## 部署与回退"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.3/frontend-backend-handoff.md",
+    "sha256": "5b862887bf6bbe08d9a65b1507839711e22ef0ec1bc5298838128f32bc36dbae",
+    "kind": ".md",
+    "characters_read": 7966,
+    "headings": [
+      "# V1-P7.3 前后端接入交接",
+      "## 1. 本次交给队友的变化",
+      "## 2. 主输入框路由顺序",
+      "## 3. resolve_reply 接入契约",
+      "### 3.1 输入",
+      "### 3.2 四种输出",
+      "#### A. clarify：续接原任务",
+      "#### B. new_task：新建任务",
+      "#### C. needs_input：继续询问",
+      "#### D. clear_reference：清除活动引用",
+      "### 3.3 修订与日期的额外要求",
+      "## 4. 常见位置表达的调用预算",
+      "## 5. 六类草稿的页面与确认分工",
+      "## 6. 统计、预测和建议的展示契约",
+      "## 7. 后端仍需完成的内容",
+      "## 8. 联合验收及交付状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.3/implementation-record.md",
+    "sha256": "0b65d18365c24844e33d21a18845edd9be340f638a0bd1176cacf6b094e61ae3",
+    "kind": ".md",
+    "characters_read": 5795,
+    "headings": [
+      "# V1-P7.3 本地 AI 完善：阶段工作记录",
+      "## 1. 五项任务的分析与结果",
+      "## 2. 常见表达与模型调用边界",
+      "## 3. 续接结果成为可校验的调用契约",
+      "## 4. 完整任务验证",
+      "## 5. 六类草稿与业务约束",
+      "### 已验证的字段语义",
+      "### 本阶段新增的 P7 行为",
+      "## 6. 统计、预测和补货降级",
+      "## 7. 修改文件",
+      "## 8. 验证结果与复现",
+      "## 9. 尚未交付的产品能力"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.4/evidence/deploy.json",
+    "sha256": "e5d74efb6b725b070a34595e0a9cd04d2edae79af39a5b0178694f17d32f26f4",
+    "kind": ".json",
+    "characters_read": 2517,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.4/evidence/local-app-verification.json",
+    "sha256": "1990f81f6bdc505c649ad6227dd72b6c80a07c97b7c602e4369f4551e4a6d79c",
+    "kind": ".json",
+    "characters_read": 965,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.4/evidence/model-check.json",
+    "sha256": "359e14cbd6f5df16fae3357414a5bad49fe6886a751da49f4f4cf3b3074d477f",
+    "kind": ".json",
+    "characters_read": 710,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.4/evidence/verification.json",
+    "sha256": "6b827c00c958f34809d5016ab97445f534cbc4f548a6a6569e197310f2da61d7",
+    "kind": ".json",
+    "characters_read": 3645,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P7.4/frontend-backend-action-handoff-20261022.md",
+    "sha256": "377c3713c84c0fe55027717a974be3854550d9267103f7c6efa2bb6bf502a932",
+    "kind": ".md",
+    "characters_read": 10455,
+    "headings": [
+      "# V1 当前前后端待办与 AI 接入交接",
+      "## 1. 当前基线与分工",
+      "## 2. 任务总表",
+      "## 3. 前端具体工作",
+      "### FE-01：统一测试设备和修复测试运行器（T01）",
+      "### FE-02：主聊天框承接续接和引用（T03、T04）",
+      "### FE-03：确认表单、状态和恢复（T02、T05、T06、T10）",
+      "### FE-04：统计、建议和家庭管理（T07～T09）",
+      "## 4. 后端具体工作",
+      "### BE-01：先恢复可发布源码（T01）",
+      "### BE-02：接入续接及可信对象引用（T03、T04）",
+      "### BE-03：补开封、丢弃的正式执行（T05、T06）",
+      "### BE-04：补齐规划数据读取（T07、T08）",
+      "### BE-05：维持执行边界和恢复能力（T02、T10）",
+      "## 5. 已上线家庭管理：前端可直接接入（T09）",
+      "## 6. 双方接口与页面共同约束",
+      "## 7. 联合验收清单",
+      "## 8. 本次交接不要求新增的内容",
+      "## 9. 依据与交付检查"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P7.4/server-sync-and-app-review-20261022.md",
+    "sha256": "ba733d2d20b69d95371e07a86cb9b67c4ff47e465a3b160d8230f5b58f38ead9",
+    "kind": ".md",
+    "characters_read": 5330,
+    "headings": [
+      "# V1-P7.4 AI 服务器同步与 App 整体核查",
+      "## 1. 结论",
+      "## 2. 已完成的服务器更新",
+      "## 3. 本轮验证结果与限制",
+      "## 4. App 当前功能状况",
+      "## 5. AI 已支持与业务可执行的差别",
+      "## 6. 最新数据库快照",
+      "## 7. 仓库与部署之间需要队友处理的差异",
+      "## 8. 推荐推进顺序"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8/ai-openapi.json",
+    "sha256": "51d310f605252d14e7adf424ca2368c39ce2114f413a0d8fc1f061b54517ff78",
+    "kind": ".json",
+    "characters_read": 99680,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/backend-openapi.json",
+    "sha256": "ac73c3c886141959cd03883ea13dc904ab4b82d55382a2eaf2926c37007ae003",
+    "kind": ".json",
+    "characters_read": 62121,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/candidate-sync.json",
+    "sha256": "3f10c9786e63ef94501f5ec15b0c7f85178215b8c7e5bf60d301d1e8882c0d91",
+    "kind": ".json",
+    "characters_read": 9645,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/deepseek-synthetic-extraction.json",
+    "sha256": "a387b9fa61a6e3f30b099647ac173f80246bb567d5cbc4a0416187563ce00583",
+    "kind": ".json",
+    "characters_read": 4493,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/deepseek-synthetic-replay.json",
+    "sha256": "dee69b55e4cf4586303694ad7b1309d0440535ffb90f8ff4e0b266ad3f9a4ffc",
+    "kind": ".json",
+    "characters_read": 19613,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/eval-dev.json",
+    "sha256": "1c9856141f9d0ef1743c3d3912a7aff025868b09e36acab143f0b7cd937dabb2",
+    "kind": ".json",
+    "characters_read": 24447,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/eval-test.json",
+    "sha256": "516d3e4045d5737d1c230f9b4e3d716cbcfd2387ad613f4a98daecc5644b6459",
+    "kind": ".json",
+    "characters_read": 18277,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/formal-readonly-baseline.json",
+    "sha256": "fbc1bdb12e8f17eff8cbcb46942dbab2e39a6229bca7a0732855877d1544699c",
+    "kind": ".json",
+    "characters_read": 1065,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/production-deployment.json",
+    "sha256": "74e6479a612b2667d0647a9db7baa5770acd20584569fe7d0363822d2e9b64ec",
+    "kind": ".json",
+    "characters_read": 2903,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/production-postcheck.json",
+    "sha256": "d58ce4c3db1bcdcae99e5105e650c715e4220d511ea27a1c9573bd0c6c2ac2cf",
+    "kind": ".json",
+    "characters_read": 2430,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/production-prepare.json",
+    "sha256": "5eb16523b8aa770b9db1627f16468fa72f3a3ebb09eee78e591ab2b8730d965b",
+    "kind": ".json",
+    "characters_read": 1625,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/production-verification.json",
+    "sha256": "27b85f753cae83471797ee052901cc4f9974c57e7e1e8aac37873d10090c1edb",
+    "kind": ".json",
+    "characters_read": 2493,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/README.md",
+    "sha256": "9d5ba8f916cfdf6836cd1d29e3ff32a85de1257272067083686c3f7a3d598e2c",
+    "kind": ".md",
+    "characters_read": 1079,
+    "headings": [
+      "# V1-P8：聊天助手优化"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8/validation-summary.json",
+    "sha256": "dc6e385f5e982f5e433efb54749b3a505114c1984fefd7ee712e65cfb7db2e7c",
+    "kind": ".json",
+    "characters_read": 1834,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8/前后端交接说明.md",
+    "sha256": "a04dc6c7d3ebf73ff29bd82acc3c5913976527c676fd60060a3436fb52bae971",
+    "kind": ".md",
+    "characters_read": 6934,
+    "headings": [
+      "# V1-P8 前后端交接说明",
+      "## 接口契约与 JSON 入口",
+      "## 一、当前边界",
+      "## 二、后端要核对什么",
+      "## 三、前端如何调用",
+      "### 1. 发现能力和发送",
+      "### 2. 自然修改和取消",
+      "### 3. 确认与恢复",
+      "## 四、待联合验证清单"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8/正式发布记录.md",
+    "sha256": "6325104694a3c57a831b83c5a6bb22213e1b78cd49f570ebc4bae5f710f946d7",
+    "kind": ".md",
+    "characters_read": 2264,
+    "headings": [
+      "# V1-P8 正式 AI 发布记录",
+      "## 发布结果",
+      "## 保留其他贡献的方法",
+      "## 备份与回滚",
+      "## 发布验证",
+      "## 仍待前后端承接"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8/评测说明.md",
+    "sha256": "b57b208137bf00fe1b79cfbfc9a5e69d93fa193a4ac3bf83ce00fd1e30369cee",
+    "kind": ".md",
+    "characters_read": 1921,
+    "headings": [
+      "# V1-P8 独立评测说明",
+      "## 数据与结果",
+      "## 真实模型小样本",
+      "## 时延与未验证项",
+      "## 本地复现"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8/阶段工作记录.md",
+    "sha256": "0cc6cf1a46fcd70e71b207bec75e50f2e0605ba45404d3cc9f429a8c09c36997",
+    "kind": ".md",
+    "characters_read": 3796,
+    "headings": [
+      "# V1-P8 阶段工作记录",
+      "## 一、完成内容",
+      "### 连续对话的约束",
+      "### 草稿控制的约束",
+      "## 二、改动范围",
+      "## 三、验证结果与适用范围",
+      "## 四、首次候选同步（历史记录）",
+      "## 五、清理范围",
+      "## 六、后续授权的正式 AI 发布"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/agent-result.schema.json",
+    "sha256": "b12fb38df3cb0b3b007a540780e688e4aa74d2f2203a653617a24c65aff76fac",
+    "kind": ".json",
+    "characters_read": 48869,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/ai-openapi.json",
+    "sha256": "91b28c603633ce0dc7da74f1f8d1a2345b03f30257d5a95b768f72a4da4fc525",
+    "kind": ".json",
+    "characters_read": 104292,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/backend-openapi.json",
+    "sha256": "525f5e7b4b9f4cea6dd4b03459d164c59d55b6ffc34aa54cf227d441411412d2",
+    "kind": ".json",
+    "characters_read": 88438,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/procurement-source.schema.json",
+    "sha256": "247657d4adca30c5b1f0c6dd25ad0d8473c27e93585568e33eb7e0bf6209baf6",
+    "kind": ".json",
+    "characters_read": 312,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/recommendation.schema.json",
+    "sha256": "fe8ef690744058de5da9b642fb775588e887acb49f1d4bac433c2556fd760e6d",
+    "kind": ".json",
+    "characters_read": 1959,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/rule-approval.schema.json",
+    "sha256": "8b5c63717765139e7b5e9fbb7c36d4b2f8b3224906401dd1d8b800fd5af52d2a",
+    "kind": ".json",
+    "characters_read": 779,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/contracts/rule-review-candidates.json",
+    "sha256": "f82b7259861276d33197e76072411c38ffb409ea12c3c63abd15c1c873e6685c",
+    "kind": ".json",
+    "characters_read": 3523,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-ai-openapi.json",
+    "sha256": "c4e0513410d50eb5f7390e83cd33701eefd0c2dc5901778aad93c00f9351d767",
+    "kind": ".json",
+    "characters_read": 104326,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-backend-openapi.json",
+    "sha256": "411cd0fe8eedfe6602f61818c98b1eb1e17e9fd146ae6cba8d879b6069463541",
+    "kind": ".json",
+    "characters_read": 86555,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-deployment.json",
+    "sha256": "ecc2a604c87ac547e1e6edb0e0bc584d8b7ebdea3371b8894a6e44689d20c653",
+    "kind": ".json",
+    "characters_read": 3083,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-final-check.json",
+    "sha256": "6970535dae59a021a75e833a08e7ddf75d3ce0722aa6561e38a5b51e55f81991",
+    "kind": ".json",
+    "characters_read": 1425,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-postcheck.json",
+    "sha256": "3da92d4e412654b54fc4e04c984b2075cbf5ff95374e29cac09e06d1547f0ffb",
+    "kind": ".json",
+    "characters_read": 1024,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-prepare.json",
+    "sha256": "73f76412a90976a7ab9ddf17186512f69290d44fbdb953b7968eeafceb17aa80",
+    "kind": ".json",
+    "characters_read": 2846,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-quantity-validation.json",
+    "sha256": "804a918c641ff95f7e0458aa4e8a0673bb3560d15140978634c982b38fde3da8",
+    "kind": ".json",
+    "characters_read": 250,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/production-verification.json",
+    "sha256": "a6c1f9703abc9fa22a43e0b3cc50d092db0023006a8c174ed818c7bbb07ba090",
+    "kind": ".json",
+    "characters_read": 5366,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.1/README.md",
+    "sha256": "6a3d242cd9976bcfc402d91cb44388fca2eb9d52070d55d298e977c08b57f3c9",
+    "kind": ".md",
+    "characters_read": 854,
+    "headings": [
+      "# V1-P8.1：现有 AI 链路修复"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.1/前后端交接说明.md",
+    "sha256": "018827adcfb062d421dee6bb83d91a878814bf2a67db57443816e438868bbc7a",
+    "kind": ".md",
+    "characters_read": 6733,
+    "headings": [
+      "# V1-P8.1 前后端交接说明",
+      "## 1. 必看的接口契约",
+      "## 2. 责任边界",
+      "## 3. AI 修复后的对象与草稿语义",
+      "### 3.1 指定批次查询",
+      "### 3.2 全部消费",
+      "### 3.3 包装单位",
+      "### 3.4 手动采购来源",
+      "## 4. 后端读取接口（本阶段已发布）",
+      "## 5. 确认、刷新与反馈的正确顺序",
+      "## 6. 前端负责人待办",
+      "## 7. 后端负责人待办（本轮未实现）",
+      "## 8. 联合验收与发布边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.1/工作记录.md",
+    "sha256": "581153cc43707a7e248e01046437e7704eb3cc23fd56101f227251c3bfc25aa9",
+    "kind": ".md",
+    "characters_read": 3815,
+    "headings": [
+      "# V1-P8.1 工作记录",
+      "## 范围与分工",
+      "## 完成的 AI 修复",
+      "### 指定批次的只读查询",
+      "### 全部用完与续接",
+      "### 包装单位与采购来源",
+      "### 降级与规则审核准备",
+      "## 后端小范围修补",
+      "## 测试与证据",
+      "## 契约与交接"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.1/正式发布记录.md",
+    "sha256": "bd7362afb9276dfc873fc42f00114584f5e4d558ec1780462d6329755928fdae",
+    "kind": ".md",
+    "characters_read": 4295,
+    "headings": [
+      "# V1-P8.1 正式发布记录",
+      "## 发布范围",
+      "## 发布前基线",
+      "## 正式切换结果",
+      "## 保留其他贡献",
+      "## 运行验证",
+      "## 契约导出与依赖差异",
+      "## 首次回退及最终备份",
+      "## 待联合验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/ai-openapi.json",
+    "sha256": "7ef65491bb742c7212d742a99328313a89a3066fb2e82efac004dc52099279b2",
+    "kind": ".json",
+    "characters_read": 115364,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/ai-turn-request.schema.json",
+    "sha256": "22a455fd6b10bcd4bd3c0f2bb9896420ce84120282ec681e25b98599d002a212",
+    "kind": ".json",
+    "characters_read": 42357,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/ai-turn-response.schema.json",
+    "sha256": "549f65b2b4113b6a2a4bd675b3531555ebebf1ab6ef7c2db086688dd7d888743",
+    "kind": ".json",
+    "characters_read": 53056,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/backend-openapi.json",
+    "sha256": "436c54733d278850afb8a6d46ed7921e7a1f6600d872ac3b7ce98578d6d29de5",
+    "kind": ".json",
+    "characters_read": 97220,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/memory-context.schema.json",
+    "sha256": "0a6b23b163f92e8c6253bf134b74bc93faa554778af223f62be66d314c8c5968",
+    "kind": ".json",
+    "characters_read": 39282,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/public-history.schema.json",
+    "sha256": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9",
+    "kind": ".json",
+    "characters_read": 2132,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/public-message.schema.json",
+    "sha256": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e",
+    "kind": ".json",
+    "characters_read": 894,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/public-recovery.schema.json",
+    "sha256": "15e97a203bfe1d2b37ff58a95c54cf9bbca7e254cac5cc13b22cdad3aac31ca7",
+    "kind": ".json",
+    "characters_read": 2616,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/public-reset.schema.json",
+    "sha256": "e8a6009002fb11b7dfd6eacd585d7576c146ff8eb6b9382fb4be119bc12e70fb",
+    "kind": ".json",
+    "characters_read": 571,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/contracts/public-response.schema.json",
+    "sha256": "1b172bdc6dd1ec8079a3e77e613721a14b7ac6f56a0d96164db45552c0f0b007",
+    "kind": ".json",
+    "characters_read": 1962,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-ai-openapi.json",
+    "sha256": "1e4c83a10c1763ea62f1eb8c610a44eb427b8475dc060a38ab38adb3a9535094",
+    "kind": ".json",
+    "characters_read": 115467,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-backend-openapi.json",
+    "sha256": "3036e105a0a68e73233eb2814dbdec1f6978604803b4f4b4c9b3c7dc44d94575",
+    "kind": ".json",
+    "characters_read": 95408,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-contract-comparison.json",
+    "sha256": "63ef2d3fac6e40301fb9de233522c71987ed300926e73be913be50155501867e",
+    "kind": ".json",
+    "characters_read": 197,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-deployment.json",
+    "sha256": "f1779fcd98f349c8b4410262003eb48f6e5822d1718f84f5f60d732b0aff2a69",
+    "kind": ".json",
+    "characters_read": 3390,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-final-check.json",
+    "sha256": "7b14a8ee0c194ce17a6844b2a30298ac669f3784efd74a0666a024c7b6ed1c35",
+    "kind": ".json",
+    "characters_read": 597,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-postcheck.json",
+    "sha256": "dd079e4bb01acba3a4f06dfb89117a7469560a4b72dcfca00a2ec330d2c126bb",
+    "kind": ".json",
+    "characters_read": 1217,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-prepare.json",
+    "sha256": "3ba08c513c6e2039785bb30167d83629d83832ebf4a0d72018610f73eae0306a",
+    "kind": ".json",
+    "characters_read": 3206,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/production-verification.json",
+    "sha256": "11b21e0e891142c84f60fa44a3a44dc6e749e92e9d2ac88115367848dd93af26",
+    "kind": ".json",
+    "characters_read": 5003,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.2/README.md",
+    "sha256": "dbe685d21c8ebcfd44ce32c06dd5884e6a6c076c6a5821ae3903f19fd67c3b81",
+    "kind": ".md",
+    "characters_read": 1246,
+    "headings": [
+      "# V1-P8.2：家庭库存助手会话记忆"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.2/前后端交接说明.md",
+    "sha256": "ee4708fcee90a62ef96d54c6d64bb6989d390b012005363907a1292ab602ccf5",
+    "kind": ".md",
+    "characters_read": 4726,
+    "headings": [
+      "# V1-P8.2：会话记忆前后端接入说明",
+      "## 1. 契约入口与分工",
+      "## 2. 打开窗口与正常发送",
+      "## 3. 历史、对象追问与切换",
+      "## 4. 中断、失败和执行状态",
+      "## 5. 后端集成约束与联合验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.2/工作记录.md",
+    "sha256": "8f6e7e316f011ddc160fb2dde208bf05bed05551ce8c67698ee0377778b531c2",
+    "kind": ".md",
+    "characters_read": 3352,
+    "headings": [
+      "# V1-P8.2：会话记忆开发工作记录",
+      "## 本阶段完成的工作",
+      "## 数据与兼容边界",
+      "## 验证与真实模型发现",
+      "## 交付状态",
+      "## V1-P8.2 归档与正式发布"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.2/正式发布记录.md",
+    "sha256": "d58cadaaf79c5f71d6a876322dab35d8964698716f2d72dd049a82fffc1a5ea4",
+    "kind": ".md",
+    "characters_read": 3458,
+    "headings": [
+      "# V1-P8.2 正式发布记录",
+      "## 发布结果",
+      "## 同步与其他贡献保护",
+      "## 验证记录",
+      "## 契约与证据入口",
+      "## 备份与回滚",
+      "## 剩余协作"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-baseline.md",
+    "sha256": "ab44266cebc3a78aaad87c2123c1e440e20b1096f6e7f3e190926862305fd60e",
+    "kind": ".md",
+    "characters_read": 2128,
+    "headings": [
+      "# V1-P9 后端与 AI 基线",
+      "## 实际线上状态",
+      "## Git 与工作保护",
+      "## 当前能力与确认缺口",
+      "## 阶段 A 验证"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-contract.md",
+    "sha256": "71e1a84e3eefaafb2bb78da2168a7011524a4bdfba9926e3e9fd3248d066d2f6",
+    "kind": ".md",
+    "characters_read": 5805,
+    "headings": [
+      "# V1-P9 后端与 AI 契约",
+      "## 兼容策略",
+      "## 采购 PATCH",
+      "## 商品与批次",
+      "## 事件账本 inventory-ledger-1",
+      "## 风险规则发布交接（AI侧待实施）",
+      "## 自动补货确认重验 planning-revalidation-1"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-handoff.md",
+    "sha256": "3e57de5a9de9e297741e997f67a22f80fc7fac9e52647c7f6605b595c3fb6d84",
+    "kind": ".md",
+    "characters_read": 2336,
+    "headings": [
+      "# V1-P9 AI 开发交接",
+      "## 后端已完成",
+      "## AI 侧待实施",
+      "## 需要人工审核",
+      "## 需要双方联合验收",
+      "## 需要生产授权"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-implementation.md",
+    "sha256": "2167e1019dba76b9a5521c38b00ed1e7b0bc356e6dfa115c56fb30f2113ae3e0",
+    "kind": ".md",
+    "characters_read": 3757,
+    "headings": [
+      "# V1-P9 实施记录",
+      "## 已实现",
+      "## 文件与职责",
+      "## 数据结构与迁移",
+      "## 生产操作计划（后续已获授权并执行，详见发布记录）",
+      "## 仍未完成的边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-production-release.md",
+    "sha256": "c3ab379f4bc730eb17777a3f28263338117d384130eb72e580f9950c02504ef2",
+    "kind": ".md",
+    "characters_read": 3388,
+    "headings": [
+      "# P9 生产发布记录",
+      "## 发布准备",
+      "## 执行与恢复边界",
+      "## 最终发布结果",
+      "## 获准后的生产专用家庭验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-ai-p9-test-report.md",
+    "sha256": "c996e85b17fea7e59dc1ec260461a417ebb3e9500b26e0271efb26cf2498c9fa",
+    "kind": ".md",
+    "characters_read": 5475,
+    "headings": [
+      "# V1-P9 测试报告",
+      "## 最终执行结果",
+      "## 关键场景与证据",
+      "## 失败、修复和执行限制",
+      "## 复核命令",
+      "# 在agent目录，使用其已锁定依赖环境："
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/backend-openapi.json",
+    "sha256": "6574b414870a98205c4b67eebefc7c075cb0c87745d576a4f31ab1729d17b5b9",
+    "kind": ".json",
+    "characters_read": 102408,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/agent-result.schema.json",
+    "sha256": "cd0bb464bc225c5bfac564b2fcd7e0848f0bce4b4623f9c565b680dadbfc0380",
+    "kind": ".json",
+    "characters_read": 57498,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/ai-openapi.json",
+    "sha256": "58ef0cee66de26fad77ed7d3b77fa6e3d8c8ec291facdd155833193da9d97460",
+    "kind": ".json",
+    "characters_read": 131816,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/ai-turn-response.schema.json",
+    "sha256": "cbc11eebef59a3d1bdd403c9198cdb027b35b17c30870111429683255af38cb3",
+    "kind": ".json",
+    "characters_read": 61673,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/backend-snapshot.schema.json",
+    "sha256": "d19b7d1e8c262cabb82782962bffa5e41ae95bcd61a26527fa348a6241711963",
+    "kind": ".json",
+    "characters_read": 14870,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/planning-basis.schema.json",
+    "sha256": "2d019f3181e46f931f64c0d35ef9896353136acf9d21c7f5f23b952b15202509",
+    "kind": ".json",
+    "characters_read": 1063,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/planning-provenance.schema.json",
+    "sha256": "0b293b84252ac72363787916a74050efde6005d0182e2c8677e4c599c005a576",
+    "kind": ".json",
+    "characters_read": 5782,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/product-planning.schema.json",
+    "sha256": "2b7430f15445d17b3132b1e03d5eb1a6b4c879768151268f2ad6854e98227caf",
+    "kind": ".json",
+    "characters_read": 5125,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/contracts/revalidation-request.schema.json",
+    "sha256": "b80cfe0719989a24e932709f09bd01c08808704c0202a345ded5d88f33298223",
+    "kind": ".json",
+    "characters_read": 3041,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.3/README.md",
+    "sha256": "cc87ff6f639e290c0b5e25bc566cb3349d47cab8c4968cc6b6b77fbeeb0e9cd8",
+    "kind": ".md",
+    "characters_read": 1576,
+    "headings": [
+      "# V1-P8.3：当前后端规划契约适配",
+      "## 交付入口",
+      "## 后端原始交接材料",
+      "## 能力边界"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/前后端交接说明.md",
+    "sha256": "71b643880d020786d84c2e40cf43fc15593d440341ab2ef0a23db59e75185c04",
+    "kind": ".md",
+    "characters_read": 4142,
+    "headings": [
+      "# V1-P8.3 前后端交接说明",
+      "## 必须查看的接口定义",
+      "## AI 已实现的读取行为",
+      "## 前端需要承接",
+      "## 后端需要承接",
+      "## 联合验收及发布"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.3/工作记录.md",
+    "sha256": "275a2f2f1d9ccd7d0689c10f09242f101b5da0fab70c4b92ffbd52a67f83766c",
+    "kind": ".md",
+    "characters_read": 2719,
+    "headings": [
+      "# V1-P8.3 工作记录",
+      "## 任务与归档",
+      "## AI 实现",
+      "## 验证与证据",
+      "## 分开记录的完成状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/ai-openapi.json",
+    "sha256": "4c6a34f07e432f4daad2562fee0b29f74c8956bd504e150fc1b87cd5fb491697",
+    "kind": ".json",
+    "characters_read": 142086,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/backend-openapi.json",
+    "sha256": "6122c18cadfd5ad3f527bd54765fd8b0b25f1251aba1c12137dc874c03432639",
+    "kind": ".json",
+    "characters_read": 105595,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/context.schema.json",
+    "sha256": "10e15d51d56c0ef5ffc3ff9376b18ca49133bf9a6df07e65eeb86baff03c5165",
+    "kind": ".json",
+    "characters_read": 47910,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/conversation-page.schema.json",
+    "sha256": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9",
+    "kind": ".json",
+    "characters_read": 2132,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/production-ai-openapi.json",
+    "sha256": "6dbd534b8d89362d22f1957e58bfd7069d7d0e50e3c9543ce9c85238c9ae9ed2",
+    "kind": ".json",
+    "characters_read": 142094,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/production-backend-openapi.json",
+    "sha256": "763ed710f930e86b408cfe59df2632267a5b3d7e3a8548cf7567d61f92f63408",
+    "kind": ".json",
+    "characters_read": 103593,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/public-message.schema.json",
+    "sha256": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e",
+    "kind": ".json",
+    "characters_read": 894,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/public-response.schema.json",
+    "sha256": "a1a30af652be12d3eea189fd57ad97028451b384e2f54ad14fe78289af597b32",
+    "kind": ".json",
+    "characters_read": 3083,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/recovery.schema.json",
+    "sha256": "6fb2371e67fb11d5f3fcfd1ceaa342128ac4fe4ce2c503ebb31189921584dfa1",
+    "kind": ".json",
+    "characters_read": 3737,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/resolve-request.schema.json",
+    "sha256": "543523b60cfb7ab392225f1be91d7b1d180fdaa7f918d08d6943b7b111af783e",
+    "kind": ".json",
+    "characters_read": 51167,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/resolve-response.schema.json",
+    "sha256": "f19c11b04b8bb5a87130fd23baa248a641cb1ef735f82f810b7c7d096be983ac",
+    "kind": ".json",
+    "characters_read": 1882,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/respond-request.schema.json",
+    "sha256": "50dabdcc818356cd3d7a4ad2db303dba2388b505b8099b1162cbb249911900c4",
+    "kind": ".json",
+    "characters_read": 2278,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/respond-response.schema.json",
+    "sha256": "75896b5c00bf215f7badf63643813e85c29bb981d905c0d72a287b49d88965c4",
+    "kind": ".json",
+    "characters_read": 581,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/understand-request.schema.json",
+    "sha256": "8708f856e73773e63819dec56dda20b611ef405a8221454d9358fec24fbfbc88",
+    "kind": ".json",
+    "characters_read": 51110,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/contracts/understand-response.schema.json",
+    "sha256": "4885062234e895cc5578cad5e4457637f72798d2a0271912c3dc17b719475911",
+    "kind": ".json",
+    "characters_read": 3055,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.4/README.md",
+    "sha256": "78f03bc85d8bd05a8ab3a9846b21ee0182194e79716aed91e84a8e3673897dbe",
+    "kind": ".md",
+    "characters_read": 1074,
+    "headings": [
+      "# V1-P8.4 自然对话与语义任务理解"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/前后端交接说明.md",
+    "sha256": "1f6e7a4c42e8ec1c94d1230d09c39b4fe3f6667e26db90ce904d624fc6d07d48",
+    "kind": ".md",
+    "characters_read": 5038,
+    "headings": [
+      "# V1-P8.4 前后端交接说明",
+      "## 先查看这些机器可读契约",
+      "## 后端负责人需要承接",
+      "### 启用方式与调用顺序",
+      "### 幂等、改口与恢复",
+      "## 前端负责人需要承接",
+      "## 结果与字段依据",
+      "## 联合验收清单"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/工作记录.md",
+    "sha256": "b2c5552c48d2063a042d6277441947456ed6bdf6ccd41bcc9978a6e77711d846",
+    "kind": ".md",
+    "characters_read": 2597,
+    "headings": [
+      "# V1-P8.4 工作记录",
+      "## 本次完成的行为",
+      "## 主要改动位置",
+      "## 验证证据与完成边界",
+      "## 后续用户授权的源码同步",
+      "## 后续用户授权的正式版本替换"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/服务器源码同步记录.md",
+    "sha256": "f24e8286ce061a5097d0007947da4aefab7178c3e43064deb157a86eb6cedafa",
+    "kind": ".md",
+    "characters_read": 1627,
+    "headings": [
+      "# V1-P8.4 服务器源码同步记录",
+      "## 同步范围与结果",
+      "## 服务器验证",
+      "## 正式运行版本保持原样",
+      "## 本地证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/正式版本替换记录.md",
+    "sha256": "82dab16157bf76e2395c1daf7f46437ceceadd7015ce268ce4d9023517dd8bdf",
+    "kind": ".md",
+    "characters_read": 3471,
+    "headings": [
+      "# V1-P8.4 正式版本替换记录",
+      "## 当前正式状态",
+      "## 如何保留队友的贡献",
+      "## 配置与切换方式",
+      "## 验证结果",
+      "## 回滚资料",
+      "## 真实运行契约入口",
+      "## App 体验边界",
+      "## 本地证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.4/评测记录.md",
+    "sha256": "c747329e5e0cb0a5a1bc6a0366a68934aa2a4bc30dea825aabe3f9bd3e78036b",
+    "kind": ".md",
+    "characters_read": 3560,
+    "headings": [
+      "# V1-P8.4 测试与真实模型评测",
+      "## 自动化证据",
+      "## 240 条场景与数据隔离",
+      "## 真实 DeepSeek 结果",
+      "## 仍未验收的事项"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/ai-openapi.json",
+    "sha256": "119ddf5f18d3867400aec32e966427b162e06ae8cc1e013322604ad5d93b649a",
+    "kind": ".json",
+    "characters_read": 158719,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/archive.schema.json",
+    "sha256": "9e532ba854aff7bcdb927abae190671996ef7d4818d816ba0e0f26db87eb4f87",
+    "kind": ".json",
+    "characters_read": 2890,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/backend-openapi.json",
+    "sha256": "5d2a669dd7b999cb9b83aa5dafde88ccd0eb8002222460c9a868cbd9d2a06119",
+    "kind": ".json",
+    "characters_read": 105599,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/context.schema.json",
+    "sha256": "10e15d51d56c0ef5ffc3ff9376b18ca49133bf9a6df07e65eeb86baff03c5165",
+    "kind": ".json",
+    "characters_read": 47910,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/conversation-page.schema.json",
+    "sha256": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9",
+    "kind": ".json",
+    "characters_read": 2132,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/examples.json",
+    "sha256": "b751fb33529e1e4c2a8ec13270ad7018d8a9c23344a5fd14c24a005ce2b63641",
+    "kind": ".json",
+    "characters_read": 6619,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/memory-delta.schema.json",
+    "sha256": "57f1658c3654f5d04c69bf3337bab1ce5f0fd593eec45c706b3ee45a5a181534",
+    "kind": ".json",
+    "characters_read": 2898,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/production-ai-openapi.json",
+    "sha256": "2e3b8b661dd4027043f66f6238784b4e1759c955721d4790d1ed088388b6f0d9",
+    "kind": ".json",
+    "characters_read": 158549,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/public-message.schema.json",
+    "sha256": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e",
+    "kind": ".json",
+    "characters_read": 894,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/public-response.schema.json",
+    "sha256": "a1a30af652be12d3eea189fd57ad97028451b384e2f54ad14fe78289af597b32",
+    "kind": ".json",
+    "characters_read": 3083,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/recovery.schema.json",
+    "sha256": "6fb2371e67fb11d5f3fcfd1ceaa342128ac4fe4ce2c503ebb31189921584dfa1",
+    "kind": ".json",
+    "characters_read": 3737,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/resolve-request.schema.json",
+    "sha256": "62acf10aab546ab65fe0ca63621d66d045ec1453c94826ca1a14bac870852999",
+    "kind": ".json",
+    "characters_read": 54596,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/resolve-response.schema.json",
+    "sha256": "1a7dcc349b1c69298c9718251ff12f156ed4462c6e5ac88c6e794fb512dc8bef",
+    "kind": ".json",
+    "characters_read": 5595,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/respond-request.schema.json",
+    "sha256": "0935e1e7edc6f19f55eb82d6438edb3fd260e7cb5c14e541d39e5b07ccf445ba",
+    "kind": ".json",
+    "characters_read": 5989,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/respond-response.schema.json",
+    "sha256": "843bb719a02f4a8ed80108967fd628629d3ed92ccb2695c9f334460e7f3a6d54",
+    "kind": ".json",
+    "characters_read": 584,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/stored-turn.schema.json",
+    "sha256": "b6ea8ad69538e0a5289dd3ca8b9b6b620eb73b624917c5234665daaf8bd34495",
+    "kind": ".json",
+    "characters_read": 2421,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/understand-request.schema.json",
+    "sha256": "e30e8cfd5399642937b810f60beb8c59926efb270d7243d1948dfa1ffd0d3715",
+    "kind": ".json",
+    "characters_read": 52965,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/contracts/understand-response.schema.json",
+    "sha256": "c2a89af7f27e6162ba3dc09bbfd04d8bd56d02ffaa8d51c0bc8f58026eec211a",
+    "kind": ".json",
+    "characters_read": 3843,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.5/README.md",
+    "sha256": "06b6aeaf63b6769c2b85526f2ee0fc0b51ae494f78fbe4bb4e535e3938bbed3f",
+    "kind": ".md",
+    "characters_read": 1063,
+    "headings": [
+      "# V1-P8.5 会话记忆与自然理解"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/前后端交接说明.md",
+    "sha256": "b3b59c57e666740f06a0982dd0b71723f70e3dc3de169bc3f1c3a4d3375b5fbf",
+    "kind": ".md",
+    "characters_read": 4836,
+    "headings": [
+      "# V1-P8.5 前后端交接说明",
+      "## 契约入口",
+      "## 本轮已做与尚需接入",
+      "## 后端负责人需要做",
+      "### 1. 提供真实会话片段",
+      "### 2. 保存阶段和增量",
+      "### 3. 恢复与并发",
+      "### 4. 能力开关",
+      "## 前端负责人需要做",
+      "## 联合验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/工作记录.md",
+    "sha256": "df8eefeb3316f8a13b1fe6cba8e454f7438d1002d99c64f3501d350702efdff3",
+    "kind": ".md",
+    "characters_read": 2589,
+    "headings": [
+      "# V1-P8.5 工作记录",
+      "## 先分析和规划",
+      "## 五项实现",
+      "## 真实评测驱动的修复",
+      "## 验证和交付状态"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/提升方案.md",
+    "sha256": "0b381620787f4276ba2fcfa4b7c79aaab5537ff505270817ada0e725b4d67ae9",
+    "kind": ".md",
+    "characters_read": 2121,
+    "headings": [
+      "# V1-P8.5 会话记忆与自然理解提升方案",
+      "## 现状和原因",
+      "## 调研与取舍",
+      "## 实施顺序",
+      "## 接入边界与验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/服务器源码同步记录.md",
+    "sha256": "ad5e5814171a1a676bbee677992c4f8c92c9446595db0e1a30913dc148578e44",
+    "kind": ".md",
+    "characters_read": 1048,
+    "headings": [
+      "# V1-P8.5 服务器源码同步记录",
+      "## 同步内容",
+      "## 验证证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/正式版本替换记录.md",
+    "sha256": "6d81b062f2877d233019752ac0324e717be678db26eec6e9ab86745ab206a460",
+    "kind": ".md",
+    "characters_read": 2589,
+    "headings": [
+      "# V1-P8.5 正式版本替换记录",
+      "## 正式运行状态",
+      "## 发布范围与队友贡献保护",
+      "## 验证结果与限制",
+      "## 回滚准备"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.5/评测记录.md",
+    "sha256": "d3994b6f7f6e81e114f54c37e8a8da080e064d8ff3d3ea16b579e3056b970e9f",
+    "kind": ".md",
+    "characters_read": 3418,
+    "headings": [
+      "# V1-P8.5 评测记录",
+      "## 自动化验证",
+      "## 数据构造与隔离",
+      "## 真实 DeepSeek 结果",
+      "## 自然回复专项",
+      "## 复现"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/2026-10-30-服务器核对与适配记录.md",
+    "sha256": "1288c2bbe67088df02f82dcd1db0896978c1df76b3b8a0125d130f6fef78684b",
+    "kind": ".md",
+    "characters_read": 3642,
+    "headings": [
+      "# 服务器核对与本地未提交代码适配",
+      "## 当前服务器与源码基线",
+      "## 为什么需要适配",
+      "## 验证与限制",
+      "## 后续协作"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/ai-openapi.json",
+    "sha256": "d394f7935fd4b759e8b90b07b3c3271182b9b9e9349a248bcddc87b881a84dcc",
+    "kind": ".json",
+    "characters_read": 162988,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/backend-openapi.json",
+    "sha256": "485237a7dfcedf8e648ea3d09b44acfd01938ac3853f5ccb8938f4dce19a3c1f",
+    "kind": ".json",
+    "characters_read": 113306,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/context.schema.json",
+    "sha256": "10e15d51d56c0ef5ffc3ff9376b18ca49133bf9a6df07e65eeb86baff03c5165",
+    "kind": ".json",
+    "characters_read": 47910,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/conversation-page.schema.json",
+    "sha256": "f56ca7acd61c4f63ec1f6a9ce1b22229ae729e69204613d5f95877a3daa6fdc9",
+    "kind": ".json",
+    "characters_read": 2132,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/decision.schema.json",
+    "sha256": "a8f49058284c706e003c545d719488b1510ce4a7022aa108c218872587e63082",
+    "kind": ".json",
+    "characters_read": 3960,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/manifest.json",
+    "sha256": "3cf4d73a91ac461d231731f929bc0eb8cb4cce850ae285e84afd8ccbcd169cc7",
+    "kind": ".json",
+    "characters_read": 1272,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/production-ai-openapi.json",
+    "sha256": "51c4ac75baf6650bdfe98dd171c15be882392250853706c85df6db60327b850a",
+    "kind": ".json",
+    "characters_read": 162941,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/production-backend-openapi.json",
+    "sha256": "3b98940d7f07f8b6ea6df47578e1341049dc3b3ba448ac9298415b92f8ddf0ae",
+    "kind": ".json",
+    "characters_read": 111116,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/production-manifest.json",
+    "sha256": "f3716faac66c36096cb1b481ebb66901d5b2a038bd9ad6bd6ef1c1376b0c5d52",
+    "kind": ".json",
+    "characters_read": 692,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/public-message.schema.json",
+    "sha256": "ff6ad37fdbbe0fc40e7cec0f3aab20028d16548055221923d0597ecf836c360e",
+    "kind": ".json",
+    "characters_read": 894,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/public-response.schema.json",
+    "sha256": "127d86a05535f56aec72cecd29422e1e3db5ed174fd779bf68a8c679998efd01",
+    "kind": ".json",
+    "characters_read": 5301,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/recovery.schema.json",
+    "sha256": "de8e833d00c4595bf829dfd94c90f15452bc9f1c4a4b91abe5a37884739442af",
+    "kind": ".json",
+    "characters_read": 6232,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/revalidation-request.schema.json",
+    "sha256": "a55b14137f31a78e842ec0540cd12f484c5c503f6a30fc444ed9f1050a96110a",
+    "kind": ".json",
+    "characters_read": 54596,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/revalidation-response.schema.json",
+    "sha256": "1a7dcc349b1c69298c9718251ff12f156ed4462c6e5ac88c6e794fb512dc8bef",
+    "kind": ".json",
+    "characters_read": 5595,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/run-request.schema.json",
+    "sha256": "54915dd131afb1b62c79d878e2f3978172ee563e53b71d66da18c360eab198c8",
+    "kind": ".json",
+    "characters_read": 52965,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/contracts/run-response.schema.json",
+    "sha256": "836e72176807bc622de00e8fd3b2cbf4951cff41ce70ee3a8b3bfda0877826d8",
+    "kind": ".json",
+    "characters_read": 10906,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/README.md",
+    "sha256": "2e3b171bac2384e8e8d8170c68fe899c14e389f12dcc3080cf81bace9fd06414",
+    "kind": ".md",
+    "characters_read": 2397,
+    "headings": [
+      "# V1-P8.6：AI 自主循环与当前契约适配"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/runtime-source-manifest.json",
+    "sha256": "08690b7e2bed6c5e7dabc550fab3e797a14124129ed2c462bf3b83f61ce2d16f",
+    "kind": ".json",
+    "characters_read": 9968,
+    "headings": []
+  },
+  {
+    "path": "docs/versions/V1-P8.6/前后端交接说明.md",
+    "sha256": "72b59cc3c2b88fb7d771e8c8050becf7f9795bf019233eecb73c36440f152a8f",
+    "kind": ".md",
+    "characters_read": 5591,
+    "headings": [
+      "# V1-P8.6 AI 自主循环前后端交接说明",
+      "## 先看机器契约",
+      "## 启用方式与职责",
+      "## 请求、保存与恢复顺序",
+      "## 响应与状态",
+      "## 当前逐件库存契约",
+      "## 前端承接状态与联合验收"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/工作记录.md",
+    "sha256": "3fbf10aac221f0c06020263e16022d1cbf2f4a4d05c04cba99e711e5a9b382ca",
+    "kind": ".md",
+    "characters_read": 2791,
+    "headings": [
+      "# V1-P8.6 AI 自主循环工作记录",
+      "## 2026-10-30：服务器同步与正式替换",
+      "## 2026-10-30：适配队友最新实现",
+      "## 2026-10-29：原始实现记录",
+      "## 本次实现",
+      "## 验证及交付"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/文件整理记录.md",
+    "sha256": "605a3555a80e97740366c6ced92790285fcca265013f52f9bd57af74951807c5",
+    "kind": ".md",
+    "characters_read": 2292,
+    "headings": [
+      "# V1-P8.6 命名与文件整理记录",
+      "## 归档位置",
+      "## 命名与兼容",
+      "## Git与证据"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/正式版本替换记录.md",
+    "sha256": "3f0fb756855326520639c904c0555794c7d9100172e75b9282d9225a26624640",
+    "kind": ".md",
+    "characters_read": 3983,
+    "headings": [
+      "# V1-P8.6 正式运行替换记录",
+      "## 当前运行版本",
+      "## 发布范围及保护",
+      "## 实际验证",
+      "## 实际运行契约",
+      "## 备份与回退"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P8.6/评测记录.md",
+    "sha256": "9d9c440959594b24ca2d722bd4ed81d3c44b1d3cf8daad38b316377d1f316e0d",
+    "kind": ".md",
+    "characters_read": 4380,
+    "headings": [
+      "# V1-P8.6 自主循环验证与评测记录",
+      "## 2026-10-30 当前契约适配验证",
+      "## 2026-10-29 历史评测（旧批次数量模型）",
+      "## 真实 DeepSeek 对比",
+      "## 自动化验证",
+      "## 复现入口"
+    ]
+  },
+  {
+    "path": "docs/versions/V1-P9/阶段工作记录.md",
+    "sha256": "31d4042656e520a1fdb60b0cacf236806a96685438b16d1da14cb0a8f52d1395",
+    "kind": ".md",
+    "characters_read": 4145,
+    "headings": [
+      "# V1-P9 阶段工作记录：Jev 独立决策模块",
+      "## 一、阶段结果与当前状态",
+      "## 二、已完成能力",
+      "## 三、相关文件位置",
+      "## 四、验证结果与适用范围",
+      "### 实现与离线验证",
+      "### 真实合成冒烟验证",
+      "## 五、后续事项"
+    ]
+  },
+  {
+    "path": "docs/versions/V1.5/现状分析与任务清单_2026-10-25.md",
+    "sha256": "af06304ea5b337592d37abc53169777acc115c4e8450777fd9a0922b6661a7d8",
+    "kind": ".md",
+    "characters_read": 9800,
+    "headings": [
+      "# V1.5 现状分析与任务清单",
+      "## 1. 当前任务的判断",
+      "### 1.1 当前 App 的产品基础",
+      "### 1.2 当前已有能力与实际缺口",
+      "### 1.3 保留 V1 归属的收尾任务",
+      "## 2. V1.5 的范围",
+      "## 3. V1.5 必做任务",
+      "### 3.1 四类决策分别负责什么",
+      "### 3.2 知识与规则的两条输出",
+      "### 3.3 基础提醒的最小闭环",
+      "### 3.4 采购增强的增量",
+      "## 4. 可选任务与不纳入范围",
+      "## 5. 实施顺序与团队分工",
+      "## 6. 建议冻结的验收条件",
+      "## 7. 依据与追溯"
+    ]
+  }
+]

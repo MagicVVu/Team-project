@@ -1,0 +1,20 @@
+{
+  "initial_formal_records": 512,
+  "initial_raw_counts": {
+    "PASS": 376,
+    "FAIL": 136
+  },
+  "invalid_fixture_records": 40,
+  "invalid_fixture_http_calls": 0,
+  "corrected_recheck_records": 40,
+  "corrected_recheck_counts": {
+    "FAIL": 17,
+    "PASS": 23
+  },
+  "quality_selection": "主表选择472条有效初始执行，加40条修正夹具后独立补测；原40条工具FAIL不删、不计为AI质量FAIL。冻结输入文字和预期不变。",
+  "fixture_correction": "仅旧片段引用issued_at改为片段创建时刻，TTL仍15分钟，当前事实、库存语义及预期保持。",
+  "evidence_files": [
+    "runs/archive-recheck-20261031T134901/started.json",
+    "runs/formal-20261031T133800/started.json"
+  ]
+}

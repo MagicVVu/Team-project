@@ -1,0 +1,44 @@
+{
+  "stage": "P7.4",
+  "title": "费率与预算",
+  "features": [
+    "旧费率核验日期兼容",
+    "预算保护仍保留",
+    "发布记录仅追溯"
+  ],
+  "document": "docs/versions/V1-P7.4/server-sync-and-app-review-20261022.md",
+  "native_counts": {
+    "PASS": 7
+  },
+  "native_case_count": 7,
+  "native_nodes": [
+    "tests.test_pricing_policy::test_date_metadata_does_not_block_accounting_or_reset_history[2000-01-01]",
+    "tests.test_pricing_policy::test_date_metadata_does_not_block_accounting_or_reset_history[2999-01-01]",
+    "tests.test_pricing_policy::test_date_metadata_does_not_block_accounting_or_reset_history[metadata-only]",
+    "tests.test_pricing_policy::test_date_metadata_does_not_block_accounting_or_reset_history[None]",
+    "tests.test_pricing_policy::test_model_mismatch_still_rejects_an_inapplicable_rate",
+    "tests.test_pricing_policy::test_cumulative_budget_is_still_enforced_with_old_date",
+    "tests.test_pricing_policy::test_old_rate_date_reaches_provider_once_and_records_usage"
+  ],
+  "live_counts": {},
+  "live_executions": 0,
+  "current_entry_status": "不适用真实语义题",
+  "automatic_live_rate": null,
+  "time": {
+    "n": 0,
+    "mean": null,
+    "min": null,
+    "p50": null,
+    "p90": null,
+    "p95": null,
+    "p99": null,
+    "max": null,
+    "stddev": null
+  },
+  "calls": 0,
+  "cost_cny": 0,
+  "notes": [
+    "配置或维护阶段，真实语义题不重复配置；本轮未部署。"
+  ],
+  "live_ids": []
+}

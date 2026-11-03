@@ -1,0 +1,980 @@
+{
+  "split": "test",
+  "count": 60,
+  "passed": 60,
+  "failed_ids": [],
+  "engine": "literal_rules / synthetic reader",
+  "paid_model_calls": 0,
+  "scenario_groups_isolated": true,
+  "human_reviewed": false,
+  "source": "AI-constructed synthetic chat and binding fixtures",
+  "p95_offline_seconds": 0.0002238000015495345,
+  "latency_includes_network_model_database_or_android": false,
+  "rows": [
+    {
+      "id": "p8-19-1",
+      "group_id": "ordinal-first",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b1"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.0044496999980765395
+    },
+    {
+      "id": "p8-19-2",
+      "group_id": "ordinal-first",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b1"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.00015449999773409218
+    },
+    {
+      "id": "p8-19-3",
+      "group_id": "ordinal-first",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b1"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.00010169999586651102
+    },
+    {
+      "id": "p8-19-4",
+      "group_id": "ordinal-first",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b1"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.949999755714089e-05
+    },
+    {
+      "id": "p8-19-5",
+      "group_id": "ordinal-first",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b1"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.849999721860513e-05
+    },
+    {
+      "id": "p8-20-1",
+      "group_id": "amount-bottle",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "瓶"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 9.819999831961468e-05
+    },
+    {
+      "id": "p8-20-2",
+      "group_id": "amount-bottle",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "瓶"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 9.579999459674582e-05
+    },
+    {
+      "id": "p8-20-3",
+      "group_id": "amount-bottle",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "瓶"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.999999408842996e-05
+    },
+    {
+      "id": "p8-20-4",
+      "group_id": "amount-bottle",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "瓶"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.240000170189887e-05
+    },
+    {
+      "id": "p8-20-5",
+      "group_id": "amount-bottle",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "瓶"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.22000001790002e-05
+    },
+    {
+      "id": "p8-21-1",
+      "group_id": "multi-location-cabinet",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "包",
+          "location": "储物柜"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 9.889999637380242e-05
+    },
+    {
+      "id": "p8-21-2",
+      "group_id": "multi-location-cabinet",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "包",
+          "location": "储物柜"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.890000026440248e-05
+    },
+    {
+      "id": "p8-21-3",
+      "group_id": "multi-location-cabinet",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "包",
+          "location": "储物柜"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.610000077169389e-05
+    },
+    {
+      "id": "p8-21-4",
+      "group_id": "multi-location-cabinet",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "包",
+          "location": "储物柜"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.209999941755086e-05
+    },
+    {
+      "id": "p8-21-5",
+      "group_id": "multi-location-cabinet",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "quantity": "3",
+          "unit": "包",
+          "location": "储物柜"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.090000483207405e-05
+    },
+    {
+      "id": "p8-22-1",
+      "group_id": "selected-object",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b2"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.660000119358301e-05
+    },
+    {
+      "id": "p8-22-2",
+      "group_id": "selected-object",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b2"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.309999637072906e-05
+    },
+    {
+      "id": "p8-22-3",
+      "group_id": "selected-object",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b2"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.03999976394698e-05
+    },
+    {
+      "id": "p8-22-4",
+      "group_id": "selected-object",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b2"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.399999594781548e-05
+    },
+    {
+      "id": "p8-22-5",
+      "group_id": "selected-object",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "batch_id": "b2"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.200000254670158e-05
+    },
+    {
+      "id": "p8-23-1",
+      "group_id": "invalid-dates",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_DATE",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.0033859000031952746
+    },
+    {
+      "id": "p8-23-2",
+      "group_id": "invalid-dates",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_DATE",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.00012399999832268804
+    },
+    {
+      "id": "p8-23-3",
+      "group_id": "invalid-dates",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_DATE",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 9.270000009564683e-05
+    },
+    {
+      "id": "p8-23-4",
+      "group_id": "invalid-dates",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_DATE",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.970000297063962e-05
+    },
+    {
+      "id": "p8-23-5",
+      "group_id": "invalid-dates",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_DATE",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.419999747071415e-05
+    },
+    {
+      "id": "p8-24-1",
+      "group_id": "new-topic",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "new_task",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.0002238000015495345
+    },
+    {
+      "id": "p8-24-2",
+      "group_id": "new-topic",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "new_task",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.920000254875049e-05
+    },
+    {
+      "id": "p8-24-3",
+      "group_id": "new-topic",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "new_task",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.510000432375818e-05
+    },
+    {
+      "id": "p8-24-4",
+      "group_id": "new-topic",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "new_task",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.929999653948471e-05
+    },
+    {
+      "id": "p8-24-5",
+      "group_id": "new-topic",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "new_task",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.649999704677612e-05
+    },
+    {
+      "id": "p8-25-1",
+      "group_id": "social-active",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "CHAT_HELP",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.919999966863543e-05
+    },
+    {
+      "id": "p8-25-2",
+      "group_id": "social-active",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "CHAT_HELP",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.789999704575166e-05
+    },
+    {
+      "id": "p8-25-3",
+      "group_id": "social-active",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "CHAT_HELP",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.850000161444768e-05
+    },
+    {
+      "id": "p8-25-4",
+      "group_id": "social-active",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "CHAT_HELP",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.860000237589702e-05
+    },
+    {
+      "id": "p8-25-5",
+      "group_id": "social-active",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "CHAT_HELP",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.699999746866524e-05
+    },
+    {
+      "id": "p8-26-1",
+      "group_id": "cancel-unfinished",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clear_reference",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.0300004659220576e-05
+    },
+    {
+      "id": "p8-26-2",
+      "group_id": "cancel-unfinished",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clear_reference",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 4.9200003559235483e-05
+    },
+    {
+      "id": "p8-26-3",
+      "group_id": "cancel-unfinished",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clear_reference",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 4.769999941345304e-05
+    },
+    {
+      "id": "p8-26-4",
+      "group_id": "cancel-unfinished",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clear_reference",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 5.100000271340832e-05
+    },
+    {
+      "id": "p8-26-5",
+      "group_id": "cancel-unfinished",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clear_reference",
+        "answers": {},
+        "revision": null,
+        "error_code": null,
+        "clear_reference": true,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 4.890000127488747e-05
+    },
+    {
+      "id": "p8-27-1",
+      "group_id": "duplicate-fields",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.439999899361283e-05
+    },
+    {
+      "id": "p8-27-2",
+      "group_id": "duplicate-fields",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.889999687904492e-05
+    },
+    {
+      "id": "p8-27-3",
+      "group_id": "duplicate-fields",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.340000593103468e-05
+    },
+    {
+      "id": "p8-27-4",
+      "group_id": "duplicate-fields",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.309999637072906e-05
+    },
+    {
+      "id": "p8-27-5",
+      "group_id": "duplicate-fields",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.03999976394698e-05
+    },
+    {
+      "id": "p8-28-1",
+      "group_id": "zero-amount",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_QUANTITY",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.380000559147447e-05
+    },
+    {
+      "id": "p8-28-2",
+      "group_id": "zero-amount",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_QUANTITY",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.130000110715628e-05
+    },
+    {
+      "id": "p8-28-3",
+      "group_id": "zero-amount",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_QUANTITY",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.169999687699601e-05
+    },
+    {
+      "id": "p8-28-4",
+      "group_id": "zero-amount",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_QUANTITY",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.299999949987978e-05
+    },
+    {
+      "id": "p8-28-5",
+      "group_id": "zero-amount",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "INVALID_QUANTITY",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.310000026132911e-05
+    },
+    {
+      "id": "p8-29-1",
+      "group_id": "location-cannot-override",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.620000203838572e-05
+    },
+    {
+      "id": "p8-29-2",
+      "group_id": "location-cannot-override",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.519999442389235e-05
+    },
+    {
+      "id": "p8-29-3",
+      "group_id": "location-cannot-override",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.469999789260328e-05
+    },
+    {
+      "id": "p8-29-4",
+      "group_id": "location-cannot-override",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 6.500000017695129e-05
+    },
+    {
+      "id": "p8-29-5",
+      "group_id": "location-cannot-override",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "needs_input",
+        "answers": {},
+        "revision": null,
+        "error_code": "AMBIGUOUS_SUPPLEMENT",
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.029999687802047e-05
+    },
+    {
+      "id": "p8-30-1",
+      "group_id": "date-explicit-iso",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "opened_at": "2000-01-01"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 0.00014989999908721074
+    },
+    {
+      "id": "p8-30-2",
+      "group_id": "date-explicit-iso",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "opened_at": "2000-01-01"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 9.589999535819516e-05
+    },
+    {
+      "id": "p8-30-3",
+      "group_id": "date-explicit-iso",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "opened_at": "2000-01-01"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 8.320000051753595e-05
+    },
+    {
+      "id": "p8-30-4",
+      "group_id": "date-explicit-iso",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "opened_at": "2000-01-01"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.700000423938036e-05
+    },
+    {
+      "id": "p8-30-5",
+      "group_id": "date-explicit-iso",
+      "passed": true,
+      "observed": {
+        "protocol_version": "p7-reply-routing-1",
+        "kind": "clarify",
+        "answers": {
+          "opened_at": "2000-01-01"
+        },
+        "revision": 3,
+        "error_code": null,
+        "clear_reference": false,
+        "model_calls": 0
+      },
+      "elapsed_seconds": 7.470000127796084e-05
+    }
+  ]
+}

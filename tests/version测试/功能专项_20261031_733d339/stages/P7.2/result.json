@@ -1,0 +1,57 @@
+{
+  "stage": "P7.2",
+  "title": "单位与接入契约",
+  "features": [
+    "吨台等单位兼容",
+    "AI和后端单位对应",
+    "迁移和PG并发不冒充离线通过"
+  ],
+  "document": "docs/versions/V1-P7.2/README.md",
+  "native_counts": {
+    "PASS": 20
+  },
+  "native_case_count": 20,
+  "native_nodes": [
+    "tests.test_unit_compatibility::test_same_unit_preserves_decimal_and_literal_evidence[\\u5428]",
+    "tests.test_unit_compatibility::test_same_unit_preserves_decimal_and_literal_evidence[\\u53f0]",
+    "tests.test_unit_compatibility::test_same_unit_preserves_decimal_and_literal_evidence[\\u4efd]",
+    "tests.test_unit_compatibility::test_same_unit_preserves_decimal_and_literal_evidence[\\u4ef6]",
+    "tests.test_unit_compatibility::test_metric_tonnes_are_exact[1-\\u5428-kg-1000]",
+    "tests.test_unit_compatibility::test_metric_tonnes_are_exact[500-kg-\\u5428-0.5]",
+    "tests.test_unit_compatibility::test_metric_tonnes_are_exact[1-g-\\u5428-0.000001]",
+    "tests.test_unit_compatibility::test_metric_tonnes_are_exact[0.000001-\\u5428-g-1]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u53f0-\\u4e2a]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u53f0-\\u5428]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u5428-L]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u53f0-\\u76d2]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u4efd-g]",
+    "tests.test_unit_compatibility::test_count_units_and_dimensions_cannot_be_guessed[\\u4efd-\\u4ef6]",
+    "tests.test_unit_compatibility::test_consume_draft_preserves_original_unit_and_never_writes[\\u5428]",
+    "tests.test_unit_compatibility::test_consume_draft_preserves_original_unit_and_never_writes[\\u53f0]",
+    "tests.test_unit_compatibility::test_consume_draft_preserves_original_unit_and_never_writes[\\u4efd]",
+    "tests.test_unit_compatibility::test_consume_draft_preserves_original_unit_and_never_writes[\\u4ef6]",
+    "tests.test_unit_compatibility::test_p7_reads_all_supported_units_as_current_facts_without_model_calls",
+    "tests.test_unit_compatibility::test_tonne_conversion_rejects_subprecision_without_crashing_or_rounding"
+  ],
+  "live_counts": {},
+  "live_executions": 0,
+  "current_entry_status": "不适用真实语义题",
+  "automatic_live_rate": null,
+  "time": {
+    "n": 0,
+    "mean": null,
+    "min": null,
+    "p50": null,
+    "p90": null,
+    "p95": null,
+    "p99": null,
+    "max": null,
+    "stddev": null
+  },
+  "calls": 0,
+  "cost_cny": 0,
+  "notes": [
+    "当前逐件入口与旧批次兼容结果分开；半件扣减不在当前契约。"
+  ],
+  "live_ids": []
+}

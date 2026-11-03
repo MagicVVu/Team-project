@@ -1,0 +1,65 @@
+# V1-P8.2 正式发布记录
+
+发布日期：2026-10-25，Asia/Shanghai。用户授权将会话记忆工作归档为 V1-P8.2、同步服务器并替换正式运行版本。
+
+## 发布结果
+
+AI与配套后端正式切换成功，两个服务健康、无重启。AI启动时间为16:51:30，后端为16:51:21；后续检查仍保持相同容器且重启次数为0。服务声明 `maintenance_release=V1-P8.2`，会话协议为 `conversation-memory-1`。
+
+| 服务 | 当前镜像 | 镜像ID |
+|---|---|---|
+| AI | `magicvvu/agent:p82-05fa3203a7cb` | `sha256:a6ee9bede537af2aab02f8a2a19a78d824f64ecdfac34f51806bb052a99577b8` |
+| 配套后端 | `magicvvu/backend:p82-05fa3203a7cb` | `sha256:5b65bad62461ef29e82f941fddfc19acc5e31691fa6011529be3e2b8505f4534` |
+
+兼容API版本保持AI `0.7.0`、后端 `0.9.0`，既有 `runtime.release=V1-P7` 保持；本次维护标识为V1-P8.2。新结果默认标记P8.2，读取已有任务时仍接受P8.1运行元数据。前端应读取会话能力声明，不应把版本名称当作实际执行凭证。
+
+源码签名：`05fa3203a7cb8473cbb05b2a536a748a8a7db34f5aae2c275254b4eeab3fcd7d`。
+
+## 同步与其他贡献保护
+
+发布前核对服务器相关文件与本地已提交的P8.1基线一致，没有发现需要合并的独立修改。发布使用当前正式镜像作为基底，只复制本阶段允许的文件，没有用整个本地目录覆盖正式后端。
+
+- AI源码按模块同步84个运行文件至 `~/workspace/agent/candidates/v1-p8.2-05fa3203a7cb`。正式AI镜像和活动工作区仅更新8个文件：`conversation/app.py`、`engines.py`、`manager.py`、`schemas.py`、`health.py`、`memory.py`、`memory_schemas.py`，以及 `integration/source_manifest.py`。
+- 后端6个适配文件保存在 `~/workspace/agent/backend_patches/v1-p8.2-05fa3203a7cb`，叠加进入正式镜像：`app/main.py`、`app/routers/agent_gateway.py`、`app/routers/draft_execution.py`、`app/memory_schemas.py`、`app/routers/session_memory.py`、`app/services/session_memory.py`。
+- 其余Python源码逐文件哈希核对保持原样；正式后端仓库检出目录没有被覆盖。后端负责人后续从源码构建时需要合入这6个文件。
+- Compose仅修改AI与后端的两个镜像引用；环境变量、密钥配置、证书、挂载、网络、端口、资源限制、健康检查命令和安全配置均保持原样。
+- 数据库容器未替换，Alembic仍为 `20261023_0010`；没有建表、迁移或恢复数据库，没有写入测试用户、会话、任务、库存或业务事件。
+- 切换前读取在途状态：AI任务0、有效会话处理租约0。没有修改Android，没有执行Git提交或推送。
+
+## 验证记录
+
+- 本地发布前回归：AI907通过、1跳过；后端发布专项77通过、2跳过。此前后端完整回归394通过、37跳过，专项与完整回归存在重叠。
+- 候选镜像在无网络、只读容器中检查旧流程、选批次、补字段、完整消耗、包装单位、采购来源、新会话追问、恢复重新读取，以及P8.1元数据兼容，全部通过。
+- 正式运行后重复检查新旧AI流程，结构化续接及确定性查询零模型调用，库存夹具未改变。
+- 新增公开会话读取、重置、发送和恢复接口均要求登录；无令牌访问返回401。内部接口继续不可公开访问。
+- 正式HTTPS健康返回200，证书指纹与上一版一致。现有真实库存与规划资料只读检查通过，事实没有导出或送入模型。
+- PostgreSQL只读事务中的会话读取通过，当前用户还没有使用新会话入口，返回需要初始化会话；检查没有创建会话。
+- 服务器一次DeepSeek合成上下文理解通过，约1.23秒，没有自动重试或发送真实家庭资料。预算账本调用数254→255；预算仅正常记账，没有恢复、清零或替换。
+
+150条合成离线回归、本地两轮真实模型记录仍完整保留；本次服务器检查不能代替完整模型意图准确率、正式性能P95或Android联合验收。有效人工审核规则仍为0，自动采纳计算型采购建议仍关闭，这些边界没有因发布而变为已完成。
+
+## 契约与证据入口
+
+- **[正式 AI OpenAPI JSON](production-ai-openapi.json)**、**[正式后端 OpenAPI JSON](production-backend-openapi.json)**：实际运行导出，正式接入优先使用。
+- [源码AI OpenAPI](contracts/ai-openapi.json)、[源码后端OpenAPI](contracts/backend-openapi.json)：本地导出。
+- [契约对照](production-contract-comparison.json)：AI导出完全一致；后端存在原有依赖版本引起的Decimal字符串正则展示差异，限定归一化后其余内容一致，没有更换依赖。
+- [候选与备份](production-prepare.json)、[正式切换](production-deployment.json)、[运行验证](production-verification.json)、[HTTPS／数据库／模型检查](production-postcheck.json)、[最终检查](production-final-check.json)。
+- [本地验证汇总](../../../reports/session-memory/verification-summary.json)、[前后端交接说明](前后端交接说明.md)。
+
+归档证据不包含密钥、环境变量正文、原始Docker环境或真实库存正文。原始运行配置与备份只保存在服务器私有发布目录。
+
+## 备份与回滚
+
+服务器私有目录：`~/workspace/agent/.releases/p82-20261025-05fa3203a7cb-r2`。目录权限700，私有备份文件600，原Compose、容器配置、活动源码和预算快照已保留。
+
+原镜像仍可用：`magicvvu/agent:p81-c2047faaa5a3`、`magicvvu/backend:p81-c2047faaa5a3`。切换程序具备检查失败自动回退能力；本次正式切换没有触发回滚。
+
+需要回滚时，先核对当前镜像与文件仍属于本次发布，防止覆盖后续贡献；只回退两个镜像引用及本阶段对应源码。数据库和预算账本不随代码回滚恢复，避免撤销真实业务或费用记录。
+
+首轮候选备份目录以 `-r1` 结尾，因发布脚本测试样例缺少必填 `model_calls` 而停止。修复测试样例后使用 `-r2` 重跑候选，通过后才替换正式版本。首轮未切换正式服务，也没有删除失败记录。
+
+## 剩余协作
+
+AI与配套后端已发布；前端需要根据[交接说明](前后端交接说明.md)接入新增会话接口、会话ID／修订、历史和恢复展示，才能在App中完整呈现会话记忆。旧入口保持兼容，不会自动被拼入新会话。
+
+前端接入、正式数据库并发写入和完整真机场景仍需联合验收，健康状态中的 `frontend_integration_verified`、`production_chain_verified` 继续保持false。

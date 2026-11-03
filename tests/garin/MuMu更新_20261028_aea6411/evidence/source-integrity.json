@@ -1,0 +1,9 @@
+{
+  "source_commit": "aea6411d868ff30e64ab440239de8bbba7059f09",
+  "protected_tracked_files": 2016,
+  "changed_before_handoff_index_update": [],
+  "snapshot_inputs_checked": 200,
+  "changed_snapshot_inputs": [],
+  "expected_following_owned_document_change": "tests/交接文件夹/README.md append update link only",
+  "checked_at_utc": "2026-10-28T13:52:31.186059+00:00"
+}

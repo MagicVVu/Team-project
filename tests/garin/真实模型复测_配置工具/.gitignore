@@ -1,0 +1,4 @@
+*.dpapi
+.env
+.env.*
+!*.example

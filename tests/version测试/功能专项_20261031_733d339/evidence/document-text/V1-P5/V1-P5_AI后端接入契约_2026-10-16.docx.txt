@@ -1,0 +1,201 @@
+V1 P5 AI后端接入契约
+版本 1.0   编制日期 2026年10月16日   时区 Asia/Shanghai
+编制：项目 AI 开发成员   阅读对象：后端维护者与前后端联调成员
+本契约以服务器现有 v0.6.0 数据库网关为正式业务入口，该网关保持不变。P5 新增 AI 确认文字适配及现有任务协议客户端，复用既有身份、库存只读工具和草稿链路。本文说明当前可对接行为与能力边界，不要求扩展公开消息字段、替换网关或新增任务数据库。
+1 系统职责与信任边界
+调用顺序：现有 App 核对最终文字 → 数据库网关校验业务身份并管理任务 → AI 读取可信工具事实 → 返回结果或待确认草稿 → 数据库网关保存任务并公开脱敏结果。正式库存确认写入继续由业务后端已有事务完成。
+参与方
+现有或本阶段职责
+不得混淆的边界
+App 或受信调用端
+识别与编辑 核对最终文字 保存本地会话
+不持有服务密钥，不向 AI 提供自报库存作为可信事实
+数据库网关
+业务身份 家庭权限 任务 幂等 最新修订 私有上下文
+继续使用当前数据库实现；不替换为旧设备快照网关
+P5 AI 服务
+输入防护 意图提取 只读查询 可编辑草稿
+无任务持久化 无确认事务 无业务写接口
+库存工具提供方
+提供受权限限制的真实批次与版本
+预测依赖真实数据，缺失能力不由 AI 构造补齐
+
+2 公开接口沿用现有路径
+方法
+路径
+用途
+POST
+/api/v1/agent/messages
+提交最终文字并取得正式任务
+GET
+/api/v1/agent/tasks/{task_id}
+查询或恢复已有任务
+POST
+/api/v1/agent/clarifications/{task_id}
+按最新修订补缺失字段或选择批次
+GET
+/api/v1/drafts/{draft_id}
+读取待确认动作草稿，不执行确认
+
+新增的 interaction.tasks.TaskClient 只调用上述四类操作，不是代理服务或后端替代实现，也没有确认、撤销、库存或购物清单写方法。
+3 公开消息与身份约定
+POST /api/v1/agent/messages 只使用现有四字段。Authorization 使用业务用户访问令牌，由数据库网关识别用户；家庭 ID 是选择条件，不能替代家庭成员权限校验。
+{  "household_id": "00000000-0000-4000-8000-000000000001",  "text": "添加2盒牛奶",  "request_id": "p5-msg-0001",  "household_timezone": "Asia/Shanghai"}
+字段
+约束
+处理约定
+household_id
+UUID
+必须是当前用户可访问家庭
+text
+非空白 1至1000字符
+只发送用户最后核对的文字，不混入原始识别结果
+request_id
+1至100字符
+沿用字母 数字 . _ : -；重放复用原键及完整消息
+household_timezone
+IANA 时区 默认Asia/Shanghai
+由可信业务上下文提供，不能由模型猜测
+
+公开体不发送 input、items、inventory_revision、raw_transcript、audio 或 confidence。当前网关不转发语音来源字段，调用端保留来源信息，AI 按普通文字处理。文本防护仍然有效，review_attestation_received=false。
+4 AI 内部接口与可选来源
+服务入口 interaction.app:create_app。POST /agent/message 保留 text、request_id、household_timezone、reminder_days；可选 input 仅供受信调用方声明来源。POST /agent/clarification 使用私有 context、revision、answers。继承的结构化风险与规划接口以 ai-openapi.json 为准。
+AI 内部鉴权沿用 Bearer AI_SERVICE_TOKEN，X-User-Id 与 X-Household-Id 由后端可信上下文提供；工具使用原 BACKEND_TOOL_TOKEN。APP_API_TOKEN、AI_SERVICE_TOKEN、BACKEND_TOOL_TOKEN 均不能当作业务用户令牌发送到手机。
+可选 input 示例 仅用于受信 AI 内部调用{  "source": "voice", "input_session_id": "voice-0001",  "transcript_revision": 2,  "user_confirmed": true, "user_edited": true}
+source 取 text、voice、manual_fallback；修订号至少 1。显式未核对返回 INPUT_NOT_REVIEWED，不调用模型或工具。声明不证明 AI 已核验录音或用户点击，额外转写或音频字段被拒绝。
+5 公开任务与结果状态
+公开 Task 保留 task_id、household_id、status、revision、expires_at、draft_id、result、inventory_written。任务和草稿标识为 UUID，revision 至少 1。处理中 result 可为空对象；完成后 result.status 必须与任务一致。
+status
+结果要求
+调用端行为
+processing
+result={} 可被客户端解释为尚无结果
+GET 原任务，不新建请求
+answered
+回答和真实读取事实，或本条输入取消说明
+展示事实；取消不代表已有任务撤销
+needs_clarification
+公开 clarification 和待补字段或正文核对提示
+区分补字段与编辑后重新提交
+needs_confirmation
+draft 和 draft_id 必须同时存在
+展示可编辑待确认草稿，注明尚未写入
+unsupported
+不支持的范围及拆分或手动提示
+不自动扩展为批量执行
+error
+error_code 和可用恢复依据
+保留输入，按错误规则处理，不自动重复调用
+
+公开 clarification 只能包含 revision、allowed_fields、expires_at。不得透出原始 scope、delegate 或完整内部 context。AI 的 trace_id 用于定位；结果中的 facts、candidates 和 preview.before 必须属于当前家庭。候选保留名称、数量、单位、位置、购入日期、标签日期、开封日期、状态和版本，不默认第一批。
+6 公开草稿与动作字段
+GET /api/v1/drafts/{draft_id} 返回 id、task_id、revision、status、draft、preview、prospective=true、inventory_written=false。核对草稿与任务 ID；这里只读取。下表目标字段指 name、batch_id、expected_version。
+draft.action
+动作字段
+语义约束
+ADD
+name quantity unit 及可选位置日期
+新增待确认草稿
+PLAN_ADD
+name quantity unit
+采购计划草稿，不直接写采购清单
+CONSUME
+目标字段及 quantity unit
+定量消耗，不混入丢弃事件
+OPEN
+目标字段及 opened_at
+不需要 quantity；数量保持
+MOVE
+目标字段及 to_location
+不需要 quantity；整批移动
+DISCARD
+目标字段及 discard_mode quantity unit
+partial 或 all；all 数量来自当前库存
+
+preview 给出 before、after、event_type、quantity_delta 等，prospective=true。P3 的 planning_basis 保留在完整任务结果；当前 GET草稿没有该独立字段，不能声称已扩展确认存储或事务。
+7 两种澄清的恢复规则
+7 1 正文需要重新核对
+否定、口误、自我修正、不确定、假设和引用指令返回 needs_clarification，input_review.resubmit_required=true，replacement_request_id_required=true。私有上下文版本 p5-text-review-1，missing_fields 包含 text，allowed_fields=[]。
+调用端保留原文让用户编辑并重新核对，然后以新消息和新 request_id 提交。不能把正文作为旧任务答案，不能发送空 answers 强行恢复。AI 内部若收到该类澄清，返回 REVIEW_RESUBMIT_REQUIRED。单独“取消”只表示本条不生成新草稿。
+7 2 补缺失字段或选择批次
+业务澄清使用 p5-continuation-1 封套携带既有 P1、P2 或 P3 delegate，保留原文与 input_receipt。后端保存完整私有上下文；手机只传 task_id、revision 和允许的 answers，由后端取出当前上下文转发 AI。旧上下文仍可直接续接。
+POST /api/v1/agent/clarifications/{task_id}{  "revision": 1,  "answers": {"opened_at": "今天"}}
+仅在当前任务允许 opened_at 时使用以上答案；选批次只提交候选 batch_id。续接重新读取库存与版本，不调用模型。答案不能修改动作、家庭、版本或正文。“今天/昨天”由确定性解析器结合可信时间和家庭时区处理；缺失、模糊或未来开封日期需补充或纠正。
+7 3 当前公开答案白名单
+name  quantity  unit  location  purchased_at  label_expiryopened_at  to_location  batch_id
+当前 v0.6.0 不支持 item_key 或空 answers，TaskClient 在发出 HTTP 前返回 TASK_CAPABILITY_UNAVAILABLE。这是现有公开能力边界，不提出网关改造要求。P3 内部存在更广的选择协议，不意味着当前公开入口已开放。
+7 4 归属与修订校验
+封套 id、revision、scope、request_id、trace_id、时区、创建时间、有效期、allowed_fields 与 delegate 一致；原文和回执指纹也需一致。AI 检查作用域、有效期、修订号和事实版本，但没有数据库，最新修订及可信上下文仍由后端管理。
+正文审核上下文有效期为 15 分钟，其余按返回的 expires_at 处理。错误任务当前不支持澄清恢复时，应读取结果后手动核对或明确发起新请求，不修改现有网关实现。
+8 重放 超时与错误映射
+每次 AI 初始处理及结构化续接各有包含模型和只读工具的 10 秒预算。任务客户端默认 15 秒总等待，一次传输只尝试一次，不自动重发 POST、不自动切换旧协议、不自动再次调用付费模型。识别耗时独立统计。
+情况
+客户端或 AI 错误码
+处理方式
+HTTP 401
+BUSINESS_UNAUTHENTICATED
+重新核对业务用户身份
+HTTP 403
+HOUSEHOLD_FORBIDDEN
+核对家庭权限，禁止返回其他家庭事实
+HTTP 404
+TASK_NOT_FOUND
+核对身份与已有任务或草稿
+HTTP 409
+TASK_CONFLICT
+读取原任务，核对幂等和修订或库存版本
+HTTP 422
+TASK_REQUEST_INVALID
+核对现有字段协议，再由用户明确提交
+传输或等待超时
+TASK_OUTCOME_UNKNOWN
+有task_id则GET；无ID仅允许明确同键恢复
+旧快照响应
+WRONG_GATEWAY_PROTOCOL
+停止使用该响应，不切换到旧网关
+响应格式不一致
+TASK_CONTRACT_INVALID
+阻止继续使用错误任务或草稿
+AI 总截止超时
+AGENT_TIMEOUT
+保留原文与可用字段，提示人工处理
+模型输出非法
+INVALID_MODEL_OUTPUT
+无草稿；保留失败证据，不自动重试
+
+TaskClient 仅接受成功的 200 或 201，可解析现有 success=true / data 外层或直接数据体；其余错误会脱敏，不把上游正文带给手机。其他非成功状态返回 TASK_UNAVAILABLE。
+9 调用端会话与去重责任
+session.py 提供调用方持有的纯函数参考：idle → recognizing → editing → reviewed → submitted，另有 cancelled。recognition_id 屏蔽迟到和重复回调；编辑增加 transcript_revision。识别失败可手动回退，空输入或取消不能提交。
+提交保存完整 body、request_id 和指纹；重复点击或重启恢复复用原消息。已提交后改变正文、家庭、时区或其他受绑定字段会拒绝重放，需新建会话。只有用户明确恢复时才同键重放；AI 本身没有全局 HTTP 去重能力。
+input_receipt 包含最终文字 SHA256、作用域及文字等绑定指纹和来源声明，deduplication_owner=business_backend。指纹不含原始音频，不是签名，不替代后端身份鉴权、幂等或最新 revision 管理。
+10 运行配置与文件边界
+AI 运行代码位于 ~/workspace/agent，按 interaction、p0 至 p3、integration 等原有目录组织。P5 采用薄配置入口；默认 P3 工厂契约不变。保留现有 Python 和依赖，不新增数据库或 ASR 服务。
+AI 入口  interaction.app:create_app引擎配置  P3_ENGINE=rules 或 deepseek复用配置  AI_SERVICE_TOKEN  BACKEND_BASE_URL          BACKEND_TOOL_TOKEN  既有模型认证与账本
+Dockerfile.interaction 和本地 deploy/compose.interaction.override.yaml 只是构建及协作材料。当前已同步源码并做远端工厂与烟雾检查，没有启动、重启或切换正式服务。容器切换由部署流程另行执行，不能将源码同步记成线上接入完成。
+11 联调步骤与职责
+步骤
+负责方
+核对内容
+确认测试环境
+后端与测试
+现有数据库网关地址 业务用户权限 测试家庭和批次版本
+核对 AI 路由
+后端与 AI
+按现有配置接入 P5 工厂；可信身份头与工具权限
+验证文字任务
+后端与测试
+四字段消息 GET任务 GET草稿 尚未写入
+验证澄清恢复
+后端与 AI
+后端保管私有上下文 最新revision 公开脱敏 重新读取事实
+接入端上会话
+前端
+核对文字 回调隔离 恢复同键 正文重提使用新键
+独立验收事务
+后端与测试
+既有确认写入 版本冲突 事件持久化及撤销，不由 AI 执行
+
+12 当前接入判定与证据文件
+P5 AI侧实现与规则验证完成，现有网关客户端适配完成；真实业务用户正向链路、实际 Android 接入和正式发布待验收。真实模型保留集 59/60，p5-42-1 输出格式失败，严格验收 false。P3 历史数据未提供时维持相关能力条件可用，不伪造数据，也不要求更改现有数据库网关。
+本目录机器契约：ai-openapi.json、reviewed-message.schema.json、continuation.schema.json、input-session.schema.json、public-task.schema.json、public-draft.schema.json。input-session 是调用端受保护状态结构，不是公开请求体。字段发生争议时先对照当前代码、Schema 与 v0.6.0 实际响应，记录不一致，不擅自放宽协议。
+依据：ai-contract.md、delivery-and-validation.md、validation-summary.json，以及 agent/interaction/tasks.py、schemas.py、manager.py、session.py。说明文件和测试数据留本地，服务器数据库网关保持原实现。

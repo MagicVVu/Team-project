@@ -1,0 +1,64 @@
+{
+  "stage": "P7.1",
+  "title": "配置和入口收尾",
+  "features": [
+    "显式运行入口",
+    "配置解析一致性",
+    "离线能力与部署记录分开"
+  ],
+  "document": "docs/versions/V1-P7.1/README.md",
+  "native_counts": {
+    "PASS": 25,
+    "SKIP": 1
+  },
+  "native_case_count": 26,
+  "native_nodes": [
+    "tests.test_runtime_config::test_initialize_has_no_secret_and_is_repeatable",
+    "tests.test_runtime_config::test_secret_prompt_does_not_print_key_and_preserves_tokens",
+    "tests.test_runtime_config::test_invalid_key_does_not_change_existing_configuration[]",
+    "tests.test_runtime_config::test_invalid_key_does_not_change_existing_configuration[too-short]",
+    "tests.test_runtime_config::test_invalid_key_does_not_change_existing_configuration[sk-key\\nINJECTED=value]",
+    "tests.test_runtime_config::test_invalid_key_does_not_change_existing_configuration[sk-key with a space]",
+    "tests.test_runtime_config::test_mismatched_confirmation_preserves_saved_key",
+    "tests.test_runtime_config::test_file_is_read_as_data_not_shell_code",
+    "tests.test_runtime_config::test_invalid_existing_config_is_not_overwritten[BAD LINE\\n]",
+    "tests.test_runtime_config::test_invalid_existing_config_is_not_overwritten[P3_ENGINE=deepseek\\nP3_ENGINE=rules\\n]",
+    "tests.test_runtime_config::test_invalid_existing_config_is_not_overwritten[KEY='unclosed\\n]",
+    "tests.test_runtime_config::test_existing_key_is_preserved_and_deepseek_enabled",
+    "tests.test_runtime_config::test_loader_keeps_deployment_auth_and_container_backend_address",
+    "tests.test_runtime_config::test_missing_backend_tokens_refuses_to_start",
+    "tests.test_runtime_config::test_launch_uses_only_environment_for_secrets_and_local_listener",
+    "tests.test_runtime_config::test_symlink_target_is_never_followed",
+    "tests.test_runtime_config::test_noninteractive_input_is_rejected_before_requesting_a_key",
+    "tests.test_runtime_config::test_echoing_getpass_fallback_is_never_allowed",
+    "tests.test_runtime_config::test_explicit_profile_selects_entry_without_changing_credentials[p6-v1.app:create_app]",
+    "tests.test_runtime_config::test_explicit_profile_selects_entry_without_changing_credentials[p7-conversation.app:create_app]",
+    "tests.test_runtime_config::test_profile_cannot_inject_an_arbitrary_module",
+    "tests.test_runtime_config::test_config_readiness_rejects_engine_or_model_mismatch[override0]",
+    "tests.test_runtime_config::test_config_readiness_rejects_engine_or_model_mismatch[override1]",
+    "tests.test_runtime_config::test_check_cli_only_reports_configuration_and_never_launches[True]",
+    "tests.test_runtime_config::test_check_cli_only_reports_configuration_and_never_launches[False]",
+    "tests.test_runtime_config::test_selected_profile_uses_workspace_python_when_available"
+  ],
+  "live_counts": {},
+  "live_executions": 0,
+  "current_entry_status": "不适用真实语义题",
+  "automatic_live_rate": null,
+  "time": {
+    "n": 0,
+    "mean": null,
+    "min": null,
+    "p50": null,
+    "p90": null,
+    "p95": null,
+    "p99": null,
+    "max": null,
+    "stddev": null
+  },
+  "calls": 0,
+  "cost_cny": 0,
+  "notes": [
+    "配置或维护阶段，真实语义题不重复配置；本轮未部署。"
+  ],
+  "live_ids": []
+}

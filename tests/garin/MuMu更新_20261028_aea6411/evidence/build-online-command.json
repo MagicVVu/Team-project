@@ -1,0 +1,20 @@
+{
+  "working_directory": "V:\\.snapshot\\frontend",
+  "mode": "online",
+  "arguments": [
+    "--no-daemon",
+    "--console=plain",
+    "--stacktrace",
+    "--max-workers=2",
+    "-Dorg.gradle.java.installations.auto-download=false",
+    "-Dorg.gradle.java.installations.paths=E:\\Development\\SDKs\\Java\\jdk-21.0.12+8",
+    "-Pandroid.builder.sdkDownload=false",
+    "-Pandroid.overridePathCheck=true",
+    "assembleDebug"
+  ],
+  "source_commit": "aea6411d868ff30e64ab440239de8bbba7059f09",
+  "uses_existing_user_debug_key": true,
+  "installs_app": false,
+  "connects_business_service": false,
+  "calls_models": false
+}

@@ -1,0 +1,48 @@
+# V1-P8 独立评测说明
+
+日期：2026-10-23。
+
+## 数据与结果
+
+`agent/eval/chat/samples.jsonl` 共150条，30个场景组，每组5条；18组/90条开发，12组/60条保留。场景组不跨集合，来源是 AI 构造的合成聊天及任务绑定夹具；样本人工复核尚未完成，详见同目录 `manifest.json`。保留集用于本阶段验证，不等同于未经任何观察的长期盲测集。
+
+| 验证 | 结果 | 证据与解释 |
+|---|---|---|
+| 开发集 | 90/90 | [eval-dev.json](eval-dev.json)；字面规则/合成读取器 |
+| 保留集 | 60/60 | [eval-test.json](eval-test.json)；相同规则，场景组隔离 |
+| DeepSeek 合成表达 | 6/6 预期意图 | [提取记录](deepseek-synthetic-extraction.json)；服务当前既有提取器及提示词，只有固定合成文本 |
+| 模型记录的 P8 本地回放 | 6/6 | [回放结果](deepseek-synthetic-replay.json)；P8 Manager + 固定测试库存；回放零次模型调用、库存零写入 |
+
+150 条评测主要覆盖问候/帮助/感谢、缺字段、多字段补充、日期、候选顺序、换话题、保护已有字段、歧义、过期、跨家庭、提示注入等。检查四种续接结果、准确字段、原修订、模型调用次数和输入对象不被修改。完整业务任务链、库存变化、删除和终态等另由自动化回归覆盖。
+
+它们验证的是规则和接入契约，不是150次真实大模型问答，不据此宣称自然语言意图准确率100%、真实澄清召回率100%或正式页面已可用。
+
+## 真实模型小样本
+
+6条固定文本分别涉及新增、移动、开封、全部丢弃、采购和位置查询。调用的是服务器现有正式提取器，使用当前既有 DeepSeek 配置；该提取步骤没有库存工具，不读取、不发送真实家庭库存，也不执行任何业务。
+
+提取耗时约0.99～1.25秒/条，6次请求、无自动重试。随后将记录输出在本地通过 P8 编排和合成库存回放：5份待确认草稿、1个事实查询，核对原文、动作、字段、版本和零写入。
+
+提取记录包含原有累计账本摘要：242次到248次，保守累计成本0.867692元到0.888970元。此数值来自本项目账本，不是供应商账单；原有一条 usage 未知记录保持不变。本次没有重置账本或上传私有配置。
+
+这项验证不能替代候选镜像部署后的服务联验，也不能替代App真实家庭端到端测试。
+
+## 时延与未验证项
+
+结果中的 `p95_offline_seconds` 仅包括本机规则、夹具读取和断言；不包含网络、真实模型、数据库和 Android。真实模型小样本只量提取时间，两者均不能证明App全链路 P95≤10秒。AI原有包含工具读取的10秒总截止继续保留。
+
+尚待人工样本复核、真实用户表达评估、PostgreSQL并发验证、真机中断恢复和正式链路时延测量。规则/预测知识的专业审核和真实预测准确度也未由此次测试完成。
+
+## 本地复现
+
+在仓库根目录设置 `PYTHONPATH` 包含仓库和 `agent`，使用既有项目依赖：
+
+```powershell
+$env:PYTHONPATH="$PWD;$PWD/agent"
+python -m pytest agent/tests -q
+python -m eval.chat.run --split dev --output .cache/p8-checks/eval-dev.json
+python -m eval.chat.run --split test --output .cache/p8-checks/eval-test.json
+python -m eval.chat.replay --input docs/versions/V1-P8/deepseek-synthetic-extraction.json --output .cache/p8-checks/live-replay.json
+```
+
+上述规则评测与回放均不调用付费模型。后端测试需 `backend/server/requirements.txt` 中依赖；设置 `DRAFT_EXECUTION_PG_TEST=no` 后运行 `pytest backend/server/tests -q` 仅使用本地隔离夹具。正式环境上不执行本地测试或数据库夹具。

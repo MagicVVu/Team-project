@@ -1,0 +1,16 @@
+{
+  "dpapi_synthetic_roundtrip": "PASS",
+  "configuration_status": "not_configured",
+  "network_calls": 0,
+  "paid_model_calls": 0,
+  "execution_policy_changed": false,
+  "launcher_runtime": "existing PowerShell 7.6.5",
+  "files": {
+    ".gitignore": "199229c555bcbb926e9377d00468585d345d95966c2e3ed9f994d3e9f87ef466",
+    "Check-DeepSeek.ps1": "2867daf5533ae0250d8feee10a5827d3b75c2275480449ae4259b5aed20914d4",
+    "Configure-DeepSeek.ps1": "3d75134cf7470275d3252dc1397d4c10ae897b4bae00bafb51be687b60bad49c",
+    "GarinModelConfig.psm1": "85e63cdfc7d95ee67c43ae2c4b72216d94e9555fdea8670d0fd24b81108fa1d3",
+    "双击检查.cmd": "35137138f2105b456cb5c9c007fd5a345df56756755581e439168a833feee2e0",
+    "双击配置.cmd": "89e56c72284f12b8a40a7dc01f0d24100688261a036fa219ff0ed8dba8e74704"
+  }
+}

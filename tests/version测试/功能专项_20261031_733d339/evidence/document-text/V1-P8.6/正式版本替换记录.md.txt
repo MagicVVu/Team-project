@@ -1,0 +1,66 @@
+# V1-P8.6 正式运行替换记录
+
+2026-10-30，Asia/Shanghai。用户授权后，已将AI自主循环及必要的后端会话薄适配同步服务器并启用。此次不是Git推送：本地基线为用户已提交的 `6480c77`，本轮没有新建提交、推送仓库或修改Android。
+
+## 当前运行版本
+
+| 服务 | 当前镜像 / 协议 | 状态 |
+|---|---|---|
+| AI | `magicvvu/agent:p86-dc3519330fec`；AI 0.8.6 / V1-P8.6；DeepSeek `deepseek-flash`；`inventory-autonomous-1` | healthy |
+| 后端 | `magicvvu/backend:p86-dc3519330fec`；业务0.9.0 / P9保留；新消息启用自主协议 | healthy |
+| 数据库 | 原PostgreSQL17容器，迁移号 `20261029_0012` | healthy，容器未重建、无迁移 |
+
+AI新容器启动时间为2026-10-30 11:21:04（北京时间），后端为11:20:56。`maintenance_release` 为V1-P8.6；健康中的历史 `release_version=V1-P7`、旧policy名等是兼容字段，判断新链路应看 `maintenance_release` 和 `conversation_dialogue_protocol`。
+
+当前新协议无固定模型次数上限，仍有60秒总期限和缺信息/无进展等停止机制。旧P8.4/P8.5入口及其次数约束保留，恢复按保存的协议处理。库存与采购变更仍止于待确认草稿，AI不执行正式写入。
+
+## 发布范围及保护
+
+先检查运行容器源码、工作区、配置摘要、数据库版本和活动租约，未发现未协调的改动。以两个当前运行镜像的不可变ID为基底构建，不用本地旧工程覆盖服务器：AI只叠加14份变更文件；后端仅叠加以下6份：
+
+- `app/memory_schemas.py`
+- `app/routers/draft_execution.py`
+- `app/routers/session_memory.py`
+- `app/services/autonomous.py`
+- `app/services/memory_archive.py`
+- `app/services/session_memory.py`
+
+AI运行源码107份按原模块同步到 `~/workspace/agent/`，六份后端适配另存 `~/workspace/agent/backend_adapters/p86-dc3519330fec/`。候选在 `~/workspace/agent/candidates/p86-dc3519330fec/`。没有把文档、测试套件或评测集上传服务器。
+
+Compose仅变更：`agent.image`、`agent.command`、`agent.healthcheck.test`、`backend.image`、`backend.environment.AI_CONVERSATION_DIALOGUE_PROTOCOL`。原YAML其他内容、密钥文件、端口、挂载、资源策略和重启策略保留；未改正式业务执行、逐件库存模型、数据库任务网关、迁移或TLS入口源码。
+
+切换前短暂停止后端接受请求，确认活动AI租约为0，并完成私有数据库备份后切换。数据库容器ID、启动时间、配置摘要与发布前相同；未运行数据库迁移或恢复，未用生产账号和库存做验收写入。
+
+完整审计和结果：[audit](../../../reports/p86-autonomous/production-20261030/audit.json)、[prepare](../../../reports/p86-autonomous/production-20261030/prepare.json)、[switch](../../../reports/p86-autonomous/production-20261030/switch.json)、[最终verify](../../../reports/p86-autonomous/production-20261030/verify.json)。
+
+## 实际验证
+
+| 检查 | 结果与范围 |
+|---|---|
+| 候选隔离检查 | 两镜像在无外网、无正式数据库连接条件下通过导入、入口/认证、旧工厂、零模型路径和超过两次计数DTO验证 |
+| 正式健康与就绪 | AI、后端、数据库均healthy；后端health/ready正常 |
+| 代码及配置 | AI107份、后端6份源码哈希一致；未覆盖的运行Python源码与发布前一致；密钥配置、网关/定价挂载文件保持原摘要 |
+| 新协议 | AI健康和后端实际能力均为 `inventory-autonomous-1`，fixed_call_limit=false |
+| 真实DeepSeek | 合成寒暄成功，1次模型调用、约1.45秒、0库存读取；不是多轮准确率或App端到端验收 |
+| 零模型及服务认证 | 从实际后端使用现有服务认证调用AI新入口及旧P8.5理解入口，均0次模型调用；不落正式会话行 |
+| 公开HTTPS | 使用原Android Debug内置CA验证证书及IP主机名后，health=200；缺App Key=403；有App Key缺Bearer=401 |
+| 回退可用性 | 两个旧镜像仍可用；配置、容器快照和数据库私有备份保留；未实际执行回退演练 |
+
+证据：[真实模型](../../../reports/p86-autonomous/production-20261030/model-check.json)、[服务认证与公开入口](../../../reports/p86-autonomous/production-20261030/network-check.json)、[系统信任库诊断](../../../reports/p86-autonomous/production-20261030/network-system-trust.json)。本次没有重跑原16条/24条模型集，也不把构造DTO的4次计数验证说成真实模型4次循环。
+
+现有HTTPS证书发行者是 `MagicVVu Internal Test CA`。首次使用系统默认信任库的探针失败；随后按项目现有Android Debug CA验证成功，未跳过证书或主机名验证、未替换证书。因此服务更新成功不代表Release安装包已可公开上线；正式地址、公共受信证书以及真机完整会话/确认/恢复仍需联合验收。本次不改其他负责人的TLS和前端配置。
+
+## 实际运行契约
+
+- [运行AI OpenAPI JSON](contracts/production-ai-openapi.json)：来自新AI的实际 `/openapi.json`。
+- [运行后端 OpenAPI JSON](contracts/production-backend-openapi.json)：公开文档仍关闭，使用实际后端容器内 `app.openapi()` 只读导出，未为取文档开启生产调试。
+- [运行契约清单](contracts/production-manifest.json)：两份JSON摘要、镜像和源码标识；不覆盖原本地契约或P8.5证据。
+- [内部run请求](contracts/run-request.schema.json)、[内部run响应](contracts/run-response.schema.json)、[可信上下文](contracts/context.schema.json)、[公开响应](contracts/public-response.schema.json)、[恢复](contracts/recovery.schema.json)：当前源码的细分Schema，配合实际OpenAPI查看。
+
+发布后的阶段检查与文档校验见[交付摘要](../../../reports/p86-autonomous/production-20261030/delivery-summary.json)。前后端职责仍以[交接说明](前后端交接说明.md)为准。
+
+## 备份与回退
+
+私有备份目录为 `~/workspace/agent/.releases/p86-20261030-dc3519330fec/`，保存原Compose、两服务容器配置、源码同步前副本和 `database-before.private.dump`。私有配置/数据库备份留在服务器，未下载到本地报告。原镜像 `magicvvu/{agent,backend}:inventory-units-20261029` 未删除。
+
+需要回退时，由维护者在当前仓库运行 `python tools/p86_release.py rollback`。脚本先检查Compose没有被他人替换，恢复旧AI和协议；如果发布后已有自主协议记录，则保留能读取这些记录的兼容后端镜像，并关闭新自主循环，避免旧DTO无法读取历史。无自主记录时可恢复原两镜像。**不会自动恢复数据库、库存、事件、预算账本或删除聊天历史**，也不会覆盖后续人工修改；存在配置冲突会停止。此命令本次未执行。

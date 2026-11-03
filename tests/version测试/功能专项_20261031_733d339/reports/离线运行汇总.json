@@ -1,0 +1,79 @@
+[
+  {
+    "layer": "AI源码",
+    "run": "ai-all-prerequisites",
+    "selected": true,
+    "raw_counts": {
+      "PASS": 1140,
+      "SKIP": 1
+    },
+    "evidence": "runs/ai-all-prerequisites/junit.xml"
+  },
+  {
+    "layer": "后端源码",
+    "run": "backend-all-initial",
+    "selected": true,
+    "raw_counts": {
+      "ERROR": 415,
+      "SKIP": 45,
+      "PASS": 166,
+      "FAIL": 12
+    },
+    "evidence": "runs/backend-all-initial/junit.xml"
+  },
+  {
+    "layer": "Garin功能",
+    "run": "ai-special-all-archive-preflight",
+    "selected": true,
+    "raw_counts": {
+      "PASS": 29
+    },
+    "evidence": "runs/ai-special-all-archive-preflight/junit.xml"
+  },
+  {
+    "layer": "Garin本地接口",
+    "run": "backend-special-all-planning-dto",
+    "selected": true,
+    "raw_counts": {
+      "PASS": 6
+    },
+    "evidence": "runs/backend-special-all-planning-dto/junit.xml"
+  },
+  {
+    "layer": "AI首次收集",
+    "run": "ai-all-initial",
+    "selected": false,
+    "raw_counts": {
+      "ERROR": 1
+    },
+    "evidence": "runs/ai-all-initial/junit.xml"
+  },
+  {
+    "layer": "Garin功能初版",
+    "run": "ai-special-all-initial",
+    "selected": false,
+    "raw_counts": {
+      "PASS": 27
+    },
+    "evidence": "runs/ai-special-all-initial/junit.xml"
+  },
+  {
+    "layer": "Garin接口初版",
+    "run": "backend-special-all-initial",
+    "selected": false,
+    "raw_counts": {
+      "PASS": 2,
+      "FAIL": 2
+    },
+    "evidence": "runs/backend-special-all-initial/junit.xml"
+  },
+  {
+    "layer": "Garin接口补前提",
+    "run": "backend-special-all-prerequisites",
+    "selected": false,
+    "raw_counts": {
+      "PASS": 4
+    },
+    "evidence": "runs/backend-special-all-prerequisites/junit.xml"
+  }
+]

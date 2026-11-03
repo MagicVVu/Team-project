@@ -1,0 +1,19 @@
+{
+  "tested_source_head": "733d339ee5bbb73635413902cdd0d07d43a6075a",
+  "current_head": "0ebf05551da7434df698fddb7d70b28fc26ecd6d",
+  "source_head_unchanged": false,
+  "runtime_and_document_content_unchanged": true,
+  "protected_files": 2379,
+  "snapshot_files": 919,
+  "mismatches": [],
+  "new_conservative_cny": "3.383262",
+  "budget_cap_cny": "10",
+  "within_cap": true,
+  "ledger_new_calls": 564,
+  "wire_new_calls": 564,
+  "ledger_matches_wire": true,
+  "unknown_usage": 0,
+  "live_finished": true,
+  "native_original_outcomes_preserved": true,
+  "old_baseline_untouched": true
+}

@@ -1,0 +1,41 @@
+{
+  "reported_program_failure_occurrences": 84,
+  "strict_original_assertions_pass": 81,
+  "strict_remaining_fail_occurrences": 3,
+  "contract_cases_retained": [
+    "p1-regression:p0-41-2",
+    "android-regression:ext-013",
+    "android-regression:ext-015"
+  ],
+  "raw_suite_counts": {
+    "p0-regression": {
+      "counts": {
+        "PASS": 260,
+        "REVIEW": 18
+      },
+      "legacy_required_pass": true
+    },
+    "p1-regression": {
+      "counts": {
+        "PASS": 209,
+        "FAIL": 19,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    },
+    "android-regression": {
+      "counts": {
+        "PASS": 210,
+        "FAIL": 18,
+        "REVIEW": 18,
+        "BLOCKED": 32
+      },
+      "legacy_required_pass": false
+    }
+  },
+  "developer_resolver_says_resolved": 84,
+  "interpretation": "开发验证器将3条契约边界算resolved；Garin保留原FAIL，不据此宣布84条全部满足原断言。原37次FAIL按入口和契约分列，不当作37个新缺陷。",
+  "evidence": "runs/legacy-all-initial/legacy/verification.json",
+  "hardcoded_metadata_note": "tested_checkout_includes_uncommitted_p4_changes是旧验证器硬编码，本轮真实来源为source.json与git HEAD。"
+}

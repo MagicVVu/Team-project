@@ -1,0 +1,92 @@
+# V1-P8.4 正式版本替换记录
+
+2026-10-27，Asia/Shanghai。用户在源码同步完成后明确授权“可以替换正式版本”。本次已完成正式运行切换和复核，未提交或推送 Git，未修改 Android。
+
+## 当前正式状态
+
+| 项目 | 发布结果 |
+|---|---|
+| AI 镜像 | `magicvvu/agent:p84-d7a8d00758bf` |
+| AI 健康标识 | `maintenance_release=V1-P8.4`，`engine=deepseek` |
+| AI 原兼容标识 | `release_version=V1-P7` 继续保留，不代表仍在运行 P7 初版 |
+| 后端镜像 | `magicvvu/backend:p84-d7a8d00758bf`，以原正式 P9 镜像为基础仅覆盖 5 个 AI 会话适配文件 |
+| 后端业务版本 | `version=0.9.0`、`maintenance_release=V1-P9`，保留负责人发布标识 |
+| 会话协议 | `conversation_dialogue_protocol=p84-dialogue-1` 已启用 |
+| 服务状态 | AI、后端健康；就绪检查 `ready`、数据库 `ok` |
+| 数据库 | 原 PostgreSQL 17 容器、原启动时间，迁移版本仍为 `20261026_0011` |
+
+源码摘要：`d7a8d00758bf732e3fb77e8112e2460743e86adc4e2b53a6c90ce8e66c5570cc`。
+
+## 如何保留队友的贡献
+
+发布前从实际运行的后端镜像读取指定源文件，在本地以 P8.4 开发前版本为基线做三方合并。以下 5 个文件合并无冲突，且合并结果与本地已测试的适配一致：
+
+- `app/memory_schemas.py`
+- `app/routers/session_memory.py`
+- `app/services/session_memory.py`
+- `app/routers/draft_execution.py`
+- 新增 `app/services/dialogue.py`
+
+后端候选基于**当前正式 P9 镜像 ID**构建，不使用旧后端目录整体覆盖。切换后遍历比对后端 Python 文件哈希，除上述文件外，全部与原运行镜像一致；原有商品归组、库存账本、执行事务、权限和其他路由保持原代码。
+
+AI 运行白名单 89 个文件与本地及 `~/workspace/agent` 一致；原镜像中其他 Python 文件也核对保留。
+
+## 配置与切换方式
+
+Compose 只修改 `services.agent.image`、`services.backend.image` 两处引用。数据库服务、卷、网络、端口、DNS、资源限制、启动命令、健康检查、密钥和已有配置保持原样。
+
+后端适配镜像显式增加默认环境变量 `AI_CONVERSATION_DIALOGUE_PROTOCOL=p84-dialogue-1`，因此新会话入口启用三阶段协议；这是本次唯一增加的运行开关。没有改写 `.env` 或 AI `.env.runtime`。既有 `LLM_MODEL`、DeepSeek 密钥及累计预算账本继续复用。
+
+切换前检查在途 AI 任务及会话租约，均为 0。先替换兼容旧接口的 AI，再替换 P9 上的会话适配层。切换后核对身份、挂载、配置摘要、代码哈希和数据库迁移版本。即时切换健康/兼容检查失败时，发布工具会恢复原镜像引用并重建原服务；不还原业务数据库或预算账本。
+
+## 验证结果
+
+- 发布前 AI 回归：**1003 通过，1 跳过**。维护版本枚举的兼容修复另有 50 条契约/规划专项通过。
+- 候选 AI：禁网检查编译、旧路由、新三阶段路由、鉴权、零模型指代和按最新数量计算一半，通过。
+- 候选后端：禁网、内存 SQLite、合成身份，验证阶段保存、同请求去重和按原请求恢复，通过；未连接正式数据库。
+- 正式切换：AI、后端健康；P9 的六类执行能力、业务版本和自动采购提交关闭状态保持。
+- 正式旧接口：`/agent/message` 的帮助消息、`/agent/conversation-turn` 的寒暄均正常，模型调用为 0。
+- 正式 DeepSeek：合成寒暄走 understand → resolve → respond，通过；理解 1 次、表达 1 次，约 **2.62 秒**，未触发表达回退。这是单次连通检查，不是生产 P95。
+- 正式业务数据：没有为验证创建用户、任务或会话，没有读取真实库存、执行库存/采购写入或数据库迁移。
+- 旧 AI/P9 后端镜像仍可用，数据库原容器未变；新 AI 的 89 个运行文件与服务器工作区一致。
+
+首次候选后端检查因隔离测试未设置开封/丢弃开关失败；调整合成测试配置后在新的 `r2` 候选目录重新验证通过。失败记录保留，未在失败候选上切换正式服务。
+
+## 回滚资料
+
+服务备份目录：
+
+`~/workspace/agent/.releases/p84-20261027-d7a8d00758bf-r2/`
+
+其中保留原 Compose、原容器私有配置、配置摘要、版本化前的工作区文件及阶段检查。私有文件保留服务器，不复制到仓库。
+
+可用旧镜像：
+
+- AI：`magicvvu/agent:p82-05fa3203a7cb`
+- 后端：`magicvvu/backend:p9-20261026`
+
+后续手动降级前应核对是否存在 P8.4 未完成会话，协调恢复策略；不能覆盖新任务记录或通过恢复旧数据库消除会话。本次没有实际执行回滚。
+
+## 真实运行契约入口
+
+以下快照从**已切换的实际运行服务**只读导出，供前后端接入优先核对：
+
+- [正式 AI OpenAPI JSON](contracts/production-ai-openapi.json)：17 个路径，包括三个新阶段。
+- [正式后端 OpenAPI JSON](contracts/production-backend-openapi.json)：52 个路径。
+- [阶段请求/响应及前端承接说明](前后端交接说明.md)：保留源码契约和 Schema 的明确链接。
+
+## App 体验边界
+
+本次检查的 Android 源码 `AgentClient.kt` 仍请求 `/api/v1/agent/conversation-messages`，不是新会话回合接口。服务器新能力已经就绪，**并不等于现有 Android 聊天窗口已开始使用 P8.4 三阶段流程**。
+
+前端仍须接入 `/api/v1/agent/conversation`、`/conversation-turns` 和原请求恢复，保存会话 ID/修订，处理草稿改口，并把聊天超时设为 30 秒。未进行手机页面联合验收；模型自然度人工复核和残余失败仍见评测记录。
+
+## 本地证据
+
+- [正式基线与三方合并](../../../reports/p84-dialogue/production-audit.json)
+- [候选构建及隔离验证](../../../reports/p84-dialogue/production-prepare.json)
+- [正式切换结果](../../../reports/p84-dialogue/production-switch.json)
+- [切换后复核](../../../reports/p84-dialogue/production-verify.json)
+- [正式 DeepSeek 合成检查](../../../reports/p84-dialogue/production-model-check.json)
+- [旧接口、回滚镜像及工作区最终检查](../../../reports/p84-dialogue/production-final-check.json)
+- [发布前 AI 全量回归](../../../reports/p84-dialogue/ai-release-verified.xml)

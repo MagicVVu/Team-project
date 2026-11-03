@@ -1,0 +1,78 @@
+# V1-P8.6 AI 自主循环前后端交接说明
+
+阶段命名已统一为V1-P8.6，AI版本0.8.6。协议、公开请求字段和恢复命名空间保持原约定；后端自身版本不改为P8.6。当前目录为正式文档入口，旧未编号目录仅保留跳转。
+
+2026-10-30发布跟进：用户授权后正式AI及六个会话适配文件已发布，新消息启用 `inventory-autonomous-1`。实际契约为[运行AI OpenAPI JSON](contracts/production-ai-openapi.json)、[运行后端 OpenAPI JSON](contracts/production-backend-openapi.json)，配套请求/响应Schema仍见下表。[正式替换记录](正式版本替换记录.md)单列镜像、验证和回退。下文“尚未部署/未改Compose”是最初开发边界；现已仅改两镜像、AI命令/探针和后端协议开关，其他负责人的配置保留。现有入口使用Android Debug测试CA，Release证书与页面联验未完成。
+
+更新：2026-10-30，Asia/Shanghai。本地实现契约，尚未部署自主循环。已按服务器当前 `inventory-units-20261029` 源码适配；核对依据见[适配记录](2026-10-30-服务器核对与适配记录.md)。后续新会话处理以本说明的自主入口替代固定三阶段调度；旧版本记录仍按保存时的原协议恢复。[P8.3～P8.5统一方案](../../handoffs/V1-P8.3-P8.5-前后端统一对接方案.md)中的权限、确认和规划契约继续复用，库存数量语义按下文新口径。
+
+## 先看机器契约
+
+| 契约 | 用途 |
+|---|---|
+| [AI OpenAPI JSON](contracts/ai-openapi.json) | 新 `/agent/dialogue/run`，及所有兼容的旧路径 |
+| [后端 OpenAPI JSON](contracts/backend-openapi.json) | 公开会话、历史、恢复及正式业务接口的当前本地契约 |
+| [run-request](contracts/run-request.schema.json)、[run-response](contracts/run-response.schema.json) | 内部原文、可信上下文、结果、计划、调用计数、停止原因 |
+| [decision](contracts/decision.schema.json)、[context](contracts/context.schema.json) | 模型受限决策、可信身份与会话上下文；手机不能上传 |
+| [public-message](contracts/public-message.schema.json)、[public-response](contracts/public-response.schema.json) | 手机请求字段不变；响应区分旧协议与自主协议 |
+| [conversation-page](contracts/conversation-page.schema.json)、[recovery](contracts/recovery.schema.json) | 分页历史和按原请求恢复 |
+| [revalidation-request](contracts/revalidation-request.schema.json)、[revalidation-response](contracts/revalidation-response.schema.json) | 复用 P8.5 resolve 做零模型保存前核对 |
+
+[契约清单及哈希](contracts/manifest.json)用于核对同一份交付。文中 JSON 均为本地源码导出，不能当作当前服务器能力声明。
+
+## 启用方式与职责
+
+AI 工厂选择 `conversation.autonomous.app:create_app`；内部监听端口沿用8767，健康探针改用 `python -m conversation.autonomous.health`。保留环境变量密钥、`P3_ENGINE=deepseek`、现有业务读取地址/令牌。不能继续使用仅接受 P8.5 协议的旧探针。
+
+后端将 `AI_CONVERSATION_DIALOGUE_PROTOCOL` 设为 `inventory-autonomous-1` 后，新请求单次调用 `/agent/dialogue/run`；循环只在 AI 内部执行。该开关默认不启用，本次没有修改任何服务器环境或 Compose。AI 新健康标记为 `dialogue_max_model_calls=null`、`autonomous_fixed_call_limit=false`、`dialogue_deadline_seconds=60`；原工厂仍保留旧标记和旧行为。
+
+读取复用现有 `/internal/v1/inventory/search`、`/internal/v1/inventory/batches/{id}` 和 `/internal/v1/planning/context`。执行状态由后端从现有任务、草稿决定和回执构建可信上下文；不让模型从聊天判断成功，不新增任务数据库或业务读取接口。
+
+业务后端继续负责权限、当前会话、最新修订、草稿保存、正式确认、幂等和事务。AI 不调用确认、取消、重试写入或采购执行。前端只调用公开接口，不持有 AI 内部服务令牌。
+
+## 请求、保存与恢复顺序
+
+1. 前端打开窗口先 `GET /api/v1/agent/conversation`，需要时按现有 reset 入口建立新会话。
+2. 消息使用 `POST /api/v1/agent/conversation-turns`，保存原 `request_id`、原文、会话ID和修订；不得上传 history、archive、库存事实或执行状态。
+3. 后端建立120秒处理租约，保存 `autonomous_v1.started`，释放数据库事务锁后单次调用 AI。AI 共用58秒工作预算，不因每步调用重新计时。
+4. AI 返回即保存完整结果；再验证权限、登录、会话和原引用。涉及草稿、原任务续接或状态解释时，重新构造可信上下文，经 `/agent/dialogue/p85/resolve` 零模型核对。原引用不续期，候选顺序不因重读而变化。
+5. 通过后复用原任务网关保存任务和草稿、递增业务修订；确认执行仍走既有正式接口。正式成功回执是“已执行”的唯一依据。
+6. 前端超时后 `GET /api/v1/agent/conversation-turns/{request_id}`。相同ID相同请求不重新启动循环；相同ID不同请求冲突。完整结果已保存的原请求可零模型重新核对并恢复；结果未知不会重新付费推理。
+
+后端现有 P8.5 `dialogue_v2`、P8.4 `dialogue_v1` 及新 `autonomous_v1` 独立保存。恢复以记录命名空间和协议为准，不能因切换环境变量把旧请求重新送入自主循环。没有阶段标记的旧会话请求也保持原恢复路径。恢复顶层保留 `conversation_id/current_conversation_revision`，不以历史响应修订覆盖当前会话头。
+
+复用队友已实现的 `memory_archive`：按用户、家庭、当前会话读取30天内最多100个已完成片段，再由AI检索；`episode_v1` 与任务、草稿在原事务中完成。旧对象引用的15分钟有效期不会因进入档案延长。选中记忆ID、原文哈希、作用域、修订及完成时间均由后端验证；AI返回的记忆不能建立自行伪造的批次引用。
+
+`autonomous_v1` 保存的是结果检查点，没有保存每一步供进程重启续跑。只有 started、没有完整结果时返回待核实；租约不是永久任务存储。恢复阶段不调用 run/understand/respond，必要时只重放已保存计划的 resolve。
+
+## 响应与状态
+
+公开顶层继续使用 `conversation-memory-1`，`dialogue.protocol_version=inventory-autonomous-1` 标明新流程。`model_calls` 是本轮模型调用尝试总数，失败或结果未知的尝试仍计数；不设固定上限，恢复保留历史计数并返回 `recovery_model_calls=0`。
+
+`dialogue.calls` 为 `{decision, response:0, total}`，total等于decision。表达选择与语义决策在同一循环中，不能再追加旧 respond 调用。旧 `p84-dialogue-1` 继续使用 `{understanding,response,total}` 及原计数边界。
+
+`dialogue.status` 区分 completed、needs_input、needs_confirmation、stopped。内部 run 的 `stop_reason` 保留精确原因；公开响应另用 `loop_stop_reason` 保留该原因。对 stopped，公开 `stop_reason` 兼容现有 Android 展示：deadline→time_budget_exceeded，model_error→ai_unavailable，重复计划/无进展/容量→insufficient_information。其余原因保持原值；前端可后续为 `loop_stop_reason` 添加更具体文案。completed 表示本轮回答完成，**不表示库存已经执行**。任务和执行状态继续从 `task/active_task` 及真实回执读取。
+
+`tool_reads` 统计 AI 循环向适配器发起的底层读取，缓存命中不重复计数；不代表分页HTTP总数。`revalidation_calls` 另记后端保存前/恢复时的零模型核对请求数。`ai_elapsed_ms` 是AI阶段耗时，`elapsed_ms` 是本轮后端适配耗时，后者不包含最终业务保存事务的全部时间。
+
+结果为部分完成时，保留已核实回复及卡片，同时展示停止原因；不能显示“全部解决”。字段缺口及时让用户补充，原任务保持，不自动生成另一个请求。
+
+## 当前逐件库存契约
+
+后端 `20261029_0012` 后每条库存记录代表一件实物，ACTIVE数量投影为1，终态为0；重量和容量属于 `specification`。不修改队友的数据模型、迁移、归组、事件或正式执行事务来适应旧批量夹具。
+
+- 新增N件：输入为1～10000的整数，由正式接口创建N条独立记录。
+- 新增500g或1.5L：草稿保留本轮原始数量和单位供正式接口解析；确认预览显示1份，依据中保留规格与原始输入。不能把500g显示成库存500件。
+- 消耗/丢弃：只处理所选的一整件，数量为1；这些草稿的数量与单位不可单独编辑。“一半”“两件”等不能落成当前单对象可执行草稿，需说明限制或重新选择。消费与丢弃语义分开，不把喝完登记成丢弃。
+- 开封、移动：沿用单对象、不改数量、预期版本校验；“第二件”“第二份”与原“第二批”均支持确定性选择。
+- 当前库存只读 DTO 尚未提供规格。问“多少毫升/克”时保留真实登记件数，返回 `SPECIFICATION_READ_UNAVAILABLE` 和具体缺口；不按单位猜测容量。后端负责人若补充规格读取，需同步更新只读契约后再启用此类回答。
+
+AI自主工厂健康声明 `inventory_model=single-object-1`、`partial_object_operations=false`；旧P8.5工厂和历史协议保留兼容。不要把旧版本的“一半→两盒”演示当作当前逐件业务验收标准。
+
+## 前端承接状态与联合验收
+
+按2026-10-30合入的队友源码，`AgentClient.conversationTurn`、`AssistantStore` 的能力分支和 `ConversationProtocol` 已承接新版会话接口、云端恢复及90秒聊天读取超时。无需重复开发这些入口，本轮没有改写前端文件。需确认实际安装包包含这些更新，并联验新的停止提示、草稿修订和跨家庭恢复。后端自主协议外层75秒，AI单轮60秒；部署代理也需允许这段等待。
+
+展示自然reply与结构化候选/草稿；支持处理中、待补充、待确认、部分结果和结果待核实。遇到 stopped 不自动换ID重发，也不退回本机写入。原请求恢复、完整执行状态和“新任务/新会话”区分沿用统一方案。
+
+联验：数量/位置查询 → “第二件在哪里” → 生成整件移动草稿 → 修改目标位置 → 解释尚未执行 → 用户确认 → 展示正式回执；另验证整件消耗、半件明确拒绝、500g新增只生成1份、规格读取缺口。再测多对象选择、超过两次调用、循环停止、权限撤销、提交并发、中途关闭和原请求恢复。AI完成、后端适配、前端源码承接、PostgreSQL验证和App联验分别记录，不能互相替代。

@@ -1,0 +1,22 @@
+{
+  "assembled_date": "2026-10-27",
+  "original_execution_date": "2026-10-16",
+  "current_local_head": "c27834cac5c9799d7114ffd790eef13e24afb92a",
+  "test_baseline": "a251aa033586e915cb49e35bbd242efccb358de6",
+  "new_tests_executed": false,
+  "p8_claim_verified": false,
+  "source_files": {
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\results\\分阶段统计.json": "0ddcc470399e16a08c6213aa7653ec55b091402db7d418cab41c956ae07631cc",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\backend-local\\junit.xml": "78656f020d64cada4af0579d461ec8723f953b5d59e5b3417b3b450e6a8602bd",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\results\\Android结果.json": "e30061ecca1f16605161d4091975ac3e2dd786fdb6d9ded73d2a76efd483bee5",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\backend-reference-flow\\junit.xml": "681ead4594b2a09cbfe1ad86f8efaafa8e941e46ad934133441a3189bdde3617",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\evidence\\backend-special-http.jsonl": "ab0d4037658aef96f89b8054986d7bded7a0240571434d8f40e49cece51e95da",
+    "tests\\garin\\MuMu_游客本地测试_20261016\\checkpoints\\before_background_unconfirmed.json": "c82deddf6eb6b6659049ffac59e86f29dc3196f858c7df9b80a36596af454a1d",
+    "tests\\garin\\MuMu_游客本地测试_20261016\\ui_actions.jsonl": "d8e7f1d38260495a8dd8ffd57db6e8d417a787796143fc0ed9b7a0ce6b83b2b3",
+    "tests\\garin\\android_install_20261016_20261016T132621Z\\installation-result.json": "d2335c09e8497c6631e6329df1e32218448579cffa29adf43cde976a270d5f76",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\联调待办.md": "82b5febd9fb6730915cc0d35dd93b027655175176a6e5f912fc382b538b2d18c",
+    "tests\\garin\\V1_分阶段验收_20261016_a251aa0\\失败清单.md": "4844846580818737cf4851c56785d50b1668da26c2e1fa303e9d035769972059"
+  },
+  "original_screenshot_sha256": "2125cabaddb1ac581f14cdf6e66b4dd13ddc646f7426c04f786d0db7d6c25663",
+  "image_description": "Browser-rendered evidence summary with untouched original MuMu screenshot; not an AI-generated or newly executed test screenshot"
+}

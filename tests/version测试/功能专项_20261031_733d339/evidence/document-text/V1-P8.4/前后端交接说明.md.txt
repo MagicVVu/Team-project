@@ -1,0 +1,87 @@
+# V1-P8.4 前后端交接说明
+
+2026-10-28：本阶段与P8.3/P8.5重复的接入工作已合并到[统一对接方案](../../handoffs/V1-P8.3-P8.5-前后端统一对接方案.md)。实际实施优先看总方案；以下保留阶段交接原貌。
+
+日期：2026-10-27。AI 已发布 P8.4＋DeepSeek；配套会话适配已按用户授权合入正式 P9 后端，并启用 `p84-dialogue-1`。Android 未在本阶段修改。后端适配仅复用现有表和任务网关；业务执行层、账本、商品归组、事务继续由后端负责人维护。详见[正式版本替换记录](正式版本替换记录.md)。
+
+## 先查看这些机器可读契约
+
+正文和字段说明不能替代 JSON 契约，请开发时同时打开：
+
+| 契约 | 文件入口 |
+|---|---|
+| 已发布 AI 的实际运行 OpenAPI | [production-ai-openapi.json](contracts/production-ai-openapi.json) |
+| 已发布后端的实际运行 OpenAPI | [production-backend-openapi.json](contracts/production-backend-openapi.json) |
+| AI 内部服务 OpenAPI，含全部旧接口及三个新阶段 | [ai-openapi.json](contracts/ai-openapi.json) |
+| 业务后端公开会话及确认/执行接口 OpenAPI | [backend-openapi.json](contracts/backend-openapi.json) |
+| 受信会话上下文，最近对象及任务证据 | [context.schema.json](contracts/context.schema.json) |
+| 理解阶段请求／响应 | [understand-request.schema.json](contracts/understand-request.schema.json)、[understand-response.schema.json](contracts/understand-response.schema.json) |
+| 事实解析请求／响应，含修改预览及字段来源 | [resolve-request.schema.json](contracts/resolve-request.schema.json)、[resolve-response.schema.json](contracts/resolve-response.schema.json) |
+| 自然表达请求／响应 | [respond-request.schema.json](contracts/respond-request.schema.json)、[respond-response.schema.json](contracts/respond-response.schema.json) |
+| 手机发送消息、完整回合响应 | [public-message.schema.json](contracts/public-message.schema.json)、[public-response.schema.json](contracts/public-response.schema.json) |
+| 历史分页、请求恢复 | [conversation-page.schema.json](contracts/conversation-page.schema.json)、[recovery.schema.json](contracts/recovery.schema.json) |
+
+导出命令：在 `agent` 目录运行 `python -m conversation.export_dialogue_contracts`；在仓库根目录使用后端依赖环境运行 `python tools/p84_export_backend_contract.py`。均不连接真实数据库或模型。P8.3 文件保持为历史快照。
+
+## 后端负责人需要承接
+
+### 启用方式与调用顺序
+
+新协议选择开关在**后端**：`AI_CONVERSATION_DIALOGUE_PROTOCOL=p84-dialogue-1`。默认不设置，旧入口和旧会话理解行为保持原样。AI 必须先具备三个新路由；能力接口 `GET /api/v1/agent/execution-capabilities` 只有开关启用时返回相同的 `conversation_dialogue_protocol`。旧服务器没有这个值时，前端不能假定已启用。
+
+自然理解的 AI 运行配置仍使用 `P3_ENGINE=deepseek` 和环境变量密钥。规则引擎配置只能使用已有确定性规则，不会因为访问新接口就静默发起付费模型请求。
+
+当前正式适配镜像已默认提供该协议环境变量，能力声明已核对。后端健康版本仍为 P9，以保留负责人的业务发布标识；只有 5 份 AI 会话适配文件改变，未执行迁移。
+
+手机继续使用既有公开字段，不新增可上传历史或库存事实的请求入口：
+
+1. `GET /api/v1/agent/conversation?household_id=...` 恢复会话、分页历史和最新活动任务；初次需要 reset 时调用 `POST /api/v1/agent/conversation/reset`。
+2. `POST /api/v1/agent/conversation-turns` 发送 `household_id/request_id/conversation_id/conversation_revision/text`，可附成对的 `task_id/revision`。旧 `/conversation-messages` 不会自动走新协议。
+3. 后端先验证成员资格、会话修订、请求去重和任务选择器，构建可信上下文；调用内部 `POST /agent/dialogue/understand`，保存 `dialogue_v1.plan`。
+4. 调用 `POST /agent/dialogue/resolve`，重新读取库存/状态，保存 `dialogue_v1.resolved`。`current_task_plan` 仅能由后端从同用户、同家庭的原活动任务阶段记录读取，不能由手机上传。
+5. 有剩余时间且不是确定性续接时，可调用 `POST /agent/dialogue/respond`。调用前保存 response_started；失败采用 resolve.reply，不抹掉草稿，不重试模型。
+6. 新草稿交原 `agent_gateway.run_message(result_provider=...)` 保存；结构化续接交原澄清流程；同任务修改通过现有业务字段校验后保存新任务/草稿修订。库存和采购写入仍只走用户正式确认后的业务接口。
+
+三个阶段使用既有服务认证和用户/家庭身份头。手机不能持有内部服务令牌，不能直接调用 AI 阶段接口。
+
+新回合总截止 20 秒，AI 工作最多使用前 18 秒，预留保存/降级时间。理解最多一次、表达最多一次；`dialogue.calls` 明确区分两阶段和总数，不能把恢复误记为新模型调用。
+
+### 幂等、改口与恢复
+
+- 原请求 ID＋原完整请求体重复发送返回原结果。相同 ID 不同文本、家庭、会话或修订拒绝。
+- 已保存计划的中断请求先查询原请求；若返回 prepared，可用**原请求体和原 ID**恢复，重新核对事实，采用确定性表达，恢复本次零模型调用。总 calls 保留原付费尝试的审计计数。
+- 理解结果未知返回 result_unknown/AI_OUTCOME_UNKNOWN，不自动再次付费；原文保留。不得换 ID 静默重发。
+- 表达失败不会让已经校验并保存的草稿丢失。草稿改口保持 task_id/draft_id，更新 task revision 和 draft revision，不延长原 expires_at。
+- 修改动作、批次或全部/部分模式不能覆盖原决定；正式成功、取消、过期、并发确认和版本冲突均先读最新事实。
+- “先别执行，我只是核对”是暂时讨论，保留待确认草稿，不取消、不提交。自然语言“再试一下”不能证明原操作失败；先查原状态/回执。
+- 不改现有数据库任务网关的存储方式，不另建任务或执行通道，不修改表结构。上线前由后端负责人审查事务与真实 PostgreSQL 并发场景。
+
+## 前端负责人需要承接
+
+1. 检查新能力声明，将聊天窗口从旧消息入口接到公开会话接口。保存会话 ID、会话修订、request_id，以及完整任务和草稿结果，不能只保存回复文本。
+2. 打开窗口、应用重建或重新登录时先 GET 恢复；分页显示最近 30 天历史。历史消息展示原状态，当前任务状态使用 active_task 的最新读取结果。
+3. 聊天读取超时设为 **30 秒**。网络超时先 `GET /api/v1/agent/conversation-turns/{request_id}?household_id=...`，不能换 ID 自动发送，也不能静默转本机库存写入。
+4. 展示 reply 自然文本，同时保留 candidates、六类 draft、变更前后 preview、确认表单及手动处理入口。不得通过解析回复文字提取数量或“执行成功”。
+5. `kind=edit` 表示同任务草稿修订，替换确认表单内容并更新 task revision；draft revision 从 `active_task.execution.draft_revision` 或 `GET /api/v1/drafts/{draft_id}/execution` 读取。旧版本确认请求必须冲突，不能自动套用新版本提交。
+6. 暂时解释/查询可能返回 task 或 explain，但 active_task 仍指向之前的待确认任务。不要用本轮其他物品查询覆盖活动确认卡。
+7. 候选/补字段调用原任务澄清接口或会话续接；“开始新任务”和“开始新会话”分别处理。切家庭、退出账号清除手机绑定，恢复时重新验证权限。
+8. 状态区分处理中、待补充、待确认、提交中、已执行、已取消/过期、失败和结果待核实。只有正式业务成功回执才能显示已执行；待购不是购买或入库。
+
+## 结果与字段依据
+
+`dialogue.field_sources` 标记 current_text/current_task/deterministic_calculation；计算来源包含批次 ID、库存版本、原数量和公式。业务字段、目标和版本使用结构化 result，表达阶段不能改写。
+
+开封和移动没有数量字段；消耗/部分丢弃需要兼容单位；全部余量取最新库存。风险/统计/预测/补货资料不足时展示已有原因，不能把不可用显示为零消费、确定耗尽日期或库存安全。
+
+## 联合验收清单
+
+查询牛奶数量和位置 → 选择冰箱那盒 → 喝了一半 → 核对准确草稿 → 改成两盒 → 更新修订 → 暂不执行而保留草稿 → 用户正式确认 → 后端执行 → 追问状态并恢复会话。
+
+分别在澄清、提交前、提交响应丢失、自然表达失败时中断；核对原请求可找回、无重复付费/提交、旧草稿不能覆盖已执行回执。另验证跨用户/家庭、权限撤销、引用过期、库存变化及对象删除。
+
+| 责任项 | 本次状态 |
+|---|---|
+| AI 新协议、只读计算、来源和备用回复 | 已发布并通过正式合成检查；模型指标见评测记录 |
+| 后端阶段保存、网关复用和草稿修订 | 已在 P9 上部署最小适配，新协议已启用 |
+| Android 新会话入口、展示及恢复 | 未修改，待前端负责人 |
+| 正式环境端到端延迟及 App 联合验收 | 未验证 |

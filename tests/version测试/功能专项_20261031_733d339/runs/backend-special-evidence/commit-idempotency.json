@@ -1,0 +1,166 @@
+{
+  "before": {
+    "inventory": [
+      {
+        "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      },
+      {
+        "id": "e4a0f802-fb64-5a72-a376-ae31c0187045",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 2,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "after": {
+    "inventory": [
+      {
+        "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+        "name": "苹果",
+        "location": "书房",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 2
+      },
+      {
+        "id": "e4a0f802-fb64-5a72-a376-ae31c0187045",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 3,
+    "operations": 1,
+    "tasks": 1,
+    "drafts": 1
+  },
+  "first": {
+    "protocol_version": "draft-operation-receipt-1",
+    "operation_id": "dc209705-5def-49db-ace9-60f4864080cc",
+    "draft_id": "7399d9de-0621-4112-87ae-13ea15e2a7bc",
+    "task_id": "474a1a20-f9a4-47c3-a8ab-034dd8e19d64",
+    "draft_revision": 1,
+    "task_revision": 1,
+    "scope": {
+      "user_id": "663c8f72-5c08-44bb-a15e-930948e2d047",
+      "household_id": "ad1adbf0-776a-4f69-a11d-ea8a2db2b6ca"
+    },
+    "status": "committed",
+    "action": "MOVE",
+    "committed_at": "2026-10-31T06:02:10.368050+00:00",
+    "trace_id": "op_dc2097055def49dbace960f4864080cc",
+    "batch_versions": {
+      "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22": 2
+    },
+    "event_ids": [
+      "e6a5aae9-942c-5c25-951b-41176570969b"
+    ],
+    "inventory_written": true,
+    "shopping_written": false,
+    "result": {
+      "inventory_item": {
+        "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+        "household_id": "ad1adbf0-776a-4f69-a11d-ea8a2db2b6ca",
+        "name": "苹果",
+        "specification": null,
+        "category": "食品",
+        "minimum_quantity": "0.000000",
+        "history_json": [
+          {
+            "id": "dc209705-5def-49db-ace9-60f4864080cc",
+            "event_id": "e6a5aae9-942c-5c25-951b-41176570969b",
+            "kind": "StockMoved",
+            "created_at": "2026-10-31T06:02:10.368050+00:00"
+          },
+          {
+            "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+            "hash": "d8898aee2b0709f7520c4971acb8f73b696eef5ca5207f6128ac060635165339",
+            "message": "首次录入 1 个",
+            "created_at": "2026-10-31T06:02:10.348638+00:00",
+            "kind": "create"
+          }
+        ],
+        "unit": "个",
+        "storage_location": "书房",
+        "expires_on": null,
+        "purchased_on": "2026-10-31",
+        "created_by_user_id": "663c8f72-5c08-44bb-a15e-930948e2d047",
+        "source_shopping_list_item_id": null,
+        "status": "ACTIVE",
+        "version": 2,
+        "opened_at": null
+      }
+    }
+  },
+  "second": {
+    "protocol_version": "draft-operation-receipt-1",
+    "operation_id": "dc209705-5def-49db-ace9-60f4864080cc",
+    "draft_id": "7399d9de-0621-4112-87ae-13ea15e2a7bc",
+    "task_id": "474a1a20-f9a4-47c3-a8ab-034dd8e19d64",
+    "draft_revision": 1,
+    "task_revision": 1,
+    "scope": {
+      "user_id": "663c8f72-5c08-44bb-a15e-930948e2d047",
+      "household_id": "ad1adbf0-776a-4f69-a11d-ea8a2db2b6ca"
+    },
+    "status": "committed",
+    "action": "MOVE",
+    "committed_at": "2026-10-31T06:02:10.368050+00:00",
+    "trace_id": "op_dc2097055def49dbace960f4864080cc",
+    "batch_versions": {
+      "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22": 2
+    },
+    "event_ids": [
+      "e6a5aae9-942c-5c25-951b-41176570969b"
+    ],
+    "inventory_written": true,
+    "shopping_written": false,
+    "result": {
+      "inventory_item": {
+        "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+        "household_id": "ad1adbf0-776a-4f69-a11d-ea8a2db2b6ca",
+        "name": "苹果",
+        "specification": null,
+        "category": "食品",
+        "minimum_quantity": "0.000000",
+        "history_json": [
+          {
+            "id": "dc209705-5def-49db-ace9-60f4864080cc",
+            "event_id": "e6a5aae9-942c-5c25-951b-41176570969b",
+            "kind": "StockMoved",
+            "created_at": "2026-10-31T06:02:10.368050+00:00"
+          },
+          {
+            "id": "79bb494c-87f2-4c1e-8aa5-54ca6c2f4a22",
+            "hash": "d8898aee2b0709f7520c4971acb8f73b696eef5ca5207f6128ac060635165339",
+            "message": "首次录入 1 个",
+            "created_at": "2026-10-31T06:02:10.348638+00:00",
+            "kind": "create"
+          }
+        ],
+        "unit": "个",
+        "storage_location": "书房",
+        "expires_on": null,
+        "purchased_on": "2026-10-31",
+        "created_by_user_id": "663c8f72-5c08-44bb-a15e-930948e2d047",
+        "source_shopping_list_item_id": null,
+        "status": "ACTIVE",
+        "version": 2,
+        "opened_at": null
+      }
+    }
+  }
+}

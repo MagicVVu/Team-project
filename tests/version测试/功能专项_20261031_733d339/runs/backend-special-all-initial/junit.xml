@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="1.678" timestamp="2026-10-31T13:35:50.929414+08:00" hostname="DESKTOP-VS4JBTJ"><testcase classname="scripts.test_special_backend" name="test_ai_draft_and_status_do_not_change_physical_facts" time="0.426" /><testcase classname="scripts.test_special_backend" name="test_four_step_local_chain_persists_and_recovery_does_not_recall_model" time="0.171"><failure message="AssertionError: assert ({'active_task...sion': 1, ...} == {'active_task...sion': 1, ...}&#10;  &#10;  Omitting 17 identical items, use -vv to show&#10;  Use -v to get more diff and 'completed' == 'completed'&#10;  &#10;    completed and 3 == 4)&#10; +  where 3 = &lt;test_autonomous.autonomous_ai.&lt;locals&gt;.Engine object at 0x000001B35CB482F0&gt;.calls">..\..\..\scripts\test_special_backend.py:50: in test_four_step_local_chain_persists_and_recovery_does_not_recall_model
+    assert value==replay and recovered['phase']=='completed' and engine.calls==4
+E   AssertionError: assert ({'active_task...sion': 1, ...} == {'active_task...sion': 1, ...}
+E     
+E     Omitting 17 identical items, use -vv to show
+E     Use -v to get more diff and 'completed' == 'completed'
+E     
+E       completed and 3 == 4)
+E    +  where 3 = &lt;test_autonomous.autonomous_ai.&lt;locals&gt;.Engine object at 0x000001B35CB482F0&gt;.calls</failure></testcase><testcase classname="scripts.test_special_backend" name="test_current_intake_and_confirmation_replay_changes_db_once" time="0.118"><failure message="AssertionError: ('{&quot;detail&quot;:{&quot;code&quot;:&quot;INVALID_DRAFT_FIELDS&quot;}}', '{&quot;detail&quot;:{&quot;code&quot;:&quot;INVALID_DRAFT_FIELDS&quot;}}')&#10;assert 422 == 200&#10; +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code">..\..\..\scripts\test_special_backend.py:64: in test_current_intake_and_confirmation_replay_changes_db_once
+    assert first.status_code==second.status_code==200,(first.text,second.text)
+E   AssertionError: ('{"detail":{"code":"INVALID_DRAFT_FIELDS"}}', '{"detail":{"code":"INVALID_DRAFT_FIELDS"}}')
+E   assert 422 == 200
+E    +  where 422 = &lt;Response [422 Unprocessable Entity]&gt;.status_code</failure></testcase><testcase classname="scripts.test_special_backend" name="test_foreign_family_is_rejected_without_business_change" time="0.096" /></testsuite></testsuites>

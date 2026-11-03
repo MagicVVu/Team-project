@@ -1,0 +1,6 @@
+{
+  "stage": "post-install script self-copy",
+  "impact": "Installation and data checks already completed successfully; final self-copy hit the same running file",
+  "repair": "Skip copying when script source and destination are identical",
+  "reinstallation_performed": false
+}

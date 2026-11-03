@@ -1,0 +1,17 @@
+{
+  "method": "按16个功能组整体重采样10000次，组内重复观测绑定；只描述合成测试集，不代表真实用户总体。",
+  "seed": 20261031,
+  "cluster_count": 16,
+  "accuracy_95_interval": [
+    0.712890625,
+    0.841796875
+  ],
+  "four_turn_tasks": {
+    "scenario_executions": 64,
+    "complete_four_turn": 64,
+    "all_four_pass": 20,
+    "all_four_pass_rate": 0.3125,
+    "total_scenario_cost_cny": 0.2843616,
+    "cost_per_all_pass_scenario_cny": 0.01421808
+  }
+}

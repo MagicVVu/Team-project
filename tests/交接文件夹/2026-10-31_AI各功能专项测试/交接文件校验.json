@@ -1,0 +1,42 @@
+[
+  {
+    "name": "AI各功能专项测试总览.xlsx",
+    "sha256": "7f5d387a04fba48b0d939a3cb17bb3ce7bf51f64af5dfa2e9daf27bd5ec8518a"
+  },
+  {
+    "name": "Garin_AI各功能专项测试工作记录.docx",
+    "sha256": "91169783d9a096e1214d0abf781775db7dec99b596cb9be25f9b79284fce5e76"
+  },
+  {
+    "name": "结果总说明.md",
+    "sha256": "5ae3d625d3bdfa42f047494b76fd60d8d31b784dc0e77407e4218cf4d7a1355e"
+  },
+  {
+    "name": "真实模型失败清单.md",
+    "sha256": "67a736700bd7168bef07c036066819871c86a6fd02be6116c840a1b7d7f62b93"
+  },
+  {
+    "name": "测试结果与极端值.md",
+    "sha256": "d55d7ae1f708090ab3264a6e151444efd3665dd30c7c05ecadcf9d0247fdac60"
+  },
+  {
+    "name": "功能版本覆盖.json",
+    "sha256": "0ca63c26abbda4e983df076daf029a15b6ecca8fc479bbfbbdcfbf309267b28d"
+  },
+  {
+    "name": "离线问题清单.json",
+    "sha256": "b845c26ae9459ba726e52cf123b32e8e9f8691d1d55b5d53e43acbf43a6ff3ed"
+  },
+  {
+    "name": "测试工具问题与补测.json",
+    "sha256": "741ef593a8d7e894ac69768e8669be9a3543a6b4a55fcea243e0ffd52b666d91"
+  },
+  {
+    "name": "P4历史84项对照.json",
+    "sha256": "f0d92e3e000ed8e3ad25a15a3b0029a19f87e423b950c33507af5bdc5932231c"
+  },
+  {
+    "name": "P4旧包37次FAIL.json",
+    "sha256": "540a143809d36d9e9e102f3f043dfffde06fc56427bed4f5af641256be65027a"
+  }
+]

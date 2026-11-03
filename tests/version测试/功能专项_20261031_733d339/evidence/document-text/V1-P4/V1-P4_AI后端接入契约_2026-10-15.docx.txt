@@ -1,0 +1,129 @@
+V1 P4 AI后端接入契约
+版本 V1-P4    日期 2026年10月15日    编写 MagicVVu
+接收对象 CaviarHidon及业务后端与网关维护者
+本文件交接P4修复后的实际接口行为和接入责任。P4没有新增独立服务、API字段、确认写入接口或数据库迁移；现有P0/P1链路及Android网关获得修复，P2/P3继续沿原服务入口复用。正式后端确认写入及设备验收尚未完成。
+接口范围和版本识别
+调用目标
+消息与澄清入口
+响应及身份
+内部P1服务
+POST /agent/messagePOST /agent/clarification
+直接返回AgentResult；服务Bearer和可信用户家庭头。
+内部P2及P3服务
+沿用上述消息入口保留各自已有扩展工具接口
+直接返回对应扩展AgentResult；不能用P1严格模型丢弃P2/P3字段。
+Android只读网关
+POST /api/v1/agent/messagesPOST /api/v1/agent/drafts/validate
+网关envelope；APP_API_TOKEN及客户端库存快照，无旧P0确认路由。
+
+P4是阶段修复标识。/health仍报告原服务版本，例如P1为V1-P1、P3为V1-P3，网关报告storage=android-device；不能要求health必须返回P4。发布核对需同时使用提交、修复文件哈希及行为用例。
+认证与信任边界
+内部AI业务请求带 Authorization: Bearer <AI_SERVICE_TOKEN>、X-User-Id和X-Household-Id。用户及家庭由已认证业务后端确定并验证成员关系，不能从用户问题或answers中取值，内部服务密钥不得下发App。
+AI调用库存工具使用独立BACKEND_TOOL_TOKEN及相同身份头。后端仍须校验资源归属；AI再次核对返回数据的家庭和批次身份。Android快照模式使用固定device-snapshot作用域，不代表多家庭服务认证已经验收。
+
+只读数据和草稿字段
+现有后端只读工具为以下两条GET接口。AI仅请求这些受控路径，不接收客户端指定工具URL，也不直接连接业务数据库。P4未增加数据字段。
+GET /internal/v1/inventory/search?name=牛奶返回 {"data":{"batches":[Batch]}}GET /internal/v1/inventory/batches/{id}返回 {"data":{"batch":Batch}}
+name省略才表示该家庭库存列表；指定name时返回匹配的全部批次。找不到具体物品可返回空batches，不能改成全家庭结果。批次读取须返回指定ID；无权或不存在按现有错误规范处理。
+基础Batch含id、household_id、name、quantity、unit、location、purchased_at、label_expiry、status和version；P1保留opened_at及DISCARDED等终态。P2/P3继续保留各自扩展事实，未知值不得为消除提示而编造。
+action
+P1草稿必要字段 除name
+处理要求
+ADD
+quantity unit
+可选location purchased_at label_expiry；不指定旧批次。
+PLAN_ADD
+quantity unit
+明确采购请求，不增加库存。
+CONSUME
+batch_id expected_version quantity unit
+只针对活动批次，数量不足不生成可执行草稿。
+OPEN
+batch_id expected_version opened_at
+整批开封，不带quantity或unit。
+MOVE
+batch_id expected_version to_location
+整批移动，不带quantity或unit。
+DISCARD
+batch_id expected_version discard_mode quantity unit
+partial为明确量；all取唯一已确认批次实际剩余量。
+
+Decimal以字符串传输；定量操作为正数，不超过10亿，最多六位小数。只允许同单位、ml与L、g与kg等质量或体积换算，不推测一盒或一瓶容量。内部批次expected_version来自工具；Android专用版本映射见后文。
+
+结果状态和结构化澄清
+status
+后端与客户端应采取的动作
+needs_confirmation
+保存并展示待确认草稿；preview是拟议结果，不能显示已写入成功。
+needs_clarification
+展示missing_fields和完整安全候选，保存受保护context；不默认选首批。
+answered
+展示真实工具facts或终态说明；不生成可执行草稿。
+unsupported
+提示单物品单动作或当前支持边界，无可执行草稿。
+error
+保留原文及允许恢复的上下文，按retryable和error_code决定重试或人工输入。
+
+正常消息HTTP成功直接返回AgentResult。P1/P3鉴权失败为HTTP401，请求格式失败为HTTP422错误envelope；消息处理中的业务或模型失败通常在HTTP200结果中以status与error_code表示。直接工具接口沿各自既有错误规范，不能只看HTTP200判断业务成功。
+后端应保留original_text、trace_id、intent、draft、preview、facts、candidates、missing_fields、clarification、error_code、retryable和manual_entry等结果字段。P1另含trace；P2/P3扩展字段按各自OpenAPI完整保存。
+澄清续接约定
+POST /agent/clarification接收context对象、revision和answers对象。context必须来自后端按任务ID读取的最新受保护存储，不直接转发App提交的完整上下文。后端验证拥有者、当前revision、15分钟有效期及幂等，再调用AI。
+answers示例{"purchased_at":"2026-10-08"}或 {"batch_id":"milk-1"}
+P1只允许allowed_fields中的非空字段，batch_id必须属于当前候选。动作、家庭、库存版本和全部丢弃模式不能由answers改写。续接不再次调用模型，不延长有效期；目标事实或版本变化须重新选择。AI无任务数据库，旧上下文重放必须由后端存储约束。
+P4日期处理行为
+用户未给出的可选日期保持null；用户明确给出的购入或到期日期不能静默丢弃。相对购入日期及非法日期触发澄清，客户端建议提交YYYY-MM-DD绝对日期。P1既有开封今天或昨天继续按家庭时区和任务创建时间换算。
+
+Android网关契约和错误语义
+网关每次接收当前设备库存快照，不保存云端库存。请求用Authorization: Bearer <APP_API_TOKEN>；inventory_revision是快照版本，items中的ID必须唯一，最多1000条。
+POST /api/v1/agent/messages{  "inventory_revision":4,  "items":[{"id":"milk-1","name":"牛奶",    "quantity":"2","unit":"盒","location":"冰箱"}],  "text":"买了2盒和润牛奶",  "request_id":"p4-brand-001"}
+响应顶层含success、engine、expected_revision和data。上例的data.status应为needs_confirmation，data.draft.name为完整的和润牛奶；expected_revision为4。不能用快照里的牛奶子串覆盖品牌名。
+POST /api/v1/agent/drafts/validate接收inventory_revision、items和command，成功返回success、expected_revision和规范command。Android Command仍仅支持ADD、CONSUME、PLAN_ADD；不可把P1的OPEN、MOVE或DISCARD发送到该旧网关并假定兼容。
+网关CONSUME的expected_version等于inventory_revision加1；确认前必须用最新快照重校验并由设备存储原子比较revision。该数值是网关快照映射，不能当作云端数据库批次version通用规则。
+情形
+消息接口行为
+validate接口行为
+采购物品未登记或同名不唯一
+HTTP200；data为needs_clarification，PLAN_ITEM_REQUIRED，保留PLAN_ADD，无draft。
+HTTP422错误envelope。
+单位不兼容
+HTTP200；对应澄清及错误码，无可执行草稿。
+HTTP422错误envelope。
+库存版本已变化
+若在消息草稿校验中发现，返回澄清及VERSION_CONFLICT。
+HTTP409错误envelope。
+口令错误或请求格式错误
+口令HTTP401；字段HTTP422。
+同样分别HTTP401或422。
+
+P4在消息草稿校验失败时保留原intent、original_text和trace_id，清空draft并按错误码设置补充字段。采购仍要求名称精确匹配唯一已登记项，并与登记单位可换算；没有放开任意新物品采购。
+
+后端保存确认和既有扩展协议
+业务持久化与确认责任
+AI只生成建议和草稿。后端保存任务及草稿、最新修订、拥有者、有效期和编辑记录；确认时重新鉴权并重读事实，校验版本与数量，使用事务和幂等键保证只写一次。确认失败不能留下部分库存或事件。
+并发和重试：同一确认幂等键返回同一提交结果；旧版本冲突，不重放旧草稿覆盖新事实；服务重启后幂等记录仍可追溯。
+取消和过期：旧确认入口失效；未确认、澄清、取消和错误均不能产生库存变更。
+事件：OPEN和MOVE数量差为0但仍需按业务策略递增版本；消费归零为FINISHED，丢弃归零为DISCARDED，丢弃不计为消费。
+采购：PLAN_ADD只修改清单，不增加库存；确认前复核已有待购量与版本，避免重复采购。撤销需保留历史和关联事件，并再次检查目标版本。
+P2及P3的接入边界继续有效
+P2风险上下文协议p2-risk-selection-1，P3商品选择协议p3-item-selection-1和规划快照p3-planning-context-1均未被P4取消。后端不得把P2/P3结果投影为只含P1字段的模型，也不得将P3商品item_key冒充batch_id。
+P3需要后端提供一致性的GET /internal/v1/planning/context，并保存独立planning_basis供确认时复核商品、批次、清单、水位、偏好及快照。该后端数据接口仍属于待共同验收的既有提议契约，不因P4修复就视为已实现。
+P3的error加clarification恢复、allowed_fields为空时的空answers重读，以及item_key白名单开放仍按P3协作契约落实；P1续接只接受当前允许的非空答案，不能把两个协议混为一谈。
+机器规范入口
+P1：docs/versions/V1-P1/ai-openapi.json及examples.json。
+P2：docs/versions/V1-P2/ai-openapi.json及ai-contract.md。
+P3：docs/versions/V1-P3/ai-openapi.json、planning-context.schema.json及backend-coordination.md。
+P4本次没有新增或更改schema。Android实际schema由backend/app.py的FastAPI工厂生成；上文请求示例仅针对该现有网关。
+
+文件同步与联调验收
+本轮尚未部署。AI运行同步白名单现有34个文件，其中P4新增覆盖下列6个已修复基础依赖；不能只更新p2和p3而遗漏共用解析。
+agent/p0/text.pyagent/p0/engines.pyagent/p0/manager.pyagent/p1/engines.pyagent/p1/domain.pyagent/p1/manager.py
+另外同步清单定义agent/integration/source_manifest.py，并由网关维护者单独更新backend/app.py。同步工具保留远端文件归属和哈希保护；发现远端已有修改时先核对，不能强行覆盖。文档、夹具、缓存、密钥、Mock库存及预算数据不作为运行依赖上传。
+隔离环境的联调顺序
+核对服务与网关实际入口、配置、修复文件哈希和鉴权；先用rules及隔离家庭，不以health版本字符串是否为P4作为唯一依据。
+验证指定物品与全库存查询、缺名澄清、减量和采购表达、中文数量、完整品牌及双日期保留；同时检查家庭与批次边界。
+验证三条已记录契约边界：结束纸巾返回BATCH_TERMINAL，未登记饼干和垃圾袋采购返回PLAN_ITEM_REQUIRED，均无可执行草稿。
+验证澄清最新revision、TTL、所有权和批次事实重读，再验证草稿编辑到确认、重试、冲突、取消和撤销的真实账本闭环。
+用故障注入、服务重启、两个客户端并发和断网恢复验证原子性、持久化与幂等；保留真实前后状态和事件审计。
+交回给AI与测试的证据
+提供部署提交及文件哈希、配置项名称、隔离身份与接口可用状态、请求响应、trace_id、任务和草稿修订、库存版本、事务结果与事件审计。任何凭据只放受控配置，不写入交接记录。
+P4本地381项测试和450条规则样本已通过，但原150条人工复核、真实模型、手机持久化、正式数据库与真实并发仍待验收。原报告中的BLOCKED及REVIEW不得由本契约代签为通过。

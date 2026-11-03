@@ -1,0 +1,5 @@
+.snapshot/
+.runtime/
+*.apk
+__pycache__/
+*.pyc

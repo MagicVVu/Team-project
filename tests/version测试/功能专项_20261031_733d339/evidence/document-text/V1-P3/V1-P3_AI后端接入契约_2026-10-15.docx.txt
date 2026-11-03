@@ -1,0 +1,191 @@
+V1 P3 AI与后端接入契约
+规划快照 事件口径 任务续接与确认职责
+编写日期  2026年10月15日    阅读对象  后端开发与联调负责人
+记录基线  AI 0.4.0   策略 p3-policy-1   提取提示 p3-extract-2
+本文件交接P3只读规划数据、网关及草稿确认协作。AI侧0.4.0已实现，后端新增规划接口仍待共同验收。2026年10月15日开发记录显示远端后端为v0.6.0，尚无规划路径；本文不表示接口已经上线。
+1 交互边界与接口清单
+业务后端完成用户鉴权、家庭授权、任务及草稿存储、最新修订管理和最终事务。AI只理解文字、读取事实、确定性计算和生成待确认草稿，不连接数据库，不写库存或购物清单。
+方向
+方法与路径
+职责或状态
+后端到AI
+POST /agent/message
+已有消息入口，增加3类P3意图，保持旧意图。
+后端到AI
+POST /agent/clarification
+兼容P1/P2及p3-item-selection-1。
+后端到AI
+POST /consumption/query
+已实现，结构化统计，不调用模型。
+后端到AI
+POST /forecast/evaluate
+已实现，结构化评估，不调用模型。
+后端到AI
+POST /procurement/suggest
+已实现，mode=suggest或单项draft。
+AI到后端
+GET /internal/v1/planning/context
+后端待提供，同一一致性快照，仅只读。
+
+P3保留/risk/evaluate、/knowledge/rules和/health。消息体仍为text、request_id、household_timezone及reminder_days；窗口及草稿意图从原文提取。新增直接接口由业务后端按需代理，不能向前端暴露服务令牌。
+认证与错误层次
+后端调用AI用Bearer AI_SERVICE_TOKEN，AI读工具用Bearer BACKEND_TOOL_TOKEN；两者均携带可信X-User-Id和X-Household-Id。后端核验活跃用户、家庭成员和资源归属，禁止从问题或答案提取身份。
+业务处理可在HTTP200的AgentResult中返回status=error；认证和请求校验等协议错误使用非2xx及错误信封。调用方必须同时检查HTTP状态、结果status及error_code，不能将HTTP200直接理解为成功或写入完成。
+2 后端只读规划快照
+GET /internal/v1/planning/context 接受可选name或item_key，两者不能同时传；不传表示家庭商品列表。name返回全部匹配的稳定商品。成功响应外层为success=true、data=PlanningSnapshot；完整机器校验以planning-context.schema.json为准。
+字段
+类型与后端要求
+protocol_version
+字符串，固定p3-planning-context-1。
+scope
+对象，user_id和household_id均来自鉴权，并与请求一致。
+snapshot_id
+稳定业务状态令牌，相关库存/清单/事件/覆盖/偏好变化必须更新。每次读取不得随机新建。
+as_of
+带时区时间字符串。当前AI拒绝超过300秒旧快照或超前超过1秒。
+event_watermark
+非空事件水位字符串，用于追溯及确认校验。
+shopping_version
+正整数，共享清单版本。
+items_complete
+布尔，商品结果是否完整。false时本次规划报错，不默默使用部分列表。
+history_complete
+布尔，事件传输是否完整。false会阻止历史预测；可靠最低量仍可独立降级。
+pending_complete
+布尔，共享未购条目是否完整。false时补货需要核对，不能按0处理。
+next_cursor
+字符串或null。首版只接受完整单快照，非空拒绝继续计算；尚无续页实现。
+items
+规划商品数组，最多1000项，包含批次、事件、覆盖和偏好。
+pending
+共享清单条目数组，最多10000项，均能对应返回的商品。
+
+一次事务或等价一致性机制完成读取。商品过滤时pending也须按商品过滤。单个商品最多1000批次、20000事件和3660覆盖日；超限返回409或明确不完整，不能裁剪后声称完整。若未来引入分页，需先定义并实现同快照续页协议。
+工具HTTP状态建议：401认证失败，403/404无权限或不可访问，409数据不兼容/超限，5xx暂不可用。缺少规划路径的404在AI侧映射为PLANNING_CONTEXT_UNAVAILABLE；字段不兼容为PLANNING_CONTRACT_INVALID。
+3 商品 偏好与共享清单字段
+对象
+必需字段与语义
+PlanningItem
+item_key、name、unit、version、category、batches、events、coverage、preferences；item_key稳定且在快照内唯一。
+类别
+food / medicine / household / unknown；商品与批次类别一致。药品采购在AI侧排除。
+Batch
+id、household_id、name、quantity、unit、version；兼容P1/P2的日期、状态、位置及风险字段。
+风险字段
+category、product_id、label_date_type、label_context_valid、storage_condition、label_storage_condition、is_opened、opened_at等。
+完整性来源
+recording_completeness_source：业务确认实际记录完整性的说明；不能只凭传输完整或模型推断。
+可用量核验
+usable_quantity_verified默认false，须业务核验；不为true或风险为red/orange/unknown时采购需复核。
+Preferences
+version正整数；minimum_stock为统计单位最低量；coverage_days 1至365；lead_days 0至365。未配置用null。
+采购包装
+order_unit与pack_size必须同时设置；pack_size表示每1采购单位含多少商品统计单位，不允许凭名称猜容量。
+Pending
+id、item_key、quantity、unit、status、confirmed、visibility；status为pending/purchased/draft，visibility只允许shared。
+
+只有confirmed=true且status=pending的共享未购量参与扣减。已购条目、未确认草稿和其他用户私有草稿不扣减。相同清单ID相同内容去重，冲突则needs_review；不能明确商品对应的清单数据需先由后端核对。
+同名不同SKU或规格使用不同item_key，不能以批次ID或名称充当规范商品身份。一个批次只能属于一个商品；活动批次数量汇总，终态仍有非零量时要求核对。quantity为非负Decimal字符串，命令与待购正数量不超过10亿且最多6位小数。
+自动单位换算仅限同单位、g/kg与ml/L。最低量是商品级偏好，不能把每批最低量相加；数值精度不足或包装容量缺失时不能静默取整。完整字段、默认值和约束见机器规范，本文不是另一套字段定义。
+4 事件与覆盖的规范口径
+Event包含id、item_key、kind、quantity、unit、occurred_at、recorded_at、committed及可空related_event_id。后端显式映射数据库枚举，且必须提供关系目标；不能解析前端history展示文本作为消费账本。
+事件
+有效消费处理
+Consumed
+仅已提交且正数量计入；原始消费不应带related_event_id。
+Finished
+只是终态，不再增加消费，避免Consumed加Finished重复。
+Discarded等
+Discarded、Added、Opened、Moved、Purchased、Draft、Adjusted均不计消费。
+Reversed
+必须关联原Consumed；quantity=0抵销当前有效余量，正数作部分抵销，不得超量。
+Corrected
+必须关联原Consumed；quantity是更正后的总有效量，不是差额，可为0。
+关系与顺序
+按recorded_at处理；原消费记录时间必须早于关联事件。不能关联撤销的撤销或悬空ID。
+去重与冲突
+同ID同内容去重；同ID不同内容、单位不兼容、商品不一致或未来发生事件需复核。
+
+occurred_at表示实际发生，recorded_at表示系统何时知晓。晚于as_of才录入的事件不参与当时计算。更正后的有效量归于原消费发生日；关系目标即使早于窗口也必须提供，不能因裁剪事件导致关系悬空。
+逐日覆盖与预测门槛
+CoverageDay包含day、records_complete、stockout及unexplained_adjustment，day按可信家庭时区。AI使用最近连续有效自然日，最多28日，不包含当前未结束日；缺日、断货或未解释调整中断窗口。不能把没有记录解释为实际需求为0。
+至少14完整日、5有效事件、3消费日期、正消费及可核验完整性，才输出estimated。较早断货但最近连续有效窗口足够长时仍可估计；断货影响近期窗口不足时needs_review。历史短或完整性来源未知为insufficient_data。
+预测条件是未来不补货且记录消耗水平相近。历史建议只在合格预测与明确coverage_days、lead_days同时具备时启用；否则只可退回可信minimum_stock。
+计算约定：历史目标取minimum_stock与“有效消费总量乘覆盖及提前日之和，再除观察日数”的较大值；新增量为目标减当前库存和已确认共享未购量，最低为0。forecast数组内每项status为estimated、insufficient_data、no_recorded_consumption、needs_review或current_zero；日期不能提供时为null。
+5 AI请求与结果示例
+以下均为构造示例，ID不是真实用户或库存；真实家庭身份只由可信调用头提供。直接结构化接口不调用模型，mode=draft仅适用于/procurement/suggest。
+新增意图值为QUERY_CONSUMPTION、QUERY_FORECAST、SUGGEST_PURCHASE；分别对应消费、预测和补货。
+POST /agent/message{"text":"给牛奶生成补货草稿", "request_id":"p3-case-001", "household_timezone":"Asia/Shanghai"}POST /forecast/evaluate{"item_key":"milk", "window_days":28, "household_timezone":"Asia/Shanghai"}POST /procurement/suggest{"item_key":"milk", "mode":"draft", "household_timezone":"Asia/Shanghai"}
+构造数据：28完整日有效消费7盒，当前2盒，覆盖14日、提前2日、最低3盒，共享待购1盒。预期参考剩余8天，目标4盒，新增草稿1盒。
+{ "status":"needs_confirmation", "intent":"SUGGEST_PURCHASE", "reply":"已生成可编辑的单项补货草稿，尚未写入。", "trace_id":"trace-example", "original_text":"给牛奶生成补货草稿", "draft":{"action":"PLAN_ADD", "name":"牛奶",          "quantity":"1", "unit":"盒"}, "preview":{"inventory_changes":false, "prospective":true}, "inventory_writes":false, "shopping_writes":false}
+以上是结果节选。真实响应中consumption_summary、forecast、recommendations、item_candidates均为数组，planning_basis为对象或null，并保留默认字段；不得将节选当作完整Schema样本。
+AgentResult状态
+调用方处理
+answered
+展示统计、建议或降级原因，不能视作写入。
+needs_clarification
+保存受保护上下文，提示选择或补缺字段。
+needs_confirmation
+保存一个草稿及依据，等待显式确认。
+unsupported / error
+分别提示越界或失败，保留原文；error可带可恢复上下文。
+
+6 澄清与草稿持久化
+新增协议p3-item-selection-1，兼容旧P1与P2上下文。后端只将自己保存的上下文传回AI；浏览器不能修改scope、parsed、revision、候选、版本或有效期。续接只提交允许的name或item_key，不能冒用batch_id，也不能顺带修改动作和数量。
+POST /agent/clarification{"context":<后端保存的完整上下文>, "revision":1, "answers":{"item_key":"milk"}}读取失败且allowed_fields为空时{"context":<已保存的error上下文>, "revision":2, "answers":{}}
+v0.6答案白名单尚无item_key，需要仅对相应已保存协议开放。AI校验作用域、输入修订和15分钟TTL，并重新读取快照；令牌、商品或批次事实变化时返回增加修订号的澄清结果，不自动生成草稿。最新修订及并发原子更新由后端负责。
+error带clarification时需允许恢复，v0.6仅needs_clarification可续接须调整。allowed_fields=[]只允许空答案重读，不能修改已经填写的名称；已选selected_item_key须保留。结构化续接不调用模型。公开任务响应只暴露revision、allowed_fields、expires_at，不暴露原始内部上下文。
+独立planning_basis必须跟草稿一起保存
+planning_basis.protocol_version固定为p3-planning-basis-1，用于独立识别本阶段的确认依据协议。
+字段组
+确认用途
+item_key / item_version
+确认规范商品及版本。
+batch_versions
+逐批校验库存事实。
+shopping_version / event_watermark
+核对未购记录和消费历史水位。
+snapshot_id / as_of
+追溯一致性状态及生成时点。
+preference_version / policy_version
+追溯偏好和策略。
+calculation / original_suggested_quantity
+保留依据、目标、库存、未购量和原建议。
+human_modified / confirmation_revalidation_required
+初始false / true；用户改量后由后端记录人工修订。
+
+旧严格PlanCommand仍只有action/name/quantity/unit，不能塞入新元数据。result JSON能容纳新字段，不代表ai_drafts自动保存依据；后端应使用独立JSON字段或不可变task-result引用。
+7 后端实施次序与联合验收
+最终写入由业务后端事务完成
+显式确认后先重新鉴权、校验任务和商品身份，再重读库存、共享未购及相关版本。事实变化时返回冲突重新确认，不能静默覆盖。人工修改数量须标记来源并保留原建议。通过版本校验后在同一幂等事务加入购物清单，避免重复待购；确认前AI始终没有写入。
+顺序
+后端工作
+联合退出条件
+1
+规范商品、已确认消费和关联撤销；定义覆盖来源。
+不同SKU、关系目标、Decimal及自然日口径可核对。
+2
+实现单快照GET规划工具及家庭授权。
+通过Schema、越权、完整性、单位与超限检查。
+3
+网关支持item_key、error恢复及原子revision。
+候选续接、空答案恢复、过期和并发无错接。
+4
+保存planning_basis并实现确认重核事务。
+用户编辑、版本冲突、幂等和防重复正确。
+5
+负责人合并隔离部署配置并切换服务。
+健康检查、只读权限、P0/P1/P2回归通过。
+6
+测试家庭正向联调及数据库审计。
+消息到草稿无业务写；显式确认只产生一次业务写。
+
+AI代码仅在~/workspace/agent内分类维护。现有.venv-p2已可导入P3，但不代表正式容器已部署。部署参考deploy/compose.p3.override.yaml，与正式隔离配置合并，保留服务令牌、网络隔离、只读文件系统、缓存卷及UID10002；不能单独启动该覆盖文件。
+共同验收前仍待确认的事项
+后端如何产生稳定快照令牌、事件水位和商品级偏好，以及记录完整性的业务确认来源。
+planning_basis的具体数据库保存方式、人工编辑标记与确认冲突响应。本文要求共同冻结，不代替数据库迁移设计。
+受保护测试身份和隔离家庭数据。凭据通过安全配置交付，不放入Word、Git或聊天。
+正式家庭时区由可信业务配置提供并校验IANA名称，不能从用户文本猜测；本地默认Asia/Shanghai。
+机器契约docs/versions/V1-P3/ai-openapi.json 与 planning-context.schema.json
+对应实现agent/p3/schemas.py、tools.py、manager.py、procurement.py
+当前证据docs/versions/V1-P3/validation-summary.json；未验证真实正向链路。

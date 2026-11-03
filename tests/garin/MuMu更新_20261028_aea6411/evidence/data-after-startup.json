@@ -1,0 +1,11 @@
+{
+  "inventory_before": 15,
+  "inventory_after": 15,
+  "same_item_ids": true,
+  "changed_original_item_ids": [],
+  "purchases_unchanged": true,
+  "other_original_preferences_unchanged": true,
+  "photo_references_before": 0,
+  "photo_references_after": 0,
+  "cloud_session_present": false
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "suite": "eval-conversation-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-conversation-initial/rules-test-20261031T053655374951.json"
+  },
+  {
+    "suite": "eval-p1-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-p1-initial/rules-test-20261031T053654978698.json"
+  },
+  {
+    "suite": "eval-p2-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-p2-initial/rules-test-20261031T053655012498.json"
+  },
+  {
+    "suite": "eval-p3-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-p3-initial/rules-test-20261031T053655054687.json"
+  },
+  {
+    "suite": "eval-p5-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-p5-initial/rules-test-20261031T053655094276.json"
+  },
+  {
+    "suite": "eval-special-chat-initial",
+    "count": 60,
+    "pass": 60,
+    "fail": 0,
+    "provenance": "literal_rules / synthetic reader",
+    "evidence": "runs/eval-special-chat-initial/result.json"
+  },
+  {
+    "suite": "eval-special-p85-initial",
+    "count": 240,
+    "pass": 240,
+    "fail": 0,
+    "provenance": "fixture_workflow_not_model",
+    "evidence": "runs/eval-special-p85-initial/result.json"
+  },
+  {
+    "suite": "eval-special-session_memory-initial",
+    "count": 150,
+    "pass": 150,
+    "fail": 0,
+    "provenance": "offline_synthetic_fixture_regression",
+    "evidence": "runs/eval-special-session_memory-initial/result.json"
+  },
+  {
+    "suite": "eval-v1-initial",
+    "count": 96,
+    "pass": 96,
+    "fail": 0,
+    "provenance": "offline rules",
+    "evidence": "runs/eval-v1-initial/rules-test-20261031T053655237863.json"
+  }
+]

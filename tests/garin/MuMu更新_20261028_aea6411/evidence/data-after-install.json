@@ -1,0 +1,12 @@
+{
+  "inventory_before": 15,
+  "inventory_after": 15,
+  "missing_ids": [],
+  "new_ids": [],
+  "changed_original_fields": [],
+  "purchases_unchanged": true,
+  "other_original_preferences_unchanged": true,
+  "cloud_session_present": false,
+  "installed_apk_sha256": "3b65cdbedfc9391857b80316e998bc3baeb6203653bd312d259a8fd3334bcab4",
+  "installed_apk_matches": true
+}

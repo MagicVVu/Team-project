@@ -1,0 +1,305 @@
+{
+  "before": {
+    "inventory": [
+      {
+        "id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 0,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "after": {
+    "inventory": [
+      {
+        "id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 0,
+    "operations": 0,
+    "tasks": 1,
+    "drafts": 1
+  },
+  "task": {
+    "task_id": "f6b6b96f-83af-4eac-8a5e-25379575a6ef",
+    "household_id": "acc91708-3b2a-4794-8c30-d3827f80ee2c",
+    "status": "needs_confirmation",
+    "revision": 1,
+    "expires_at": null,
+    "draft_id": "2c63270e-cf45-463f-9f61-76b65ed3c726",
+    "result": {
+      "status": "needs_confirmation",
+      "intent": "MOVE",
+      "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+      "trace_id": "trace_0f1fde776a9b47ea94f70412127c018d",
+      "original_text": "把牛奶移到书房",
+      "draft": {
+        "name": "牛奶",
+        "batch_id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+        "expected_version": 1,
+        "action": "MOVE",
+        "to_location": "书房"
+      },
+      "preview": {
+        "batch_id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+        "before": {
+          "id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+          "household_id": "acc91708-3b2a-4794-8c30-d3827f80ee2c",
+          "name": "牛奶",
+          "quantity": "1",
+          "unit": "盒",
+          "location": "冰箱",
+          "purchased_at": null,
+          "label_expiry": null,
+          "opened_at": null,
+          "status": "ACTIVE",
+          "version": 1
+        },
+        "after": {
+          "quantity": "1",
+          "unit": "盒",
+          "location": "书房",
+          "opened_at": null,
+          "status": "ACTIVE"
+        },
+        "event_type": "Moved",
+        "quantity_delta": "0",
+        "inventory_changes": true,
+        "prospective": true
+      },
+      "candidates": [],
+      "facts": [],
+      "missing_fields": [],
+      "clarification": null,
+      "error_code": null,
+      "retryable": false,
+      "manual_entry": false,
+      "trace": [],
+      "risks": [],
+      "evaluated_count": 0,
+      "item_candidates": [],
+      "consumption_summary": [],
+      "forecast": [],
+      "recommendations": [],
+      "planning_basis": null,
+      "snapshot_id": null,
+      "evaluated_at": null,
+      "inventory_writes": false,
+      "shopping_writes": false,
+      "input_receipt": null,
+      "input_review": null,
+      "request_id": null,
+      "runtime": null,
+      "decisions": [],
+      "guidance": [],
+      "sections": [],
+      "location_options": [],
+      "data_gaps": [],
+      "feedback": null,
+      "truncated": false,
+      "total_count": null,
+      "quantity_source": null,
+      "policy_version": "p7-limited-context-1",
+      "jev_status": "deferred_by_user",
+      "object_source": null,
+      "reference_used": null,
+      "clear_reference": false,
+      "consume_mode": null,
+      "procurement_source": null,
+      "planning_calculation": null,
+      "product_planning": [],
+      "planning_context": null,
+      "planning_review": null
+    },
+    "inventory_written": false
+  },
+  "status_followup": {
+    "protocol_version": "conversation-memory-1",
+    "conversation_id": "4200b1c8-badd-4920-a721-7103ffd5ff33",
+    "conversation_revision": 2,
+    "current_conversation_revision": 2,
+    "request_id": "80b63d58171e4bfea5724cbfa85cc289",
+    "original_text": "为什么还没有移动",
+    "reply": "草稿待确认，尚未执行。",
+    "kind": "explain",
+    "task": null,
+    "active_task": {
+      "task": {
+        "task_id": "f6b6b96f-83af-4eac-8a5e-25379575a6ef",
+        "household_id": "acc91708-3b2a-4794-8c30-d3827f80ee2c",
+        "status": "needs_confirmation",
+        "revision": 1,
+        "expires_at": null,
+        "draft_id": "2c63270e-cf45-463f-9f61-76b65ed3c726",
+        "result": {
+          "status": "needs_confirmation",
+          "intent": "MOVE",
+          "reply": "草稿已生成，尚未写入。请核对目标批次与变更内容后确认。",
+          "trace_id": "trace_0f1fde776a9b47ea94f70412127c018d",
+          "original_text": "把牛奶移到书房",
+          "draft": {
+            "name": "牛奶",
+            "batch_id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+            "expected_version": 1,
+            "action": "MOVE",
+            "to_location": "书房"
+          },
+          "preview": {
+            "batch_id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+            "before": {
+              "id": "1852c4f3-fc51-4ea4-9580-5fd4d29781ad",
+              "household_id": "acc91708-3b2a-4794-8c30-d3827f80ee2c",
+              "name": "牛奶",
+              "quantity": "1",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": null,
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 1
+            },
+            "after": {
+              "quantity": "1",
+              "unit": "盒",
+              "location": "书房",
+              "opened_at": null,
+              "status": "ACTIVE"
+            },
+            "event_type": "Moved",
+            "quantity_delta": "0",
+            "inventory_changes": true,
+            "prospective": true
+          },
+          "candidates": [],
+          "facts": [],
+          "missing_fields": [],
+          "clarification": null,
+          "error_code": null,
+          "retryable": false,
+          "manual_entry": false,
+          "trace": [],
+          "risks": [],
+          "evaluated_count": 0,
+          "item_candidates": [],
+          "consumption_summary": [],
+          "forecast": [],
+          "recommendations": [],
+          "planning_basis": null,
+          "snapshot_id": null,
+          "evaluated_at": null,
+          "inventory_writes": false,
+          "shopping_writes": false,
+          "input_receipt": null,
+          "input_review": null,
+          "request_id": null,
+          "runtime": null,
+          "decisions": [],
+          "guidance": [],
+          "sections": [],
+          "location_options": [],
+          "data_gaps": [],
+          "feedback": null,
+          "truncated": false,
+          "total_count": null,
+          "quantity_source": null,
+          "policy_version": "p7-limited-context-1",
+          "jev_status": "deferred_by_user",
+          "object_source": null,
+          "reference_used": null,
+          "clear_reference": false,
+          "consume_mode": null,
+          "procurement_source": null,
+          "planning_calculation": null,
+          "product_planning": [],
+          "planning_context": null,
+          "planning_review": null
+        },
+        "inventory_written": false
+      },
+      "execution": {
+        "draft_id": "2c63270e-cf45-463f-9f61-76b65ed3c726",
+        "task_id": "f6b6b96f-83af-4eac-8a5e-25379575a6ef",
+        "status": "pending",
+        "draft_revision": 1,
+        "task_revision": 1,
+        "action": "MOVE",
+        "editable_fields": [
+          "to_location"
+        ],
+        "reason_code": null,
+        "expires_at": "2026-10-31T06:17:10+00:00",
+        "operation_id": null,
+        "receipt": null
+      }
+    },
+    "evidence": [
+      {
+        "task_id": "f6b6b96f-83af-4eac-8a5e-25379575a6ef",
+        "revision": 1,
+        "kind": "fresh_task_read",
+        "checked_at": "2026-10-31T06:02:10.052649+00:00"
+      }
+    ],
+    "filled_fields": {},
+    "model_calls": 0,
+    "dialogue": {
+      "protocol_version": "inventory-autonomous-1",
+      "calls": {
+        "decision": 0,
+        "response": 0,
+        "total": 0
+      },
+      "recovery_model_calls": null,
+      "fallback_used": false,
+      "field_sources": {},
+      "stop_reason": "completed",
+      "loop_stop_reason": "completed",
+      "status": "completed",
+      "tool_reads": 0,
+      "elapsed_ms": 30.707799996889662,
+      "ai_elapsed_ms": 1.7682000034255907,
+      "revalidation_calls": 1
+    },
+    "truncated": false,
+    "error_code": null,
+    "inventory_written": false
+  },
+  "internal_paths": [
+    [
+      "POST",
+      "/agent/dialogue/run"
+    ],
+    [
+      "GET",
+      "/internal/v1/inventory/search"
+    ],
+    [
+      "POST",
+      "/agent/dialogue/p85/resolve"
+    ],
+    [
+      "GET",
+      "/internal/v1/inventory/search"
+    ],
+    [
+      "POST",
+      "/agent/dialogue/run"
+    ],
+    [
+      "POST",
+      "/agent/dialogue/p85/resolve"
+    ]
+  ]
+}

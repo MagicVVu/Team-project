@@ -1,0 +1,17 @@
+[
+  {
+    "stage": "offline build",
+    "type": "environment",
+    "resolution": "New CameraX/MLKit dependencies were not cached; kept offline failure and downloaded only declared dependencies; online assembleDebug passed."
+  },
+  {
+    "stage": "installation recorder",
+    "type": "harness",
+    "resolution": "The install and data checks succeeded; final self-copy of the running file failed. Added a same-path guard; did not reinstall."
+  },
+  {
+    "stage": "login UI selector",
+    "type": "harness",
+    "resolution": "Visible guest label includes an arrow (先逛逛 ›); navigation selector now accepts the label prefix. Business assertions unchanged; app not restarted again."
+  }
+]

@@ -1,0 +1,210 @@
+V1 P6 AI后端接入契约
+版本 1.0   编制日期 2026年10月16日   时区 Asia/Shanghai
+编制：项目 AI 开发成员   阅读对象：后端开发成员与联调负责人
+请保持现有数据库任务网关不变，在独立业务只读模块提供规划事实和操作提交凭证。AI 适配器、校验和机器契约已实现；开发验收时后端 0.8.0 尚未提供这两个接口。本文说明接入字段、身份、时间、版本与错误约定，确认事务和撤销继续由业务服务负责。Jev 本轮暂缓。
+AI配置 0.6.0   策略 v1-completion-1   Jev 本轮暂缓
+1 职责与公开网关
+责任方
+约定
+AI 服务
+理解最终文字，读取真实事实，计算风险预测与建议，生成待确认草稿；不直连数据库或写库存。
+数据库任务网关
+维持现有消息、澄清、任务、草稿保存与身份校验，不更换实现或任务数据库。
+业务服务
+验证用户家庭归属，提供只读事实；独立执行确认、幂等、并发、事件原子写入和关联撤销。
+客户端
+设备转写和用户核对；只提交最终文字，保留原任务与请求键，按动作展示字段。
+
+公开路径保留 POST /api/v1/agent/messages、POST /api/v1/agent/clarifications/{task_id}、GET /api/v1/agent/tasks/{task_id}、GET /api/v1/drafts/{draft_id}。调用使用用户访问令牌，不把内部服务密钥传给手机。
+{  "household_id": "22222222-2222-4222-8222-222222222222",  "text": "牛奶用完了",  "request_id": "message-example",  "household_timezone": "Asia/Shanghai"}
+消息仍是上述四字段。公开澄清为 revision 加非空 answers；允许 name、quantity、unit、location、purchased_at、label_expiry、opened_at、to_location、batch_id。只接受当前任务缺失字段，不能修改动作、身份或库存版本。
+超时或结果未知先 GET 原任务；显式恢复时保留原 request_id，不自动新建业务效果。业务方保存完整私有上下文和最新修订，AI 不新增任务数据库。
+2 AI内部入口与结果
+AI 入口 v1.app:create_app，版本 0.6.0。内部调用必须带 Bearer AI_SERVICE_TOKEN、可信 X-User-Id 与 X-Household-Id；不能用服务认证代替业务用户及家庭授权。
+方法与路径
+输出和限制
+POST /agent/message
+确认文字、原有动作和查询、新增位置/用完/关注路径；初次至多一次模型提取。
+POST /agent/clarification
+完整受信 context、revision、非空 answers；0 次模型调用，重新读取事实。
+POST /risk/evaluateGET /knowledge/rules
+确定性风险；V1配置只启用人工审核规则。
+POST /consumption/queryPOST /forecast/evaluatePOST /procurement/suggest
+沿用 P3 Query；建议或单项 PLAN_ADD，不执行采购写入。
+POST /overview/query
+只读摘要，mode 必须 suggest；分块标记状态、时间、快照，展示上限明确。
+POST /feedback/after-commit
+operation_id 与家庭时区；先读业务提交凭证，再核对新版本。
+POST /capabilities/checkGET /health
+前者主动检查真实读取；后者只声明进程与配置，不能替代正式正向验收。
+
+AI 结果仍为 needs_clarification、needs_confirmation、answered、unsupported、error；processing 仅属网关任务状态。保留 trace_id 与原文，新增 request_id、runtime、decisions、guidance、sections、data_gaps、quantity_source、feedback 等字段。
+runtime 记录实际模型、提示及规则哈希；decisions 记录四节点的真实来源，不含内部推理或 Jev 伪造概率。sections 可为 available、partial、unavailable；摘要展示被截断时返回 truncated 与 total_count。
+3 草稿与澄清兼容
+动作
+命令字段与语义
+ADD
+name、quantity、unit；location、purchased_at、label_expiry 可空。
+CONSUME
+name、batch_id、expected_version、quantity、unit；明确用完也输出此命令。
+OPEN
+name、batch_id、expected_version、opened_at；不要求数量。
+MOVE
+name、batch_id、expected_version、to_location；只整批移动，不要求数量。
+DISCARD
+目标批次与版本、discard_mode、quantity、unit；partial 定量，all 按当前库存，均不计消费。
+PLAN_ADD
+name、quantity、unit；计算建议另带 planning_basis，待业务确认。
+
+明确已经用完时，AI 读取登记剩余量，quantity_source=current_batch，预览数量为零及 FINISHED。用户仍须确认，expected_version 冲突后重新核对，不自动追加消费后来新增的库存。Finished 不重复记消费；不新增 FINISH 或 UNDO 命令。
+新私有续接协议为 v1-local-1 与 v1-batch-selection-1。业务保存完整 context，公开仍只暴露网关已有的修订、允许字段与有效期；不得把客户端可编辑答案当可信上下文。默认有效期 15 分钟。
+P3 商品选择用真实 batch_id 作为锚点；AI 在候选和完整重读快照中唯一映射 item_key，再计算整商品，不只算该批次。
+无批次锚点时仅通过名称唯一识别；同名无法确定就继续核对，不选第一项，不把 item_key 冒充 batch_id。
+公开不接 item_key 或空 answers。P6 调用端用 v1.tasks 类型；旧 P3/P5 工厂保留，发布前处理旧未完成任务的版本兼容。
+草稿、preview 和 prospective 表示拟变更，不表示已写入。AI 的 inventory_writes/shopping_writes 为 false；公开任务的 inventory_written 也保持未写入语义。
+4 规划事实读取接口
+GET /internal/v1/planning/contextAuthorization: Bearer <BACKEND_TOOL_TOKEN>X-User-Id: <可信业务用户ID>X-Household-Id: <已授权家庭ID>
+name 与 item_key 可选但不能同时提供；均不填时返回完整允许范围。后端验证用户有效及家庭归属，返回 data 包裹的 PlanningSnapshot。本接口为预留契约，开发验收时尚未部署。
+字段
+类型和约束
+protocol_version
+v1-planning-context-1；兼容 p3-planning-context-1。
+scope
+user_id 与 household_id 必须与受信身份头完全一致。
+snapshot_id
+1至200字符，同一事实快照的稳定标识。
+as_of
+带时区时间，可信评估时点；AI拒绝超过300秒或未来超过1秒的快照。
+event_watermark
+1至200字符，明确事件读取水位。
+shopping_version
+正整数，对应本次完整共享清单快照。
+items_complete
+是否返回完整商品结果；false 或未完成游标不进入规划计算。
+history_complete
+只表示已读取历史完整性，不能当用户实际消费记录完整。
+pending_complete
+是否读取完整共享待购；未知不能按零处理。
+next_cursor
+可空；尚有分页时 AI 不把结果当完整。
+items
+最多1000个商品，结构见下一页。
+pending
+最多10000条共享计划记录，必须能关联返回商品。
+
+后端应保证商品、批次、事件、偏好、清单属于同快照，或明确拒绝不一致数据；不得先分页截断再写完整。范围过大或无法保证完整性时返回冲突或明确不可用。
+5 商品批次与实际库存核对
+商品字段
+约束与业务含义
+item_key 与 version
+家庭内稳定商品标识，长度1至100，版本为正整数；不能只按同名自动合并。
+name 与 unit
+名称1至80字符；单位为已有相容单位，不猜包装容量。
+category
+food、medicine、household、unknown，来自登记事实。
+batches
+最多1000个批次；批次唯一归属此商品和家庭。
+events
+最多20000条结构化事件，见事件约定。
+coverage
+最多3660个覆盖日期，按家庭时区自然日。
+recording_completeness_source
+可空，非空时1至200字符；说明记录完整性如何核实。
+preferences
+必须有版本，参数必须是已保存的明确偏好。
+usable_quantity_verified
+默认false；仅在业务已核实可用量时为true，AI不自行扣除风险库存。
+stock_verification
+可空；checked_at为带时区实际核对时间，source为1至200字符非空依据。
+
+批次基础字段：id、household_id、name、quantity、unit、location、purchased_at、label_expiry、opened_at、status、version。状态为 ACTIVE、FINISHED、REVERSED、DISCARDED；位置可空、长度至多120，日期可空，版本为正整数。
+风险扩展事实为 product_id、category、label_date_type、label_context_valid、storage_condition、label_storage_condition、is_opened。日期类型为 use_by、best_before、expiry、unknown；保存条件为 ambient、refrigerated、frozen 或未知。不从品名或冰箱位置推断这些事实。
+实际库存核对默认最大年龄168小时。缺失、未来或陈旧时，保留有效消费统计，但去掉精确耗尽日期和自动采购草稿；新API读取时间不能替代实际核对时间。该阈值是当前项目策略，未经真实预测效果验证。
+数量用十进制字符串传递，沿用既有数量精度与上限，避免二进制浮点。仅自动换算g/kg和ml/L；盒瓶等包装必须有登记映射，不能猜一盒多少毫升。
+6 事件与记录覆盖
+事件字段
+类型与规则
+id 与 item_key
+1至100字符；事件ID去重，必须归属于当前商品。
+kind
+Consumed、Discarded、Added、Opened、Moved、Finished、Purchased、Draft、Reversed、Corrected、Adjusted。
+quantity 与 unit
+非负十进制数量，上限10亿；有效Consumed必须正量，单位可核验相容。
+occurred_at
+真实发生时间，带时区；不能用未来发生的事件计算。
+recorded_at
+系统记录时间，带时区；回测不能使用评估时点以后才录入的事实。
+committed
+仅已确认提交的有效事件参与统计；草稿不参与。
+related_event_id
+可空；逆向/更正必须有明确关联，不能一概对负量取绝对值。
+
+coverage 每日包含 day、records_complete、stockout，及默认false的 unexplained_adjustment。day 是可信家庭时区自然日，必须与 AI 消息 household_timezone 一致；不要按服务器默认时区生成。
+history_complete 表示数据传输完整，records_complete及来源描述实际登记覆盖，两者分开。空事件不等于没有消费，断货期没有消费也不能推断需求为零。展示 history_json 不能替代结构化账本。
+仅计有效 Consumed 净额，排除丢弃、购入、移动、开封、草稿及单独的 Finished 状态事件。
+撤销与更正按明确关联抵销或替换；关联不明、重复冲突、单位冲突时降为待核对。
+当前预测最长28个完整自然日，要求至少14个有效观察日、5条有效消费事件、覆盖3个消费日期；当天未结束部分不作完整日。
+满足门槛才返回条件估计；记录不足、陈旧库存或冲突不编耗尽日。真实效果须另做按时间顺序回测，不能用合成样本通过代替。
+7 偏好待购与确认依据
+偏好字段
+约束
+version
+正整数，确认时需核对偏好是否变化。
+minimum_stock
+可空，非负至10亿，明确的商品级最低库存；不逐批相加。
+coverage_days
+可空，1至365天，明确采购覆盖周期。
+lead_days
+可空，0至365天，明确采购提前量。
+order_unit 与 pack_size
+可空但必须同时给出；明确一采购单位对应多少商品单位，不由AI推断。
+
+pending 每条需 id、item_key、正quantity、unit、status、confirmed、visibility。status为pending/purchased/draft，visibility仅shared；同一ID冲突或对应商品不清时必须核对，不能忽略。
+仅已确认共享未购量抵扣新增建议；未确认AI草稿不算已有计划，已购并入库仅计一次库存。当前库存与未购覆盖目标时不再生成重复需求。药品不自动补货，不推算剂量。
+可用库存与风险不清时先核对，不由AI静默扣掉未知库存后加大采购。无可信偏好时不猜周期；只有明确包装映射时才向上取整。
+PLAN_ADD 建议的 planning_basis 包含商品、批次、清单和偏好版本、快照、事件水位、评估时间、策略、原始建议量及确认复核要求。后端独立确认服务必须取原任务结果并重新验证，不能只拿 name/quantity/unit 写需求。
+现有共享清单及 purchase 路由可复用，但 source_inventory_item_id 只是映射线索，不等同商品级 item_key。公开采购接口使用用户JWT，不能直接替换为内部工具令牌；由业务合法聚合AI所需的只读快照。
+加入采购草稿与实际购买入库分开；AI不会调用购买路由、自动下单或执行撤销。
+8 业务提交凭证读取接口
+GET /internal/v1/operations/{operation_id}
+相同内部认证和家庭校验，data包裹CommitReceipt。该接口为预留，开发验收时尚未提供。下面ID与时间仅为结构示例，不是真实业务凭证；联调须替换为可信实时数据。
+字段
+约束
+protocol_version
+固定v1-operation-receipt-1。
+scope 与 operation_id
+与受信身份、请求操作ID匹配；operation_id为1至100字符。
+status
+committed、processing、rejected；后两者不触发成功反馈。
+committed_at
+带时区，committed时必需；未来超过1秒拒绝。
+batch_versions
+最多100个目标批次和正整数版本；committed时非空，布尔值不得当版本。
+event_ids 与 trace_id
+事件ID最多100条且唯一；committed时非空；trace_id为1至100字符。
+
+{  "data": {    "protocol_version": "v1-operation-receipt-1",    "scope": {      "user_id": "11111111-1111-4111-8111-111111111111",      "household_id": "22222222-2222-4222-8222-222222222222"    },    "operation_id": "operation-example",    "status": "committed",    "committed_at": "2026-10-16T12:00:00+08:00",    "batch_versions": {      "33333333-3333-4333-8333-333333333333": 4    },    "event_ids": [      "event-example"    ],    "trace_id": "trace-example"  }}
+AI重读目标批次：低于提交版本就待刷新，高于则标明后续变化。预测快照同样不得早于提交或遗漏目标提交版本；重算失败保留已提交事实，不能引导用户重发确认。
+9 失败处理运行与联调
+原因代码
+调用方处理
+PLANNING_CONTEXT_UNAVAILABLE
+规划模块未就绪，不生成虚构历史或预测；摘要可保留已核实风险部分。
+OPERATION_CONTEXT_UNAVAILABLE
+凭证模块未就绪，在业务端查询，不声称本次操作已提交。
+PLANNING_CONTRACT_INVALIDOPERATION_CONTRACT_INVALID
+字段或类型不符，保留原文并联系实现方核对。
+STALE_PLANNING_SNAPSHOTPLANNING_INCOMPLETE
+刷新快照、补完整数据，不重放写请求。
+HOUSEHOLD_FORBIDDEN
+停止，核对身份；不返回其他家庭事实或原文。
+VERSION_CONFLICTCLARIFICATION_CONFLICTCLARIFICATION_EXPIRED
+GET原任务或重新展示事实，按新修订继续核对。
+INVALID_MODEL_OUTPUTAGENT_TIMEOUT
+保留输入或已核实部分，允许手动处理，不自动付费重试。
+
+业务处理失败可能由HTTP 200的AI结果承载status=error，调用方必须检查结果状态和error_code；鉴权及请求结构错误另按HTTP状态处理。初次与续接各10秒总截止，不按HTTP成功就认为草稿可执行。
+运行沿用AI_SERVICE_TOKEN、BACKEND_BASE_URL、BACKEND_TOOL_TOKEN、P3_ENGINE、DEEPSEEK_API_KEY、LLM_MODEL与原累计账本，不自动加载.env。正式入口候选是v1.app:create_app，服务部署和旧任务兼容由负责人确认。
+接入顺序：实现两个GET工具并验证身份/完整性；配置AI读取；联调候选、缺字段和降级；由独立业务服务验证确认、事件、幂等及撤销；最后执行真机与发布验收。数据库任务网关保持不变。
+机器规范位于同目录ai-openapi.json、backend-read-openapi.json、planning-context.schema.json、operation-receipt.schema.json及续接/公开任务Schema；字段类型和严格约束以这些导出为准。预留OpenAPI标记reserved_not_deployed，不是已上线证明。
+本阶段58个AI运行文件已同步至~/workspace/agent，文档、测试、样本和Schema留本地。未切换正式服务，未在本次Word制作中重新测试或部署。

@@ -1,0 +1,11 @@
+{
+  "login_page_verified": true,
+  "guest_home_verified": true,
+  "pid": "3629",
+  "startup_crash_observed": false,
+  "cloud_login_performed": false,
+  "business_writes_performed": false,
+  "model_calls": 0,
+  "native_android_ui_only": true,
+  "finished_at_utc": "2026-10-28T13:49:52.147267+00:00"
+}

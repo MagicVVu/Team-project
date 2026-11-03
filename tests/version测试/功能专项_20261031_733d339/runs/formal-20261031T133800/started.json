@@ -1,0 +1,28 @@
+{
+  "source": "733d339ee5bbb73635413902cdd0d07d43a6075a",
+  "mode": "formal",
+  "policy": {
+    "initial_cny": "9.49236",
+    "initial_reservations": 2738,
+    "new_cap_cny": "10",
+    "cumulative_original_cap_cny": "20",
+    "authorization": "user approved separate new 10 CNY for version functional testing 2026-10-31"
+  },
+  "budget_before": {
+    "limit_cny": 19.49236,
+    "conservative_cost_cny": 9.532304,
+    "calls": 2745,
+    "unknown_usage_calls": 0
+  },
+  "adapter_sha256": {
+    "baseline_analysis.py": "ed06671b9427705e38fae98dea9147120bfc79b961ec063b031e64f11404437f",
+    "generate_cases.py": "d82bc7c6a81601ea37f4f727893615f0120ae4828e6ebe412aea69dd6b2524b7",
+    "live.py": "d765e55ac0008d7291260fa8cccc73111d5bca2b1a8f1f1b843f75e1f4777fd4",
+    "offline.py": "1bd321a941a8854f4232db4ada2922926600a47369ec1eb8719dfde608744120",
+    "prepare.py": "2d2dd97bef585642495d421ffaeacc6468c758b18f9cc2eb19e268c71ab0c7b6",
+    "telemetry.py": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58",
+    "test_special_ai.py": "8cd2869638ea288cfd2cfb02eeabd1bc154f513f505d6ee8a1dda24c934713df",
+    "test_special_backend.py": "9b74693e7c98cd1fc97ff860e44e9e41dd7c96dc2a6dcc8f703155adcbaf9aaf"
+  },
+  "dataset_sha256": "6c338ae88c486eab9f719ee5242123ecbdd440475ed8e6a5017e715facc8699e"
+}

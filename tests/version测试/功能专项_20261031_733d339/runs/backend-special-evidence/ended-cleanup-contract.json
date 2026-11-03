@@ -1,0 +1,154 @@
+{
+  "before": {
+    "inventory": [
+      {
+        "id": "bcc7cf46-3d2b-49df-8182-1b805448223c",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 1,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "after": {
+    "inventory": [],
+    "events": 2,
+    "operations": 1,
+    "tasks": 1,
+    "drafts": 1
+  },
+  "events": [
+    {
+      "id": "c38d5b50-8b3a-50d7-975e-d34052eb53e2",
+      "event_type": "Created",
+      "inventory_item_id": null
+    },
+    {
+      "id": "3b98705c-9544-5278-bed8-91d063afc787",
+      "event_type": "Consumed",
+      "inventory_item_id": null
+    }
+  ],
+  "receipt": {
+    "protocol_version": "draft-operation-receipt-1",
+    "operation_id": "ec33d805-f656-4906-826c-e667ab9ea39f",
+    "draft_id": "5357a2ea-367d-4471-b845-c1d6cda56b18",
+    "task_id": "ea09808c-084d-4ac9-9ca3-1bdf03c76612",
+    "draft_revision": 1,
+    "task_revision": 1,
+    "scope": {
+      "user_id": "53b81a10-752a-4e4f-b7d5-54c2307fc704",
+      "household_id": "05c63edc-2357-4138-9b80-861787c53224"
+    },
+    "status": "committed",
+    "action": "CONSUME",
+    "committed_at": "2026-10-31T06:02:10.570616+00:00",
+    "trace_id": "op_ec33d805f6564906826ce667ab9ea39f",
+    "batch_versions": {
+      "bcc7cf46-3d2b-49df-8182-1b805448223c": 2
+    },
+    "event_ids": [
+      "3b98705c-9544-5278-bed8-91d063afc787"
+    ],
+    "inventory_written": true,
+    "shopping_written": false,
+    "result": {
+      "inventory_item": {
+        "id": "bcc7cf46-3d2b-49df-8182-1b805448223c",
+        "household_id": "05c63edc-2357-4138-9b80-861787c53224",
+        "name": "苹果",
+        "specification": null,
+        "category": "食品",
+        "minimum_quantity": "0.000000",
+        "history_json": [
+          {
+            "id": "ec33d805-f656-4906-826c-e667ab9ea39f",
+            "event_id": "3b98705c-9544-5278-bed8-91d063afc787",
+            "kind": "Consumed",
+            "created_at": "2026-10-31T06:02:10.570616+00:00"
+          },
+          {
+            "id": "bcc7cf46-3d2b-49df-8182-1b805448223c",
+            "hash": "33dfe473aa0ed1e51fdfe9a6d38d7dff01d81ccec050ec0a6e924b9cabb9f75c",
+            "message": "首次录入 1 个",
+            "created_at": "2026-10-31T06:02:10.557984+00:00",
+            "kind": "create"
+          }
+        ],
+        "unit": "个",
+        "storage_location": "冰箱",
+        "expires_on": null,
+        "purchased_on": "2026-10-31",
+        "created_by_user_id": "53b81a10-752a-4e4f-b7d5-54c2307fc704",
+        "source_shopping_list_item_id": null,
+        "status": "FINISHED",
+        "version": 2,
+        "opened_at": null
+      }
+    }
+  },
+  "repeat": {
+    "protocol_version": "draft-operation-receipt-1",
+    "operation_id": "ec33d805-f656-4906-826c-e667ab9ea39f",
+    "draft_id": "5357a2ea-367d-4471-b845-c1d6cda56b18",
+    "task_id": "ea09808c-084d-4ac9-9ca3-1bdf03c76612",
+    "draft_revision": 1,
+    "task_revision": 1,
+    "scope": {
+      "user_id": "53b81a10-752a-4e4f-b7d5-54c2307fc704",
+      "household_id": "05c63edc-2357-4138-9b80-861787c53224"
+    },
+    "status": "committed",
+    "action": "CONSUME",
+    "committed_at": "2026-10-31T06:02:10.570616+00:00",
+    "trace_id": "op_ec33d805f6564906826ce667ab9ea39f",
+    "batch_versions": {
+      "bcc7cf46-3d2b-49df-8182-1b805448223c": 2
+    },
+    "event_ids": [
+      "3b98705c-9544-5278-bed8-91d063afc787"
+    ],
+    "inventory_written": true,
+    "shopping_written": false,
+    "result": {
+      "inventory_item": {
+        "id": "bcc7cf46-3d2b-49df-8182-1b805448223c",
+        "household_id": "05c63edc-2357-4138-9b80-861787c53224",
+        "name": "苹果",
+        "specification": null,
+        "category": "食品",
+        "minimum_quantity": "0.000000",
+        "history_json": [
+          {
+            "id": "ec33d805-f656-4906-826c-e667ab9ea39f",
+            "event_id": "3b98705c-9544-5278-bed8-91d063afc787",
+            "kind": "Consumed",
+            "created_at": "2026-10-31T06:02:10.570616+00:00"
+          },
+          {
+            "id": "bcc7cf46-3d2b-49df-8182-1b805448223c",
+            "hash": "33dfe473aa0ed1e51fdfe9a6d38d7dff01d81ccec050ec0a6e924b9cabb9f75c",
+            "message": "首次录入 1 个",
+            "created_at": "2026-10-31T06:02:10.557984+00:00",
+            "kind": "create"
+          }
+        ],
+        "unit": "个",
+        "storage_location": "冰箱",
+        "expires_on": null,
+        "purchased_on": "2026-10-31",
+        "created_by_user_id": "53b81a10-752a-4e4f-b7d5-54c2307fc704",
+        "source_shopping_list_item_id": null,
+        "status": "FINISHED",
+        "version": 2,
+        "opened_at": null
+      }
+    }
+  },
+  "legacy_assertion": "旧测试期待终态库存行仍存在；当前cleanup会删除终态行，历史原FAIL保留。"
+}

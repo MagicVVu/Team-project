@@ -1,0 +1,1732 @@
+[
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/.gitignore",
+    "bytes": 156,
+    "sha256": "f08810ef81d96d172496c467a0fc955b5e553bcfa07050b4a4bdd66216f8d08c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/README.md",
+    "bytes": 4432,
+    "sha256": "162f8afe6170594d5b99578d599937b170a100fd9ef545c5070d0ac80e4f5d17"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/datasets/manifest.json",
+    "bytes": 1532,
+    "sha256": "6c338ae88c486eab9f719ee5242123ecbdd440475ed8e6a5017e715facc8699e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/datasets/multi.jsonl",
+    "bytes": 26292,
+    "sha256": "22bc703fad54d36789819b0649cff640c0012ee8742fb4f1b2abceb16c2d773f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/datasets/single.jsonl",
+    "bytes": 39684,
+    "sha256": "9386c2d000b160f43d2560af95a1e5a5bdefc4dd451bb36dbd1b067c8302b32b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/documents-read.json",
+    "bytes": 99374,
+    "sha256": "474807b02bddc13ce1e92117d15849dccda3bc2e8d57f2647b2382201354529e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/docx-renderer.log",
+    "bytes": 1184,
+    "sha256": "1b0f4472a8f229b45c41f64b6abe175e8771f30e08b8856f98a1f78ddcc7f536"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/final-integrity-and-budget.json",
+    "bytes": 604,
+    "sha256": "4cacf91007d7d19c0c74b7221547caabc32b4d0ca13e6a5da4b0cf8f3fefe128"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/head-change.json",
+    "bytes": 8022,
+    "sha256": "526bdc90d3ab4c132393f003480926caeb2d818166686d37248c21dcc6a2e149"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/pricing.json",
+    "bytes": 436,
+    "sha256": "22f28bab9635f0a0bd264af0cfab78e45abf4365d957f672b39f5384ce37d008"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/source.json",
+    "bytes": 548435,
+    "sha256": "ee54c26339fed199d72ed4a61510460fded093de93a6a257425bb5134b86545f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/workbook-export-inspection.ndjson",
+    "bytes": 13956422,
+    "sha256": "df5ada8a2876235ba2e963faea5647584515eea6e0a6326576c199cf5b7f527e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/workbook-formula-scan.ndjson",
+    "bytes": 60,
+    "sha256": "acc0111e19cf44d2753fc9ecd164bf1b27fbd65597463a25cf48bd1c65e90146"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/workbook-validation.json",
+    "bytes": 145,
+    "sha256": "c2b7a6f3bda1eed25fe54920ad466139c7c7e59937f757882289d9d1b0fd195f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/README.md.txt",
+    "bytes": 10916,
+    "sha256": "c8d317d39c8cdc1c69b802862bcb23772265a38c20977965461448b255a0a97c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/acceptance.md.txt",
+    "bytes": 3587,
+    "sha256": "e1435de7ba7b1a4839af679fc6b1f128f6557a8defb47a14cfe5ba3017608506"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/ai-experiments.md.txt",
+    "bytes": 4540,
+    "sha256": "53dab7b47e026ba12dec884f9f18429ec6cb559a28281ed96e77b8f7f8d99189"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/contract.md.txt",
+    "bytes": 5779,
+    "sha256": "6dcfe2282067466f46dfe438a7b267cc3fe6c2ebb4a2e72f7b8715ceaa46a46a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/demo-script.md.txt",
+    "bytes": 1566,
+    "sha256": "b447e1b8643f3e04af8786ee3554b2cc7707aee50c00d02b2d520243d10768cf"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/interaction.md.txt",
+    "bytes": 2684,
+    "sha256": "dd2edc1febd9ebf7cfdb4fab217d5bec4ae6b5cc95ceead0584eb1482b9e794b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/prd.md.txt",
+    "bytes": 4617,
+    "sha256": "df38e8a03ea4de2efe4f7f1f08ca695618ae887ea0e0787c76f1ece096ef358a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/README.md.txt",
+    "bytes": 2789,
+    "sha256": "a1617959be4c585a369bb6e747393e9c3934af1ad7d0775fc7a390f03705b2e2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P0/tasks.md.txt",
+    "bytes": 2281,
+    "sha256": "beae41f9f42f04bcd0036af47cc909028ac7eab4d2bea09d02b5910e8fb43872"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/ai-contract.md.txt",
+    "bytes": 7252,
+    "sha256": "c2e28be8a1bd98d9e0106479a070a893127d8503e7fd756fdaec1ad2dc7d71e6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/ai-experiments.md.txt",
+    "bytes": 4052,
+    "sha256": "b914210e914bc89bfb439449caa9418bad939d51ff3afde9d7abdd5e6291e786"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/AI开发任务.md.txt",
+    "bytes": 6825,
+    "sha256": "06bb6b967ca288cddb6f9134b8d6581b14191ccd0e7ba5e28c6ce8c72e0295f1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/README.md.txt",
+    "bytes": 2059,
+    "sha256": "badd7bdf5dabee4bb122c5bab6d15d719ad52756f6ab2d95af394a782eef69e9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/V1-P1_AI开发工作记录_2026-10-14.docx.txt",
+    "bytes": 7167,
+    "sha256": "0872a32909bc54221a6504a5e9a4b8ae2cbf0ae7ff6267b338b1e1d3f22c4cc8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/V1-P1_后端协同开发与接入说明_2026-10-14.docx.txt",
+    "bytes": 11226,
+    "sha256": "50b80904c795d1911d4ab69e2739852c76075da2e8d92e462189068de2679456"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P1/队友协作任务.md.txt",
+    "bytes": 7014,
+    "sha256": "fc1f18cc4f2a4f78efffd97b6dcace9cc4b5f2ba0e98bcfff2397a56fe8b0114"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/ai-contract.md.txt",
+    "bytes": 8942,
+    "sha256": "097925f7f3ee1b4287a7a95f7fdf675d48bb6e07bf2873503889dbc46001176e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/ai-experiments.md.txt",
+    "bytes": 4952,
+    "sha256": "819807cd7df8ef01089a863720a8eb5711ba8e83d9beaca8c0bf202768bd96ef"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/backend-integration-plan-2026-10-15.md.txt",
+    "bytes": 21307,
+    "sha256": "d9ee5e5dab6de2a9755b54957196280291b0615ddacc080b68037485257dc780"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/integration-status-2026-10-15.md.txt",
+    "bytes": 8050,
+    "sha256": "4da8e3bb6ccdd6171e29b03923b154fec9d6e92be2a222f4322300b7ff42333c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/README.md.txt",
+    "bytes": 2844,
+    "sha256": "388d4668dc21693a426a6edf1a54443697150f49dd09afc4f3c6a90cfe8dc664"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/remote-contract-review-2026-10-15.md.txt",
+    "bytes": 3879,
+    "sha256": "556897d9c14cbd77472f02f7e6508a381c9006336552e04a9492aeab648285c3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/rule-sources.md.txt",
+    "bytes": 2727,
+    "sha256": "7203ba5aceb694575d8c37bf94537d1b72dc1c80a53d065a2f8869333d4200bd"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/V1-P2_AI后端接入契约_2026-10-15.docx.txt",
+    "bytes": 21253,
+    "sha256": "4e3cb2a9b9b97a964a3d9cae34c90cd9ef26c5bfea83dd35cf62b228a08afd80"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P2/V1-P2_AI开发工作记录_2026-10-15.docx.txt",
+    "bytes": 8033,
+    "sha256": "44e15d9d9079b651920286c7ec03a8200244ebb073f6f960409772f19f209a97"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/backend-coordination.md.txt",
+    "bytes": 9328,
+    "sha256": "bfad16b6a82d39230ffaf31d9fed13aca5b9a7516faa3ecde8a3118834db7c26"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/delivery-and-validation.md.txt",
+    "bytes": 5813,
+    "sha256": "731328947b94cab2fe8a923549678509bc0065a760940129e2c41f78fe68a416"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/development-plan.md.txt",
+    "bytes": 15809,
+    "sha256": "8b2f26ca504d8ec8604ec15723e91a7d09c5a7ee740c128b2f5b8af4153c9f0e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/fields-and-states.md.txt",
+    "bytes": 3775,
+    "sha256": "a934fec07ff83b70289896236f10c2e42eb41ee6ab440c85f04aa0e36ef73464"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/README.md.txt",
+    "bytes": 2015,
+    "sha256": "800130fb2bac959d816708357781d9f969883d399ed2bf3525c728b35c2789a7"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/real-data-backtest.md.txt",
+    "bytes": 2274,
+    "sha256": "694cd623220923c1a0137a2b48ccefb93b89e5b4c928e98901f2d6ba0ab144ca"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/V1-P3_AI后端接入契约_2026-10-15.docx.txt",
+    "bytes": 14946,
+    "sha256": "4ad506f456805b1dcce3541eee89f8c2db7b77b608e52d78c1f01eb644c3a048"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/V1-P3_AI开发成果与功能说明_2026-10-15.docx.txt",
+    "bytes": 7732,
+    "sha256": "4e027b04c511463edc180a15105e1c3cad857fd7c6f839e6f86e965892a44c8a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P3/V1-P3_测试执行与验收说明_2026-10-15.docx.txt",
+    "bytes": 16820,
+    "sha256": "109ecf6d0eb263386807f204386b3072d6cb38a08b7ad9f4ed7736a063b28f3f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/fixes.md.txt",
+    "bytes": 5202,
+    "sha256": "00b250fd1e8e6af6275c8e5f3dceffddf5da98f31d3f6bfc62f2771a1482f3c3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/README.md.txt",
+    "bytes": 5534,
+    "sha256": "335fee51dc6a283770023c73b47468ac0d4b471cb4fe40266fa26551471a4b20"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/server-sync-2026-10-16.md.txt",
+    "bytes": 3149,
+    "sha256": "f092b64c730ff76354ad8ffaa74e1fe2f486e175a7a6fe7b474f1b3276f3d824"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/V1-P4_AI后端接入契约_2026-10-15.docx.txt",
+    "bytes": 11655,
+    "sha256": "6469a7f720233ae4e08e75087532caec6bf839da447a1d6cf96d61ee8e29ae3e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/V1-P4_AI开发工作记录_2026-10-15.docx.txt",
+    "bytes": 5064,
+    "sha256": "1adf02ee3fef5010e7053acc7efdd34ff0a169d8a2d38dfdc333bdc4e8aa8774"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P4/V1-P4_测试交接文档_2026-10-15.docx.txt",
+    "bytes": 6894,
+    "sha256": "9307f3b5a3560896007a6e2a245b0ccbce6f2f2c9e4ed753f8f473c6ab510c3c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/ai-contract.md.txt",
+    "bytes": 6900,
+    "sha256": "746499694537d7e5895a417c539133274e03efb39b5f3e5777658f4cf27d5929"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/baseline-analysis.md.txt",
+    "bytes": 7143,
+    "sha256": "b9089fbcd700f2df05ba28002370ce480db1cefae6dab58967ff3de033192fb4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/delivery-and-validation.md.txt",
+    "bytes": 6937,
+    "sha256": "0ef67b0348c9547023e474f6a485c2c8e4554eb06e441f52373859f79341bf63"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/development-plan.md.txt",
+    "bytes": 13110,
+    "sha256": "805dc5f057a1d997e334804163ad20535963cd9371e6dc6a4e4a319e127a9c19"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/README.md.txt",
+    "bytes": 2303,
+    "sha256": "40738ce62ea05cf29fad17190762617c0fa1ded5dd25a3215d7f902f6ab58393"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/V1-P5_AI后端接入契约_2026-10-16.docx.txt",
+    "bytes": 13421,
+    "sha256": "13cfbda289a9fc5244a1582dcaee73d61ae3a04bdc80c42ef94ccdd93f6df7c2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/V1-P5_AI开发工作记录_2026-10-16.docx.txt",
+    "bytes": 7809,
+    "sha256": "56da8dcb3de845ec753e00599c9621dc25b6b11087a714ffdb9aee9dfd4c5324"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P5/V1-P5_测试交接文档_2026-10-16.docx.txt",
+    "bytes": 12095,
+    "sha256": "0a9e805f5acd24bc9964afa1073c6be77badf3aaf269eeddc6a14c2491fd54d2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/acceptance.md.txt",
+    "bytes": 7782,
+    "sha256": "23fd0a195ace9ab39914989c2fa24b65c995f66651dc1d33c617487782790b7f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/ai-contract.md.txt",
+    "bytes": 8004,
+    "sha256": "4a5a9bb27ee6102f98dffe05856c9b73b2403f57d27602f77dd166d362cba23b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/coordination.md.txt",
+    "bytes": 5695,
+    "sha256": "a4617ce1914ac85a1221639e2a7aa12bdc29873be024e736b1c56e43c9abedf2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/delivery-and-validation.md.txt",
+    "bytes": 7919,
+    "sha256": "7458a92982493addbb2faa4a1549bb5f513e2a65dd6f91e8de69879504f70dc3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/development-plan.md.txt",
+    "bytes": 12964,
+    "sha256": "a60f757d22f7f69452528ef80a0bd4f600a648e49736fa442050672ca46eff10"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/gap-analysis.md.txt",
+    "bytes": 9629,
+    "sha256": "34dea5ba4cdc289f7aea38a0c9020f253ef363e8dc009b6918ba0fa93aac2a68"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/README.md.txt",
+    "bytes": 2768,
+    "sha256": "f25050b55959d8f89268bb79f20b7a1eb25e321b59caa87408a2d9559cc2226d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/V1-P6_AI后端接入契约_2026-10-16.docx.txt",
+    "bytes": 16149,
+    "sha256": "c60c9b1e8dcb7e745f40204211458db5c2e83a28702c0d03ff072094af1ba17c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/V1-P6_AI开发工作记录_2026-10-16.docx.txt",
+    "bytes": 6379,
+    "sha256": "26b699b4a35003fab993ccb68d0c5b8049e559fbe56b4c8925fb0344aca6e891"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/V1-P6_测试交接文档_2026-10-16.docx.txt",
+    "bytes": 9631,
+    "sha256": "7930db9e9e17060d8391e20327eb36ab29823e8a95f8cfc329b9543ca701dbab"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6/voice-task-checklist.md.txt",
+    "bytes": 3559,
+    "sha256": "cbda1591b50561ae9f3f82ea301214b33cad1ac2cc45f2c6f551f705517b17ce"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6.1/model-runtime-configuration.md.txt",
+    "bytes": 3964,
+    "sha256": "501f22bcecd07ab230c14a8185dfeceef86236eed0ed934d9ca2c86e00bbbb92"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6.1/README.md.txt",
+    "bytes": 2773,
+    "sha256": "9d8b30e8e28a9fcb9c17eafe2a871393c38d3a2c7a3d5f6cf35c86aa4faec7ed"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6.1/V1-P6.1_AI后端配置契约_2026-10-16.docx.txt",
+    "bytes": 9077,
+    "sha256": "fa5d86a93e8b9de59e0779127c91518320e76b667102c4d25b69437141ac2fc1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P6.1/V1-P6.1_AI运行配置改动记录_2026-10-16.docx.txt",
+    "bytes": 6064,
+    "sha256": "cbd0a33cecfbe4589612e0449e31a296874908ed801d400c01bcdcee2e296a6f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/acceptance.md.txt",
+    "bytes": 4896,
+    "sha256": "0c996a89428c64c1a97c7a36b9f378d7ead77428694362a728e99d031b32d4f3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/ai-contract.md.txt",
+    "bytes": 5117,
+    "sha256": "7271076b15bbf04000b5bd059eea42a8ab3e40c84846b1e7dace25af378dd9b3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/android-execution.md.txt",
+    "bytes": 7056,
+    "sha256": "7ae6e0da6561f449ee9ae97408bfa52c8ab9d0e56b1a86face416e00273a894c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/backend-handoff.md.txt",
+    "bytes": 5166,
+    "sha256": "98e1306e1e4a4d190f6e63169f00c45c3a4e0aca3db5132d61b18ef56ac83d04"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/delivery-and-validation.md.txt",
+    "bytes": 1847,
+    "sha256": "7fa7f1e703f6a24a2da1ed3141a76400fb2707960aa7584d659370fd7bc397cb"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/development-plan.md.txt",
+    "bytes": 2388,
+    "sha256": "a9d7c5f782570732d9a5c63500dba73c53efa6cf4464a17f0a23f82a3768ea33"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/draft-execution.md.txt",
+    "bytes": 10529,
+    "sha256": "a0ff7f0da448bcb500fe5b9e2b59044b819bc9054436fc5be6baaa141eebd639"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/frontend-handoff.md.txt",
+    "bytes": 4820,
+    "sha256": "7e8ec88e970dfb1383813db55bbc0befa30402713edb78a2fc93e7c88aba50c9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/full-integration-acceptance.md.txt",
+    "bytes": 21704,
+    "sha256": "7b2f2b335bbe3b7eac7ad2da057466edf47b1d89b411856e46eb1645b324da16"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/p52-final-acceptance.md.txt",
+    "bytes": 22251,
+    "sha256": "7397e1ce38f6bebb9a5e698af5bfc4534a751a70864c9282318b4249974a6b07"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/p52-production-runbook.md.txt",
+    "bytes": 7286,
+    "sha256": "aed126e5fc1dc55536fdbe7d33941c7a061032aa8b3aa870501134097691c65d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/README.md.txt",
+    "bytes": 1437,
+    "sha256": "1770e5685959eb17b7270e1acf7b03044cfd84bd8beadeb32d0bc48fbe9ff433"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7/release-candidate.md.txt",
+    "bytes": 10560,
+    "sha256": "e9d3f9eb7a811ab2e1344d726f38d29e3382ea61a3df8f13ac406fa886486159"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.1/backend-recheck-20261019.md.txt",
+    "bytes": 6654,
+    "sha256": "dc7fada927f5a0340e55984db93d8bc50560c5356483f2e52adc3a80ba89205e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.1/production-migration-20261019.md.txt",
+    "bytes": 549,
+    "sha256": "10e1346edb3ab929064167a30b36f99ee2bdc9329aa41dd64cc48df3c6c9a802"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.1/README.md.txt",
+    "bytes": 7902,
+    "sha256": "315c56df11568ea3ea743479285f540f565e7b5d8017d6cfd9b5f07ab6bf3161"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.2/chat-assistant-team-handoff-20261020.md.txt",
+    "bytes": 38961,
+    "sha256": "dcb0da89101ca15ebc099026a583b7a709faf1068cf7ed006213cca246135f91"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.2/README.md.txt",
+    "bytes": 13088,
+    "sha256": "1f65b0c8ba2bb8fb1dd9c81674b3f44c152cea85f1c520fb865e66cff7bec4c4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.2/remote-database-review-20261020.md.txt",
+    "bytes": 14162,
+    "sha256": "6bad001efa3de14785ce75c245157f27702138f43c230d1be4482b10866227da"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.2/unit-compatibility-fix.md.txt",
+    "bytes": 5551,
+    "sha256": "e5b1271c486e8eaa7c681b4d5fbec2343c27e5b317b2b2f27517ba3d093a6966"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.3/frontend-backend-handoff.md.txt",
+    "bytes": 15986,
+    "sha256": "5b862887bf6bbe08d9a65b1507839711e22ef0ec1bc5298838128f32bc36dbae"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.3/implementation-record.md.txt",
+    "bytes": 12414,
+    "sha256": "0b65d18365c24844e33d21a18845edd9be340f638a0bd1176cacf6b094e61ae3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.4/frontend-backend-action-handoff-20261022.md.txt",
+    "bytes": 22682,
+    "sha256": "377c3713c84c0fe55027717a974be3854550d9267103f7c6efa2bb6bf502a932"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P7.4/server-sync-and-app-review-20261022.md.txt",
+    "bytes": 11570,
+    "sha256": "ba733d2d20b69d95371e07a86cb9b67c4ff47e465a3b160d8230f5b58f38ead9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8/README.md.txt",
+    "bytes": 2035,
+    "sha256": "9d5ba8f916cfdf6836cd1d29e3ff32a85de1257272067083686c3f7a3d598e2c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8/前后端交接说明.md.txt",
+    "bytes": 12704,
+    "sha256": "a04dc6c7d3ebf73ff29bd82acc3c5913976527c676fd60060a3436fb52bae971"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8/正式发布记录.md.txt",
+    "bytes": 4570,
+    "sha256": "6325104694a3c57a831b83c5a6bb22213e1b78cd49f570ebc4bae5f710f946d7"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8/评测说明.md.txt",
+    "bytes": 3805,
+    "sha256": "b57b208137bf00fe1b79cfbfc9a5e69d93fa193a4ac3bf83ce00fd1e30369cee"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8/阶段工作记录.md.txt",
+    "bytes": 8708,
+    "sha256": "0cc6cf1a46fcd70e71b207bec75e50f2e0605ba45404d3cc9f429a8c09c36997"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.1/README.md.txt",
+    "bytes": 1741,
+    "sha256": "6a3d242cd9976bcfc402d91cb44388fca2eb9d52070d55d298e977c08b57f3c9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.1/前后端交接说明.md.txt",
+    "bytes": 13174,
+    "sha256": "018827adcfb062d421dee6bb83d91a878814bf2a67db57443816e438868bbc7a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.1/工作记录.md.txt",
+    "bytes": 8252,
+    "sha256": "581153cc43707a7e248e01046437e7704eb3cc23fd56101f227251c3bfc25aa9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.1/正式发布记录.md.txt",
+    "bytes": 8169,
+    "sha256": "bd7362afb9276dfc873fc42f00114584f5e4d558ec1780462d6329755928fdae"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.2/README.md.txt",
+    "bytes": 2084,
+    "sha256": "dbe685d21c8ebcfd44ce32c06dd5884e6a6c076c6a5821ae3903f19fd67c3b81"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.2/前后端交接说明.md.txt",
+    "bytes": 9862,
+    "sha256": "ee4708fcee90a62ef96d54c6d64bb6989d390b012005363907a1292ab602ccf5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.2/工作记录.md.txt",
+    "bytes": 7626,
+    "sha256": "8f6e7e316f011ddc160fb2dde208bf05bed05551ce8c67698ee0377778b531c2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.2/正式发布记录.md.txt",
+    "bytes": 6705,
+    "sha256": "d58cadaaf79c5f71d6a876322dab35d8964698716f2d72dd049a82fffc1a5ea4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-baseline.md.txt",
+    "bytes": 3969,
+    "sha256": "ab44266cebc3a78aaad87c2123c1e440e20b1096f6e7f3e190926862305fd60e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-contract.md.txt",
+    "bytes": 10355,
+    "sha256": "71e1a84e3eefaafb2bb78da2168a7011524a4bdfba9926e3e9fd3248d066d2f6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-handoff.md.txt",
+    "bytes": 4953,
+    "sha256": "3e57de5a9de9e297741e997f67a22f80fc7fac9e52647c7f6605b595c3fb6d84"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-implementation.md.txt",
+    "bytes": 7970,
+    "sha256": "2167e1019dba76b9a5521c38b00ed1e7b0bc356e6dfa115c56fb30f2113ae3e0"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-production-release.md.txt",
+    "bytes": 6823,
+    "sha256": "c3ab379f4bc730eb17777a3f28263338117d384130eb72e580f9950c02504ef2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/backend-ai-p9-test-report.md.txt",
+    "bytes": 9267,
+    "sha256": "c996e85b17fea7e59dc1ec260461a417ebb3e9500b26e0271efb26cf2498c9fa"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/README.md.txt",
+    "bytes": 2985,
+    "sha256": "cc87ff6f639e290c0b5e25bc566cb3349d47cab8c4968cc6b6b77fbeeb0e9cd8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/前后端交接说明.md.txt",
+    "bytes": 7684,
+    "sha256": "71b643880d020786d84c2e40cf43fc15593d440341ab2ef0a23db59e75185c04"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.3/工作记录.md.txt",
+    "bytes": 5837,
+    "sha256": "275a2f2f1d9ccd7d0689c10f09242f101b5da0fab70c4b92ffbd52a67f83766c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/README.md.txt",
+    "bytes": 2215,
+    "sha256": "78f03bc85d8bd05a8ab3a9846b21ee0182194e79716aed91e84a8e3673897dbe"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/前后端交接说明.md.txt",
+    "bytes": 9549,
+    "sha256": "1f6e7a4c42e8ec1c94d1230d09c39b4fe3f6667e26db90ce904d624fc6d07d48"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/工作记录.md.txt",
+    "bytes": 6328,
+    "sha256": "b2c5552c48d2063a042d6277441947456ed6bdf6ccd41bcc9978a6e77711d846"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/服务器源码同步记录.md.txt",
+    "bytes": 3352,
+    "sha256": "f24e8286ce061a5097d0007947da4aefab7178c3e43064deb157a86eb6cedafa"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/正式版本替换记录.md.txt",
+    "bytes": 6443,
+    "sha256": "82dab16157bf76e2395c1daf7f46437ceceadd7015ce268ce4d9023517dd8bdf"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.4/评测记录.md.txt",
+    "bytes": 7041,
+    "sha256": "c747329e5e0cb0a5a1bc6a0366a68934aa2a4bc30dea825aabe3f9bd3e78036b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/README.md.txt",
+    "bytes": 2056,
+    "sha256": "06b6aeaf63b6769c2b85526f2ee0fc0b51ae494f78fbe4bb4e535e3938bbed3f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/前后端交接说明.md.txt",
+    "bytes": 9831,
+    "sha256": "b3b59c57e666740f06a0982dd0b71723f70e3dc3de169bc3f1c3a4d3375b5fbf"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/工作记录.md.txt",
+    "bytes": 6080,
+    "sha256": "df8eefeb3316f8a13b1fe6cba8e454f7438d1002d99c64f3501d350702efdff3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/提升方案.md.txt",
+    "bytes": 4826,
+    "sha256": "0b381620787f4276ba2fcfa4b7c79aaab5537ff505270817ada0e725b4d67ae9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/服务器源码同步记录.md.txt",
+    "bytes": 1772,
+    "sha256": "ad5e5814171a1a676bbee677992c4f8c92c9446595db0e1a30913dc148578e44"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/正式版本替换记录.md.txt",
+    "bytes": 4617,
+    "sha256": "6d81b062f2877d233019752ac0324e717be678db26eec6e9ab86745ab206a460"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.5/评测记录.md.txt",
+    "bytes": 6313,
+    "sha256": "d3994b6f7f6e81e114f54c37e8a8da080e064d8ff3d3ea16b579e3056b970e9f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/2026-10-30-服务器核对与适配记录.md.txt",
+    "bytes": 7717,
+    "sha256": "1288c2bbe67088df02f82dcd1db0896978c1df76b3b8a0125d130f6fef78684b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/README.md.txt",
+    "bytes": 4220,
+    "sha256": "2e3b171bac2384e8e8d8170c68fe899c14e389f12dcc3080cf81bace9fd06414"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/前后端交接说明.md.txt",
+    "bytes": 10901,
+    "sha256": "72b59cc3c2b88fb7d771e8c8050becf7f9795bf019233eecb73c36440f152a8f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/工作记录.md.txt",
+    "bytes": 6995,
+    "sha256": "3fbf10aac221f0c06020263e16022d1cbf2f4a4d05c04cba99e711e5a9b382ca"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/文件整理记录.md.txt",
+    "bytes": 4170,
+    "sha256": "605a3555a80e97740366c6ced92790285fcca265013f52f9bd57af74951807c5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/正式版本替换记录.md.txt",
+    "bytes": 6937,
+    "sha256": "3f0fb756855326520639c904c0555794c7d9100172e75b9282d9225a26624640"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P8.6/评测记录.md.txt",
+    "bytes": 8235,
+    "sha256": "9d9c440959594b24ca2d722bd4ed81d3c44b1d3cf8daad38b316377d1f316e0d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1-P9/阶段工作记录.md.txt",
+    "bytes": 7576,
+    "sha256": "31d4042656e520a1fdb60b0cacf236806a96685438b16d1da14cb0a8f52d1395"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/evidence/document-text/V1.5/现状分析与任务清单_2026-10-25.md.txt",
+    "bytes": 23237,
+    "sha256": "af06304ea5b337592d37abc53169777acc115c4e8450777fd9a0922b6661a7d8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/AI各功能专项测试总览.xlsx",
+    "bytes": 334040,
+    "sha256": "7f5d387a04fba48b0d939a3cb17bb3ce7bf51f64af5dfa2e9daf27bd5ec8518a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/API明细.jsonl",
+    "bytes": 521408,
+    "sha256": "5417d145256b4a328a6332d5a2e15ee0e8b00e94af64bbfcf336253b6ede3162"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/audit.json",
+    "bytes": 224,
+    "sha256": "91dbfdba41bb35d40e722f181945b3c5e60b480430a8128ec06d60d26408b7a8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/extremes.json",
+    "bytes": 17018,
+    "sha256": "9ba7e5322305fd9b2fc5a85fa9f1230e60d2b04a02f58e1a7a68d887ee82847d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/Garin_AI各功能专项测试工作记录.docx",
+    "bytes": 43522,
+    "sha256": "91169783d9a096e1214d0abf781775db7dec99b596cb9be25f9b79284fce5e76"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/P4历史84项对照.json",
+    "bytes": 1291,
+    "sha256": "f0d92e3e000ed8e3ad25a15a3b0029a19f87e423b950c33507af5bdc5932231c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/P4旧包37次FAIL.json",
+    "bytes": 14239,
+    "sha256": "540a143809d36d9e9e102f3f043dfffde06fc56427bed4f5af641256be65027a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/summary.json",
+    "bytes": 13612,
+    "sha256": "83ce8e492081ab3f610efd646931e398d3621ff9c6acd4bb81a817f458cf6320"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/workbook-data.json",
+    "bytes": 8696187,
+    "sha256": "8065f051e778199e183a22e0b12b24e7f7f8118210f3e952195c9528f2c91c9c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/功能版本覆盖.json",
+    "bytes": 158633,
+    "sha256": "0ca63c26abbda4e983df076daf029a15b6ecca8fc479bbfbbdcfbf309267b28d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/原始工具失败40条.jsonl",
+    "bytes": 31933,
+    "sha256": "57a9d764f16dc349048b9635d4d87dc6fb24bd2ffebce4b64128eeea47e0d1f9"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/既有评测器复跑.json",
+    "bytes": 1965,
+    "sha256": "309e3125044b7be8280ee90c76fcc28ac3bd8fc87d24068a0e722f8be57474a7"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/旧8.6失败65项关联.json",
+    "bytes": 160870,
+    "sha256": "a7c4b86a8b951743b4c54ff3415d7681c0da2da225eaf1fed8f467d0a605bd53"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/未执行.json",
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/每题均值.jsonl",
+    "bytes": 218569,
+    "sha256": "9be307b65706eda1d4cf0d3f6174f7d33b4b8a720869652535a32d47c8d4dd09"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/测试工具问题与补测.json",
+    "bytes": 757,
+    "sha256": "741ef593a8d7e894ac69768e8669be9a3543a6b4a55fcea243e0ffd52b666d91"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/测试结果与极端值.md",
+    "bytes": 12066,
+    "sha256": "d55d7ae1f708090ab3264a6e151444efd3665dd30c7c05ecadcf9d0247fdac60"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/真实模型失败.jsonl",
+    "bytes": 626731,
+    "sha256": "41300e1c926af8680b98f8c93a17f6519fb295817e12e23a2e34cb5161b30eb0"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/真实模型失败清单.md",
+    "bytes": 62082,
+    "sha256": "67a736700bd7168bef07c036066819871c86a6fd02be6116c840a1b7d7f62b93"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/离线运行汇总.json",
+    "bytes": 1818,
+    "sha256": "8ca5f1e9a374e75b91b09eede28a989d0513ff5cd630db4507b86651b8eb5881"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/离线逐项.jsonl",
+    "bytes": 1306206,
+    "sha256": "fb521febd74f93aad1da0b2c42f2c75a4539fa367220b4fc8ac7684daaf2c5f6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/离线问题清单.json",
+    "bytes": 208832,
+    "sha256": "b845c26ae9459ba726e52cf123b32e8e9f8691d1d55b5d53e43acbf43a6ff3ed"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/结果总说明.md",
+    "bytes": 3961,
+    "sha256": "5ae3d625d3bdfa42f047494b76fd60d8d31b784dc0e77407e4218cf4d7a1355e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/逐题记录.jsonl",
+    "bytes": 3203577,
+    "sha256": "73bb1e077de8c3c18f0fffabb28e66a274dbcabe5fb8f7c6289fc4d4ec074e85"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/重复性与不确定性.json",
+    "bytes": 511,
+    "sha256": "45cc0bef2442e83a707dd5fc3433eebb389b43d6472b7276af7bcbaf01a67070"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/reports/需求与用例追溯.json",
+    "bytes": 30716,
+    "sha256": "757073750b43a1d776315c6ebe6888ddf4139acc52a0ace61b2d3fd8bebe7186"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-console.log",
+    "bytes": 1695,
+    "sha256": "81d6697fc8cf564d18d7956f907b7eca5495fd9047c4c63b5f366da76b515d58"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-corrected-console.log",
+    "bytes": 1330,
+    "sha256": "a34a5df8ff400f098c26761eaea0337d2a4324ae94b49e9045efb9a40377d0c8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-archive.log",
+    "bytes": 101,
+    "sha256": "f87544baf4d66a2a5e5eb88ec52d545c5cf5816e5e0d02e59865ac298770f746"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-console.log",
+    "bytes": 101,
+    "sha256": "268f32773920ee84b29c7980e622ea11abd4de717c996ca8169af38f0a2844aa"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-final-console.log",
+    "bytes": 101,
+    "sha256": "0184a443dd78b265dc910649f7c7f251cee687304c27c13d5fe69a0519d6675f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-console.log",
+    "bytes": 1654,
+    "sha256": "e17ad06a1f32875246bd503e5fe3088d19ce97cb901268d25c27ae59e99a5c40"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-console.log",
+    "bytes": 590810,
+    "sha256": "2ec2488a98c735416705187250e57b0053e3dfced2d26790609653d7a63017d4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-console.log",
+    "bytes": 2403,
+    "sha256": "7b4ad124fdc121b2005a92873e7a5814e73f610fb9cd6748b6990689d1cfd563"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-corrected.log",
+    "bytes": 888,
+    "sha256": "25e128ca99b3eb6bf4e1386a198e6f9083b54d720eb4dfb9359dd70233f0d703"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-final.log",
+    "bytes": 888,
+    "sha256": "92b0a3a10510363832c52ccd58c823430cb0837a747375c8cb2ca01a818a3604"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-planning.log",
+    "bytes": 887,
+    "sha256": "486dc0de63938dd56e939c3bc613f9f1f97d31d93166898367b413fa812105c1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-chat-console.log",
+    "bytes": 363,
+    "sha256": "71eecec504f8b45650d016ea3120886ea29d3a058e44bc72ad879dac088e8c45"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-conversation-console.log",
+    "bytes": 554,
+    "sha256": "f31e77a663aab8aa0f3f64a6572ac6db9b7e9e6256160ca67288e59f644ba9d6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p1-console.log",
+    "bytes": 4635,
+    "sha256": "60c1f307e032b15be48581df0d53c0218c4cbefc11dce42a2020ed443c84d3da"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p2-console.log",
+    "bytes": 4491,
+    "sha256": "d824c08e0051197a54d7f0294122e9fc09ff67c4078577390d08d41661e5b221"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p3-console.log",
+    "bytes": 608,
+    "sha256": "c414ab1b74ad063f5214d46e1f4c09c2901aeefe6bd2440260e2e9c2bcb0ccae"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p5-console.log",
+    "bytes": 676,
+    "sha256": "0ce00d7f54585315179300e1594846a01428f33b7d185c58a957b4a34d3d1a1b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p85-console.log",
+    "bytes": 2126,
+    "sha256": "83262124343220885373ac90c0f2dce33e63ad791d41e79cf37b56ba7c82192f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-session_memory-console.log",
+    "bytes": 652,
+    "sha256": "27426e6219811acdb613ca391590cc432368c872f88248964a25f493d6eb4751"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-v1-console.log",
+    "bytes": 682,
+    "sha256": "5edc8d930f46c7a9d09b2951a3cbecff1560a271b7b31ac5c251603da30c7784"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-console.log",
+    "bytes": 32700,
+    "sha256": "0498163bfb55ab74bfe085c4e62eb2aa39e1ea4e83aa69d4e99f21ae8769a0bf"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-console.log",
+    "bytes": 865,
+    "sha256": "e5232c3e54bf8e44d6ae875300e8ff6fc84973ec9a350173ab9938acaa0794d5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-console.log",
+    "bytes": 1031,
+    "sha256": "50252e6a2dc82d0aa59b9e648b3513e378c4a0c977c2cb51dad61cc322a6cb3d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-all-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-all-initial/junit.xml",
+    "bytes": 1636,
+    "sha256": "b66db907b6021048ed479021720df0f35f5d95b4d1f1da48609d0a0b0cdc8b7d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-all-prerequisites/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-all-prerequisites/junit.xml",
+    "bytes": 160880,
+    "sha256": "9c1234e6aad296d92270d8f293f590ce6969b7e465343fc848340984d86f66b2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-archive-preflight/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-archive-preflight/junit.xml",
+    "bytes": 3684,
+    "sha256": "018630bfeb84924ec6dee00162184f216e9b98770fc22d52e87421d3c5e7bf6c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-initial/junit.xml",
+    "bytes": 3429,
+    "sha256": "1dc4c7b9745608853d9ab8e1ed4a3a233fa77fdf7eea399daaad3eb27481da58"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-scope-guard/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/ai-special-all-scope-guard/junit.xml",
+    "bytes": 3557,
+    "sha256": "4f14d77a5dfddd7c9645204dee96da0cbf18ad686cca2036ad3ac6720e339cab"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/complete.json",
+    "bytes": 455,
+    "sha256": "6241c1a4c4bb446e407ab1f05a00c72e3a4fcbc0fecdd1804d79c990720bc23c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/extractions.jsonl",
+    "bytes": 45949,
+    "sha256": "19bc1f2b2cae8cca94f2d6af5d3f91e3214322b2516e17d2c7467c9b3dc7de93"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/inputs.jsonl",
+    "bytes": 329122,
+    "sha256": "1a05a82da01510799cdd2b9639398e7547ac17b951a4719c2d531207f071d435"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/questions.jsonl",
+    "bytes": 149264,
+    "sha256": "c68c6f1613f07f6baf5f9601515ea4cce52c40b9162f655ea6cdb6834eb00c7b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/requests.jsonl",
+    "bytes": 628729,
+    "sha256": "866b5d7c212ab9b6fb77e526e8e7e7b1099641a75a379a94463ba871bd876d1d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/archive-recheck-20261031T134901/started.json",
+    "bytes": 909,
+    "sha256": "4f2f28c0ef30d01c63ceb2396646312ad4a11630a369a24fd1f689f4c15cf631"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-all-initial/environment.json",
+    "bytes": 1082,
+    "sha256": "0b31ca8c5db9c335412a5c9e4102a8467681e4531a18ad3b420b4321778e041f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-all-initial/junit.xml",
+    "bytes": 661927,
+    "sha256": "f3af4597ad0f3ebc916e332d2f5d1dcaaed5a41a2e0ac599d1e1eba8d9e20a6a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-cleanup-check/environment.json",
+    "bytes": 1082,
+    "sha256": "0b31ca8c5db9c335412a5c9e4102a8467681e4531a18ad3b420b4321778e041f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-cleanup-check/junit.xml",
+    "bytes": 917,
+    "sha256": "006863c9ad45f135a9503faa0f7170b29c8808a3ef231057a3424ce116593b96"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-initial/environment.json",
+    "bytes": 1082,
+    "sha256": "0b31ca8c5db9c335412a5c9e4102a8467681e4531a18ad3b420b4321778e041f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-initial/junit.xml",
+    "bytes": 2455,
+    "sha256": "440288511a27f6d5c6ce59a6df0fa64f7871bab553f80241723aba14ae0f378d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-planning-dto/environment.json",
+    "bytes": 1082,
+    "sha256": "0b31ca8c5db9c335412a5c9e4102a8467681e4531a18ad3b420b4321778e041f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-planning-dto/junit.xml",
+    "bytes": 1056,
+    "sha256": "61227b78704481a3dbba86325fecc8c441b50468ec6f47c93b86898b839d6a9b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-prerequisites/environment.json",
+    "bytes": 1082,
+    "sha256": "0b31ca8c5db9c335412a5c9e4102a8467681e4531a18ad3b420b4321778e041f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-all-prerequisites/junit.xml",
+    "bytes": 784,
+    "sha256": "c637694090a109d1443b7edabb11a9b28f7ed9dd82ec191957e094053b24b896"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/actual-planning-dto-and-ai-adapter.json",
+    "bytes": 24186,
+    "sha256": "d39f6b70c01b13068f50c0f0f21ed47c82f3aae010b08fa08f35b1b0bbd4e703"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/commit-idempotency.json",
+    "bytes": 5217,
+    "sha256": "8be0ec1837608aaa42f0e49a2a957d4f5ad6f5a1eee94a6a781134a8785c6aac"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/draft-before-after.json",
+    "bytes": 9033,
+    "sha256": "a2a433b9d42142d066ddd69252c4760f017de4d446c93ee6118707418b5b468a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/ended-cleanup-contract.json",
+    "bytes": 5005,
+    "sha256": "2dabc4dabe4131bd364da2e9410b0def5c522130f13a71c73c0615ea0de27dd5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/family-isolation.json",
+    "bytes": 689,
+    "sha256": "da4a80c16b035f428ad8fe65a7dc6c4de730a550c0b09a3718e9abbacc2c7c6b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/backend-special-evidence/persist-recovery.json",
+    "bytes": 19395,
+    "sha256": "a7122590a4848dc6f6253a6f1455ee6f3dac809a775505a7a84b35c1e5221887"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-conversation-initial/created.json",
+    "bytes": 122,
+    "sha256": "d9261bb8f2a5ec942d2269f2fc3e0b28cb6930f46630e06f2d47c4a63aba9048"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-conversation-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-conversation-initial/rules-test-20261031T053655374951.json",
+    "bytes": 512001,
+    "sha256": "81d750a75b0a2d6f3357f7e83214a2110de4946ae1eb35bd5f47e0e9ab26d0e5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p1-initial/created.json",
+    "bytes": 115,
+    "sha256": "2884d21be44d034259af38539de4c6ac424026084681e719fa40289b5617d45a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p1-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p1-initial/rules-test-20261031T053654978698.json",
+    "bytes": 185558,
+    "sha256": "157de8e40549e4b92bd34d05c87d43a3f7793c2fc9df5955e2a676579ef87fd6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p2-initial/created.json",
+    "bytes": 115,
+    "sha256": "2aca00cc8ad233bf70291dcd3b5729056b5f4da2fa82134a11fe92f88d5b552d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p2-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p2-initial/rules-test-20261031T053655012498.json",
+    "bytes": 306972,
+    "sha256": "adea89790583e5d61d752ef384bead018efdc4ca02db5f9c3f098f79f1941941"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p3-initial/created.json",
+    "bytes": 115,
+    "sha256": "d32a06dd53a5d01ea9f0172a193eab711dac435e68fffb5dff593dc7040a2f08"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p3-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p3-initial/rules-test-20261031T053655054687.json",
+    "bytes": 278487,
+    "sha256": "4f2e27ea3a20ccdbbd3271c1599415d4ada4858179ee37af3e454c60582fa5a6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p5-initial/created.json",
+    "bytes": 115,
+    "sha256": "44f39dbdb26ad347ddf21abd92aec9db2dd00252e27bfea5b69c3717aec2e519"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p5-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-p5-initial/rules-test-20261031T053655094276.json",
+    "bytes": 227784,
+    "sha256": "7f4c06a8aaf22c554a61513d6ab2808b2ab1b0c64bcc1a291a70e6eb5ee4294a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-chat-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-chat-initial/result.json",
+    "bytes": 26195,
+    "sha256": "4f490b4d038a4bca74ca0d3103f1de7ed6e1538dcfbaf3e4a59fbbf3d5da3bb5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-p85-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-p85-initial/result.json",
+    "bytes": 1527127,
+    "sha256": "f4527c78f4cce0ede56a7b7f18020c847316e588d20b1683167ac1ba13ae70fc"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-session_memory-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-special-session_memory-initial/result.json",
+    "bytes": 49632,
+    "sha256": "5f0368e4db1f7458d21c808668fc10d7aa2a013c8eca88abba1bd6b329440228"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-v1-initial/created.json",
+    "bytes": 115,
+    "sha256": "e69137fcf588db14934f42fb4c7f7386e6ea36c2b6b4281fcb1d44c758ba3117"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-v1-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/eval-v1-initial/rules-test-20261031T053655237863.json",
+    "bytes": 624213,
+    "sha256": "8e17235225be1b99d8af2ed08232d05b10183eb728715788b257e6f2e4668c6e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/complete.json",
+    "bytes": 498,
+    "sha256": "6a56e259f32d61840bf3d896982eae449129447624b1e6522b2519da94bb25f7"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/extractions.jsonl",
+    "bytes": 478664,
+    "sha256": "3d7156495aa1aaa142623c50e510e7cdfed70f4d336b2ee0a5ac3c3eda971bd0"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/inputs.jsonl",
+    "bytes": 4440903,
+    "sha256": "def6e4c0d6f9dbcf06af70593c14f808c75702fb90f60b7e151eceaee6c52758"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/questions.jsonl",
+    "bytes": 2787194,
+    "sha256": "0e276f418cdd57301da2557bfeac6ec2605830bd01947f722556914aa411b777"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/requests.jsonl",
+    "bytes": 6672010,
+    "sha256": "9ef10fbce320d433a097b50c6e6fcb421f9d1830e35fd59b108d832ec9fbb7d1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/formal-20261031T133800/started.json",
+    "bytes": 1334,
+    "sha256": "363faecdfd73f09f254d81685b2a378fb2d145d3d362b17f168c11f79368a8b2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/environment.json",
+    "bytes": 826,
+    "sha256": "f87ba516f8d002b66ecf41efa383ef3bfac3203b1dc092781b30a27a69f5fdd1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/verification.json",
+    "bytes": 30518,
+    "sha256": "157a3fd4889dd6f946e7d352ad07083be2fe88ec6a89a9b7e368098900155a1f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/android-regression/results.jsonl",
+    "bytes": 1012787,
+    "sha256": "7c9d77f9b47781502072ae9e32812b2d55efddf6f7d741ac365c6aae47e2b14f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/android-regression/summary.json",
+    "bytes": 133,
+    "sha256": "65b267a5b97688d9513b2b96bb3a0c15a6c0444a8f744b56d2b3f6e25270c633"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/p0-regression/results.jsonl",
+    "bytes": 1083565,
+    "sha256": "e693c9cdec29eea8e4fbb829d3c3db14dc7084c749d35338154dee703f8fae87"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/p0-regression/summary.json",
+    "bytes": 95,
+    "sha256": "c20ad7995134daf41cfbac0a78ca12d86628bc325cdf9627738b9b485e8dada1"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/p1-regression/results.jsonl",
+    "bytes": 1273939,
+    "sha256": "583cd03855d9a118ff735a73315a3e5260002482c223983a5796c184f6be0d6f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/legacy-all-initial/legacy/p1-regression/summary.json",
+    "bytes": 133,
+    "sha256": "9d39f4f1a7c5f5bd4f129629b067184f4ceecb2992a5f07b6801527945c0cd22"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/preflight-foreign-shape/inputs.jsonl",
+    "bytes": 6453,
+    "sha256": "c8e2e60f1611380ce9d6f96bb24361afc7c840391cba7464d3eb1991921e1873"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/preflight-foreign-shape/questions.jsonl",
+    "bytes": 661,
+    "sha256": "3315ecba7fd0a552fb54ff2c924662291fc06a3a64d634ccbb1cb9c434274aa8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/schema-diagnosis/contract-differences.json",
+    "bytes": 701,
+    "sha256": "b33e60dc9f302aa70cfd3a5df06c5974351e3b239de5196ba55112b069443fcb"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/complete.json",
+    "bytes": 490,
+    "sha256": "64aefbed0bbe44b310ca6f3b31f6c9b3dcebe0b9f6eb67b239b2c5f09bab1deb"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/extractions.jsonl",
+    "bytes": 7096,
+    "sha256": "7a8272992a5adae5d015d9c9af4a6d745cf598169963f0ad8f89d69230282974"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/inputs.jsonl",
+    "bytes": 56912,
+    "sha256": "67dd753fc01060b3e0e5c35d79e65661081e92b7800fe15639047050d124b02e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/questions.jsonl",
+    "bytes": 59315,
+    "sha256": "769a715539d6da43d2a9a33c2fa7ea3595d13ce0aa4c2a336f36974e7607ee55"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/requests.jsonl",
+    "bytes": 87427,
+    "sha256": "92b7d3464063df57a36db21444badffc79f696c5e1ca17947ef67ca44e27e4e2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/runs/smoke-20261031T133638/started.json",
+    "bytes": 1332,
+    "sha256": "59275985c27035f41b39e9d0b5fc5c39afc3199274e4a7e0f030bf66fb5a2e10"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/archive_recheck.py",
+    "bytes": 4084,
+    "sha256": "96ec0f5547695ca63824c728ad076a3c3b2ea44871b3fe5fa941733bd39b596b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/baseline_analysis.py",
+    "bytes": 18838,
+    "sha256": "1aa78dd0396915aeb830e031ca35e780ad320af06ad57a591ddadec3085ee303"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/build_record.py",
+    "bytes": 11019,
+    "sha256": "71ca7d5238c470c5f147936439aa3e493ddde0e25e54d81eb445cd531b1ebfee"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/diagnostics.py",
+    "bytes": 1519,
+    "sha256": "102f1e7f8e714d3837a8d946a9b063c99356aa5124649cfb1983d6be824dd136"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/generate_cases.py",
+    "bytes": 16516,
+    "sha256": "d82bc7c6a81601ea37f4f727893615f0120ae4828e6ebe412aea69dd6b2524b7"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/live.py",
+    "bytes": 25111,
+    "sha256": "d765e55ac0008d7291260fa8cccc73111d5bca2b1a8f1f1b843f75e1f4777fd4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/offline.py",
+    "bytes": 4656,
+    "sha256": "1682cfe3c7f5ec5c0074d86459ffec158d94398c52489048a6c2706c2abaf0c8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/package_results.py",
+    "bytes": 12186,
+    "sha256": "58036f1ee5885561ec6bc9e57f63591f3a379459e6eb794c5f0b7b1c5862d194"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/prepare.py",
+    "bytes": 3623,
+    "sha256": "2d2dd97bef585642495d421ffaeacc6468c758b18f9cc2eb19e268c71ab0c7b6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/render_with_word.ps1",
+    "bytes": 1048,
+    "sha256": "8482a5eed69d06f15fe30ba235be2a1510f381c68d62f31f9778c2ce0115e684"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/Run.ps1",
+    "bytes": 1401,
+    "sha256": "71fd499386e1d318c0450a08172b0d26f178bdde6ababc6b8b236a5d094b634c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/stage_config.py",
+    "bytes": 3471,
+    "sha256": "210d9fcf4a73d7a6c22c4377ee35c1c649178f4398b9425ca9ad14dd28f06e9c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/summarize.py",
+    "bytes": 22911,
+    "sha256": "5f8c183502c225de63cb130d7f16f87ba06fc029cd3d3029d857ee78664d9788"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/telemetry.py",
+    "bytes": 6070,
+    "sha256": "6cd661eff2a7965f714e8f4ed29aa9437b70a43cc2a8738fe0bf8bfa360c4b58"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/test_special_ai.py",
+    "bytes": 4506,
+    "sha256": "180b065d43e3c2a959b427100ad0bdc13ce238434849fd470a51ec76e43478c8"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/test_special_backend.py",
+    "bytes": 8551,
+    "sha256": "7338987c4d6fc44490c14de0d61c2709ca28a61c009b9f9e82a6358ca70907b3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/scripts/workbook.mjs",
+    "bytes": 17261,
+    "sha256": "629dc77733482a1a4694103dabcd89cc69f160b1c20a9c2344132d23ab96a13a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P0/README.md",
+    "bytes": 1530,
+    "sha256": "ac92998dfe676679c012e5e6c6ab5607e3410f9a8d46a1f86bbbae4aef3a93ec"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P0/result.json",
+    "bytes": 3555,
+    "sha256": "07a2d914f1609702e73d990562e49c804e36339c990fdbeb1022ec8815df8f15"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P1/README.md",
+    "bytes": 2200,
+    "sha256": "6af9dad4e70eae92560456da66af37b0ccf5cd4f83a94de2772a4f1020252141"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P1/result.json",
+    "bytes": 7276,
+    "sha256": "a41ea2171db46e5eff771b81f4345cefe91b567b4d8f753dee74129f25bbe43d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P2/README.md",
+    "bytes": 897,
+    "sha256": "52423ac8bdb0b15e1be57c2790344fe4c383a6028d794683bd7a8219882b99af"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P2/result.json",
+    "bytes": 10716,
+    "sha256": "9a556ea7b79b1b349e7bc98eb65e7927c77dbd095406dab262311ea4bd5a20d6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P3/README.md",
+    "bytes": 2964,
+    "sha256": "91c7376ac2cbb3e8d21ad43b0926c2cfde32324472bf20d522db3ff0f98cbf9a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P3/result.json",
+    "bytes": 9742,
+    "sha256": "12a0f9fe0e2bd796baa75570d2d7b227fdc57ff1cfb18f169b295702fb19d370"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P4/README.md",
+    "bytes": 1833,
+    "sha256": "48fb35779c46deb3e70db0b4d404d0251cd7c558f92579ba9428788123744023"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P4/result.json",
+    "bytes": 12751,
+    "sha256": "a2ac56320300e44f8460ee027dad4b6d63a3782048056db8e440be3fd1ea14a6"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P5/README.md",
+    "bytes": 1468,
+    "sha256": "a6b62aaa33b892682630c0b0375f5028632146247558bbf2e05b538c154980d2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P5/result.json",
+    "bytes": 11287,
+    "sha256": "4cd01c90aa51282abbd3c67648b6bb8c870e3120b244e7e0c9994d9bd6e03052"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P6/README.md",
+    "bytes": 2101,
+    "sha256": "fed00e0677b16909708c333a6e36319ab04464dde4df93bb39f7d13e23d39cc4"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P6/result.json",
+    "bytes": 10934,
+    "sha256": "a7a68c76dc2598cb77f552e0e8516fa5363b98a91d9831a4a19d3f3887bea9e0"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P6.1/README.md",
+    "bytes": 713,
+    "sha256": "937bbc8735f1c5212bbd3b6b8a6f23c08dcd89e8590c6b6ed787944b48493cd3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P6.1/result.json",
+    "bytes": 3354,
+    "sha256": "a5df4e025d755a941c0bdb5402a61ab15cecb443a81d66be4a5201db5ad39532"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7/README.md",
+    "bytes": 862,
+    "sha256": "2e41206ebef6f9d6cf688b2a3d06853d52c7ec886828caac59202613e3c195ed"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7/result.json",
+    "bytes": 10438,
+    "sha256": "470b9f4f6d4079736f81cac3ef7fee1a2121bc0fe6ac01cc3caacf4167b9e6b3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.1/README.md",
+    "bytes": 710,
+    "sha256": "898a50d8fb44f53ca671fb131956cfda252eb4df251564c11536bab67629d1f5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.1/result.json",
+    "bytes": 3351,
+    "sha256": "eacdccba83a41a69d2841e719109db68b08c83383fb1f74a944bfad2ded1e57a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.2/README.md",
+    "bytes": 718,
+    "sha256": "2c746384dedbc43fa111bd2fa24d97358f6ba3687680e2e26768eb8bfaf13c24"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.2/result.json",
+    "bytes": 2858,
+    "sha256": "2cb7caa9e147d0f2cd8cf742eb9e900db185c4509853af150bed6878d1597a0d"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.3/README.md",
+    "bytes": 1209,
+    "sha256": "6ba893f94288679c4b1604dfd6004abbbe8680166f520c05427edc403cf0d884"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.3/result.json",
+    "bytes": 13112,
+    "sha256": "2846c6040a45405968f4751160f1dc1930dd0522093da0671f7b35eededabea2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.4/README.md",
+    "bytes": 718,
+    "sha256": "300e9185b2ed6c10cecb527251f87702fa6d790b2e8a5f75c0ed947bc4a5b4d3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P7.4/result.json",
+    "bytes": 1524,
+    "sha256": "91469bba52d05fe0a92fa61d4c9421fd59d6035fbd8de46a68d4d82630fadef5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8/README.md",
+    "bytes": 1902,
+    "sha256": "1e2b1ed01ac1c38d686f6269c58aa04e273071acf80323373160b37fc4c3d4f2"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8/result.json",
+    "bytes": 6921,
+    "sha256": "680db8e77183d294b4fbf1dd44263b0339ee9539d0cc8cf4ec261aa50abcbf81"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.1/README.md",
+    "bytes": 1294,
+    "sha256": "34a7c0910fc133b64c2f75003c01ebc64d52c115cb0092e7d60d27770a68124c"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.1/result.json",
+    "bytes": 9764,
+    "sha256": "3bbfd95d24a9902afd8b9b7972ed49dcb8dfd93686eb200607d446161a1a9bd3"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.2/README.md",
+    "bytes": 3220,
+    "sha256": "3b476ede5c7ccf961db11636977f797b03076658bc06b53f50843aa22cd2c320"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.2/result.json",
+    "bytes": 4922,
+    "sha256": "2cc507a1f9595b45012c5d84d19f10fe781742b113dbe2e26c4518199838bc14"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.3/README.md",
+    "bytes": 3686,
+    "sha256": "1fc6fd671a44c59549600af7a6ab412870c16459cc6eccba7ee4589eea8e9d8b"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.3/result.json",
+    "bytes": 6581,
+    "sha256": "5f3d98e96de0529d4df5411c119166bfcee6a94a0f33a61edae944a7cc1a6e8a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.4/README.md",
+    "bytes": 1618,
+    "sha256": "f5f3ea8bf02f03bb83779d1bbb1147080b338e2e25626b80f6bc40a90636719a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.4/result.json",
+    "bytes": 6431,
+    "sha256": "f4d27920234727c02bb04febed0c801e18c19fe733089d99663865295f04d482"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.5/README.md",
+    "bytes": 3288,
+    "sha256": "9391882453077de6b0d6c440b7931590a2bdf89c2a8c38c5a82b2252c976c0b5"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.5/result.json",
+    "bytes": 11528,
+    "sha256": "702605e749a62e188171dafee9dd34f34cfdf9fbdd0384756ade584ee8c1723f"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.6/README.md",
+    "bytes": 1822,
+    "sha256": "eec8bef4b0a405736923c81abfa70c2091cf0c04f27da37b7d2b94860ee6f8af"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P8.6/result.json",
+    "bytes": 6645,
+    "sha256": "2068ebcc2bc7f641be42183b8966fa7a7cdb56e2505daa944ca349ea6cc8cd7a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P9/README.md",
+    "bytes": 195,
+    "sha256": "f3faef5ef13f26c1d3f91fe33ba9e40e10088c16c1dfd9c9a991849d78255303"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/P9/result.json",
+    "bytes": 188,
+    "sha256": "14813a8088b409afc6a76926039e8fabeb7cce0c6bfa6c73a2e30067c6be918e"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/V1.5/README.md",
+    "bytes": 172,
+    "sha256": "7f0fac4cbe4d230265db5226de6ea434b3dfe11aa07d08ae50c9c76c50d1e16a"
+  },
+  {
+    "path": "tests/version测试/功能专项_20261031_733d339/stages/V1.5/result.json",
+    "bytes": 165,
+    "sha256": "2adc2f8678cbf041fd0e3d1c53a7667492b9bd34b2c1baa41f3c6d764b872707"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/AI各功能专项测试总览.xlsx",
+    "bytes": 334040,
+    "sha256": "7f5d387a04fba48b0d939a3cb17bb3ce7bf51f64af5dfa2e9daf27bd5ec8518a"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/Garin_AI各功能专项测试工作记录.docx",
+    "bytes": 43522,
+    "sha256": "91169783d9a096e1214d0abf781775db7dec99b596cb9be25f9b79284fce5e76"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/P4历史84项对照.json",
+    "bytes": 1291,
+    "sha256": "f0d92e3e000ed8e3ad25a15a3b0029a19f87e423b950c33507af5bdc5932231c"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/P4旧包37次FAIL.json",
+    "bytes": 14239,
+    "sha256": "540a143809d36d9e9e102f3f043dfffde06fc56427bed4f5af641256be65027a"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/README.md",
+    "bytes": 1788,
+    "sha256": "cf64c2a32a0dd866f572953955eb82217812d5afe80581906497df3ae9d3aa39"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/交接文件校验.json",
+    "bytes": 1381,
+    "sha256": "d956a6f9eb3e9f343cbb81b794d12aeea565b3f2d68c9b7ad5417d0f845a0f17"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/功能版本覆盖.json",
+    "bytes": 158633,
+    "sha256": "0ca63c26abbda4e983df076daf029a15b6ecca8fc479bbfbbdcfbf309267b28d"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/测试工具问题与补测.json",
+    "bytes": 757,
+    "sha256": "741ef593a8d7e894ac69768e8669be9a3543a6b4a55fcea243e0ffd52b666d91"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/测试结果与极端值.md",
+    "bytes": 12066,
+    "sha256": "d55d7ae1f708090ab3264a6e151444efd3665dd30c7c05ecadcf9d0247fdac60"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/真实模型失败清单.md",
+    "bytes": 62082,
+    "sha256": "67a736700bd7168bef07c036066819871c86a6fd02be6116c840a1b7d7f62b93"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/离线问题清单.json",
+    "bytes": 208832,
+    "sha256": "b845c26ae9459ba726e52cf123b32e8e9f8691d1d55b5d53e43acbf43a6ff3ed"
+  },
+  {
+    "path": "tests/交接文件夹/2026-10-31_AI各功能专项测试/结果总说明.md",
+    "bytes": 3961,
+    "sha256": "5ae3d625d3bdfa42f047494b76fd60d8d31b784dc0e77407e4218cf4d7a1355e"
+  }
+]

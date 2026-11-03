@@ -1,0 +1,29 @@
+{
+  "source": "docs/versions/V1-P8.6/contracts/backend-openapi.json vs current local app.openapi",
+  "difference_count": 2,
+  "differences": [
+    {
+      "path": "/components/schemas/InventoryCreate/properties/unit/default",
+      "kind": "added",
+      "current": "件"
+    },
+    {
+      "path": "/components/schemas/InventoryCreate/required",
+      "kind": "changed",
+      "documented": [
+        "id",
+        "name",
+        "quantity",
+        "unit",
+        "storage_location"
+      ],
+      "current": [
+        "id",
+        "name",
+        "quantity",
+        "storage_location"
+      ]
+    }
+  ],
+  "scope": "local current source only, not running server"
+}

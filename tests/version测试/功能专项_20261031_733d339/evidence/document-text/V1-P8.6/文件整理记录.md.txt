@@ -1,0 +1,36 @@
+# V1-P8.6 命名与文件整理记录
+
+2026-10-30。将此前未编号的AI自主循环实现，以及随后按服务器当前实现进行的适配，统一归入 **V1-P8.6**。AI维护标记改为V1-P8.6，OpenAPI版本改为0.8.6；业务后端版本和协议不随阶段名称更改。
+
+## 归档位置
+
+| 原位置 | 当前维护位置 | 处理方式 |
+|---|---|---|
+| `docs/ai-autonomous/` | [本阶段目录](README.md) | 工作记录、交接、评测、适配记录、契约及源码清单整体迁入；旧目录只保留文档跳转 |
+| `reports/ai-autonomous/` | [初始实现报告](../../../reports/p86-autonomous/initial-20261029) | 保留首次24条模型对比、JUnit、回放和当时交付证据 |
+| `reports/runtime-adaptation-20261030/` | [契约适配报告](../../../reports/p86-autonomous/adaptation-20261030) | 保留服务器只读核对、逐件模型16条首次/回归结果和适配回归证据 |
+| 无 | [本次整理报告](../../../reports/p86-autonomous/organization-20261030) | 保存移动前后映射、原始文件哈希、本次验证结果 |
+
+共移动39个文件。原始JSONL、JUnit、服务器快照和历史评测汇总按字节保留，历史记录内部可能保留生成时的旧路径/阶段名，不改写成新实测结果。文档中的相对链接已按新位置重算；当前OpenAPI与运行源码哈希重新导出。本次不重新调用真实模型，也不把旧批次模型评测当作逐件契约验收。
+
+AI代码仍在 `agent/conversation/autonomous/`，后端薄适配仍在 `backend/server/app/services/autonomous.py`；测试保留原tests目录。工具保留已有可运行命令，只更新输入输出位置，不复制一套P8.6代码。未来继续在原模块迭代。
+
+## 命名与兼容
+
+- 产品阶段：V1-P8.6；AI接口文档版本：0.8.6；AI健康维护标记：V1-P8.6。
+- 新协议仍为 `inventory-autonomous-1`，数据库JSON命名空间仍为 `autonomous_v1`。
+- 工厂仍为 `conversation.autonomous.app:create_app`，入口仍为 `POST /agent/dialogue/run`。
+- P8.4/P8.5旧工厂、旧协议、旧恢复记录保持兼容；不改后端0.9.0/P9、数据库迁移号、业务确认事务或前端源码。
+- 截至上次只读核对服务器运行P8.5。本次没有连接服务器、同步文件、修改环境或替换运行版本。
+
+## Git与证据
+
+仅移动/编辑工作树文件，保留原暂存区内容，不自动执行 `git add`、commit或push。已有暂存文件移动后，Git可能同时显示旧路径工作树删除及新路径未跟踪，这是尚未暂存的整理结果；后续提交时应一并审阅迁出/迁入文件，不能只提交原暂存区。
+
+[移动清单](../../../reports/p86-autonomous/organization-20261030/relocation.json)记录移动前的文件哈希及暂存区摘要，便于逐一核查。`.cache/runtime-adaptation-20261030` 中原始冲突备份不移动、不删除。P8.5发布材料、其他负责人的实现与原始验收报告保持原样。
+
+当前交付校验命令为 `python tools/p86_verify_delivery.py`；本次[校验摘要](../../../reports/p86-autonomous/organization-20261030/delivery-summary.json)、[AI回归](../../../reports/p86-autonomous/organization-20261030/ai-tests.xml)及[后端适配回归](../../../reports/p86-autonomous/organization-20261030/backend-tests.xml)独立保存。它们不替代真实模型、PostgreSQL、手机或联合验收。
+
+整理后实际验证：AI全量1136通过、1跳过；后端自主循环/跨协议恢复/契约路径相关28项通过，均无失败或错误。107份运行源码、12份契约、233处文档链接校验通过；20份原始报告内容哈希与移动前一致。上次适配103项后端选定回归属于另一范围，原结果保留，不与本次28项相加统计。
+
+接口入口：[AI OpenAPI JSON](contracts/ai-openapi.json)、[后端 OpenAPI JSON](contracts/backend-openapi.json)、[请求Schema](contracts/run-request.schema.json)、[响应Schema](contracts/run-response.schema.json)、[上下文Schema](contracts/context.schema.json)。全部是本地P8.6交付契约，不是服务器当前能力声明。

@@ -1,0 +1,20 @@
+{
+  "source": "733d339ee5bbb73635413902cdd0d07d43a6075a",
+  "policy": {
+    "initial_cny": "9.49236",
+    "initial_reservations": 2738,
+    "new_cap_cny": "10",
+    "cumulative_original_cap_cny": "20",
+    "authorization": "user approved separate new 10 CNY for version functional testing 2026-10-31"
+  },
+  "budget_before": {
+    "limit_cny": 19.49236,
+    "conservative_cost_cny": 12.58709,
+    "calls": 3254,
+    "unknown_usage_calls": 0
+  },
+  "reason": "Archive source reference was issued at NOW, later than its episode created NOW-4m; fix only fixture provenance, preserve all gold and original records.",
+  "correction": "issued_at=NOW-4m, expires_at=NOW+11m; still original 15-minute lifetime",
+  "script_sha256": "96ec0f5547695ca63824c728ad076a3c3b2ea44871b3fe5fa941733bd39b596b",
+  "dataset_manifest_sha256": "6c338ae88c486eab9f719ee5242123ecbdd440475ed8e6a5017e715facc8699e"
+}

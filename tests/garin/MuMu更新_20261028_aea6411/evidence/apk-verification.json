@@ -1,0 +1,17 @@
+{
+  "source_commit": "aea6411d868ff30e64ab440239de8bbba7059f09",
+  "target_serial": "emulator-5556",
+  "package": "com.example.teamapp",
+  "version_name": "1.2.0-test",
+  "version_code": 4,
+  "apk": "Mewstow-aea6411-debug.apk",
+  "apk_sha256": "3b65cdbedfc9391857b80316e998bc3baeb6203653bd312d259a8fd3334bcab4",
+  "apk_bytes": 64633421,
+  "certificate_sha256": "97a36a8dc4f60fcc931fc5ec413ce6e35baa795e601ea886fbc72fb25d40e921",
+  "signature_matches_existing": true,
+  "compiled_api_origin": "https://8.134.172.165:8000",
+  "cloud_expect_isolated": false,
+  "used_default_build_configuration": true,
+  "business_service_contacted": false,
+  "models_called": false
+}

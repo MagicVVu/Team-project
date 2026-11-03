@@ -1,0 +1,15 @@
+{
+  "saved_xlsx_cached_metrics_match": true,
+  "xlsx_formula_errors": [],
+  "charts": 1,
+  "word_pages": 4,
+  "all_word_pages_visually_reviewed": true,
+  "all_workbook_sheets_visually_reviewed": true,
+  "frozen_data_hashes_match": true,
+  "handoff_hashes_match": true,
+  "public_files_scanned": 346,
+  "credential_pattern_matches": 0,
+  "scope": "owned tests and handoff only",
+  "export_process_note": "Artifact export prints saved path then process exits1; actual saved archive, formula caches, chart and renders independently verified.",
+  "word_renderer_note": "Packaged LibreOffice absent; canonical failure log retained, hidden read-only Word PDF export plus bundled Poppler used."
+}

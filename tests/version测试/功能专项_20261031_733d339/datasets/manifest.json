@@ -1,0 +1,86 @@
+{
+  "source": "authored synthetic functional cases; frozen before paid evaluation",
+  "human_review_status": "pending",
+  "sets": {
+    "single": {
+      "rows": 128,
+      "turns": 128,
+      "sha256": "9386c2d000b160f43d2560af95a1e5a5bdefc4dd451bb36dbd1b067c8302b32b"
+    },
+    "multi": {
+      "rows": 32,
+      "turns": 128,
+      "sha256": "22bc703fad54d36789819b0649cff640c0012ee8742fb4f1b2abceb16c2d773f"
+    }
+  },
+  "planned_formal_repeats": 2,
+  "planned_formal_turns": 512,
+  "groups": [
+    [
+      "P0",
+      "基础操作"
+    ],
+    [
+      "P1",
+      "生命周期"
+    ],
+    [
+      "P2",
+      "风险判断"
+    ],
+    [
+      "P3",
+      "统计预测"
+    ],
+    [
+      "P4",
+      "历史解析缺陷"
+    ],
+    [
+      "P5",
+      "确认文字与边界"
+    ],
+    [
+      "P6",
+      "位置反查与用完"
+    ],
+    [
+      "P7",
+      "对象引用与澄清"
+    ],
+    [
+      "P7.3",
+      "业务字段约束"
+    ],
+    [
+      "P8",
+      "任务解释与修改"
+    ],
+    [
+      "P8.1",
+      "对象范围与采购来源"
+    ],
+    [
+      "P8.2",
+      "当前会话记忆"
+    ],
+    [
+      "P8.3",
+      "规划来源与重验"
+    ],
+    [
+      "P8.4",
+      "自然语义理解"
+    ],
+    [
+      "P8.5",
+      "旧话题续接"
+    ],
+    [
+      "P8.6",
+      "自主循环与逐件库存"
+    ]
+  ],
+  "inventory_model": "single-object-1",
+  "business_clock": "2026-10-15T10:00:00+08:00"
+}

@@ -1,0 +1,20 @@
+{
+  "mode": "archive_fixture_recheck",
+  "complete": true,
+  "stop_reason": null,
+  "questions": 40,
+  "counts": {
+    "FAIL": 17,
+    "PASS": 23
+  },
+  "actual_http_calls": 48,
+  "budget_after": {
+    "limit_cny": 19.49236,
+    "conservative_cost_cny": 12.875622,
+    "calls": 3302,
+    "unknown_usage_calls": 0
+  },
+  "new_conservative_cost_cny": 3.383262,
+  "same_frozen_expectations": true,
+  "original_failures_preserved": true
+}

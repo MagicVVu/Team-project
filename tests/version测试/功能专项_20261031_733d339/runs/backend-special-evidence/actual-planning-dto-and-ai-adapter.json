@@ -1,0 +1,679 @@
+{
+  "before": {
+    "inventory": [
+      {
+        "id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      },
+      {
+        "id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 2,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "after": {
+    "inventory": [
+      {
+        "id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      },
+      {
+        "id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+        "name": "牛奶",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 2,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "http_status": 200,
+  "backend_response": {
+    "data": {
+      "protocol_version": "v1-planning-context-1",
+      "scope": {
+        "user_id": "7eec812e-5408-4c83-bed2-e994e17ae8b6",
+        "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d"
+      },
+      "snapshot_id": "cd048b81f0d95683998ca94e1768e17120d50d0907ef2c3f718380aa6c06ab96",
+      "as_of": "2026-10-31T06:02:10.675000Z",
+      "event_watermark": "f21fd4363fb902e9044aff7cc33880862af461123472a400098a97285217e111",
+      "shopping_version": 431975538979249258,
+      "items_complete": true,
+      "history_complete": true,
+      "pending_complete": true,
+      "next_cursor": null,
+      "items": [
+        {
+          "item_key": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+          "name": "牛奶",
+          "unit": "盒",
+          "version": 1,
+          "category": "unknown",
+          "batches": [
+            {
+              "id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+              "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+              "name": "牛奶",
+              "quantity": "1",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": "2026-10-31",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 1,
+              "category": "unknown",
+              "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+              "label_date_type": "unknown",
+              "label_context_valid": null,
+              "storage_condition": null,
+              "label_storage_condition": null,
+              "is_opened": null
+            }
+          ],
+          "events": [
+            {
+              "id": "de17d661-3c25-539f-adba-e6734ba14af9",
+              "item_key": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+              "kind": "Added",
+              "quantity": "1.000000",
+              "unit": "盒",
+              "occurred_at": "2026-10-31T06:02:10.668275Z",
+              "recorded_at": "2026-10-31T06:02:10.668276Z",
+              "committed": true,
+              "related_event_id": null
+            }
+          ],
+          "coverage": [],
+          "recording_completeness_source": null,
+          "preferences": {
+            "version": 1,
+            "minimum_stock": null,
+            "coverage_days": null,
+            "lead_days": null,
+            "order_unit": null,
+            "pack_size": null
+          },
+          "usable_quantity_verified": false,
+          "stock_verification": null
+        },
+        {
+          "item_key": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+          "name": "牛奶",
+          "unit": "盒",
+          "version": 1,
+          "category": "unknown",
+          "batches": [
+            {
+              "id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+              "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+              "name": "牛奶",
+              "quantity": "1",
+              "unit": "盒",
+              "location": "冰箱",
+              "purchased_at": "2026-10-31",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "version": 1,
+              "category": "unknown",
+              "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+              "label_date_type": "unknown",
+              "label_context_valid": null,
+              "storage_condition": null,
+              "label_storage_condition": null,
+              "is_opened": null
+            }
+          ],
+          "events": [
+            {
+              "id": "4e1ccb66-46f0-5e0f-acf8-c935a2246fc3",
+              "item_key": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+              "kind": "Added",
+              "quantity": "1.000000",
+              "unit": "盒",
+              "occurred_at": "2026-10-31T06:02:10.669134Z",
+              "recorded_at": "2026-10-31T06:02:10.669135Z",
+              "committed": true,
+              "related_event_id": null
+            }
+          ],
+          "coverage": [],
+          "recording_completeness_source": null,
+          "preferences": {
+            "version": 1,
+            "minimum_stock": null,
+            "coverage_days": null,
+            "lead_days": null,
+            "order_unit": null,
+            "pack_size": null
+          },
+          "usable_quantity_verified": false,
+          "stock_verification": null
+        }
+      ],
+      "pending": []
+    },
+    "provenance": {
+      "schema_version": "backend-planning-provenance-1",
+      "isolation": "sqlite_explicit_read_transaction",
+      "history_complete_means": "all_existing_semantic_ledger_rows_read_not_real_world_coverage",
+      "event_watermark_kind": "sha256_visible_ledger_content_not_commit_sequence",
+      "shopping_version_kind": "content_digest_60_bits_not_monotonic",
+      "database_rows_complete": true,
+      "shopping_list_present": true,
+      "recording_completeness": "unknown",
+      "automatic_planning_commit": false,
+      "items": {
+        "0b4d912a-dc51-4557-a977-bce4cf48f076": {
+          "identity": "explicit_product_batch",
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "raw_category": "食品",
+          "minimum_preference": null,
+          "preference_version_source": "inventory_items.version_conservative",
+          "recording_completeness": "unknown",
+          "stock_verification": "unknown",
+          "known_quantity_adjustments": [],
+          "adjustment_history_complete": false,
+          "reason_codes": [
+            "RECORDING_COMPLETENESS_UNKNOWN",
+            "NO_COMPLETE_COVERAGE_DAYS",
+            "STOCK_VERIFICATION_REQUIRED"
+          ],
+          "missing_sources": [
+            "product_catalogue",
+            "coverage_attestation",
+            "stockout_history",
+            "stock_verification",
+            "lead_days",
+            "coverage_days",
+            "order_pack",
+            "label_date_type",
+            "storage_conditions"
+          ]
+        },
+        "426b8430-b30c-5727-b7d6-9e84d284f7bb": {
+          "identity": "explicit_product_batch",
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "raw_category": "食品",
+          "minimum_preference": null,
+          "preference_version_source": "inventory_items.version_conservative",
+          "recording_completeness": "unknown",
+          "stock_verification": "unknown",
+          "known_quantity_adjustments": [],
+          "adjustment_history_complete": false,
+          "reason_codes": [
+            "RECORDING_COMPLETENESS_UNKNOWN",
+            "NO_COMPLETE_COVERAGE_DAYS",
+            "STOCK_VERIFICATION_REQUIRED"
+          ],
+          "missing_sources": [
+            "product_catalogue",
+            "coverage_attestation",
+            "stockout_history",
+            "stock_verification",
+            "lead_days",
+            "coverage_days",
+            "order_pack",
+            "label_date_type",
+            "storage_conditions"
+          ]
+        }
+      },
+      "events": {
+        "de17d661-3c25-539f-adba-e6734ba14af9": {
+          "operation_id": null,
+          "request_id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+          "batch_id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+          "event_type": "Created",
+          "actor_user_id": "7eec812e-5408-4c83-bed2-e994e17ae8b6",
+          "occurred_at": "2026-10-31T06:02:10.668275+00:00",
+          "recorded_at": "2026-10-31T06:02:10.668276+00:00",
+          "quantity": "1.000000",
+          "unit": "盒",
+          "quantity_delta": "1",
+          "related_event_id": null,
+          "relation_support": "inventory-ledger-1"
+        },
+        "4e1ccb66-46f0-5e0f-acf8-c935a2246fc3": {
+          "operation_id": null,
+          "request_id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+          "batch_id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+          "event_type": "Created",
+          "actor_user_id": "7eec812e-5408-4c83-bed2-e994e17ae8b6",
+          "occurred_at": "2026-10-31T06:02:10.669134+00:00",
+          "recorded_at": "2026-10-31T06:02:10.669135+00:00",
+          "quantity": "1.000000",
+          "unit": "盒",
+          "quantity_delta": "1",
+          "related_event_id": null,
+          "relation_support": "inventory-ledger-1"
+        }
+      },
+      "shopping": [],
+      "pending_state": "none",
+      "pending_count": 0,
+      "product_aggregates_v1": [
+        {
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "name": "牛奶",
+          "specification": null,
+          "base_unit": "盒",
+          "category": "food",
+          "tags": [],
+          "version": 1,
+          "source": "automatic_name_grouping",
+          "actor_user_id": "7eec812e-5408-4c83-bed2-e994e17ae8b6",
+          "updated_at": "2026-10-31 06:02:10",
+          "identity_status": "household_attested",
+          "tag_source": "household_attested",
+          "platform_rule_review_status": "unknown",
+          "risk_rule_version": null,
+          "item_key": "product:0e1772d2-6e47-5933-8c82-461667b380b1",
+          "batches": [
+            {
+              "batch_id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+              "version": 1,
+              "quantity": "1",
+              "unit": "盒",
+              "base_quantity": "1",
+              "location": "冰箱",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "expired": false,
+              "expiry_known": false,
+              "facts_version": 0,
+              "stock_verification": null,
+              "mapping_status": "household_attested"
+            },
+            {
+              "batch_id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+              "version": 1,
+              "quantity": "1",
+              "unit": "盒",
+              "base_quantity": "1",
+              "location": "冰箱",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "expired": false,
+              "expiry_known": false,
+              "facts_version": 0,
+              "stock_verification": null,
+              "mapping_status": "household_attested"
+            }
+          ],
+          "count": 2,
+          "quantity_basis": "physical_object_count",
+          "quantity_complete": true,
+          "total_quantity": "2",
+          "nonexpired_active_quantity": "2",
+          "usable_quantity": null,
+          "consumption_coverage_days": null,
+          "availability_status": "risk_and_recording_review_required",
+          "preferences_aggregation": "batch_preferences_not_aggregated",
+          "version_token": "ab47fedfae7ddb776fa75716864bccfa0bfe10f0696b5791baac75de5a834871"
+        }
+      ],
+      "ledger_coverage": "durable_since_p9_plus_existing_draft_events_no_legacy_crud_backfill",
+      "risk_rules": {
+        "review_status": "unknown",
+        "version": null,
+        "source": "ai_rule_owner_required"
+      },
+      "revalidation_basis": {
+        "protocol_version": "planning-revalidation-1",
+        "snapshot_id": "cd048b81f0d95683998ca94e1768e17120d50d0907ef2c3f718380aa6c06ab96",
+        "event_watermark": "f21fd4363fb902e9044aff7cc33880862af461123472a400098a97285217e111",
+        "shopping_version": 431975538979249258,
+        "inventory_versions": {
+          "0b4d912a-dc51-4557-a977-bce4cf48f076": 1,
+          "426b8430-b30c-5727-b7d6-9e84d284f7bb": 1
+        },
+        "facts_versions": {
+          "0b4d912a-dc51-4557-a977-bce4cf48f076": 0,
+          "426b8430-b30c-5727-b7d6-9e84d284f7bb": 0
+        },
+        "product_versions": {
+          "0e1772d2-6e47-5933-8c82-461667b380b1": 1
+        },
+        "risk_rules": {
+          "review_status": "unknown",
+          "version": null,
+          "source": "ai_rule_owner_required"
+        }
+      }
+    }
+  },
+  "ai_result": {
+    "status": "answered",
+    "intent": "QUERY_FORECAST",
+    "reply": "已按明确的商品关联汇总；商品整体预测依据不足，暂不提供耗尽日期。\n牛奶（商品 0e1772d2-6e47-5933-8c82-461667b380b1）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。\n商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",
+    "trace_id": "trace_fa37c99eabc8467fa166083b4ffb0246",
+    "original_text": "结构化只读规划请求",
+    "draft": null,
+    "preview": null,
+    "candidates": [],
+    "facts": [
+      {
+        "id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+        "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+        "name": "牛奶",
+        "quantity": "1",
+        "unit": "盒",
+        "location": "冰箱",
+        "purchased_at": "2026-10-31",
+        "label_expiry": null,
+        "opened_at": null,
+        "status": "ACTIVE",
+        "version": 1,
+        "category": "unknown",
+        "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+        "label_date_type": "unknown",
+        "label_context_valid": null,
+        "storage_condition": null,
+        "label_storage_condition": null,
+        "is_opened": null
+      },
+      {
+        "id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+        "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+        "name": "牛奶",
+        "quantity": "1",
+        "unit": "盒",
+        "location": "冰箱",
+        "purchased_at": "2026-10-31",
+        "label_expiry": null,
+        "opened_at": null,
+        "status": "ACTIVE",
+        "version": 1,
+        "category": "unknown",
+        "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+        "label_date_type": "unknown",
+        "label_context_valid": null,
+        "storage_condition": null,
+        "label_storage_condition": null,
+        "is_opened": null
+      }
+    ],
+    "missing_fields": [],
+    "clarification": null,
+    "error_code": null,
+    "retryable": false,
+    "manual_entry": true,
+    "trace": [
+      {
+        "step": "v1_total",
+        "outcome": "needs_clarification",
+        "elapsed_ms": 1.7096000010496937
+      }
+    ],
+    "risks": [],
+    "evaluated_count": 0,
+    "item_candidates": [
+      {
+        "item_key": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+        "name": "牛奶",
+        "unit": "盒",
+        "version": 1,
+        "batches": [
+          {
+            "id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+            "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+            "name": "牛奶",
+            "quantity": "1",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": "2026-10-31",
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 1,
+            "category": "unknown",
+            "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+            "label_date_type": "unknown",
+            "label_context_valid": null,
+            "storage_condition": null,
+            "label_storage_condition": null,
+            "is_opened": null
+          }
+        ]
+      },
+      {
+        "item_key": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+        "name": "牛奶",
+        "unit": "盒",
+        "version": 1,
+        "batches": [
+          {
+            "id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+            "household_id": "7e7efc9d-8910-4aea-9932-21c3690ba91d",
+            "name": "牛奶",
+            "quantity": "1",
+            "unit": "盒",
+            "location": "冰箱",
+            "purchased_at": "2026-10-31",
+            "label_expiry": null,
+            "opened_at": null,
+            "status": "ACTIVE",
+            "version": 1,
+            "category": "unknown",
+            "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+            "label_date_type": "unknown",
+            "label_context_valid": null,
+            "storage_condition": null,
+            "label_storage_condition": null,
+            "is_opened": null
+          }
+        ]
+      }
+    ],
+    "consumption_summary": [],
+    "forecast": [],
+    "recommendations": [],
+    "planning_basis": null,
+    "snapshot_id": null,
+    "evaluated_at": null,
+    "inventory_writes": false,
+    "shopping_writes": false,
+    "input_receipt": null,
+    "input_review": null,
+    "request_id": null,
+    "runtime": {
+      "release": "V1-P7",
+      "prompt_version": "p7-extract-1",
+      "ruleset_sha256": "3900fe804e17e8f8fc321bfcec4a20c0deb826738cfbe612205601aae28ae8bb",
+      "model": null,
+      "model_calls": 0,
+      "maintenance_release": "V1-P8.4"
+    },
+    "decisions": [
+      {
+        "node": "intent_router",
+        "source": "literal_rules",
+        "outcome": "QUERY_FORECAST",
+        "reason_codes": []
+      },
+      {
+        "node": "event_classifier",
+        "source": "deterministic",
+        "outcome": "none",
+        "reason_codes": []
+      },
+      {
+        "node": "clarification_gate",
+        "source": "deterministic",
+        "outcome": "CLARIFY",
+        "reason_codes": []
+      },
+      {
+        "node": "action_gate",
+        "source": "deterministic",
+        "outcome": "CLARIFY",
+        "reason_codes": []
+      }
+    ],
+    "guidance": [],
+    "sections": [],
+    "location_options": [],
+    "data_gaps": [
+      "0b4d912a-dc51-4557-a977-bce4cf48f076:STOCK_VERIFICATION_REQUIRED",
+      "426b8430-b30c-5727-b7d6-9e84d284f7bb:STOCK_VERIFICATION_REQUIRED",
+      "HUMAN_RULE_REVIEW_REQUIRED"
+    ],
+    "feedback": null,
+    "truncated": false,
+    "total_count": null,
+    "quantity_source": null,
+    "policy_version": "p7-limited-context-1",
+    "jev_status": "deferred_by_user",
+    "object_source": "user_input",
+    "reference_used": null,
+    "clear_reference": false,
+    "consume_mode": null,
+    "procurement_source": null,
+    "planning_calculation": null,
+    "product_planning": [
+      {
+        "product": {
+          "product_id": "0e1772d2-6e47-5933-8c82-461667b380b1",
+          "item_key": "product:0e1772d2-6e47-5933-8c82-461667b380b1",
+          "name": "牛奶",
+          "specification": null,
+          "base_unit": "盒",
+          "category": "food",
+          "version": 1,
+          "identity_status": "household_attested",
+          "tag_source": "household_attested",
+          "platform_rule_review_status": "unknown",
+          "batches": [
+            {
+              "batch_id": "0b4d912a-dc51-4557-a977-bce4cf48f076",
+              "version": 1,
+              "quantity": "1",
+              "unit": "盒",
+              "base_quantity": "1",
+              "location": "冰箱",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "expired": false,
+              "expiry_known": false,
+              "facts_version": 0,
+              "stock_verification": null,
+              "mapping_status": "household_attested"
+            },
+            {
+              "batch_id": "426b8430-b30c-5727-b7d6-9e84d284f7bb",
+              "version": 1,
+              "quantity": "1",
+              "unit": "盒",
+              "base_quantity": "1",
+              "location": "冰箱",
+              "label_expiry": null,
+              "opened_at": null,
+              "status": "ACTIVE",
+              "expired": false,
+              "expiry_known": false,
+              "facts_version": 0,
+              "stock_verification": null,
+              "mapping_status": "household_attested"
+            }
+          ],
+          "quantity_complete": true,
+          "total_quantity": "2",
+          "nonexpired_active_quantity": "2",
+          "usable_quantity": null,
+          "consumption_coverage_days": null,
+          "version_token": "ab47fedfae7ddb776fa75716864bccfa0bfe10f0696b5791baac75de5a834871",
+          "tags": [],
+          "source": "automatic_name_grouping",
+          "actor_user_id": "7eec812e-5408-4c83-bed2-e994e17ae8b6",
+          "updated_at": "2026-10-31 06:02:10",
+          "risk_rule_version": null,
+          "count": 2,
+          "quantity_basis": "physical_object_count",
+          "availability_status": "risk_and_recording_review_required",
+          "preferences_aggregation": "batch_preferences_not_aggregated"
+        },
+        "as_of": "2026-10-31T06:02:10.675000Z",
+        "window_start": "2026-10-03",
+        "window_end_exclusive": "2026-10-31",
+        "recorded_consumption_quantity": "0",
+        "recorded_consumption_event_ids": [],
+        "pending_quantity": "0",
+        "forecast_status": "unavailable",
+        "remaining_days": null,
+        "reference_date": null,
+        "suggested_quantity": null,
+        "reason_codes": [
+          "PRODUCT_USABLE_QUANTITY_UNKNOWN",
+          "PRODUCT_COVERAGE_UNKNOWN",
+          "PRODUCT_PREFERENCES_NOT_AGGREGATED",
+          "HUMAN_RULE_REVIEW_REQUIRED",
+          "PRODUCT_EXPIRY_UNKNOWN"
+        ]
+      }
+    ],
+    "planning_context": {
+      "protocol_version": "p83-planning-adapter-1",
+      "pending_state": "none",
+      "pending_count": 0,
+      "pending_complete": true,
+      "ledger_coverage": "durable_since_p9_plus_existing_draft_events_no_legacy_crud_backfill",
+      "history_complete_means": "stored_events_only_not_daily_coverage",
+      "automatic_planning_commit": false,
+      "manual_plan_only": true,
+      "revalidation_basis": {
+        "protocol_version": "planning-revalidation-1",
+        "snapshot_id": "cd048b81f0d95683998ca94e1768e17120d50d0907ef2c3f718380aa6c06ab96",
+        "event_watermark": "f21fd4363fb902e9044aff7cc33880862af461123472a400098a97285217e111",
+        "shopping_version": 431975538979249258,
+        "inventory_versions": {
+          "0b4d912a-dc51-4557-a977-bce4cf48f076": 1,
+          "426b8430-b30c-5727-b7d6-9e84d284f7bb": 1
+        },
+        "facts_versions": {
+          "0b4d912a-dc51-4557-a977-bce4cf48f076": 0,
+          "426b8430-b30c-5727-b7d6-9e84d284f7bb": 0
+        },
+        "product_versions": {
+          "0e1772d2-6e47-5933-8c82-461667b380b1": 1
+        },
+        "risk_rules": {
+          "review_status": "unknown",
+          "version": null,
+          "source": "ai_rule_owner_required"
+        }
+      }
+    },
+    "planning_review": null
+  },
+  "note": "真实本地序列化，当前逐件记录；新增事件不当消费，无覆盖与可用量证明时不制造耗尽日。"
+}

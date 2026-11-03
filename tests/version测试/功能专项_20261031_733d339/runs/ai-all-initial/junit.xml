@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="2.659" timestamp="2026-10-31T13:30:06.560762+08:00" hostname="DESKTOP-VS4JBTJ"><testcase classname="" name="tests.test_p4" time="0.000"><error message="collection failure">agent\tests\test_p4.py:20: in &lt;module&gt;
+    CASES = {case["id"]: case for case in load_cases()}
+                                          ^^^^^^^^^^^^
+agent\eval\p4\verify.py:28: in load_cases
+    for line in (SUITE / "cases" / f"{name}.jsonl").read_text(encoding="utf-8").splitlines()]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Development\SDKs\Python\Python313\Lib\pathlib\_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Development\SDKs\Python\Python313\Lib\pathlib\_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E:\Development\SDKs\Python\Python313\Lib\pathlib\_local.py:537: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Team_Project\\Team-project\\tests\\version测试\\功能专项_20261031_733d339\\.snapshot\\tests\\garin\\test_package\\Agent_Regression_v1\\cases\\baseline_150.jsonl'</error></testcase></testsuite></testsuites>

@@ -1,0 +1,35 @@
+{
+  "http_status": 404,
+  "before": {
+    "inventory": [
+      {
+        "id": "fcd5d20b-7b8f-4b55-98cd-e1b9f4ec4e51",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 1,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  },
+  "after": {
+    "inventory": [
+      {
+        "id": "fcd5d20b-7b8f-4b55-98cd-e1b9f4ec4e51",
+        "name": "苹果",
+        "location": "冰箱",
+        "status": "ACTIVE",
+        "quantity": "1",
+        "version": 1
+      }
+    ],
+    "events": 1,
+    "operations": 0,
+    "tasks": 0,
+    "drafts": 0
+  }
+}

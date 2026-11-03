@@ -1,0 +1,473 @@
+{
+  "version": "V1-P8.6",
+  "source": "733d339",
+  "inventory_model": "single-object-1",
+  "protocol": "inventory-autonomous-1",
+  "runs": [
+    {
+      "run": "formal-20261031T133800",
+      "completion": {
+        "mode": "formal",
+        "complete": true,
+        "stop_reason": null,
+        "questions": 512,
+        "counts": {
+          "PASS": 376,
+          "FAIL": 136
+        },
+        "actual_http_calls": 509,
+        "budget_after": {
+          "limit_cny": 19.49236,
+          "conservative_cost_cny": 12.58709,
+          "calls": 3254,
+          "unknown_usage_calls": 0
+        },
+        "new_conservative_cost_cny": 3.09473,
+        "infrastructure_ok": true,
+        "provenance": "real_deepseek",
+        "human_review_status": "pending",
+        "app_joint_acceptance": false
+      }
+    },
+    {
+      "run": "formal-console.log",
+      "completion": {
+        "complete": false,
+        "stop_reason": "RUNNING"
+      }
+    },
+    {
+      "run": "archive-recheck-20261031T134901",
+      "completion": {
+        "mode": "archive_fixture_recheck",
+        "complete": true,
+        "stop_reason": null,
+        "questions": 40,
+        "counts": {
+          "FAIL": 17,
+          "PASS": 23
+        },
+        "actual_http_calls": 48,
+        "budget_after": {
+          "limit_cny": 19.49236,
+          "conservative_cost_cny": 12.875622,
+          "calls": 3302,
+          "unknown_usage_calls": 0
+        },
+        "new_conservative_cost_cny": 3.383262,
+        "same_frozen_expectations": true,
+        "original_failures_preserved": true
+      }
+    }
+  ],
+  "planned_formal_questions": 512,
+  "recorded_formal_questions": 512,
+  "not_run_questions": 0,
+  "blocked_records": [],
+  "unique_questions": 256,
+  "measured_questions": 512,
+  "counts": {
+    "PASS": 399,
+    "FAIL": 113
+  },
+  "scored_denominator": 512,
+  "automatic_accuracy": 0.779296875,
+  "question_seconds": {
+    "n": 512,
+    "mean": 1.29155668613285,
+    "min": 0.0005283000064082444,
+    "p50": 1.214743599997746,
+    "p90": 2.1978555199988485,
+    "p95": 2.3709531099961167,
+    "p99": 2.6259203890044582,
+    "max": 3.075242300001264,
+    "stddev": 0.6305242927976542
+  },
+  "api_seconds": {
+    "n": 557,
+    "mean": 1.030128447576276,
+    "min": 0.5315676999962307,
+    "p50": 1.0031903000053717,
+    "p90": 1.2889486600004603,
+    "p95": 1.4604987399972724,
+    "p99": 1.95917759600037,
+    "max": 2.479394800000591,
+    "stddev": 0.2531889328730318
+  },
+  "actual_http_calls": 557,
+  "api_calls_per_question": 1.087890625,
+  "call_distribution": {
+    "0": 52,
+    "1": 363,
+    "2": 97
+  },
+  "known_cost_cny": 0.4925279,
+  "unknown_cost_requests": 0,
+  "cost_per_question_cny": 0.0009619685546875,
+  "cost_per_api_call_cny": 0.0008842511669658888,
+  "input_tokens": 1498639,
+  "output_tokens": 43255,
+  "zero_call_questions": 52,
+  "over_two_call_questions": 0,
+  "complete_repeat_questions": 256,
+  "all_repeats_pass": 179,
+  "same_semantic_result": 172,
+  "by_repeat": [
+    {
+      "repeat": 1,
+      "questions": 256,
+      "recorded_questions": 256,
+      "counts": {
+        "PASS": 197,
+        "FAIL": 59
+      },
+      "calls": 276,
+      "mean_calls": 1.078125,
+      "accuracy": 0.76953125,
+      "time": {
+        "n": 256,
+        "mean": 1.2846649683595217,
+        "min": 0.0005283000064082444,
+        "p50": 1.2094605000020238,
+        "p90": 2.1912829500033695,
+        "p95": 2.363363599999502,
+        "p99": 2.522881649995542,
+        "max": 2.7216646000015317,
+        "stddev": 0.6238935840069634
+      },
+      "known_cost_cny": 0.28148024
+    },
+    {
+      "repeat": 2,
+      "questions": 256,
+      "recorded_questions": 256,
+      "counts": {
+        "PASS": 202,
+        "FAIL": 54
+      },
+      "calls": 281,
+      "mean_calls": 1.09765625,
+      "accuracy": 0.7890625,
+      "time": {
+        "n": 256,
+        "mean": 1.2984484039061783,
+        "min": 0.0005344000019249506,
+        "p50": 1.2448896499990951,
+        "p90": 2.1888469999976223,
+        "p95": 2.3680490999959147,
+        "p99": 2.709886475001621,
+        "max": 3.075242300001264,
+        "stddev": 0.6370114378118933
+      },
+      "known_cost_cny": 0.21104766
+    }
+  ],
+  "stop_reasons": {
+    "confirmation_required": 112,
+    "completed": 196,
+    "user_input_required": 82,
+    "boundary": 37,
+    "model_error": 24,
+    "data_unavailable": 52,
+    "repeated_plan": 3,
+    "null": 4,
+    "no_progress": 2
+  },
+  "human_review_status": "pending",
+  "call_behaviors": {
+    "一次模型决策": 363,
+    "核对后单独结束": 86,
+    "其他多次决策": 1,
+    "追加读取后再决策": 7,
+    "规则零调用": 52,
+    "校验反馈后再决策": 3
+  },
+  "error_feedback_then_pass": 3,
+  "cost_is_usage_estimate_not_invoice": true,
+  "app_or_real_database_acceptance": false,
+  "slowest_api_request": {
+    "execution_id": "r1-vt-P4-s1",
+    "question_id": "vt-P4-s1",
+    "repeat": 1,
+    "batch": "单轮",
+    "wire_id": "http-000078",
+    "step": 1,
+    "recorded_cumulative_step": 1,
+    "http_status": 200,
+    "seconds": 2.479394800000591,
+    "started_at": "2026-10-31T05:39:34.305792+00:00",
+    "finished_at": "2026-10-31T05:39:36.785184+00:00",
+    "model": "deepseek-flash",
+    "transport_error": null,
+    "evidence": "runs/formal-20261031T133800/requests.jsonl:78",
+    "decision_action": "resolve",
+    "plan_action": "ADD",
+    "finish_after_resolve": false,
+    "read_kinds": "",
+    "observation_error": null,
+    "history_turns": 0,
+    "retrieved_episodes": 0,
+    "input_tokens": 2247,
+    "output_tokens": 129,
+    "cache_hit_tokens": 1792,
+    "cache_miss_tokens": 455,
+    "cost_cny": 0.00100684,
+    "cost_known": true,
+    "hit_rate": 0.02,
+    "miss_rate": 1.0,
+    "output_rate": 4.0,
+    "pricing_note": "按官方周末空闲费率及返回usage估算，未核对供应商账单",
+    "cost_exact_decimal": "0.00100684"
+  },
+  "purpose": "AI各功能专项；当前入口与功能模块分别判定",
+  "new_budget_cap_cny": 10,
+  "native_runs": [
+    {
+      "layer": "AI源码",
+      "run": "ai-all-prerequisites",
+      "selected": true,
+      "raw_counts": {
+        "PASS": 1140,
+        "SKIP": 1
+      },
+      "evidence": "runs/ai-all-prerequisites/junit.xml"
+    },
+    {
+      "layer": "后端源码",
+      "run": "backend-all-initial",
+      "selected": true,
+      "raw_counts": {
+        "ERROR": 415,
+        "SKIP": 45,
+        "PASS": 166,
+        "FAIL": 12
+      },
+      "evidence": "runs/backend-all-initial/junit.xml"
+    },
+    {
+      "layer": "Garin功能",
+      "run": "ai-special-all-archive-preflight",
+      "selected": true,
+      "raw_counts": {
+        "PASS": 29
+      },
+      "evidence": "runs/ai-special-all-archive-preflight/junit.xml"
+    },
+    {
+      "layer": "Garin本地接口",
+      "run": "backend-special-all-planning-dto",
+      "selected": true,
+      "raw_counts": {
+        "PASS": 6
+      },
+      "evidence": "runs/backend-special-all-planning-dto/junit.xml"
+    },
+    {
+      "layer": "AI首次收集",
+      "run": "ai-all-initial",
+      "selected": false,
+      "raw_counts": {
+        "ERROR": 1
+      },
+      "evidence": "runs/ai-all-initial/junit.xml"
+    },
+    {
+      "layer": "Garin功能初版",
+      "run": "ai-special-all-initial",
+      "selected": false,
+      "raw_counts": {
+        "PASS": 27
+      },
+      "evidence": "runs/ai-special-all-initial/junit.xml"
+    },
+    {
+      "layer": "Garin接口初版",
+      "run": "backend-special-all-initial",
+      "selected": false,
+      "raw_counts": {
+        "PASS": 2,
+        "FAIL": 2
+      },
+      "evidence": "runs/backend-special-all-initial/junit.xml"
+    },
+    {
+      "layer": "Garin接口补前提",
+      "run": "backend-special-all-prerequisites",
+      "selected": false,
+      "raw_counts": {
+        "PASS": 4
+      },
+      "evidence": "runs/backend-special-all-prerequisites/junit.xml"
+    }
+  ],
+  "native_evaluators": [
+    {
+      "suite": "eval-conversation-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-conversation-initial/rules-test-20261031T053655374951.json"
+    },
+    {
+      "suite": "eval-p1-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-p1-initial/rules-test-20261031T053654978698.json"
+    },
+    {
+      "suite": "eval-p2-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-p2-initial/rules-test-20261031T053655012498.json"
+    },
+    {
+      "suite": "eval-p3-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-p3-initial/rules-test-20261031T053655054687.json"
+    },
+    {
+      "suite": "eval-p5-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-p5-initial/rules-test-20261031T053655094276.json"
+    },
+    {
+      "suite": "eval-special-chat-initial",
+      "count": 60,
+      "pass": 60,
+      "fail": 0,
+      "provenance": "literal_rules / synthetic reader",
+      "evidence": "runs/eval-special-chat-initial/result.json"
+    },
+    {
+      "suite": "eval-special-p85-initial",
+      "count": 240,
+      "pass": 240,
+      "fail": 0,
+      "provenance": "fixture_workflow_not_model",
+      "evidence": "runs/eval-special-p85-initial/result.json"
+    },
+    {
+      "suite": "eval-special-session_memory-initial",
+      "count": 150,
+      "pass": 150,
+      "fail": 0,
+      "provenance": "offline_synthetic_fixture_regression",
+      "evidence": "runs/eval-special-session_memory-initial/result.json"
+    },
+    {
+      "suite": "eval-v1-initial",
+      "count": 96,
+      "pass": 96,
+      "fail": 0,
+      "provenance": "offline rules",
+      "evidence": "runs/eval-v1-initial/rules-test-20261031T053655237863.json"
+    }
+  ],
+  "legacy_p4": {
+    "reported_program_failure_occurrences": 84,
+    "strict_original_assertions_pass": 81,
+    "strict_remaining_fail_occurrences": 3,
+    "contract_cases_retained": [
+      "p1-regression:p0-41-2",
+      "android-regression:ext-013",
+      "android-regression:ext-015"
+    ],
+    "raw_suite_counts": {
+      "p0-regression": {
+        "counts": {
+          "PASS": 260,
+          "REVIEW": 18
+        },
+        "legacy_required_pass": true
+      },
+      "p1-regression": {
+        "counts": {
+          "PASS": 209,
+          "FAIL": 19,
+          "REVIEW": 18,
+          "BLOCKED": 32
+        },
+        "legacy_required_pass": false
+      },
+      "android-regression": {
+        "counts": {
+          "PASS": 210,
+          "FAIL": 18,
+          "REVIEW": 18,
+          "BLOCKED": 32
+        },
+        "legacy_required_pass": false
+      }
+    },
+    "developer_resolver_says_resolved": 84,
+    "interpretation": "开发验证器将3条契约边界算resolved；Garin保留原FAIL，不据此宣布84条全部满足原断言。原37次FAIL按入口和契约分列，不当作37个新缺陷。",
+    "evidence": "runs/legacy-all-initial/legacy/verification.json",
+    "hardcoded_metadata_note": "tested_checkout_includes_uncommitted_p4_changes是旧验证器硬编码，本轮真实来源为source.json与git HEAD。"
+  },
+  "live_finished": true,
+  "new_conservative_cny": 3.383262,
+  "native_ai_pass": 1140,
+  "old_failures_linked": 65,
+  "unique_formal_inputs": 256,
+  "tool_fixture_issue": {
+    "initial_formal_records": 512,
+    "initial_raw_counts": {
+      "PASS": 376,
+      "FAIL": 136
+    },
+    "invalid_fixture_records": 40,
+    "invalid_fixture_http_calls": 0,
+    "corrected_recheck_records": 40,
+    "corrected_recheck_counts": {
+      "FAIL": 17,
+      "PASS": 23
+    },
+    "quality_selection": "主表选择472条有效初始执行，加40条修正夹具后独立补测；原40条工具FAIL不删、不计为AI质量FAIL。冻结输入文字和预期不变。",
+    "fixture_correction": "仅旧片段引用issued_at改为片段创建时刻，TTL仍15分钟，当前事实、库存语义及预期保持。",
+    "evidence_files": [
+      "runs/archive-recheck-20261031T134901/started.json",
+      "runs/formal-20261031T133800/started.json"
+    ]
+  },
+  "task_success": {
+    "scenario_executions": 64,
+    "complete_four_turn": 64,
+    "all_four_pass": 20,
+    "all_four_pass_rate": 0.3125,
+    "total_scenario_cost_cny": 0.2843616,
+    "cost_per_all_pass_scenario_cny": 0.01421808
+  },
+  "uncertainty": {
+    "method": "按16个功能组整体重采样10000次，组内重复观测绑定；只描述合成测试集，不代表真实用户总体。",
+    "seed": 20261031,
+    "cluster_count": 16,
+    "accuracy_95_interval": [
+      0.712890625,
+      0.841796875
+    ],
+    "four_turn_tasks": {
+      "scenario_executions": 64,
+      "complete_four_turn": 64,
+      "all_four_pass": 20,
+      "all_four_pass_rate": 0.3125,
+      "total_scenario_cost_cny": 0.2843616,
+      "cost_per_all_pass_scenario_cny": 0.01421808
+    }
+  },
+  "failed_unique_inputs": 77,
+  "http_status_counts": {
+    "200": 557
+  },
+  "transport_error_count": 0
+}

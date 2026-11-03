@@ -1,0 +1,36 @@
+{
+  "width": 1600,
+  "height": 900,
+  "scrollHeight": 900,
+  "imageLoaded": true,
+  "footer": {
+    "x": 46,
+    "y": 825,
+    "width": 1508,
+    "height": 35,
+    "top": 825,
+    "right": 1554,
+    "bottom": 860,
+    "left": 46
+  },
+  "right": {
+    "x": 424,
+    "y": 168,
+    "width": 1130,
+    "height": 657,
+    "top": 168,
+    "right": 1554,
+    "bottom": 825,
+    "left": 424
+  },
+  "lastNote": {
+    "x": 424,
+    "y": 742.59375,
+    "width": 1130,
+    "height": 48,
+    "top": 742.59375,
+    "right": 1554,
+    "bottom": 790.59375,
+    "left": 424
+  }
+}

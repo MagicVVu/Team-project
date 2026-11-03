@@ -1,0 +1,358 @@
+[
+  {
+    "target": "android-regression",
+    "id": "p0-22-0",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:67"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-22-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:68"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-22-2",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:69"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-26-0",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:79"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-26-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:80"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-26-2",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '咖啡', 'quantity': '250', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:81"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-47-0",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:142"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-47-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:143"
+  },
+  {
+    "target": "android-regression",
+    "id": "p0-47-2",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '6', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:144"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-012",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '2', 'unit': '盒', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:162"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-013",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '饼干', 'quantity': '3', 'unit': '包', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:163"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-014",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '鸡蛋', 'quantity': '12', 'unit': '个', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:164"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-015",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '垃圾袋', 'quantity': '2', 'unit': '卷', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:165"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-017",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '洗衣液', 'quantity': '1', 'unit': '瓶', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:167"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-018",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1', 'unit': '袋', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:168"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-020",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '牛奶', 'quantity': '0.5', 'unit': 'L', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:170"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-021",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '500', 'unit': 'g', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:171"
+  },
+  {
+    "target": "android-regression",
+    "id": "ext-022",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_confirmation'; actual='needs_clarification'",
+      "draft: expected={'action': 'PLAN_ADD', 'name': '大米', 'quantity': '1.25', 'unit': 'kg', 'batch_id': None, 'expected_version': None, 'location': None, 'purchased_at': None, 'label_expiry': None}; actual=None"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/android-regression/results.jsonl:172"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-09-0",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:28"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-09-1",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:29"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-09-2",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:30"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-13-0",
+    "status": "FAIL",
+    "failures": [
+      "candidate_ids: ['milk-1', 'milk-2']"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:40"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-13-1",
+    "status": "FAIL",
+    "failures": [
+      "candidate_ids: ['milk-1', 'milk-2']"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:41"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-13-2",
+    "status": "FAIL",
+    "failures": [
+      "candidate_ids: ['milk-1', 'milk-2']"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:42"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-27-0",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='unsupported'; actual='needs_clarification'",
+      "intent: expected='UNSUPPORTED'; actual='OPEN'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:82"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-27-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='unsupported'; actual='needs_clarification'",
+      "intent: expected='UNSUPPORTED'; actual='MOVE'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:83"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-27-2",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='unsupported'; actual='needs_clarification'",
+      "intent: expected='UNSUPPORTED'; actual='DISCARD'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:84"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-37-0",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:112"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-37-1",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:113"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-37-2",
+    "status": "FAIL",
+    "failures": [
+      "intent: expected='ADD'; actual='UNSUPPORTED'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:114"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-41-0",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_clarification'; actual='answered'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:124"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-41-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_clarification'; actual='answered'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:125"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-41-2",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_clarification'; actual='answered'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:126"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-43-0",
+    "status": "FAIL",
+    "failures": [
+      "candidate_ids: ['bandage-1']"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:130"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-43-1",
+    "status": "FAIL",
+    "failures": [
+      "candidate_ids: ['bandage-1']"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:131"
+  },
+  {
+    "target": "p1-regression",
+    "id": "p0-48-1",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='unsupported'; actual='needs_confirmation'",
+      "intent: expected='UNSUPPORTED'; actual='MOVE'",
+      "draft: expected=None; actual={'name': '创可贴', 'batch_id': 'bandage-1', 'expected_version': 1, 'action': 'MOVE', 'to_location': '厨房'}"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:146"
+  },
+  {
+    "target": "p1-regression",
+    "id": "ext-068",
+    "status": "FAIL",
+    "failures": [
+      "status: expected='needs_clarification'; actual='answered'"
+    ],
+    "evidence": "runs/legacy-all-initial/legacy/p1-regression/results.jsonl:218"
+  }
+]

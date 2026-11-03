@@ -1,0 +1,98 @@
+# V1-P8.2：会话记忆前后端接入说明
+
+本说明对应已正式部署的 V1-P8.2，协议为 `conversation-memory-1`。AI与配套后端已替换，Android尚未承接新会话入口；服务发布通过不代表完整页面联合验收完成。
+
+## 1. 契约入口与分工
+
+开发者优先查看 JSON 契约：
+
+- **[正式 AI OpenAPI](production-ai-openapi.json)、[正式后端 OpenAPI](production-backend-openapi.json)**：从实际运行服务导出，正式接入以此为准。
+- [正式发布记录](正式发布记录.md)：部署范围、镜像与验证证据。
+
+- **[AI OpenAPI](contracts/ai-openapi.json)**：内部 `POST /agent/conversation-turn`，仅供受信业务服务调用。
+- **[后端 OpenAPI](contracts/backend-openapi.json)**：公开会话、历史分页、重置、消息及恢复入口；也包含原有任务和执行接口。
+- [受信上下文 Schema](contracts/memory-context.schema.json)、[AI请求 Schema](contracts/ai-turn-request.schema.json)、[AI响应 Schema](contracts/ai-turn-response.schema.json)。
+- [公开消息](contracts/public-message.schema.json)、[会话重置](contracts/public-reset.schema.json)、[消息响应](contracts/public-response.schema.json)、[历史分页](contracts/public-history.schema.json)、[按请求恢复](contracts/public-recovery.schema.json)的独立 Schema。
+
+`contracts/`中的源码契约保留 `local_source_contract_not_deployed` 标记以区分导出来源；根目录 `production-*.json` 为实际运行导出，标记 `production_verified`。后端运行依赖造成部分Decimal字符串正则展示差异，除此以外核对一致，未为匹配导出更换依赖，详见[契约对照](production-contract-comparison.json)。重新导出源码契约使用 `python -m conversation.export_memory_contracts --kind ai` 或 `--kind backend`，运行时将 `agent` 加入模块搜索路径。
+
+| 负责人 | 本阶段及后续工作 |
+|---|---|
+| AI | 上下文输入、连续理解、对象消歧、任务回顾与状态解释、零模型续接和离线评测已完成本地实现 |
+| 本次后端适配 | 复用现有表保存会话元数据、鉴权读取、请求恢复和现有网关回调；没有新表或迁移 |
+| 后端负责人 | 将本次6个适配文件合入后续正式构建源码，联合验证正式数据库并发、日志与监控；未来新表、索引、物理清理或多会话管理仍由负责人设计 |
+| 前端负责人 | 承接下述调用顺序、历史与恢复展示、新会话入口和修订管理；保留现有草稿表单及执行事务入口 |
+
+## 2. 打开窗口与正常发送
+
+1. 使用业务登录令牌调用 `GET /api/v1/agent/conversation?household_id={家庭ID}&limit=20`。仅返回当前用户在该家庭的当前会话，历史限最近30天；GET不创建会话。
+2. 返回 `requires_reset=true` 且 `conversation_id=null` 时，调用 `POST /api/v1/agent/conversation/reset`，传 `household_id`、稳定的 `request_id`，以及初始 `conversation_revision=0`；初始化时不传会话ID。
+3. 保存会话ID与当前修订，发送到 `POST /api/v1/agent/conversation-turns`。
+
+```json
+{
+  "household_id": "22222222-2222-4222-8222-222222222222",
+  "conversation_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "conversation_revision": 0,
+  "request_id": "stable-client-generated-request-id",
+  "text": "把牛奶移到冷藏室"
+}
+```
+
+示例ID仅用于说明格式，不是演示服务或可调用库存。请求不接受 `history`、`context`、`reference`、库存数量、用户身份或可信时间。可选 `task_id` 和任务 `revision` 必须成对出现并与当前活动任务一致；不要求手机维护内部续接上下文。
+
+4. 展示完整响应并保存原请求体、请求ID、会话信息、任务与草稿引用。需要补字段时，用户仍向本会话发送“第二个”“昨天”等，后端转换为原任务的澄清请求。
+5. 对 `kind=task/clarify` 展示返回的任务卡；对 `explain/needs_input` 展示回复，保留活动任务卡。自然语言状态解释或依据追问不取代原待确认任务。
+
+修订规则：
+
+- `conversation_revision`：这条消息接受时的会话修订，成功预留一次即递增，不能自行减一。
+- `current_conversation_revision`：响应时重新读取的最新会话修订。恢复旧消息时，发送下一条消息应使用此值，或先重新GET当前会话。
+- 公开GET的 `conversation_revision`：当前会话修订。
+- 任务 `revision` 和草稿修订独立，确认执行前仍读取原有任务／草稿执行接口，不用会话修订代替。
+- 消息接受前发生修订冲突返回409，先GET刷新，不能替换请求ID后静默重复提交旧动作。
+
+## 3. 历史、对象追问与切换
+
+历史分页返回的 `messages` 每页按时间升序显示；`next_cursor` 用于向前读取更早消息。`reply`、`historical_status` 是原记录；`active_task` 是重新读取的当前任务和业务执行状态，必须分开展示。分页游标必须属于本用户、本家庭和本段会话。
+
+AI最多使用最近10轮已完成消息与最多20个任务摘要。较早消息仍可在30天内分页查看，但不保证每个历史细节都进入本轮理解；缺少信息时会要求定位任务。`truncated=true` 表示上下文被裁剪，不能展示成无限记忆。
+
+“第二个／第二批在哪里”依据最近有效展示列表解析；列表失效或有候选删除时要求重新核对，不缩短列表后改变序号。对象位置、数量和版本重新读取。引用过期后重新查询或选择，历史存在不自动延长15分钟引用。
+
+同一家庭中明确换物品会新建任务；“开始新任务”清除活动引用，保留本段聊天。“开始新会话”使用重置接口，也支持该字面消息转换为重置；产生新的会话ID并隔离旧历史，不取消旧草稿、不产生业务写入。新会话初始化后不提供历史会话列表。
+
+切换家庭或退出账号时，前端隐藏并清除活动绑定。重新登录后按身份和家庭GET恢复，不恢复旧登录令牌。服务端每次验证当前权限；不同成员即使属于同一家庭，也不共享私人对话历史。
+
+## 4. 中断、失败和执行状态
+
+请求发出前持久保存原请求ID和请求体。关闭窗口、网络中断或应用重建后，先调用：
+
+`GET /api/v1/agent/conversation-turns/{request_id}?household_id={家庭ID}`
+
+| 恢复阶段 | 前端处理 |
+|---|---|
+| `completed` | 恢复原消息结果；用最新 `active_task.execution` 更新状态；旧回复仍按原消息展示 |
+| `processing` | 显示正在处理，稍后GET核实，不并行发同一任务 |
+| `prepared` | 理解结果已保存；可按原请求体、原请求ID恢复，不改变原文；内部重读工具、零模型调用 |
+| `result_unknown` | 显示结果待核实。不得新请求ID自动重发，也不会自动再次调用模型；有任务引用时GET该任务核实 |
+
+同一请求ID换内容会冲突。已完成消息不会重新理解或写入。结果未知时，用户可在没有在途处理后明确开始新会话；这仅放弃当前聊天绑定，不代表取消或执行任何可能已有的业务任务。
+
+理解或读取总截止为10秒；超时回复保留请求ID、原文和恢复入口。库存／任务变化会返回 `needs_input` 及错误原因，先重新核对；不要通过更改版本字段强行续接。任务恢复GET及明确状态解释不调用模型。
+
+`filled_fields` 保留本轮原文中已经核实的名称、数量、单位、位置或日期，可用于恢复输入与手动表单。它不包含批次ID、家庭身份或预期版本，不能将其直接当作确认写入参数。尚未完成模型理解时该字段可为空，原活动任务的已填字段仍由后端保存。
+
+确认执行仍使用现有草稿执行流程及稳定的 `operation_id`。本次新会话接口始终 `inventory_written=false`；它可解释已有成功回执，但本次聊天没有写库存。只有后端正式成功结果能显示已执行。提交响应丢失时查询原操作或草稿执行状态，不能让AI重新提交。
+
+“为什么没移动”会定位最近明确的移动任务；普通“执行了吗”核实当前任务。依据回答附 `evidence` 来源及 `checked_at`。没有回执时不能声称已完成；没有建议依据时说明缺失。采购清单成功只代表加入待购。
+
+## 5. 后端集成约束与联合验收
+
+保留原有公开入口。新的会话模式必须明确接入四个新接口，不能把无会话标识的旧消息拼入新会话。`memory_v1` 元数据和内部 `replay` 由业务服务保存与构造，不允许手机直接转发。
+
+后端已经复用现有JSON列实现本地适配，没有建立另一套任务库、执行事务或通用库存写入。30天是聊天展示与记忆读取边界，没有物理删除审计和幂等凭据。正式规模若需JSON索引、归档或清理，由后端负责人另行设计迁移。
+
+接入后联合验证：查询牛奶 → 展示多批次 → 第二批在哪里 → 把它移到冷藏室 → 草稿 → 追问未执行原因 → 用户确认 → 正式执行 → 刷新库存。分别在澄清、提交前、提交响应丢失时关闭窗口或中断网络，再恢复，确认目标不变且操作只有一次。
+
+当前AI与后端适配已正式部署并通过运行检查；前端承接、正式数据库并发写入与真机联合验收仍待对应负责人完成。后端负责人后续构建时需要合入本阶段适配文件，避免从旧检出源码重建后丢失新接口。模型与性能记录见[工作记录](工作记录.md)，不能以合成样本结果替代完整产品验收。
