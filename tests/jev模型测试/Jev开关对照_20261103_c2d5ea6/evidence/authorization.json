@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-03",
+  "new_combined_budget_cny": "10",
+  "includes_smoke": true,
+  "usd_budget_conversion_cny": "8",
+  "conversion_is_budget_allowance_not_invoice_fx": true,
+  "keep_original_deepseek_20_cny_and_jev_1_usd_limits": true,
+  "repeats_per_mode": 2,
+  "concurrency": 1,
+  "human_review_status": "pending"
+}

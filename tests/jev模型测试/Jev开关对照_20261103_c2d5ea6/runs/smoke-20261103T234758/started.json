@@ -1,0 +1,44 @@
+{
+  "source": "c2d5ea6d5a5dc69d894a2547ce8a4529d38ecade",
+  "phase": "smoke",
+  "budget_before": {
+    "limit_cny": "10",
+    "charged_or_reserved_cny": "0",
+    "reservations": 0,
+    "unknown_usage_calls": 0,
+    "usd_budget_allowance": "8",
+    "not_platform_bill": true
+  },
+  "deepseek_before": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 12.875622,
+    "calls": 3302,
+    "unknown_usage_calls": 0
+  },
+  "jev_before": {
+    "currency": "USD",
+    "limit_usd": "1",
+    "price_version": "typesafe-2026-10-23-usd-0.042-per-million",
+    "charged_or_reserved_usd": "0",
+    "calls": 0,
+    "unknown_usage_calls": 0
+  },
+  "adapter_hashes": {
+    "ab.py": "ecc3a30da4dfc540fdcee932c3ef40828663cd29c398d819504f10a4b4d35027",
+    "add_support.py": "6b1479cde4bfb839c9ab1a1f430c2ac78c09647d6095f479002bf9940212e92b",
+    "budget_pair.py": "2102a1342f547dc6be6aa1eb4044beda8412e76a3da53e2cba8527356aac0525",
+    "build_inputs.py": "e6aea7f4f3eabb5b14f0b1e84ee55512677ef3a439e715d031fb56bc1bd6c1c2",
+    "legacy.py": "d765e55ac0008d7291260fa8cccc73111d5bca2b1a8f1f1b843f75e1f4777fd4",
+    "native_check.py": "8572f5c717f92770e8e612234147f758a92ae673fdfcfb01ce9cc553400d1288",
+    "prepare.py": "ee4fed443ab849bb2acf1e53693fe39438165e2721d833e1ea3fc29f3e5baa1f",
+    "telemetry.py": "0b86c274d8eb3c5cebcca6f817027fa86ae1c909dedfa52d329e9fd3f9c0efad",
+    "test_adapter.py": "9c7b30dcd733c840afe5ae25ff9160eb054aa8b9962cb8db807d64894987a34b"
+  },
+  "dataset_manifest_sha256": "911c055a2817a0976a69a09843ecdeee4294bd2deb6e7eaeb7c13eb44cabfb1f",
+  "modes": [
+    "off",
+    "assist"
+  ],
+  "locale": "zh-CN",
+  "server_access": false
+}

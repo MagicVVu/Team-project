@@ -1,0 +1,9 @@
+.snapshot/
+.runtime/
+.qa/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+/reports/analysis.json
+/reports/*.inspect.ndjson

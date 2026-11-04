@@ -1,0 +1,53 @@
+{
+  "source": "c2d5ea6d5a5dc69d894a2547ce8a4529d38ecade",
+  "original_run": "runs\\formal-20261103T234927",
+  "authorization": "2026-11-04 user explicitly removed spending concern and prioritized completing experiment",
+  "original_completed_quality_executions": 997,
+  "fee_ledger_not_reset": true,
+  "budget_before": {
+    "limit_cny": null,
+    "charged_or_reserved_cny": "9.032966784",
+    "reservations": 1583,
+    "unknown_usage_calls": 77,
+    "usd_budget_allowance": "8",
+    "not_platform_bill": true,
+    "original_limit_cny": "10",
+    "active_authorization": "2026-11-04 user: fees do not matter; complete planned experiment",
+    "cost_stop_enabled": false
+  },
+  "deepseek_before": {
+    "limit_cny": 1000000000.0,
+    "conservative_cost_cny": 19.970232,
+    "calls": 4429,
+    "unknown_usage_calls": 0
+  },
+  "jev_before": {
+    "currency": "USD",
+    "limit_usd": "1",
+    "price_version": "typesafe-2026-10-23-usd-0.042-per-million",
+    "charged_or_reserved_usd": "0.242294598",
+    "calls": 456,
+    "unknown_usage_calls": 77
+  },
+  "code_sha256": {
+    "ab.py": "e0998a6334e059e1334bc1a5a0a2e826b9e02480795e18d933c85e56734e31c6",
+    "add_support.py": "6b1479cde4bfb839c9ab1a1f430c2ac78c09647d6095f479002bf9940212e92b",
+    "analyze.py": "378425548804c19f02380f79a76abd3d06fa1ba73642b10f2cd91531fcdf2471",
+    "budget_pair.py": "2102a1342f547dc6be6aa1eb4044beda8412e76a3da53e2cba8527356aac0525",
+    "build_inputs.py": "e6aea7f4f3eabb5b14f0b1e84ee55512677ef3a439e715d031fb56bc1bd6c1c2",
+    "build_record.py": "7bd2137cfcecb9ea1c1d507ae608b48871012413e2c57a1eca40d23ee24c8df0",
+    "continuation.py": "d42ff8105a6dfa5096cd12fb8f1933b8fa73837b0803c8e78d6415c57d571bec",
+    "diagnose.py": "0481c12285671c70b60c6d3768c50187c49b2ccf66f3cf8c26d52a4a979e1c4a",
+    "final_audit.py": "923afb33f28d2bd5380af957e62198674e2435903969a2267f40a18c170aea9f",
+    "legacy.py": "d765e55ac0008d7291260fa8cccc73111d5bca2b1a8f1f1b843f75e1f4777fd4",
+    "native_check.py": "de362422880330829a930a7e28797072415181d7b879c9cc8b0765ab4abc7517",
+    "prepare.py": "ee4fed443ab849bb2acf1e53693fe39438165e2721d833e1ea3fc29f3e5baa1f",
+    "rebuild_snapshot.py": "4f01595abb83a4278c6f2cdb7ada5cadfd9fb42d35e0ee70c4f29e8856b2d8cf",
+    "record_environment.py": "9eba1b55bb34b6a2291d574c59186173d91ac825e8db1fedb1a331e5a094fb2d",
+    "telemetry.py": "0b86c274d8eb3c5cebcca6f817027fa86ae1c909dedfa52d329e9fd3f9c0efad",
+    "test_adapter.py": "9c7b30dcd733c840afe5ae25ff9160eb054aa8b9962cb8db807d64894987a34b",
+    "validate_smoke.py": "f15b7a0d34f5f82fb1cfaa7d830203ece21e1d92145e101e02cc9c5492636839"
+  },
+  "same_dataset_and_gold": true,
+  "no_rerun_of_completed_pass_or_fail": true
+}

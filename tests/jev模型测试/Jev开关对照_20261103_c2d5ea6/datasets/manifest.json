@@ -1,0 +1,28 @@
+{
+  "sets": {
+    "single": {
+      "sha256": "9386c2d000b160f43d2560af95a1e5a5bdefc4dd451bb36dbd1b067c8302b32b",
+      "rows": 128
+    },
+    "multi": {
+      "sha256": "22bc703fad54d36789819b0649cff640c0012ee8742fb4f1b2abceb16c2d773f",
+      "rows": 32
+    },
+    "jev_special": {
+      "sha256": "fd153c0f6a6cc1257f5b825996435aca9358c2f81695a049edbc0ba5c33343e5",
+      "rows": 32
+    }
+  },
+  "primary_original_turns": 256,
+  "separate_jev_diagnostic_turns": 32,
+  "modes": [
+    "off",
+    "assist"
+  ],
+  "repeats_per_mode": 2,
+  "formal_turns": 1152,
+  "human_review_status": "pending",
+  "same_source_and_scoring_for_both_modes": true,
+  "archive_timestamp_fixture_corrected_before_paid_calls": true,
+  "english_not_in_primary_set": true
+}

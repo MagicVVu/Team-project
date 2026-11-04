@@ -1,0 +1,411 @@
+﻿用例编号,遍数,模式,功能,自动结果,问题分类,实际回复,未满足断言,定位线索,证据,人工复核
+vt-P0-m1-t4,1,assist,P0,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-m1-t4,待确认
+vt-P0-m1-t4,1,off,P0,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m1-t4,待确认
+vt-P0-m2-t1,1,off,P0,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m2-t1,待确认
+vt-P0-m2-t4,1,off,P0,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m2-t4,待确认
+vt-P0-m2-t4,1,assist,P0,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-m2-t4,待确认
+vt-P1-s1,1,assist,P1,FAIL,模型字段理解问题,还需要目标位置。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.to_location；draft.expected_version,模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-s1,待确认
+vt-P1-s4,1,off,P1,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity；draft.unit；draft.expected_version,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s4,待确认
+vt-P1-s4,1,assist,P1,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity；draft.unit；draft.expected_version,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-s4,待确认
+vt-P1-s7,1,off,P1,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+牛奶：位置 厨房。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s7,待确认
+vt-P1-m1-t4,1,assist,P1,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-m1-t4,待确认
+vt-P1-m1-t4,1,off,P1,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P1-m1-t4,待确认
+vt-P2-s1,1,assist,P2,FAIL,自动断言待人工复核,后续理解未完成，已停止调用；请核对以上结果或原请求。,risk_unknown,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P2-s1,待确认
+vt-P3-s1,1,assist,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s1,待确认
+vt-P3-s1,1,off,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s1,待确认
+vt-P3-s2,1,off,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s2,待确认
+vt-P3-s2,1,assist,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s2,待确认
+vt-P3-s3,1,assist,P3,FAIL,自动断言待人工复核,"牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。
+牛奶：开封日期 未知，标示到期日 2026-11-20。",no_precise_product_forecast；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s3,待确认
+vt-P3-s3,1,off,P3,FAIL,自动断言待人工复核,"牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+牛奶（批次 33333333-3333-4333-8333-333333333333）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",no_precise_product_forecast；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s3,待确认
+vt-P3-s4,1,off,P3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s4,待确认
+vt-P3-s5,1,assist,P3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：28个完整观察日，登记有效消耗7 盒；记录完整。
+排除丢弃及已撤销消耗；没有记录不代表没有实际消耗。本次未写入。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s5,待确认
+vt-P3-s5,1,off,P3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：28个完整观察日，登记有效消耗7 盒；记录完整。
+排除丢弃及已撤销消耗；没有记录不代表没有实际消耗。本次未写入。
+牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s5,待确认
+vt-P3-s8,1,off,P3,FAIL,版本契约或标注待复核,当前还没有接通统计和预测所需的资料，暂时无法提供可靠结果。你仍可以查询库存数量和位置。,status；stop_reason,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s8,待确认
+vt-P3-s8,1,assist,P3,FAIL,版本契约或标注待复核,当前还没有接通统计和预测所需的资料，暂时无法提供可靠结果。你仍可以查询库存数量和位置。,status；stop_reason,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s8,待确认
+vt-P3-m1-t4,1,assist,P3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-m1-t4,待确认
+vt-P3-m1-t4,1,off,P3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-m1-t4,待确认
+vt-P3-m2-t4,1,off,P3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P3-m2-t4,待确认
+vt-P3-m2-t4,1,assist,P3,FAIL,自主循环无进展,"牛奶：位置 冰箱。
+牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status；fact_location,自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-m2-t4,待确认
+vt-P4-s1,1,assist,P4,FAIL,模型意图与流程交互,已开始新任务。之前的草稿没有被取消或执行。,status；draft.action；draft.quantity；draft.unit；draft.name；draft.location；created_count,计划同时带业务动作与new_task语气，可能被当成开始新话题；检查理解输出和归一化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-s1,待确认
+vt-P4-m1-t4,1,off,P4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P4-m1-t4,待确认
+vt-P4-m2-t1,1,off,P4,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P4-m2-t1,待确认
+vt-P4-m2-t2,1,assist,P4,FAIL,模型字段理解问题,还需要目标位置。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.to_location,模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-m2-t2,待确认
+vt-P4-m2-t3,1,assist,P4,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 橱柜上层。",same_draft,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-m2-t3,待确认
+vt-P5-m1-t4,1,assist,P5,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m1-t4,待确认
+vt-P5-m1-t1,1,off,P5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m1-t1,待确认
+vt-P5-m1-t4,1,off,P5,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m1-t4,待确认
+vt-P5-m2-t1,1,off,P5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m2-t1,待确认
+vt-P5-m2-t1,1,assist,P5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m2-t1,待确认
+vt-P5-m2-t4,1,assist,P5,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m2-t4,待确认
+vt-P6-s1,1,assist,P6,FAIL,版本契约或标注待复核,"牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s1,待确认
+vt-P6-s3,1,assist,P6,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.quantity；draft.batch_id,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s3,待确认
+vt-P6-s3,1,off,P6,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.quantity；draft.batch_id,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P6-s3,待确认
+vt-P6-s8,1,assist,P6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s8,待确认
+vt-P6-m1-t4,1,assist,P6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-m1-t4,待确认
+vt-P6-m1-t4,1,off,P6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P6-m1-t4,待确认
+vt-P6-m2-t4,1,off,P6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P6-m2-t4,待确认
+vt-P6-m2-t4,1,assist,P6,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-m2-t4,待确认
+vt-P7-s7,1,assist,P7,FAIL,自动断言待人工复核,本轮尚未完成，请保留原文并核对原请求。,clear_reference,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P7-s7,待确认
+vt-P7.3-s6,1,off,P7.3,FAIL,版本契约或标注待复核,"该字段与本轮原文不一致，请核对。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P7.3-s6,待确认
+vt-P7.3-s8,1,assist,P7.3,FAIL,自动断言待人工复核,本轮尚未完成，请保留原文并核对原请求。,pending_unknown,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-s8,待确认
+vt-P7.3-m1-t3,1,assist,P7.3,FAIL,自动断言待人工复核,后续理解未完成，已停止调用；请核对以上结果或原请求。,status；draft.action；draft.batch_id；draft.to_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-m1-t3,待确认
+vt-P7.3-m1-t4,1,assist,P7.3,FAIL,自动断言待人工复核,请选择要核对的原任务，我不能从聊天推断执行结果。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-m1-t4,待确认
+vt-P8-s2,1,assist,P8,FAIL,自动断言待人工复核,当前没有可可靠回顾的历史，请选择原任务。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-s2,待确认
+vt-P8-s3,1,assist,P8,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 餐桌旁。",same_draft,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-s3,待确认
+vt-P8-s3,1,off,P8,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 餐桌旁。",same_draft,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8-s3,待确认
+vt-P8-m1-t1,1,assist,P8,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-m1-t1,待确认
+vt-P8-m1-t4,1,off,P8,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m1-t4,待确认
+vt-P8-m2-t1,1,off,P8,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m2-t1,待确认
+vt-P8-m2-t4,1,off,P8,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m2-t4,待确认
+vt-P8-m2-t4,1,assist,P8,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-m2-t4,待确认
+vt-P8.1-s1,1,off,P8.1,FAIL,版本契约或标注待复核,"牛奶：位置 厨房。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-s1,待确认
+vt-P8.1-s3,1,assist,P8.1,FAIL,Jev保护与预期契约待复核,你希望我查询资料、登记操作，还是先讨论一下？,status；draft.action；draft.name；draft.quantity；draft.unit；procurement_source,Jev保护确实介入；原文含计划或询问语气时，先核对产品允许何时生成采购草稿，保护性澄清不应直接称程序错误。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.1-s3,待确认
+vt-P8.1-s3,1,off,P8.1,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：2 盒。",procurement_source,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-s3,待确认
+vt-P8.1-s8,1,assist,P8.1,FAIL,自动断言待人工复核,所选商品已不可用，请重新查询。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.1-s8,待确认
+vt-P8.1-m2-t1,1,off,P8.1,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-m2-t1,待确认
+vt-P8.2-s1,1,assist,P8.2,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-s1,待确认
+vt-P8.2-s2,1,off,P8.2,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-s2,待确认
+vt-P8.2-s2,1,assist,P8.2,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-s2,待确认
+vt-P8.2-m1-t1,1,off,P8.2,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m1-t1,待确认
+vt-P8.2-m1-t3,1,off,P8.2,FAIL,自动断言待人工复核,你想处理哪个物品或批次？,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m1-t3,待确认
+vt-P8.2-m2-t1,1,off,P8.2,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m2-t1,待确认
+vt-P8.2-m2-t1,1,assist,P8.2,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-m2-t1,待确认
+vt-P8.3-s2,1,off,P8.3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。",product_total；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s2,待确认
+vt-P8.3-s2,1,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。",product_total；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s2,待确认
+vt-P8.3-s4,1,off,P8.3,FAIL,自动断言待人工复核,请选择要核对的原任务，我不能从聊天推断执行结果。,planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s4,待确认
+vt-P8.3-s4,1,assist,P8.3,FAIL,自动断言待人工复核,请选择要核对的原任务，我不能从聊天推断执行结果。,planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s4,待确认
+vt-P8.3-s5,1,assist,P8.3,FAIL,自动断言待人工复核,可以接着聊。要核对具体物品、操作状态或之前的细节时，请指出你想继续的那件事。,no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s5,待确认
+vt-P8.3-s5,1,off,P8.3,FAIL,自动断言待人工复核,"牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s5,待确认
+vt-P8.3-s6,1,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_forecast_date,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s6,待确认
+vt-P8.3-s7,1,off,P8.3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。",no_precise_product_forecast；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s7,待确认
+vt-P8.3-m1-t4,1,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-m1-t4,待确认
+vt-P8.3-m1-t4,1,off,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-m1-t4,待确认
+vt-P8.3-m2-t4,1,off,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-m2-t4,待确认
+vt-P8.3-m2-t4,1,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-m2-t4,待确认
+vt-P8.4-s3,1,assist,P8.4,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.4-s3,待确认
+vt-P8.4-s3,1,off,P8.4,FAIL,自动断言待人工复核,还需要数量、单位。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-s3,待确认
+vt-P8.4-m1-t4,1,assist,P8.4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.4-m1-t4,待确认
+vt-P8.4-m1-t1,1,off,P8.4,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-m1-t1,待确认
+vt-P8.4-m2-t4,1,off,P8.4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-m2-t4,待确认
+vt-P8.5-s1,1,assist,P8.5,FAIL,自动断言待人工复核,记得之前讨论过这个话题，但没有可用的批次引用，请重新选择当前物品。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-s1,待确认
+vt-P8.5-s1,1,off,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-s1,待确认
+vt-P8.5-s2,1,assist,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-s2,待确认
+vt-P8.5-s8,1,off,P8.5,FAIL,自动断言待人工复核,好的，先放下之前牛奶的话题，开始新的问题。你想聊什么或记点什么？,clear_reference,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-s8,待确认
+vt-P8.5-m1-t1,1,assist,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m1-t1,待确认
+vt-P8.5-m1-t3,1,assist,P8.5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m1-t3,待确认
+vt-P8.5-m1-t1,1,off,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m1-t1,待确认
+vt-P8.5-m2-t1,1,off,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m2-t1,待确认
+vt-P8.5-m2-t3,1,off,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m2-t3,待确认
+vt-P8.5-m2-t3,1,assist,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m2-t3,待确认
+vt-P8.6-s1,1,assist,P8.6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-s1,待确认
+vt-P8.6-m1-t1,1,assist,P8.6,FAIL,自动断言待人工复核,后续理解未完成，已停止调用；请核对以上结果或原请求。,status；fact_quantity；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m1-t1,待确认
+vt-P8.6-m1-t1,1,off,P8.6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m1-t1,待确认
+vt-P8.6-m1-t4,1,off,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m1-t4,待确认
+vt-P8.6-m2-t4,1,off,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m2-t4,待确认
+vt-P8.6-m2-t1,1,assist,P8.6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m2-t1,待确认
+vt-P8.6-m2-t4,1,assist,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m2-t4,待确认
+JEV-11,1,assist,JEV专项,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:1:JEV-11,待确认
+vt-P0-s1,2,off,P0,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.name；draft.quantity；draft.unit；draft.location；created_count,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P0-s1,待确认
+vt-P0-m1-t4,2,off,P0,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P0-m1-t4,待确认
+vt-P0-m2-t4,2,assist,P0,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P0-m2-t4,待确认
+vt-P0-m2-t4,2,off,P0,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P0-m2-t4,待确认
+vt-P1-s4,2,assist,P1,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity；draft.unit；draft.expected_version,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P1-s4,待确认
+vt-P1-s4,2,off,P1,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity；draft.unit；draft.expected_version,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P1-s4,待确认
+vt-P1-m1-t4,2,off,P1,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P1-m1-t4,待确认
+vt-P2-m1-t4,2,off,P2,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P2-m1-t4,待确认
+vt-P3-s1,2,off,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s1,待确认
+vt-P3-s1,2,assist,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s1,待确认
+vt-P3-s2,2,assist,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s2,待确认
+vt-P3-s2,2,off,P3,FAIL,版本契约或标注待复核,"已汇总明确关联批次的已登记消费；不代表完整实际消费。
+牛奶（商品 11111111-1111-4111-8111-111111111111）：登记总量 2 盒，共 2 批；可用量、商品整体耗尽日期和自动补货量尚不可确定。
+2026-09-17 至 2026-10-15（不含结束日）的已登记消费小计 7 盒，不代表完整实际消费。
+商品及标签由家庭确认，不代表平台规则已审核。本次未写入。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s2,待确认
+vt-P3-s3,2,off,P3,FAIL,自动断言待人工复核,"牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",no_precise_product_forecast；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s3,待确认
+vt-P3-s3,2,assist,P3,FAIL,自动断言待人工复核,"牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+牛奶（批次 33333333-3333-4333-8333-333333333333）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。",no_precise_product_forecast；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s3,待确认
+vt-P3-s4,2,assist,P3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s4,待确认
+vt-P3-s4,2,off,P3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s4,待确认
+vt-P3-s8,2,assist,P3,FAIL,版本契约或标注待复核,当前还没有接通统计和预测所需的资料，暂时无法提供可靠结果。你仍可以查询库存数量和位置。,status；stop_reason,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s8,待确认
+vt-P3-s8,2,off,P3,FAIL,版本契约或标注待复核,当前还没有接通统计和预测所需的资料，暂时无法提供可靠结果。你仍可以查询库存数量和位置。,status；stop_reason,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s8,待确认
+vt-P3-m1-t4,2,off,P3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-m1-t4,待确认
+vt-P3-m1-t4,2,assist,P3,FAIL,自主循环无进展,"牛奶：位置 冰箱。
+牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status；fact_location,自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-m1-t4,待确认
+vt-P3-m2-t4,2,assist,P3,FAIL,自主循环无进展,"牛奶：位置 冰箱。
+牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status；fact_location,自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-m2-t4,待确认
+vt-P3-m2-t4,2,off,P3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P3-m2-t4,待确认
+vt-P4-s2,2,off,P4,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.name；draft.quantity；draft.unit；draft.location；created_count,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s2,待确认
+vt-P4-s3,2,off,P4,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.name；draft.quantity；draft.unit；draft.location；created_count,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s3,待确认
+vt-P4-s3,2,assist,P4,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.name；draft.quantity；draft.unit；draft.location；created_count,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-s3,待确认
+vt-P4-s5,2,off,P4,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s5,待确认
+vt-P4-m1-t1,2,off,P4,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m1-t1,待确认
+vt-P4-m1-t4,2,off,P4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m1-t4,待确认
+vt-P4-m1-t1,2,assist,P4,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m1-t1,待确认
+vt-P4-m1-t4,2,assist,P4,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m1-t4,待确认
+vt-P4-m2-t4,2,assist,P4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m2-t4,待确认
+vt-P4-m2-t4,2,off,P4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m2-t4,待确认
+vt-P5-s1,2,assist,P5,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.quantity；draft.name；draft.unit；draft.location；created_count,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-s1,待确认
+vt-P5-m1-t4,2,off,P5,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P5-m1-t4,待确认
+vt-P5-m1-t1,2,assist,P5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m1-t1,待确认
+vt-P5-m2-t2,2,assist,P5,FAIL,模型字段理解问题,还需要目标位置。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.to_location,模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m2-t2,待确认
+vt-P5-m2-t3,2,assist,P5,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 橱柜上层。",same_draft,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m2-t3,待确认
+vt-P5-m2-t4,2,off,P5,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P5-m2-t4,待确认
+vt-P6-s2,2,assist,P6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s2,待确认
+vt-P6-s3,2,off,P6,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.quantity；draft.batch_id,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s3,待确认
+vt-P6-s3,2,assist,P6,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.quantity；draft.batch_id,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s3,待确认
+vt-P6-s8,2,off,P6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s8,待确认
+vt-P6-m1-t1,2,off,P6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m1-t1,待确认
+vt-P6-m1-t4,2,off,P6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m1-t4,待确认
+vt-P6-m1-t1,2,assist,P6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m1-t1,待确认
+vt-P6-m1-t4,2,assist,P6,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m1-t4,待确认
+vt-P6-m2-t4,2,assist,P6,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+牛奶：开封日期 未知，标示到期日 2026-11-20。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m2-t4,待确认
+vt-P6-m2-t4,2,off,P6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m2-t4,待确认
+vt-P7.3-s8,2,assist,P7.3,FAIL,自动断言待人工复核,请补充这次要登记的明确数量。,pending_unknown,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P7.3-s8,待确认
+vt-P7.3-s8,2,off,P7.3,FAIL,自动断言待人工复核,还需要数量、单位。请补充后继续，尚未执行。,pending_unknown,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P7.3-s8,待确认
+vt-P8-s2,2,assist,P8,FAIL,自动断言待人工复核,当前没有可可靠回顾的历史，请选择原任务。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-s2,待确认
+vt-P8-s2,2,off,P8,FAIL,自动断言待人工复核,当前没有可可靠回顾的历史，请选择原任务。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8-s2,待确认
+vt-P8-s3,2,off,P8,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 餐桌旁。",same_draft,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8-s3,待确认
+vt-P8-s3,2,assist,P8,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 餐桌旁。",same_draft,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-s3,待确认
+vt-P8-m1-t4,2,off,P8,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m1-t4,待确认
+vt-P8-m1-t2,2,assist,P8,FAIL,模型字段理解问题,还需要目标位置。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.to_location,模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t2,待确认
+vt-P8-m1-t3,2,assist,P8,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：目标位置 餐桌旁。",same_draft,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t3,待确认
+vt-P8-m1-t4,2,assist,P8,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t4,待确认
+vt-P8-m2-t1,2,assist,P8,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m2-t1,待确认
+vt-P8-m2-t1,2,off,P8,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m2-t1,待确认
+vt-P8-m2-t4,2,off,P8,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m2-t4,待确认
+vt-P8.1-s3,2,off,P8.1,FAIL,自动断言待人工复核,"草稿已生成，尚未写入。请核对目标批次与变更内容后确认。
+本次草稿：2 盒。",procurement_source,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.1-s3,待确认
+vt-P8.1-s3,2,assist,P8.1,FAIL,Jev保护与预期契约待复核,你希望我查询资料、登记操作，还是先讨论一下？,status；draft.action；draft.name；draft.quantity；draft.unit；procurement_source,Jev保护确实介入；原文含计划或询问语气时，先核对产品允许何时生成采购草稿，保护性澄清不应直接称程序错误。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.1-s3,待确认
+vt-P8.1-s6,2,assist,P8.1,FAIL,自动断言待人工复核,你提到了多项修改。想先处理哪一项？目前没有生成或执行变更。,status；draft.action；draft.name；draft.quantity；draft.unit；created_count,Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.1-s6,待确认
+vt-P8.1-s8,2,off,P8.1,FAIL,自动断言待人工复核,请选择要核对的原任务，我不能从聊天推断执行结果。,pending_reply,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.1-s8,待确认
+vt-P8.2-s2,2,assist,P8.2,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-s2,待确认
+vt-P8.2-s2,2,off,P8.2,FAIL,自动断言待人工复核,请明确要核对的物品或选择一个批次。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-s2,待确认
+vt-P8.2-s6,2,off,P8.2,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-s6,待确认
+vt-P8.2-m1-t1,2,off,P8.2,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-m1-t1,待确认
+vt-P8.2-m1-t1,2,assist,P8.2,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m1-t1,待确认
+vt-P8.2-m1-t3,2,assist,P8.2,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m1-t3,待确认
+vt-P8.2-m2-t1,2,assist,P8.2,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m2-t1,待确认
+vt-P8.2-m2-t3,2,off,P8.2,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-m2-t3,待确认
+vt-P8.3-s1,2,assist,P8.3,FAIL,自动断言待人工复核,找到了2个候选批次，请选择要处理的那一批。可以点击候选；支持续接的页面也可以回复“第二个”。尚未执行。,recorded_consumption；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s1,待确认
+vt-P8.3-s2,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。",product_total；planning_evidence,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s2,待确认
+vt-P8.3-s2,2,off,P8.3,FAIL,自主循环无进展,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",product_total；planning_evidence,自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s2,待确认
+vt-P8.3-s3,2,off,P8.3,FAIL,自动断言待人工复核,请选择要核对的原任务，我不能从聊天推断执行结果。,pending_unknown,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s3,待确认
+vt-P8.3-s5,2,off,P8.3,FAIL,自动断言待人工复核,"牛奶：开封日期 未知，标示到期日 2026-11-20。
+牛奶：开封日期 未知，标示到期日 2026-11-20。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s5,待确认
+vt-P8.3-s5,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶（批次 22222222-2222-4222-8222-222222222222）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+牛奶（批次 33333333-3333-4333-8333-333333333333）：待核对。没有与登记类别和条件匹配的已核对规则。 缺少：适用的已核对规则。 信息或适用规则不足，请补充所列事实后重新评估。
+
+以上依据已登记事实与本地规则，不代表实物已检测安全；本次没有修改库存。
+牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：登记数量 1 盒，状态 ACTIVE。",no_precise_product_forecast,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s5,待确认
+vt-P8.3-s6,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_forecast_date,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s6,待确认
+vt-P8.3-s6,2,off,P8.3,FAIL,自动断言待人工复核,"牛奶：参考剩余4天，参考日期2026-10-19。未来不补货，消耗水平与所选完整记录窗口接近；仅按日期粒度估计。
+依据登记事实，本次未写入。
+平台缺少适用的人工审核规则；补录库存资料不能替代规则负责人审核发布。",no_forecast_date,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s6,待确认
+vt-P8.3-s8,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：28个完整观察日，登记有效消耗7 盒；记录完整。
+排除丢弃及已撤销消耗；没有记录不代表没有实际消耗。本次未写入。",recorded_consumption,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s8,待确认
+vt-P8.3-m1-t4,2,off,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-m1-t4,待确认
+vt-P8.3-m1-t4,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-m1-t4,待确认
+vt-P8.3-m2-t4,2,assist,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-m2-t4,待确认
+vt-P8.3-m2-t4,2,off,P8.3,FAIL,自动断言待人工复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。",fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-m2-t4,待确认
+vt-P8.4-s3,2,off,P8.4,FAIL,自动断言待人工复核,还需要数量、单位。请补充后继续，尚未执行。,status；draft.action；draft.batch_id；draft.quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\formal-20261103T234927/questions.jsonl#off:2:vt-P8.4-s3,待确认
+vt-P8.4-s3,2,assist,P8.4,FAIL,自动断言待人工复核,请明确要记录的数量或比例。,status；draft.action；draft.batch_id；draft.quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-s3,待确认
+vt-P8.4-s6,2,assist,P8.4,FAIL,版本契约或标注待复核,牛奶：位置 冰箱。,status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-s6,待确认
+vt-P8.4-s6,2,off,P8.4,FAIL,版本契约或标注待复核,可以接着聊。要核对具体物品、操作状态或之前的细节时，请指出你想继续的那件事。,status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-s6,待确认
+vt-P8.4-m1-t1,2,off,P8.4,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m1-t1,待确认
+vt-P8.4-m1-t4,2,off,P8.4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m1-t4,待确认
+vt-P8.4-m1-t4,2,assist,P8.4,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-m1-t4,待确认
+vt-P8.4-m2-t4,2,off,P8.4,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m2-t4,待确认
+vt-P8.5-s1,2,off,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s1,待确认
+vt-P8.5-s1,2,assist,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-s1,待确认
+vt-P8.5-s2,2,off,P8.5,FAIL,自动断言待人工复核,记得之前讨论过这个话题，但没有可用的批次引用，请重新选择当前物品。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s2,待确认
+vt-P8.5-s3,2,off,P8.5,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s3,待确认
+vt-P8.5-s3,2,assist,P8.5,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+牛奶：登记数量 1 盒，状态 ACTIVE。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-s3,待确认
+vt-P8.5-s4,2,off,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s4,待确认
+vt-P8.5-s8,2,off,P8.5,FAIL,自动断言待人工复核,后续理解未完成，已停止调用；请核对以上结果或原请求。,clear_reference,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s8,待确认
+vt-P8.5-m1-t1,2,off,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m1-t1,待确认
+vt-P8.5-m1-t3,2,off,P8.5,FAIL,自动断言待人工复核,原话题已不在当前可用记忆中，请重新定位。,status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m1-t3,待确认
+vt-P8.5-m1-t1,2,assist,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m1-t1,待确认
+vt-P8.5-m1-t3,2,assist,P8.5,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+本轮没有取得新的核对进展，请补充或重新定位问题。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m1-t3,待确认
+vt-P8.5-m2-t1,2,assist,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m2-t1,待确认
+vt-P8.5-m2-t1,2,off,P8.5,FAIL,自动断言待人工复核,所选旧话题不可用，请重新核对对象。,status；fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m2-t1,待确认
+vt-P8.5-m2-t3,2,off,P8.5,FAIL,自动断言待人工复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+记得之前讨论过这个话题，但没有可用的批次引用，请重新选择当前物品。",status；fact_quantity,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m2-t3,待确认
+vt-P8.6-s8,2,off,P8.6,FAIL,版本契约或标注待复核,后续理解未完成，已停止调用；请核对以上结果或原请求。,status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-s8,待确认
+vt-P8.6-m1-t4,2,off,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-m1-t4,待确认
+vt-P8.6-m1-t4,2,assist,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.6-m1-t4,待确认
+vt-P8.6-m2-t1,2,assist,P8.6,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.6-m2-t1,待确认
+vt-P8.6-m2-t4,2,off,P8.6,FAIL,自动断言待人工复核,草稿待确认，尚未执行。,fact_location,需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。,runs\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-m2-t4,待确认
+JEV-01,2,off,JEV专项,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#off:2:JEV-01,待确认
+JEV-04,2,assist,JEV专项,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#assist:2:JEV-04,待确认
+JEV-07,2,off,JEV专项,FAIL,版本契约或标注待复核,"牛奶：登记数量 1 盒，状态 ACTIVE。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#off:2:JEV-07,待确认
+JEV-09,2,off,JEV专项,FAIL,版本契约或标注待复核,你想处理哪个物品或批次？,status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。,runs\continuation-20261104T002413/questions.jsonl#off:2:JEV-09,待确认
+JEV-12,2,off,JEV专项,FAIL,版本契约或标注待复核,"牛奶：位置 冰箱。
+牛奶：位置 厨房。
+继续读取没有新增信息，先停在已核实结果；请说明还需核对哪一点。",status,只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。；自主循环因无进展或重复停止，核对每步观察与计划是否变化。,runs\continuation-20261104T002413/questions.jsonl#off:2:JEV-12,待确认

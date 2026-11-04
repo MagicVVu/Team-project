@@ -1,0 +1,23 @@
+{
+  "source": "c2d5ea6d5a5dc69d894a2547ce8a4529d38ecade",
+  "phase": "preflight",
+  "budget_before": null,
+  "deepseek_before": null,
+  "jev_before": null,
+  "adapter_hashes": {
+    "ab.py": "ecc3a30da4dfc540fdcee932c3ef40828663cd29c398d819504f10a4b4d35027",
+    "budget_pair.py": "d2ee06d601da82f0f58127d9f59fec4bc40d9d432a1c515bb542fa58c046fbb1",
+    "build_inputs.py": "e6aea7f4f3eabb5b14f0b1e84ee55512677ef3a439e715d031fb56bc1bd6c1c2",
+    "legacy.py": "d765e55ac0008d7291260fa8cccc73111d5bca2b1a8f1f1b843f75e1f4777fd4",
+    "native_check.py": "8572f5c717f92770e8e612234147f758a92ae673fdfcfb01ce9cc553400d1288",
+    "prepare.py": "ee4fed443ab849bb2acf1e53693fe39438165e2721d833e1ea3fc29f3e5baa1f",
+    "telemetry.py": "aa4715b272c6bdceedd1b432a78eff089c112ce800639093dbb5ce6582896a79"
+  },
+  "dataset_manifest_sha256": "911c055a2817a0976a69a09843ecdeee4294bd2deb6e7eaeb7c13eb44cabfb1f",
+  "modes": [
+    "off",
+    "assist"
+  ],
+  "locale": "zh-CN",
+  "server_access": false
+}

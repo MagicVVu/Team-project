@@ -1,0 +1,10 @@
+{
+  "checked_at_local_date": "2026-11-04",
+  "source": "https://www.boc.cn/sourcedb/whpj/index_2.html",
+  "quote_date_time": "2026-11-03 23:24:20",
+  "usd_100_spot_sell_cny": "668.74",
+  "reference_usd_1_cny": "6.6874",
+  "budget_allowance_usd_1_cny": "8",
+  "invoice_exchange_rate_verified": false,
+  "note": "Bank quote is a reference only. Test budget uses a larger fixed allowance, not the invoice exchange rate. Native USD values retained."
+}

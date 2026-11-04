@@ -1,0 +1,15 @@
+{
+  "all_pass": true,
+  "checks": {
+    "eight_expected_sheets": true,
+    "headline_rates_exact": true,
+    "latency_headlines_exact": true,
+    "average_formula_row_8": true,
+    "average_formula_row_152": true,
+    "average_formula_row_295": true,
+    "no_ooxml_error_cells": true,
+    "no_title_paragraph_border": true
+  },
+  "visual_review": "All 4 final Word pages and all 8 workbook sheets reviewed; no blank page, clipped body text, missing glyphs or formula error found.",
+  "word_render": "Bundled LibreOffice absent; canonical failure retained; fresh hidden Word COM read-only PDF export + bundled Poppler used."
+}

@@ -1,0 +1,39 @@
+{
+  "phase": "formal",
+  "complete": false,
+  "stop_reason": "BUDGET_OR_CONFIG_STOP",
+  "questions": 998,
+  "status_counts": {
+    "PASS": 804,
+    "FAIL": 193,
+    "BLOCKED": 1
+  },
+  "actual_http_calls": 1549,
+  "real_jev_successes": 373,
+  "infrastructure_ok": false,
+  "offline_is_not_accuracy": false,
+  "budget_after": {
+    "limit_cny": "10",
+    "charged_or_reserved_cny": "9.032966784",
+    "reservations": 1583,
+    "unknown_usage_calls": 77,
+    "usd_budget_allowance": "8",
+    "not_platform_bill": true
+  },
+  "deepseek_after": {
+    "limit_cny": 20.0,
+    "conservative_cost_cny": 19.970232,
+    "calls": 4429,
+    "unknown_usage_calls": 0
+  },
+  "jev_after": {
+    "currency": "USD",
+    "limit_usd": "1",
+    "price_version": "typesafe-2026-10-23-usd-0.042-per-million",
+    "charged_or_reserved_usd": "0.242294598",
+    "calls": 456,
+    "unknown_usage_calls": 77
+  },
+  "human_review_status": "pending",
+  "app_acceptance": false
+}

@@ -1,0 +1,17 @@
+{
+  "ready": true,
+  "checks": {
+    "source_run_complete": true,
+    "real_jev_with_usage": true,
+    "real_deepseek_with_usage": true,
+    "no_auth_balance_errors": true,
+    "actual_counts_reconcile": true,
+    "no_inventory_writes": true,
+    "both_modes": true,
+    "off_never_calls_jev": true,
+    "no_local_http_failure": true
+  },
+  "original_complete_json_unchanged": true,
+  "reason": "The initial infrastructure gate wrongly required all HTTP calls to succeed. Observed Jev timeouts are product behavior with complete failed-request records and conservative reservations; retain them, do not retry or alter timeout.",
+  "not_a_quality_pass": true
+}

@@ -1,0 +1,19 @@
+{
+  "phase": "preflight",
+  "complete": true,
+  "stop_reason": null,
+  "questions": 576,
+  "status_counts": {
+    "PASS": 298,
+    "FAIL": 278
+  },
+  "actual_http_calls": 0,
+  "real_jev_successes": 0,
+  "infrastructure_ok": false,
+  "offline_is_not_accuracy": true,
+  "budget_after": null,
+  "deepseek_after": null,
+  "jev_after": null,
+  "human_review_status": "pending",
+  "app_acceptance": false
+}

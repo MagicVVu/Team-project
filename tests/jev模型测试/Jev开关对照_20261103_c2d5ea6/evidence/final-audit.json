@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "teammate_and_old_tracked_files_unchanged": true,
+    "snapshot_unchanged": true,
+    "initial_premises_match": true,
+    "wire_ids_unique": true,
+    "wire_count_reconciles": true,
+    "per_question_http_counts_reconcile": true,
+    "off_has_zero_jev_http": true,
+    "no_inventory_writes": true,
+    "current_user_fee_authorization_respected": true,
+    "native_jev_not_over_1_usd": true,
+    "all_planned_executions_completed": true,
+    "only_budget_blocked_attempts_superseded": true,
+    "secret_scan_performed": true,
+    "no_configured_api_keys_in_public_evidence": true,
+    "formal_has_stopped": true
+  },
+  "all_pass": true,
+  "changed_protected_files": [],
+  "changed_snapshot_files": [],
+  "secret_hit_files": [],
+  "public_scan_never_prints_keys": true,
+  "formal_executions": 1152,
+  "formal_http": 1812,
+  "unexecuted": 0,
+  "unpaired_executions": 0
+}

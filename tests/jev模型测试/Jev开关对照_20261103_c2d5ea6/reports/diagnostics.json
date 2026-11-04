@@ -1,0 +1,6755 @@
+{
+  "issue_occurrences": 224,
+  "distinct_failed_case_ids": 103,
+  "category_occurrences": {
+    "版本契约或标注待复核": 66,
+    "自动断言待人工复核": 147,
+    "模型字段理解问题": 4,
+    "自主循环无进展": 4,
+    "模型意图与流程交互": 1,
+    "Jev保护与预期契约待复核": 2
+  },
+  "fully_repeated_case_count": 288,
+  "stable_regression_ids": [
+    "vt-P8.6-m2-t1"
+  ],
+  "stable_improvement_ids": [
+    "vt-P8.4-m1-t1",
+    "vt-P8.4-m2-t4",
+    "vt-P8.5-s8"
+  ],
+  "variable_case_count": 78,
+  "zero_call_assertion_mismatch_ids": [],
+  "no_extra_model_calls": true,
+  "not_human_signoff": true,
+  "issues": [
+    {
+      "id": "vt-P0-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P0",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P0",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P1",
+      "category": "模型字段理解问题",
+      "notes": [
+        "模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.to_location",
+        "draft.expected_version"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity",
+        "draft.unit",
+        "draft.expected_version"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity",
+        "draft.unit",
+        "draft.expected_version"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s7",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P1",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s7",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P1-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P2-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "risk_unknown"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P2-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s2",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s5",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s5",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s8",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status",
+        "stop_reason"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s8",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status",
+        "stop_reason"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自主循环无进展",
+      "notes": [
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P4",
+      "category": "模型意图与流程交互",
+      "notes": [
+        "计划同时带业务动作与new_task语气，可能被当成开始新话题；检查理解输出和归一化。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.unit",
+        "draft.name",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P4-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m2-t2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P4",
+      "category": "模型字段理解问题",
+      "notes": [
+        "模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.to_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-m2-t2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m2-t3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P4-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m1-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P5-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.batch_id"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.batch_id"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P6-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s8",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7-s7",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P7",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "clear_reference"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P7-s7",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-s6",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P7.3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P7.3-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-s8",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P7.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_unknown"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-m1-t3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P7.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.to_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P7.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P7.3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.1",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.1",
+      "category": "Jev保护与预期契约待复核",
+      "notes": [
+        "Jev保护确实介入；原文含计划或询问语气时，先核对产品允许何时生成采购草稿，保护性澄清不应直接称程序错误。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "procurement_source"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.1-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "procurement_source"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s8",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.1-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.1",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.1-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s2",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m1-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m1-t3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.2-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m2-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.2-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s2",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "product_total",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "product_total",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s5",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s5",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s6",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_forecast_date"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s7",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-s7",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m1-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m1-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s2",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s8",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "clear_reference"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t3",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.5-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t3",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.5-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-s1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m1-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m1-t1",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m1-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m2-t4",
+      "repeat": 1,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m2-t1",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m2-t4",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-11",
+      "repeat": 1,
+      "mode": "assist",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-11",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-s1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P0-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P0-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m2-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P0",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P0-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P0-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P0",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P0-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity",
+        "draft.unit",
+        "draft.expected_version"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P1-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-s4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity",
+        "draft.unit",
+        "draft.expected_version"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P1-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P1-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P1-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P2-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P2",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P2-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s8",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status",
+        "stop_reason"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status",
+        "stop_reason"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自主循环无进展",
+      "notes": [
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m2-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P3",
+      "category": "自主循环无进展",
+      "notes": [
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P3-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-s5",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m1-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m1-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m2-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P4-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P4-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P4-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-s1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.name",
+        "draft.unit",
+        "draft.location",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P5-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m1-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P5",
+      "category": "模型字段理解问题",
+      "notes": [
+        "模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.to_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m2-t2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P5-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P5-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P5-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.batch_id"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.quantity",
+        "draft.batch_id"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m2-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P6-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-s8",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P7.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_unknown"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P7.3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P7.3-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P7.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_unknown"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P7.3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "模型字段理解问题",
+      "notes": [
+        "模型将移动目的地放在location字段，缺少to_location；源码因缺目标位置追问。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.to_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "same_draft"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "procurement_source"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.1-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.1",
+      "category": "Jev保护与预期契约待复核",
+      "notes": [
+        "Jev保护确实介入；原文含计划或询问语气时，先核对产品允许何时生成采购草稿，保护性澄清不应直接称程序错误。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "procurement_source"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.1-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s6",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "Jev已超时回退。这证明新增延迟，但后续DeepSeek答错不能仅凭同时发生就认定由Jev造成。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.name",
+        "draft.quantity",
+        "draft.unit",
+        "created_count"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.1-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.1-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.1",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_reply"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.1-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-s6",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m1-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m1-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m1-t3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m2-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.2",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.2-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.2-m2-t3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.2",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.2-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "recorded_consumption",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s2",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "product_total",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自主循环无进展",
+      "notes": [
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "product_total",
+        "planning_evidence"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "pending_unknown"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s5",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s5",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_precise_product_forecast"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s5",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s6",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_forecast_date"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s6",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "no_forecast_date"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-s8",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "recorded_consumption"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m2-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.3-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.3",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.3-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity"
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P8.4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "draft.action",
+        "draft.batch_id",
+        "draft.quantity"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s6",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-s6",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-s6",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m1-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.4",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.4-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.4-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.4",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.4-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-s1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s2",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s2",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-s3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "clear_reference"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m1-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m1-t3",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m1-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t1",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.5-m2-t3",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.5",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "status",
+        "fact_quantity"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.5-m2-t3",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-s8",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-s8",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m1-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m1-t4",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.6-m1-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m2-t1",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "P8.6",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.6-m2-t1",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "vt-P8.6-m2-t4",
+      "repeat": 2,
+      "mode": "off",
+      "group": "P8.6",
+      "category": "自动断言待人工复核",
+      "notes": [
+        "需将原文、已知库存、模型计划与失败断言一起人工复核，当前不确定根因。"
+      ],
+      "failed_checks": [
+        "fact_location"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:vt-P8.6-m2-t4",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-01",
+      "repeat": 2,
+      "mode": "off",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:JEV-01",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-04",
+      "repeat": 2,
+      "mode": "assist",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-04",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-07",
+      "repeat": 2,
+      "mode": "off",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:JEV-07",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-09",
+      "repeat": 2,
+      "mode": "off",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:JEV-09",
+      "human_review_status": "pending"
+    },
+    {
+      "id": "JEV-12",
+      "repeat": 2,
+      "mode": "off",
+      "group": "JEV专项",
+      "category": "版本契约或标注待复核",
+      "notes": [
+        "只差状态或错误码，业务事实可能正确；先由团队核对当前契约，不直接称计算错误。",
+        "自主循环因无进展或重复停止，核对每步观察与计划是否变化。"
+      ],
+      "failed_checks": [
+        "status"
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#off:2:JEV-12",
+      "human_review_status": "pending"
+    }
+  ],
+  "repeat_consistency": [
+    {
+      "id": "vt-P0-s1",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P0-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P0-m2-t1",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P0-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P0-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P1-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-s7",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P1-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P1-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P1-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P2-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m1-t4",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P2-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P2-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s1",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s2",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s3",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P3-s5",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P3-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-s8",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P3-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-s2",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-s3",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-s5",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-m1-t1",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P4-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-m2-t1",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P4-m2-t4",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-m1-t1",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P5-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-m2-t1",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P5-m2-t4",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P6-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P6-s2",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P6-s3",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-s8",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P6-m1-t1",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P6-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P6-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-s7",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P7-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m1-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s6",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P7.3-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-s8",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P7.3-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P7.3-m1-t4",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P7.3-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P7.3-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s2",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-s3",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-m2-t1",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.1-s1",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.1-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-s3",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-s6",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.1-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-s8",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.1-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m1-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m2-t1",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.1-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.1-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-s2",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s6",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-m1-t1",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-m1-t3",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-m1-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-m2-t1",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.2-m2-t3",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.2-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-s2",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-s3",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-s4",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-s5",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-s6",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-s7",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-s8",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.3-m1-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.3-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s3",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s6",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.4-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-s8",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m1-t1",
+      "off_pass": 0,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": true,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m1-t4",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.4-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.4-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": true,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-s1",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-s2",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-s3",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-s4",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-s8",
+      "off_pass": 0,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": true,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-m1-t1",
+      "off_pass": 0,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-m1-t3",
+      "off_pass": 1,
+      "assist_pass": 0,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-m1-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-m2-t1",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.5-m2-t3",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.5-m2-t4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s1",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.6-s2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s4",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s5",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s6",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s7",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-s8",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.6-m1-t1",
+      "off_pass": 1,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.6-m1-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-m1-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-m1-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "vt-P8.6-m2-t1",
+      "off_pass": 2,
+      "assist_pass": 0,
+      "stable_regression": true,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-m2-t2",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-m2-t3",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "vt-P8.6-m2-t4",
+      "off_pass": 0,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-01",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-02",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-03",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-04",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-05",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-06",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-07",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-08",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-09",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-10",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-11",
+      "off_pass": 2,
+      "assist_pass": 1,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-12",
+      "off_pass": 1,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": true
+    },
+    {
+      "id": "JEV-13",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-14",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-15",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-16",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-17",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-18",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-19",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-20",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-21",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-22",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-23",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-24",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-25",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-26",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-27",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-28",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-29",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-30",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-31",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    },
+    {
+      "id": "JEV-32",
+      "off_pass": 2,
+      "assist_pass": 2,
+      "stable_regression": false,
+      "stable_improvement": false,
+      "any_run_variation": false
+    }
+  ],
+  "jev_special_confidence_gate_evidence": [
+    {
+      "id": "JEV-01",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.4,
+          "selected_probability": 0.6
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.64,
+          "selected_probability": 0.73
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-01"
+    },
+    {
+      "id": "JEV-03",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.52,
+          "selected_probability": 0.68
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.6,
+          "selected_probability": 0.7
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-03"
+    },
+    {
+      "id": "JEV-05",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.79,
+          "selected_probability": 0.86
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.55,
+          "selected_probability": 0.66
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-05"
+    },
+    {
+      "id": "JEV-06",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.7,
+          "selected_probability": 0.8
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.48,
+          "selected_probability": 0.61
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-06"
+    },
+    {
+      "id": "JEV-07",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.46,
+          "selected_probability": 0.64
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.76,
+          "selected_probability": 0.82
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-07"
+    },
+    {
+      "id": "JEV-08",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.76,
+          "selected_probability": 0.84
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.59,
+          "selected_probability": 0.69
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-08"
+    },
+    {
+      "id": "JEV-13",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.35,
+          "selected_probability": 0.57
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.59,
+          "selected_probability": 0.69
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-13"
+    },
+    {
+      "id": "JEV-14",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.76,
+          "selected_probability": 0.84
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.53,
+          "selected_probability": 0.65
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-14"
+    },
+    {
+      "id": "JEV-15",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.33,
+          "selected_probability": 0.55
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.61,
+          "selected_probability": 0.71
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-15"
+    },
+    {
+      "id": "JEV-16",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.72,
+          "selected_probability": 0.81
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.44,
+          "selected_probability": 0.58
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-16"
+    },
+    {
+      "id": "JEV-17",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "DISCARD",
+          "confidence": 0.24,
+          "selected_probability": 0.29
+        },
+        {
+          "node": "event_classifier",
+          "choice": "NONE",
+          "confidence": 0.87,
+          "selected_probability": 0.89
+        },
+        {
+          "node": "speech_act",
+          "choice": "NEGATED",
+          "confidence": 0.84,
+          "selected_probability": 0.87
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.73,
+          "selected_probability": 0.82
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.23,
+          "selected_probability": 0.42
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-17"
+    },
+    {
+      "id": "JEV-18",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "OPEN",
+          "confidence": 0.26,
+          "selected_probability": 0.31
+        },
+        {
+          "node": "event_classifier",
+          "choice": "NONE",
+          "confidence": 0.62,
+          "selected_probability": 0.67
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.55,
+          "selected_probability": 0.7
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.27,
+          "selected_probability": 0.45
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-18"
+    },
+    {
+      "id": "JEV-19",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "QUERY_INVENTORY",
+          "confidence": 0.39,
+          "selected_probability": 0.43
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.16,
+          "selected_probability": 0.44
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.49,
+          "selected_probability": 0.62
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-19"
+    },
+    {
+      "id": "JEV-21",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "QUERY_INVENTORY",
+          "confidence": 0.59,
+          "selected_probability": 0.62
+        },
+        {
+          "node": "event_classifier",
+          "choice": "DISCARDED",
+          "confidence": 0.69,
+          "selected_probability": 0.73
+        },
+        {
+          "node": "speech_act",
+          "choice": "REQUEST",
+          "confidence": 0.66,
+          "selected_probability": 0.72
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.33,
+          "selected_probability": 0.5
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-21"
+    },
+    {
+      "id": "JEV-22",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "DISCARD",
+          "confidence": 0.45,
+          "selected_probability": 0.48
+        },
+        {
+          "node": "event_classifier",
+          "choice": "DISCARDED",
+          "confidence": 0.52,
+          "selected_probability": 0.58
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.25,
+          "selected_probability": 0.5
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.6,
+          "selected_probability": 0.7
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-22"
+    },
+    {
+      "id": "JEV-23",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "PLAN_ADD",
+          "confidence": 0.73,
+          "selected_probability": 0.75
+        },
+        {
+          "node": "event_classifier",
+          "choice": "ADDED",
+          "confidence": 0.79,
+          "selected_probability": 0.82
+        },
+        {
+          "node": "speech_act",
+          "choice": "NEGATED",
+          "confidence": 0.45,
+          "selected_probability": 0.54
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.26,
+          "selected_probability": 0.51
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.69,
+          "selected_probability": 0.77
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-23"
+    },
+    {
+      "id": "JEV-31",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.06,
+          "selected_probability": 0.37
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.12,
+          "selected_probability": 0.34
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-31"
+    },
+    {
+      "id": "JEV-32",
+      "repeat": 1,
+      "below_current_thresholds": [
+        {
+          "node": "speech_act",
+          "choice": "UNKNOWN",
+          "confidence": 0.81,
+          "selected_probability": 0.84
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.64,
+          "selected_probability": 0.76
+        },
+        {
+          "node": "action_gate",
+          "choice": "WAIT",
+          "confidence": 0.2,
+          "selected_probability": 0.4
+        }
+      ],
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-32"
+    },
+    {
+      "id": "JEV-01",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.37,
+          "selected_probability": 0.58
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.64,
+          "selected_probability": 0.73
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-01"
+    },
+    {
+      "id": "JEV-02",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.28,
+          "selected_probability": 0.52
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.64,
+          "selected_probability": 0.73
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-02"
+    },
+    {
+      "id": "JEV-03",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.5,
+          "selected_probability": 0.67
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.71,
+          "selected_probability": 0.78
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-03"
+    },
+    {
+      "id": "JEV-04",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.7,
+          "selected_probability": 0.8
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.51,
+          "selected_probability": 0.63
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-04"
+    },
+    {
+      "id": "JEV-05",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.8,
+          "selected_probability": 0.87
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.53,
+          "selected_probability": 0.65
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-05"
+    },
+    {
+      "id": "JEV-06",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.68,
+          "selected_probability": 0.79
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.51,
+          "selected_probability": 0.63
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-06"
+    },
+    {
+      "id": "JEV-08",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.76,
+          "selected_probability": 0.84
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.59,
+          "selected_probability": 0.69
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-08"
+    },
+    {
+      "id": "JEV-13",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.38,
+          "selected_probability": 0.59
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.6,
+          "selected_probability": 0.7
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-13"
+    },
+    {
+      "id": "JEV-14",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.76,
+          "selected_probability": 0.84
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.53,
+          "selected_probability": 0.65
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-14"
+    },
+    {
+      "id": "JEV-15",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.4,
+          "selected_probability": 0.6
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.56,
+          "selected_probability": 0.67
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-15"
+    },
+    {
+      "id": "JEV-16",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.74,
+          "selected_probability": 0.83
+        },
+        {
+          "node": "action_gate",
+          "choice": "READ",
+          "confidence": 0.49,
+          "selected_probability": 0.62
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-16"
+    },
+    {
+      "id": "JEV-17",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "DISCARD",
+          "confidence": 0.32,
+          "selected_probability": 0.36
+        },
+        {
+          "node": "speech_act",
+          "choice": "NEGATED",
+          "confidence": 0.78,
+          "selected_probability": 0.82
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.79,
+          "selected_probability": 0.86
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.23,
+          "selected_probability": 0.42
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-17"
+    },
+    {
+      "id": "JEV-18",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "OPEN",
+          "confidence": 0.3,
+          "selected_probability": 0.34
+        },
+        {
+          "node": "event_classifier",
+          "choice": "NONE",
+          "confidence": 0.61,
+          "selected_probability": 0.66
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.53,
+          "selected_probability": 0.69
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.32,
+          "selected_probability": 0.49
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-18"
+    },
+    {
+      "id": "JEV-19",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "CONSUME",
+          "confidence": 0.45,
+          "selected_probability": 0.48
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "PASS",
+          "confidence": 0.2,
+          "selected_probability": 0.47
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.44,
+          "selected_probability": 0.58
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-19"
+    },
+    {
+      "id": "JEV-21",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "QUERY_INVENTORY",
+          "confidence": 0.57,
+          "selected_probability": 0.6
+        },
+        {
+          "node": "event_classifier",
+          "choice": "DISCARDED",
+          "confidence": 0.63,
+          "selected_probability": 0.68
+        },
+        {
+          "node": "speech_act",
+          "choice": "REQUEST",
+          "confidence": 0.68,
+          "selected_probability": 0.73
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.36,
+          "selected_probability": 0.52
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-21"
+    },
+    {
+      "id": "JEV-22",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "DISCARD",
+          "confidence": 0.52,
+          "selected_probability": 0.55
+        },
+        {
+          "node": "event_classifier",
+          "choice": "DISCARDED",
+          "confidence": 0.55,
+          "selected_probability": 0.61
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.26,
+          "selected_probability": 0.51
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.55,
+          "selected_probability": 0.66
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-22"
+    },
+    {
+      "id": "JEV-23",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "PLAN_ADD",
+          "confidence": 0.69,
+          "selected_probability": 0.71
+        },
+        {
+          "node": "event_classifier",
+          "choice": "ADDED",
+          "confidence": 0.76,
+          "selected_probability": 0.79
+        },
+        {
+          "node": "speech_act",
+          "choice": "NEGATED",
+          "confidence": 0.48,
+          "selected_probability": 0.57
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.42,
+          "selected_probability": 0.61
+        },
+        {
+          "node": "action_gate",
+          "choice": "CONFIRM",
+          "confidence": 0.65,
+          "selected_probability": 0.74
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-23"
+    },
+    {
+      "id": "JEV-31",
+      "repeat": 2,
+      "below_current_thresholds": [
+        {
+          "node": "intent_router",
+          "choice": "UNSUPPORTED",
+          "confidence": 0.86,
+          "selected_probability": 0.87
+        },
+        {
+          "node": "clarification_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.07,
+          "selected_probability": 0.38
+        },
+        {
+          "node": "action_gate",
+          "choice": "CLARIFY",
+          "confidence": 0.17,
+          "selected_probability": 0.38
+        }
+      ],
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:JEV-31"
+    }
+  ]
+}

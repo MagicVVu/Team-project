@@ -1,0 +1,3009 @@
+{
+  "source": "c2d5ea6d5a5dc69d894a2547ce8a4529d38ecade",
+  "run": "runs\\formal-20261103T234927",
+  "run_folders": [
+    "runs\\formal-20261103T234927",
+    "runs\\continuation-20261104T002413"
+  ],
+  "complete": {
+    "phase": "formal_with_authorized_continuation",
+    "complete": true,
+    "stop_reason": null,
+    "questions": 1152,
+    "status_counts": {
+      "PASS": 928,
+      "FAIL": 224
+    },
+    "actual_http_calls": 1812,
+    "all_planned_quality_executions": 1152,
+    "budget_after": {
+      "limit_cny": null,
+      "charged_or_reserved_cny": "10.377690208",
+      "reservations": 1846,
+      "unknown_usage_calls": 83,
+      "usd_budget_allowance": "8",
+      "not_platform_bill": true,
+      "original_limit_cny": "10",
+      "active_authorization": "2026-11-04 user: fees do not matter; complete planned experiment",
+      "cost_stop_enabled": false
+    },
+    "deepseek_after": {
+      "limit_cny": 1000000000.0,
+      "conservative_cost_cny": 21.140602,
+      "calls": 4620,
+      "unknown_usage_calls": 0
+    },
+    "jev_after": {
+      "currency": "USD",
+      "limit_usd": "1",
+      "price_version": "typesafe-2026-10-23-usd-0.042-per-million",
+      "charged_or_reserved_usd": "0.264088776",
+      "calls": 528,
+      "unknown_usage_calls": 83
+    },
+    "previous_budget_records_unchanged": true,
+    "model_failure_retries": 0,
+    "human_review_status": "pending",
+    "app_acceptance": false,
+    "original_run_stop_reason": "BUDGET_OR_CONFIG_STOP",
+    "original_results_not_modified": true,
+    "continued_only_missing_or_budget_blocked": true,
+    "batch_questions": 155,
+    "batch_status_counts": {
+      "FAIL": 31,
+      "PASS": 124
+    },
+    "raw_question_executions": 1153
+  },
+  "summaries": {
+    "主功能集": {
+      "off": {
+        "questions": 512,
+        "pass": 400,
+        "fail": 112,
+        "pass_rate": 0.78125,
+        "question_seconds": {
+          "n": 512,
+          "mean": 1.3681404306641198,
+          "min": 0.0021103999970364384,
+          "p50": 1.2900147000000288,
+          "p90": 2.307582299999922,
+          "p95": 2.581763199999841,
+          "max": 4.174355299997842
+        },
+        "api_seconds": {
+          "n": 554,
+          "mean": 1.0964135418771779,
+          "min": 0.5156491000016103,
+          "p50": 1.0551669000014954,
+          "p90": 1.440382299999328,
+          "p95": 1.6081041999968875,
+          "max": 2.65060799999992
+        },
+        "api_calls": 554,
+        "mean_calls": 1.08203125,
+        "deepseek_calls": 554,
+        "jev_calls": 0,
+        "zero_call_questions": 52,
+        "known_cny": 0.46162078,
+        "known_usd": 0,
+        "unknown_calls": 0,
+        "conservative_cny": 3.455246,
+        "known_estimated_cny_at_budget_fx": 0.46162078,
+        "mean_estimated_cny_at_budget_fx": 0.0009016030859375,
+        "jev_status": {},
+        "jev_reason": {},
+        "mean_conservative_cny_per_question": 0.00674852734375,
+        "mean_conservative_cny_per_api": 0.006236906137184115,
+        "mean_known_cost_lower_bound_per_api": 0.0008332505054151624,
+        "complete_four_turn_tasks": 64,
+        "passed_four_turn_tasks": 16
+      },
+      "assist": {
+        "questions": 512,
+        "pass": 406,
+        "fail": 106,
+        "pass_rate": 0.79296875,
+        "question_seconds": {
+          "n": 512,
+          "mean": 2.5614791806640085,
+          "min": 0.001946799999132054,
+          "p50": 2.654322599999432,
+          "p90": 3.7940896000000066,
+          "p95": 4.191132500000094,
+          "max": 6.343560200002685
+        },
+        "api_seconds": {
+          "n": 1035,
+          "mean": 1.1013622581642777,
+          "min": 0.4546070000033069,
+          "p50": 1.0511455000014394,
+          "p90": 1.744638699998177,
+          "p95": 1.8534428000020853,
+          "max": 2.9681395000006887
+        },
+        "api_calls": 1035,
+        "mean_calls": 2.021484375,
+        "deepseek_calls": 575,
+        "jev_calls": 460,
+        "zero_call_questions": 52,
+        "known_cny": 0.4907802,
+        "known_usd": 0.03083976,
+        "unknown_calls": 75,
+        "conservative_cny": 5.60557728,
+        "known_estimated_cny_at_budget_fx": 0.73749828,
+        "mean_estimated_cny_at_budget_fx": null,
+        "jev_status": {
+          "fallback": 458,
+          "guarded": 2
+        },
+        "jev_reason": {
+          "UNCERTAIN_SEMANTICS": 31,
+          "JEV_TIMEOUT": 75,
+          "CONTEXT_REQUIRES_ORIGINAL_FLOW": 352,
+          "NON_AFFIRMATIVE_CHANGE": 2
+        },
+        "mean_conservative_cny_per_question": 0.010948393125,
+        "mean_conservative_cny_per_api": 0.005416016695652174,
+        "mean_known_cost_lower_bound_per_api": 0.0007125587246376811,
+        "complete_four_turn_tasks": 64,
+        "passed_four_turn_tasks": 23
+      }
+    },
+    "Jev专项": {
+      "off": {
+        "questions": 64,
+        "pass": 60,
+        "fail": 4,
+        "pass_rate": 0.9375,
+        "question_seconds": {
+          "n": 64,
+          "mean": 1.4802143453124472,
+          "min": 0.0023006999981589615,
+          "p50": 1.3688937999977497,
+          "p90": 2.5232703999972728,
+          "p95": 2.6623607000001357,
+          "max": 2.9111511999981303
+        },
+        "api_seconds": {
+          "n": 81,
+          "mean": 1.0010173172839265,
+          "min": 0.5242808999973931,
+          "p50": 0.986638700000185,
+          "p90": 1.242874199997459,
+          "p95": 1.3420683999975154,
+          "max": 1.6848734000013792
+        },
+        "api_calls": 81,
+        "mean_calls": 1.265625,
+        "deepseek_calls": 81,
+        "jev_calls": 0,
+        "zero_call_questions": 6,
+        "known_cny": 0.04681712,
+        "known_usd": 0,
+        "unknown_calls": 0,
+        "conservative_cny": 0.457912,
+        "known_estimated_cny_at_budget_fx": 0.04681712,
+        "mean_estimated_cny_at_budget_fx": 0.0007315175,
+        "jev_status": {},
+        "jev_reason": {},
+        "mean_conservative_cny_per_question": 0.007154875,
+        "mean_conservative_cny_per_api": 0.005653234567901235,
+        "mean_known_cost_lower_bound_per_api": 0.0005779891358024691
+      },
+      "assist": {
+        "questions": 64,
+        "pass": 62,
+        "fail": 2,
+        "pass_rate": 0.96875,
+        "question_seconds": {
+          "n": 64,
+          "mean": 2.548529823437377,
+          "min": 0.0023197999980766326,
+          "p50": 2.615229700000782,
+          "p90": 4.010678599999665,
+          "p95": 4.237273900002037,
+          "max": 5.03268019999814
+        },
+        "api_seconds": {
+          "n": 141,
+          "mean": 0.9906275851063447,
+          "min": 0.48164429999815184,
+          "p50": 0.9563358999985212,
+          "p90": 1.4772370999999112,
+          "p95": 1.744775600000139,
+          "max": 1.9462028999987524
+        },
+        "api_calls": 141,
+        "mean_calls": 2.203125,
+        "deepseek_calls": 83,
+        "jev_calls": 58,
+        "zero_call_questions": 6,
+        "known_cny": 0.05317696,
+        "known_usd": 0.004229568,
+        "unknown_calls": 5,
+        "conservative_cny": 0.630625024,
+        "known_estimated_cny_at_budget_fx": 0.087013504,
+        "mean_estimated_cny_at_budget_fx": null,
+        "jev_status": {
+          "fallback": 56,
+          "guarded": 2
+        },
+        "jev_reason": {
+          "UNCERTAIN_SEMANTICS": 36,
+          "JEV_TIMEOUT": 5,
+          "CONTEXT_REQUIRES_ORIGINAL_FLOW": 15,
+          "NON_AFFIRMATIVE_CHANGE": 2
+        },
+        "mean_conservative_cny_per_question": 0.009853516,
+        "mean_conservative_cny_per_api": 0.0044725179007092195,
+        "mean_known_cost_lower_bound_per_api": 0.0006171170496453902
+      }
+    }
+  },
+  "repeat_summaries": {
+    "1": {
+      "主功能集": {
+        "off": {
+          "questions": 256,
+          "pass": 205,
+          "fail": 51,
+          "pass_rate": 0.80078125,
+          "question_seconds": {
+            "n": 256,
+            "mean": 1.4067661214843667,
+            "min": 0.0021103999970364384,
+            "p50": 1.3048101999993378,
+            "p90": 2.379580699998769,
+            "p95": 2.681217600002128,
+            "max": 4.174355299997842
+          },
+          "api_seconds": {
+            "n": 280,
+            "mean": 1.1191143046427117,
+            "min": 0.5600454999985232,
+            "p50": 1.0673869999991439,
+            "p90": 1.4731902999992599,
+            "p95": 1.649661700001161,
+            "max": 2.453667600002518
+          },
+          "api_calls": 280,
+          "mean_calls": 1.09375,
+          "deepseek_calls": 280,
+          "jev_calls": 0,
+          "zero_call_questions": 26,
+          "known_cny": 0.25244,
+          "known_usd": 0,
+          "unknown_calls": 0,
+          "conservative_cny": 1.749186,
+          "known_estimated_cny_at_budget_fx": 0.25244,
+          "mean_estimated_cny_at_budget_fx": 0.00098609375,
+          "jev_status": {},
+          "jev_reason": {},
+          "mean_conservative_cny_per_question": 0.0068327578125,
+          "mean_conservative_cny_per_api": 0.006247092857142857,
+          "mean_known_cost_lower_bound_per_api": 0.0009015714285714286
+        },
+        "assist": {
+          "questions": 256,
+          "pass": 202,
+          "fail": 54,
+          "pass_rate": 0.7890625,
+          "question_seconds": {
+            "n": 256,
+            "mean": 2.6724029984373203,
+            "min": 0.001946799999132054,
+            "p50": 2.843773999997211,
+            "p90": 3.890390699998534,
+            "p95": 4.3655143000032695,
+            "max": 5.501555899998493
+          },
+          "api_seconds": {
+            "n": 516,
+            "mean": 1.1605684806201835,
+            "min": 0.4546070000033069,
+            "p50": 1.1076477999995404,
+            "p90": 1.843864599999506,
+            "p95": 1.8545938999995997,
+            "max": 2.9681395000006887
+          },
+          "api_calls": 516,
+          "mean_calls": 2.015625,
+          "deepseek_calls": 286,
+          "jev_calls": 230,
+          "zero_call_questions": 26,
+          "known_cny": 0.26933304,
+          "known_usd": 0.014579376,
+          "unknown_calls": 48,
+          "conservative_cny": 3.014003616,
+          "known_estimated_cny_at_budget_fx": 0.385968048,
+          "mean_estimated_cny_at_budget_fx": null,
+          "jev_status": {
+            "fallback": 229,
+            "guarded": 1
+          },
+          "jev_reason": {
+            "UNCERTAIN_SEMANTICS": 16,
+            "JEV_TIMEOUT": 48,
+            "CONTEXT_REQUIRES_ORIGINAL_FLOW": 165,
+            "NON_AFFIRMATIVE_CHANGE": 1
+          },
+          "mean_conservative_cny_per_question": 0.011773451625,
+          "mean_conservative_cny_per_api": 0.005841092279069767,
+          "mean_known_cost_lower_bound_per_api": 0.0007480000930232558
+        }
+      },
+      "Jev专项": {
+        "off": {
+          "questions": 32,
+          "pass": 32,
+          "fail": 0,
+          "pass_rate": 1.0,
+          "question_seconds": {
+            "n": 32,
+            "mean": 1.3974426468751062,
+            "min": 0.003704199996718671,
+            "p50": 1.268719300001976,
+            "p90": 2.1007978999987245,
+            "p95": 2.6630469000010635,
+            "max": 2.6938723000021128
+          },
+          "api_seconds": {
+            "n": 40,
+            "mean": 0.9522927750002055,
+            "min": 0.5242808999973931,
+            "p50": 0.9320877000027394,
+            "p90": 1.1975585000000137,
+            "p95": 1.2290801999988616,
+            "max": 1.6848734000013792
+          },
+          "api_calls": 40,
+          "mean_calls": 1.25,
+          "deepseek_calls": 40,
+          "jev_calls": 0,
+          "zero_call_questions": 3,
+          "known_cny": 0.02547932,
+          "known_usd": 0,
+          "unknown_calls": 0,
+          "conservative_cny": 0.225822,
+          "known_estimated_cny_at_budget_fx": 0.02547932,
+          "mean_estimated_cny_at_budget_fx": 0.00079622875,
+          "jev_status": {},
+          "jev_reason": {},
+          "mean_conservative_cny_per_question": 0.0070569375,
+          "mean_conservative_cny_per_api": 0.00564555,
+          "mean_known_cost_lower_bound_per_api": 0.000636983
+        },
+        "assist": {
+          "questions": 32,
+          "pass": 31,
+          "fail": 1,
+          "pass_rate": 0.96875,
+          "question_seconds": {
+            "n": 32,
+            "mean": 2.6417133687494925,
+            "min": 0.003287100000306964,
+            "p50": 2.5593475999994553,
+            "p90": 4.16191500000059,
+            "p95": 4.581165999999939,
+            "max": 5.03268019999814
+          },
+          "api_seconds": {
+            "n": 69,
+            "mean": 1.0620258347827485,
+            "min": 0.485821100002795,
+            "p50": 1.0151454000006197,
+            "p90": 1.6505247999994026,
+            "p95": 1.7766675999992003,
+            "max": 1.863453900001332
+          },
+          "api_calls": 69,
+          "mean_calls": 2.15625,
+          "deepseek_calls": 40,
+          "jev_calls": 29,
+          "zero_call_questions": 3,
+          "known_cny": 0.02919856,
+          "known_usd": 0.002074842,
+          "unknown_calls": 3,
+          "conservative_cny": 0.316923024,
+          "known_estimated_cny_at_budget_fx": 0.045797296,
+          "mean_estimated_cny_at_budget_fx": null,
+          "jev_status": {
+            "fallback": 28,
+            "guarded": 1
+          },
+          "jev_reason": {
+            "UNCERTAIN_SEMANTICS": 18,
+            "JEV_TIMEOUT": 3,
+            "CONTEXT_REQUIRES_ORIGINAL_FLOW": 7,
+            "NON_AFFIRMATIVE_CHANGE": 1
+          },
+          "mean_conservative_cny_per_question": 0.0099038445,
+          "mean_conservative_cny_per_api": 0.004593087304347826,
+          "mean_known_cost_lower_bound_per_api": 0.0006637289275362319
+        }
+      }
+    },
+    "2": {
+      "主功能集": {
+        "off": {
+          "questions": 256,
+          "pass": 195,
+          "fail": 61,
+          "pass_rate": 0.76171875,
+          "question_seconds": {
+            "n": 256,
+            "mean": 1.329514739843873,
+            "min": 0.002860200002032798,
+            "p50": 1.265130900002987,
+            "p90": 2.2927356000000145,
+            "p95": 2.4606922999992094,
+            "max": 3.2471115999978792
+          },
+          "api_seconds": {
+            "n": 274,
+            "mean": 1.0732156821167782,
+            "min": 0.5156491000016103,
+            "p50": 1.0367261999999755,
+            "p90": 1.3369577000012214,
+            "p95": 1.56988740000088,
+            "max": 2.65060799999992
+          },
+          "api_calls": 274,
+          "mean_calls": 1.0703125,
+          "deepseek_calls": 274,
+          "jev_calls": 0,
+          "zero_call_questions": 26,
+          "known_cny": 0.20918078,
+          "known_usd": 0,
+          "unknown_calls": 0,
+          "conservative_cny": 1.70606,
+          "known_estimated_cny_at_budget_fx": 0.20918078,
+          "mean_estimated_cny_at_budget_fx": 0.000817112421875,
+          "jev_status": {},
+          "jev_reason": {},
+          "mean_conservative_cny_per_question": 0.006664296875,
+          "mean_conservative_cny_per_api": 0.006226496350364963,
+          "mean_known_cost_lower_bound_per_api": 0.0007634335036496351
+        },
+        "assist": {
+          "questions": 256,
+          "pass": 204,
+          "fail": 52,
+          "pass_rate": 0.796875,
+          "question_seconds": {
+            "n": 256,
+            "mean": 2.4505553628906966,
+            "min": 0.002998500000103377,
+            "p50": 2.4226299000001745,
+            "p90": 3.7396257999971567,
+            "p95": 4.089736500001891,
+            "max": 6.343560200002685
+          },
+          "api_seconds": {
+            "n": 519,
+            "mean": 1.042498268208117,
+            "min": 0.4878788000023633,
+            "p50": 0.9903939999967406,
+            "p90": 1.5829452999969362,
+            "p95": 1.8506235999993805,
+            "max": 1.9898711999994703
+          },
+          "api_calls": 519,
+          "mean_calls": 2.02734375,
+          "deepseek_calls": 289,
+          "jev_calls": 230,
+          "zero_call_questions": 26,
+          "known_cny": 0.22144716,
+          "known_usd": 0.016260384,
+          "unknown_calls": 27,
+          "conservative_cny": 2.5915736639999998,
+          "known_estimated_cny_at_budget_fx": 0.351530232,
+          "mean_estimated_cny_at_budget_fx": null,
+          "jev_status": {
+            "fallback": 229,
+            "guarded": 1
+          },
+          "jev_reason": {
+            "JEV_TIMEOUT": 27,
+            "UNCERTAIN_SEMANTICS": 15,
+            "CONTEXT_REQUIRES_ORIGINAL_FLOW": 187,
+            "NON_AFFIRMATIVE_CHANGE": 1
+          },
+          "mean_conservative_cny_per_question": 0.010123334624999999,
+          "mean_conservative_cny_per_api": 0.004993398196531791,
+          "mean_known_cost_lower_bound_per_api": 0.0006773222196531792
+        }
+      },
+      "Jev专项": {
+        "off": {
+          "questions": 32,
+          "pass": 28,
+          "fail": 4,
+          "pass_rate": 0.875,
+          "question_seconds": {
+            "n": 32,
+            "mean": 1.5629860437497882,
+            "min": 0.0023006999981589615,
+            "p50": 1.4076786000005086,
+            "p90": 2.5608785999975225,
+            "p95": 2.6623607000001357,
+            "max": 2.9111511999981303
+          },
+          "api_seconds": {
+            "n": 41,
+            "mean": 1.048553456097313,
+            "min": 0.70767220000198,
+            "p50": 1.0602179000015894,
+            "p90": 1.2789546999993036,
+            "p95": 1.3570647000015015,
+            "max": 1.6338354999970761
+          },
+          "api_calls": 41,
+          "mean_calls": 1.28125,
+          "deepseek_calls": 41,
+          "jev_calls": 0,
+          "zero_call_questions": 3,
+          "known_cny": 0.0213378,
+          "known_usd": 0,
+          "unknown_calls": 0,
+          "conservative_cny": 0.23209,
+          "known_estimated_cny_at_budget_fx": 0.0213378,
+          "mean_estimated_cny_at_budget_fx": 0.00066680625,
+          "jev_status": {},
+          "jev_reason": {},
+          "mean_conservative_cny_per_question": 0.0072528125,
+          "mean_conservative_cny_per_api": 0.0056607317073170725,
+          "mean_known_cost_lower_bound_per_api": 0.0005204341463414634
+        },
+        "assist": {
+          "questions": 32,
+          "pass": 31,
+          "fail": 1,
+          "pass_rate": 0.96875,
+          "question_seconds": {
+            "n": 32,
+            "mean": 2.455346278125262,
+            "min": 0.0023197999980766326,
+            "p50": 2.648039499999868,
+            "p90": 3.445837700000993,
+            "p95": 3.5516575000001467,
+            "max": 4.237273900002037
+          },
+          "api_seconds": {
+            "n": 72,
+            "mean": 0.9222042624997913,
+            "min": 0.48164429999815184,
+            "p50": 0.8527796999987913,
+            "p90": 1.462417099999584,
+            "p95": 1.7439659999981814,
+            "max": 1.9462028999987524
+          },
+          "api_calls": 72,
+          "mean_calls": 2.25,
+          "deepseek_calls": 43,
+          "jev_calls": 29,
+          "zero_call_questions": 3,
+          "known_cny": 0.0239784,
+          "known_usd": 0.002154726,
+          "unknown_calls": 2,
+          "conservative_cny": 0.313702,
+          "known_estimated_cny_at_budget_fx": 0.041216208,
+          "mean_estimated_cny_at_budget_fx": null,
+          "jev_status": {
+            "fallback": 28,
+            "guarded": 1
+          },
+          "jev_reason": {
+            "UNCERTAIN_SEMANTICS": 18,
+            "JEV_TIMEOUT": 2,
+            "CONTEXT_REQUIRES_ORIGINAL_FLOW": 8,
+            "NON_AFFIRMATIVE_CHANGE": 1
+          },
+          "mean_conservative_cny_per_question": 0.0098031875,
+          "mean_conservative_cny_per_api": 0.004356972222222222,
+          "mean_known_cost_lower_bound_per_api": 0.0005724473333333333
+        }
+      }
+    }
+  },
+  "provider_summaries": [
+    {
+      "mode": "off",
+      "provider": "deepseek",
+      "requests": 635,
+      "request_seconds": {
+        "n": 635,
+        "mean": 1.0842448896062276,
+        "min": 0.5156491000016103,
+        "p50": 1.0491392000003543,
+        "p90": 1.4194559999996272,
+        "p95": 1.589471200000844,
+        "max": 2.65060799999992
+      },
+      "known_usage_requests": 635,
+      "unknown_usage_requests": 0,
+      "known_cost_native": 0.5084379,
+      "known_requests_mean_cost_native": 0.0008006896062992126,
+      "currency": "CNY",
+      "conservative_cny": 3.913158
+    },
+    {
+      "mode": "off",
+      "provider": "jev",
+      "requests": 0,
+      "request_seconds": {
+        "n": 0,
+        "mean": null,
+        "min": null,
+        "p50": null,
+        "p90": null,
+        "p95": null,
+        "max": null
+      },
+      "known_usage_requests": 0,
+      "unknown_usage_requests": 0,
+      "known_cost_native": 0,
+      "known_requests_mean_cost_native": null,
+      "currency": "USD",
+      "conservative_cny": 0
+    },
+    {
+      "mode": "assist",
+      "provider": "deepseek",
+      "requests": 658,
+      "request_seconds": {
+        "n": 658,
+        "mean": 1.091374600607995,
+        "min": 0.4546070000033069,
+        "p50": 1.0612849999997707,
+        "p90": 1.3764106999988144,
+        "p95": 1.5219754999998258,
+        "max": 2.9681395000006887
+      },
+      "known_usage_requests": 658,
+      "unknown_usage_requests": 0,
+      "known_cost_native": 0.54395716,
+      "known_requests_mean_cost_native": 0.0008266826139817629,
+      "currency": "CNY",
+      "conservative_cny": 4.19404
+    },
+    {
+      "mode": "assist",
+      "provider": "jev",
+      "requests": 519,
+      "request_seconds": {
+        "n": 519,
+        "mean": 1.0853492159922185,
+        "min": 0.48143290000007255,
+        "p50": 0.9500318999998854,
+        "p90": 1.85244640000019,
+        "p95": 1.8562698000023374,
+        "max": 1.8771223000003374
+      },
+      "known_usage_requests": 439,
+      "unknown_usage_requests": 80,
+      "known_cost_native": 0.0351498,
+      "known_requests_mean_cost_native": 8.006788154897495e-05,
+      "currency": "USD",
+      "conservative_cny": 2.04280608
+    }
+  ],
+  "paired": {
+    "主功能集": {
+      "pairs": 512,
+      "improved": 41,
+      "regressed": 35,
+      "both_pass": 365,
+      "both_fail": 71,
+      "accuracy_delta": 0.01171875,
+      "cluster_bootstrap_95": [
+        -0.02099236641221374,
+        0.04339622641509434
+      ],
+      "mcnemar_exact_descriptive_p": 0.5665734423986847,
+      "seconds_delta": {
+        "n": 512,
+        "mean": 1.1933387499998886,
+        "min": -1.8533866999969177,
+        "p50": 1.1309193000015512,
+        "p90": 2.2325727000024926,
+        "p95": 2.4370763000042643,
+        "max": 4.242091699998127
+      },
+      "calls_delta": {
+        "n": 512,
+        "mean": 0.939453125,
+        "min": -1,
+        "p50": 1,
+        "p90": 1,
+        "p95": 2,
+        "max": 2
+      },
+      "clusters": 160
+    },
+    "Jev专项": {
+      "pairs": 64,
+      "improved": 4,
+      "regressed": 2,
+      "both_pass": 58,
+      "both_fail": 0,
+      "accuracy_delta": 0.03125,
+      "cluster_bootstrap_95": [
+        -0.03125,
+        0.109375
+      ],
+      "mcnemar_exact_descriptive_p": 0.6875,
+      "seconds_delta": {
+        "n": 64,
+        "mean": 1.06831547812493,
+        "min": -0.32509330000175396,
+        "p50": 1.0150790000006964,
+        "p90": 2.144447599999694,
+        "p95": 2.210825800000748,
+        "max": 3.236000299999432
+      },
+      "calls_delta": {
+        "n": 64,
+        "mean": 0.9375,
+        "min": 0,
+        "p50": 1,
+        "p90": 1,
+        "p95": 2,
+        "max": 2
+      },
+      "clusters": 32
+    }
+  },
+  "formal_questions": 1152,
+  "raw_question_executions": 1153,
+  "superseded_budget_blocked_attempts": [
+    {
+      "mode": "assist",
+      "repeat": 2,
+      "order": 2,
+      "scenario_id": "vt-P8.4-s3",
+      "question_id": "vt-P8.4-s3",
+      "stratum": "主功能集",
+      "turn": 1,
+      "id": "vt-P8.4-s3",
+      "group_id": "P8.4",
+      "category": "自然语义理解",
+      "text": "不是要丢弃，我是说这件牛奶喝完了，登记消耗",
+      "expected": {
+        "no_inventory_write": true,
+        "status": "needs_confirmation",
+        "draft": {
+          "action": "CONSUME",
+          "batch_id": "b1",
+          "quantity": "1"
+        }
+      },
+      "checks": {
+        "no_inventory_write": true,
+        "status": false,
+        "draft.action": false,
+        "draft.batch_id": false,
+        "draft.quantity": false
+      },
+      "status": "BLOCKED",
+      "output": {
+        "locale": "zh-CN",
+        "protocol_version": "inventory-autonomous-1",
+        "request_id": "vt-P8.4-s3",
+        "context_revision": 0,
+        "original_text": "不是要丢弃，我是说这件牛奶喝完了，登记消耗",
+        "reply": "后续理解未完成，已停止调用；请核对以上结果或原请求。",
+        "status": "stopped",
+        "stop_reason": "model_error",
+        "resolved": null,
+        "plan": null,
+        "verified_plans": [],
+        "filled_fields": {},
+        "model_calls": 2,
+        "tool_reads": 0,
+        "elapsed_ms": 2006.9720999999845,
+        "fallback_used": true,
+        "error_code": "BUDGET_EXCEEDED",
+        "trace": [
+          {
+            "step": 1,
+            "action": "jev",
+            "model_call": true,
+            "plan_sha256": null,
+            "error_code": null,
+            "jev": {
+              "protocol_version": "p9-optional-routing-1",
+              "source": "live",
+              "status": "fallback",
+              "reason": "CONTEXT_REQUIRES_ORIGINAL_FLOW",
+              "elapsed_ms": 1998.405599999387,
+              "nodes": {
+                "intent_router": {
+                  "type": "choice",
+                  "choice": "CONSUME",
+                  "probabilities": {
+                    "ADD": 0.0,
+                    "CONSUME": 1.0,
+                    "QUERY_INVENTORY": 0.0,
+                    "QUERY_LOCATION": 0.0,
+                    "PLAN_ADD": 0.0,
+                    "OPEN": 0.0,
+                    "MOVE": 0.0,
+                    "DISCARD": 0.0,
+                    "QUERY_RISK": 0.0,
+                    "QUERY_CONSUMPTION": 0.0,
+                    "QUERY_FORECAST": 0.0,
+                    "SUGGEST_PURCHASE": 0.0,
+                    "QUERY_LOCATION_ITEMS": 0.0,
+                    "QUERY_OVERVIEW": 0.0,
+                    "UNSUPPORTED": 0.0,
+                    "UNKNOWN": 0.0
+                  },
+                  "confidence": 1.0
+                },
+                "event_classifier": {
+                  "type": "choice",
+                  "choice": "FINISHED",
+                  "probabilities": {
+                    "ADDED": 0.0,
+                    "CONSUMED": 0.42,
+                    "MOVED": 0.0,
+                    "OPENED": 0.0,
+                    "DISCARDED": 0.0,
+                    "FINISHED": 0.58,
+                    "NONE": 0.0,
+                    "UNKNOWN": 0.0
+                  },
+                  "confidence": 0.52
+                },
+                "speech_act": {
+                  "type": "choice",
+                  "choice": "NEGATED",
+                  "probabilities": {
+                    "FACT": 0.06,
+                    "REQUEST": 0.43,
+                    "PLAN": 0.0,
+                    "QUESTION": 0.0,
+                    "NEGATED": 0.51,
+                    "UNKNOWN": 0.0
+                  },
+                  "confidence": 0.41
+                },
+                "multiple_actions": {
+                  "type": "noul",
+                  "noul": 0.13
+                },
+                "clarification_gate": {
+                  "type": "choice",
+                  "choice": "PASS",
+                  "probabilities": {
+                    "PASS": 0.82,
+                    "CLARIFY": 0.16,
+                    "UNKNOWN": 0.02
+                  },
+                  "confidence": 0.73
+                },
+                "action_gate": {
+                  "type": "choice",
+                  "choice": "CONFIRM",
+                  "probabilities": {
+                    "READ": 0.01,
+                    "CONFIRM": 0.79,
+                    "CLARIFY": 0.19,
+                    "WAIT": 0.01
+                  },
+                  "confidence": 0.72
+                }
+              },
+              "call": {
+                "phase": 1,
+                "source": "live",
+                "fingerprint": "09a755397d7823e52968748960096f565d3bb0db5c338fb7cd3ee305c504f8c5",
+                "attempted": true,
+                "status": "ok",
+                "error_code": null,
+                "model": "jev-1.13.0",
+                "elapsed_ms": 1998.222700000042,
+                "input_tokens": 1916,
+                "output_tokens": 409,
+                "charged_usd": "0.000080472",
+                "usage_measured": true,
+                "reservation_id": "a9c888fd4ee441eea356bb3073645a47",
+                "recording_error": null
+              },
+              "calibrated": false
+            }
+          },
+          {
+            "step": 2,
+            "action": "model_error",
+            "model_call": true,
+            "plan_sha256": null,
+            "error_code": "BUDGET_EXCEEDED"
+          }
+        ],
+        "inventory_writes": false,
+        "shopping_writes": false
+      },
+      "error_code": null,
+      "local_http_status": 200,
+      "question_ms": 2010.8553999998549,
+      "actual_http_calls": 1,
+      "deepseek_http_calls": 0,
+      "jev_http_calls": 1,
+      "declared_model_invocations": 2,
+      "inventory_unchanged": true,
+      "jev_audit": [
+        {
+          "protocol_version": "p9-optional-routing-1",
+          "source": "live",
+          "status": "fallback",
+          "reason": "CONTEXT_REQUIRES_ORIGINAL_FLOW",
+          "elapsed_ms": 1998.405599999387,
+          "nodes": {
+            "intent_router": {
+              "type": "choice",
+              "choice": "CONSUME",
+              "probabilities": {
+                "ADD": 0.0,
+                "CONSUME": 1.0,
+                "QUERY_INVENTORY": 0.0,
+                "QUERY_LOCATION": 0.0,
+                "PLAN_ADD": 0.0,
+                "OPEN": 0.0,
+                "MOVE": 0.0,
+                "DISCARD": 0.0,
+                "QUERY_RISK": 0.0,
+                "QUERY_CONSUMPTION": 0.0,
+                "QUERY_FORECAST": 0.0,
+                "SUGGEST_PURCHASE": 0.0,
+                "QUERY_LOCATION_ITEMS": 0.0,
+                "QUERY_OVERVIEW": 0.0,
+                "UNSUPPORTED": 0.0,
+                "UNKNOWN": 0.0
+              },
+              "confidence": 1.0
+            },
+            "event_classifier": {
+              "type": "choice",
+              "choice": "FINISHED",
+              "probabilities": {
+                "ADDED": 0.0,
+                "CONSUMED": 0.42,
+                "MOVED": 0.0,
+                "OPENED": 0.0,
+                "DISCARDED": 0.0,
+                "FINISHED": 0.58,
+                "NONE": 0.0,
+                "UNKNOWN": 0.0
+              },
+              "confidence": 0.52
+            },
+            "speech_act": {
+              "type": "choice",
+              "choice": "NEGATED",
+              "probabilities": {
+                "FACT": 0.06,
+                "REQUEST": 0.43,
+                "PLAN": 0.0,
+                "QUESTION": 0.0,
+                "NEGATED": 0.51,
+                "UNKNOWN": 0.0
+              },
+              "confidence": 0.41
+            },
+            "multiple_actions": {
+              "type": "noul",
+              "noul": 0.13
+            },
+            "clarification_gate": {
+              "type": "choice",
+              "choice": "PASS",
+              "probabilities": {
+                "PASS": 0.82,
+                "CLARIFY": 0.16,
+                "UNKNOWN": 0.02
+              },
+              "confidence": 0.73
+            },
+            "action_gate": {
+              "type": "choice",
+              "choice": "CONFIRM",
+              "probabilities": {
+                "READ": 0.01,
+                "CONFIRM": 0.79,
+                "CLARIFY": 0.19,
+                "WAIT": 0.01
+              },
+              "confidence": 0.72
+            }
+          },
+          "call": {
+            "phase": 1,
+            "source": "live",
+            "fingerprint": "09a755397d7823e52968748960096f565d3bb0db5c338fb7cd3ee305c504f8c5",
+            "attempted": true,
+            "status": "ok",
+            "error_code": null,
+            "model": "jev-1.13.0",
+            "elapsed_ms": 1998.222700000042,
+            "input_tokens": 1916,
+            "output_tokens": 409,
+            "charged_usd": "0.000080472",
+            "usage_measured": true,
+            "reservation_id": "a9c888fd4ee441eea356bb3073645a47",
+            "recording_error": null
+          },
+          "calibrated": false
+        }
+      ],
+      "wire_ids": [
+        "formal-20261103T234927/http-001549"
+      ],
+      "human_review_status": "pending",
+      "source_folder": "runs\\formal-20261103T234927"
+    }
+  ],
+  "formal_apis": 1812,
+  "unpaired_executions": 0,
+  "unexecuted": 0,
+  "initial_premise_mismatches": [],
+  "both_modes_fail_does_not_mean_jev_regression": true,
+  "platform_bill_verified": false,
+  "usd_budget_fx": 8,
+  "fx_is_budget_assumption": true,
+  "human_review_status": "pending",
+  "groups": [
+    {
+      "group": "P0",
+      "mode": "off",
+      "questions": 32,
+      "pass": 26,
+      "fail": 6,
+      "pass_rate": 0.8125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.5220070093753293,
+        "min": 0.8838934000013978,
+        "p50": 1.2981614999989688,
+        "p90": 2.325651300001482,
+        "p95": 2.4606922999992094,
+        "max": 2.619095099998958
+      },
+      "api_seconds": {
+        "n": 39,
+        "mean": 1.0841627333332629,
+        "min": 0.6089839999985998,
+        "p50": 1.04003609999927,
+        "p90": 1.5132154000020819,
+        "p95": 1.831235800000286,
+        "max": 2.453667600002518
+      },
+      "api_calls": 39,
+      "mean_calls": 1.21875,
+      "deepseek_calls": 39,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.03407472,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.242758,
+      "known_estimated_cny_at_budget_fx": 0.03407472,
+      "mean_estimated_cny_at_budget_fx": 0.001064835,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0075861875,
+      "mean_conservative_cny_per_api": 0.006224564102564102,
+      "mean_known_cost_lower_bound_per_api": 0.0008737107692307693
+    },
+    {
+      "group": "P0",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 29,
+      "fail": 3,
+      "pass_rate": 0.90625,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.9746777374999738,
+        "min": 1.832147299999633,
+        "p50": 2.9646800000009534,
+        "p90": 4.070842899996933,
+        "p95": 4.138908799999626,
+        "max": 4.370342800000799
+      },
+      "api_seconds": {
+        "n": 74,
+        "mean": 1.1242347162163708,
+        "min": 0.5080076000012923,
+        "p50": 1.0185624000005191,
+        "p90": 1.854387700001098,
+        "p95": 1.8585959999982151,
+        "max": 1.864653399999952
+      },
+      "api_calls": 74,
+      "mean_calls": 2.3125,
+      "deepseek_calls": 42,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.03683312,
+      "known_usd": 0.001762152,
+      "unknown_calls": 10,
+      "conservative_cny": 0.507406176,
+      "known_estimated_cny_at_budget_fx": 0.050930336,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 6,
+        "JEV_TIMEOUT": 10,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 16
+      },
+      "mean_conservative_cny_per_question": 0.015856443,
+      "mean_conservative_cny_per_api": 0.006856840216216217,
+      "mean_known_cost_lower_bound_per_api": 0.0006882477837837838
+    },
+    {
+      "group": "P1",
+      "mode": "off",
+      "questions": 32,
+      "pass": 27,
+      "fail": 5,
+      "pass_rate": 0.84375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.5663473812497841,
+        "min": 0.809542800001509,
+        "p50": 1.311273400002392,
+        "p90": 2.234291299999313,
+        "p95": 2.626472300002206,
+        "max": 4.174355299997842
+      },
+      "api_seconds": {
+        "n": 42,
+        "mean": 1.0294682833330062,
+        "min": 0.5156491000016103,
+        "p50": 1.0064606000014464,
+        "p90": 1.383487299997796,
+        "p95": 1.4662963000009768,
+        "max": 1.7924201999994693
+      },
+      "api_calls": 42,
+      "mean_calls": 1.3125,
+      "deepseek_calls": 42,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.03401286,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.264698,
+      "known_estimated_cny_at_budget_fx": 0.03401286,
+      "mean_estimated_cny_at_budget_fx": 0.001062901875,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0082718125,
+      "mean_conservative_cny_per_api": 0.006302333333333333,
+      "mean_known_cost_lower_bound_per_api": 0.00080983
+    },
+    {
+      "group": "P1",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 28,
+      "fail": 4,
+      "pass_rate": 0.875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.7301110031248754,
+        "min": 1.7846761000000697,
+        "p50": 2.6657728999998653,
+        "p90": 3.6436495000016293,
+        "p95": 3.849076900001819,
+        "max": 3.97689089999767
+      },
+      "api_seconds": {
+        "n": 69,
+        "mean": 1.1033635217387674,
+        "min": 0.5307322999979078,
+        "p50": 1.067704599998251,
+        "p90": 1.7508438999975624,
+        "p95": 1.84668320000128,
+        "max": 1.864880600001925
+      },
+      "api_calls": 69,
+      "mean_calls": 2.15625,
+      "deepseek_calls": 37,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.03280442,
+      "known_usd": 0.0021621179999999998,
+      "unknown_calls": 5,
+      "conservative_cny": 0.37032942399999996,
+      "known_estimated_cny_at_budget_fx": 0.050101364,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 27,
+        "JEV_TIMEOUT": 5
+      },
+      "mean_conservative_cny_per_question": 0.011572794499999999,
+      "mean_conservative_cny_per_api": 0.005367093101449275,
+      "mean_known_cost_lower_bound_per_api": 0.0007261067246376811
+    },
+    {
+      "group": "P2",
+      "mode": "off",
+      "questions": 32,
+      "pass": 31,
+      "fail": 1,
+      "pass_rate": 0.96875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.329739475000224,
+        "min": 0.9229190000005474,
+        "p50": 1.254318700001022,
+        "p90": 1.7549094000023615,
+        "p95": 2.456726399999752,
+        "max": 2.5751884000019345
+      },
+      "api_seconds": {
+        "n": 35,
+        "mean": 1.0509727371431445,
+        "min": 0.6628722999994352,
+        "p50": 1.0877757999987807,
+        "p90": 1.301110599997628,
+        "p95": 1.4410333999985596,
+        "max": 1.589471200000844
+      },
+      "api_calls": 35,
+      "mean_calls": 1.09375,
+      "deepseek_calls": 35,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.024126,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.205052,
+      "known_estimated_cny_at_budget_fx": 0.024126,
+      "mean_estimated_cny_at_budget_fx": 0.0007539375,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.006407875,
+      "mean_conservative_cny_per_api": 0.005858628571428571,
+      "mean_known_cost_lower_bound_per_api": 0.0006893142857142858
+    },
+    {
+      "group": "P2",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 31,
+      "fail": 1,
+      "pass_rate": 0.96875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.587688796874886,
+        "min": 1.5880847999978869,
+        "p50": 2.3139969000003475,
+        "p90": 3.587394199999835,
+        "p95": 4.094861800000217,
+        "max": 4.230363099999522
+      },
+      "api_seconds": {
+        "n": 68,
+        "mean": 1.0556290985294468,
+        "min": 0.4546070000033069,
+        "p50": 0.979743600000802,
+        "p90": 1.853833700002724,
+        "p95": 1.854595500000869,
+        "max": 1.917065099998581
+      },
+      "api_calls": 68,
+      "mean_calls": 2.125,
+      "deepseek_calls": 36,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.02497626,
+      "known_usd": 0.00208257,
+      "unknown_calls": 6,
+      "conservative_cny": 0.363791136,
+      "known_estimated_cny_at_budget_fx": 0.04163682,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "JEV_TIMEOUT": 6,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 26
+      },
+      "mean_conservative_cny_per_question": 0.011368473,
+      "mean_conservative_cny_per_api": 0.005349869647058823,
+      "mean_known_cost_lower_bound_per_api": 0.0006123061764705882
+    },
+    {
+      "group": "P3",
+      "mode": "off",
+      "questions": 32,
+      "pass": 17,
+      "fail": 15,
+      "pass_rate": 0.53125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.474181375000171,
+        "min": 0.9560937999995076,
+        "p50": 1.3159258000014233,
+        "p90": 2.2161646999993536,
+        "p95": 2.49025900000197,
+        "max": 2.9647020999982487
+      },
+      "api_seconds": {
+        "n": 39,
+        "mean": 1.0399407358973127,
+        "min": 0.6590911000021151,
+        "p50": 1.0278324999999313,
+        "p90": 1.234736200000043,
+        "p95": 1.4626181999992696,
+        "max": 1.6174723000003723
+      },
+      "api_calls": 39,
+      "mean_calls": 1.21875,
+      "deepseek_calls": 39,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.02897128,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.232802,
+      "known_estimated_cny_at_budget_fx": 0.02897128,
+      "mean_estimated_cny_at_budget_fx": 0.0009053525,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0072750625,
+      "mean_conservative_cny_per_api": 0.005969282051282052,
+      "mean_known_cost_lower_bound_per_api": 0.0007428533333333333
+    },
+    {
+      "group": "P3",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 18,
+      "fail": 14,
+      "pass_rate": 0.5625,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.9309867749998375,
+        "min": 1.892949499997485,
+        "p50": 2.8783878999965964,
+        "p90": 4.035886000001483,
+        "p95": 4.219345800000156,
+        "max": 4.5024584000020695
+      },
+      "api_seconds": {
+        "n": 72,
+        "mean": 1.1367061347227718,
+        "min": 0.5198555000024498,
+        "p50": 1.0930867999995826,
+        "p90": 1.8462476999993669,
+        "p95": 1.8562698000023374,
+        "max": 1.9088527000021713
+      },
+      "api_calls": 72,
+      "mean_calls": 2.25,
+      "deepseek_calls": 40,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.030819720000000002,
+      "known_usd": 0.002001636,
+      "unknown_calls": 7,
+      "conservative_cny": 0.41669176,
+      "known_estimated_cny_at_budget_fx": 0.046832808000000004,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 25,
+        "JEV_TIMEOUT": 7
+      },
+      "mean_conservative_cny_per_question": 0.0130216175,
+      "mean_conservative_cny_per_api": 0.0057873855555555555,
+      "mean_known_cost_lower_bound_per_api": 0.0006504556666666667
+    },
+    {
+      "group": "P4",
+      "mode": "off",
+      "questions": 32,
+      "pass": 24,
+      "fail": 8,
+      "pass_rate": 0.75,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.395509509375188,
+        "min": 0.0031667000002926216,
+        "p50": 1.3398142000005464,
+        "p90": 2.2302772000002733,
+        "p95": 2.5417392999988806,
+        "max": 2.681217600002128
+      },
+      "api_seconds": {
+        "n": 36,
+        "mean": 1.0757614194442593,
+        "min": 0.6993619999993825,
+        "p50": 1.0407357000003685,
+        "p90": 1.3015943999998854,
+        "p95": 1.4731902999992599,
+        "max": 1.7817386999995506
+      },
+      "api_calls": 36,
+      "mean_calls": 1.125,
+      "deepseek_calls": 36,
+      "jev_calls": 0,
+      "zero_call_questions": 2,
+      "known_cny": 0.03328772,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.22913,
+      "known_estimated_cny_at_budget_fx": 0.03328772,
+      "mean_estimated_cny_at_budget_fx": 0.00104024125,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0071603125,
+      "mean_conservative_cny_per_api": 0.006364722222222222,
+      "mean_known_cost_lower_bound_per_api": 0.0009246588888888889
+    },
+    {
+      "group": "P4",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 25,
+      "fail": 7,
+      "pass_rate": 0.78125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.6250371687500547,
+        "min": 0.003129500000795815,
+        "p50": 2.7265208999997412,
+        "p90": 3.4886328000029607,
+        "p95": 3.6374304999990272,
+        "max": 3.7386316000010993
+      },
+      "api_seconds": {
+        "n": 68,
+        "mean": 1.0728399426470787,
+        "min": 0.5265913000002911,
+        "p50": 1.0157035000011092,
+        "p90": 1.685038200001145,
+        "p95": 1.8545993000007002,
+        "max": 1.8662839999997232
+      },
+      "api_calls": 68,
+      "mean_calls": 2.125,
+      "deepseek_calls": 38,
+      "jev_calls": 30,
+      "zero_call_questions": 2,
+      "known_cny": 0.03711876,
+      "known_usd": 0.001921962,
+      "unknown_calls": 6,
+      "conservative_cny": 0.397326272,
+      "known_estimated_cny_at_budget_fx": 0.052494456,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 30
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 6,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 18,
+        "JEV_TIMEOUT": 6
+      },
+      "mean_conservative_cny_per_question": 0.012416446,
+      "mean_conservative_cny_per_api": 0.005843033411764706,
+      "mean_known_cost_lower_bound_per_api": 0.0007719772941176471
+    },
+    {
+      "group": "P5",
+      "mode": "off",
+      "questions": 32,
+      "pass": 27,
+      "fail": 5,
+      "pass_rate": 0.84375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.5076386312500745,
+        "min": 0.8805362000020978,
+        "p50": 1.29957789999753,
+        "p90": 2.6221900999989884,
+        "p95": 2.8378532999995514,
+        "max": 3.194687499999418
+      },
+      "api_seconds": {
+        "n": 37,
+        "mean": 1.138657570270388,
+        "min": 0.7143667999989702,
+        "p50": 1.060883099999046,
+        "p90": 1.56988740000088,
+        "p95": 1.6239791000007244,
+        "max": 2.086590499999147
+      },
+      "api_calls": 37,
+      "mean_calls": 1.15625,
+      "deepseek_calls": 37,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.03454006,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.235392,
+      "known_estimated_cny_at_budget_fx": 0.03454006,
+      "mean_estimated_cny_at_budget_fx": 0.001079376875,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.007356,
+      "mean_conservative_cny_per_api": 0.006361945945945946,
+      "mean_known_cost_lower_bound_per_api": 0.0009335151351351351
+    },
+    {
+      "group": "P5",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 25,
+      "fail": 7,
+      "pass_rate": 0.78125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.8651317687496203,
+        "min": 1.6681253000024299,
+        "p50": 2.7529316999971343,
+        "p90": 3.9014553999986674,
+        "p95": 4.340580399999453,
+        "max": 4.533584199998586
+      },
+      "api_seconds": {
+        "n": 71,
+        "mean": 1.1283330957749187,
+        "min": 0.523514199998317,
+        "p50": 1.1131131000001915,
+        "p90": 1.6528539999999339,
+        "p95": 1.8493502999990596,
+        "max": 1.9898711999994703
+      },
+      "api_calls": 71,
+      "mean_calls": 2.21875,
+      "deepseek_calls": 39,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.03664586,
+      "known_usd": 0.0022412459999999997,
+      "unknown_calls": 4,
+      "conservative_cny": 0.362156352,
+      "known_estimated_cny_at_budget_fx": 0.054575828,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 1,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 27,
+        "JEV_TIMEOUT": 4
+      },
+      "mean_conservative_cny_per_question": 0.011317386,
+      "mean_conservative_cny_per_api": 0.005100793690140846,
+      "mean_known_cost_lower_bound_per_api": 0.0007686736338028169
+    },
+    {
+      "group": "P6",
+      "mode": "off",
+      "questions": 32,
+      "pass": 24,
+      "fail": 8,
+      "pass_rate": 0.75,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.5384786031248723,
+        "min": 0.004209000002447283,
+        "p50": 1.3601404000000912,
+        "p90": 2.3899483000022883,
+        "p95": 2.789533899998787,
+        "max": 3.2471115999978792
+      },
+      "api_seconds": {
+        "n": 42,
+        "mean": 1.0083071904761407,
+        "min": 0.5600454999985232,
+        "p50": 0.9726456999997026,
+        "p90": 1.248566700000083,
+        "p95": 1.2988081000003149,
+        "max": 1.5902266000011878
+      },
+      "api_calls": 42,
+      "mean_calls": 1.3125,
+      "deepseek_calls": 42,
+      "jev_calls": 0,
+      "zero_call_questions": 2,
+      "known_cny": 0.03592576,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.26577,
+      "known_estimated_cny_at_budget_fx": 0.03592576,
+      "mean_estimated_cny_at_budget_fx": 0.00112268,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0083053125,
+      "mean_conservative_cny_per_api": 0.006327857142857143,
+      "mean_known_cost_lower_bound_per_api": 0.0008553752380952381
+    },
+    {
+      "group": "P6",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 22,
+      "fail": 10,
+      "pass_rate": 0.6875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 3.10331188125042,
+        "min": 0.0040365999993809965,
+        "p50": 3.09430870000142,
+        "p90": 4.422675199999503,
+        "p95": 4.710008399997605,
+        "max": 4.841742600001453
+      },
+      "api_seconds": {
+        "n": 79,
+        "mean": 1.0944152544305532,
+        "min": 0.49107770000046,
+        "p50": 1.0524186999973608,
+        "p90": 1.8517878999991808,
+        "p95": 1.8534428000020853,
+        "max": 1.8771223000003374
+      },
+      "api_calls": 79,
+      "mean_calls": 2.46875,
+      "deepseek_calls": 49,
+      "jev_calls": 30,
+      "zero_call_questions": 2,
+      "known_cny": 0.04001058,
+      "known_usd": 0.001681974,
+      "unknown_calls": 9,
+      "conservative_cny": 0.5334806559999999,
+      "known_estimated_cny_at_budget_fx": 0.053466372,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 30
+      },
+      "jev_reason": {
+        "JEV_TIMEOUT": 9,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 21
+      },
+      "mean_conservative_cny_per_question": 0.016671270499999998,
+      "mean_conservative_cny_per_api": 0.006752919696202531,
+      "mean_known_cost_lower_bound_per_api": 0.0006767895189873417
+    },
+    {
+      "group": "P7",
+      "mode": "off",
+      "questions": 32,
+      "pass": 32,
+      "fail": 0,
+      "pass_rate": 1.0,
+      "question_seconds": {
+        "n": 32,
+        "mean": 0.47853991562544707,
+        "min": 0.002184500001021661,
+        "p50": 0.004065900000568945,
+        "p90": 1.296125499997288,
+        "p95": 1.6220930999988923,
+        "max": 1.944241700002749
+      },
+      "api_seconds": {
+        "n": 12,
+        "mean": 1.1046009833329056,
+        "min": 0.764617900000303,
+        "p50": 1.0541928999991796,
+        "p90": 1.4621838999992178,
+        "p95": 1.7772225000007893,
+        "max": 1.7772225000007893
+      },
+      "api_calls": 12,
+      "mean_calls": 0.375,
+      "deepseek_calls": 12,
+      "jev_calls": 0,
+      "zero_call_questions": 20,
+      "known_cny": 0.00841008,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.07151199999999999,
+      "known_estimated_cny_at_budget_fx": 0.00841008,
+      "mean_estimated_cny_at_budget_fx": 0.000262815,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0022347499999999998,
+      "mean_conservative_cny_per_api": 0.005959333333333333,
+      "mean_known_cost_lower_bound_per_api": 0.00070084
+    },
+    {
+      "group": "P7",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 31,
+      "fail": 1,
+      "pass_rate": 0.96875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 0.9088225124999099,
+        "min": 0.001946799999132054,
+        "p50": 0.004505799999606097,
+        "p90": 2.513095500002237,
+        "p95": 3.424338299999363,
+        "max": 3.4333770999983244
+      },
+      "api_seconds": {
+        "n": 24,
+        "mean": 1.046341091666515,
+        "min": 0.503303399997094,
+        "p50": 0.9687917999981437,
+        "p90": 1.3741460999990522,
+        "p95": 1.8537900000010268,
+        "max": 1.8661081999998714
+      },
+      "api_calls": 24,
+      "mean_calls": 0.75,
+      "deepseek_calls": 12,
+      "jev_calls": 12,
+      "zero_call_questions": 20,
+      "known_cny": 0.0077272,
+      "known_usd": 0.000800688,
+      "unknown_calls": 2,
+      "conservative_cny": 0.121093696,
+      "known_estimated_cny_at_budget_fx": 0.014132704,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 12
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 10,
+        "JEV_TIMEOUT": 2
+      },
+      "mean_conservative_cny_per_question": 0.003784178,
+      "mean_conservative_cny_per_api": 0.005045570666666666,
+      "mean_known_cost_lower_bound_per_api": 0.0005888626666666666
+    },
+    {
+      "group": "P7.3",
+      "mode": "off",
+      "questions": 32,
+      "pass": 30,
+      "fail": 2,
+      "pass_rate": 0.9375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.0793363593751337,
+        "min": 0.0030818999985058326,
+        "p50": 1.1468945000015083,
+        "p90": 2.1549307000022964,
+        "p95": 3.0451733999980206,
+        "max": 3.518478600002709
+      },
+      "api_seconds": {
+        "n": 26,
+        "mean": 1.1615605692306696,
+        "min": 0.6884796000013012,
+        "p50": 1.0443999000017357,
+        "p90": 1.649661700001161,
+        "p95": 1.6916501999985485,
+        "max": 2.65060799999992
+      },
+      "api_calls": 26,
+      "mean_calls": 0.8125,
+      "deepseek_calls": 26,
+      "jev_calls": 0,
+      "zero_call_questions": 10,
+      "known_cny": 0.02170016,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.159056,
+      "known_estimated_cny_at_budget_fx": 0.02170016,
+      "mean_estimated_cny_at_budget_fx": 0.00067813,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0049705,
+      "mean_conservative_cny_per_api": 0.006117538461538462,
+      "mean_known_cost_lower_bound_per_api": 0.0008346215384615384
+    },
+    {
+      "group": "P7.3",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 28,
+      "fail": 4,
+      "pass_rate": 0.875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.736550981249934,
+        "min": 0.003175599998940015,
+        "p50": 2.0350837000005413,
+        "p90": 3.0139268999992055,
+        "p95": 3.3137686000009126,
+        "max": 4.661355800002639
+      },
+      "api_seconds": {
+        "n": 47,
+        "mean": 1.0186531468081081,
+        "min": 0.508131599999615,
+        "p50": 1.0185577999982343,
+        "p90": 1.5717512000010174,
+        "p95": 1.6447307000016735,
+        "max": 1.8505977999993775
+      },
+      "api_calls": 47,
+      "mean_calls": 1.46875,
+      "deepseek_calls": 25,
+      "jev_calls": 22,
+      "zero_call_questions": 10,
+      "known_cny": 0.01827844,
+      "known_usd": 0.001690122,
+      "unknown_calls": 1,
+      "conservative_cny": 0.191015072,
+      "known_estimated_cny_at_budget_fx": 0.031799416,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 22
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 19,
+        "UNCERTAIN_SEMANTICS": 2,
+        "JEV_TIMEOUT": 1
+      },
+      "mean_conservative_cny_per_question": 0.005969221,
+      "mean_conservative_cny_per_api": 0.004064150468085106,
+      "mean_known_cost_lower_bound_per_api": 0.0006765833191489361
+    },
+    {
+      "group": "P8",
+      "mode": "off",
+      "questions": 32,
+      "pass": 23,
+      "fail": 9,
+      "pass_rate": 0.71875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.4028894968748773,
+        "min": 0.0040026999995461665,
+        "p50": 1.259464200000366,
+        "p90": 2.415368399997533,
+        "p95": 2.672624099999666,
+        "max": 2.769248200002039
+      },
+      "api_seconds": {
+        "n": 36,
+        "mean": 1.080238599999777,
+        "min": 0.7872219000018958,
+        "p50": 1.0562480999979016,
+        "p90": 1.3108513000006496,
+        "p95": 1.544297699998424,
+        "max": 1.5581688999991457
+      },
+      "api_calls": 36,
+      "mean_calls": 1.125,
+      "deepseek_calls": 36,
+      "jev_calls": 0,
+      "zero_call_questions": 2,
+      "known_cny": 0.03465624,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.254948,
+      "known_estimated_cny_at_budget_fx": 0.03465624,
+      "mean_estimated_cny_at_budget_fx": 0.0010830075,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.007967125,
+      "mean_conservative_cny_per_api": 0.007081888888888889,
+      "mean_known_cost_lower_bound_per_api": 0.0009626733333333333
+    },
+    {
+      "group": "P8",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 22,
+      "fail": 10,
+      "pass_rate": 0.6875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.8050104750002447,
+        "min": 0.003983600003266474,
+        "p50": 2.372734799999307,
+        "p90": 4.48267979999946,
+        "p95": 4.718876399998408,
+        "max": 5.501555899998493
+      },
+      "api_seconds": {
+        "n": 70,
+        "mean": 1.1165240385711512,
+        "min": 0.48143290000007255,
+        "p50": 1.04418159999841,
+        "p90": 1.6840284999998403,
+        "p95": 1.8410846000006131,
+        "max": 2.9681395000006887
+      },
+      "api_calls": 70,
+      "mean_calls": 2.1875,
+      "deepseek_calls": 40,
+      "jev_calls": 30,
+      "zero_call_questions": 2,
+      "known_cny": 0.04170936,
+      "known_usd": 0.002240952,
+      "unknown_calls": 2,
+      "conservative_cny": 0.356611808,
+      "known_estimated_cny_at_budget_fx": 0.059636976,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 30
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 28,
+        "JEV_TIMEOUT": 2
+      },
+      "mean_conservative_cny_per_question": 0.011144119,
+      "mean_conservative_cny_per_api": 0.005094454399999999,
+      "mean_known_cost_lower_bound_per_api": 0.0008519568
+    },
+    {
+      "group": "P8.1",
+      "mode": "off",
+      "questions": 32,
+      "pass": 27,
+      "fail": 5,
+      "pass_rate": 0.84375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.250692756249805,
+        "min": 0.0030805999995209277,
+        "p50": 1.3362121999998635,
+        "p90": 2.2927356000000145,
+        "p95": 2.704577500000596,
+        "max": 2.7712487999997393
+      },
+      "api_seconds": {
+        "n": 28,
+        "mean": 1.2528430999999338,
+        "min": 0.8153506000016932,
+        "p50": 1.1724771999979566,
+        "p90": 1.6387813000001188,
+        "p95": 1.894236699998146,
+        "max": 1.962954800001171
+      },
+      "api_calls": 28,
+      "mean_calls": 0.875,
+      "deepseek_calls": 28,
+      "jev_calls": 0,
+      "zero_call_questions": 8,
+      "known_cny": 0.01965864,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.169524,
+      "known_estimated_cny_at_budget_fx": 0.01965864,
+      "mean_estimated_cny_at_budget_fx": 0.0006143325,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.005297625,
+      "mean_conservative_cny_per_api": 0.006054428571428572,
+      "mean_known_cost_lower_bound_per_api": 0.0007020942857142858
+    },
+    {
+      "group": "P8.1",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 28,
+      "fail": 4,
+      "pass_rate": 0.875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.2460510281250663,
+        "min": 0.0031712000018160325,
+        "p50": 2.429279400002997,
+        "p90": 3.8622959999993327,
+        "p95": 4.009094099998038,
+        "max": 4.3655143000032695
+      },
+      "api_seconds": {
+        "n": 52,
+        "mean": 1.2050516711536217,
+        "min": 0.5191930999972101,
+        "p50": 1.1680853999969258,
+        "p90": 1.6798252999979013,
+        "p95": 1.8220232999992731,
+        "max": 1.8624614000000292
+      },
+      "api_calls": 52,
+      "mean_calls": 1.625,
+      "deepseek_calls": 28,
+      "jev_calls": 24,
+      "zero_call_questions": 8,
+      "known_cny": 0.02023556,
+      "known_usd": 0.0017603879999999999,
+      "unknown_calls": 2,
+      "conservative_cny": 0.232027296,
+      "known_estimated_cny_at_budget_fx": 0.034318664,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 22,
+        "guarded": 2
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 18,
+        "NON_AFFIRMATIVE_CHANGE": 2,
+        "UNCERTAIN_SEMANTICS": 2,
+        "JEV_TIMEOUT": 2
+      },
+      "mean_conservative_cny_per_question": 0.007250853,
+      "mean_conservative_cny_per_api": 0.004462063384615384,
+      "mean_known_cost_lower_bound_per_api": 0.0006599743076923076
+    },
+    {
+      "group": "P8.2",
+      "mode": "off",
+      "questions": 32,
+      "pass": 24,
+      "fail": 8,
+      "pass_rate": 0.75,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.4836902437499475,
+        "min": 0.0021103999970364384,
+        "p50": 1.4338960999994015,
+        "p90": 2.3594615000001795,
+        "p95": 2.408897100001923,
+        "max": 2.462751200000639
+      },
+      "api_seconds": {
+        "n": 35,
+        "mean": 1.1854763599996139,
+        "min": 0.7559097999983351,
+        "p50": 1.0854426000005333,
+        "p90": 1.6081041999968875,
+        "p95": 2.0967433999976492,
+        "max": 2.1918232000025455
+      },
+      "api_calls": 35,
+      "mean_calls": 1.09375,
+      "deepseek_calls": 35,
+      "jev_calls": 0,
+      "zero_call_questions": 2,
+      "known_cny": 0.028317,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.213434,
+      "known_estimated_cny_at_budget_fx": 0.028317,
+      "mean_estimated_cny_at_budget_fx": 0.00088490625,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0066698125,
+      "mean_conservative_cny_per_api": 0.006098114285714286,
+      "mean_known_cost_lower_bound_per_api": 0.0008090571428571429
+    },
+    {
+      "group": "P8.2",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 25,
+      "fail": 7,
+      "pass_rate": 0.78125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.5485119562497403,
+        "min": 0.0019971000001532957,
+        "p50": 2.7515918999997666,
+        "p90": 3.395653499999753,
+        "p95": 3.780652099998406,
+        "max": 3.996976700000232
+      },
+      "api_seconds": {
+        "n": 66,
+        "mean": 1.0679663696972774,
+        "min": 0.5012710000009974,
+        "p50": 0.9826066999994509,
+        "p90": 1.7765016999983345,
+        "p95": 1.8531776000017999,
+        "max": 2.409631599999557
+      },
+      "api_calls": 66,
+      "mean_calls": 2.0625,
+      "deepseek_calls": 36,
+      "jev_calls": 30,
+      "zero_call_questions": 2,
+      "known_cny": 0.03208332,
+      "known_usd": 0.002162496,
+      "unknown_calls": 3,
+      "conservative_cny": 0.309846256,
+      "known_estimated_cny_at_budget_fx": 0.049383288,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 30
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 7,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 20,
+        "JEV_TIMEOUT": 3
+      },
+      "mean_conservative_cny_per_question": 0.0096826955,
+      "mean_conservative_cny_per_api": 0.004694640242424242,
+      "mean_known_cost_lower_bound_per_api": 0.0007482316363636363
+    },
+    {
+      "group": "P8.3",
+      "mode": "off",
+      "questions": 32,
+      "pass": 20,
+      "fail": 12,
+      "pass_rate": 0.625,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.5340423843751978,
+        "min": 0.9344314000009035,
+        "p50": 1.3814622999998392,
+        "p90": 2.250322200001392,
+        "p95": 2.7404403000000457,
+        "max": 2.831358800001908
+      },
+      "api_seconds": {
+        "n": 38,
+        "mean": 1.118713350000115,
+        "min": 0.7067023000017798,
+        "p50": 1.0826522999996087,
+        "p90": 1.4326553999999305,
+        "p95": 1.5228452000010293,
+        "max": 1.933134599999903
+      },
+      "api_calls": 38,
+      "mean_calls": 1.1875,
+      "deepseek_calls": 38,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.02967948,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.23071,
+      "known_estimated_cny_at_budget_fx": 0.02967948,
+      "mean_estimated_cny_at_budget_fx": 0.00092748375,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0072096875,
+      "mean_conservative_cny_per_api": 0.006071315789473684,
+      "mean_known_cost_lower_bound_per_api": 0.0007810389473684211
+    },
+    {
+      "group": "P8.3",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 19,
+      "fail": 13,
+      "pass_rate": 0.59375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.7147057749999703,
+        "min": 1.6790669999973034,
+        "p50": 2.3657679999996617,
+        "p90": 3.4024854000017513,
+        "p95": 4.66241959999752,
+        "max": 6.343560200002685
+      },
+      "api_seconds": {
+        "n": 70,
+        "mean": 1.0707990342857165,
+        "min": 0.5289100000009057,
+        "p50": 0.9971119999972871,
+        "p90": 1.630648400001519,
+        "p95": 1.8526056000009703,
+        "max": 2.0479591000002983
+      },
+      "api_calls": 70,
+      "mean_calls": 2.1875,
+      "deepseek_calls": 38,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.02749796,
+      "known_usd": 0.002323272,
+      "unknown_calls": 3,
+      "conservative_cny": 0.319272464,
+      "known_estimated_cny_at_budget_fx": 0.046084136,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 29,
+        "JEV_TIMEOUT": 3
+      },
+      "mean_conservative_cny_per_question": 0.0099772645,
+      "mean_conservative_cny_per_api": 0.0045610352,
+      "mean_known_cost_lower_bound_per_api": 0.0006583448
+    },
+    {
+      "group": "P8.4",
+      "mode": "off",
+      "questions": 32,
+      "pass": 24,
+      "fail": 8,
+      "pass_rate": 0.75,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.515862453124896,
+        "min": 0.9830694000011135,
+        "p50": 1.2741937999999209,
+        "p90": 2.307582299999922,
+        "p95": 2.523165800001152,
+        "max": 2.6616472999994585
+      },
+      "api_seconds": {
+        "n": 39,
+        "mean": 1.0740775410257555,
+        "min": 0.7152800999974716,
+        "p50": 1.0318509999997332,
+        "p90": 1.3105070000019623,
+        "p95": 1.7766472000002977,
+        "max": 1.866662799999176
+      },
+      "api_calls": 39,
+      "mean_calls": 1.21875,
+      "deepseek_calls": 39,
+      "jev_calls": 0,
+      "zero_call_questions": 0,
+      "known_cny": 0.03410526,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.245812,
+      "known_estimated_cny_at_budget_fx": 0.03410526,
+      "mean_estimated_cny_at_budget_fx": 0.001065789375,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.007681625,
+      "mean_conservative_cny_per_api": 0.006302871794871795,
+      "mean_known_cost_lower_bound_per_api": 0.0008744938461538462
+    },
+    {
+      "group": "P8.4",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 27,
+      "fail": 5,
+      "pass_rate": 0.84375,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.892962549999652,
+        "min": 1.7156338000022515,
+        "p50": 2.6804258999982267,
+        "p90": 4.1208888000001025,
+        "p95": 4.222362300002715,
+        "max": 4.4535273000001325
+      },
+      "api_seconds": {
+        "n": 73,
+        "mean": 1.1003002342469002,
+        "min": 0.4960147000019788,
+        "p50": 1.0688061000000744,
+        "p90": 1.744638699998177,
+        "p95": 1.8520949000012479,
+        "max": 1.8634108000005654
+      },
+      "api_calls": 73,
+      "mean_calls": 2.28125,
+      "deepseek_calls": 41,
+      "jev_calls": 32,
+      "zero_call_questions": 0,
+      "known_cny": 0.03552944,
+      "known_usd": 0.002004114,
+      "unknown_calls": 7,
+      "conservative_cny": 0.438157584,
+      "known_estimated_cny_at_budget_fx": 0.051562352,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 32
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 24,
+        "JEV_TIMEOUT": 7,
+        "UNCERTAIN_SEMANTICS": 1
+      },
+      "mean_conservative_cny_per_question": 0.0136924245,
+      "mean_conservative_cny_per_api": 0.006002158684931507,
+      "mean_known_cost_lower_bound_per_api": 0.0007063335890410959
+    },
+    {
+      "group": "P8.5",
+      "mode": "off",
+      "questions": 32,
+      "pass": 18,
+      "fail": 14,
+      "pass_rate": 0.5625,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.4864932968749827,
+        "min": 0.003519999998388812,
+        "p50": 1.415014300000621,
+        "p90": 2.3521384999985457,
+        "p95": 2.61506129999907,
+        "max": 2.755931399999099
+      },
+      "api_seconds": {
+        "n": 35,
+        "mean": 1.1889294971426092,
+        "min": 0.7413722000019334,
+        "p50": 1.1302978999992774,
+        "p90": 1.7693214999999327,
+        "p95": 1.8387334999970335,
+        "max": 1.8961027000004833
+      },
+      "api_calls": 35,
+      "mean_calls": 1.09375,
+      "deepseek_calls": 35,
+      "jev_calls": 0,
+      "zero_call_questions": 2,
+      "known_cny": 0.027474039999999998,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.214006,
+      "known_estimated_cny_at_budget_fx": 0.027474039999999998,
+      "mean_estimated_cny_at_budget_fx": 0.0008585637499999999,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0066876875,
+      "mean_conservative_cny_per_api": 0.006114457142857143,
+      "mean_known_cost_lower_bound_per_api": 0.0007849725714285713
+    },
+    {
+      "group": "P8.5",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 22,
+      "fail": 10,
+      "pass_rate": 0.6875,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.746205696874995,
+        "min": 0.0034807000010914635,
+        "p50": 2.834601999998995,
+        "p90": 3.7232535000002827,
+        "p95": 4.268012500000623,
+        "max": 4.353581300001679
+      },
+      "api_seconds": {
+        "n": 68,
+        "mean": 1.1240958838234292,
+        "min": 0.5057056000005105,
+        "p50": 1.0477449999998498,
+        "p90": 1.7835066000006918,
+        "p95": 1.8524400000023888,
+        "max": 2.505997500000376
+      },
+      "api_calls": 68,
+      "mean_calls": 2.125,
+      "deepseek_calls": 38,
+      "jev_calls": 30,
+      "zero_call_questions": 2,
+      "known_cny": 0.03247544,
+      "known_usd": 0.002083074,
+      "unknown_calls": 4,
+      "conservative_cny": 0.345060976,
+      "known_estimated_cny_at_budget_fx": 0.049140032,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 30
+      },
+      "jev_reason": {
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 24,
+        "UNCERTAIN_SEMANTICS": 2,
+        "JEV_TIMEOUT": 4
+      },
+      "mean_conservative_cny_per_question": 0.0107831555,
+      "mean_conservative_cny_per_api": 0.005074426117647059,
+      "mean_known_cost_lower_bound_per_api": 0.0007226475294117647
+    },
+    {
+      "group": "P8.6",
+      "mode": "off",
+      "questions": 32,
+      "pass": 26,
+      "fail": 6,
+      "pass_rate": 0.8125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 1.324797999999987,
+        "min": 0.002885599998990074,
+        "p50": 1.2872544999991078,
+        "p90": 2.2849848000005295,
+        "p95": 2.7270081999995455,
+        "max": 2.7430597999991733
+      },
+      "api_seconds": {
+        "n": 35,
+        "mean": 1.0404683028572306,
+        "min": 0.6437203000023146,
+        "p50": 1.0294538000016473,
+        "p90": 1.3933118999993894,
+        "p95": 1.4910565999998653,
+        "max": 1.5395481000014115
+      },
+      "api_calls": 35,
+      "mean_calls": 1.09375,
+      "deepseek_calls": 35,
+      "jev_calls": 0,
+      "zero_call_questions": 4,
+      "known_cny": 0.03268148,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.220642,
+      "known_estimated_cny_at_budget_fx": 0.03268148,
+      "mean_estimated_cny_at_budget_fx": 0.00102129625,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.0068950625,
+      "mean_conservative_cny_per_api": 0.006304057142857143,
+      "mean_known_cost_lower_bound_per_api": 0.0009337565714285714
+    },
+    {
+      "group": "P8.6",
+      "mode": "assist",
+      "questions": 32,
+      "pass": 26,
+      "fail": 6,
+      "pass_rate": 0.8125,
+      "question_seconds": {
+        "n": 32,
+        "mean": 2.567900784374956,
+        "min": 0.0035234000024502166,
+        "p50": 2.801980899999762,
+        "p90": 3.497488999997586,
+        "p95": 4.0378846999992675,
+        "max": 4.749619599999278
+      },
+      "api_seconds": {
+        "n": 64,
+        "mean": 1.1160139078122029,
+        "min": 0.48248709999825223,
+        "p50": 1.0614028999989387,
+        "p90": 1.7143794999974489,
+        "p95": 1.8569695000005595,
+        "max": 2.2156207999978506
+      },
+      "api_calls": 64,
+      "mean_calls": 2,
+      "deepseek_calls": 36,
+      "jev_calls": 28,
+      "zero_call_questions": 4,
+      "known_cny": 0.03603476,
+      "known_usd": 0.001920996,
+      "unknown_calls": 4,
+      "conservative_cny": 0.341310352,
+      "known_estimated_cny_at_budget_fx": 0.051402728,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 28
+      },
+      "jev_reason": {
+        "JEV_TIMEOUT": 4,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 20,
+        "UNCERTAIN_SEMANTICS": 4
+      },
+      "mean_conservative_cny_per_question": 0.0106659485,
+      "mean_conservative_cny_per_api": 0.00533297425,
+      "mean_known_cost_lower_bound_per_api": 0.000803167625
+    },
+    {
+      "group": "JEV专项",
+      "mode": "off",
+      "questions": 64,
+      "pass": 60,
+      "fail": 4,
+      "pass_rate": 0.9375,
+      "question_seconds": {
+        "n": 64,
+        "mean": 1.4802143453124472,
+        "min": 0.0023006999981589615,
+        "p50": 1.3688937999977497,
+        "p90": 2.5232703999972728,
+        "p95": 2.6623607000001357,
+        "max": 2.9111511999981303
+      },
+      "api_seconds": {
+        "n": 81,
+        "mean": 1.0010173172839265,
+        "min": 0.5242808999973931,
+        "p50": 0.986638700000185,
+        "p90": 1.242874199997459,
+        "p95": 1.3420683999975154,
+        "max": 1.6848734000013792
+      },
+      "api_calls": 81,
+      "mean_calls": 1.265625,
+      "deepseek_calls": 81,
+      "jev_calls": 0,
+      "zero_call_questions": 6,
+      "known_cny": 0.04681712,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 0.457912,
+      "known_estimated_cny_at_budget_fx": 0.04681712,
+      "mean_estimated_cny_at_budget_fx": 0.0007315175,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.007154875,
+      "mean_conservative_cny_per_api": 0.005653234567901235,
+      "mean_known_cost_lower_bound_per_api": 0.0005779891358024691
+    },
+    {
+      "group": "JEV专项",
+      "mode": "assist",
+      "questions": 64,
+      "pass": 62,
+      "fail": 2,
+      "pass_rate": 0.96875,
+      "question_seconds": {
+        "n": 64,
+        "mean": 2.548529823437377,
+        "min": 0.0023197999980766326,
+        "p50": 2.615229700000782,
+        "p90": 4.010678599999665,
+        "p95": 4.237273900002037,
+        "max": 5.03268019999814
+      },
+      "api_seconds": {
+        "n": 141,
+        "mean": 0.9906275851063447,
+        "min": 0.48164429999815184,
+        "p50": 0.9563358999985212,
+        "p90": 1.4772370999999112,
+        "p95": 1.744775600000139,
+        "max": 1.9462028999987524
+      },
+      "api_calls": 141,
+      "mean_calls": 2.203125,
+      "deepseek_calls": 83,
+      "jev_calls": 58,
+      "zero_call_questions": 6,
+      "known_cny": 0.05317696,
+      "known_usd": 0.004229568,
+      "unknown_calls": 5,
+      "conservative_cny": 0.630625024,
+      "known_estimated_cny_at_budget_fx": 0.087013504,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 56,
+        "guarded": 2
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 36,
+        "JEV_TIMEOUT": 5,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 15,
+        "NON_AFFIRMATIVE_CHANGE": 2
+      },
+      "mean_conservative_cny_per_question": 0.009853516,
+      "mean_conservative_cny_per_api": 0.0044725179007092195,
+      "mean_known_cost_lower_bound_per_api": 0.0006171170496453902
+    }
+  ],
+  "extremes": [
+    {
+      "mode": "off",
+      "metric": "seconds",
+      "value": 4.174355299997842,
+      "iqr_threshold": 2.6813364999979967,
+      "above_iqr": true,
+      "id": "vt-P1-s5",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计3.687秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s5"
+    },
+    {
+      "mode": "off",
+      "metric": "seconds",
+      "value": 3.518478600002709,
+      "iqr_threshold": 2.6813364999979967,
+      "above_iqr": true,
+      "id": "vt-P7.3-s6",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计3.200秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P7.3-s6"
+    },
+    {
+      "mode": "off",
+      "metric": "seconds",
+      "value": 3.2471115999978792,
+      "iqr_threshold": 2.6813364999979967,
+      "above_iqr": true,
+      "id": "vt-P6-s2",
+      "repeat": 2,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计2.753秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s2"
+    },
+    {
+      "mode": "off",
+      "metric": "seconds",
+      "value": 3.194687499999418,
+      "iqr_threshold": 2.6813364999979967,
+      "above_iqr": true,
+      "id": "vt-P5-m2-t4",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计2.863秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m2-t4"
+    },
+    {
+      "mode": "off",
+      "metric": "seconds",
+      "value": 3.0451733999980206,
+      "iqr_threshold": 2.6813364999979967,
+      "above_iqr": true,
+      "id": "vt-P7.3-s6",
+      "repeat": 2,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计2.717秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P7.3-s6"
+    },
+    {
+      "mode": "off",
+      "metric": "actual_http_calls",
+      "value": 3,
+      "iqr_threshold": 1.0,
+      "above_iqr": true,
+      "id": "vt-P1-s5",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计3.687秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s5"
+    },
+    {
+      "mode": "off",
+      "metric": "actual_http_calls",
+      "value": 3,
+      "iqr_threshold": 1.0,
+      "above_iqr": true,
+      "id": "vt-P6-s2",
+      "repeat": 2,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计2.753秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s2"
+    },
+    {
+      "mode": "off",
+      "metric": "actual_http_calls",
+      "value": 2,
+      "iqr_threshold": 1.0,
+      "above_iqr": true,
+      "id": "vt-P0-s3",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计1.703秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-s3"
+    },
+    {
+      "mode": "off",
+      "metric": "actual_http_calls",
+      "value": 2,
+      "iqr_threshold": 1.0,
+      "above_iqr": true,
+      "id": "vt-P0-s4",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计1.747秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-s4"
+    },
+    {
+      "mode": "off",
+      "metric": "actual_http_calls",
+      "value": 2,
+      "iqr_threshold": 1.0,
+      "above_iqr": true,
+      "id": "vt-P0-m2-t1",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计1.648秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P0-m2-t1"
+    },
+    {
+      "mode": "off",
+      "metric": "conservative_cny",
+      "value": 0.019582,
+      "iqr_threshold": 0.01176,
+      "above_iqr": true,
+      "id": "vt-P6-s2",
+      "repeat": 2,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计2.753秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:2:vt-P6-s2"
+    },
+    {
+      "mode": "off",
+      "metric": "conservative_cny",
+      "value": 0.017669999999999998,
+      "iqr_threshold": 0.01176,
+      "above_iqr": true,
+      "id": "vt-P1-s5",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计3.687秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P1-s5"
+    },
+    {
+      "mode": "off",
+      "metric": "conservative_cny",
+      "value": 0.016796,
+      "iqr_threshold": 0.01176,
+      "above_iqr": true,
+      "id": "vt-P8.4-m1-t4",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计1.674秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P8.4-m1-t4"
+    },
+    {
+      "mode": "off",
+      "metric": "conservative_cny",
+      "value": 0.016456,
+      "iqr_threshold": 0.01176,
+      "above_iqr": true,
+      "id": "vt-P4-m2-t4",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计2.219秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P4-m2-t4"
+    },
+    {
+      "mode": "off",
+      "metric": "conservative_cny",
+      "value": 0.016456,
+      "iqr_threshold": 0.01176,
+      "above_iqr": true,
+      "id": "vt-P5-m2-t4",
+      "repeat": 1,
+      "explanation": "DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计2.863秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#off:1:vt-P5-m2-t4"
+    },
+    {
+      "mode": "assist",
+      "metric": "seconds",
+      "value": 6.343560200002685,
+      "iqr_threshold": 5.060421350002798,
+      "above_iqr": true,
+      "id": "vt-P8.3-s2",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计5.641秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s2"
+    },
+    {
+      "mode": "assist",
+      "metric": "seconds",
+      "value": 5.501555899998493,
+      "iqr_threshold": 5.060421350002798,
+      "above_iqr": true,
+      "id": "vt-P8-m1-t4",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计5.007秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8-m1-t4"
+    },
+    {
+      "mode": "assist",
+      "metric": "seconds",
+      "value": 5.03268019999814,
+      "iqr_threshold": 5.060421350002798,
+      "above_iqr": false,
+      "id": "JEV-11",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计4.384秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-11"
+    },
+    {
+      "mode": "assist",
+      "metric": "seconds",
+      "value": 4.841742600001453,
+      "iqr_threshold": 5.060421350002798,
+      "above_iqr": false,
+      "id": "vt-P6-s4",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计4.360秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s4"
+    },
+    {
+      "mode": "assist",
+      "metric": "seconds",
+      "value": 4.749619599999278,
+      "iqr_threshold": 5.060421350002798,
+      "above_iqr": false,
+      "id": "vt-P8.6-s1",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计4.251秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P8.6-s1"
+    },
+    {
+      "mode": "assist",
+      "metric": "actual_http_calls",
+      "value": 4,
+      "iqr_threshold": 2.0,
+      "above_iqr": true,
+      "id": "JEV-11",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计4.384秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-11"
+    },
+    {
+      "mode": "assist",
+      "metric": "actual_http_calls",
+      "value": 4,
+      "iqr_threshold": 2.0,
+      "above_iqr": true,
+      "id": "vt-P6-s2",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计3.282秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P6-s2"
+    },
+    {
+      "mode": "assist",
+      "metric": "actual_http_calls",
+      "value": 4,
+      "iqr_threshold": 2.0,
+      "above_iqr": true,
+      "id": "vt-P8.3-s2",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环3次，步骤和反馈见原始trace；HTTP累计5.641秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P8.3-s2"
+    },
+    {
+      "mode": "assist",
+      "metric": "actual_http_calls",
+      "value": 3,
+      "iqr_threshold": 2.0,
+      "above_iqr": true,
+      "id": "vt-P0-s3",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.658秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-s3"
+    },
+    {
+      "mode": "assist",
+      "metric": "actual_http_calls",
+      "value": 3,
+      "iqr_threshold": 2.0,
+      "above_iqr": true,
+      "id": "vt-P0-s4",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：CONTEXT_REQUIRES_ORIGINAL_FLOW；DeepSeek自主循环2次，步骤和反馈见原始trace；HTTP累计2.352秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P0-s4"
+    },
+    {
+      "mode": "assist",
+      "metric": "conservative_cny",
+      "value": 0.034850096,
+      "iqr_threshold": 0.022709744,
+      "above_iqr": true,
+      "id": "vt-P8.5-m2-t3",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.860秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\continuation-20261104T002413/questions.jsonl#assist:2:vt-P8.5-m2-t3"
+    },
+    {
+      "mode": "assist",
+      "metric": "conservative_cny",
+      "value": 0.034844096,
+      "iqr_threshold": 0.022709744,
+      "above_iqr": true,
+      "id": "vt-P6-s1",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.917秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:vt-P6-s1"
+    },
+    {
+      "mode": "assist",
+      "metric": "conservative_cny",
+      "value": 0.034686096,
+      "iqr_threshold": 0.022709744,
+      "above_iqr": true,
+      "id": "vt-P2-m1-t4",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.751秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P2-m1-t4"
+    },
+    {
+      "mode": "assist",
+      "metric": "conservative_cny",
+      "value": 0.034474095999999996,
+      "iqr_threshold": 0.022709744,
+      "above_iqr": true,
+      "id": "vt-P2-m2-t4",
+      "repeat": 2,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.622秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:2:vt-P2-m2-t4"
+    },
+    {
+      "mode": "assist",
+      "metric": "conservative_cny",
+      "value": 0.034324096,
+      "iqr_threshold": 0.022709744,
+      "above_iqr": true,
+      "id": "JEV-12",
+      "repeat": 1,
+      "explanation": "增加Jev请求1次；Jev回退：JEV_TIMEOUT；DeepSeek自主循环2次，步骤和反馈见原始trace；包含超时或取消请求，用量未知部分保留预留；HTTP累计3.536秒；客户端数据不能进一步区分公网延迟与供应商排队",
+      "evidence": "runs\\formal-20261103T234927/questions.jsonl#assist:1:JEV-12"
+    }
+  ],
+  "comparison_uses_only_completed_pairs": true,
+  "all_execution_totals": {
+    "off": {
+      "questions": 576,
+      "pass": 460,
+      "fail": 116,
+      "pass_rate": 0.7986111111111112,
+      "question_seconds": {
+        "n": 576,
+        "mean": 1.3805930878472674,
+        "min": 0.0021103999970364384,
+        "p50": 1.2981614999989688,
+        "p90": 2.335659600001236,
+        "p95": 2.61506129999907,
+        "max": 4.174355299997842
+      },
+      "api_seconds": {
+        "n": 635,
+        "mean": 1.0842448896062276,
+        "min": 0.5156491000016103,
+        "p50": 1.0491392000003543,
+        "p90": 1.4194559999996272,
+        "p95": 1.589471200000844,
+        "max": 2.65060799999992
+      },
+      "api_calls": 635,
+      "mean_calls": 1.1024305555555556,
+      "deepseek_calls": 635,
+      "jev_calls": 0,
+      "zero_call_questions": 58,
+      "known_cny": 0.5084379,
+      "known_usd": 0,
+      "unknown_calls": 0,
+      "conservative_cny": 3.913158,
+      "known_estimated_cny_at_budget_fx": 0.5084379,
+      "mean_estimated_cny_at_budget_fx": 0.0008827046875,
+      "jev_status": {},
+      "jev_reason": {},
+      "mean_conservative_cny_per_question": 0.006793677083333334,
+      "mean_conservative_cny_per_api": 0.006162453543307087,
+      "mean_known_cost_lower_bound_per_api": 0.0008006896062992126
+    },
+    "assist": {
+      "questions": 576,
+      "pass": 468,
+      "fail": 108,
+      "pass_rate": 0.8125,
+      "question_seconds": {
+        "n": 576,
+        "mean": 2.560040363194383,
+        "min": 0.001946799999132054,
+        "p50": 2.648039499999868,
+        "p90": 3.8395235999996657,
+        "p95": 4.204125500000373,
+        "max": 6.343560200002685
+      },
+      "api_seconds": {
+        "n": 1176,
+        "mean": 1.0880853968537603,
+        "min": 0.4546070000033069,
+        "p50": 1.0339160000003176,
+        "p90": 1.7097542000010435,
+        "p95": 1.8529266999976244,
+        "max": 2.9681395000006887
+      },
+      "api_calls": 1176,
+      "mean_calls": 2.0416666666666665,
+      "deepseek_calls": 658,
+      "jev_calls": 518,
+      "zero_call_questions": 58,
+      "known_cny": 0.54395716,
+      "known_usd": 0.035069328,
+      "unknown_calls": 80,
+      "conservative_cny": 6.236202304,
+      "known_estimated_cny_at_budget_fx": 0.824511784,
+      "mean_estimated_cny_at_budget_fx": null,
+      "jev_status": {
+        "fallback": 514,
+        "guarded": 4
+      },
+      "jev_reason": {
+        "UNCERTAIN_SEMANTICS": 67,
+        "JEV_TIMEOUT": 80,
+        "CONTEXT_REQUIRES_ORIGINAL_FLOW": 367,
+        "NON_AFFIRMATIVE_CHANGE": 4
+      },
+      "mean_conservative_cny_per_question": 0.010826740111111111,
+      "mean_conservative_cny_per_api": 0.0053028931156462586,
+      "mean_known_cost_lower_bound_per_api": 0.0007011154625850341
+    }
+  }
+}
