@@ -10,6 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.core.view.WindowCompat
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.ui.AppEntry
+import com.example.teamapp.ui.MewstowLaunch
 import com.example.teamapp.ui.theme.TeamAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +30,9 @@ class MainActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = !dark
                 }
             }
-            TeamAppTheme(darkTheme = dark, dynamicColor = false) { AppEntry(store) }
+            TeamAppTheme(darkTheme = dark, dynamicColor = false) {
+                MewstowLaunch(showIntro = savedInstanceState == null) { AppEntry(store) }
+            }
         }
     }
 }
