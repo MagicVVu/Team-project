@@ -103,9 +103,10 @@ internal fun Home(store: InventoryStore, open: (StockItem) -> Unit, all: () -> U
 private fun HomeAddButton(icon: String, label: String, primary: Boolean, modifier: Modifier, action: () -> Unit) {
     val colors = MaterialTheme.colorScheme
     val ink = if (primary) colors.onPrimaryContainer else colors.primary
+    val borderColor = if (LocalLightDesign.current && !primary) colors.outline else colors.outlineVariant
     OutlinedButton(
         onClick = action, modifier = modifier.heightIn(min = 48.dp), shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, colors.outlineVariant),
+        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = if (primary) colors.primaryContainer else Color.Transparent, contentColor = ink
         ),
