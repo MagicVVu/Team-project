@@ -15,6 +15,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -46,7 +47,10 @@ private data class AddReviewStep(
 )
 
 @Composable
-internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Unit, close: () -> Unit) {
+internal fun AddFlow(
+    store: InventoryStore, mode: String, notify: (String) -> Unit,
+    onAdded: (StockItem) -> Unit, close: () -> Unit
+) {
     if (mode == "拍照添加") {
         PhotoScanFlow(store, notify, close)
         return
@@ -77,7 +81,8 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
                 Editor(store, initial = null, draft = step.draft, notify = notify, onSaved = {
                     focus.clearFocus()
                     if (step.index + 1 < step.total) index = step.index + 1 else close()
-                }, cancel = { focus.clearFocus(); reviewVersion++; review = false; draftSource = ""; index = 0 }, sourceText = step.sourceText)
+                }, cancel = { focus.clearFocus(); reviewVersion++; review = false; draftSource = ""; index = 0 }, sourceText = step.sourceText,
+                    onAdded = { if (mode == "手动添加") onAdded(it) })
             }
         }
     } else {
@@ -104,10 +109,12 @@ internal fun AddFlow(store: InventoryStore, mode: String, notify: (String) -> Un
 }
 
 @Composable
-internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = "", draft: VoiceDraft? = null, notify: (String) -> Unit, onSaved: () -> Unit, cancel: (() -> Unit)? = null, sourceText: String = "") {
+internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = "", draft: VoiceDraft? = null, notify: (String) -> Unit, onSaved: () -> Unit, cancel: (() -> Unit)? = null, sourceText: String = "", onAdded: (StockItem) -> Unit = {}) {
     val strings = rememberUiStrings()
     val scope = rememberCoroutineScope()
     var submitting by remember { mutableStateOf(false) }
+    val saveInteractions = remember { MutableInteractionSource() }
+    val canSave = !submitting && !store.cloud.busy && !store.cloud.expired
     val itemId = rememberSaveable { initial?.id ?: java.util.UUID.randomUUID().toString() }
     var name by rememberSaveable { mutableStateOf(initial?.name ?: draft?.name.orEmpty()) }
     val measuredDraft = draft != null && InventoryContract.unit(draft.unit) in InventoryContract.measuredUnits
@@ -126,7 +133,12 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
     fun save(item: StockItem, mode: String = "新建") {
         if (!submitting) scope.launch {
             submitting = true
-            try { store.saveItemSynced(item, initial, mode); notify(strings.get(R.string.ui_saved)); onSaved() }
+            try {
+                store.saveItemSynced(item, initial, mode)
+                if (initial == null && store.storageError == null) onAdded(item)
+                notify(strings.get(R.string.ui_saved))
+                onSaved()
+            }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (failure: Exception) { generalError = failure.message ?: "保存失败" }
             finally { submitting = false }
@@ -175,7 +187,11 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
                     groupingInput = ProductGroupingInput(item, store.cloud.scopeKey)
                 } else save(item)
             }
-        }, enabled = !submitting && !store.cloud.busy && !store.cloud.expired, modifier = Modifier.fillMaxWidth().testTag("inventory-editor-confirm")) { Text(if (submitting) strings.get(R.string.ui_saving) else if (initial == null) strings.get(R.string.ui_confirm_add) else strings.get(R.string.ui_save_changes)) }
+        }, enabled = canSave, interactionSource = saveInteractions,
+            modifier = Modifier.fillMaxWidth().testTag("inventory-editor-confirm")
+                .springPressFeedback(saveInteractions, .96f, canSave)) {
+            Text(if (submitting) strings.get(R.string.ui_saving) else if (initial == null) strings.get(R.string.ui_confirm_add) else strings.get(R.string.ui_save_changes))
+        }
         cancel?.let { TextButton(onClick = it, enabled = !submitting) { Text(strings.get(R.string.ui_back___discard_unconfirmed_items)) } }
         Spacer(Modifier.height(16.dp))
     }
@@ -184,10 +200,14 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
             Column { TextButton(onClick = { pending?.let { save(it, "入库") }; duplicate = null }) { Text(strings.get(R.string.ui_add_to_stock)) }; TextButton(onClick = { pending?.let { save(it, "盘点") }; duplicate = null }) { Text(strings.get(R.string.ui_update_stocktake)) } }
         })
     }
+    val submittedItem = groupingInput?.item
     ProductGroupingFlow(store.cloud, groupingInput, clear = { groupingInput = null }, busy = { if (initial == null) submitting = it },
         error = { generalError = it }, saved = { savedId ->
             notify(strings.tr("已加入库存", "Added to inventory"))
-            if (savedId == itemId) onSaved() else generalError = strings.tr("上次物品已保存，请再次确认当前物品。", "The previous item is saved. Confirm the current item again.")
+            if (savedId == itemId) {
+                submittedItem?.let(onAdded)
+                onSaved()
+            } else generalError = strings.tr("上次物品已保存，请再次确认当前物品。", "The previous item is saved. Confirm the current item again.")
         })
 }
 

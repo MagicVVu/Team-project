@@ -72,6 +72,23 @@ internal fun Modifier.motionInput(active: Boolean): Modifier = if (active) this 
         }
     }
 
+/** Reuse a Material button's press events so its click, ripple and disabled state stay intact. */
+internal fun Modifier.springPressFeedback(
+    interactions: MutableInteractionSource,
+    pressedScale: Float,
+    enabled: Boolean = true
+): Modifier = composed {
+    val pressed by interactions.collectIsPressedAsState()
+    val activePress = pressed && enabled
+    val scale = animateFloatAsState(
+        targetValue = if (activePress) pressedScale else 1f,
+        animationSpec = if (activePress) spring(dampingRatio = 1f, stiffness = 1000f)
+            else spring(dampingRatio = .72f, stiffness = 520f),
+        label = "spring-button-press"
+    )
+    graphicsLayer { scaleX = scale.value; scaleY = scale.value }
+}
+
 /** Scale is read in the rendering layer; pressing does not remeasure the card or its siblings. */
 internal fun Modifier.motionClickable(enabled: Boolean = true, onClick: () -> Unit): Modifier = composed {
     val interactions = remember { MutableInteractionSource() }

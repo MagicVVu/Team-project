@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -34,6 +35,7 @@ import com.example.teamapp.ui.AppMotion
 import com.example.teamapp.ui.DesignGlyph
 import com.example.teamapp.ui.i18n.rememberUiStrings
 import com.example.teamapp.ui.motionInput
+import com.example.teamapp.ui.springPressFeedback
 import kotlinx.coroutines.flow.first
 
 /** UI-only mode; the caller retains the existing query/filter data flow and add action. */
@@ -69,6 +71,7 @@ internal fun InventorySearchToolbar(
 
     val buttonSize = 40.dp
     val buttonGap = 8.dp
+    val addInteractions = remember { MutableInteractionSource() }
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides buttonSize) {
         BoxWithConstraints(modifier.height(buttonSize).testTag("ring-toolbar")) {
             // Reserve room for the action and its gap. Both controls share one row, so
@@ -117,13 +120,16 @@ internal fun InventorySearchToolbar(
                         searching = false
                         onQueryChange("")
                     } else onAdd()
-                }, modifier = Modifier.size(buttonSize).clip(CircleShape)
-                    .background(scheme.primaryContainer).testTag("ring-add")
+                }, interactionSource = addInteractions, modifier = Modifier.size(buttonSize).clip(CircleShape)
+                    .testTag("ring-add")
                     .semantics {
                         contentDescription = strings.get(if (searching) R.string.ui_cancel else R.string.ui_add_items)
                     }) {
-                    DesignGlyph("plus", Modifier.size(18.dp).graphicsLayer { rotationZ = 45f * progress },
-                        scheme.onPrimaryContainer)
+                    Box(Modifier.fillMaxSize().springPressFeedback(addInteractions, .90f)
+                        .background(scheme.primaryContainer, CircleShape), contentAlignment = Alignment.Center) {
+                        DesignGlyph("plus", Modifier.size(18.dp).graphicsLayer { rotationZ = 45f * progress },
+                            scheme.onPrimaryContainer)
+                    }
                 }
             }
         }

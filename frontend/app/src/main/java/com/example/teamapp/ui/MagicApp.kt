@@ -49,6 +49,7 @@ import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import com.example.teamapp.ui.i18n.AppLanguageProvider
 import com.example.teamapp.ui.ring.RingInventoryPage
+import com.example.teamapp.ui.ring.RingArrival
 import com.example.teamapp.ui.ring.InventoryDetailContent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +74,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
     var inventoryDetailVisible by remember { mutableStateOf(false) }
+    var ringArrival by remember(store.cloud.scopeKey) { mutableStateOf<RingArrival?>(null) }
     var initialQuestion by rememberSaveable { mutableStateOf("") }
     val conversation = rememberSaveable(store.cloud.scopeKey, saver = listSaver<androidx.compose.runtime.snapshots.SnapshotStateList<Pair<String, Boolean>>, String>(
         save = { messages -> messages.flatMap { listOf(it.first, if (it.second) "user" else "assistant") } },
@@ -88,19 +90,31 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var closingPanel by remember { mutableStateOf(false) }
-    fun closePanel() {
+    fun closePanel(arrival: RingArrival? = null) {
         if (closingPanel || panel == null) return
+        val closingScope = store.cloud.scopeKey
         focus.clearFocus()
         closingPanel = true
         scope.launch {
             try {
                 sheetState.hide()
-                if (!sheetState.isVisible) panel = null
+                if (!sheetState.isVisible) {
+                    panel = null
+                    if (arrival != null && tab == 1 && store.cloud.scopeKey == closingScope) ringArrival = arrival
+                }
             } finally { closingPanel = false }
         }
     }
-    fun selectTab(value: Int) { focus.clearFocus(); tab = value }
+    fun selectTab(value: Int) {
+        focus.clearFocus()
+        if (value != 1) ringArrival = null
+        tab = value
+    }
     val notify: (String) -> Unit = { message -> scope.launch { snackbar.showSnackbar(strings.label(if (store.cloud.signedIn) message else store.storageError ?: message)) } }
+    val notifyInventorySaved: (String) -> Unit = { message ->
+        if (!store.cloud.signedIn && store.storageError != null) notify(message)
+        else scope.launch { snackbar.showSnackbar(InventorySavedNotice(strings.label(message))) }
+    }
     val openItem: (StockItem) -> Unit = { selected = it.id; panel = "详情" }
     val item = store.items.firstOrNull { it.id == selected }
     // A deleted item's sheet keeps its last frame while sliding off screen.
@@ -110,7 +124,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     val pageTravel = with(LocalDensity.current) { 28.dp.roundToPx() }
     BackHandler(panel != null) { closePanel() }
     AssistantPullLayer(tab, panel == null && !inventoryDetailVisible, store, conversation, snackbar, notify) { headerModifier ->
-        Scaffold(snackbarHost = { SnackbarHost(snackbar) }, bottomBar = {
+        Scaffold(snackbarHost = { InventoryFeedbackHost(snackbar) }, bottomBar = {
             if (lightDesign) DesignNavigation(tab) { selectTab(it) } else {
                 DarkNavigation(tab) { selectTab(it) }
             }
@@ -139,7 +153,9 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                                     0 -> Home(store, openItem, { selectTab(1) }, { panel = it }, { initialQuestion = it; panel = "AI 智能管家" })
                                     1 -> RingInventoryPage(store, { stockItem, route -> selected = stockItem.id; panel = route },
                                         { panel = "手动添加" }, notify, active = page == tab,
-                                        onDetailVisibilityChanged = { inventoryDetailVisible = it })
+                                        onDetailVisibilityChanged = { inventoryDetailVisible = it },
+                                        arrival = ringArrival.takeIf { page == tab },
+                                        onArrivalFinished = { if (ringArrival === it) ringArrival = null })
                                     2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
                                     3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
                                 }
@@ -179,8 +195,13 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                 AppMotionContent(panel.orEmpty(), Modifier.weight(1f).fillMaxWidth(), label = "panel-content") { route ->
                     when (route) {
                         "AI 智能管家" -> Chat(store, conversation, initialQuestion, { initialQuestion = "" }, notify)
-                        "拍照添加", "语音添加", "手动添加" -> AddFlow(store, route, notify) { closePanel() }
-                        "编辑物品" -> sheetItem?.let { Editor(store, it, notify = notify, onSaved = { focus.clearFocus(); panel = "详情" }) }
+                        "语音添加", "手动添加" -> {
+                            var added by remember(route) { mutableStateOf<StockItem?>(null) }
+                            AddFlow(store, route, notifyInventorySaved, onAdded = { added = it }) {
+                                closePanel(added?.let(::RingArrival))
+                            }
+                        }
+                        "编辑物品" -> sheetItem?.let { Editor(store, it, notify = notifyInventorySaved, onSaved = { focus.clearFocus(); panel = "详情" }) }
                         "详情" -> sheetItem?.let { Detail(store, it, { panel = it }, notify, close = { closePanel() }) }
                         "资料与盘点" -> sheetItem?.let { PlanningFactsPanel(store.cloud, it, adjust = { panel = "盘点修正" }) }
                         "消费流水" -> ConsumptionEventsPanel(store.cloud, sheetItem?.id.orEmpty())

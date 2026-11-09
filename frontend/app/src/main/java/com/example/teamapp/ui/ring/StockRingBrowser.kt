@@ -44,10 +44,12 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
@@ -76,7 +78,11 @@ internal fun StockRingBrowser(
     toolbarEndPadding: Dp = 18.dp,
     detailFocus: () -> Float = { 0f },
     hidePreview: Boolean = false,
-    onPreviewBounds: (Rect, Boolean) -> Unit = { _, _ -> }
+    onPreviewBounds: (Rect, Boolean) -> Unit = { _, _ -> },
+    onOpenSector: ((StockItem, SectorDetailOrigin) -> Unit)? = null,
+    liftedSectorId: String? = null,
+    arrival: RingArrival? = null,
+    onArrivalFinished: (RingArrival) -> Unit = {}
 ) {
     val strings = rememberUiStrings()
     val light = LocalLightDesign.current
@@ -95,6 +101,8 @@ internal fun StockRingBrowser(
     var interacting by remember { mutableStateOf(false) }
     val position = remember { Animatable(0f) }
     val resultAlpha = remember { Animatable(1f) }
+    val selectionGlow = remember { Animatable(0f) }
+    var settledSelection by remember { mutableStateOf(selectedId) }
     var dragPosition by remember { mutableStateOf<Float?>(null) }
     var seeking by remember { mutableStateOf(false) }
     var motion by remember { mutableStateOf<Job?>(null) }
@@ -105,10 +113,22 @@ internal fun StockRingBrowser(
     val displayPosition = remember { { dragPosition ?: position.value } }
     val currentIndex by remember { derivedStateOf { RingMath.index(displayPosition(), displayed.size) } }
     val visibleIndices by remember { derivedStateOf { RingMath.visible(displayPosition(), displayed.size) } }
-    val statuses = remember(displayed, reminderDays) { displayed.map { it.status(reminderDays) } }
     val infoItem = if (interacting) displayed.getOrNull(currentIndex) else selected
     val selectedCallback by rememberUpdatedState(onSelectedItem)
     val navigationIndex = motionTarget ?: currentIndex
+
+    LaunchedEffect(selectedId, interacting) {
+        if (interacting) {
+            selectionGlow.snapTo(0f)
+        } else if (settledSelection != selectedId) {
+            val previous = settledSelection
+            settledSelection = selectedId
+            if (previous != null && selectedId != null) {
+                selectionGlow.snapTo(1f)
+                selectionGlow.animateTo(0f, tween(420, easing = AppMotion.easing))
+            } else selectionGlow.snapTo(0f)
+        }
+    }
 
     // Freeze ordering during a gesture/animation. Reconcile by ID when the motion finishes.
     LaunchedEffect(incoming, scopeKey, interacting) {
@@ -151,15 +171,6 @@ internal fun StockRingBrowser(
         }
     }
 
-    fun tapItem(index: Int) {
-        focus.clearFocus()
-        // A moving sector is still a selection gesture, even if it crosses the selected slot.
-        if (!interacting && displayed.getOrNull(index)?.id == selectedId) {
-            displayed.getOrNull(index)?.let(onOpenItem)
-        } else {
-            settle(index.toFloat())
-        }
-    }
     val palette = remember(light) { RingPalette(if (light) 1f else 0f) }
     var infoHeightPx by remember { mutableIntStateOf(0) }
     var seekHeightPx by remember { mutableIntStateOf(0) }
@@ -186,6 +197,9 @@ internal fun StockRingBrowser(
         }
 
         BoxWithConstraints(Modifier.weight(1f).fillMaxWidth().testTag("ring-viewport")) {
+            // Keep the items and their indices together if a frame draws before filtering is laid out.
+            val renderedItems = displayed
+            val statuses = remember(renderedItems, reminderDays) { renderedItems.map { it.status(reminderDays) } }
             val viewportWidth = maxWidth
             // The scaffold has already reserved the header, cloud banner, navigation and insets.
             val viewportHeight = maxHeight
@@ -199,7 +213,7 @@ internal fun StockRingBrowser(
             val outer = radius + thickness / 2f
             // Each card owns its animation. Its path, badge, icon and text share this transform.
             val elevations = visibleIndices.associateWith { index ->
-                key(displayed[index].id) { animateFloatAsState(if (index == currentIndex) 1f else 0f,
+                key(renderedItems[index].id) { animateFloatAsState(if (index == currentIndex) 1f else 0f,
                     tween(AppMotion.Quick, easing = AppMotion.easing), label = "ring-pop-$index") }
             }
             val density = androidx.compose.ui.platform.LocalDensity.current
@@ -216,8 +230,42 @@ internal fun StockRingBrowser(
             val shadowPaint = remember { android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG).apply {
                 color = android.graphics.Color.TRANSPARENT
             } }
+            var viewportOrigin by remember { mutableStateOf<Offset?>(null) }
+            val tapItem by rememberUpdatedState<(Int) -> Unit> { index ->
+                val item = displayed.getOrNull(index)
+                val origin = viewportOrigin
+                if (item != null && !interacting && item.id == selectedId) {
+                    val amount = elevations[index]?.value ?: 0f
+                    val delta = (index - displayPosition()) * RingMath.STEP
+                    val radians = RingMath.angle(index, displayPosition()) * PI.toFloat() / 180f
+                    val outward = Offset(cos(radians), sin(radians))
+                    val scale = 1f + .12f * amount
+                    val pivot = center + outward * radius
+                    val label = pivot + outward * (popPx * amount - widthPx * .025f * scale)
+                    val status = item.status(reminderDays)
+                    val snapshot = if (origin != null && onOpenSector != null) {
+                        val rotation = delta * PI.toFloat() / 180f
+                        val cosDelta = cos(rotation)
+                        val sinDelta = sin(rotation)
+                        SectorDetailOrigin.capture(cardPath, { point ->
+                            val d = point - center
+                            val rotated = center + Offset(d.x * cosDelta - d.y * sinDelta, d.x * sinDelta + d.y * cosDelta)
+                            origin + pivot + (rotated - pivot) * scale + outward * (popPx * amount)
+                        }, origin + label, Size(widthPx * .235f, widthPx * .30f), scale,
+                            RingMath.SELECTION_ANGLE - 180f + delta, palette.fills[status.priority],
+                            androidx.compose.ui.graphics.lerp(palette.seam, palette.edge, amount),
+                            with(density) { (.5f + 3.1f * amount).dp.toPx() } * scale)
+                    } else null
+                    focus.clearFocus()
+                    if (snapshot != null && onOpenSector != null) onOpenSector(item, snapshot) else onOpenItem(item)
+                } else {
+                    focus.clearFocus()
+                    settle(index.toFloat())
+                }
+            }
 
             Box(Modifier.fillMaxWidth().height(viewportHeight).clip(RoundedCornerShape(0.dp))
+                .onGloballyPositioned { viewportOrigin = it.positionInRoot() }
                 .ringAccents(palette)
                 .pointerInput(displayed.map { it.id }, widthPx, heightPx) {
                     awaitEachGesture {
@@ -287,6 +335,7 @@ internal fun StockRingBrowser(
                     scaleX = 1f - .025f * detailFocus(); scaleY = scaleX
                 }) {
                     val framePosition = displayPosition()
+                    val frameIndex = RingMath.index(framePosition, renderedItems.size)
                     val quiet = 1f - .28f * detailFocus()
                     drawPath(trackPath, palette.track.copy(alpha = quiet))
                     val guideRadius = inner - 13.dp.toPx()
@@ -295,13 +344,15 @@ internal fun StockRingBrowser(
                     // A quiet continuous rail with rounded ends follows the inner contour.
                     drawArc(palette.line.copy(alpha = quiet), RingMath.SELECTION_ANGLE - 83f, 166f, false,
                         guideBounds, guideSize, style = Stroke(1.2.dp.toPx(), cap = StrokeCap.Round))
-                    if (displayed.isNotEmpty()) {
+                    if (renderedItems.isNotEmpty()) {
                         drawArc(palette.accent.copy(alpha = .10f), RingMath.SELECTION_ANGLE - 7f, 14f, false,
                             guideBounds, guideSize, style = Stroke(6.dp.toPx(), cap = StrokeCap.Round))
                         drawArc(palette.accent, RingMath.SELECTION_ANGLE - 7f, 14f, false,
                             guideBounds, guideSize, style = Stroke(2.4.dp.toPx(), cap = StrokeCap.Round))
                     }
                     orderedIndices.forEach { index ->
+                        val item = renderedItems[index]
+                        if (item.id == liftedSectorId) return@forEach
                         val delta = (index - framePosition) * RingMath.STEP
                         if (delta in RingMath.MIN_VISIBLE_DELTA..RingMath.MAX_VISIBLE_DELTA) {
                             val status = statuses[index]
@@ -318,16 +369,23 @@ internal fun StockRingBrowser(
                                         android.graphics.Color.argb(((if (light) 45 else 95) * amount).toInt(), 0, 0, 0))
                                     canvas.nativeCanvas.drawPath(cardPath.asAndroidPath(), shadowPaint)
                                 }
-                                val cardAlpha = if (index == currentIndex) 1f else quiet
+                                val cardAlpha = if (index == frameIndex) 1f else quiet
                                 drawPath(cardPath, palette.fills[status.priority].copy(alpha = cardAlpha))
                                 drawPath(cardPath, androidx.compose.ui.graphics.lerp(palette.seam, palette.edge, amount).copy(alpha = cardAlpha), style = Stroke((.5f + 3.1f * amount).dp.toPx()))
+                                if (item.id == settledSelection && !interacting) {
+                                    val glow = selectionGlow.value
+                                    if (glow > 0f) {
+                                        drawPath(cardPath, palette.accent.copy(alpha = .24f * glow), style = Stroke(8.dp.toPx()))
+                                        drawPath(cardPath, palette.edge.copy(alpha = .86f * glow), style = Stroke(4.dp.toPx()))
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 orderedIndices.forEach { index ->
-                    key(displayed[index].id) {
-                        val item = displayed[index]
+                    key(renderedItems[index].id) {
+                        val item = renderedItems[index]
                         val elevation = elevations.getValue(index)
                         val boxWidth = viewportWidth * .235f
                         val boxHeight = viewportWidth * .30f
@@ -345,14 +403,11 @@ internal fun StockRingBrowser(
                             .graphicsLayer {
                                 rotationZ = RingMath.angle(index, displayPosition()) - 180f
                                 scaleX = (1f + .12f * elevation.value) * (1f - .025f * detailFocus()); scaleY = scaleX
-                                alpha = resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
+                                alpha = if (item.id == liftedSectorId) 0f else resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
                             }
                             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { tapItem(index) },
                             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                            RingItemIllustration(item, Modifier.size(32.dp))
-                            Text(item.name, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 5.dp))
-                            Text(item.stockCountText, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 1)
+                            RingSectorLabel(item, palette)
                         }
                         val badgeRadius = radius + thickness * .34f
                         Box(Modifier.offset {
@@ -366,7 +421,7 @@ internal fun StockRingBrowser(
                             .size(16.dp, 48.dp).graphicsLayer {
                                 rotationZ = RingMath.angle(index, displayPosition()) - 180f
                                 scaleX = (1f + .12f * elevation.value) * (1f - .025f * detailFocus()); scaleY = scaleX
-                                alpha = resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
+                                alpha = if (item.id == liftedSectorId) 0f else resultAlpha.value * if (index == currentIndex) 1f else (1f - .28f * detailFocus())
                             }
                             .background(palette.badge, RoundedCornerShape(2.dp)).padding(vertical = 3.dp), contentAlignment = Alignment.Center) {
                             val status = statuses[index]
@@ -411,8 +466,13 @@ internal fun StockRingBrowser(
                 Column(Modifier.align(Alignment.BottomEnd).padding(end = 16.dp, bottom = 10.dp).width(viewportWidth * .34f).onSizeChanged { seekHeightPx = it.height }, horizontalAlignment = Alignment.CenterHorizontally) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         RingStepButton("‹", navigationIndex > 0, "ring-previous", palette) { settle(((motionTarget ?: currentIndex) - 1).toFloat()) }
-                        Text("${if (currentIndex < 0) 0 else currentIndex + 1} / ${displayed.size}", fontSize = 11.sp, lineHeight = 16.sp, color = scheme.onSurfaceVariant,
-                            modifier = Modifier.testTag("ring-position").semantics { contentDescription = strings.get(R.string.ui_position_of, if (currentIndex < 0) 0 else currentIndex + 1, displayed.size) })
+                        val number = if (currentIndex < 0) 0 else currentIndex + 1
+                        val total = displayed.size
+                        RingResultCount(number, total, scheme.onSurfaceVariant,
+                            Modifier.testTag("ring-position").clearAndSetSemantics {
+                                text = AnnotatedString("$number / $total")
+                                contentDescription = strings.get(R.string.ui_position_of, number, total)
+                            })
                         RingStepButton("›", navigationIndex >= 0 && navigationIndex < displayed.lastIndex, "ring-next", palette) { settle(((motionTarget ?: currentIndex) + 1).toFloat()) }
                     }
                     if (displayed.size > 1) {
@@ -422,6 +482,11 @@ internal fun StockRingBrowser(
                         if (!compactViewport) Text(if (seeking) strings.get(R.string.ui_go_to, displayed[currentIndex].name) else strings.get(R.string.ui_swipe_to_browse___drag_to), fontSize = 9.sp, lineHeight = 13.sp, maxLines = 2,
                             overflow = TextOverflow.Ellipsis, color = scheme.onSurfaceVariant, modifier = Modifier.testTag("ring-seek-label"))
                     }
+                }
+                if (arrival != null) {
+                    val radians = RingMath.SELECTION_ANGLE * PI.toFloat() / 180f
+                    val landing = center + Offset(cos(radians), sin(radians)) * (inner - with(density) { 13.dp.toPx() })
+                    RingArrivalEffect(arrival, Offset(widthPx * .54f, heightPx * .89f), landing, palette, onArrivalFinished)
                 }
             }
         }
@@ -571,6 +636,14 @@ internal fun RingInfoCard(item: StockItem, days: Int, enabled: Boolean, open: ()
             }
         }
     }
+}
+
+@Composable
+internal fun RingSectorLabel(item: StockItem, palette: RingPalette) {
+    RingItemIllustration(item, Modifier.size(32.dp))
+    Text(item.name, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 2, overflow = TextOverflow.Ellipsis,
+        textAlign = androidx.compose.ui.text.style.TextAlign.Center, modifier = Modifier.padding(top = 5.dp))
+    Text(item.stockCountText, fontSize = 12.sp, lineHeight = 16.sp, color = palette.ink, maxLines = 1)
 }
 
 private fun sector(center: Offset, inner: Float, outer: Float, start: Float, sweep: Float, tooth: Float = 0f, pitch: Float = 1f): Path {

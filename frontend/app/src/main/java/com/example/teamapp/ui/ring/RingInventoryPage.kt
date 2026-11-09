@@ -19,7 +19,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.layout
@@ -33,6 +37,7 @@ import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.example.teamapp.R
@@ -61,7 +66,9 @@ internal fun RingInventoryPage(
     onAdd: () -> Unit,
     notify: (String) -> Unit,
     active: Boolean = true,
-    onDetailVisibilityChanged: (Boolean) -> Unit = {}
+    onDetailVisibilityChanged: (Boolean) -> Unit = {},
+    arrival: RingArrival? = null,
+    onArrivalFinished: (RingArrival) -> Unit = {}
 ) {
     val strings = rememberUiStrings()
     val density = LocalDensity.current
@@ -73,6 +80,7 @@ internal fun RingInventoryPage(
     var detailId by remember { mutableStateOf<String?>(null) }
     var previewBounds by remember { mutableStateOf(Rect.Zero) }
     var compactPreview by remember { mutableStateOf(false) }
+    var sectorOrigin by remember { mutableStateOf<SectorDetailOrigin?>(null) }
     var hostBounds by remember { mutableStateOf(Rect.Zero) }
     var pendingAction by remember { mutableStateOf<String?>(null) }
     var actionBatch by remember { mutableStateOf<StockItem?>(null) }
@@ -98,6 +106,15 @@ internal fun RingInventoryPage(
         phase = InventoryDetailPhase.Collapsing
     }
 
+    fun open(selected: StockItem, origin: SectorDetailOrigin?) {
+        if (!active || phase != InventoryDetailPhase.Idle) return
+        if (origin == null && (previewBounds.width <= 0 || previewBounds.height <= 0)) return
+        focus.clearFocus()
+        sectorOrigin = origin
+        detailId = selected.id
+        phase = InventoryDetailPhase.Expanding
+    }
+
     // Cancellation on tab changes, family changes/deletion and composition disposal is automatic.
     LaunchedEffect(active, detailId, item != null, phase, store.cloud.scopeKey) {
         if (!active || (detailId != null && item == null)) {
@@ -105,6 +122,7 @@ internal fun RingInventoryPage(
             ringFocus.snapTo(0f)
             groups.forEach { it.snapTo(0f) }
             detailId = null
+            sectorOrigin = null
             pendingAction = null
             phase = InventoryDetailPhase.Idle
             return@LaunchedEffect
@@ -136,6 +154,7 @@ internal fun RingInventoryPage(
                 val action = pendingAction
                 val actionItem = actionBatch ?: store.items.firstOrNull { it.id == detailId }
                 detailId = null
+                sectorOrigin = null
                 pendingAction = null
                 actionBatch = null
                 phase = InventoryDetailPhase.Idle
@@ -160,21 +179,18 @@ internal fun RingInventoryPage(
                     style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 18.dp))
             }
         }
-        StockRingBrowser(ringItems, store.reminderDays, onOpenItem = { selected ->
-            if (phase == InventoryDetailPhase.Idle && active && previewBounds.width > 0 && previewBounds.height > 0) {
-                focus.clearFocus()
-                detailId = selected.id
-                phase = InventoryDetailPhase.Expanding
-            }
-        }, onAdd = onAdd,
+        StockRingBrowser(ringItems, store.reminderDays, onOpenItem = { open(it, null) }, onAdd = onAdd,
             modifier = Modifier.weight(1f).motionInput(!showing),
             showAddAction = true, toolbarEndPadding = AssistantMascotWidth + 32.dp,
-            detailFocus = { ringFocus.value }, hidePreview = showing,
-            onPreviewBounds = { bounds, compact -> previewBounds = bounds; compactPreview = compact })
+            detailFocus = { ringFocus.value }, hidePreview = showing && sectorOrigin == null,
+            onPreviewBounds = { bounds, compact -> previewBounds = bounds; compactPreview = compact },
+            onOpenSector = ::open, liftedSectorId = detailId.takeIf { showing && sectorOrigin != null },
+            arrival = arrival, onArrivalFinished = onArrivalFinished)
         }
 
         if (showing) {
-            val start = previewBounds.translate(-hostBounds.topLeft)
+            val origin = sectorOrigin
+            val start = (origin?.bounds ?: previewBounds).translate(-hostBounds.topLeft)
             val horizontalMargin = 16.dp
             val verticalMargin = 12.dp
             val targetWidth = (maxWidth - horizontalMargin * 2).coerceAtLeast(1.dp)
@@ -182,6 +198,21 @@ internal fun RingInventoryPage(
             val target = with(density) {
                 val top = ((maxHeight - targetHeight) / 2).coerceAtLeast(0.dp).toPx()
                 Rect(horizontalMargin.toPx(), top, (horizontalMargin + targetWidth).toPx(), top + targetHeight.toPx())
+            }
+            val outline = remember(origin, target, density) {
+                origin?.shape(Size(target.width, target.height),
+                    with(density) { 24.dp.toPx() }.coerceAtMost(minOf(target.width, target.height) / 2f)) { expansion.value }
+            }
+            val finishShape = RoundedCornerShape(24.dp)
+            val surface = if (origin == null || outline == null) {
+                Modifier.background(palette.panel).border(1.dp, palette.line, finishShape)
+            } else Modifier.drawBehind {
+                val t = expansion.value.coerceIn(0f, 1f)
+                val frame = if (t == 1f) finishShape.createOutline(size, layoutDirection, this)
+                    else outline.createOutline(size, layoutDirection, this)
+                drawOutline(frame, androidx.compose.ui.graphics.lerp(origin.fill, palette.panel, t))
+                drawOutline(frame, androidx.compose.ui.graphics.lerp(origin.edge, palette.line, t),
+                    style = Stroke(origin.edgeWidth + (2.dp.toPx() - origin.edgeWidth) * t))
             }
             val scrimColor = MaterialTheme.colorScheme.scrim
             Box(Modifier.fillMaxSize().testTag("inventory-detail-backdrop")
@@ -198,21 +229,40 @@ internal fun RingInventoryPage(
                 val placeable = measurable.measure(Constraints.fixed(width, height))
                 layout(width, height) { placeable.place(bounds.left.roundToInt(), bounds.top.roundToInt()) }
             }.graphicsLayer {
-                shape = RoundedCornerShape(lerp(18.dp, 24.dp, expansion.value.coerceIn(0f, 1f)))
-                clip = true
-                shadowElevation = with(density) { 5.dp.toPx() } * expansion.value.coerceIn(0f, 1f)
-            }.background(palette.panel)
-                .border(1.dp, palette.line, RoundedCornerShape(24.dp))
+                val t = expansion.value.coerceIn(0f, 1f)
+                shape = if (outline == null) RoundedCornerShape(lerp(18.dp, 24.dp, t))
+                    else if (t == 1f) finishShape else outline
+                clip = outline == null || t > 0f
+                shadowElevation = with(density) { 5.dp.toPx() } * t
+            }.then(surface)
                 .pointerInput(Unit) { detectTapGestures {} }
                 .testTag("inventory-detail-card").semantics { paneTitle = strings.label("详情") }) {
-                Box(Modifier.wrapContentSize(Alignment.TopStart, unbounded = true)
+                if (origin == null) Box(Modifier.wrapContentSize(Alignment.TopStart, unbounded = true)
                     .requiredSize(with(density) { start.width.toDp() }, with(density) { start.height.toDp() })
                     .graphicsLayer { alpha = (1f - expansion.value / .35f).coerceIn(0f, 1f) }
                     .clearAndSetSemantics {}) {
                     RingInfoCard(item, store.reminderDays, false, {}, palette, Modifier.fillMaxWidth(), compactPreview)
+                } else {
+                    val labelOffset = origin.labelCenter - origin.bounds.topLeft
+                    Column(Modifier.offset {
+                        val lift = expansion.value.coerceIn(0f, 1f)
+                        IntOffset((labelOffset.x - origin.labelSize.width / 2f).roundToInt(),
+                            (labelOffset.y - origin.labelSize.height / 2f - 12.dp.toPx() * lift).roundToInt())
+                    }.wrapContentSize(Alignment.TopStart, unbounded = true)
+                        .requiredSize(with(density) { origin.labelSize.width.toDp() }, with(density) { origin.labelSize.height.toDp() })
+                        .graphicsLayer {
+                            val t = expansion.value.coerceIn(0f, 1f)
+                            alpha = (1f - ((t - .22f) / .40f).coerceIn(0f, 1f))
+                            rotationZ = origin.rotation * (1f - t)
+                            scaleX = origin.labelScale; scaleY = scaleX
+                        }.clearAndSetSemantics {}, horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center) { RingSectorLabel(item, palette) }
                 }
                 Column(Modifier.wrapContentSize(Alignment.TopStart, unbounded = true).requiredSize(targetWidth, targetHeight)
-                    .graphicsLayer { alpha = ((expansion.value - .5f) / .18f).coerceIn(0f, 1f) }) {
+                    .graphicsLayer {
+                        alpha = if (origin == null) ((expansion.value - .50f) / .18f).coerceIn(0f, 1f)
+                            else ((expansion.value - .62f) / .23f).coerceIn(0f, 1f)
+                    }) {
                     Row(Modifier.fillMaxWidth().padding(start = 18.dp, end = 6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
                         Text(strings.label("详情"), color = MaterialTheme.colorScheme.onSurface,
