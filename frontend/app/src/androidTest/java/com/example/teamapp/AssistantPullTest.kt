@@ -65,6 +65,10 @@ class AssistantPullTest {
         val homeNotification = compose.onNodeWithTag("app-top-bar-notifications").fetchSemanticsNode().boundsInRoot
         val homeTitle = compose.onNodeWithTag("app-top-bar-title").fetchSemanticsNode().boundsInRoot
         compose.onNodeWithTag("app-top-bar-icon").assertDoesNotExist()
+        compose.onNodeWithText("拍照添加").assertIsDisplayed()
+        compose.onNodeWithText("语音添加").assertIsDisplayed()
+        compose.onNodeWithText("库存概览").assertIsDisplayed()
+        compose.onNodeWithText("测试纯牛奶").assertIsDisplayed()
         var pageTitleLeft: Float? = null
         shot("${if (dark) "dark" else "light"}-home-header")
         compose.onNodeWithTag("assistant-pull-cord").assertDoesNotExist()

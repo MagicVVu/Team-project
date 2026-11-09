@@ -50,7 +50,7 @@
     <string name="ui_log_in">Log in</string>
     <string name="ui_sign_up">Sign up</string>
     <string name="ui_continue_as_guest">Continue as guest</string>
-    <string name="ui_log_in_for_household_cloud_data">Log in for household cloud data · Guests use a separate local space</string>
+    <string name="ui_log_in_for_household_cloud_data">Log in to share inventory with your household. Guest data stays on this device.</string>
     <string name="ui_data_and_privacy">Data and privacy</string>
     <string name="ui_reset_password">Reset password</string>
     <string name="ui_got_it">Got it</string>
@@ -162,6 +162,7 @@
     <string name="ui_purchase_recorded_and_inventory_synced">Purchase recorded and inventory synced</string>
     <string name="ui_confirm_purchase_and_receive">Confirm purchase and receive</string>
     <string name="ui_mew_assistant">Mew Assistant</string>
+    <string name="ui_home_ask_mew">Ask Mew</string>
     <string name="ui_add_your_first_item">Add your first item</string>
     <string name="ui_items___low_expiring___expired">%1$s · %2$s low\n%3$s expiring · %4$s expired</string>
     <string name="ui_based_on_household_cloud_inventory">Based on household cloud inventory</string>
@@ -171,7 +172,7 @@
     <string name="ui_add_items">Add items</string>
     <string name="ui_photo">Photo</string>
     <string name="ui_voice">Voice</string>
-    <string name="ui_recent_stock">Recent stock</string>
+    <string name="ui_recent_stock">Inventory overview</string>
     <string name="ui_view_all">View all ›</string>
     <string name="ui_no_items_yet">No items yet</string>
     <string name="ui_add_your_first_item_by_photo">Add your first item by photo, voice or manual entry</string>

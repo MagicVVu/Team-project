@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -11,6 +12,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.example.teamapp.data.InventoryStore
 import com.example.teamapp.data.StockItem
 import com.example.teamapp.ui.MagicApp
+import com.example.teamapp.ui.Home
 import com.example.teamapp.ui.theme.TeamAppTheme
 import org.junit.*
 import org.junit.runner.RunWith
@@ -48,6 +50,33 @@ class LightDesignTest {
         val bitmap = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
         folder.resolve("$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
         bitmap.recycle()
+    }
+
+    @Test fun homeAssistantOpensWhenBlankAndSendsDraftAfterThemeSwitch() {
+        val dark = mutableStateOf(false)
+        val opened = mutableListOf<String>()
+        val sent = mutableListOf<String>()
+        compose.setContent {
+            TeamAppTheme(darkTheme = dark.value) {
+                Home(store, {}, {}, { opened += it }, { sent += it })
+            }
+        }
+        val action = compose.onNodeWithTag("home-assistant-action")
+        val field = compose.onNodeWithTag("home-assistant-input")
+        action.assertTextEquals("问问 Mew").performClick()
+        compose.runOnIdle {
+            Assert.assertEquals(listOf("AI 智能管家"), opened)
+            Assert.assertTrue(sent.isEmpty())
+        }
+        field.performTextInput("查看临期库存")
+        compose.runOnIdle { dark.value = true }
+        field.assertTextContains("查看临期库存")
+        action.assertTextEquals("发送").performClick()
+        compose.runOnIdle {
+            Assert.assertEquals(listOf("查看临期库存"), sent)
+            Assert.assertEquals(1, opened.size)
+        }
+        action.assertTextEquals("问问 Mew")
     }
 
     @Test fun lightTabsDetailAndProfileKeepTheirActions() {

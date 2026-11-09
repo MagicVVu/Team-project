@@ -219,21 +219,6 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
 }
 
 @Composable
-private fun Home(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
-    val strings = rememberUiStrings()
-    Column(Modifier.fillMaxSize()) {
-        if (store.cloud.signedIn) Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(strings.tr("登记日期与阈值提醒", "Recorded dates & stock thresholds"), modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelMedium)
-            TextButton(onClick = { panel("关注概览") }) { Text(strings.tr("AI 关注概览", "AI overview")) }
-        }
-        Box(Modifier.weight(1f)) {
-            if (LocalLightDesign.current) DesignHome(store, open, all, panel, ask)
-            else DarkHome(store, open, all, panel, ask)
-        }
-    }
-}
-
-@Composable
 internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
     if (LocalLightDesign.current) DesignStockRow(item, days, action)
     else DarkStockRow(item, days, action)

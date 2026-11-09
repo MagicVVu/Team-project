@@ -12,11 +12,20 @@ import com.example.teamapp.ui.AppEntry
 import com.example.teamapp.ui.AuthScreen
 import com.example.teamapp.ui.theme.TeamAppTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
 class AuthScreenTest {
     @get:Rule val compose = createComposeRule()
+
+    private fun checkLoginFirstScreen() {
+        val submit = compose.onNodeWithTag("auth-submit").assertIsDisplayed()
+        val density = InstrumentationRegistry.getInstrumentation().targetContext.resources.displayMetrics.density
+        assertTrue("The login button is fully visible before scrolling",
+            submit.fetchSemanticsNode().boundsInRoot.height >= 50f * density - 1f)
+        compose.onAllNodesWithText("以游客身份体验").assertCountEquals(1)
+    }
 
     private fun screenshot(name: String) {
         compose.waitForIdle()
@@ -31,6 +40,7 @@ class AuthScreenTest {
         var guestCount = 0
         compose.setContent { TeamAppTheme(darkTheme = false) { AuthScreen { guestCount++ } } }
         compose.onNodeWithTag("auth-server").assertDoesNotExist()
+        checkLoginFirstScreen()
         screenshot("light-login")
         compose.onNodeWithTag("auth-submit").performScrollTo().performClick()
         compose.onNodeWithText("请输入大陆 11 位手机号或带国家码的号码").assertExists()
@@ -67,10 +77,11 @@ class AuthScreenTest {
         try {
             val store = InventoryStore(context)
             compose.setContent { TeamAppTheme(darkTheme = true) { AppEntry(store) } }
+            checkLoginFirstScreen()
             screenshot("dark-login")
             compose.onNodeWithText("去注册").performScrollTo().performClick()
             screenshot("dark-register")
-            compose.onNodeWithText("先逛逛 ›").performScrollTo().performClick()
+            compose.onNodeWithText("以游客身份体验").performScrollTo().performClick()
             compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
             compose.onNodeWithText("登录 / 注册").performScrollTo().performClick()
             compose.onNodeWithText("登录 Mewstow").assertExists()

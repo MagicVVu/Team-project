@@ -50,7 +50,7 @@
     <string name="ui_log_in">去登录</string>
     <string name="ui_sign_up">去注册</string>
     <string name="ui_continue_as_guest">以游客身份体验</string>
-    <string name="ui_log_in_for_household_cloud_data">登录后连接家庭云端数据 · 游客使用独立本机空间</string>
+    <string name="ui_log_in_for_household_cloud_data">登录后可与家人共享库存。游客数据仅保存在本机。</string>
     <string name="ui_data_and_privacy">数据与隐私说明</string>
     <string name="ui_reset_password">找回密码</string>
     <string name="ui_got_it">知道了</string>
@@ -162,6 +162,7 @@
     <string name="ui_purchase_recorded_and_inventory_synced">购买已记录，库存已同步</string>
     <string name="ui_confirm_purchase_and_receive">确认购买并入库</string>
     <string name="ui_mew_assistant">Mew 助手</string>
+    <string name="ui_home_ask_mew">问问 Mew</string>
     <string name="ui_add_your_first_item">添加第一件物品吧</string>
     <string name="ui_items___low_expiring___expired">%1$s · %2$s 种不足\n%3$s 种临期 · %4$s 种过期</string>
     <string name="ui_based_on_household_cloud_inventory">依据家庭云端库存</string>
@@ -171,7 +172,7 @@
     <string name="ui_add_items">添加物品</string>
     <string name="ui_photo">拍照添加</string>
     <string name="ui_voice">语音添加</string>
-    <string name="ui_recent_stock">最近库存</string>
+    <string name="ui_recent_stock">库存概览</string>
     <string name="ui_view_all">查看全部 ›</string>
     <string name="ui_no_items_yet">还没有记录物品</string>
     <string name="ui_add_your_first_item_by_photo">拍照、语音或手动添加第一件家庭物品</string>

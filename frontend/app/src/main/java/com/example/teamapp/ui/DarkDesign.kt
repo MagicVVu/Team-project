@@ -101,58 +101,6 @@ internal fun DarkNavigation(selected: Int, select: (Int) -> Unit) {
 }
 
 @Composable
-internal fun DarkHome(store: InventoryStore, open: (StockItem) -> Unit, all: () -> Unit, panel: (String) -> Unit, ask: (String) -> Unit) {
-    val strings = rememberUiStrings()
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        DarkCard(DarkHero) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(strings.get(R.string.ui_mew_assistant), fontSize = 20.sp, lineHeight = 27.sp, fontWeight = FontWeight.SemiBold)
-                    Text(if (store.items.isEmpty()) strings.get(R.string.ui_add_your_first_item) else strings.get(R.string.ui_items___low_expiring___expired, strings.stockCount(store.items.size), store.items.count { it.status(store.reminderDays).low }, store.items.count { it.status(store.reminderDays).soon }, store.items.count { it.status(store.reminderDays).expired }), fontSize = 12.sp, lineHeight = 20.sp)
-                }
-                MewMascot(MewPose.Overview, Modifier.size(52.dp), strings.get(R.string.ui_mew__your_stock_companion))
-            }
-            Text(if (store.cloud.signedIn) strings.get(R.string.ui_based_on_household_cloud_inventory) else strings.get(R.string.ui_based_on_local_inventory), fontSize = 10.sp, lineHeight = 15.sp, color = DarkMuted, modifier = Modifier.padding(top = 6.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SuggestionChip(onClick = { ask("哪些快过期了？") }, label = { Text(strings.get(R.string.ui_expiring_soon), fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
-                SuggestionChip(onClick = { ask("需要补什么？") }, label = { Text(strings.get(R.string.ui_restock), fontSize = 11.sp, lineHeight = 16.sp) }, shape = CircleShape)
-            }
-            var question by rememberSaveable { mutableStateOf("") }
-            OutlinedTextField(question, { question = it }, singleLine = true, placeholder = { Text(strings.get(R.string.ui_ask_about_stock__add_items), fontSize = 13.sp) },
-                shape = RoundedCornerShape(14.dp), modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(unfocusedContainerColor = DarkHeaderColor, focusedContainerColor = DarkHeaderColor, unfocusedBorderColor = DarkLine),
-                trailingIcon = { IconButton(onClick = { if (question.isNotBlank()) { ask(question); question = "" } else panel("AI 智能管家") }, modifier = Modifier.semantics { contentDescription = "发送" }) {
-                    Box(Modifier.size(27.dp).background(DarkGreen, CircleShape), contentAlignment = Alignment.Center) { DarkGlyph("arrow", Modifier.size(18.dp), Color(0xFF20251C)) }
-                } })
-        }
-        Text(strings.get(R.string.ui_add_items), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            DarkQuick("camera", strings.get(R.string.ui_photo), Modifier.weight(1f)) { panel("拍照添加") }
-            DarkQuick("mic", strings.get(R.string.ui_voice), Modifier.weight(1f)) { panel("语音添加") }
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(strings.get(R.string.ui_recent_stock), fontSize = 14.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
-            TextButton(onClick = all) { Text(strings.get(R.string.ui_view_all), fontSize = 11.sp) }
-        }
-        if (store.items.isEmpty()) MewEmptyState(strings.get(R.string.ui_no_items_yet), strings.get(R.string.ui_add_your_first_item_by_photo))
-        store.items.sortedBy { it.status(store.reminderDays).priority }.take(4).forEach { item ->
-            key(item.id) { DarkStockRow(item, store.reminderDays) { open(item) } }
-        }
-    }
-}
-
-@Composable
-private fun DarkQuick(glyph: String, title: String, modifier: Modifier, action: () -> Unit) {
-    Card(modifier = modifier.clip(RoundedCornerShape(18.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), shape = RoundedCornerShape(18.dp), border = BorderStroke(1.dp, DarkLine), colors = CardDefaults.cardColors(containerColor = DarkCardColor)) {
-        Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).padding(horizontal = 12.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            DarkGlyph(glyph, Modifier.size(24.dp))
-            Text(title, fontSize = 14.sp, lineHeight = 19.sp)
-        }
-    }
-}
-
-@Composable
 internal fun DarkInventory(store: InventoryStore, open: (StockItem) -> Unit, add: () -> Unit, voice: () -> Unit) {
     val strings = rememberUiStrings()
     var search by rememberSaveable { mutableStateOf("") }

@@ -104,7 +104,7 @@ class MewConsistencyTest {
         for (isDark in listOf(false, true)) {
             mode(isDark)
             val prefix = if (isDark) "dark" else "light"
-            compose.onNodeWithText("先逛逛 ›").performScrollTo()
+            compose.onNodeWithContentDescription("Mew 陪你记录生活").performScrollTo()
             poseAt("Mew 陪你记录生活", MewPose.Welcome)
             shot("$prefix-login")
             compose.onNodeWithText("去注册").performScrollTo().performClick()
