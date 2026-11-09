@@ -40,7 +40,7 @@ internal fun MewstowWordmark(modifier: Modifier = Modifier, outlined: Boolean = 
             for ((x, y) in listOf(-1 to -1, 0 to -1, 1 to -1, -1 to 0,
                 1 to 0, -1 to 1, 0 to 1, 1 to 1)) {
                 Image(painter, contentDescription = null, contentScale = ContentScale.Fit,
-                    colorFilter = ColorFilter.tint(Color(0xFFFFFDF7)),
+                    colorFilter = ColorFilter.tint(if (dark) Color(0xFF101112) else Color(0xFFFFFDF7)),
                     modifier = Modifier.offset(x.dp, y.dp).then(imageModifier))
             }
         }

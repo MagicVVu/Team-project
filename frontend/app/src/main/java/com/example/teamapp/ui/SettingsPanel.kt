@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
 import com.example.teamapp.R
 import com.example.teamapp.BuildConfig
-import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.i18n.LanguageSettings
 import kotlinx.coroutines.launch
 
@@ -95,11 +94,9 @@ internal fun SettingsPanel(store: InventoryStore, page: String, notify: (String)
                 }, enabled = !store.cloud.busy) { Text(strings.get(R.string.ui_save_rules)) }
             }
             "通用设置" -> {
-                if (!LocalLightDesign.current) DarkGeneralSettings(store, notify) else {
                 LanguageSettings(store)
                 Choice(strings.get(R.string.ui_appearance), listOf("跟随系统", "浅色", "深色"), store.appearance, translateOptions = true) { store.updateAppearance(it); notify(strings.get(R.string.ui_appearance_saved)) }
-                Text(strings.get(R.string.ui_units_are_set_per_item_and_2))
-                }
+                ModeNotice(strings.get(R.string.ui_units_are_set_per_item_and_2))
             }
             "消息通知" -> {
                 ModeNotice(strings.get(R.string.ui_these_are_in_app_alerts__turning_them))

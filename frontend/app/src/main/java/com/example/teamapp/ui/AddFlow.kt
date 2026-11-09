@@ -32,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.teamapp.data.*
-import com.example.teamapp.ui.theme.LocalLightDesign
 import com.example.teamapp.ui.theme.appearanceFade
 import java.time.LocalDate
 import kotlinx.coroutines.launch
@@ -149,8 +148,7 @@ internal fun Editor(store: InventoryStore, initial: StockItem?, image: String = 
         if (sourceText.isNotBlank()) Text(strings.get(R.string.ui_original_transcript, sourceText), style = MaterialTheme.typography.bodySmall)
         Photo(initial?.image ?: image)
         if (store.cloud.signedIn) Text(strings.get(R.string.ui_save_to_the_current_household__items), style = MaterialTheme.typography.bodySmall)
-        else if (LocalLightDesign.current) Text(strings.get(R.string.ui___required__inventory_changes_only_after), style = MaterialTheme.typography.bodySmall)
-        else DarkNotice(strings.get(R.string.ui___required__inventory_changes_only_after))
+        else ModeNotice(strings.get(R.string.ui___required__inventory_changes_only_after))
         Field(strings.get(R.string.ui_item_name), name, { name = it }, errors["name"], enabled = !submitting)
         if (initial?.individualRecord != true) {
             Field(if (store.cloud.signedIn) strings.tr("入库件数（最多10000件）", "Items to add (up to 10,000)") else strings.get(R.string.ui_quantity), quantity, { quantity = it }, errors["quantity"], numeric = true, enabled = !submitting)

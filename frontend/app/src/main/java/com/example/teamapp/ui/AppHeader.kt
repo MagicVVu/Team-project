@@ -42,12 +42,11 @@ internal fun AppHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, m
         horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         AppMotionContent(tab, Modifier.weight(1f), label = "header-title") { page ->
             if (page == 0) MewstowWordmark(
-                Modifier.width(176.dp).height(40.dp).testTag("app-top-bar-title"), outlined = light
+                Modifier.width(176.dp).height(40.dp).testTag("app-top-bar-title"), outlined = true
             ) else Row(verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 val glyph = listOf("", "box", "cart", "person")[page]
-                if (light) DesignGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
-                else DarkGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
+                DesignGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
                 Text(listOf("", strings.get(R.string.ui_inventory), strings.get(R.string.ui_shopping_list), strings.get(R.string.ui_profile))[page],
                     fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.Bold,
                     color = ink, modifier = Modifier.testTag("app-top-bar-title"))
@@ -63,8 +62,7 @@ internal fun AppHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, m
                     }
                 }
             }) {
-                if (light) DesignGlyph("bell", Modifier.size(22.dp), ink)
-                else DarkGlyph("bell", Modifier.size(22.dp), ink)
+                DesignGlyph("bell", Modifier.size(22.dp), ink)
             }
         }
     }

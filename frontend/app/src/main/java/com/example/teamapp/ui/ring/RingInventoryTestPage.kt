@@ -23,8 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.teamapp.data.*
-import com.example.teamapp.ui.DarkNavigation
-import com.example.teamapp.ui.DesignNavigation
+import com.example.teamapp.ui.AppNavigation
 import com.example.teamapp.ui.DesignGlyph
 import com.example.teamapp.ui.AppMotion
 import com.example.teamapp.ui.AppMotionContent
@@ -126,7 +125,7 @@ internal fun RingInventoryTestPage(initialLight: Boolean, onClose: () -> Unit, o
         val headerColor by animateColorAsState(if (light) Color(0xFFB2C57D) else Color(0xFF202124),
             tween(AppMotion.Duration, easing = AppMotion.easing), label = "ring-header-theme")
         Scaffold(bottomBar = {
-            if (light) DesignNavigation(1, onNavigate) else DarkNavigation(1, onNavigate)
+            AppNavigation(1, onNavigate)
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).testTag("ring-test-page")) {
                 Row(Modifier.fillMaxWidth().background(headerColor)

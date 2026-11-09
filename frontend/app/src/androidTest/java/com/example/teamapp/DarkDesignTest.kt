@@ -113,17 +113,19 @@ class DarkDesignTest {
     }
 
     @Test fun appearanceSwitchKeepsCurrentPanelAndInventory() {
+        val inventoryBefore = store.items.toList()
         launch()
         compose.onNodeWithText("我的", useUnmergedTree = true).performClick()
         compose.onNodeWithText("通用设置").performScrollTo().performClick()
         screenshot("settings-fixture")
+        compose.onNodeWithText("外观模式", substring = true).performClick()
         compose.onNodeWithText("浅色").performClick()
         compose.runOnIdle { Assert.assertEquals("浅色", store.appearance) }
         compose.onNodeWithText("外观模式", substring = true).performClick()
         compose.onNodeWithText("深色").performClick()
         compose.runOnIdle {
             Assert.assertEquals("深色", store.appearance)
-            Assert.assertEquals(3, store.items.size)
+            Assert.assertEquals(inventoryBefore, store.items)
         }
         compose.onNodeWithText("界面语言").assertExists()
         compose.onNodeWithText("关闭").performClick()

@@ -69,7 +69,6 @@ fun MagicApp(store: InventoryStore, onOpenAuth: () -> Unit = {}) {
 @Composable
 private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     val strings = rememberUiStrings()
-    val lightDesign = LocalLightDesign.current
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var panel by rememberSaveable { mutableStateOf<String?>(null) }
     var selected by rememberSaveable { mutableStateOf<String?>(null) }
@@ -125,9 +124,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     BackHandler(panel != null) { closePanel() }
     AssistantPullLayer(tab, panel == null && !inventoryDetailVisible, store, conversation, snackbar, notify) { headerModifier ->
         Scaffold(snackbarHost = { InventoryFeedbackHost(snackbar) }, bottomBar = {
-            if (lightDesign) DesignNavigation(tab) { selectTab(it) } else {
-                DarkNavigation(tab) { selectTab(it) }
-            }
+            AppNavigation(tab) { selectTab(it) }
         }) { padding ->
             Column(Modifier.fillMaxSize().padding(padding)) {
                 AppHeader(tab, store, { panel = "提醒" }, headerModifier)
@@ -157,7 +154,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                                         arrival = ringArrival.takeIf { page == tab },
                                         onArrivalFinished = { if (ringArrival === it) ringArrival = null })
                                     2 -> Shopping(store, { id, p -> selected = id; panel = p }, notify)
-                                    3 -> Profile(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
+                                    3 -> ProfilePage(store) { if (it == "登录 / 注册") onOpenAuth() else panel = it }
                                 }
                             }
                         }
@@ -177,7 +174,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
     }
     if (panel != null && panel != "拍照添加") {
         ModalBottomSheet(onDismissRequest = { panel = null }, sheetState = sheetState, modifier = Modifier.appearanceFade(),
-            containerColor = if (lightDesign) BottomSheetDefaults.ContainerColor else MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface) {
             Column(Modifier.fillMaxWidth().fillMaxHeight(0.92f).imePadding().motionInput(!closingPanel)) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 22.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -191,7 +188,7 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
                     }
                     TextButton(onClick = { closePanel() }) { Text(strings.get(R.string.ui_close_2)) }
                 }
-                if (!lightDesign) HorizontalDivider(color = DarkLine, modifier = Modifier.padding(top = 10.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(top = 10.dp))
                 AppMotionContent(panel.orEmpty(), Modifier.weight(1f).fillMaxWidth(), label = "panel-content") { route ->
                     when (route) {
                         "AI 智能管家" -> Chat(store, conversation, initialQuestion, { initialQuestion = "" }, notify)
@@ -219,22 +216,9 @@ private fun MagicAppContent(store: InventoryStore, onOpenAuth: () -> Unit) {
 }
 
 @Composable
-internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
-    if (LocalLightDesign.current) DesignStockRow(item, days, action)
-    else DarkStockRow(item, days, action)
-}
-
-@Composable
 private fun Shopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
     if (store.cloud.signedIn) CloudShopping(store, action, notify)
-    else if (LocalLightDesign.current) DesignShopping(store, action, notify)
-    else DarkShopping(store, action, notify)
-}
-
-@Composable
-private fun Profile(store: InventoryStore, open: (String) -> Unit) {
-    if (LocalLightDesign.current) DesignProfile(store, open)
-    else DarkProfile(store, open)
+    else GuestShoppingPage(store, action, notify)
 }
 
 @Composable
@@ -324,7 +308,6 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
         key(store.cloud.scopeKey) { CloudAssistant(store.cloud, initial, consumed, showIntro = showIntro, closeAssistant = closeAssistant) }
         return
     }
-    val lightDesign = LocalLightDesign.current
     var input by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var confirming by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -354,8 +337,7 @@ internal fun Chat(store: InventoryStore, conversation: androidx.compose.runtime.
                         AssistantQuickActions(enabled = !asking, send = ::send)
                         if (strings.english) Text(strings.get(R.string.ui_ai_language_note), style = MaterialTheme.typography.bodySmall)
                         if (!showIntro) Text(strings.get(R.string.ui_based_on_local_stock___restocking), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        else if (lightDesign) Text(strings.get(R.string.ui_local_stock_q_a___each_question), style = MaterialTheme.typography.bodySmall)
-                        else DarkNotice(strings.get(R.string.ui_local_stock_q_a___each_question))
+                        else ModeNotice(strings.get(R.string.ui_local_stock_q_a___each_question))
                     }
                 }
                 if (conversation.isEmpty()) item {

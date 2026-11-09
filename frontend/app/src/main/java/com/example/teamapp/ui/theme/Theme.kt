@@ -67,6 +67,12 @@ private val DarkColorScheme = darkColorScheme(
     errorContainer = Color(0xFF473636), onErrorContainer = Color(0xFFDAAEA6)
 )
 
+private val TeamAppShapes = Shapes(
+    extraSmall = RoundedCornerShape(6.dp), small = RoundedCornerShape(9.dp),
+    medium = RoundedCornerShape(14.dp), large = RoundedCornerShape(18.dp),
+    extraLarge = RoundedCornerShape(24.dp)
+)
+
 @Composable
 fun TeamAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), dynamicColor: Boolean = false, content: @Composable () -> Unit) {
     // Change foreground/background together at the fade's midpoint; interpolating opposing
@@ -84,15 +90,7 @@ fun TeamAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), dynamicColor: Boole
         LocalAppearanceOpacity provides { appearanceAlpha.value }) {
         MaterialTheme(
             colorScheme = if (renderedDark) DarkColorScheme else LightColorScheme,
-            shapes = if (renderedDark) Shapes(
-                extraSmall = RoundedCornerShape(8.dp), small = RoundedCornerShape(12.dp),
-                medium = RoundedCornerShape(18.dp), large = RoundedCornerShape(24.dp),
-                extraLarge = RoundedCornerShape(32.dp)
-            ) else Shapes(
-                extraSmall = RoundedCornerShape(6.dp), small = RoundedCornerShape(9.dp),
-                medium = RoundedCornerShape(14.dp), large = RoundedCornerShape(18.dp),
-                extraLarge = RoundedCornerShape(24.dp)
-            ),
+            shapes = TeamAppShapes,
             typography = Typography
         ) {
             Box(Modifier.fillMaxSize().background(if (darkTheme) DarkColorScheme.background else LightColorScheme.background)) {

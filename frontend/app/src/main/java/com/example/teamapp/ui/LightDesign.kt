@@ -67,21 +67,22 @@ private val DesignPaper = Color(0xFFFAF7E8)
 private val DesignSoft = Color(0xFFE4EACF)
 private val DesignLine = Color(0xFFC5CFAD)
 private val DesignMuted = Color(0xFF68745C)
-private val DesignRed = Color(0xFFB75649)
 
 @Composable
-internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
+internal fun AppNavigation(selected: Int, select: (Int) -> Unit) {
     val strings = rememberUiStrings()
+    val colors = MaterialTheme.colorScheme
+    val barColor = if (LocalLightDesign.current) Color(0xFFF4F3E3) else DarkHeaderColor
     val indicatorPosition = animateFloatAsState(
         selected.toFloat(), tween(AppMotion.Duration, easing = AppMotion.easing), label = "light-nav-position"
     )
     Box(
-        Modifier.fillMaxWidth().background(Color(0xFFF4F3E3)).border(BorderStroke(1.dp, DesignLine))
+        Modifier.fillMaxWidth().background(barColor).border(BorderStroke(1.dp, colors.outlineVariant))
             .navigationBarsPadding().padding(horizontal = 12.dp, vertical = 9.dp)
     ) {
         Canvas(Modifier.matchParentSize()) {
             val tabWidth = size.width / 4
-            drawRoundRect(DesignSoft, Offset(tabWidth * indicatorPosition.value, 0f), Size(tabWidth, size.height), CornerRadius(12.dp.toPx()))
+            drawRoundRect(colors.primaryContainer, Offset(tabWidth * indicatorPosition.value, 0f), Size(tabWidth, size.height), CornerRadius(12.dp.toPx()))
         }
         Row(Modifier.fillMaxWidth()) {
             listOf("首页", "库存", "清单", "我的").forEachIndexed { index, label ->
@@ -92,7 +93,7 @@ internal fun DesignNavigation(selected: Int, select: (Int) -> Unit) {
                     tween(AppMotion.Quick, easing = AppMotion.easing), label = "light-nav-scale"
                 )
                 val foreground by animateColorAsState(
-                    if (selected == index) DesignOlive else DesignMuted,
+                    if (selected == index) colors.onPrimaryContainer else colors.onSurfaceVariant,
                     tween(AppMotion.Quick), label = "light-nav-color"
                 )
                 Column(
@@ -125,7 +126,7 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
     }.sortedBy { it.status(store.reminderDays).priority }
     LazyColumn(Modifier.fillMaxSize().testTag("inventory-list"), contentPadding = PaddingValues(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item(key = "inventory-summary") {
-            DesignCard(DesignSoft) {
+            SharedCard(DesignSoft) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DesignGlyph("box", Modifier.size(39.dp))
                     Column(Modifier.padding(start = 14.dp)) {
@@ -166,7 +167,7 @@ internal fun DesignInventory(store: InventoryStore, open: (StockItem) -> Unit, a
             Box(Modifier.animateItem()) { MewEmptyState(strings.get(R.string.ui_no_matching_items), if (store.items.isEmpty()) strings.get(R.string.ui_add_an_item_to_start_your) else strings.get(R.string.ui_try_another_keyword_or_filter)) }
         }
         items(result, key = { it.id }) { item ->
-            Box(Modifier.animateItem()) { DesignStockRow(item, store.reminderDays) { open(item) } }
+            Box(Modifier.animateItem()) { StockRow(item, store.reminderDays) { open(item) } }
         }
     }
 }
@@ -224,32 +225,34 @@ private fun InventoryRing(items: List<StockItem>, days: Int, open: (StockItem) -
 }
 
 @Composable
-internal fun DesignStockRow(item: StockItem, days: Int, action: () -> Unit) {
+internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
     val strings = rememberUiStrings()
     val status = item.status(days)
-    Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8))) {
-        Row(Modifier.fillMaxWidth().background(DesignSoft).padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Box(Modifier.size(46.dp).background(Color(0xFFFBFAEE), RoundedCornerShape(11.dp)).border(1.dp, DesignLine, RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) { StockIllustration(item, Modifier.size(34.dp)) }
+    val colors = MaterialTheme.colorScheme
+    Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).semantics { role = Role.Button }.motionClickable(onClick = action), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, colors.outlineVariant), colors = CardDefaults.cardColors(containerColor = colors.surface)) {
+        Row(Modifier.fillMaxWidth().background(colors.primaryContainer).padding(13.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Box(Modifier.size(46.dp).background(colors.surface, RoundedCornerShape(11.dp)).border(1.dp, colors.outlineVariant, RoundedCornerShape(11.dp)), contentAlignment = Alignment.Center) { StockIllustration(item, Modifier.size(34.dp)) }
             Column(Modifier.weight(1f)) {
                 Text(item.name, fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.Bold)
-                Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = DesignMuted, modifier = Modifier.padding(top = 3.dp))
+                Text(item.location, fontSize = 11.sp, lineHeight = 16.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(top = 3.dp))
             }
-            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = DesignOlive, modifier = Modifier.border(1.dp, Color(0xFFA7BC80), RoundedCornerShape(7.dp)).padding(horizontal = 9.dp, vertical = 6.dp))
+            Text("${item.quantity.display()} ${item.unit}", fontSize = 11.sp, lineHeight = 16.sp, color = colors.primary, modifier = Modifier.border(1.dp, colors.outline, RoundedCornerShape(7.dp)).padding(horizontal = 9.dp, vertical = 6.dp))
         }
         Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             DesignFact(strings.get(R.string.ui_expiry_date), item.expiry.ifBlank { strings.get(R.string.ui_not_set) })
-            HorizontalDivider(color = DesignLine.copy(alpha = 0.65f))
-            DesignFact(strings.get(R.string.ui_status), strings.label(status.label), if (status.attention) DesignRed else DesignInk)
+            HorizontalDivider(color = colors.outlineVariant.copy(alpha = 0.65f))
+            DesignFact(strings.get(R.string.ui_status), strings.label(status.label), if (status.attention) colors.error else colors.onSurface)
         }
     }
 }
 
 @Composable
-internal fun DesignShopping(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
+internal fun GuestShoppingPage(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
     val strings = rememberUiStrings()
+    val colors = MaterialTheme.colorScheme
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item(key = "shopping-summary") {
-            DesignCard(DesignSoft) {
+            SharedCard(colors.primaryContainer) {
                 MewIntro(MewPose.Shopping, strings.get(R.string.ui_a_little_restock), strings.get(R.string.ui_record_what_you_bring_home),
                     Modifier.padding(end = AssistantMascotWidth))
             }
@@ -271,11 +274,12 @@ internal fun DesignShopping(store: InventoryStore, action: (String, String) -> U
             Box(Modifier.animateItem()) { DesignSection(strings.get(R.string.ui_stock_suggestions), strings.get(R.string.ui_check_the_actual_quantity)) }
         }
         val low = store.items.filter { it.status(store.reminderDays).low }
-        if (low.isEmpty()) item(key = "recommendations-empty") { Text(strings.get(R.string.ui_no_items_are_below_their_minimum_2), fontSize = 12.sp, color = DesignMuted, modifier = Modifier.animateItem()) }
+        if (low.isEmpty()) item(key = "recommendations-empty") { Text(strings.get(R.string.ui_no_items_are_below_their_minimum_2), fontSize = 12.sp, color = colors.onSurfaceVariant, modifier = Modifier.animateItem()) }
         items(low, key = { "recommendation-${it.id}" }) { item ->
-            DesignCard(Color(0xFFF1E8CB), modifier = Modifier.animateItem()) {
+            SharedCard(colors.secondaryContainer, modifier = Modifier.animateItem()) {
                 Text(item.name, fontWeight = FontWeight.Bold)
-                Text(strings.get(R.string.ui_current___minimum, item.quantity.display(), item.unit, item.minimum.display(), item.unit), fontSize = 12.sp, color = DesignMuted, modifier = Modifier.padding(vertical = 8.dp))
+                Text(strings.get(R.string.ui_current___minimum_suggested_restock__at,
+                    item.quantity.display(), item.unit, item.minimum.display(), item.unit, (item.minimum - item.quantity).display(), item.unit), fontSize = 12.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(vertical = 8.dp))
                 OutlinedButton(onClick = { action(item.id, if (store.purchases.any { it.itemId == item.id }) "调整采购数量" else "加入采购清单") }) {
                     Text(if (store.purchases.any { it.itemId == item.id }) strings.get(R.string.ui_on_list___adjust) else strings.get(R.string.ui_add_to_list))
                 }
@@ -329,48 +333,50 @@ internal fun CompactPurchaseCard(
 }
 
 @Composable
-internal fun DesignProfile(store: InventoryStore, open: (String) -> Unit) {
+internal fun ProfilePage(store: InventoryStore, open: (String) -> Unit) {
     val strings = rememberUiStrings()
+    val colors = MaterialTheme.colorScheme
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = DesignSoft)) {
+        Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, colors.outlineVariant), colors = CardDefaults.cardColors(containerColor = colors.primaryContainer)) {
             Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
                 MewMascot(MewPose.Overview, Modifier.size(72.dp), strings.get(R.string.ui_mew_profile))
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
                     Text(store.nickname, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.Bold)
-                    Text(store.family, fontSize = 12.sp, lineHeight = 18.sp, color = DesignMuted, modifier = Modifier.padding(top = 4.dp))
-                    Text(if (store.cloud.signedIn) strings.get(R.string.ui_edit_cloud_profile) else strings.get(R.string.ui_edit_local_profile), fontSize = 10.sp, lineHeight = 16.sp, color = DesignOlive, modifier = Modifier.padding(top = 6.dp))
+                    Text(store.family, fontSize = 12.sp, lineHeight = 18.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                    Text(if (store.cloud.signedIn) strings.get(R.string.ui_edit_cloud_profile) else strings.get(R.string.ui_edit_local_profile), fontSize = 10.sp, lineHeight = 16.sp, color = colors.primary, modifier = Modifier.padding(top = 6.dp))
                 }
             }
         }
-        DesignMenu("家庭与库存", listOf("我的家庭" to "家庭与位置", "库存检测规则" to "最低库存、到期提醒"), open)
-        DesignMenu("账号设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "登录家庭云端", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
-        DesignMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
-        Text(strings.get(R.string.ui_every_little_thing__remembered), color = DesignMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+        ProfileMenu("家庭与库存", listOf("我的家庭" to "家庭与位置", "库存检测规则" to "最低库存、到期提醒"), open)
+        ProfileMenu("账号设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "登录家庭云端", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
+        ProfileMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
+        Text(strings.get(R.string.ui_every_little_thing__remembered), color = colors.onSurfaceVariant, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
     }
 }
 
 @Composable
-private fun DesignMenu(title: String, rows: List<Pair<String, String>>, open: (String) -> Unit) {
+private fun ProfileMenu(title: String, rows: List<Pair<String, String>>, open: (String) -> Unit) {
     val strings = rememberUiStrings()
-    Text(strings.label(title), color = DesignMuted, fontSize = 12.sp, lineHeight = 18.sp)
-    Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F5E8)), shape = RoundedCornerShape(14.dp)) {
+    val colors = MaterialTheme.colorScheme
+    Text(strings.label(title), color = colors.onSurfaceVariant, fontSize = 12.sp, lineHeight = 18.sp)
+    Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, colors.outlineVariant), colors = CardDefaults.cardColors(containerColor = colors.surface), shape = RoundedCornerShape(14.dp)) {
         rows.forEachIndexed { index, (name, description) ->
             Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).motionClickable { open(name) }.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                DesignGlyph(if (name == "我的家庭") "leaf" else if (name == "消息通知") "bell" else if (name == "账号设置") "person" else "box", Modifier.size(23.dp))
+                DesignGlyph(if (name == "我的家庭") "leaf" else if (name == "消息通知") "bell" else if (name == "账号设置") "person" else "box", Modifier.size(23.dp), colors.primary)
                 Column(Modifier.weight(1f).padding(horizontal = 13.dp)) {
                     Text(if (name == "库存检测规则") strings.get(R.string.ui_stock_rules) else strings.label(name), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
-                    Text(strings.label(description), fontSize = 10.sp, lineHeight = 14.sp, color = DesignMuted, modifier = Modifier.padding(top = 3.dp))
+                    Text(strings.label(description), fontSize = 10.sp, lineHeight = 14.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(top = 3.dp))
                 }
-                Text("›", fontSize = 22.sp, color = DesignMuted)
+                Text("›", fontSize = 22.sp, color = colors.onSurfaceVariant)
             }
-            if (index != rows.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = DesignLine.copy(alpha = 0.65f))
+            if (index != rows.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = colors.outlineVariant.copy(alpha = 0.65f))
         }
     }
 }
 
 @Composable
-private fun DesignCard(color: Color = Color(0xFFF7F5E8), modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, DesignLine), colors = CardDefaults.cardColors(containerColor = color)) {
+private fun SharedCard(color: Color = MaterialTheme.colorScheme.surface, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(14.dp), border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), colors = CardDefaults.cardColors(containerColor = color)) {
         Column(Modifier.padding(12.dp), content = content)
     }
 }
@@ -379,16 +385,16 @@ private fun DesignCard(color: Color = Color(0xFFF7F5E8), modifier: Modifier = Mo
 private fun DesignSection(title: String, subtitle: String) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(title, fontSize = 16.sp, lineHeight = 22.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
-        if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 10.sp, lineHeight = 14.sp, color = DesignMuted)
+        if (subtitle.isNotEmpty()) Text(subtitle, fontSize = 10.sp, lineHeight = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
 @Composable
-private fun DesignFact(label: String, value: String, color: Color = DesignInk) {
+private fun DesignFact(label: String, value: String, color: Color = MaterialTheme.colorScheme.onSurface) {
     val strings = rememberUiStrings()
     val foreground by animateColorAsState(color, tween(AppMotion.Duration), label = "stock-fact-color")
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(strings.label(label), fontSize = 12.sp, lineHeight = 18.sp, color = DesignMuted, modifier = Modifier.weight(1f))
+        Text(strings.label(label), fontSize = 12.sp, lineHeight = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
         Text(value, fontSize = 12.sp, lineHeight = 18.sp, color = foreground)
     }
 }

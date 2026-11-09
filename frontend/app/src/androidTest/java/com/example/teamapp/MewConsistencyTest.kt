@@ -14,6 +14,7 @@ import com.example.teamapp.data.StockItem
 import com.example.teamapp.ui.*
 import com.example.teamapp.ui.theme.TeamAppTheme
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -66,6 +67,30 @@ class MewConsistencyTest {
         val folder = context.cacheDir.resolve("mew-unification").apply { mkdirs() }
         folder.resolve("$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
         bitmap.recycle()
+    }
+
+    @Test fun primaryPagesKeepTheSamePositionsAcrossThemes() {
+        launch()
+        fun verify(page: String, vararg anchors: SemanticsNodeInteraction) {
+            mode(false)
+            val light = anchors.map { it.assertIsDisplayed().fetchSemanticsNode().boundsInRoot }
+            shot("parity-light-$page")
+            mode(true)
+            val dark = anchors.map { it.assertIsDisplayed().fetchSemanticsNode().boundsInRoot }
+            shot("parity-dark-$page")
+            assertEquals("$page layout changes with theme", light, dark)
+        }
+
+        verify("home", compose.onNodeWithText("库存概览"), compose.onNodeWithText("拍照添加"),
+            compose.onNodeWithText("清单", useUnmergedTree = true))
+        tab("库存")
+        verify("inventory", compose.onNodeWithTag("ring-search-toggle"), compose.onNodeWithTag("ring-viewport"))
+        tab("清单")
+        verify("shopping", compose.onNodeWithText("慢慢补齐"), compose.onNodeWithText("根据库存推荐"))
+        tab("我的")
+        verify("profile", compose.onNodeWithText("我的家庭"), compose.onNodeWithText("通用设置"))
+        compose.onNodeWithText("通用设置").performScrollTo().performClick()
+        verify("settings", compose.onNodeWithText("界面语言"), compose.onNodeWithText("外观模式", substring = true))
     }
 
     @Test fun navigationProfileShoppingAndCurtainKeepTheirPosesAcrossThemes() {
