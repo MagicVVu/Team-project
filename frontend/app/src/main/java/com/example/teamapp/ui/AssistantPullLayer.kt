@@ -143,7 +143,8 @@ internal fun AssistantPullLayer(
                     translationY = (cordProgress.value - 1f) * size.height
                 }.testTag("assistant-cord-appearance")) {
                     Box(Modifier.motionInput(cordRequested && cordState.isIdle)) {
-                        AssistantPullCord({ expanded = true }, Modifier, opening = expanded)
+                        AssistantPullCord({ expanded = true }, Modifier, opening = expanded,
+                            idleMotion = cordRequested && cordState.isIdle)
                     }
                 }
             }
@@ -195,7 +196,7 @@ internal fun AssistantPullLayer(
 }
 
 @Composable
-private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boolean) {
+private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boolean, idleMotion: Boolean) {
     val strings = rememberUiStrings()
     val density = LocalDensity.current
     val threshold = with(density) { 72.dp.toPx() }
@@ -268,7 +269,8 @@ private fun AssistantPullCord(open: () -> Unit, modifier: Modifier, opening: Boo
             )
         }, contentAlignment = Alignment.BottomCenter) {
         // Keep the smile throughout the curtain entrance and simultaneous cord recoil.
-        AssistantPullMascot(dragging = dragging, smiling = ready || opening)
+        AssistantPullMascot(dragging = dragging, smiling = ready || opening,
+            idleMotion = idleMotion && !recoil.isRunning)
     }
 }
 
