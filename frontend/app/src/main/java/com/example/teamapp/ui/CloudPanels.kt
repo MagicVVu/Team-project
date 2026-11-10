@@ -3,7 +3,6 @@ package com.example.teamapp.ui
 import com.example.teamapp.ui.i18n.rememberUiStrings
 import com.example.teamapp.R
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -106,20 +105,30 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
     var purchasing by remember { mutableStateOf<CloudShoppingItem?>(null) }
     var removing by remember { mutableStateOf<CloudShoppingItem?>(null) }
     val entries = cloud.shopping.filter { it.purchased == history }
-    LazyColumn(Modifier.fillMaxSize().padding(horizontal = 18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(!history, { history = false }, label = { Text(strings.get(R.string.ui_to_buy)) })
-                FilterChip(history, { history = true }, label = { Text(strings.get(R.string.ui_purchase_history)) })
-                TextButton(onClick = { adding = true }, enabled = !cloud.busy && !cloud.expired) { Text(strings.get(R.string.ui_add_purchase)) }
+    ShoppingPaperList(paperItems = if (history) 0 else maxOf(1, entries.size) + 2) {
+        item(key = "shopping-toolbar") {
+            Column(Modifier.padding(bottom = if (history) 12.dp else 20.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(!history, { history = false }, label = { Text(strings.get(R.string.ui_to_buy)) })
+                    FilterChip(history, { history = true }, label = { Text(strings.get(R.string.ui_purchase_history)) })
+                    TextButton(onClick = { adding = true }, enabled = !cloud.busy && !cloud.expired) { Text(strings.get(R.string.ui_add_purchase)) }
+                }
+                Text(strings.get(R.string.ui_shared_shopping_list___item_s, entries.size), fontWeight = FontWeight.Bold)
+                Text(strings.get(R.string.ui_each_purchase_creates_a_separate_inventory), style = MaterialTheme.typography.bodySmall)
             }
-            Text(strings.get(R.string.ui_shared_shopping_list___item_s, entries.size), fontWeight = FontWeight.Bold)
-            Text(strings.get(R.string.ui_each_purchase_creates_a_separate_inventory), style = MaterialTheme.typography.bodySmall)
         }
-        if (entries.isEmpty()) item { Empty(if (history) strings.get(R.string.ui_no_purchase_history_yet) else strings.get(R.string.ui_your_shopping_list_is_empty), strings.get(R.string.ui_add_a_purchase_here_or_from)) }
-        items(entries, key = { it.id }) { entry ->
-            Card(Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (!history) item(key = "shopping-title") { ShoppingPaperHeading(entries.size) }
+        if (entries.isEmpty()) item(key = "shopping-empty") {
+            val empty: @Composable () -> Unit = {
+                Empty(if (history) strings.get(R.string.ui_no_purchase_history_yet) else strings.get(R.string.ui_your_shopping_list_is_empty),
+                    strings.get(R.string.ui_add_a_purchase_here_or_from))
+            }
+            if (history) empty() else ShoppingPaperRow { empty() }
+        }
+        items(entries, key = { "shopping-entry-${it.id}" }) { entry ->
+            val details: @Composable () -> Unit = {
+                Column(Modifier.padding(horizontal = if (history) 16.dp else 4.dp, vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         val preview = store.items.firstOrNull { it.id == entry.sourceId }
                             ?: StockItem(id = "shopping:${entry.id}", name = entry.name, quantity = entry.quantity, unit = entry.unit)
@@ -137,11 +146,16 @@ internal fun CloudShopping(store: InventoryStore, action: (String, String) -> Un
                     }
                 }
             }
+            if (history) Card(Modifier.fillMaxWidth().padding(bottom = 12.dp)) { details() }
+            else ShoppingPaperRow(Modifier.animateItem()) { details() }
         }
         if (!history) {
+            item(key = "shopping-paper-foot") { ShoppingPaperEnd() }
             item {
-                Text(strings.tr("按最低库存差值补货", "Restock from minimum-stock shortfall"), fontWeight = FontWeight.Bold)
-                Text(strings.tr("这是登记阈值差值，不是本次 AI 计算建议；确认时请核对已有待购。", "These are registered threshold differences, not AI calculations. Review pending purchases before confirming."), style = MaterialTheme.typography.bodySmall)
+                Column(Modifier.padding(vertical = 12.dp)) {
+                    Text(strings.tr("按最低库存差值补货", "Restock from minimum-stock shortfall"), fontWeight = FontWeight.Bold)
+                    Text(strings.tr("这是登记阈值差值，不是本次 AI 计算建议；确认时请核对已有待购。", "These are registered threshold differences, not AI calculations. Review pending purchases before confirming."), style = MaterialTheme.typography.bodySmall)
+                }
             }
             items(store.items.filter { it.activeBatch && InventoryContract.category(it.category) != "medicine" && it.status(store.reminderDays).low }, key = { "recommend-${it.id}" }) { item ->
                 OutlinedButton(onClick = { action(item.id, "加入采购清单") }, enabled = !cloud.busy) {

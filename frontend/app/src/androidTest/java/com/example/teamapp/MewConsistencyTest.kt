@@ -89,6 +89,10 @@ class MewConsistencyTest {
         verify("shopping", compose.onNodeWithText("慢慢补齐"), compose.onNodeWithText("根据库存推荐"))
         tab("我的")
         verify("profile", compose.onNodeWithText("我的家庭"), compose.onNodeWithText("通用设置"))
+        compose.onNodeWithText("家庭与位置").assertDoesNotExist()
+        compose.onNodeWithText("外观与使用偏好").assertDoesNotExist()
+        compose.onNodeWithText("关于 Mewstow").performScrollTo()
+        verify("profile-support", compose.onNodeWithText("帮助与反馈"), compose.onNodeWithText("关于 Mewstow"))
         compose.onNodeWithText("通用设置").performScrollTo().performClick()
         verify("settings", compose.onNodeWithText("界面语言"), compose.onNodeWithText("外观模式", substring = true))
     }

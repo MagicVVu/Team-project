@@ -250,33 +250,44 @@ internal fun StockRow(item: StockItem, days: Int, action: () -> Unit) {
 internal fun GuestShoppingPage(store: InventoryStore, action: (String, String) -> Unit, notify: (String) -> Unit) {
     val strings = rememberUiStrings()
     val colors = MaterialTheme.colorScheme
-    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    val inventory = store.items
+    val purchases = store.purchases
+    val planned = remember(inventory, purchases) {
+        val byId = inventory.associateBy { it.id }
+        purchases.mapNotNull { task -> byId[task.itemId]?.let { task to it } }
+    }
+    ShoppingPaperList(paperItems = maxOf(1, planned.size) + 2) {
         item(key = "shopping-summary") {
-            SharedCard(colors.primaryContainer) {
+            SharedCard(colors.primaryContainer, modifier = Modifier.padding(bottom = 18.dp)) {
                 MewIntro(MewPose.Shopping, strings.get(R.string.ui_a_little_restock), strings.get(R.string.ui_record_what_you_bring_home),
                     Modifier.padding(end = AssistantMascotWidth))
             }
         }
-        item(key = "shopping-title") { DesignSection(strings.get(R.string.ui_to_buy_3), strings.itemCount(store.purchases.size)) }
-        if (store.purchases.isEmpty()) item(key = "shopping-empty") {
-            Box(Modifier.animateItem()) { MewEmptyState(strings.get(R.string.ui_your_shopping_list_is_empty_2), strings.get(R.string.ui_use_the_stock_suggestions_below_to)) }
+        item(key = "shopping-title") { ShoppingPaperHeading(planned.size) }
+        if (planned.isEmpty()) item(key = "shopping-empty") {
+            ShoppingPaperRow {
+                MewEmptyState(strings.get(R.string.ui_your_shopping_list_is_empty_2), strings.get(R.string.ui_use_the_stock_suggestions_below_to))
+            }
         }
-        items(store.purchases, key = { "purchase-${it.itemId}" }) { task ->
-            store.items.firstOrNull { it.id == task.itemId }?.let { item ->
-                CompactPurchaseCard(item, task.quantity, Modifier.animateItem(),
+        items(planned, key = { "purchase-${it.first.itemId}" }) { (task, item) ->
+            ShoppingPaperRow(Modifier.animateItem()) {
+                CompactPurchaseRow(item, task.quantity,
                     illustration = { StockIllustration(item, Modifier.size(24.dp)) },
                     adjust = { action(item.id, "调整采购数量") },
                     remove = { store.removePlan(item.id); notify(strings.get(R.string.ui_removed_from_shopping_list)) },
                     purchase = { action(item.id, "购买入库") })
             }
         }
+        item(key = "shopping-paper-foot") { ShoppingPaperEnd() }
         item(key = "recommendations-title") {
-            Box(Modifier.animateItem()) { DesignSection(strings.get(R.string.ui_stock_suggestions), strings.get(R.string.ui_check_the_actual_quantity)) }
+            Box(Modifier.animateItem().padding(top = 14.dp, bottom = 8.dp)) {
+                DesignSection(strings.get(R.string.ui_stock_suggestions), strings.get(R.string.ui_check_the_actual_quantity))
+            }
         }
-        val low = store.items.filter { it.status(store.reminderDays).low }
+        val low = inventory.filter { it.status(store.reminderDays).low }
         if (low.isEmpty()) item(key = "recommendations-empty") { Text(strings.get(R.string.ui_no_items_are_below_their_minimum_2), fontSize = 12.sp, color = colors.onSurfaceVariant, modifier = Modifier.animateItem()) }
         items(low, key = { "recommendation-${it.id}" }) { item ->
-            SharedCard(colors.secondaryContainer, modifier = Modifier.animateItem()) {
+            SharedCard(colors.secondaryContainer, modifier = Modifier.animateItem().padding(bottom = 10.dp)) {
                 Text(item.name, fontWeight = FontWeight.Bold)
                 Text(strings.get(R.string.ui_current___minimum_suggested_restock__at,
                     item.quantity.display(), item.unit, item.minimum.display(), item.unit, (item.minimum - item.quantity).display(), item.unit), fontSize = 12.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(vertical = 8.dp))
@@ -289,18 +300,15 @@ internal fun GuestShoppingPage(store: InventoryStore, action: (String, String) -
 }
 
 @Composable
-internal fun CompactPurchaseCard(
-    item: StockItem, quantity: Double, modifier: Modifier = Modifier,
+private fun CompactPurchaseRow(
+    item: StockItem, quantity: Double,
     illustration: @Composable () -> Unit, adjust: () -> Unit, remove: () -> Unit, purchase: () -> Unit
 ) {
     val strings = rememberUiStrings()
     val light = LocalLightDesign.current
     val muted = if (light) DesignMuted else DarkMuted
     var menuOpen by remember { mutableStateOf(false) }
-    Card(modifier.fillMaxWidth(), shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(1.dp, if (light) DesignLine else DarkLine),
-        colors = CardDefaults.cardColors(containerColor = if (light) Color(0xFFF7F5E8) else DarkCardColor)) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 8.dp),
+    Row(Modifier.fillMaxWidth().padding(start = 3.dp, top = 2.dp, bottom = 2.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Box(Modifier.size(34.dp).background(if (light) DesignSoft else DarkSoft, RoundedCornerShape(8.dp)),
                 contentAlignment = Alignment.Center) { illustration() }
@@ -329,16 +337,15 @@ internal fun CompactPurchaseCard(
                 }
             }
         }
-    }
 }
 
 @Composable
 internal fun ProfilePage(store: InventoryStore, open: (String) -> Unit) {
     val strings = rememberUiStrings()
     val colors = MaterialTheme.colorScheme
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 18.dp, vertical = 10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Card(modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).semantics { role = Role.Button }.motionClickable { open("账号设置") }, shape = RoundedCornerShape(16.dp), border = BorderStroke(1.dp, colors.outlineVariant), colors = CardDefaults.cardColors(containerColor = colors.primaryContainer)) {
-            Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 MewMascot(MewPose.Overview, Modifier.size(72.dp), strings.get(R.string.ui_mew_profile))
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
                     Text(store.nickname, fontSize = 20.sp, lineHeight = 26.sp, fontWeight = FontWeight.Bold)
@@ -347,10 +354,13 @@ internal fun ProfilePage(store: InventoryStore, open: (String) -> Unit) {
                 }
             }
         }
-        ProfileMenu("家庭与库存", listOf("我的家庭" to "家庭与位置", "库存检测规则" to "最低库存、到期提醒"), open)
-        ProfileMenu("账号设置", listOf("登录 / 注册" to if (store.cloud.signedIn) "切换账号或进入本机空间" else "登录家庭云端", "账号设置" to "昵称与账号资料", "通用设置" to "外观与使用偏好", "消息通知" to "管理 App 内库存提醒", "隐私与安全" to "权限说明与数据管理"), open)
-        ProfileMenu("支持与关于", listOf("帮助与反馈" to "使用指南与问题反馈", "关于 Mewstow" to "让家庭物品管理更轻松"), open)
-        Text(strings.get(R.string.ui_every_little_thing__remembered), color = colors.onSurfaceVariant, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+        ProfileMenu("家庭与库存", listOf("我的家庭" to "home", "库存检测规则" to "checklist"), open)
+        ProfileMenu("账号设置", listOf(
+            "登录 / 注册" to "sign-in", "账号设置" to "account-card", "通用设置" to "settings",
+            "消息通知" to "bell", "隐私与安全" to "privacy-shield"
+        ), open)
+        ProfileMenu("支持与关于", listOf("帮助与反馈" to "help-chat", "关于 Mewstow" to "info"), open)
+        Text(strings.get(R.string.ui_every_little_thing__remembered), color = colors.onSurfaceVariant, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp))
     }
 }
 
@@ -358,18 +368,21 @@ internal fun ProfilePage(store: InventoryStore, open: (String) -> Unit) {
 private fun ProfileMenu(title: String, rows: List<Pair<String, String>>, open: (String) -> Unit) {
     val strings = rememberUiStrings()
     val colors = MaterialTheme.colorScheme
-    Text(strings.label(title), color = colors.onSurfaceVariant, fontSize = 12.sp, lineHeight = 18.sp)
-    Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, colors.outlineVariant), colors = CardDefaults.cardColors(containerColor = colors.surface), shape = RoundedCornerShape(14.dp)) {
-        rows.forEachIndexed { index, (name, description) ->
-            Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).motionClickable { open(name) }.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                DesignGlyph(if (name == "我的家庭") "leaf" else if (name == "消息通知") "bell" else if (name == "账号设置") "person" else "box", Modifier.size(23.dp), colors.primary)
-                Column(Modifier.weight(1f).padding(horizontal = 13.dp)) {
-                    Text(if (name == "库存检测规则") strings.get(R.string.ui_stock_rules) else strings.label(name), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
-                    Text(strings.label(description), fontSize = 10.sp, lineHeight = 14.sp, color = colors.onSurfaceVariant, modifier = Modifier.padding(top = 3.dp))
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(strings.label(title), color = colors.onSurfaceVariant, fontSize = 12.sp, lineHeight = 18.sp)
+        Card(modifier = Modifier.fillMaxWidth(), border = BorderStroke(1.dp, colors.outlineVariant),
+            colors = CardDefaults.cardColors(containerColor = colors.surface), shape = RoundedCornerShape(14.dp)) {
+            rows.forEachIndexed { index, (name, glyph) ->
+                Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).motionClickable { open(name) }
+                    .padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    DesignGlyph(glyph, Modifier.size(22.dp), colors.primary)
+                    Text(if (name == "库存检测规则") strings.get(R.string.ui_stock_rules) else strings.label(name),
+                        Modifier.weight(1f), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium)
+                    Text("›", fontSize = 22.sp, color = colors.onSurfaceVariant)
                 }
-                Text("›", fontSize = 22.sp, color = colors.onSurfaceVariant)
+                if (index != rows.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = colors.outlineVariant.copy(alpha = 0.65f))
             }
-            if (index != rows.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = colors.outlineVariant.copy(alpha = 0.65f))
         }
     }
 }
@@ -438,6 +451,76 @@ internal fun DesignGlyph(kind: String, modifier: Modifier = Modifier.size(24.dp)
                 "bell" -> {
                     val path = Path().apply { moveTo(5f, 17f); lineTo(7f, 14f); lineTo(7f, 8f); cubicTo(7f, 2f, 17f, 2f, 17f, 8f); lineTo(17f, 14f); lineTo(19f, 17f); close() }
                     drawPath(path, color, style = stroke); drawArc(color, 0f, 180f, false, Offset(10f, 18f), Size(4f, 3f), style = stroke)
+                }
+                "checklist" -> {
+                    drawRoundRect(color, Offset(4f, 3f), Size(16f, 18f), CornerRadius(2.5f), style = stroke)
+                    for (y in listOf(8f, 15f)) {
+                        line(7f, y, 8.5f, y + 1.5f)
+                        line(8.5f, y + 1.5f, 11f, y - 1f)
+                        line(13.5f, y, 17f, y)
+                    }
+                }
+                "sign-in" -> {
+                    val door = Path().apply {
+                        moveTo(10f, 3f); lineTo(19f, 3f); lineTo(19f, 21f); lineTo(10f, 21f)
+                    }
+                    drawPath(door, color, style = stroke)
+                    line(3f, 12f, 15f, 12f)
+                    line(11f, 8f, 15f, 12f)
+                    line(15f, 12f, 11f, 16f)
+                }
+                "account-card" -> {
+                    drawRoundRect(color, Offset(2.5f, 5f), Size(19f, 14f), CornerRadius(2.5f), style = stroke)
+                    drawCircle(color, 2f, Offset(8f, 10.5f), style = stroke)
+                    val shoulders = Path().apply { moveTo(5f, 16f); quadraticTo(8f, 12f, 11f, 16f) }
+                    drawPath(shoulders, color, style = stroke)
+                    line(14f, 10f, 18.5f, 10f)
+                    line(14f, 14f, 18.5f, 14f)
+                }
+                "settings" -> {
+                    val gear = Path().apply {
+                        repeat(32) { point ->
+                            val angle = point * (Math.PI / 16.0) - Math.PI / 2.0
+                            val radius = if (point % 4 in 1..2) 9.5f else 7.5f
+                            val x = 12f + radius * cos(angle).toFloat()
+                            val y = 12f + radius * sin(angle).toFloat()
+                            if (point == 0) moveTo(x, y) else lineTo(x, y)
+                        }
+                        close()
+                    }
+                    drawPath(gear, color, style = stroke)
+                    drawCircle(color, 3f, Offset(12f, 12f), style = stroke)
+                }
+                "privacy-shield" -> {
+                    val shield = Path().apply {
+                        moveTo(12f, 2.5f); lineTo(20f, 6f); lineTo(20f, 12f)
+                        cubicTo(20f, 17f, 16f, 20f, 12f, 22f)
+                        cubicTo(8f, 20f, 4f, 17f, 4f, 12f)
+                        lineTo(4f, 6f); close()
+                    }
+                    drawPath(shield, color, style = stroke)
+                    drawCircle(color, 1.5f, Offset(12f, 11f), style = stroke)
+                    line(12f, 13f, 12f, 16f)
+                }
+                "help-chat" -> {
+                    val bubble = Path().apply {
+                        moveTo(12f, 3.5f); cubicTo(6f, 3.5f, 3f, 6.5f, 3f, 11.5f)
+                        cubicTo(3f, 14f, 4f, 15.5f, 5.5f, 17f); lineTo(4.5f, 21f); lineTo(9f, 19f)
+                        cubicTo(17f, 20f, 21f, 16f, 21f, 11.5f)
+                        cubicTo(21f, 6.5f, 18f, 3.5f, 12f, 3.5f); close()
+                    }
+                    val question = Path().apply {
+                        moveTo(10f, 9f); cubicTo(10f, 6f, 15f, 6f, 15f, 9f)
+                        cubicTo(15f, 11f, 12.5f, 11f, 12.5f, 13f)
+                    }
+                    drawPath(bubble, color, style = stroke)
+                    drawPath(question, color, style = stroke)
+                    drawCircle(color, .8f, Offset(12.5f, 15.5f))
+                }
+                "info" -> {
+                    drawCircle(color, 9f, Offset(12f, 12f), style = stroke)
+                    drawCircle(color, 1f, Offset(12f, 7.5f))
+                    line(12f, 11f, 12f, 16.5f)
                 }
                 "camera" -> {
                     drawRoundRect(color, Offset(2f, 6f), Size(20f, 15f), CornerRadius(2f), style = stroke)

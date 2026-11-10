@@ -142,12 +142,46 @@ class LightDesignTest {
         compose.onNodeWithText("实际购入数量（盒）").performTextInput("1")
         compose.onNodeWithText("确认入库").performClick()
         compose.runOnIdle {
-            Assert.assertEquals(2.0, store.items.single().quantity, 0.0)
+            Assert.assertEquals(listOf(1.0, 1.0), store.items.filter { it.name == milk.name }.map(StockItem::quantity))
             Assert.assertTrue(store.purchases.isEmpty())
         }
         compose.onNodeWithText("库存", useUnmergedTree = true).performClick()
-        compose.onNodeWithTag("ring-selected-info").assertContentDescriptionEquals("已选中物品：测试纯牛奶")
-        compose.onAllNodesWithText("2 盒")[0].assertExists()
+        compose.onNodeWithTag("ring-position").assertTextEquals("1 / 1")
+    }
+
+    @Test fun shoppingPaperKeepsNewEntriesReachableAcrossThemes() {
+        val dark = mutableStateOf(false)
+        val examples = listOf("纯牛奶", "全麦面包", "抽纸", "洗衣液", "五号电池", "洗洁精")
+        val items = (1..30).map { number ->
+            StockItem(name = examples.getOrNull(number - 1) ?: "待采购测试 $number", quantity = 1.0, unit = "件")
+        }
+        items.take(6).forEach { store.saveItem(it); store.plan(it.id, 1.0) }
+        compose.setContent { TeamAppTheme(darkTheme = dark.value) { MagicApp(store) } }
+        compose.onNodeWithText("清单", useUnmergedTree = true).performClick()
+        compose.onNodeWithText("待采购").assertIsDisplayed()
+        compose.onNodeWithText("6 项").assertIsDisplayed()
+        screenshot("shopping-paper-light-6")
+        compose.runOnIdle { dark.value = true }
+        compose.onNodeWithText("6 项").assertIsDisplayed()
+        screenshot("shopping-paper-dark-6")
+
+        compose.runOnIdle {
+            items.drop(6).forEach { store.saveItem(it); store.plan(it.id, 1.0) }
+        }
+        compose.onNodeWithText("30 项").assertIsDisplayed()
+        val last = items.last()
+        compose.onNodeWithTag("shopping-paper-list").performScrollToKey("purchase-${last.id}")
+        compose.onNodeWithText(last.name).assertIsDisplayed()
+        compose.onNodeWithContentDescription("${last.name}的更多操作").performClick()
+        compose.onNodeWithText("调整数量").assertIsDisplayed()
+        compose.onNodeWithText("移除").performClick()
+        compose.runOnIdle {
+            Assert.assertEquals(29, store.purchases.size)
+            Assert.assertTrue(store.items.any { it.id == last.id })
+        }
+        compose.onNodeWithTag("shopping-paper-list").performScrollToIndex(0)
+        compose.onNodeWithText("29 项").assertIsDisplayed()
+        screenshot("shopping-paper-dark-long")
     }
 
     @Test fun cancelAddKeepsInventoryUntouched() {

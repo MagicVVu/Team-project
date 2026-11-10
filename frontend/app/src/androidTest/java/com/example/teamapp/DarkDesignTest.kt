@@ -96,7 +96,7 @@ class DarkDesignTest {
         compose.onNodeWithText("实际购入数量（盒）").performTextInput("1")
         compose.onNodeWithText("确认入库").performClick()
         compose.runOnIdle {
-            Assert.assertEquals(2.0, store.items.first { it.id == milk.id }.quantity, 0.0)
+            Assert.assertEquals(listOf(1.0, 1.0), store.items.filter { it.name == milk.name }.map(StockItem::quantity))
             Assert.assertTrue(store.purchases.isEmpty())
         }
     }
