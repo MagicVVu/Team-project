@@ -104,7 +104,7 @@ internal fun AppNavigation(selected: Int, select: (Int) -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(3.dp)
                 ) {
                     Box(Modifier.size(30.dp).graphicsLayer { scaleX = scale.value; scaleY = scale.value }, contentAlignment = Alignment.Center) {
-                        DesignGlyph(listOf("home", "box", "cart", "person")[index], Modifier.size(27.dp), foreground)
+                        DesignGlyph(listOf("home", "shelf", "cart", "person")[index], Modifier.size(27.dp), foreground)
                     }
                     Text(strings.label(label), color = foreground, fontSize = 11.sp, lineHeight = 16.sp, fontWeight = FontWeight.Medium)
                 }
@@ -434,6 +434,31 @@ internal fun DesignGlyph(kind: String, modifier: Modifier = Modifier.size(24.dp)
                 "home" -> {
                     val path = Path().apply { moveTo(3f, 10f); lineTo(12f, 2f); lineTo(21f, 10f); lineTo(21f, 22f); lineTo(15f, 22f); lineTo(15f, 14f); lineTo(9f, 14f); lineTo(9f, 22f); lineTo(3f, 22f); close() }
                     drawPath(path, color, style = stroke)
+                }
+                "shelf" -> {
+                    line(3f, 4f, 3f, 22f)
+                    line(21f, 4f, 21f, 22f)
+                    line(3f, 11f, 21f, 11f)
+                    line(3f, 19.5f, 21f, 19.5f)
+                    val storedItems = Path().apply {
+                        moveTo(6.5f, 11f)
+                        lineTo(6.5f, 6.5f)
+                        lineTo(10.5f, 6.5f)
+                        lineTo(10.5f, 11f)
+                        moveTo(14f, 11f)
+                        lineTo(14f, 6f)
+                        lineTo(15f, 5f)
+                        lineTo(15f, 3.5f)
+                        lineTo(16.5f, 3.5f)
+                        lineTo(16.5f, 5f)
+                        lineTo(17.5f, 6f)
+                        lineTo(17.5f, 11f)
+                        moveTo(7.5f, 19.5f)
+                        lineTo(6.5f, 14.5f)
+                        lineTo(17.5f, 14.5f)
+                        lineTo(16.5f, 19.5f)
+                    }
+                    drawPath(storedItems, color, style = stroke)
                 }
                 "leaf" -> {
                     val path = Path().apply { moveTo(4f, 20f); cubicTo(3f, 7f, 10f, 2f, 21f, 3f); cubicTo(20f, 15f, 12f, 21f, 4f, 20f); close() }
