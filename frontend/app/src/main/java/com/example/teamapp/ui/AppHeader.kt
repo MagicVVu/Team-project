@@ -45,7 +45,7 @@ internal fun AppHeader(tab: Int, store: InventoryStore, reminders: () -> Unit, m
                 Modifier.width(176.dp).height(40.dp).testTag("app-top-bar-title"), outlined = true
             ) else Row(verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                val glyph = listOf("", "box", "cart", "person")[page]
+                val glyph = listOf("", "shelf", "cart", "person")[page]
                 DesignGlyph(glyph, Modifier.size(26.dp).testTag("app-top-bar-icon"), ink)
                 Text(listOf("", strings.get(R.string.ui_inventory), strings.get(R.string.ui_shopping_list), strings.get(R.string.ui_profile))[page],
                     fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.Bold,
